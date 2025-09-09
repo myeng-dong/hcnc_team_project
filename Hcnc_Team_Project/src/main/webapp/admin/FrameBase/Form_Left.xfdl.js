@@ -28,8 +28,8 @@
             obj.set_treeusebutton("no");
             obj.set_treeusecheckbox("false");
             obj.set_treeuseline("false");
-            obj.set_treeuseimage("true");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"206\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"41\"/></Rows><Band id=\"head\"><Cell text=\"MENU_NM\"/></Band><Band id=\"body\"><Cell text=\"bind:MENU_NM\" displaytype=\"treeitemcontrol\" edittype=\"tree\" treelevel=\"bind:MENU_LEVEL\" cssclass=\"bind:CSSCLASS\"/></Band></Format></Formats>");
+            obj.set_treeuseimage("false");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"206\"/></Columns><Rows><Row size=\"10\" band=\"head\"/><Row size=\"41\"/></Rows><Band id=\"head\"><Cell border=\"0px\" background=\"white\"/></Band><Band id=\"body\"><Cell text=\"bind:MENU_NM\" displaytype=\"treeitemcontrol\" edittype=\"tree\" treelevel=\"bind:MENU_LEVEL\" cssclass=\"bind:CSSCLASS\" border=\"0px\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -73,11 +73,11 @@
 
         		if (sMenuId.length == 2) {
         			this.ds_left.setColumn(i, "MENU_LEVEL", 0);   // 루트
-        			this.ds_left.setColumn(i, "CSSCLASS", "menuRoot"+i); // i값으로 cssclass 세팅
-        			 objButton.set_cssclass(sBtnCssClass);
+        			this.ds_left.setColumn(i, "CSSCLASS", "menuRoot"+i);
+
         		} else if (sMenuId.length == 4) {
         			this.ds_left.setColumn(i, "MENU_LEVEL", 1);   // 자식
-        			this.ds_left.setColumn(i, "CSSCLASS", "menuChild");    // 자식은 공통 클래스
+        			/*this.ds_left.setColumn(i, "CSSCLASS", "menuChild");   */
         		}
         	}
 
