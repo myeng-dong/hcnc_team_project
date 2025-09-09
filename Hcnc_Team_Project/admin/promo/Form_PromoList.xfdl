@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_PromoList" width="1280" height="720" titletext="New Form" background="#F4F7FE">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Grid id="grid_list" taborder="0" left="40" top="222" width="998" height="288" binddataset="ds_user" background="#FFFFFF" border="0px none" borderRadius="10px">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="48"/>
+                <Column size="48"/>
+                <Column size="127"/>
+                <Column size="86"/>
+                <Column size="123"/>
+                <Column size="260"/>
+                <Column size="71"/>
+                <Column size="147"/>
+                <Column size="78"/>
+              </Columns>
+              <Rows>
+                <Row size="48" band="head"/>
+                <Row size="40"/>
+              </Rows>
+              <Band id="head">
+                <Cell edittype="checkbox" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol"/>
+                <Cell col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell col="2" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell col="3" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell col="4" text="생년월일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell col="5" text="주소" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell col="6" text="등급" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell col="7" text="포인트" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell col="8" text="휴면여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+              </Band>
+              <Band id="body">
+                <Cell edittype="checkbox" displaytype="checkboxcontrol"/>
+                <Cell col="1" text="expr:currow + 1"/>
+                <Cell col="2" text="bind:USER_ID" edittype="normal"/>
+                <Cell col="3" text="bind:NAME" edittype="normal"/>
+                <Cell col="4" text="bind:BIRTH_DAY" edittype="normal"/>
+                <Cell col="5" text="bind:ADDRESS" edittype="normal"/>
+                <Cell col="6" text="bind:LEVEL" edittype="normal"/>
+                <Cell col="7" text="bind:POINT" edittype="normal"/>
+                <Cell col="8" text="bind:IS_USE" edittype="normal"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="stic_h3" taborder="1" text="프로모션관리" left="38" top="40" width="305" height="40" onclick="static_board_onclick" font="normal 700 20pt/normal &quot;normal/normal&quot;,&quot;LG Smart UI Bold&quot;,&quot;Pretendard Black&quot;" color="black"/>
+        <Static id="static_loca00" taborder="2" text="⌂&gt;회원&gt;회원관리" left="38" top="10" width="305" height="40" onclick="static_board_onclick" font="normal 10pt/normal &quot;normal/normal&quot;,&quot;LG Smart UI Bold&quot;"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+    </Bind>
+  </Form>
+</FDL>
