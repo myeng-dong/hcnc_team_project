@@ -41,7 +41,14 @@
     <Service prefixid="font" type="resource" url="./_resource_/_font_/" version="0" cachelevel="session" include_subdir="false"/>
     <Service prefixid="Base" type="form" url="./Base/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="FrameBase" type="form" url="./FrameBase/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
-    <Service prefixid="svc" type="JSP" version="0" cachelevel="none" include_subdir="false" communicationversion="0" url="http://localhost:8080"/>
+    <Service prefixid="svc" type="JSP" version="0" cachelevel="session" include_subdir="false" communicationversion="0" url="http://localhost:8080/"/>
+    <Service prefixid="order" type="form" url="./order/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="board" type="form" url="./board/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="promo" type="form" url="./promo/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="member" type="form" url="./member/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="product" type="form" url="./product/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="stat" type="form" url="./stat/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="setting" type="form" url="./setting/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
   </Services>
   <Protocols/>
   <DeviceAdaptors/>

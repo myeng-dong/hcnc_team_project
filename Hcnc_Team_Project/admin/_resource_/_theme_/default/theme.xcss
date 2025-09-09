@@ -366,11 +366,6 @@ last-modified : 2021-10-26
 	color : #999999;
 }
 
-.Grid .body .row .cell.ExprRed
-{
-	color : red;
-}
-
 /* subcell (Same as cell) */
 .Grid .body .row .cell .subcell
 {
@@ -1992,10 +1987,4 @@ last-modified : 2021-10-26
 .ListView .body .expandbar[userstatus=expand]
 {
 	-nexa-icon : URL('theme://images/btn_expand.png');
-}
-
-.Grid .body .row .cell .cellmaskedit.ExprRed
-{
-	color : red;
-}
-]]></XCSS>
+}]]></XCSS>

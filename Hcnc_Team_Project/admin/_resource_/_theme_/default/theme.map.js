@@ -1007,40 +1007,7 @@
             							}
             						}
             					}
-            				},
-            				"class" :
-            				[
-            					{
-            						"ExprRed" :
-            						{
-            							"parent" :
-            							{
-            								"row" :
-            								{
-            									"parent" :
-            									{
-            										"body" :
-            										{
-            											"parent" :
-            											{
-            												"Grid" :
-            												{
-            													"self" :
-            													{
-            														"enabled" :
-            														{
-            															"color" : nexacro.ColorObject("red")
-            														}
-            													}
-            												}
-            											}
-            										}
-            									}
-            								}
-            							}
-            						}
-            					}
-            				]
+            				}
             			},
             			"subcell" :
             			{
@@ -1515,46 +1482,7 @@
             							}
             						}
             					}
-            				},
-            				"class" :
-            				[
-            					{
-            						"ExprRed" :
-            						{
-            							"parent" :
-            							{
-            								"cell" :
-            								{
-            									"parent" :
-            									{
-            										"row" :
-            										{
-            											"parent" :
-            											{
-            												"body" :
-            												{
-            													"parent" :
-            													{
-            														"Grid" :
-            														{
-            															"self" :
-            															{
-            																"enabled" :
-            																{
-            																	"color" : nexacro.ColorObject("red")
-            																}
-            															}
-            														}
-            													}
-            												}
-            											}
-            										}
-            									}
-            								}
-            							}
-            						}
-            					}
-            				]
+            				}
             			},
             			"cellprogressbar" :
             			{
@@ -3906,24 +3834,6 @@
         		imgcache[nexacro._getImageLocation("theme://theme_ie11.css")] = { width:0, height:0 };
         		imgcache[nexacro._getImageLocation("theme://theme_runtime.css")] = { width:0, height:0 };
         		imgcache[nexacro._getImageLocation("theme://theme_safari.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_BtnCss.map.js")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_BtnCss_chrome.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_BtnCss_ie10.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_BtnCss_ie11.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_BtnCss_runtime.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_BtnCss_safari.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_btn_Menu.map.js")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_btn_Menu_chrome.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_btn_Menu_ie10.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_btn_Menu_ie11.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_btn_Menu_runtime.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_btn_Menu_safari.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_GridExpr.map.js")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_GridExpr_chrome.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_GridExpr_ie10.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_GridExpr_ie11.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_GridExpr_runtime.css")] = { width:0, height:0 };
-        		imgcache[nexacro._getImageLocation("theme://xcssrc_GridExpr_safari.css")] = { width:0, height:0 };
 	};
 }
 )();

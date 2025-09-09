@@ -4,13 +4,7 @@
     <ScreenDefinition>
       <Screen id="Desktop_screen" type="desktop"/>
     </ScreenDefinition>
-    <Service>
-      <Path>
-        <PathItem id="sample" path="sample"/>
-      </Path>
-    </Service>
     <Variables/>
     <Cookies/>
-    <httpheader/>
   </Environment>
 </ENV>

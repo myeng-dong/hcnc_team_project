@@ -378,10 +378,6 @@ textarea::-webkit-scrollbar { display: none; }
 	color : #666666;
 	border : 1px solid #dbdee2;
 }
-.Grid .body .row .cell.ExprRed.dummy.dummy.dummy
-{
-	color : red;
-}
 .Grid .body .row .cell .subcell
 {
 	color : #666666;
@@ -983,10 +979,6 @@ textarea::-webkit-scrollbar { display: none; }
 	background : #eaeaea;
 	background : linear-gradient(to top,#eaeaea,#ffffff);
 	border : 1px solid #c2c2c2;
-}
-.Grid .body .row .cell .cellmaskedit.ExprRed.dummy.dummy.dummy.dummy
-{
-	color : red;
 }
 #nexacontainer .Button[status=mouseover]
 {

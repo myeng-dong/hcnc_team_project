@@ -1,18 +1,15 @@
 ﻿
-@media screen and (-ms-high-contrast: active)  
-{
+@media screen and (min-width:0\0) and (-ms-high-contrast: active) 
+{ 
 .nexacontentsbox {-ms-high-contrast-adjust:none; } 
-}
+} 
 
 html, body
 {
   position:absolute;
   width:100%;
-  height:100%;
+  height:100%;  
   font:12pt Verdana;
-  -moz-user-select:none;
-  -webkit-user-select:none;
-  -ms-user-select:none;
 }
 
 div
@@ -23,6 +20,7 @@ div
   background-origin:padding-box;
   background-repeat:no-repeat;
   white-space : pre;
+  -ms-user-select:none;
   -moz-user-select:-moz-none;
   -webkit-user-select:none;
   -webkit-touch-callout:none;
@@ -55,7 +53,6 @@ input::-ms-clear,input::-ms-reveal
 {
   display: none;
 }
-
 
 
 .nexacontainer
@@ -138,6 +135,7 @@ input::-ms-clear,input::-ms-reveal
   background-position:left center;
   background-repeat:no-repeat;
   vertical-align:middle;
+  pointer-events:none;
 }
 .nexatextitem
 {
@@ -184,6 +182,7 @@ input::-ms-clear,input::-ms-reveal
   resize:none;
   background:transparent;
   padding : 0px;
+  box-sizing:border-box;		
 }
 
 .nexaleftalign
@@ -210,6 +209,7 @@ input::-ms-clear,input::-ms-reveal
 {
   overflow:scroll;
   -ms-overflow-style:none;
+  color:black;
 }
 
 .celltreeline
@@ -255,15 +255,3 @@ input::-ms-clear,input::-ms-reveal
   cursor:default;
 }
 
-.Grid .body .row .cell.Expr_red.dummy.dummy.dummy.oddcell
-{
-	color : red;
-}
-.Grid .body .row .cell.Expr_red.dummy.dummy.dummy
-{
-	color : red;
-}
-.Button.exprRed
-{
-	color : red;
-}
