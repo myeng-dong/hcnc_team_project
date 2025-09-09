@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <h1>Spring MVC + Nexacro 연결 성공 🎉</h1>
+  <p>gdsagdsa</p>
+
+</body>
+<script type="text/javascript" src="nexacro17lib.js"></script>
+<script type="text/javascript">
+	const init = () => {
+		nexacro.setEnvironmentVariable("evServerURL", "http://localhost:8080");
+	    nexacro.open("application_desktop.xadl");
+	    setTimeout(function() {
+	    	window.location.href = "http://localhost:8080/main";
+	    	}, 0);
+	}
+	init();
+    
+</script>
+
+</html>

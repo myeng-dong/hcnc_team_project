@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sample.mapper.TestMapper">
+	<!-- <select id="selectUserDept" resultType="java.util.Map"></select> -->
+	<!-- <update id="updateBoard" parameterType="java.util.Map"></update> -->
+	<!-- <delete id="updateBoard" parameterType="java.util.Map"></delete> -->
+	<select id="selectUserT" resultType="java.util.Map">
+	<!-- 휴먼여부 포인트  -->
+	SELECT USER_ID, NAME, BRITH, ADDRESS, LEVEL, POINT, IS_USE
+	  FROM USERS
+ 	 WHERE 1=1
+ 	  <if test="user_id != null">
+ 	   AND USER_ID = #{user_id}
+      </if>
+   	  <if test="user_nm != null">
+   	   AND NAME = #{user_nm}
+   	  </if>
+   	  <if test="user_grade != null">
+   	   AND LEVEL = #{user_grade}
+   	  </if>
+	</select>
+	<select id="selectGrade" resultType="java.util.Map">
+	SELECT LEVEL
+  	FROM USERS
+	GROUP BY LEVEL
+	</select>
+	
+	
+</mapper>

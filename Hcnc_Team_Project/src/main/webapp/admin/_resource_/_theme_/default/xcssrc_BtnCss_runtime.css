@@ -1,0 +1,110 @@
+﻿
+        
+.nexainput.nexaleftalign
+{
+  text-align:left;
+}
+.nexainput.nexarightalign
+{
+  text-align:right;
+}
+.nexainput.nexacenteralign
+{
+  text-align:center;
+}
+
+.nexacontentsbox.nexaleftalign
+{
+  text-align:left;
+}
+.nexacontentsbox.nexarightalign
+{
+  text-align:right;
+}
+.nexacontentsbox.nexacenteralign
+{
+  text-align:center;
+}
+.celltreeline
+{
+  border : 1px dotted #999999;
+}
+.Edit, .MaskEdit, .TextArea, .EditControl, .MaskEditControl, .TextAreaControl
+{
+  cursor:text;
+}
+.Button .nexacontentsbox, .ButtonControl .nexacontentsbox
+{
+  text-align:center;
+}
+
+.FileDownload  .nexacontentsbox, .FileDownloadControl .nexacontentsbox
+{
+  text-align:center;
+}
+
+.IconTextControl .nexacontentsbox, .IconControl .nexacontentsbox
+{
+  text-align:center;
+}
+
+.DatePickerDayItemControl .nexacontentsbox, .DatePickerWeekItemControl .nexacontentsbox, .TitleBarButtonControl .nexacontentsbox
+{
+  text-align:center;
+}
+
+.MainFrame, .VScrollBarControl, .HScrollBarControl
+{
+  cursor:default;
+}
+
+.Sketch .nexacontentsbox
+{
+   text-align:center;
+}
+
+.nexainput
+{
+  cursor:inherit;
+}
+
+.Grid .body .row .cell.Expr_red
+{
+	background : bisque;
+}
+.Grid .body .row .cell.Expr_white
+{
+	background : white;
+}
+.Button.btn_top_menu
+{
+	border : 0px;
+	-nexa-edge : none;
+	background : #004aad;
+	border-radius : 0px;
+	box-shadow : 0px 0px 0px rgba(0, 0, 0, 0.2);
+	color : white;
+	cursor : pointer;
+	font : normal bold  14pt/normal "Arial";
+	letter-spacing : 0.5px;
+	opacity : 0.96;
+	word-spacing : 5px;
+}
+.Button.btn_top_menu .nexacontentsbox
+{
+	text-align : center;
+}
+.Button.btn_top_menu[status=mouseover]
+{
+	border : 0px none #ffffff;
+	-nexa-edge : none;
+	background : #ffffff;
+	border-radius : 30px;
+	box-shadow : 0px 0px 0px rgba(0, 0, 0, 0.2);
+	color : #0F89F9;
+	cursor : pointer;
+	font : normal 700 14pt /normal "Arial";
+	letter-spacing : 0.5px;
+	opacity : 0.96;
+	word-spacing : 5px;
+}

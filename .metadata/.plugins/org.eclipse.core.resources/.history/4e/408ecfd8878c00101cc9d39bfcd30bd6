@@ -1,0 +1,49 @@
+package admin.mapper;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import egovframework.rte.psl.dataaccess.mapper.Mapper;
+
+@Mapper("MainMapper")
+public interface MainMapper {
+	
+	public Map<String, Object> selectUser(Map<String, Object> param);
+	
+	public Map<String, Object> detailBoard(Map<String, Object> param);
+
+	public List<Map<String, Object>> selectBoard(Map<String, Object> param);
+	
+	public List<Map<String, Object>> selectWriter();
+	
+	public List<Map<String, Object>> searchPubBoard(Map<String, Object> param);
+	
+	public List<Map<String, Object>> searchBoard(Map<String, Object> param);
+	
+	public List<Map<String, Object>> searchProduct(Map<String, Object> param);
+	
+	public List<Map<String, Object>> selectCategory();
+	
+	public int insertBoard(Map<String, Object> param);
+	
+	public int updateBoard(Map<String, Object> param);
+	
+	public int deleteBoard(Map<String, Object> param);
+	
+	public int insertSign (Map<String, Object> sign);
+	
+	public int idEqualCheck (String name);
+	
+	public int deleteProduct (Map<String, Object> param);
+	
+	public int updateProduct (Map<String, Object> param);
+	
+	public int insertProduct (Map<String, Object> param);
+	
+	public List<Map<String, Object>> selectDept();
+	
+	public List<Map<String, Object>> selectDeptSub();
+	
+	public List<Map<String, Object>> selectUserDept (Map<String, Object> param);
+}

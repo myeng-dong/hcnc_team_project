@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sample.mapper.MainMapper">
+	<select id="selectUser" resultType="java.util.Map">
+		SELECT USER_ID, "O" as PASS
+		FROM   USERS
+		WHERE  USER_ID = #{user_id}
+	</select>
+	<select id="idEqualCheck" resultType="int">
+		SELECT count(USER_ID)
+		FROM   USERS
+		WHERE  USER_ID = #{sign_id}
+	</select>
+	<select id="selectBoard" resultType="java.util.Map">
+		SELECT BOARD_CODE, BOARD_TITLE, BOARD_WRITER, REG_DATE,BOARD_CONTENT
+		FROM   BOARDS
+	</select>
+	<select id="selectWriter" resultType="java.util.Map">
+		SELECT BOARD_WRITER
+		FROM   BOARDS
+		GROUP BY BOARD_WRITER
+	</select>
+	<select id="detailBoard" resultType="java.util.Map">
+		SELECT BOARD_CODE, BOARD_TITLE, BOARD_WRITER, REG_DATE ,BOARD_CONTENT
+		FROM   BOARDS
+		WHERE  BOARD_CODE = ${board_id}
+	</select>
+	
+	<select id="searchBoard" resultType="java.util.Map">
+		SELECT BOARD_CODE, BOARD_TITLE, BOARD_WRITER, REG_DATE,BOARD_CONTENT
+		FROM   BOARDS
+		WHERE  1=1
+		<if test='search_title != null'>
+		  AND  BOARD_TITLE LIKE CONCAT(#{search_title}, '%')
+		</if>
+		<if test='search_pub != null'>
+	  	  AND  BOARD_WRITER LIKE CONCAT(#{search_pub}, '%')
+		</if>  
+		<if test='search_start_date != null and search_end_date != null'>
+		  AND  REG_DATE BETWEEN #{search_start_date} AND #{search_end_date}
+		</if>
+	</select>
+	<select id="searchProduct" resultType="java.util.Map">
+		SELECT P.PRODUCT_CODE
+			, P.PRODUCT_NAME
+			, C.CATE_CODE
+			, C.CATE_NAME
+			, P.PRODUCT_PRICE
+			, P.PRODUCT_STOCK
+				, P.PRODUCT_CONTENT
+		FROM   PRODUCT P, CATEGORY C
+		WHERE  P.CATE_CODE = C.CATE_CODE
+		<if test='CATE_CODE != null'>
+		AND    C.CATE_CODE = #{CATE_CODE}
+		</if>
+		<if test='PRODUCT_CODE != null'>
+		AND    P.PRODUCT_CODE = #{PRODUCT_CODE}
+		</if>
+	</select>
+	<select id="selectCategory" resultType="java.util.Map">
+	SELECT CATE_CODE, CATE_NAME
+	FROM   CATEGORY
+	</select>
+	<select id="selectDept" resultType="java.util.Map">
+		SELECT dept_cd ,dept_nm 
+		FROM   DEPT
+	</select>
+	<select id="selectDeptSub" resultType="java.util.Map">
+		SELECT A.dept_cd ,A.dept_nm , B.dept_sub_cd ,B.dept_sub_nm 
+		FROM   DEPT A, DEPT_SUB B 
+		WHERE  A.dept_cd = B.dept_cd
+	</select>
+	<select id="selectUserDept" resultType="java.util.Map">
+	SELECT 
+	    U.USER_ID, 
+	    U.NAME, 
+	    U.MAIL, 
+	    U.ADDRESS, 
+	    U.RECOMMEND_USER,
+	    D.DEPT_NM,
+	    DS.DEPT_SUB_NM
+	FROM USERS U, DEPT D, DEPT_SUB DS
+	WHERE U.dept_cd = D.dept_cd
+	AND D.dept_cd = DS.dept_cd
+	AND U.dept_sub_cd = DS.dept_sub_cd
+	<if test='dept_cd != null'>
+    AND U.dept_cd = #{dept_cd}
+    </if>
+    <if test='dept_sub_cd != null'>
+    AND U.dept_sub_cd = #{dept_sub_cd};
+    </if>
+	</select>
+	
+	<insert id="insertSign" parameterType="java.util.Map">
+		INSERT 
+		  INTO USERS (
+		  USER_ID
+		  , PASS
+		  , NAME
+		  , MAIL
+		  , ADDRESS
+		  )
+	    VALUES (
+	    #{sign_id}
+	    , #{sign_pw}
+	    , #{sign_name}
+	    , #{sign_email}
+	    , #{sign_address}
+	    )
+	</insert>
+	<insert id="insertBoard" parameterType="java.util.Map">
+		INSERT
+			INTO BOARDS (
+				BOARD_TITLE
+				, BOARD_WRITER
+				, BOARD_CONTENT
+			)
+			VALUES (
+				#{BOARD_TITLE}
+				, #{BOARD_WRITER}
+				, #{BOARD_CONTENT}
+			)
+	</insert>
+	
+	<update id="updateBoard" parameterType="java.util.Map">
+		UPDATE BOARDS
+		SET    BOARD_TITLE = #{BOARD_TITLE}
+			   , BOARD_WRITER = #{BOARD_WRITER}
+			   , BOARD_CONTENT = #{BOARD_CONTENT}
+	    WHERE  BOARD_CODE = #{BOARD_CODE}
+	</update>
+	<delete id="deleteBoard" parameterType="java.util.Map">
+	   DELETE FROM BOARDS
+		WHERE  BOARD_CODE = #{BOARD_CODE}
+	</delete>
+	<insert id="insertProduct" parameterType="java.util.Map">
+		INSERT INTO PRODUCTS(
+		PRODUCT_NAME
+		, SUB_CATE_CODE
+		, PRICE
+		, STOCK
+		, DISCOUNT_YN
+		, DISCOUNT_PRICE
+		) VALUES(
+			#{PROD_NAME}
+			, #{SUB_CATE_CODE}
+			, #{PRICE}
+			, #{STOCK}
+			, #{DISCOUNT_YN}
+			, #{DISCOUNT_PRICE}
+		) 
+	</insert>
+	<update id="updateProduct" parameterType="java.util.Map">
+		UPDATE PRODUCTS
+		SET    PROD_NAME = #{PROD_NAME}
+			   , SUB_CATE_CODE = #{SUB_CATE_CODE}
+			   , STOCK = #{STOCK}
+			   , PRICE = #{PRICE}
+			   , DISCOUNT_YN = #{DISCOUNT_YN}
+			   , DISCOUNT_PRICE = #{DISCOUNT_PRICE}
+	    WHERE  PROD_CODE = #{PROD_CODE}
+	</update>
+	<delete id="deleteProduct" parameterType="java.util.Map">
+	   DELETE FROM PRODUCTS
+		WHERE  PROD_CODE = #{PROD_CODE}
+	</delete>
+</mapper>

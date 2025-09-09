@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<script type="text/javascript" src="nexacro17lib.js"></script>
+<script type="text/javascript">
+	window.location.replace("main.do");
+</script>
+
+</html>

@@ -1,0 +1,8 @@
+package user.mapper;
+
+import egovframework.rte.psl.dataaccess.mapper.Mapper;
+
+@Mapper("UserMapper")
+public interface UserMapper {
+
+}

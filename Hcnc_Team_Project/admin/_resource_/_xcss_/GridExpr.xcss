@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XCSS version="1.0"><![CDATA[.Grid
+{
+}
+.Grid .body
+{
+}
+.Grid .body .row
+{
+}
+.Grid .body .row .cell.Expr_red
+{
+	-nexa-color-odd : red;
+	color : red;
+}
+.Button.exprRed
+{
+	color : red;
+}
+]]></XCSS>

@@ -1,0 +1,30 @@
+package sample.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import sample.mapper.MainMapper;
+import sample.mapper.TestMapper;
+
+@Service
+public class TestService {
+	@Autowired
+	private TestMapper testMapper;
+	
+    public List<Map<String, Object>> selectUserT(Map<String, Object> param){
+    	return testMapper.selectUserT(param);
+    };
+    
+    public List<Map<String, Object>> selectGrade(){
+    	return testMapper.selectGrade();
+    };
+//	public Map<String, Object> selectUser(Map<String, Object> param){
+//		return testMapper.selectUser(param);
+//	};
+}

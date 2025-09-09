@@ -1,0 +1,5 @@
+package ateam.mapper;
+
+public interface AteamMapper {
+
+}

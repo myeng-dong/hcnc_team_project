@@ -1,0 +1,8 @@
+package ateam.mapper;
+
+import egovframework.rte.psl.dataaccess.mapper.Mapper;
+
+@Mapper("AteamMapper")
+public interface AteamMapper {
+
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sample.mapper.TestMapper">
+	<!-- <select id="selectUserDept" resultType="java.util.Map"></select> -->
+	<!-- <update id="updateBoard" parameterType="java.util.Map"></update> -->
+	<!-- <delete id="updateBoard" parameterType="java.util.Map"></delete> -->
+	<select id="selectUserT" resultType="java.util.Map">
+	<!-- 휴먼여부 포인트  -->
+	SELECT USER_ID, NAME, BIRTH_DAY, ADDRESS, LEVEL, POINT, IS_USE
+	  FROM USERS
+ 	 WHERE 1=1
+ 	  <if test="user_id != null and user_id != ''">
+ 	   AND USER_ID = #{user_id}
+      </if>
+   	  <if test="user_nm != null and user_nm != ''">
+   	   AND NAME = #{user_nm}
+   	  </if>
+   	  <if test="user_grade != null and user_grade != ''">
+   	   AND LEVEL = #{user_grade}
+   	  </if>
+	</select>
+	<select id="selectGrade" resultType="java.util.Map">
+	SELECT LEVEL
+  	FROM USERS
+    WHERE LEVEL IS NOT NULL
+    GROUP BY LEVEL
+	</select>
+	<select id="selectProductT" resultType="java.util.Map">
+	SELECT A.CATE_CODE, A.CATE_NAME, B.SUB_CATE_CODE, B.SUB_CATE_NAME, C.PROD_NAME, C.STOCK, C.PRICE, C.DISCOUNT_YN, C.DISCOUNT_PRICE
+	  FROM CATEGORY A 
+	 INNER JOIN SUB_CATEGORY B 
+	 ON A.CATE_CODE = B.CATE_CODE  
+	 INNER JOIN PRODUCTS C
+	 ON B.SUB_CATE_CODE = C.SUB_CATE_CODE
+	 WHERE 1=1
+	 <if test="cate_code != null and cate_code != ''">
+	 	AND A.CATE_CODE = #{cate_code}
+	 </if>
+	 <if test="cate_name != null and cate_name != ''">
+	 	AND B.SUB_CATE_CODE= #{cate_name}
+	 </if>
+	 <if test="prod_name != null and prod_name != ''">
+	 	AND C.PROD_NAME LIKE CONCAT(#{prod_name}, '%')
+	 </if>
+	</select>
+	<select id="selectCategoryT" resultType="java.util.Map">
+	SELECT CATE_CODE 
+	  FROM CATEGORY
+	</select>
+	<select id="selectSubCategoryT" resultType="java.util.Map">
+	SELECT SUB_CATE_CODE, CATE_CODE 
+	  FROM SUB_CATEGORY
+	</select>
+	<select id="selectOrderT" resultType="java.util.Map">
+	SELECT A.USER_ID
+		, A.NAME
+		, A.ADDRESS
+		, C.SUB_CATE_CODE
+		, C.PROD_NAME
+		, C.STOCK
+		, B.ORDER_STATUS
+		, B.ORDER_CNT
+		, B.SHIP_STATUS
+		, B.REFUND_STATUS
+ 		, B.REFUND_CONTENT
+	  FROM USERS A 
+		INNER JOIN ORDERS B 
+		ON A.USER_ID = B.USER_ID
+		INNER JOIN PRODUCTS C
+		ON B.PROD_CODE = C.PROD_CODE
+	  WHERE 1=1
+	  <if test="user_id != null and user_id != ''">
+	  	AND A.USER_ID = #{user_id}
+	  </if>
+	  <if test="prod_name != null and prod_name != ''">
+	    AND C.PROD_NAME LIKE CONCAT(#{prod_name}, '%')
+	  </if>
+      <if test="order_yn != null and order_yn != ''">
+     	AND B.ORDER_STATUS = #{order_yn}
+      </if>
+      <if test="ship_yn != null and ship_yn != ''">
+     	AND B.SHIP_STATUS = #{ship_yn}
+      </if>
+      <if test="refund_yn != null and refund_yn != ''">
+     	AND B.REFUND_STATUS = #{refund_yn}
+      </if>
+	</select>
+	
+</mapper>

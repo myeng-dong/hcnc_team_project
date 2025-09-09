@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <h1>페이지 이동중...</h1>
+</body>
+<script type="text/javascript" src="nexacro17lib.js"></script>
+<script type="text/javascript">
+	const init = async() => {
+		console.log('good');
+		nexacro.setEnvironmentVariable("evServerURL", "http://localhost:8080");
+	    nexacro.open("application_desktop.xadl");
+	    await window.location.replace("/sample/index.html")
+	}
+	init();
+</script>
+
+</html>

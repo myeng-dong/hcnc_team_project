@@ -1,0 +1,49 @@
+2025-08-25 12:51:30,502 [Worker-8: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-08-25 12:51:30,510 [Worker-8: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-08-26 11:04:02,054 [Worker-32: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for EduPjt_20240830_LAST
+2025-08-26 11:04:02,384 [Worker-32: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-08-26 11:04:02,385 [Worker-32: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-08-26 13:43:36,117 [Worker-27: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for EduPjt_20240830_LAST
+2025-08-26 13:43:36,512 [Worker-27: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-08-26 13:43:36,513 [Worker-27: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-08-28 11:11:20,818 [Worker-85: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for EduPjt_20240830_LAST
+2025-08-28 11:11:30,058 [Worker-95: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-08-28 11:11:30,197 [Worker-95: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 11:29:40,080 [Worker-40: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 11:29:40,086 [Worker-40: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 11:33:43,284 [Worker-40: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 11:33:43,284 [Worker-40: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 11:35:03,625 [Worker-40: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 11:35:03,625 [Worker-40: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 11:36:33,853 [Worker-49: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 11:36:33,855 [Worker-49: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 11:37:13,156 [Worker-75: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 11:37:13,157 [Worker-75: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 11:46:52,400 [Worker-74: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 11:46:52,401 [Worker-74: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 11:51:40,421 [Worker-83: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for EduPjt_20240830_LAST
+2025-09-08 11:51:41,169 [Worker-52: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 11:51:41,170 [Worker-52: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 12:05:58,468 [Worker-74: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for EduPjt_20240830_LAST
+2025-09-08 12:05:58,997 [Worker-84: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 12:05:58,997 [Worker-84: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 12:13:27,222 [Worker-87: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for EduPjt_20240830_LAST
+2025-09-08 12:13:27,746 [Worker-82: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 12:13:27,746 [Worker-82: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 12:29:16,854 [Worker-91: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 12:29:16,854 [Worker-91: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-08 12:32:08,482 [Worker-99: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for EduPjt_20240830_LAST
+2025-09-08 12:32:08,952 [Worker-93: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of EduPjt_20240830_LAST
+2025-09-08 12:32:08,952 [Worker-93: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for EduPjt_20240830_LAST
+2025-09-09 09:49:27,224 [Worker-101: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for Hcnc_Team_Project
+2025-09-09 09:49:28,669 [Worker-96: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of Hcnc_Team_Project
+2025-09-09 09:49:28,691 [Worker-96: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for Hcnc_Team_Project
+2025-09-09 10:06:46,293 [Worker-13: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for Hcnc_Team_Project
+2025-09-09 10:06:50,624 [Worker-25: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of Hcnc_Team_Project
+2025-09-09 10:06:50,629 [Worker-25: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for Hcnc_Team_Project
+2025-09-09 10:09:10,645 [Worker-30: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for Hcnc_Team_Project
+2025-09-09 10:09:11,285 [Worker-18: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of Hcnc_Team_Project
+2025-09-09 10:09:11,285 [Worker-18: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for Hcnc_Team_Project
+2025-09-09 10:10:14,855 [Worker-13: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for Hcnc_Team_Project
+2025-09-09 10:10:15,320 [Worker-31: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of Hcnc_Team_Project
+2025-09-09 10:10:15,320 [Worker-31: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for Hcnc_Team_Project

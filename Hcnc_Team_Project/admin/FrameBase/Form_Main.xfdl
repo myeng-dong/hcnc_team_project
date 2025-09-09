@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_Main" width="1280" height="720" titletext="New Form" onload="Form_Main_onload">
+    <Script type="xscript5.1"><![CDATA[this.Form_Main_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.selectGradeListByUser();
+};
+
+this.selectGradeListByUser = function(){
+	var strSvcID      = "selectGradeListByAdmin"; 
+	var strURL        = "svc::selectGradeListByAdmin.do";     
+	var strInDatasets = "";
+	var strOutDatasets = "ds_list = ds_list";
+	var strArg = ""; 
+	var callBack = "fn_callBack";
+	var inAsync = true; 
+	
+	this.transaction(strSvcID,strURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+this.fn_callBack = function(strSvcID, errorCode, errorMsg){
+
+	if(errorCode == -1){
+		this.alert(errorMsg)
+	};
+	
+	switch(strSvcID){
+		case "selectGradeListByAdmin" : 
+			console.log(this.ds_list.saveXML());
+		break;
+	}
+};
+
+]]></Script>
+    <Layouts>
+      <Layout>
+        <Static id="Static00" taborder="0" text="MAIN" left="50" top="30" width="295" height="120"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_list"/>
+    </Objects>
+  </Form>
+</FDL>
