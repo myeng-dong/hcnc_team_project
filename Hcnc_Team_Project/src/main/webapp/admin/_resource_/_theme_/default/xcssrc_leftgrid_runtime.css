@@ -68,16 +68,3 @@
   cursor:inherit;
 }
 
-.CellTreeItemControl.menuRoot0 .treeitemimage
-{
-	background : #ffffaa;
-}
-.CellTreeItemControl.menuChild
-{
-	background : black;
-}
-.CellTreeItemControl .treeitemtext
-{
-	font : normal 11pt/normal "Noto Sans KR Medium";
-	color : white;
-}
