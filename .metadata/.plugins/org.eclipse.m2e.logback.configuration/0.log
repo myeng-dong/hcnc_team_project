@@ -47,3 +47,6 @@
 2025-09-09 10:10:14,855 [Worker-13: Cleaning all projects] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for Hcnc_Team_Project
 2025-09-09 10:10:15,320 [Worker-31: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of Hcnc_Team_Project
 2025-09-09 10:10:15,320 [Worker-31: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for Hcnc_Team_Project
+2025-09-09 16:25:03,896 [Worker-64: Updating Maven Project] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Cleaning filtered folder for Hcnc_Team_Project
+2025-09-09 16:25:04,562 [Worker-67: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of Hcnc_Team_Project
+2025-09-09 16:25:04,564 [Worker-67: Building] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for Hcnc_Team_Project
