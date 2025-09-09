@@ -18,6 +18,7 @@
     </Layout>
     <Style url="xcssrc::common.xcss"/>
     <Style url="xcssrc::layout.xcss"/>
+    <Style url="xcssrc::leftgrid.xcss"/>
   </Application>
   <Script type="xscript5.1"><![CDATA[this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventInfo)
 {
