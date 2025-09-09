@@ -1,18 +1,15 @@
 ﻿
-@media screen and (-ms-high-contrast: active)  
-{
+@media screen and (min-width:0\0) and (-ms-high-contrast: active) 
+{ 
 .nexacontentsbox {-ms-high-contrast-adjust:none; } 
-}
+} 
 
 html, body
 {
   position:absolute;
   width:100%;
-  height:100%;
+  height:100%;  
   font:12pt Verdana;
-  -moz-user-select:none;
-  -webkit-user-select:none;
-  -ms-user-select:none;
 }
 
 div
@@ -23,6 +20,7 @@ div
   background-origin:padding-box;
   background-repeat:no-repeat;
   white-space : pre;
+  -ms-user-select:none;
   -moz-user-select:-moz-none;
   -webkit-user-select:none;
   -webkit-touch-callout:none;
@@ -55,7 +53,6 @@ input::-ms-clear,input::-ms-reveal
 {
   display: none;
 }
-
 
 
 .nexacontainer
@@ -138,6 +135,7 @@ input::-ms-clear,input::-ms-reveal
   background-position:left center;
   background-repeat:no-repeat;
   vertical-align:middle;
+  pointer-events:none;
 }
 .nexatextitem
 {
@@ -184,6 +182,7 @@ input::-ms-clear,input::-ms-reveal
   resize:none;
   background:transparent;
   padding : 0px;
+  box-sizing:border-box;		
 }
 
 .nexaleftalign
@@ -210,6 +209,7 @@ input::-ms-clear,input::-ms-reveal
 {
   overflow:scroll;
   -ms-overflow-style:none;
+  color:black;
 }
 
 .celltreeline
@@ -255,162 +255,3 @@ input::-ms-clear,input::-ms-reveal
   cursor:default;
 }
 
-.Button.btn_top_menu
-{
-	border : 0px;
-	background : #004aad;
-	border-radius : 0px;
-	box-shadow : 0px 0px 0px rgba(0, 0, 0, 0.2);
-	color : white;
-	cursor : pointer;
-	font : normal bold  14pt/normal "Arial";
-	letter-spacing : 0.5px;
-	opacity : 0.96;
-	word-spacing : 5px;
-}
-.Button.btn_top_menu >.nexaedge  .nexarightbottom
-{
-	background-image : none;
-}
-.Button.btn_top_menu >.nexaedge  .nexaleftbottom
-{
-	background-image : none;
-}
-.Button.btn_top_menu >.nexaedge  .nexalefttop
-{
-	background-image : none;
-}
-.Button.btn_top_menu >.nexaedge  .nexarighttop
-{
-	background-image : none;
-}
-.Button.btn_top_menu .nexacontentsbox
-{
-	text-align : center;
-	background-position-x : center;
-}
-.Button.btnLogin
-{
-	border-radius : 5px;
-	color : #ffffff;
-	cursor : pointer;
-	font : bold 16px Arial, sans-serif;
-	background : #16408d;
-}
-.Static.sta_WF_DetailLabel
-{
-	border : 1px solid #bdc2c9;
-	background : #e7eaee;
-	font : 13px "Verdana","Malgun Gothic";
-}
-.Static.sta_WF_DetailArea
-{
-	border : 1px solid #ffffff;
-	background : #ffffff;
-	border-radius : 15px;
-}
-.Grid.ATEAM .head .row .cell
-{
-	background : #16408D;
-	color : #ffffff;
-}
-.Grid .body .row .cell.backgroundRed.dummy.dummy.dummy
-{
-	background : #FFCEDA !important;
-}
-.Grid .body .row .cell.backgroundBlue.dummy.dummy.dummy
-{
-	background : #B0E0E6 !important;
-}
-#nexacontainer .Button.btn_top_menu[status=mouseover]
-{
-	border : 0px none #ffffff;
-	background : #ffffff;
-	border-radius : 30px;
-	box-shadow : 0px 0px 0px rgba(0, 0, 0, 0.2);
-	color : #0F89F9;
-	cursor : pointer;
-	font : normal 700 14pt /normal "Arial";
-	letter-spacing : 0.5px;
-	opacity : 0.96;
-	word-spacing : 5px;
-}
-#nexacontainer .Button.btn_top_menu[status=mouseover] >.nexaedge  .nexarightbottom
-{
-	background-image : none;
-}
-#nexacontainer .Button.btn_top_menu[status=mouseover] >.nexaedge  .nexaleftbottom
-{
-	background-image : none;
-}
-#nexacontainer .Button.btn_top_menu[status=mouseover] >.nexaedge  .nexalefttop
-{
-	background-image : none;
-}
-#nexacontainer .Button.btn_top_menu[status=mouseover] >.nexaedge  .nexarighttop
-{
-	background-image : none;
-}
-#nexacontainer .Button.btn_top_menu[status=focused]
-{
-	border : 0px;
-	background : #004aad;
-	border-radius : 0px;
-	box-shadow : 0px 0px 0px rgba(0, 0, 0, 0.2);
-	color : white;
-	cursor : pointer;
-	font : normal bold  14pt/normal "Arial";
-	letter-spacing : 0.5px;
-	opacity : 0.96;
-	word-spacing : 5px;
-}
-#nexacontainer .Button.btn_top_menu[status=focused] >.nexaedge  .nexarightbottom
-{
-	background-image : none;
-}
-#nexacontainer .Button.btn_top_menu[status=focused] >.nexaedge  .nexaleftbottom
-{
-	background-image : none;
-}
-#nexacontainer .Button.btn_top_menu[status=focused] >.nexaedge  .nexalefttop
-{
-	background-image : none;
-}
-#nexacontainer .Button.btn_top_menu[status=focused] >.nexaedge  .nexarighttop
-{
-	background-image : none;
-}
-#nexacontainer .Button.btnLogin[status=focused]
-{
-	border-radius : 5px;
-	color : #ffffff;
-	cursor : pointer;
-	font : bold 16px Arial, sans-serif;
-	background : #16408d;
-}
-#nexacontainer .Button.btnLogin[status=mouseover]
-{
-	border-radius : 5px;
-	color : #ffffff;
-	cursor : pointer;
-	font : bold 16px Arial, sans-serif;
-	background : #16408d;
-}
-#nexacontainer .Edit.edt_Adr[status=readonly]
-{
-	background : white;
-	color : black;
-}
-#nexacontainer .Combo.cmb_readonly[status=readonly]
-{
-	background : white;
-	color : black;
-}
-#nexacontainer .Button.btnLogin[status=disabled]
-{
-	border-radius : 5px;
-	color : #ffffff;
-	cursor : pointer;
-	font : bold 16px Arial, sans-serif;
-	background : #16408d;
-}

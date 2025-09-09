@@ -68,15 +68,3 @@
   cursor:inherit;
 }
 
-.Grid .body .row .cell.Expr_red
-{
-	color : red;
-}
-.Grid .body .row .cell.Expr_red.oddcell
-{
-	color : red;
-}
-.Button.exprRed
-{
-	color : red;
-}

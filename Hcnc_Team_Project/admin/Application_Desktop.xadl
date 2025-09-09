@@ -1,30 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ADL version="2.0">
-  <Application id="Application_Desktop" screenid="Desktop_screen">
+  <Application id="Application_Desktop" screenid="Desktop_screen" onload="Application_onload">
     <Layout>
-      <MainFrame id="mainframe" showtitlebar="true" showstatusbar="true" left="0" top="0" width="1280" height="720" titletext="FullFrame">
-        <!--<ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Main.xfdl"/>-->
-        <!--<ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false" formurl="signUp::Form_Sign.xfdl"/>-->
-        <!--<ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false" formurl="product::Form_Product.xfdl"/>-->
-        <VFrameSet id="VFrameSet00" visible="true" separatesize="50,*">
+      <MainFrame id="mainframe" showtitlebar="true" showstatusbar="true" left="0" top="0" width="1280" height="720" titletext="TopLeftFrame">
+        <VFrameSet id="VFrameSet00" separatesize="50,*">
           <Frames>
-            <ChildFrame id="TopFrame" formurl="FrameBase::Form_Top.xfdl" showtitlebar="false" showtitleicon="false" visible="false"/>
+            <ChildFrame id="TopFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Top.xfdl"/>
             <HFrameSet id="HFrameSet00" separatesize="200,*">
               <Frames>
-                <ChildFrame id="LeftFrame" formurl="FrameBase::Form_Left.xfdl" showtitlebar="false" showtitleicon="false" visible="false"/>
-                <ChildFrame id="MainFrame" formurl="FrameBase::Form_Main.xfdl" showtitlebar="false" showtitleicon="false"/>
+                <ChildFrame id="LeftFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Left.xfdl"/>
+                <ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Login.xfdl"/>
               </Frames>
             </HFrameSet>
           </Frames>
         </VFrameSet>
       </MainFrame>
     </Layout>
-    <Style url="xcssrc::BtnCss.xcss"/>
+    <Style url="xcssrc::common.xcss"/>
+    <Style url="xcssrc::layout.xcss"/>
   </Application>
-  <Script type="xscript5.1"><![CDATA[
-this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventInfo)
+  <Script type="xscript5.1"><![CDATA[this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventInfo)
 {
 	//공통 FrameSet/Frame에 직접접근을 위한 변수 선언
+  
   //메인프레인 안에 첫 번째 VFrameSet
   nexacro.VFrameSet00 = this.mainframe.VFrameSet00;
   
@@ -39,9 +37,7 @@ this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventIn
   
   //VFrameSet00 안에 WorkFrame
   nexacro.WorkFrame = this.mainframe.VFrameSet00.HFrameSet00.WorkFrame;
-
+  
 };
-
-
 ]]></Script>
 </ADL>
