@@ -3,21 +3,21 @@
   <Form id="Form_Left" width="200" height="570" titletext="Form_Left" onload="Form_Left_onload">
     <Layouts>
       <Layout width="200" height="570" screenid="Desktop_screen">
-        <Grid id="Grid00" taborder="0" left="-2" top="-10" width="204" height="576" binddataset="ds_left" oncellclick="Grid00_oncellclick" treeusebutton="no" treeusecheckbox="false" treeuseline="false" treeuseimage="true">
+        <Grid id="Grid00" taborder="0" left="-2" top="-10" width="204" height="576" binddataset="ds_left" oncellclick="Grid00_oncellclick" treeusebutton="no" treeusecheckbox="false" treeuseline="false" treeuseimage="false">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="206"/>
               </Columns>
               <Rows>
-                <Row size="24" band="head"/>
+                <Row size="10" band="head"/>
                 <Row size="41"/>
               </Rows>
               <Band id="head">
-                <Cell text="MENU_NM"/>
+                <Cell border="0px" background="white"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:MENU_NM" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:MENU_LEVEL" cssclass="bind:CSSCLASS"/>
+                <Cell text="bind:MENU_NM" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:MENU_LEVEL" cssclass="bind:CSSCLASS" border="0px"/>
               </Band>
             </Format>
           </Formats>
@@ -41,17 +41,17 @@ this.fnGetLeftMenu = function()
     // 모든 메뉴 가져오기 (LEVEL 있는 상태)
     this.ds_left.copyData(objDsMenu, true);
 
-    // 트리 뷰어용 TreeLevel 컬럼 값 강제 세팅
+    // 트리 뷰어용 TreeLevel 컬럼 값 강제 세팅 
   for (var i = 0; i < this.ds_left.getRowCount(); i++) {
 		var sMenuId = this.ds_left.getColumn(i, "MENU_ID");
 
 		if (sMenuId.length == 2) {
 			this.ds_left.setColumn(i, "MENU_LEVEL", 0);   // 루트
-			this.ds_left.setColumn(i, "CSSCLASS", "menuRoot"+i); // i값으로 cssclass 세팅
-			 objButton.set_cssclass(sBtnCssClass);
+			this.ds_left.setColumn(i, "CSSCLASS", "menuRoot"+i);
+		
 		} else if (sMenuId.length == 4) {
 			this.ds_left.setColumn(i, "MENU_LEVEL", 1);   // 자식
-			this.ds_left.setColumn(i, "CSSCLASS", "menuChild");    // 자식은 공통 클래스
+			/*this.ds_left.setColumn(i, "CSSCLASS", "menuChild");   */
 		}
 	}
 	

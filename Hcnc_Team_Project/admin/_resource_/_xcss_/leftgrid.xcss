@@ -1,16 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XCSS version="1.0"><![CDATA[.CellTreeItemControl.menuRoot0 .treeitemimage {
-    	background : #ffffaa;
+<XCSS version="1.0"><![CDATA[.CellTreeItemControl.treeitemtext
+{ 	
 }
-
-/* 부모 (menuRoot1) */
-.CellTreeItemControl.menuChild {
-    	background : black;
-}
-
-.CellTreeItemControl .treeitemtext
+.CellTreeItemControl .celltreeitem .treeitemtext
 {
-	font : normal 11pt/normal "Noto Sans KR Medium";
-	color : white;
 }
 ]]></XCSS>
