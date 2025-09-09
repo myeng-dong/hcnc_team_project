@@ -21,7 +21,14 @@ if (nexacro.Environment)
         nexacro._addService("font", "file", "./_resource_/_font_/", "session", null, "", "0", "");
         nexacro._addService("Base", "form", "./Base/", "session", null, "", "0", "0");
         nexacro._addService("FrameBase", "form", "./FrameBase/", "session", null, "", "0", "0");
-        nexacro._addService("svc", "JSP", "http://localhost:8080", "none", null, "", "0", "0");
+        nexacro._addService("svc", "JSP", "http://localhost:8080/", "session", null, "", "0", "0");
+        nexacro._addService("order", "form", "./order/", "session", null, "", "0", "0");
+        nexacro._addService("board", "form", "./board/", "session", null, "", "0", "0");
+        nexacro._addService("promo", "form", "./promo/", "session", null, "", "0", "0");
+        nexacro._addService("member", "form", "./member/", "session", null, "", "0", "0");
+        nexacro._addService("product", "form", "./product/", "session", null, "", "0", "0");
+        nexacro._addService("stat", "form", "./stat/", "session", null, "", "0", "0");
+        nexacro._addService("setting", "form", "./setting/", "session", null, "", "0", "0");
     	nexacro._component_uri = (nexacro._arg_compurl ? nexacro._arg_compurl : "./nexacro17lib/component/");
     	nexacro._theme_uri = "./_resource_/_theme_/";
     	// load components

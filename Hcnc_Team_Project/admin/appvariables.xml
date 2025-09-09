@@ -7,6 +7,7 @@
         <Column id="MENU_NM" type="STRING" size="256"/>
         <Column id="MENU_LEVEL" type="STRING" size="256"/>
         <Column id="MENU_PATH" type="STRING" size="256"/>
+        <Column id="CSSCLASS" type="STRING" size="256"/>
       </ColumnInfo>
       <Rows>
         <Row>
@@ -17,36 +18,6 @@
         <Row>
           <Col id="MENU_ID">01</Col>
           <Col id="MENU_NM">회원관리</Col>
-          <Col id="MENU_LEVEL">0</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">02</Col>
-          <Col id="MENU_NM">상품관리</Col>
-          <Col id="MENU_LEVEL">0</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">03</Col>
-          <Col id="MENU_NM">주문 및 배송관리</Col>
-          <Col id="MENU_LEVEL">0</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">04</Col>
-          <Col id="MENU_NM">프로모션관리</Col>
-          <Col id="MENU_LEVEL">0</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">05</Col>
-          <Col id="MENU_NM">게시판관리</Col>
-          <Col id="MENU_LEVEL">0</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">06</Col>
-          <Col id="MENU_NM">통계</Col>
-          <Col id="MENU_LEVEL">0</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">07</Col>
-          <Col id="MENU_NM">시스템관리</Col>
           <Col id="MENU_LEVEL">0</Col>
         </Row>
         <Row>
@@ -85,6 +56,11 @@
           <Col id="MENU_LEVEL">1</Col>
         </Row>
         <Row>
+          <Col id="MENU_ID">02</Col>
+          <Col id="MENU_NM">상품관리</Col>
+          <Col id="MENU_LEVEL">0</Col>
+        </Row>
+        <Row>
           <Col id="MENU_ID">0201</Col>
           <Col id="MENU_NM">상품 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
@@ -113,6 +89,11 @@
           <Col id="MENU_ID">0206</Col>
           <Col id="MENU_NM">상품 상태 변경</Col>
           <Col id="MENU_LEVEL">1</Col>
+        </Row>
+        <Row>
+          <Col id="MENU_ID">03</Col>
+          <Col id="MENU_NM">주문 및 배송관리</Col>
+          <Col id="MENU_LEVEL">0</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0301</Col>
@@ -150,6 +131,11 @@
           <Col id="MENU_LEVEL">1</Col>
         </Row>
         <Row>
+          <Col id="MENU_ID">04</Col>
+          <Col id="MENU_NM">프로모션관리</Col>
+          <Col id="MENU_LEVEL">0</Col>
+        </Row>
+        <Row>
           <Col id="MENU_ID">0401</Col>
           <Col id="MENU_NM">프로모션 세팅</Col>
           <Col id="MENU_LEVEL">1</Col>
@@ -175,6 +161,11 @@
           <Col id="MENU_LEVEL">1</Col>
         </Row>
         <Row>
+          <Col id="MENU_ID">05</Col>
+          <Col id="MENU_NM">게시판관리</Col>
+          <Col id="MENU_LEVEL">0</Col>
+        </Row>
+        <Row>
           <Col id="MENU_ID">0501</Col>
           <Col id="MENU_NM">공지사항</Col>
           <Col id="MENU_LEVEL">1</Col>
@@ -198,6 +189,16 @@
           <Col id="MENU_ID">0505</Col>
           <Col id="MENU_NM">1:1 문의 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+        </Row>
+        <Row>
+          <Col id="MENU_ID">06</Col>
+          <Col id="MENU_NM">통계</Col>
+          <Col id="MENU_LEVEL">0</Col>
+        </Row>
+        <Row>
+          <Col id="MENU_ID">07</Col>
+          <Col id="MENU_NM">시스템관리</Col>
+          <Col id="MENU_LEVEL">0</Col>
         </Row>
       </Rows>
     </Dataset>
