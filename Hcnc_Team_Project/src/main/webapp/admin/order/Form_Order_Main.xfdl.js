@@ -36,6 +36,10 @@
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
+
+            obj = new Div("div_title","0","0",null,"110","0",null,null,null,null,null,this);
+            obj.set_taborder("2");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
