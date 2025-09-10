@@ -58,7 +58,9 @@ if (nexacro.Environment)
         		{"id":"Plugin", "classname":"nexacro.Plugin", "type":"JavaScript"},
         		{"id":"Dataset", "classname":"nexacro.NormalDataset", "type":"JavaScript"},
         		{"id":"ListView", "classname":"nexacro.ListView", "type":"JavaScript"},
-        		{"id":"DataObject", "classname":"nexacro.DataObject", "type":"JavaScript"}
+        		{"id":"DataObject", "classname":"nexacro.DataObject", "type":"JavaScript"},
+        		{"id":"FileUpload", "classname":"nexacro.FileUpload", "type":"JavaScript"},
+        		{"id":"FileDownload", "classname":"nexacro.FileDownload", "type":"JavaScript"}
         ];
     	nexacro._addClasses(registerclass);
     };
