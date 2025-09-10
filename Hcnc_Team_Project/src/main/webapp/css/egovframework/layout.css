@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* layout */
+  .inner{width:100%; max-width:1240px; margin:0 auto; padding:0 6%;}
+  
+ /*flex 선언*/ 
+  .flex{display: flex;}
+  .flex.ju-center{justify-content: center;}
+  .flex.ju-between{justify-content: space-between;}
+  .flex.ai-center{align-items: center;}
+  .flex.fd-column{flex-direction: column;}
+
+  /*text*/
+  .txt-right{text-align: right;}
+  .txt-center{text-align: center;}
+  .txt.warning{color:red;}
+
+  /*content*/
+  .title-area{padding-top:10px; padding-bottom:10px;}
+  .btn-area{padding-top:1rem;}
+  .btn-area input,
+  .btn-area button{margin:0 10px;}

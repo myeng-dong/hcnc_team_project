@@ -9,6 +9,7 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*$
 local.properties
 .settings/
 .loadpath
@@ -85,3 +86,4 @@ local.properties
 
 # IDE 관련 폴더
 .settings/
+*.geninfo
