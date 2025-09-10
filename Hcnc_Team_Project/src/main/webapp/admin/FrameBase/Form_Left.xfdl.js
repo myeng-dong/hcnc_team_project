@@ -52,10 +52,7 @@
         this.registerScript("Form_Left.xfdl", function() {
         this.Form_Left_onload = function(obj, e)
         {
-            trace("Form_Left_onload 실행됨");
             this.fnGetLeftMenu();   // 좌측 메뉴 초기 로드
-        	trace(this.ds_left.saveXML());
-
         };
 
         // 좌측 메뉴 데이터 로드 (TreeLevel 세팅)
