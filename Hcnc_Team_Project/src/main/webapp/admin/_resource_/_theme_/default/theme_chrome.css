@@ -1784,6 +1784,7 @@ textarea::-webkit-scrollbar { display: none; }
 }
 #nexacontainer .GridCellControl .celltreeitem .treeitemtext[status=disabled]
 {
+	font : normal 10pt/normal "Noto Sans KR Medium";
 	color : #999999;
 }
 #nexacontainer .GroupBox .groupboxcontents[status=disabled]
