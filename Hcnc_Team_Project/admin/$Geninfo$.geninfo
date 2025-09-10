@@ -23,6 +23,16 @@
       <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\Grid.json" checksum="20240126175450" errormsg=""/>
       <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\ListView.json" checksum="20240126175452" errormsg=""/>
       <File url="C:\Program Files (x86)\nexacro\17.1\nexacro17lib\component\DeviceAPI.json" checksum="20240126175448" errormsg=""/>
+      <File url="Application_Desktop.xadl" checksum="20250910122041" errormsg=""/>
+      <File url="FrameBase\Form_AdminTitle.xfdl" checksum="20250910091657" errormsg=""/>
+      <File url="FrameBase\Form_Bottom.xfdl" checksum="20250910122041" errormsg=""/>
+      <File url="FrameBase\Form_Left.xfdl" checksum="20250910122041" errormsg=""/>
+      <File url="FrameBase\Form_Login.xfdl" checksum="20250910122041" errormsg=""/>
+      <File url="FrameBase\Form_Top.xfdl" checksum="20250910021840" errormsg=""/>
+      <File url="FrameBase\Form_Work.xfdl" checksum="20250910122041" errormsg=""/>
+      <File url="board\Form_Board_Notice.xfdl" checksum="20250910122041" errormsg=""/>
+      <File url="promo\Form_Log.xfdl" checksum="20250910020810" errormsg=""/>
+      <File url="promo\Form_PromoList.xfdl" checksum="20250910030903" errormsg=""/>
     </Info>
   </GenInfo>
 </root>
