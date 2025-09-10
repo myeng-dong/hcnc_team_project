@@ -3,7 +3,7 @@
 <mapper namespace="admin.mapper.ProductMapper">
 
 
-<!-- 상품목록조회  -->
+<!-- 	상품목록리스트조회  -->
 	<select id="" resultType="java.util.Map">
 	
 	</select>
