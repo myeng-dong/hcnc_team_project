@@ -571,6 +571,7 @@ last-modified : 2021-10-26
 
 .GridCellControl .celltreeitem .treeitemtext[status=disabled]
 {
+	font : normal 10pt/normal "Noto Sans KR Medium";
 	color : #999999;
 }
 
