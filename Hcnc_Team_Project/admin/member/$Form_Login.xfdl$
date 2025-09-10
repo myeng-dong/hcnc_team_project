@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_Login" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="0" text="아이디*" left="545" top="226" width="56" height="24" textAlign="center" font="bold 12px/normal &quot;HY중고딕&quot;"/>
+        <Edit id="admin_id" taborder="1" left="545" top="256" width="310" height="44" borderRadius="15px"/>
+        <Static id="Static00_00" taborder="2" text="비밀번호*" left="545" top="310" width="56" height="24" textAlign="center" font="bold 12px/normal &quot;HY엽서M&quot;"/>
+        <Edit id="admin_pw" taborder="3" left="545" top="340" width="310" height="44" borderRadius="15px"/>
+        <Static id="Static01" taborder="4" text="관리자 로그인" left="630" top="144" width="140" height="29" textAlign="center" font="bold 20px/normal &quot;HY중고딕&quot;"/>
+        <Button id="admin_login" taborder="5" text="로그인" left="564" top="426" width="272" height="49" borderRadius="15px" background="black" color="white" onclick="admin_login_onclick" font="12px/normal &quot;HY중고딕&quot;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_admin">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="PASSWORD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_loginChk"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.admin_login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+};
+]]></Script>
+  </Form>
+</FDL>
