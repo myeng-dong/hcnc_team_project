@@ -203,6 +203,11 @@
         </Row>
       </Rows>
     </Dataset>
+    <Dataset id="gds_adminInfo">
+      <ColumnInfo>
+        <Column id="MEMBER_ID" type="STRING" size="256"/>
+      </ColumnInfo>
+    </Dataset>
   </Datasets>
   <Variables/>
   <DataObjects/>
