@@ -67,7 +67,7 @@ local.properties
 # Spring Boot Tooling
 .sts4-cache/
 
-**/.metadata/
+**/.metadata
 # End of https://www.toptal.com/developers/gitignore/api/eclipse
 **/pom.properties
 # Eclipse 설정 파일
@@ -75,11 +75,13 @@ local.properties
 .classpath
 
 # Eclipse 작업공간 메타데이터
-.metadata/
+/.metadata/
 
 # 빌드 결과물
 /bin/
 /target/
+**/target
+
 
 # IDE 관련 폴더
 .settings/
