@@ -64,25 +64,28 @@
         };
 		// script Compiler
         this.registerScript("Application_Desktop.xadl", function() {
-        this.Application_onload = function(obj,e)
+        this.Application_onload = function(obj, e)
         {
-        	//공통 FrameSet/Frame에 직접접근을 위한 변수 선언
+            // 메인프레임 안에 첫 번째 VFrameSet
+            nexacro.VFrameSet00 = this.mainframe.VFrameSet00;
 
-          //메인프레인 안에 첫 번째 VFrameSet
-          nexacro.VFrameSet00 = this.mainframe.VFrameSet00;
+            // VFrameSet00 안에 TopFrame
+            nexacro.TopFrame = this.mainframe.VFrameSet00.TopFrame;
 
-          //VFrameSet00 안에 TopFrame
-          nexacro.TopFrame = this.mainframe.VFrameSet00.TopFrame;
+            // VFrameSet00 안에 HFrameSet00
+            nexacro.HFrameSet00 = this.mainframe.VFrameSet00.HFrameSet00;
 
-          //VFrameSet00 HFrameSet00
-          nexacro.HFrameSet00 = this.mainframe.VFrameSet00.HFrameSet00;
+            // HFrameSet00 안에 LeftFrame
+            nexacro.LeftFrame = this.mainframe.VFrameSet00.HFrameSet00.LeftFrame;
 
-          //HFrameSet00 안에 LeftFrame
-          nexacro.LeftFrame = this.mainframe.VFrameSet00.HFrameSet00.LeftFrame;
+            // HFrameSet00 안에 VFrameSet01 → 그 안에 TitleFrame, WorkFrame
+            nexacro.InnerVFrameSet = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01;
 
-          //VFrameSet00 안에 WorkFrame
-          nexacro.WorkFrame = this.mainframe.VFrameSet00.HFrameSet00.WorkFrame;
+            // InnerVFrameSet 안의 TitleFrame (Form_AdminTitle)
+            nexacro.TitleFrame = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame;
 
+            // InnerVFrameSet 안의 WorkFrame (업무화면 영역)
+            nexacro.WorkFrame = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
         };
 
         });

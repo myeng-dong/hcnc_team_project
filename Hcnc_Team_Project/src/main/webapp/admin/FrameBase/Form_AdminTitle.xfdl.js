@@ -11,6 +11,7 @@
         {
             this.set_name("Form_AdminTitle");
             this.set_titletext("New Form");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,110);
@@ -53,58 +54,12 @@
         
         // User Script
         this.registerScript("Form_AdminTitle.xfdl", function() {
-        this.Form_AdminTitle_onload = function(obj, e)
+        // 메뉴명을 받아서 타이틀 Static에 반영
+        this.fn_setTitle = function(sMenuNm)
         {
-            // 현재 열려 있는 Form URL 가져오기
-            var sCurrUrl = objApp.mainframe.VFrameSet00.HFrameSet00.WorkFrame.get_formurl();
-
-            trace("현재 열려 있는 Form URL >>> " + sCurrUrl);
-
-            this.fn_setTitleByPath(sCurrUrl);
-        };
-
-        // gds_menu의 MENU_PATH 기준으로 타이틀/위치 세팅
-        this.fn_setTitleByPath = function(sPath)
-        {
-            var ds = application.gds_menu;
-
-            // 현재 Form URL과 일치하는 Row 찾기
-            var nRow = ds.findRow("MENU_PATH", sPath);
-            if (nRow < 0)
-            {
-                this.sta_location.set_text("⌂");
-                this.sta_h3.set_text("");
-                return;
-            }
-
-            // 현재 메뉴명
-            var menuNm = ds.getColumn(nRow, "MENU_NM");
-
-            // Breadcrumb (상위 메뉴 추적)
-            var breadcrumb = [];
-            var currMenuId = ds.getColumn(nRow, "MENU_ID");
-
-            while (currMenuId.length >= 2)
-            {
-                var idx = ds.findRow("MENU_ID", currMenuId);
-                if (idx < 0) break;
-
-                breadcrumb.unshift(ds.getColumn(idx, "MENU_NM"));
-                currMenuId = currMenuId.substr(0, currMenuId.length - 2);
-            }
-
-            // 표시 문자열 만들기
-            var sDisplay = "⌂";
-            if (breadcrumb.length > 0) {
-                sDisplay += " ▸ " + breadcrumb.join(" ▸ ");
-            }
-
-            // Static에 반영
-            this.sta_location.set_text(sDisplay);
-            this.sta_h3.set_text(menuNm);
-
-            trace("Breadcrumb >>> " + sDisplay);
-            trace("Title >>> " + menuNm);
+            if (!sMenuNm) sMenuNm = "";
+            this.sta_h3.set_text(sMenuNm);   // 상단 타이틀
+            this.sta_location.set_text("⌂ ▸ " + sMenuNm); // 간단한 breadcrumb
         };
 
         });

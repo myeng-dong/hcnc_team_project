@@ -121,6 +121,7 @@
 
 
 
+
         // 메뉴 실행
         this.fnOpenMenu = function(sMenuId)
         {
@@ -129,14 +130,23 @@
             if (nFRow < 0) return;
 
             var sMenuPath = this.ds_left.getColumn(nFRow, "MENU_PATH");
+            var sMenuNm   = this.ds_left.getColumn(nFRow, "MENU_NM"); // ✅ 메뉴명 가져오기
+
             if (!sMenuPath || sMenuPath == "[Undefined]") {
                 trace("메뉴 경로가 정의되지 않음: " + sMenuId);
                 return;
             }
 
-            objApp.mainframe.VFrameSet00.HFrameSet00.WorkFrame.set_formurl(sMenuPath);
+            // 바뀐 구조 반영 (VFrameSet01 안에 TitleFrame + WorkFrame)
+            objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl(sMenuPath);
 
+            // TitleFrame의 fn_setTitle 호출 (메뉴명 전달)
+            if (objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame.form.fn_setTitle) {
+                objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame.form.fn_setTitle(sMenuNm);
+            }
         };
+
+
 
         });
         

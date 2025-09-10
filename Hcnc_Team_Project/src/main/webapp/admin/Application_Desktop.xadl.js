@@ -68,11 +68,22 @@
             frame3.set_formurl("FrameBase::Form_Left.xfdl");
 
 
-            var frame4 = new ChildFrame("WorkFrame",null,null,null,null,null,null,"FrameBase::Form_Login.xfdl",frame2);
-            frame4.set_showtitlebar("false");
-            frame4.set_showstatusbar("false");
+            var frame4 = new VFrameSet("VFrameSet01",null,null,null,null,null,null,frame2);
+            frame4.set_separatesize("110,*");
             frame2.addChild(frame4.name, frame4);
-            frame4.set_formurl("FrameBase::Form_Login.xfdl");
+
+            var frame5 = new ChildFrame("TitleFrame",null,null,null,null,null,null,"FrameBase::Form_AdminTitle.xfdl",frame4);
+            frame5.set_showtitlebar("false");
+            frame5.set_showstatusbar("false");
+            frame4.addChild(frame5.name, frame5);
+            frame5.set_formurl("FrameBase::Form_AdminTitle.xfdl");
+
+
+            var frame6 = new ChildFrame("WorkFrame",null,null,null,null,null,null,"FrameBase::Form_Login.xfdl",frame4);
+            frame6.set_showtitlebar("false");
+            frame6.set_showstatusbar("false");
+            frame4.addChild(frame6.name, frame6);
+            frame6.set_formurl("FrameBase::Form_Login.xfdl");
         };
         
         this.on_initEvent = function()
@@ -82,25 +93,28 @@
         
         // script Compiler
         this.registerScript("Application_Desktop.xadl", function() {
-        this.Application_onload = function(obj,e)
+        this.Application_onload = function(obj, e)
         {
-        	//공통 FrameSet/Frame에 직접접근을 위한 변수 선언
+            // 메인프레임 안에 첫 번째 VFrameSet
+            nexacro.VFrameSet00 = this.mainframe.VFrameSet00;
 
-          //메인프레인 안에 첫 번째 VFrameSet
-          nexacro.VFrameSet00 = this.mainframe.VFrameSet00;
+            // VFrameSet00 안에 TopFrame
+            nexacro.TopFrame = this.mainframe.VFrameSet00.TopFrame;
 
-          //VFrameSet00 안에 TopFrame
-          nexacro.TopFrame = this.mainframe.VFrameSet00.TopFrame;
+            // VFrameSet00 안에 HFrameSet00
+            nexacro.HFrameSet00 = this.mainframe.VFrameSet00.HFrameSet00;
 
-          //VFrameSet00 HFrameSet00
-          nexacro.HFrameSet00 = this.mainframe.VFrameSet00.HFrameSet00;
+            // HFrameSet00 안에 LeftFrame
+            nexacro.LeftFrame = this.mainframe.VFrameSet00.HFrameSet00.LeftFrame;
 
-          //HFrameSet00 안에 LeftFrame
-          nexacro.LeftFrame = this.mainframe.VFrameSet00.HFrameSet00.LeftFrame;
+            // HFrameSet00 안에 VFrameSet01 → 그 안에 TitleFrame, WorkFrame
+            nexacro.InnerVFrameSet = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01;
 
-          //VFrameSet00 안에 WorkFrame
-          nexacro.WorkFrame = this.mainframe.VFrameSet00.HFrameSet00.WorkFrame;
+            // InnerVFrameSet 안의 TitleFrame (Form_AdminTitle)
+            nexacro.TitleFrame = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame;
 
+            // InnerVFrameSet 안의 WorkFrame (업무화면 영역)
+            nexacro.WorkFrame = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
         };
 
         });
