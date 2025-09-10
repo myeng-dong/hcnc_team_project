@@ -3,27 +3,32 @@
   <Form id="Form_ProductAdmin" width="1280" height="800" titletext="상품관리" background="#ebf3fe">
     <Layouts>
       <Layout width="1280" height="800">
-        <Static id="sta_prodType" text="검색분류" left="20" height="35" right="1120" top="165" background="#c8d3de" onclick="sta_prodType_onclick" font="bold 12px/normal &quot;Gulim&quot;"/>
-        <Static id="sta_category" text="상품분류" left="20" height="35" right="1120" top="207" background="#c8d3de" font="bold 12px/normal &quot;Gulim&quot;"/>
-        <Static id="sta_regDate" text="상품등록일" left="20" height="35" right="1120" top="249" background="#c8d3de" font="bold 12px/normal &quot;Gulim&quot;"/>
-        <Static id="sta_sale" text="진열상태" left="20" height="35" right="1120" top="291" background="#c8d3de" font="bold 12px/normal &quot;Gulim&quot;"/>
+        <Static id="sta_prodType" text="검색분류" left="20" height="35" right="1120" top="165" background="#c8d3de" onclick="sta_prodType_onclick" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px"/>
+        <Static id="sta_category" text="상품분류" left="20" height="35" right="1120" top="207" background="#c8d3de" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px"/>
+        <Static id="sta_regDate" text="상품등록일" left="20" height="35" right="1120" top="249" background="#c8d3de" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px"/>
+        <Static id="sta_sale" text="진열상태" left="20" height="35" right="1120" top="291" background="#c8d3de" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px"/>
         <Grid id="grd_list" left="20" top="400" width="1230" height="360" borderRadius="5px" border="0">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="48"/>
-                <Column size="48"/>
-                <Column size="101"/>
-                <Column size="147"/>
-                <Column size="107"/>
-                <Column size="107"/>
-                <Column size="198"/>
-                <Column size="70"/>
-                <Column size="70"/>
+                <Column size="28"/>
+                <Column size="45"/>
+                <Column size="58"/>
+                <Column size="61"/>
+                <Column size="82"/>
+                <Column size="141"/>
+                <Column size="82"/>
+                <Column size="82"/>
+                <Column size="51"/>
+                <Column size="51"/>
+                <Column size="45"/>
+                <Column size="45"/>
                 <Column size="75"/>
-                <Column size="70"/>
-                <Column size="94"/>
-                <Column size="94"/>
+                <Column size="45"/>
+                <Column size="104"/>
+                <Column size="104"/>
+                <Column size="65"/>
+                <Column size="65"/>
               </Columns>
               <Rows>
                 <Row size="52" band="head"/>
@@ -31,35 +36,44 @@
                 <Row size="24"/>
               </Rows>
               <Band id="head">
-                <Cell colspan="13" background="transparent" border="0px none"/>
+                <Cell colspan="18" background="transparent" border="0px none"/>
                 <Cell row="1" text="□" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
                 <Cell row="1" col="1" text="No" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="2" text="상품코드" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="3" text="상품명" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="4" text="판매가" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="5" text="할인가" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="6" text="상품분류" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="7" text="진열상태" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="8" text="판매상태" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="9" text="재고" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="10" text="품절상태" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="11" text="구매링크" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
-                <Cell row="1" col="12" text="관리" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="2" text="이미지" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="3" text="상품코드" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="4" text="상품명" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="5" text="설명" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="6" text="판매가" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="7" text="할인가" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="8" colspan="2" text="상품분류" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="10" text="옵션" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="11" text="진열" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="12" text="재고" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="13" text="품절" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="14" text="등록일" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="15" text="수정일" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="16" text="구매링크" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
+                <Cell row="1" col="17" text="관리" background="#e5f3ff" border="0px none #ffffff,0px none #ffffff,0px none"/>
               </Band>
               <Band id="body">
-                <Cell displaytype="checkbox"/>
-                <Cell col="1" text="bind:No"/>
-                <Cell col="2" text="bind:상품구분"/>
-                <Cell col="3" text="bind:상품코드"/>
-                <Cell col="4" text="bind:상품명"/>
-                <Cell col="5" text="bind:판매가"/>
-                <Cell col="6" text="bind:할인"/>
-                <Cell col="7" text="bind:상품분류"/>
-                <Cell col="8" text="bind:진열상태"/>
-                <Cell col="9" text="bind:판매상태"/>
-                <Cell col="10" text="bind:재고"/>
-                <Cell col="11" text="bind:품절상태"/>
-                <Cell col="12" text="bind:구매링크"/>
+                <Cell displaytype="checkbox" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="1" text="expr:currow+1" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="2" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="3" text="bind:상품구분" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="4" text="bind:상품코드" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="5" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="6" text="bind:상품명" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="7" text="bind:판매가" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="8" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="9" text="bind:할인" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="10" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="11" text="bind:상품분류" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="12" text="bind:판매상태" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="13" text="bind:재고" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="14" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="15" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="16" text="bind:품절상태" font="normal 9px/normal &quot;Arial&quot;"/>
+                <Cell col="17" text="bind:구매링크" font="normal 9px/normal &quot;Arial&quot;"/>
               </Band>
             </Format>
           </Formats>
@@ -67,7 +81,7 @@
         <Static id="stcTitle" taborder="23" text="상품관리" left="20" top="50" width="107" height="33" font="normal 800 26px/normal &quot;맑은 고딕&quot;" color="#12298b"/>
         <Static id="stcTitleSub" taborder="24" text="Page/ProductDashboard" left="20" top="17" width="150" height="33" color="#575a74" onclick="stcTitleSub_onclick"/>
         <Div id="Div00" taborder="18" text="" left="20" top="100" width="1230" height="40" background="#ffffff"/>
-        <Static id="Static00" taborder="18" text="전체 10건" left="35" top="90" width="120" height="60" font="bold 12px/normal &quot;Gulim&quot;"/>
+        <Static id="Static00" taborder="18" text="전체 10건" left="35" top="90" width="120" height="60" font="bold 12px/normal &quot;Gulim&quot;" onclick="Static00_onclick"/>
         <Div id="Div00_00" taborder="19" text="" left="160" top="164" width="1090" height="36" background="#ffffff">
           <Layouts>
             <Layout>
@@ -109,7 +123,7 @@
                   </Rows>
                 </Dataset>
               </Radio>
-              <Static id="sta_sale" text="판매상태" left="468" height="35" right="482" top="0" background="#c8d3de" taborder="1" font="bold 12px/normal &quot;Gulim&quot;"/>
+              <Static id="sta_sale" text="판매상태" left="468" height="35" right="482" top="0" background="#c8d3de" taborder="1" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px"/>
               <Radio id="Radio00_00" taborder="2" left="634" top="9" width="246" height="20" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" onitemchanged="Div00_00_00_00_00_Radio00_00_onitemchanged">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
@@ -141,6 +155,11 @@
         <Static id="sta_listTitle2" text="[총 회원수 0명  검색결과 0건]" left="110" height="36" top="410" font="normal 700 10pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="179" taborder="23" textDecoration="underline"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[]]></Script>
+    <Script type="xscript5.1"><![CDATA[
+this.Static00_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+{
+	
+};
+]]></Script>
   </Form>
 </FDL>
