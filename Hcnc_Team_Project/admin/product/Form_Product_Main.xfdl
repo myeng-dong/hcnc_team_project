@@ -67,7 +67,7 @@
         <Static id="stcTitle" taborder="23" text="상품관리" left="20" top="50" width="107" height="33" font="normal 800 26px/normal &quot;맑은 고딕&quot;" color="#12298b"/>
         <Static id="stcTitleSub" taborder="24" text="Page/ProductDashboard" left="20" top="17" width="150" height="33" color="#575a74" onclick="stcTitleSub_onclick"/>
         <Div id="Div00" taborder="18" text="" left="20" top="100" width="1230" height="40" background="#ffffff"/>
-        <Static id="Static00" taborder="18" text="전체 10건" left="35" top="90" width="120" height="60" font="bold 12px/normal &quot;Gulim&quot;"/>
+        <Static id="Static00" taborder="18" text="전체 10건 10000test" left="35" top="90" width="120" height="60" font="bold 12px/normal &quot;Gulim&quot;"/>
         <Div id="Div00_00" taborder="19" text="" left="160" top="164" width="1090" height="36" background="#ffffff">
           <Layouts>
             <Layout>
