@@ -36,6 +36,7 @@ public class AdminController {
 			) {
 		NexacroResult rs = new NexacroResult();
 		List<Map<String, Object>> selectGradeList = adminService.selectGradeListByAdmin();
+		System.out.println("admin good");
 		System.out.println(selectGradeList);
 		rs.addDataSet("ds_list", selectGradeList);
 		return rs;
