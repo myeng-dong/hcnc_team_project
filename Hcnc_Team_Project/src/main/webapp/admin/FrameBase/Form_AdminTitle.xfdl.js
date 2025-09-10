@@ -11,6 +11,7 @@
         {
             this.set_name("Form_AdminTitle");
             this.set_titletext("New Form");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,110);
@@ -53,50 +54,12 @@
         
         // User Script
         this.registerScript("Form_AdminTitle.xfdl", function() {
-        this.Form_AdminTitle_onload = function(obj,e)
+        // 메뉴명을 받아서 타이틀 Static에 반영
+        this.fn_setTitle = function(sMenuNm)
         {
-        	this.fn_setLocationBreadcrumb();
-            this.Form_AdminTitle._url = obj.form._url;
-            this.Form_AdminTitle.fn_setLocationBreadcrumb();
-        	trace("타이틀불러오는 함수 실행여부체크용 >>>");
-        };
-
-        this.fn_setLocationBreadcrumb = function()
-        {
-            var sUrl = this._url;  // 현재 페이지 URL
-            var ds = application.gds_Menu;
-
-            var nRow = ds.findRow("MENU_PATH", sUrl);
-            if (nRow < 0) {
-                this.sta_location.set_text("⌂");
-                this.sta_h3.set_text("");
-                return;
-            }
-
-            var breadcrumb = [];
-            var currMenuId = ds.getColumn(nRow, "MENU_ID");
-
-            while (currMenuId.length >= 2)
-            {
-                var idx = ds.findRow("MENU_ID", currMenuId);
-                if (idx < 0) break;
-
-                var menuNm = ds.getColumn(idx, "MENU_NM");
-                breadcrumb.unshift(menuNm);
-
-                currMenuId = currMenuId.substr(0, currMenuId.length - 2);
-            }
-
-            var sDisplay = "⌂";
-            if (breadcrumb.length >= 1) {
-                sDisplay += " ▸ " + breadcrumb.join(" ▸ ");
-            }
-
-            // 최종 메뉴명은 breadcrumb 마지막 값
-            var lastMenuName = breadcrumb.length > 0 ? breadcrumb[breadcrumb.length - 1] : "";
-
-            this.sta_location.set_text(sDisplay);
-            this.sta_h3.set_text(lastMenuName);
+            if (!sMenuNm) sMenuNm = "";
+            this.sta_h3.set_text(sMenuNm);   // 상단 타이틀
+            this.sta_location.set_text("⌂ ▸ " + sMenuNm); // 간단한 breadcrumb
         };
 
         });

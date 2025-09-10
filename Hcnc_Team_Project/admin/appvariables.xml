@@ -145,11 +145,13 @@
           <Col id="MENU_ID">0402</Col>
           <Col id="MENU_NM">배너 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">banner::Form_BannerList.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0403</Col>
           <Col id="MENU_NM">팝업 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">banner::Form_PopupList.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0404</Col>
@@ -170,6 +172,7 @@
           <Col id="MENU_ID">0501</Col>
           <Col id="MENU_NM">공지사항</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">board::Form_NoticeList.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0502</Col>
