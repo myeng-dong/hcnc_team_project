@@ -53,26 +53,34 @@
         
         // User Script
         this.registerScript("Form_AdminTitle.xfdl", function() {
-        this.Form_AdminTitle_onload = function(obj,e)
+        this.Form_AdminTitle_onload = function(obj, e)
         {
-        	this.fn_setLocationBreadcrumb();
-            this.Form_AdminTitle._url = obj.form._url;
-            this.Form_AdminTitle.fn_setLocationBreadcrumb();
-        	trace("타이틀불러오는 함수 실행여부체크용 >>>");
+            // 현재 열려 있는 Form URL 가져오기
+            var sCurrUrl = objApp.mainframe.VFrameSet00.HFrameSet00.WorkFrame.get_formurl();
+
+            trace("현재 열려 있는 Form URL >>> " + sCurrUrl);
+
+            this.fn_setTitleByPath(sCurrUrl);
         };
 
-        this.fn_setLocationBreadcrumb = function()
+        // gds_menu의 MENU_PATH 기준으로 타이틀/위치 세팅
+        this.fn_setTitleByPath = function(sPath)
         {
-            var sUrl = this._url;  // 현재 페이지 URL
-            var ds = application.gds_Menu;
+            var ds = application.gds_menu;
 
-            var nRow = ds.findRow("MENU_PATH", sUrl);
-            if (nRow < 0) {
+            // 현재 Form URL과 일치하는 Row 찾기
+            var nRow = ds.findRow("MENU_PATH", sPath);
+            if (nRow < 0)
+            {
                 this.sta_location.set_text("⌂");
                 this.sta_h3.set_text("");
                 return;
             }
 
+            // 현재 메뉴명
+            var menuNm = ds.getColumn(nRow, "MENU_NM");
+
+            // Breadcrumb (상위 메뉴 추적)
             var breadcrumb = [];
             var currMenuId = ds.getColumn(nRow, "MENU_ID");
 
@@ -81,22 +89,22 @@
                 var idx = ds.findRow("MENU_ID", currMenuId);
                 if (idx < 0) break;
 
-                var menuNm = ds.getColumn(idx, "MENU_NM");
-                breadcrumb.unshift(menuNm);
-
+                breadcrumb.unshift(ds.getColumn(idx, "MENU_NM"));
                 currMenuId = currMenuId.substr(0, currMenuId.length - 2);
             }
 
+            // 표시 문자열 만들기
             var sDisplay = "⌂";
-            if (breadcrumb.length >= 1) {
+            if (breadcrumb.length > 0) {
                 sDisplay += " ▸ " + breadcrumb.join(" ▸ ");
             }
 
-            // 최종 메뉴명은 breadcrumb 마지막 값
-            var lastMenuName = breadcrumb.length > 0 ? breadcrumb[breadcrumb.length - 1] : "";
-
+            // Static에 반영
             this.sta_location.set_text(sDisplay);
-            this.sta_h3.set_text(lastMenuName);
+            this.sta_h3.set_text(menuNm);
+
+            trace("Breadcrumb >>> " + sDisplay);
+            trace("Title >>> " + menuNm);
         };
 
         });

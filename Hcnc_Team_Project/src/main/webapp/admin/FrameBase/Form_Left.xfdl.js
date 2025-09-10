@@ -135,6 +135,7 @@
             }
 
             objApp.mainframe.VFrameSet00.HFrameSet00.WorkFrame.set_formurl(sMenuPath);
+
         };
 
         });

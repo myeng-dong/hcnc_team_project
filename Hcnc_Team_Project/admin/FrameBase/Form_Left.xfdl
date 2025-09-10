@@ -95,7 +95,7 @@ this.Grid00_oncellclick = function(obj, e)
 
 // 메뉴 실행
 this.fnOpenMenu = function(sMenuId)
-{
+{ 
     var objApp = nexacro.getApplication();
     var nFRow  = this.ds_left.findRow("MENU_ID", sMenuId);
     if (nFRow < 0) return;
@@ -107,6 +107,7 @@ this.fnOpenMenu = function(sMenuId)
     }
 
     objApp.mainframe.VFrameSet00.HFrameSet00.WorkFrame.set_formurl(sMenuPath);
+	
 };
 ]]></Script>
     <Objects>
