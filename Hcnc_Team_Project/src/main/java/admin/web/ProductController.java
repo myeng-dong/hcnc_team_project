@@ -29,7 +29,7 @@ public class ProductController {
 		NexacroResult rs = new NexacroResult();
 		
 		Map<String, Object> p = (in != null && !in.isEmpty()) ? in.get(0) : new HashMap<>();
-		List<Map<String, Object>> proList = productService.selectProductListByAdmin(p); // 게시판 조회
+		List<Map<String, Object>> proList = productService.selectProductListByAdmin(p);
 		
 		rs.addDataSet("ds_out_proList", proList); 
 		return rs;
