@@ -33,5 +33,18 @@ public class OrderController {
 
 		return result;
 	}
+	
+	//결제내역 조회
+	@RequestMapping(value="selectPaymentListByAdmin.do")
+	public NexacroResult selectPaymentListByAdmin( 
+			@ParamDataSet(name="ds_search", required=false) Map<String, Object> dsSearch) {
+		NexacroResult result = new NexacroResult();
+		
+		List<Map<String, Object>> paymentList = orderService.selectPaymentListByAdmin(dsSearch);
+		
+		result.addDataSet("ds_pay", paymentList);
+
+		return result;
+	}
 
 }
