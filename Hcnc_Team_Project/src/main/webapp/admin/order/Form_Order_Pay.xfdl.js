@@ -18,7 +18,7 @@
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
-            obj = new Dataset("ds_order", this);
+            obj = new Dataset("ds_pay", this);
             obj._setContents("<ColumnInfo><Column id=\"ORDER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"ORDER_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"USER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"TOTAL_AMOUNT\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_AMOUNT\" type=\"STRING\" size=\"256\"/><Column id=\"FINAL_AMOUNT\" type=\"STRING\" size=\"256\"/><Column id=\"PAYMENT_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"SHIPMENT_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"PROMOTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"POINT\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
@@ -64,7 +64,7 @@
         };
         
         // User Script
-        this.registerScript("Form_Order_Main.xfdl", function() {
+        this.registerScript("Form_Order_Pay.xfdl", function() {
         //온로드시
         this.Form_Order_Main_onload = function(obj,e)
         {
@@ -103,7 +103,7 @@
         {
             this.addEventHandler("onload",this.Form_Order_Main_onload,this);
         };
-        this.loadIncludeScript("Form_Order_Main.xfdl");
+        this.loadIncludeScript("Form_Order_Pay.xfdl");
         this.loadPreloadList();
         
         // Remove Reference

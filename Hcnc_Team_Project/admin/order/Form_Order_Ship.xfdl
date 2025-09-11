@@ -42,7 +42,7 @@ this.fnCallback = function(svc, err, errMsg) {
       <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
     </Bind>
     <Objects>
-      <Dataset id="ds_order">
+      <Dataset id="ds_ship">
         <ColumnInfo>
           <Column id="ORDER_ID" type="STRING" size="256"/>
           <Column id="ORDER_NUMBER" type="STRING" size="256"/>

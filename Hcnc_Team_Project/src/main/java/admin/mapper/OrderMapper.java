@@ -9,7 +9,8 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("OrderMapper")
 public interface OrderMapper {
 
-	List<Map<String, Object>> selectOrderListByAdmin(Map<String, Object> dsSearch);
+	// 주문내역 상세조회
+	List<Map<String, Object>> selectOrderDetailListByAdmin(Map<String, Object> dsSearch); 
 
 	
 

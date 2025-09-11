@@ -2,49 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.mapper.OrderMapper">
 
-	<select id="selectOrderListByAdmin" parameterType="map" resultType="map">
+
+	
+	<select id="selectOrderDetailListByAdmin" parameterType="map" resultType="map">
     SELECT 
-           O.ORDER_ID
-         , O.ORDER_DT
-         , CASE 
-             WHEN M.MEMBER_ID IS NULL OR M.MEMBER_ID = '' 
-             THEN '비회원'
+           O.ORDER_ID              -- 오더아이디
+         , O.ORDER_NUMBER          -- 주문번호
+         , O.ORDER_DT              -- 주문일
+         , CASE					   -- 주문한 사람
+             WHEN M.MEMBER_ID
+             IS NULL THEN '비회원'
              ELSE M.MEMBER_ID
-           END AS MEMBER_ID
-         , CASE 
-             WHEN M.USER_NAME IS NULL OR M.USER_NAME = '' 
-             THEN '비회원'
-             ELSE M.USER_NAME
-           END AS USER_NAME
-         , I.PRODUCT_NAME
-         , I.QUANTITY
-         , I.PRICE
-         , O.FINAL_AMOUNT
-         , O.ORDER_STATUS
-         , P.PAYMENT_STATUS
-         , S.SHIPMENT_STATUS
+           END AS USER_ID
+         , O.TOTAL_AMOUNT          -- 총가격
+         , O.DISCOUNT_AMOUNT       -- 할인가격
+         , O.FINAL_AMOUNT          -- 최종가격
+         , O.ORDER_STATUS          -- 주문상태
+         , P.PAYMENT_STATUS        -- 결제상태(입금시)
+         , S.SHIPMENT_STATUS       -- 배송상태
+         , C.COUPON_TYPE           -- 어떤쿠폰인지
+         , PS.PROMOTION_NAME       -- 어떤프로모션인지
+         , PT.POINT                -- 사용 포인트
     FROM ORDERS O
     LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID
     LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID
-    LEFT JOIN ORDER_ITEMS I ON O.ORDER_ID = I.ORDER_ID
     LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER
+    LEFT JOIN PROMOTION_LOG PL ON O.ORDER_ID = PL.ORDER_ID
+    LEFT JOIN PROMOTIONS PS ON PL.PROMOTION_ID = PS.PROMOTION_ID
+    LEFT JOIN COUPONS C ON O.ORDER_ID = C.ORDER_ID
+    LEFT JOIN POINTS PT ON O.ORDER_ID = PT.ORDER_ID AND PT.CHANGE_TYPE = '사용'
     WHERE 1=1
-	    <if test="START_DATE != null and START_DATE != ''">
-	        AND O.ORDER_DT <![CDATA[ >= ]]> #{START_DATE}
-	    </if>
-	    <if test="END_DATE != null and END_DATE != ''">
-	        AND O.ORDER_DT <![CDATA[ <= ]]> #{END_DATE}
-	    </if>
-	    <if test="USER_NAME != null and USER_NAME != ''">
-	        AND O.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
-	    </if>
-	    <if test="ORDER_STATUS != null and ORDER_STATUS != ''">
-	        AND O.ORDER_STATUS = #{ORDER_STATUS}
-	    </if>
-	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
-	        AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
-	    </if>
+    <if test="START_DATE != null and START_DATE != ''">
+        AND O.ORDER_DT <![CDATA[ >= ]]> #{START_DATE}
+    </if>
+    <if test="END_DATE != null and END_DATE != ''">
+        AND O.ORDER_DT <![CDATA[ <= ]]> #{END_DATE}
+    </if>
+    <if test="USER_ID != null and USER_ID != ''">
+        AND (M.MEMBER_ID LIKE CONCAT('%', #{USER_ID}, '%')
+             OR (#{USER_ID} = '비회원' AND M.MEMBER_ID IS NULL))
+    </if>
+    <if test="ORDER_STATUS != null and ORDER_STATUS != ''">
+        AND O.ORDER_STATUS = #{ORDER_STATUS}
+    </if>
+    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
+        AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
+    </if>
 </select>
+
+
 
 
 </mapper>
