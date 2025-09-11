@@ -72,6 +72,7 @@
 
             obj = new Static("Static00","35","90","120","60",null,null,null,null,null,null,this);
             obj.set_taborder("18");
+            obj.set_text("전체 10건");
             obj.set_text("전체 10건 10000test");
             obj.set_font("bold 12px/normal \"Gulim\"");
             this.addChild(obj.name, obj);
