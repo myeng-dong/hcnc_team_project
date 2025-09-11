@@ -140,6 +140,12 @@
         this.Form_Login_onload = function(obj,e)
         {
         	// controller에 httpsession
+        	var args = this.parent.arguments;
+        	if(args.isLogout){
+        		var glbAd = nexacro.getApplication();
+        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": false};
+        		return;
+        	}
         	this.checkLogin();
         };
 
@@ -192,7 +198,7 @@
         	}
 
         	var strSvcID = "adminLogin"
-        	var setURL = "svc::/adminLoginByAdmin.do";
+        	var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_admin=ds_admin";
         	var strOutDatasets = "ds_loginChk=ds_loginChk";
         	var strArg = "";
@@ -206,7 +212,7 @@
 
         this.checkLogin = function(){
         var strSvcID = "adminCheckLogin"
-        	var setURL = "svc::/adminLoginCheckByAdmin.do";
+        	var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();;
         	var strInDatasets = "";
         	var strOutDatasets = "ds_isLogin=ds_isLogin";
         	var strArg = "";
