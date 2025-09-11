@@ -99,13 +99,25 @@
             obj.set_text("아이디 기억");
             obj.set_font("12px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
+
+            obj = new Static("findPw","700","495","70","22",null,null,null,null,null,null,this);
+            obj.set_taborder("11");
+            obj.set_text("비밀번호 찾기");
+            obj.set_font("12px/normal \"Noto Sans KR Medium\"");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
+            obj = new BindItem("item0","admin_id","value","ds_admin","MEMBER_ID");
+            this.addChild(obj.name, obj);
+            obj.bind();
 
+            obj = new BindItem("item1","admin_pw","value","ds_admin","PASSWORD");
+            this.addChild(obj.name, obj);
+            obj.bind();
             
             // TriggerItem Information
 
@@ -156,25 +168,25 @@
         	switch(svcID){
         	case "adminLogin" :
 
-        		//전역 가져오는 함수
-        		var glbAd = nexacro.getApplication();
+        		var objApp = nexacro.getApplication();
 
         		if(this.ds_loginChk.getRowCount() == 0){
-        			alert("아이디 또는 비밀번호를 확인하세요")
+        			alert("아이디 또는 비밀번호를 확인하세요");
         			return;
         		}
 
-        		//전역데이터셋 안에 => gds_adminInfo의 값을 셋팅
-        		glbAd.gds_adminInfo.setColumn(0,"MEMBER_ID",this.ds_loginChk.getColumn(0,"MEMBER_ID"));
-
-        		//디버깅용
-        		console.log(this.ds_loginChk.saveXML());
-        		console.log(glbAd.gds_adminInfo.saveXML());
+        		// 전역데이터셋 저장
+        		objApp.gds_adminInfo.copyData(this.ds_loginChk, true);
 
 
-        		//로그인 성공하면 메인 대시보드으로
-        		this.getOwnerFrame().set_formurl("dashboard::Form_MainDashboard.xfdl")
+        		// 메뉴/타이틀 영역 복구
+        		nexacro.VFrameSet00.set_separatesize("50,*");   // TopFrame 높이 복원
+        		nexacro.HFrameSet00.set_separatesize("200,*");  // LeftFrame 너비 복원
+        		nexacro.InnerVFrameSet.set_separatesize("110,*"); // TitleFrame 높이 복원
 
+
+        		// 대시보드로 이동
+        		nexacro.WorkFrame.set_formurl("dashboard::Form_MainDashboard.xfdl");
         		break;
         	}
         };
