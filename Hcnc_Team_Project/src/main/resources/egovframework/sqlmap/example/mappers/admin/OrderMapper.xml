@@ -2,33 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.mapper.OrderMapper">
 
-	<select id="selectOrderListByAdmin"  parameterType="map" resultType="map">
-		SELECT O.ORDER_ID
-             , O.ORDER_DATE
-             , O.USER_ID
-             , O.TOTAL_PRICE
-             , O.ORDER_STATUS
-             , P.PAYMENT_STATUS
-             , S.SHIPMENT_STATUS
-          FROM ORDERS O
-          LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID
-          LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID
-         WHERE 1=1
-      <if test="START_DATE != null and START_DATE != ''">
-           AND O.ORDER_DATE &gt;= #{START_DATE}
-      </if>
-      <if test="END_DATE != null and END_DATE != ''">
-           AND O.ORDER_DATE &lt;= #{END_DATE}
-      </if>
-      <if test="USER_ID != null and USER_ID != ''">
-           AND O.USER_ID LIKE CONCAT('%', #{USER_ID}, '%')
-      </if>
-      <if test="ORDER_STATUS != null and ORDER_STATUS != ''">
-           AND O.ORDER_STATUS = #{ORDER_STATUS}
-      </if>
-      <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
-           AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
-      </if>
-	</select>
+	<select id="selectOrderListByAdmin" parameterType="map" resultType="map">
+    SELECT 
+           O.ORDER_ID
+         , O.ORDER_DT
+         , CASE 
+             WHEN M.MEMBER_ID IS NULL OR M.MEMBER_ID = '' 
+             THEN '비회원'
+             ELSE M.MEMBER_ID
+           END AS MEMBER_ID
+         , CASE 
+             WHEN M.USER_NAME IS NULL OR M.USER_NAME = '' 
+             THEN '비회원'
+             ELSE M.USER_NAME
+           END AS USER_NAME
+         , I.PRODUCT_NAME
+         , I.QUANTITY
+         , I.PRICE
+         , O.FINAL_AMOUNT
+         , O.ORDER_STATUS
+         , P.PAYMENT_STATUS
+         , S.SHIPMENT_STATUS
+    FROM ORDERS O
+    LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID
+    LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID
+    LEFT JOIN ORDER_ITEMS I ON O.ORDER_ID = I.ORDER_ID
+    LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER
+    WHERE 1=1
+	    <if test="START_DATE != null and START_DATE != ''">
+	        AND O.ORDER_DT <![CDATA[ >= ]]> #{START_DATE}
+	    </if>
+	    <if test="END_DATE != null and END_DATE != ''">
+	        AND O.ORDER_DT <![CDATA[ <= ]]> #{END_DATE}
+	    </if>
+	    <if test="USER_NAME != null and USER_NAME != ''">
+	        AND O.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
+	    </if>
+	    <if test="ORDER_STATUS != null and ORDER_STATUS != ''">
+	        AND O.ORDER_STATUS = #{ORDER_STATUS}
+	    </if>
+	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
+	        AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
+	    </if>
+</select>
+
 
 </mapper>

@@ -24,7 +24,7 @@
 
 
             obj = new Dataset("ds_search", this);
-            obj._setContents("<ColumnInfo><Column id=\"START_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"END_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"USER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"ORDER_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"PAYMENT_STATUS\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"START_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"END_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"ORDER_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"PAYMENT_STATUS\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -67,7 +67,32 @@
         //온로드시
         this.Form_Order_Main_onload = function(obj,e)
         {
+        	this.fnSearchOrders();
+        };
 
+
+        // 주문 내역 조회
+        this.fnSearchOrders = function() {
+            var strSvcID       = "selectOrders";
+            var strURL         = "svc::selectOrderListByAdmin.do";  // Spring Controller 매핑
+            var strInDatasets  = "";
+            var strOutDatasets = "ds_orders=ds_orders";
+            var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
+            var strCallback    = "fnCallback";
+
+            this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+        };
+
+        // 공통 콜백
+        this.fnCallback = function(svc, err, errMsg) {
+            if (err < 0) {
+                this.alert("에러 발생: " + errMsg);
+                return;
+            }
+            switch(svc){
+        		case selectOrders  :
+
+        	}
         };
 
         });
