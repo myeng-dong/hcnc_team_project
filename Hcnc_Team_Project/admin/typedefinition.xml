@@ -51,8 +51,8 @@
     <Service prefixid="product" type="form" url="./product/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="stat" type="form" url="./stat/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="setting" type="form" url="./setting/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
-    <Service prefixid="dashboard" type="form" url="./dashboard/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="banner" type="form" url="./banner/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="dash" type="form" url="./dash/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
   </Services>
   <Protocols/>
   <DeviceAdaptors/>
