@@ -1,0 +1,25 @@
+package admin.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import admin.mapper.OrderMapper;
+
+@Service
+public class OrderService {
+	
+	@Autowired
+	private OrderMapper orderMapper;
+	
+	//주문 상세조회
+	public List<Map<String, Object>> selectOrderDetailListByAdmin(Map<String, Object> dsSearch) {
+		// TODO Auto-generated method stub
+		return orderMapper.selectOrderDetailListByAdmin(dsSearch);
+	}
+	
+
+	
+}
