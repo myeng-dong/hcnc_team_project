@@ -1,23 +1,137 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Board_Notice" width="1280" height="720" titletext="New Form" color="blue">
+  <Form id="Form_Board_Notice" width="1280" height="720" titletext="New Form" color="blue" onload="Form_Board_Notice_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1280">
-        <Static id="Static00" taborder="0" text="공지사항" left="83" top="40" width="135" height="50" font="25px bold" color="blue" onclick="Static00_onclick"/>
-        <Static id="Static01" taborder="1" text="" left="86" top="98" width="656" height="135" border="1px solid blue"/>
-        <Radio id="Radio00" taborder="2" left="141" top="125" width="280" height="50" onitemchanged="Radio00_onitemchanged"/>
+        <Static id="Static01" taborder="0" text="" left="86" top="98" width="656" height="135" border="1px solid blue" onclick="Static01_onclick"/>
+        <Radio id="Radio00" taborder="1" left="141" top="125" width="280" height="50" onitemchanged="Radio00_onitemchanged" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="datacolumn">전체</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">공지사항</Col>
+              </Row>
+              <Row>
+                <Col id="datacolumn">일반</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Radio>
+        <Grid id="Grid00" taborder="2" left="82" top="263" width="679" height="384" binddataset="ds_list">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="128"/>
+                <Column size="128"/>
+                <Column size="128"/>
+                <Column size="128"/>
+                <Column size="128"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="NO"/>
+                <Cell col="1" text="분류"/>
+                <Cell col="2" text="제목"/>
+                <Cell col="3" text="작성자"/>
+                <Cell col="4" text="작성일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SORT_NUMBER"/>
+                <Cell col="1" text="bind:BOARD_NAME"/>
+                <Cell col="2" text="bind:POST_TITLE"/>
+                <Cell col="3" text="bind:MEMBER_ID"/>
+                <Cell col="4" text="bind:INPUT_DT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[
-this.Static00_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
-{
+    <Script type="xscript5.1"><![CDATA[this.fn_selectBoardCodeByAdmin = function(){
+		var strSvcID = "selectBoardCodeByAdmin";        //트랜잭션 아이디
+		var strURL = "svc::/selectBoardCodeByAdmin.do";  // url controller에서 받을 주소	
+		var strInDatasets = "";//프론트에서 서버로 보내는데이터
+		var strOutDatasets = "ds_radio=ds_radio";//서버에서 프론트로 보내는 데이터
+		var strArg = "";
+		var callBack = "fn_callBack";
+		var inAsync = true;
+		
+		this.transaction(strSvcID,strURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync)
+		
+	}
 	
+	this.fn_selectBoardByAdmin = function(){
+		var strSvcID = "selectBoardByAdmin";        //트랜잭션 아이디
+		var strURL = "svc::/selectBoardByAdmin.do";  // url controller에서 받을 주소	
+		var strInDatasets = "";//프론트에서 서버로 보내는데이터
+		var strOutDatasets = "ds_list=ds_list";//서버에서 프론트로 보내는 데이터
+		var strArg = "";
+		var callBack = "fn_callBack";
+		var inAsync = true;
+		
+		this.transaction(strSvcID,strURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync)
+		
+	}
+	
+	
+	this.fn_callBack = function(svcID,errorCode, errorMsg){
+	if (errorCode == -1)
+	{
+		this.alert(errorMsg)
+	}
+	switch(svcID){
+	case "selectBoardCodeByAdmin":	
+	
+	break;
+	
+	case "selectBoardByAdmin":	
+	trace(this.ds_list.saveXML());
+	break;
+		}
+	}
+this.Form_Board_Notice_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_selectBoardByAdmin();	
 };
 
-this.Radio00_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+this.Static01_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
 {
 	
 };
 ]]></Script>
+    <Objects>
+      <Dataset id="ds_radio">
+        <ColumnInfo>
+          <Column id="BOARD_CODE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_radio_option">
+        <ColumnInfo>
+          <Column id="BOARD_CODE" type="STRING" size="256"/>
+          <Column id="BOARD_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="SORT_NUMBER" type="STRING" size="256"/>
+          <Column id="BOARD_NAME" type="STRING" size="256"/>
+          <Column id="POST_TITLE" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="Radio00" propid="value" datasetid="ds_radio" columnid="BOARD_CODE"/>
+    </Bind>
   </Form>
 </FDL>
