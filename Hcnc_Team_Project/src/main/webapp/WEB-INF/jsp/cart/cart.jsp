@@ -6,9 +6,10 @@
 <meta charset="UTF-8">
 <title>장바구니</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javaScript" language="javascript" defer="defer">
+    <script type="text/javaScript" language="javascript" defer="defer"></script>
     
     <script>
+    
         $(function(){
         	selectCartListByUser();
         })
@@ -27,10 +28,10 @@
         		, data : param
         		, dataType : "json"
         		, success : function(res){
-					
+					console.log();
         		}
         		, error : function(err){
-        			
+        			alert("통신에 실패했습니다.");
         		}
         	});
         }

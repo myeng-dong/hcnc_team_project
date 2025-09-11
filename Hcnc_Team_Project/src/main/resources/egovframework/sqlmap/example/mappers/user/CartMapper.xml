@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.CartMapper">
-	<!-- 장바구니 조회 -->
+	<!-- 장바구니 리스트 조회 -->
 	<select id="selectCartListByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT 
+		SELECT
+			  P.PRODUCT_ID
+			, P.PRODUCT_NAME
+			, CI.OPTION_NAME
+			, CI.OPTION_VALUE
+			, CI.PRICE
+			, CI.QUANTITY
+			, CI.SUB_TOTAL
+		FROM CARTS C
+		INNER JOIN CART_ITEMS CI
+			ON C.CART_ID = CI.CART_ID
+		INNER JOIN PRODUCTS P
+			ON CI.PRODUCT_ID = P.PRODUCT_ID
+		WHERE C.MEMBER_ID = #{memberId}
 	</select>
 </mapper>

@@ -1,6 +1,7 @@
 package user.web;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,9 @@ public class CartController {
 		
 		System.out.println(param);
 		
-		cartService.selectCartListByUser(param);
+		List<HashMap<String, Object>> cartList = cartService.selectCartListByUser(param);
+		
+		mav.addObject("cartList", cartList);
 		
 		return mav;
 	}
