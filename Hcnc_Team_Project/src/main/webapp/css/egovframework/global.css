@@ -1,0 +1,9 @@
+html {
+  overflow-y: scroll;
+}
+.container {
+  display: flex;
+  /* margin-left: calc(50vw - 314px); */
+  justify-content: center;
+  /* height: 100vh; */
+}

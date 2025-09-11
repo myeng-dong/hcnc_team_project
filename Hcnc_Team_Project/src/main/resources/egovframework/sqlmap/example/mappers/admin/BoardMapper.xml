@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.mapper.BoardMapper">
+	<select id="selectBoardCodeByAdmin" resultType="java.util.Map">
+	SELECT 
+		 BOARD_CODE
+		,BOARD_NAME
+	FROM BOARDS;
+	</select>
+	
+	<!-- 공지사항만 조회 -->
+	<select id="selectBoardByAdmin" resultType="java.util.Map">
+	SELECT 
+		  P.SORT_NUMBER
+		 ,B.BOARD_NAME
+		 ,P.POST_TITLE
+		 ,P.MEMBER_ID
+		 ,P.INPUT_DT
+	 FROM
+	  	  POSTS P
+  	  INNER JOIN
+  	  	BOARDS B ON P.BOARD_ID = B.BOARD_ID
+  	  WHERE 
+		B.BOARD_ID = 1;	
+	</select>
+	
+</mapper>
