@@ -84,11 +84,10 @@
             frame5.set_formurl("FrameBase::Form_AdminTitle.xfdl");
 
 
-            var frame6 = new ChildFrame("WorkFrame",null,null,null,null,null,null,"FrameBase::Form_Login.xfdl",frame4);
+            var frame6 = new ChildFrame("WorkFrame",null,null,null,null,null,null,"",frame4);
             frame6.set_showtitlebar("false");
             frame6.set_showstatusbar("false");
             frame4.addChild(frame6.name, frame6);
-            frame6.set_formurl("FrameBase::Form_Login.xfdl");
         };
         
         this.on_initEvent = function()
@@ -120,6 +119,15 @@
 
             // InnerVFrameSet 안의 WorkFrame (업무화면 영역)
             nexacro.WorkFrame = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
+
+            // 로그인 전: Top/Left/Title 프레임 숨김 (영역 제거) - feat. 09.11 'GJ'
+            nexacro.VFrameSet00.set_separatesize("0,*");   // TopFrame 높이 0
+            nexacro.HFrameSet00.set_separatesize("0,*");   // LeftFrame 너비 0
+            nexacro.InnerVFrameSet = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01;
+            nexacro.InnerVFrameSet.set_separatesize("0,*"); // TitleFrame 높이 0
+
+            //최초 화면 = 로그인 - feat. 09.11 'GJ'
+            nexacro.WorkFrame.set_formurl("member::Form_Login.xfdl");
         };
 
         });

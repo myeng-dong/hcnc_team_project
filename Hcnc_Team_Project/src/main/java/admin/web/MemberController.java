@@ -46,4 +46,6 @@ public class MemberController {
 			}
 			return result;
 		};
+		
+		//관리자 로그아웃 
 }

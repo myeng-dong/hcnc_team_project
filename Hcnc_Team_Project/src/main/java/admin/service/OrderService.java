@@ -13,6 +13,10 @@ public class OrderService {
 	
 	@Autowired
 	private OrderMapper orderMapper;
+
+	public List<Map<String, Object>> selectOrderListByAdmin(Map<String, Object> dsSearch) {
+		return orderMapper.selectOrderListByAdmin(dsSearch);
+	}
 	
 
 	
