@@ -11,6 +11,7 @@
         {
             this.set_name("Form_Login");
             this.set_titletext("New Form");
+            this.set_background("#CACDDC");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -27,44 +28,76 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("Static00","545","226","56","24",null,null,null,null,null,null,this);
+            obj = new Static("loginForm","365","33","553","620",null,null,null,null,null,null,this);
+            obj.set_taborder("10");
+            obj.set_borderRadius("15px");
+            obj.set_background("white");
+            obj.set_boxShadow("6px 6px 12px rgba(0,0,0,0.25)");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00","484","311","48","24",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("아이디*");
             obj.set_textAlign("center");
-            obj.set_font("bold 12px/normal \"HY중고딕\"");
+            obj.set_font("13px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("admin_id","545","256","310","44",null,null,null,null,null,null,this);
+            obj = new Edit("admin_id","486","343","310","44",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_borderRadius("15px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00","545","310","56","24",null,null,null,null,null,null,this);
+            obj = new Static("Static00_00","486","405","56","24",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("비밀번호*");
             obj.set_textAlign("center");
-            obj.set_font("bold 12px/normal \"HY엽서M\"");
+            obj.set_font("13px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("admin_pw","545","340","310","44",null,null,null,null,null,null,this);
+            obj = new Edit("admin_pw","486","437","310","44",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_borderRadius("15px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static01","630","144","140","29",null,null,null,null,null,null,this);
+            obj = new Static("Static01","490","150","291","104",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("관리자 로그인");
             obj.set_textAlign("center");
-            obj.set_font("bold 20px/normal \"HY중고딕\"");
+            obj.set_font("normal 50px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("admin_login","564","426","272","49",null,null,null,null,null,null,this);
+            obj = new Button("admin_login","504","546","272","49",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("로그인");
             obj.set_borderRadius("15px");
             obj.set_background("black");
             obj.set_color("white");
-            obj.set_font("12px/normal \"HY중고딕\"");
+            obj.set_font("15px/normal \"Noto Sans KR Medium\"");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static02","1000","30","230","38",null,null,null,null,null,null,this);
+            obj.set_taborder("6");
+            obj.set_text("아이디 및 비밀번호를 입력하세요");
+            obj.set_font("normal 15px/normal");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static01_00","500","240","220","40",null,null,null,null,null,null,this);
+            obj.set_taborder("7");
+            obj.set_text("아이디 및 비밀번호를 입력하세요");
+            obj.set_textAlign("center");
+            obj.set_font("16px/normal \"Noto Sans KR Medium\"");
+            this.addChild(obj.name, obj);
+
+            obj = new ImageViewer("h1_logo","495","110","170","52",null,null,null,null,null,null,this);
+            obj.set_taborder("8");
+            obj.set_text("logo");
+            obj.set_image("url(\'imagerc::h1_logo.png\')");
+            this.addChild(obj.name, obj);
+
+            obj = new CheckBox("CheckBox00","486","495","88","22",null,null,null,null,null,null,this);
+            obj.set_taborder("9");
+            obj.set_text("아이디 기억");
+            obj.set_font("12px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -85,18 +118,80 @@
         
         // User Script
         this.registerScript("Form_Login.xfdl", function() {
-
+        //로그인 버튼
         this.admin_login_onclick = function(obj,e)
         {
+        	var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
+        	var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
+
+        	if(adminId == undefined || adminId ==''){
+        		this.alert('아이디를 입력해 주세요')
+        		return;
+        	}
+
+        	if(adminPw == undefined || adminPw ==''){
+        		this.alert('비밀번호를 입력해 주새요')
+        		return;
+        	}
+
+        	var strSvcID = "adminLogin"
+        	var setURL = "svc::/adminLoginByAdmin.do";
+        	var strInDatasets = "ds_admin=ds_admin";
+        	var strOutDatasets = "ds_loginChk=ds_loginChk";
+        	var strArg = "";
+        	var callBack = "fn_callBack";
+        	var inAsync = true;
+
+        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
 
         };
+
+        //콜백
+        this.fn_callBack = function (svcID, errorCode, errorMSG)
+        {
+            if(errorCode == -1){
+        		this.alert(errorMSG);
+        	}
+
+        	switch(svcID){
+        	case "adminLogin" :
+
+        		//전역 가져오는 함수
+        		var glbAd = nexacro.getApplication();
+
+        		if(this.ds_loginChk.getRowCount() == 0){
+        			alert("아이디 또는 비밀번호를 확인하세요")
+        			return;
+        		}
+
+        		//전역데이터셋 안에 => gds_adminInfo의 값을 셋팅
+        		glbAd.gds_adminInfo.setColumn(0,"MEMBER_ID",this.ds_loginChk.getColumn(0,"MEMBER_ID"));
+
+        		//디버깅용 ;)
+        		console.log(this.ds_loginChk.saveXML());
+        		console.log(glbAd.gds_adminInfo.saveXML());
+
+
+        		//로그인 성공하면 메인 대시보드으로
+        		this.getOwnerFrame().set_formurl("dashboard::Form_MainDashboard.xfdl")
+
+        		break;
+        	}
+        };
+
+
+
 
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
+            this.loginForm.addEventHandler("onclick",this.Static03_onclick,this);
+            this.Static00_00.addEventHandler("onclick",this.Static00_00_onclick,this);
             this.admin_login.addEventHandler("onclick",this.admin_login_onclick,this);
+            this.Static02.addEventHandler("onclick",this.Static02_onclick,this);
+            this.h1_logo.addEventHandler("onclick",this.h1_logo_onclick,this);
         };
         this.loadIncludeScript("Form_Login.xfdl");
         this.loadPreloadList();

@@ -22,13 +22,15 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Grid("Grid00","-2","-10","204","576",null,null,null,null,null,null,this);
+            obj = new Grid("Grid00","0","0",null,null,"0","0",null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_binddataset("ds_left");
             obj.set_treeusebutton("no");
             obj.set_treeusecheckbox("false");
             obj.set_treeuseline("false");
             obj.set_treeuseimage("false");
+            obj.set_autofittype("col");
+            obj.set_border("0px");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"206\"/></Columns><Rows><Row size=\"10\" band=\"head\"/><Row size=\"41\"/></Rows><Band id=\"head\"><Cell border=\"0px\" background=\"white\"/></Band><Band id=\"body\"><Cell text=\"bind:MENU_NM\" displaytype=\"treeitemcontrol\" edittype=\"tree\" treelevel=\"bind:MENU_LEVEL\" cssclass=\"bind:CSSCLASS\" border=\"0px\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
             // Layout Functions
@@ -119,6 +121,7 @@
 
 
 
+
         // 메뉴 실행
         this.fnOpenMenu = function(sMenuId)
         {
@@ -127,13 +130,23 @@
             if (nFRow < 0) return;
 
             var sMenuPath = this.ds_left.getColumn(nFRow, "MENU_PATH");
+            var sMenuNm   = this.ds_left.getColumn(nFRow, "MENU_NM"); // ✅ 메뉴명 가져오기
+
             if (!sMenuPath || sMenuPath == "[Undefined]") {
                 trace("메뉴 경로가 정의되지 않음: " + sMenuId);
                 return;
             }
 
-            objApp.mainframe.VFrameSet00.HFrameSet00.WorkFrame.set_formurl(sMenuPath);
+            // 바뀐 구조 반영 (VFrameSet01 안에 TitleFrame + WorkFrame)
+            objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl(sMenuPath);
+
+            // TitleFrame의 fn_setTitle 호출 (메뉴명 전달)
+            if (objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame.form.fn_setTitle) {
+                objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame.form.fn_setTitle(sMenuNm);
+            }
         };
+
+
 
         });
         

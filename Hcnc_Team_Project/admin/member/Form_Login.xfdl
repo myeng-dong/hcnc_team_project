@@ -1,14 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Login" width="1280" height="720" titletext="New Form">
+  <Form id="Form_Login" width="1280" height="720" titletext="New Form" background="#CACDDC">
     <Layouts>
       <Layout height="720" width="1280">
-        <Static id="Static00" taborder="0" text="아이디*" left="545" top="226" width="56" height="24" textAlign="center" font="bold 12px/normal &quot;HY중고딕&quot;"/>
-        <Edit id="admin_id" taborder="1" left="545" top="256" width="310" height="44" borderRadius="15px"/>
-        <Static id="Static00_00" taborder="2" text="비밀번호*" left="545" top="310" width="56" height="24" textAlign="center" font="bold 12px/normal &quot;HY엽서M&quot;"/>
-        <Edit id="admin_pw" taborder="3" left="545" top="340" width="310" height="44" borderRadius="15px"/>
-        <Static id="Static01" taborder="4" text="관리자 로그인" left="630" top="144" width="140" height="29" textAlign="center" font="bold 20px/normal &quot;HY중고딕&quot;"/>
-        <Button id="admin_login" taborder="5" text="로그인" left="564" top="426" width="272" height="49" borderRadius="15px" background="black" color="white" onclick="admin_login_onclick" font="12px/normal &quot;HY중고딕&quot;"/>
+        <Static id="loginForm" taborder="10" top="33" width="553" height="620" onclick="Static03_onclick" left="365" borderRadius="15px" background="white" boxShadow="6px 6px 12px rgba(0,0,0,0.25)"/>
+        <Static id="Static00" taborder="0" text="아이디*" left="484" top="311" width="48" height="24" textAlign="center" font="13px/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Edit id="admin_id" taborder="1" left="486" top="343" width="310" height="44" borderRadius="15px"/>
+        <Static id="Static00_00" taborder="2" text="비밀번호*" left="486" top="405" width="56" height="24" textAlign="center" font="13px/normal &quot;Noto Sans KR Medium&quot;" onclick="Static00_00_onclick"/>
+        <Edit id="admin_pw" taborder="3" left="486" top="437" width="310" height="44" borderRadius="15px"/>
+        <Static id="Static01" taborder="4" text="관리자 로그인" left="490" top="150" width="291" height="104" textAlign="center" font="normal 50px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Button id="admin_login" taborder="5" text="로그인" left="504" top="546" width="272" height="49" borderRadius="15px" background="black" color="white" onclick="admin_login_onclick" font="15px/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Static id="Static02" taborder="6" text="아이디 및 비밀번호를 입력하세요" left="1000" top="30" width="230" height="38" font="normal 15px/normal" onclick="Static02_onclick"/>
+        <Static id="Static01_00" taborder="7" text="아이디 및 비밀번호를 입력하세요" left="500" top="240" width="220" height="40" textAlign="center" font="16px/normal &quot;Noto Sans KR Medium&quot;"/>
+        <ImageViewer id="h1_logo" taborder="8" text="logo" left="495" top="110" width="170" height="52" image="url('imagerc::h1_logo.png')" onclick="h1_logo_onclick"/>
+        <CheckBox id="CheckBox00" taborder="9" left="486" top="495" width="88" height="22" text="아이디 기억" font="12px/normal &quot;Noto Sans KR Medium&quot;"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -23,11 +28,69 @@
       </Dataset>
       <Dataset id="ds_loginChk"/>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
+    <Script type="xscript5.1"><![CDATA[//로그인 버튼 
 this.admin_login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
+	var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
+	var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
+	
+	if(adminId == undefined || adminId ==''){
+		this.alert('아이디를 입력해 주세요')
+		return;
+	}
+	
+	if(adminPw == undefined || adminPw ==''){
+		this.alert('비밀번호를 입력해 주새요')
+		return;
+	}
+	
+	var strSvcID = "adminLogin"
+	var setURL = "svc::/adminLoginByAdmin.do";
+	var strInDatasets = "ds_admin=ds_admin";
+	var strOutDatasets = "ds_loginChk=ds_loginChk";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
 	
 };
+
+//콜백
+this.fn_callBack = function (svcID, errorCode, errorMSG)
+{
+    if(errorCode == -1){
+		this.alert(errorMSG);
+	}
+	
+	switch(svcID){
+	case "adminLogin" :
+		
+		//전역 가져오는 함수
+		var glbAd = nexacro.getApplication();
+		
+		if(this.ds_loginChk.getRowCount() == 0){
+			alert("아이디 또는 비밀번호를 확인하세요")
+			return;
+		}	
+		
+		//전역데이터셋 안에 => gds_adminInfo의 값을 셋팅
+		glbAd.gds_adminInfo.setColumn(0,"MEMBER_ID",this.ds_loginChk.getColumn(0,"MEMBER_ID"));
+		
+		//디버깅용 ;)
+		console.log(this.ds_loginChk.saveXML());
+		console.log(glbAd.gds_adminInfo.saveXML());
+		
+		
+		//로그인 성공하면 메인 대시보드으로
+		this.getOwnerFrame().set_formurl("dashboard::Form_MainDashboard.xfdl")
+		
+		break;
+	}
+};
+
+
+
 ]]></Script>
   </Form>
 </FDL>

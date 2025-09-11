@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_AdminTitle" width="1280" height="110" titletext="New Form" onload="Form_AdminTitle_onload">
+  <Form id="Form_AdminTitle" width="1280" height="110" titletext="New Form" onload="Form_AdminTitle_onload" background="#F4F7FE">
     <Layouts>
       <Layout height="110" width="1280">
         <Static id="sta_h3" taborder="0" text="h3 title area" left="40" top="40" width="940" height="40" onclick="static_board_onclick" font="normal 700 20pt/normal &quot;normal/normal&quot;,&quot;LG Smart UI Bold&quot;,&quot;Pretendard Black&quot;" color="black"/>
@@ -10,50 +10,12 @@
     <Bind>
       <BindItem id="item0" compid="sta_h3" propid="text" datasetid="gds_menu" columnid="MENU_NM"/>
     </Bind>
-    <Script type="xscript5.1"><![CDATA[this.Form_AdminTitle_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[// 메뉴명을 받아서 타이틀 Static에 반영
+this.fn_setTitle = function(sMenuNm)
 {
-	this.fn_setLocationBreadcrumb();
-    this.Form_AdminTitle._url = obj.form._url;
-    this.Form_AdminTitle.fn_setLocationBreadcrumb();
-	trace("타이틀불러오는 함수 실행여부체크용 >>>");
-};
-
-this.fn_setLocationBreadcrumb = function()
-{
-    var sUrl = this._url;  // 현재 페이지 URL
-    var ds = application.gds_Menu;
-
-    var nRow = ds.findRow("MENU_PATH", sUrl);
-    if (nRow < 0) {
-        this.sta_location.set_text("⌂");
-        this.sta_h3.set_text("");
-        return;
-    }
-
-    var breadcrumb = [];
-    var currMenuId = ds.getColumn(nRow, "MENU_ID");
-
-    while (currMenuId.length >= 2)
-    {
-        var idx = ds.findRow("MENU_ID", currMenuId);
-        if (idx < 0) break;
-
-        var menuNm = ds.getColumn(idx, "MENU_NM");
-        breadcrumb.unshift(menuNm);
-
-        currMenuId = currMenuId.substr(0, currMenuId.length - 2);
-    }
-
-    var sDisplay = "⌂";
-    if (breadcrumb.length >= 1) {
-        sDisplay += " ▸ " + breadcrumb.join(" ▸ ");
-    }
-
-    // 최종 메뉴명은 breadcrumb 마지막 값
-    var lastMenuName = breadcrumb.length > 0 ? breadcrumb[breadcrumb.length - 1] : "";
-
-    this.sta_location.set_text(sDisplay);
-    this.sta_h3.set_text(lastMenuName);
+    if (!sMenuNm) sMenuNm = "";
+    this.sta_h3.set_text(sMenuNm);   // 상단 타이틀
+    this.sta_location.set_text("⌂ ▸ " + sMenuNm); // 간단한 breadcrumb
 };
 ]]></Script>
   </Form>
