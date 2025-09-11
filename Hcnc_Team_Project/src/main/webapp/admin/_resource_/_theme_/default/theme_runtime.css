@@ -248,7 +248,7 @@
 }
 .GridCellControl .celltreeitem .treeitemtext
 {
-	font : normal 10pt/normal "Noto Sans KR Medium";
+	font : 12px "Gulim";
 	color : #666666;
 }
 .GridCellControl .celltreeline
