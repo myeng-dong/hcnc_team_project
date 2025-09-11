@@ -4,7 +4,46 @@
 
 
 <!-- 	상품목록리스트조회  -->
-	<select id="" resultType="java.util.Map">
-	
+	<select id="selectProductListByAdmin"  parameterType="java.util.Map"  resultType="java.util.Map">
+		SELECT
+		p.PRODUCT_CODE,
+		p.PRODUCT_NAME,
+		p.PRODUCT_CONTENT,
+		p.COST_PRICE,
+		p.PRODUCT_PRICE,
+		o.ADDITIONAL_PRICE,
+		mc.MAIN_CATE_NM,
+		sc.SUB_CATE_NM,
+		o.OPTION_NAME,
+		p.IS_VISIBLE,
+		i.QUANTITY,
+		CASE
+			WHEN i.QUANTITY = 0 THEN 'OUT'
+			ELSE ''
+		END AS SOLD_OUT,
+		p.INPUT_DT,
+		p.UPDATE_DT
+	FROM
+		hcnc_Team_06.PRODUCTS p
+	JOIN hcnc_Team_06.SUB_CATEGORIES sc 
+	    ON
+		p.SUB_CATE_ID = sc.SUB_CATE_ID
+	JOIN hcnc_Team_06.MAIN_CATEGORIES mc 
+	    ON
+		sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+	LEFT JOIN hcnc_Team_06.`OPTIONS` o  
+	    ON
+		p.PRODUCT_ID = o.PRODUCT_ID
+	LEFT JOIN hcnc_Team_06.INVENTORIES i 
+		ON
+		p.PRODUCT_ID = i.PRODUCT_ID
+		AND (o.OPTION_ID IS NULL
+			OR i.OPTION_ID = o.OPTION_ID)
 	</select>
+	
+	
+	
+	
+	
+	
 </mapper>
