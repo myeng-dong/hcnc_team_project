@@ -3,21 +3,25 @@
   <Application id="Application_Desktop" screenid="Desktop_screen" onload="Application_onload">
     <Layout>
       <MainFrame id="mainframe" showtitlebar="true" showstatusbar="true" left="0" top="0" width="1280" height="720" titletext="TopLeftFrame">
+        <!-- VFrameSet : TopFrame + HFrameSet00 -->
         <VFrameSet id="VFrameSet00" separatesize="50,*">
+          <!-- TopFrame=50px 고정 -->
           <Frames>
-            <!-- 상단 공통 TopFrame -->
-            <ChildFrame id="TopFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Top.xfdl"/>
-            <!-- 좌측 메뉴 + (타이틀 + 작업 영역) -->
+            <!-- TopFrame -->
+            <ChildFrame id="TopFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Top.xfdl" height="50"/>
+            <!-- HFrameSet00 : LeftFrame + VFrameSet01 -->
             <HFrameSet id="HFrameSet00" separatesize="200,*">
+              <!-- LeftFrame=200px -->
               <Frames>
-                <!-- 좌측 메뉴 -->
-                <ChildFrame id="LeftFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Left.xfdl"/>
-                <!-- 우측: 타이틀 + 업무 화면 -->
-                <VFrameSet id="VFrameSet01" separatesize="110,*">
+                <!-- LeftFrame -->
+                <ChildFrame id="LeftFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Left.xfdl" width="200" height="570"/>
+                <!-- VFrameSet01 : TitleFrame + WorkFrame -->
+                <VFrameSet id="VFrameSet01" separatesize="70,*">
+                  <!-- TitleFrame=70px -->
                   <Frames>
-                    <!-- 타이틀 프레임 (Form_AdminTitle 고정) -->
-                    <ChildFrame id="TitleFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_AdminTitle.xfdl"/>
-                    <!-- 업무 화면 프레임 (화면 전환 대상) -->
+                    <!-- TitleFrame -->
+                    <ChildFrame id="TitleFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_AdminTitle.xfdl" height="70"/>
+                    <!-- WorkFrame -->
                     <ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false"/>
                   </Frames>
                 </VFrameSet>
