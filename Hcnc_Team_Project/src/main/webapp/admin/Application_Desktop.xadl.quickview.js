@@ -100,6 +100,7 @@
 
             //최초 화면 = 로그인 - feat. 09.11 'GJ'
             nexacro.WorkFrame.set_formurl("member::Form_Login.xfdl");
+
         };
 
         });

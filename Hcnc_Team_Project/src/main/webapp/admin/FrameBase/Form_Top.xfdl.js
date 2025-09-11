@@ -72,17 +72,54 @@
         
         // User Script
         this.registerScript("Form_Top.xfdl", function() {
-
-        this.h1_logo_onclick = function(obj,e)
-        {
-
-        };
-
+        this.isWait=false; // 전역변수 선언!
+        //로그아웃 버튼 클릭시 세션 끊고 로그아웃
         this.btn_logout_onclick = function(obj,e)
         {
+        	console.log(this.isWait);
+        	if(this.isWait)return;
+        	this.isWait = true;
+        	var strSvcID = "adminLogout"
+        	var setURL = "svc::/adminLogoutByAdmin.do";
+        	var strInDatasets = "";
+        	var strOutDatasets = "";
+        	var strArg = "";
+        	var callBack = "fn_callBack";
+        	var inAsync = true;
 
+        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
         };
 
+        //콜백
+        this.fn_callBack = function (svcID, errorCode, errorMSG)
+        {
+            if(errorCode == -1){
+        		this.alert(errorMSG);
+        	}
+
+        	switch(svcID){
+        	case "adminLogout" :
+
+        		var glbAd = nexacro.getApplication();
+
+        		//전역변수 초기화
+        		if(glbAd.gds_admininfo){
+        			glbAd.gds_admininfo.clearData();
+        		}
+
+        		//다시 로그인 화면 갔을 때 탑 메뉴, 레프트 메뉴 닫기
+        		nexacro.VFrameSet00.set_separatesize("0,*");     // Top 접기
+        		nexacro.HFrameSet00.set_separatesize("0,*");     // Left 접기
+        		nexacro.InnerVFrameSet.set_separatesize("0,*");  // Title 접기 (쓰는 경우만)
+
+        		//로그아웃 성공시 로그인 페이지로 이동
+        		this.isWait = false;
+
+        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("member::Form_Login.xfdl");
+
+        		break;
+        	}
+        };
         });
         
         // Regist UI Components Event
