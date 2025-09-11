@@ -3,14 +3,10 @@
   <Form id="Form_Order_Main" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_Order_Main_onload">
     <Layouts>
       <Layout height="720" width="1280">
-        <Div id="search_area" taborder="1" left="40" top="50" height="140" background="#ffffff" borderRadius="10px" right="40"/>
-        <Grid id="grid_list" taborder="0" left="40" top="120" height="410" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_order">&gt;
-          <Formats><Format id="default"><Columns><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/></Columns><Rows><Row band="head" size="24"/><Row size="24"/></Rows><Band id="head"><Cell text="ORDER_ID"/><Cell col="1" text="ORDER_NUMBER"/><Cell col="2" text="PHONE_NUMBER"/><Cell col="3" text="ORDER_STATUS"/><Cell col="4" text="ORDER_DT"/><Cell col="5" text="TOTAL_AMOUNT"/><Cell col="6" text="DISCOUNT_AMOUNT"/><Cell col="7" text="FINAL_AMOUNT"/><Cell col="8" text="PAYMENT_METHOD"/><Cell col="9" text="SHIPPING_POST"/><Cell col="10" text="SHIPPING_ADDR_1"/><Cell col="11" text="SHIIPPING_ADDR_2"/><Cell col="12" text="UPDATE_DT"/></Band><Band id="body"><Cell text="bind:ORDER_ID"/><Cell col="1" text="bind:ORDER_NUMBER"/><Cell col="2" text="bind:PHONE_NUMBER"/><Cell col="3" text="bind:ORDER_STATUS"/><Cell col="4" text="bind:ORDER_DT"/><Cell col="5" text="bind:TOTAL_AMOUNT"/><Cell col="6" text="bind:DISCOUNT_AMOUNT"/><Cell col="7" text="bind:FINAL_AMOUNT"/><Cell col="8" text="bind:PAYMENT_METHOD"/><Cell col="9" text="bind:SHIPPING_POST"/><Cell col="10" text="bind:SHIPPING_ADDR_1"/><Cell col="11" text="bind:SHIIPPING_ADDR_2"/><Cell col="12" text="bind:UPDATE_DT"/></Band></Format></Formats></Grid>
+        <Div id="search_area" taborder="1" left="40" top="50" height="140" background="#ffffff" borderRadius="10px" right="40" text=""/>
+        <Grid id="grid_list" taborder="0" left="40" top="130" height="390" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_order">&gt; <Formats><Format id="default"><Columns><Column size="107"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/></Columns><Rows><Row size="44" band="head"/><Row size="33"/></Rows><Band id="head"><Cell text="주문번호" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="1" text="ID" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="2" text="총금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="3" text="할인금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="4" text="최종금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="5" text="결제상태" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="6" text="배송상태" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="7" text="쿠폰" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="8" text="프로모션" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="9" text="포인트" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/></Band><Band id="body"><Cell text="bind:ORDER_NUMBER" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="1" text="bind:USER_ID" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="2" text="bind:TOTAL_AMOUNT" textAlign="right" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="3" text="bind:DISCOUNT_AMOUNT" textAlign="right" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="4" text="bind:FINAL_AMOUNT" textAlign="right" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="5" text="bind:PAYMENT_STATUS" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="6" text="bind:SHIPMENT_STATUS" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="7" text="bind:COUPON_TYPE" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="8" text="bind:PROMOTION_NAME" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="9" text="bind:POINT" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/></Band></Format></Formats></Grid>
       </Layout>
     </Layouts>
-    <Bind>
-      <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
-    </Bind>
     <Script type="xscript5.1"><![CDATA[//온로드시
 this.Form_Order_Main_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
@@ -21,9 +17,9 @@ this.Form_Order_Main_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 // 주문 내역 조회
 this.fnSearchOrders = function() {
     var strSvcID       = "selectOrders";
-    var strURL         = "svc::selectOrderListByAdmin.do";  // Spring Controller 매핑
+    var strURL         = "svc::selectOrderDetailListByAdmin.do";  // Spring Controller 매핑
     var strInDatasets  = "";
-    var strOutDatasets = "ds_orders=ds_orders"; 
+    var strOutDatasets = "ds_order=ds_order"; 
     var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
     var strCallback    = "fnCallback";
 
@@ -37,27 +33,28 @@ this.fnCallback = function(svc, err, errMsg) {
         return;
     }
     switch(svc){
-		case selectOrders  :
+		case "selectOrders"  :
 		
 	}
 };
 ]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+    </Bind>
     <Objects>
       <Dataset id="ds_order">
         <ColumnInfo>
           <Column id="ORDER_ID" type="STRING" size="256"/>
           <Column id="ORDER_NUMBER" type="STRING" size="256"/>
-          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
-          <Column id="ORDER_STATUS" type="STRING" size="256"/>
-          <Column id="ORDER_DT" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
           <Column id="TOTAL_AMOUNT" type="STRING" size="256"/>
           <Column id="DISCOUNT_AMOUNT" type="STRING" size="256"/>
           <Column id="FINAL_AMOUNT" type="STRING" size="256"/>
-          <Column id="PAYMENT_METHOD" type="STRING" size="256"/>
-          <Column id="SHIPPING_POST" type="STRING" size="256"/>
-          <Column id="SHIPPING_ADDR_1" type="STRING" size="256"/>
-          <Column id="SHIIPPING_ADDR_2" type="STRING" size="256"/>
-          <Column id="UPDATE_DT" type="STRING" size="256"/>
+          <Column id="PAYMENT_STATUS" type="STRING" size="256"/>
+          <Column id="SHIPMENT_STATUS" type="STRING" size="256"/>
+          <Column id="COUPON_TYPE" type="STRING" size="256"/>
+          <Column id="PROMOTION_NAME" type="STRING" size="256"/>
+          <Column id="POINT" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -67,7 +64,7 @@ this.fnCallback = function(svc, err, errMsg) {
         <ColumnInfo>
           <Column id="START_DATE" type="STRING" size="256"/>
           <Column id="END_DATE" type="STRING" size="256"/>
-          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
           <Column id="ORDER_STATUS" type="STRING" size="256"/>
           <Column id="PAYMENT_STATUS" type="STRING" size="256"/>
         </ColumnInfo>
