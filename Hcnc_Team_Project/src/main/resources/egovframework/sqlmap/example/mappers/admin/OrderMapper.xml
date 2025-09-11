@@ -17,7 +17,7 @@
          , O.TOTAL_AMOUNT          -- 총가격
          , O.DISCOUNT_AMOUNT       -- 할인가격
          , O.FINAL_AMOUNT          -- 최종가격
-         , O.ORDER_STATUS          -- 주문상태
+         , O.ORDER_COMMENT         -- 주문상태
          , P.PAYMENT_STATUS        -- 결제상태(입금시)
          , S.SHIPMENT_STATUS       -- 배송상태
          , C.COUPON_TYPE           -- 어떤쿠폰인지

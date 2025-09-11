@@ -55,7 +55,7 @@
             this.addChild(frame0.name, frame0);
             this.frame=frame0;
 
-            var frame1 = new ChildFrame("TopFrame",null,null,null,null,null,null,"FrameBase::Form_Top.xfdl",frame0);
+            var frame1 = new ChildFrame("TopFrame",null,null,null,"50",null,null,"FrameBase::Form_Top.xfdl",frame0);
             frame1.set_showtitlebar("false");
             frame1.set_showstatusbar("false");
             frame0.addChild(frame1.name, frame1);
@@ -66,7 +66,7 @@
             frame2.set_separatesize("200,*");
             frame0.addChild(frame2.name, frame2);
 
-            var frame3 = new ChildFrame("LeftFrame",null,null,null,null,null,null,"FrameBase::Form_Left.xfdl",frame2);
+            var frame3 = new ChildFrame("LeftFrame",null,null,"200","570",null,null,"FrameBase::Form_Left.xfdl",frame2);
             frame3.set_showtitlebar("false");
             frame3.set_showstatusbar("false");
             frame2.addChild(frame3.name, frame3);
@@ -74,10 +74,10 @@
 
 
             var frame4 = new VFrameSet("VFrameSet01",null,null,null,null,null,null,frame2);
-            frame4.set_separatesize("110,*");
+            frame4.set_separatesize("70,*");
             frame2.addChild(frame4.name, frame4);
 
-            var frame5 = new ChildFrame("TitleFrame",null,null,null,null,null,null,"FrameBase::Form_AdminTitle.xfdl",frame4);
+            var frame5 = new ChildFrame("TitleFrame",null,null,null,"70",null,null,"FrameBase::Form_AdminTitle.xfdl",frame4);
             frame5.set_showtitlebar("false");
             frame5.set_showstatusbar("false");
             frame4.addChild(frame5.name, frame5);
