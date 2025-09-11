@@ -10,12 +10,10 @@
     
     <script>
         $(function(){
-            $.ajax({
-
-            });
+        	selectCartListByUser();
         })
 
-		function CartList(){
+		function selectCartListByUser(){
         	// 카트리스트 조회인데 회원 타겟이 필요해. 지금은 회원이 없는상태.
         	var memberId = "kkk";
         	
