@@ -77,7 +77,7 @@ this.fn_callBack = function (svcID, errorCode, errorMSG)
 		//전역데이터셋 안에 => gds_adminInfo의 값을 셋팅
 		glbAd.gds_adminInfo.setColumn(0,"MEMBER_ID",this.ds_loginChk.getColumn(0,"MEMBER_ID"));
 		
-		//디버깅용
+		//디버깅용 ;)
 		console.log(this.ds_loginChk.saveXML());
 		console.log(glbAd.gds_adminInfo.saveXML());
 		

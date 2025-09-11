@@ -2,4 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.mapper.OrderMapper">
 
+	<select id="selectOrderListByAdmin"  parameterType="map" resultType="map">
+		SELECT O.ORDER_ID
+             , O.ORDER_DATE
+             , O.USER_ID
+             , O.TOTAL_PRICE
+             , O.ORDER_STATUS
+             , P.PAYMENT_STATUS
+             , S.SHIPMENT_STATUS
+          FROM ORDERS O
+          LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID
+          LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID
+         WHERE 1=1
+      <if test="START_DATE != null and START_DATE != ''">
+           AND O.ORDER_DATE &gt;= #{START_DATE}
+      </if>
+      <if test="END_DATE != null and END_DATE != ''">
+           AND O.ORDER_DATE &lt;= #{END_DATE}
+      </if>
+      <if test="USER_ID != null and USER_ID != ''">
+           AND O.USER_ID LIKE CONCAT('%', #{USER_ID}, '%')
+      </if>
+      <if test="ORDER_STATUS != null and ORDER_STATUS != ''">
+           AND O.ORDER_STATUS = #{ORDER_STATUS}
+      </if>
+      <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
+           AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
+      </if>
+	</select>
+
 </mapper>
