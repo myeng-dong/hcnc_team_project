@@ -20,7 +20,7 @@
         	var memberId = "kkk";
         	
         	var param = {
-        			memberId = memberId;
+        			memberId : memberId
         	};
         	
         	$.ajax({
