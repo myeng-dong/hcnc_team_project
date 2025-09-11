@@ -15,8 +15,26 @@
             });
         })
 
-		function getCart(){
+		function CartList(){
+        	// 카트리스트 조회인데 회원 타겟이 필요해. 지금은 회원이 없는상태.
+        	var memberId = "kkk";
         	
+        	var param = {
+        			memberId = memberId;
+        	};
+        	
+        	$.ajax({
+        		url : "/selectCartListByUser.do"
+        		, type : "post"
+        		, data : param
+        		, dataType : "json"
+        		, success : function(res){
+					
+        		}
+        		, error : function(err){
+        			
+        		}
+        	});
         }
     </script>
 </head>
