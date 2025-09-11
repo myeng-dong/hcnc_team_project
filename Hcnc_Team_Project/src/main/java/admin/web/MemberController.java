@@ -1,5 +1,6 @@
 package admin.web;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -29,19 +30,31 @@ public class MemberController {
 			HttpServletRequest request
 			) {
 		NexacroResult result = new NexacroResult();
-		System.out.println("ㅎㅇ");
-		HttpSession session = request.getSession(false);
-		Map<String, Object> isLogin = (Map<String, Object>)session.getAttribute("adminInfo");
-		System.out.println(isLogin);
-		result.addDataSet("ds_isLogin",isLogin);
-		
-		return result;
+		result.addDataSet("ds_isLogin", new HashMap<String, Object>());
+		try {
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+			    return result;
+			}
+			Map<String, Object> isLogin = (Map<String, Object>)session.getAttribute("adminInfo");
+			if (isLogin == null) {
+			    // 로그인 정보 없음
+			    return result;
+			}
+			result.addDataSet("ds_isLogin",isLogin);
+			return result;
+				
+		}
+		catch (Exception e) {
+			System.out.println(e);
+			return result;
+		}
 	}
 	
 	@RequestMapping(value = "adminLoginByAdmin.do")
 	public NexacroResult adminLogin(@ParamDataSet(name = "ds_admin", required = false) Map<String, Object> param,
 			HttpServletRequest request, HttpServletResponse response) {
-
+		System.out.println("로그인시도");
 		NexacroResult result = new NexacroResult();
 
 		Map<String, Object> adminInfo = memberService.adminLogin(param);
@@ -87,7 +100,8 @@ public class MemberController {
 			HttpSession session = request.getSession(false);
 			if(session != null){
 				//세션 끊기
-				//session.removeAttribute("adminInfo");	
+				//session.removeAttribute("adminInfo");
+				Thread.sleep(1000);
 				session.invalidate();
 			}
 			

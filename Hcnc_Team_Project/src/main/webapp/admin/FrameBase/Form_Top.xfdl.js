@@ -79,15 +79,7 @@
         	console.log(this.isWait);
         	if(this.isWait)return;
         	this.isWait = true;
-        	var strSvcID = "adminLogout"
-        	var setURL = "svc::/adminLogoutByAdmin.do";
-        	var strInDatasets = "";
-        	var strOutDatasets = "";
-        	var strArg = "";
-        	var callBack = "fn_callBack";
-        	var inAsync = true;
-
-        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+        	this.logout();
         };
 
         //콜백
@@ -114,11 +106,24 @@
 
         		//로그아웃 성공시 로그인 페이지로 이동
         		this.isWait = false;
-
+        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": true};
         		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("member::Form_Login.xfdl");
 
         		break;
         	}
+        };
+
+        this.logout = function ()
+        {
+        	var strSvcID = "adminLogout"
+        	var setURL = "svc::/adminLogoutByAdmin.do?time=" + new Date().getTime();;
+        	var strInDatasets = "";
+        	var strOutDatasets = "";
+        	var strArg = "";
+        	var callBack = "fn_callBack";
+        	var inAsync = true;
+
+        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
         };
         });
         
