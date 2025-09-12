@@ -19,11 +19,16 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_admin", this);
-            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PASSWORD\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PASSWORD\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"MEMBER_ID\">admin001</Col><Col id=\"PASSWORD\">1234</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_loginChk", this);
+            obj._setContents("");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_isLogin", this);
             obj._setContents("");
             this.addChild(obj.name, obj);
             
@@ -57,6 +62,7 @@
             obj = new Edit("admin_pw","486","437","310","44",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_borderRadius("15px");
+            obj.set_password("true");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static01","490","150","291","104",null,null,null,null,null,null,this);
@@ -130,24 +136,69 @@
         
         // User Script
         this.registerScript("Form_Login.xfdl", function() {
+
+        this.Form_Login_onload = function(obj,e)
+        {
+        	// controller에 httpsession
+        	var args = this.parent.arguments;
+        	if(args.isLogout){
+        		var glbAd = nexacro.getApplication();
+        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": false};
+        		return;
+        	}
+        	this.checkLogin();
+        };
+
+
+        //콜백
+        this.fn_callBack = function (svcID, errorCode, errorMSG)
+        {
+            if(errorCode == -1){
+        		this.alert(errorMSG);
+        		return;
+        	}
+        	console.log("errorCode= "+errorCode);
+
+        	switch(svcID){
+        	case "adminCheckLogin":
+        	var isLogin = this.ds_isLogin.getColumn(0,"MEMBER_ID");
+        	console.log("isLogin= "+isLogin);
+        	if(isLogin != null && isLogin !='undefined'){
+        		this.loginSet();
+        	} else{
+
+        	}
+        	break;
+        	case "adminLogin" :
+        		if(this.ds_loginChk.getRowCount() == 0){
+        			alert("아이디 또는 비밀번호를 확인하세요");
+        			return;
+        		}
+        		this.loginSet();
+
+        		break;
+        	}
+        };
+
+
         //로그인 버튼
         this.admin_login_onclick = function(obj,e)
         {
         	var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
         	var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
 
-        	if(adminId == undefined || adminId ==''){
+        	if(adminId == 'undefined' || adminId ==''){
         		this.alert('아이디를 입력해 주세요')
         		return;
         	}
 
-        	if(adminPw == undefined || adminPw ==''){
+        	if(adminPw == 'undefined' || adminPw ==''){
         		this.alert('비밀번호를 입력해 주새요')
         		return;
         	}
 
         	var strSvcID = "adminLogin"
-        	var setURL = "svc::/adminLoginByAdmin.do";
+        	var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_admin=ds_admin";
         	var strOutDatasets = "ds_loginChk=ds_loginChk";
         	var strArg = "";
@@ -158,26 +209,27 @@
 
         };
 
-        //콜백
-        this.fn_callBack = function (svcID, errorCode, errorMSG)
-        {
-            if(errorCode == -1){
-        		this.alert(errorMSG);
-        	}
 
-        	switch(svcID){
-        	case "adminLogin" :
+        this.checkLogin = function(){
+        var strSvcID = "adminCheckLogin"
+        	var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();;
+        	var strInDatasets = "";
+        	var strOutDatasets = "ds_isLogin=ds_isLogin";
+        	var strArg = "";
+        	var callBack = "fn_callBack";
+        	var inAsync = true;
 
-        		var objApp = nexacro.getApplication();
+        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
 
-        		if(this.ds_loginChk.getRowCount() == 0){
-        			alert("아이디 또는 비밀번호를 확인하세요");
-        			return;
-        		}
+        }
 
+        this.loginSet = function () {
+        		this.ds_loginChk.clearData();
+        		this.ds_isLogin.clearData();
+
+        		var glbAd = nexacro.getApplication();
         		// 전역데이터셋 저장
-        		objApp.gds_adminInfo.copyData(this.ds_loginChk, true);
-
+        		glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
 
         		// 메뉴/타이틀 영역 복구
         		nexacro.VFrameSet00.set_separatesize("50,*");   // TopFrame 높이 복원
@@ -186,11 +238,9 @@
 
 
         		// 대시보드로 이동
-        		nexacro.WorkFrame.set_formurl("dashboard::Form_MainDashboard.xfdl");
-        		break;
-        	}
-        };
+        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("dash::Form_test.xfdl");
 
+        }
 
 
 
@@ -199,6 +249,7 @@
         // Regist UI Components Event
         this.on_initEvent = function()
         {
+            this.addEventHandler("onload",this.Form_Login_onload,this);
             this.loginForm.addEventHandler("onclick",this.Static03_onclick,this);
             this.Static00_00.addEventHandler("onclick",this.Static00_00_onclick,this);
             this.admin_login.addEventHandler("onclick",this.admin_login_onclick,this);
