@@ -5,40 +5,64 @@
       <MainFrame id="mainframe" showtitlebar="true" showstatusbar="true" left="0" top="0" width="1280" height="720" titletext="TopLeftFrame">
         <VFrameSet id="VFrameSet00" separatesize="50,*">
           <Frames>
+            <!-- 상단 공통 TopFrame -->
             <ChildFrame id="TopFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Top.xfdl"/>
+            <!-- 좌측 메뉴 + (타이틀 + 작업 영역) -->
             <HFrameSet id="HFrameSet00" separatesize="200,*">
               <Frames>
+                <!-- 좌측 메뉴 -->
                 <ChildFrame id="LeftFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Left.xfdl"/>
-                <ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Login.xfdl"/>
+                <!-- 우측: 타이틀 + 업무 화면 -->
+                <VFrameSet id="VFrameSet01" separatesize="110,*">
+                  <Frames>
+                    <!-- 타이틀 프레임 (Form_AdminTitle 고정) -->
+                    <ChildFrame id="TitleFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_AdminTitle.xfdl"/>
+                    <!-- 업무 화면 프레임 (화면 전환 대상) -->
+                    <ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false"/>
+                  </Frames>
+                </VFrameSet>
               </Frames>
             </HFrameSet>
           </Frames>
         </VFrameSet>
       </MainFrame>
     </Layout>
+    <!-- 공통 스타일 -->
     <Style url="xcssrc::common.xcss"/>
     <Style url="xcssrc::layout.xcss"/>
     <Style url="xcssrc::leftgrid.xcss"/>
   </Application>
-  <Script type="xscript5.1"><![CDATA[this.Application_onload = function(obj:nexacro.Application,e:nexacro.LoadEventInfo)
+  <Script type="xscript5.1"><![CDATA[this.Application_onload = function(obj:nexacro.Application, e:nexacro.LoadEventInfo)
 {
-	//공통 FrameSet/Frame에 직접접근을 위한 변수 선언
-  
-  //메인프레인 안에 첫 번째 VFrameSet
-  nexacro.VFrameSet00 = this.mainframe.VFrameSet00;
-  
-  //VFrameSet00 안에 TopFrame
-  nexacro.TopFrame = this.mainframe.VFrameSet00.TopFrame;
-  
-  //VFrameSet00 HFrameSet00
-  nexacro.HFrameSet00 = this.mainframe.VFrameSet00.HFrameSet00;
-  
-  //HFrameSet00 안에 LeftFrame
-  nexacro.LeftFrame = this.mainframe.VFrameSet00.HFrameSet00.LeftFrame;
-  
-  //VFrameSet00 안에 WorkFrame
-  nexacro.WorkFrame = this.mainframe.VFrameSet00.HFrameSet00.WorkFrame;
-  
+    // 메인프레임 안에 첫 번째 VFrameSet
+    nexacro.VFrameSet00 = this.mainframe.VFrameSet00;
+    
+    // VFrameSet00 안에 TopFrame
+    nexacro.TopFrame = this.mainframe.VFrameSet00.TopFrame;
+    
+    // VFrameSet00 안에 HFrameSet00
+    nexacro.HFrameSet00 = this.mainframe.VFrameSet00.HFrameSet00;
+    
+    // HFrameSet00 안에 LeftFrame
+    nexacro.LeftFrame = this.mainframe.VFrameSet00.HFrameSet00.LeftFrame;
+    
+    // HFrameSet00 안에 VFrameSet01 → 그 안에 TitleFrame, WorkFrame
+    nexacro.InnerVFrameSet = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01;
+    
+    // InnerVFrameSet 안의 TitleFrame (Form_AdminTitle)
+    nexacro.TitleFrame = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame;
+    
+    // InnerVFrameSet 안의 WorkFrame (업무화면 영역)
+    nexacro.WorkFrame = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
+	
+    // 로그인 전: Top/Left/Title 프레임 숨김 (영역 제거) - feat. 09.11 'GJ'
+    nexacro.VFrameSet00.set_separatesize("0,*");   // TopFrame 높이 0
+    nexacro.HFrameSet00.set_separatesize("0,*");   // LeftFrame 너비 0
+    nexacro.InnerVFrameSet = this.mainframe.VFrameSet00.HFrameSet00.VFrameSet01;
+    nexacro.InnerVFrameSet.set_separatesize("0,*"); // TitleFrame 높이 0
+
+    //최초 화면 = 로그인 - feat. 09.11 'GJ'
+    nexacro.WorkFrame.set_formurl("member::Form_Login.xfdl");
 };
 ]]></Script>
 </ADL>

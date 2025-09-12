@@ -1555,6 +1555,7 @@
             									},
             									"disabled" :
             									{
+            										"font" : nexacro.FontObject("normal 10pt/normal \"Noto Sans KR Medium\""),
             										"color" : nexacro.ColorObject("#999999")
             									}
             								}

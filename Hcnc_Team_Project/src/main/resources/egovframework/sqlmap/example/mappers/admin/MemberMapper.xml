@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.mapper.MemberMapper">
+	
+	<!--관리자 로그인 -->
+	<select id="adminLogin" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			M.MEMBER_ID
+			,'O' AS PASSWORD
+		  FROM MEMBERS M INNER JOIN GRADES G
+		    ON M.GRADE_CODE = G.GRADE_CODE
+		 WHERE M.MEMBER_ID = #{MEMBER_ID}
+		   AND M.PASSWORD = #{PASSWORD}
+		   AND M.GRADE_CODE = 9
+	</select>
+
+</mapper>
