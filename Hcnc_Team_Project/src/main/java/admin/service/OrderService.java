@@ -16,8 +16,15 @@ public class OrderService {
 	
 	//주문 상세조회
 	public List<Map<String, Object>> selectOrderDetailListByAdmin(Map<String, Object> dsSearch) {
-		// TODO Auto-generated method stub
 		return orderMapper.selectOrderDetailListByAdmin(dsSearch);
+	}
+
+	public List<Map<String, Object>> selectPaymentListByAdmin(Map<String, Object> dsSearch) {
+		return orderMapper.selectPaymentListByAdmin(dsSearch);
+	}
+
+	public void updatePaymentListByAdmin(Map<String, Object> row) {
+		orderMapper.updatePaymentListByAdmin(row);
 	}
 	
 

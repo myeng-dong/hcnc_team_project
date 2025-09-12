@@ -33,5 +33,35 @@ public class OrderController {
 
 		return result;
 	}
+	
+	//결제내역 조회
+	@RequestMapping(value="selectPaymentListByAdmin.do")
+	public NexacroResult selectPaymentListByAdmin( 
+			@ParamDataSet(name="ds_search", required=false) Map<String, Object> dsSearch) {
+		NexacroResult result = new NexacroResult();
+		
+		List<Map<String, Object>> paymentList = orderService.selectPaymentListByAdmin(dsSearch);
+		
+		result.addDataSet("ds_pay", paymentList);
+
+		return result;
+	}
+
+
+    // 결제 상태 업데이트
+    @RequestMapping(value="/updatePaymentListByAdmin.do")
+    public NexacroResult updatePaymentListByAdmin(
+            @ParamDataSet(name="ds_selected", required=false) List<Map<String, Object>> dsSelected) {
+
+        NexacroResult result = new NexacroResult();
+
+        if (dsSelected != null) {
+            for (Map<String,Object> row : dsSelected) {
+                orderService.updatePaymentListByAdmin(row);
+            }
+        }
+
+        return result;
+    }
 
 }
