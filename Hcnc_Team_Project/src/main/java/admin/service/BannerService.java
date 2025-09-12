@@ -19,6 +19,7 @@ public class BannerService {
 		return bannerMapper.selectBannerListByAdmin();
 	}
 
+
 	public void insertBannerByAdmin(Map<String, Object> dsBWrite) {
 		 bannerMapper.insertBannerByAdmin();
 	}
@@ -26,4 +27,5 @@ public class BannerService {
 	public void updateBannerByAdmin(Map<String, Object> dsBUpdate) {
 		 bannerMapper.updateBannerByAdmin();
 	}
+
 }
