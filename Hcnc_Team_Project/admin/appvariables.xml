@@ -206,6 +206,9 @@
       <ColumnInfo>
         <Column id="MEMBER_ID" type="STRING" size="256"/>
       </ColumnInfo>
+      <Rows>
+        <Row/>
+      </Rows>
     </Dataset>
   </Datasets>
   <Variables/>
