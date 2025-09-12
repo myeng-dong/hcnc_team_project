@@ -19,7 +19,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_admin", this);
-            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PASSWORD\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"MEMBER_ID\">admin001</Col><Col id=\"PASSWORD\">1234</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PASSWORD\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -142,8 +142,11 @@
         	// controller에 httpsession
         	var args = this.parent.arguments;
         	if(args.isLogout){
+
         		var glbAd = nexacro.getApplication();
+
         		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": false};
+
         		return;
         	}
         	this.checkLogin();
@@ -161,14 +164,17 @@
 
         	switch(svcID){
         	case "adminCheckLogin":
-        	var isLogin = this.ds_isLogin.getColumn(0,"MEMBER_ID");
-        	console.log("isLogin= "+isLogin);
-        	if(isLogin != null && isLogin !='undefined'){
-        		this.loginSet();
-        	} else{
 
-        	}
-        	break;
+        		var isLogin = this.ds_isLogin.getColumn(0,"MEMBER_ID");
+
+        		console.log("isLogin= "+isLogin);
+
+        		if(isLogin != null && isLogin !='undefined'){
+        			this.loginSet();
+        		} else{
+
+        		}
+        		break;
         	case "adminLogin" :
         		if(this.ds_loginChk.getRowCount() == 0){
         			alert("아이디 또는 비밀번호를 확인하세요");
@@ -211,8 +217,8 @@
 
 
         this.checkLogin = function(){
-        var strSvcID = "adminCheckLogin"
-        	var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();;
+        	var strSvcID = "adminCheckLogin"
+        	var setURL = "svc::adminLoginCheckByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_isLogin=ds_isLogin";
         	var strArg = "";
@@ -224,21 +230,24 @@
         }
 
         this.loginSet = function () {
-        		this.ds_loginChk.clearData();
-        		this.ds_isLogin.clearData();
+        	this.ds_loginChk.clearData();
+        	this.ds_isLogin.clearData();
 
-        		var glbAd = nexacro.getApplication();
-        		// 전역데이터셋 저장
-        		glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
+        	var glbAd = nexacro.getApplication();
 
-        		// 메뉴/타이틀 영역 복구
-        		nexacro.VFrameSet00.set_separatesize("50,*");   // TopFrame 높이 복원
-        		nexacro.HFrameSet00.set_separatesize("200,*");  // LeftFrame 너비 복원
-        		nexacro.InnerVFrameSet.set_separatesize("110,*"); // TitleFrame 높이 복원
+        	// 전역데이터셋 저장
+        	glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
+
+        	//glbAd.gds_adminInfo.setColumn(0,"MEMBER_ID",this.ds_ds_loginChk.getColumn(0,"MEMBER_ID"));
 
 
-        		// 대시보드로 이동
-        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("dash::Form_test.xfdl");
+        	// 메뉴/타이틀 영역 복구
+        	nexacro.VFrameSet00.set_separatesize("50,*");   // TopFrame 높이 복원
+        	nexacro.HFrameSet00.set_separatesize("200,*");  // LeftFrame 너비 복원
+        	nexacro.InnerVFrameSet.set_separatesize("110,*"); // TitleFrame 높이 복원
+
+        	// 대시보드로 이동
+        	glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("dash::Form_test.xfdl");
 
         }
 
