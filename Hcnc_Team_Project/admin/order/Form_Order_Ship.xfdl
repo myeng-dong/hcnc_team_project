@@ -4,7 +4,7 @@
     <Layouts>
       <Layout height="720" width="1280">
         <!-- 검색 영역 -->
-        <Div id="search_area" taborder="1" left="40" top="40" height="140" background="#ffffff" borderRadius="10px" right="40">
+        <Div id="search_area" taborder="1" left="40" top="40" height="140" background="#ffffff" borderRadius="10px" width="1200">
           <Layouts>
             <Layout>
               <Button id="btn_save" taborder="0" text="저장" left="1034" top="50" width="128" height="40" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#3F00FF" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer"/>
@@ -92,7 +92,7 @@ this.fnCallback = function(svcID, errCode, errMsg) {
             break;
         case "saveSelectedShip":
             this.alert("저장 완료");
-            this.fnSearchPay();
+            this.fnSearchShip();
             break;
     }
 };
@@ -101,10 +101,10 @@ this.search_area_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
 {
 	this.ds_selected.clearData();
 
-    for (var i = 0; i < this.ds_pay.getRowCount(); i++) {
-        if (this.ds_pay.getColumn(i, "CHK") == "1") {
+    for (var i = 0; i < this.ds_ship.getRowCount(); i++) {
+        if (this.ds_ship.getColumn(i, "CHK") == "1") {
             var nRow = this.ds_selected.addRow();
-            this.ds_selected.copyRow(nRow, this.ds_pay, i);
+            this.ds_selected.copyRow(nRow, this.ds_ship, i);
         }
     }
 
@@ -113,7 +113,7 @@ this.search_area_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
         return;
     }
 
-    this.fnSaveSelectedPay();
+    this.fnSaveSelectedShip();
 };
 
 this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEventInfo)
@@ -129,8 +129,8 @@ this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEvent
         obj.setCellProperty("head", 0, "text", newVal);
 
         // 데이터셋 전체 반영
-        for (var i = 0; i < this.ds_pay.getRowCount(); i++) {
-            this.ds_pay.setColumn(i, "CHK", newVal);
+        for (var i = 0; i < this.ds_ship.getRowCount(); i++) {
+            this.ds_ship.setColumn(i, "CHK", newVal);
         }
     }
 };
@@ -164,11 +164,11 @@ this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEvent
         <Rows>
           <Row>
             <Col id="CODE">WAIT</Col>
-            <Col id="NAME">배송 대기</Col>
+            <Col id="NAME">발송대기</Col>
           </Row>
           <Row>
             <Col id="CODE">DONE</Col>
-            <Col id="NAME">배송 완료</Col>
+            <Col id="NAME">발송완료</Col>
           </Row>
         </Rows>
       </Dataset>

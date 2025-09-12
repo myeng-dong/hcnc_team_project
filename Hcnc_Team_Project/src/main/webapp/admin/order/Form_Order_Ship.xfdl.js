@@ -24,7 +24,7 @@
 
 
             obj = new Dataset("ds_status", this);
-            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"10\"/><Column id=\"NAME\" type=\"STRING\" size=\"50\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">WAIT</Col><Col id=\"NAME\">배송 대기</Col></Row><Row><Col id=\"CODE\">DONE</Col><Col id=\"NAME\">배송 완료</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"10\"/><Column id=\"NAME\" type=\"STRING\" size=\"50\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">WAIT</Col><Col id=\"NAME\">발송대기</Col></Row><Row><Col id=\"CODE\">DONE</Col><Col id=\"NAME\">발송완료</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -33,7 +33,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("search_area","40","40",null,"140","40",null,null,null,null,null,this);
+            obj = new Div("search_area","40","40","1200","140",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
@@ -125,7 +125,7 @@
                     break;
                 case "saveSelectedShip":
                     this.alert("저장 완료");
-                    this.fnSearchPay();
+                    this.fnSearchShip();
                     break;
             }
         };
@@ -134,10 +134,10 @@
         {
         	this.ds_selected.clearData();
 
-            for (var i = 0; i < this.ds_pay.getRowCount(); i++) {
-                if (this.ds_pay.getColumn(i, "CHK") == "1") {
+            for (var i = 0; i < this.ds_ship.getRowCount(); i++) {
+                if (this.ds_ship.getColumn(i, "CHK") == "1") {
                     var nRow = this.ds_selected.addRow();
-                    this.ds_selected.copyRow(nRow, this.ds_pay, i);
+                    this.ds_selected.copyRow(nRow, this.ds_ship, i);
                 }
             }
 
@@ -146,7 +146,7 @@
                 return;
             }
 
-            this.fnSaveSelectedPay();
+            this.fnSaveSelectedShip();
         };
 
         this.grid_list_onheadclick = function(obj, e)
@@ -162,8 +162,8 @@
                 obj.setCellProperty("head", 0, "text", newVal);
 
                 // 데이터셋 전체 반영
-                for (var i = 0; i < this.ds_pay.getRowCount(); i++) {
-                    this.ds_pay.setColumn(i, "CHK", newVal);
+                for (var i = 0; i < this.ds_ship.getRowCount(); i++) {
+                    this.ds_ship.setColumn(i, "CHK", newVal);
                 }
             }
         };
