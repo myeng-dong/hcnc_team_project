@@ -47,7 +47,7 @@
             obj.set_background("#cccccc");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static01","1015","14","70","22",null,null,null,null,null,null,this);
+            obj = new Static("admin_id","990","16","98","18",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_border("1px solid black");
             this.addChild(obj.name, obj);
@@ -57,7 +57,7 @@
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item0","Static01","text","gds_adminInfo","MEMBER_ID");
+            obj = new BindItem("item0","admin_id","text","gds_adminInfo","MEMBER_ID");
             this.addChild(obj.name, obj);
             obj.bind();
             
@@ -126,6 +126,8 @@
 
         	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
         };
+
+
 
         });
         

@@ -24,12 +24,12 @@
 
 
             obj = new Dataset("ds_loginChk", this);
-            obj._setContents("");
+            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_isLogin", this);
-            obj._setContents("");
+            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -167,12 +167,11 @@
 
         		var isLogin = this.ds_isLogin.getColumn(0,"MEMBER_ID");
 
-        		console.log("isLogin= "+isLogin);
 
         		if(isLogin != null && isLogin !='undefined'){
-        			this.loginSet();
-        		} else{
 
+
+        			this.loginSet();
         		}
         		break;
         	case "adminLogin" :
@@ -215,12 +214,12 @@
 
         };
 
-
+        //ds_loginChk도 다시 업데이트
         this.checkLogin = function(){
         	var strSvcID = "adminCheckLogin"
-        	var setURL = "svc::adminLoginCheckByAdmin.do?time=" + new Date().getTime();
+        	var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
-        	var strOutDatasets = "ds_isLogin=ds_isLogin";
+        	var strOutDatasets = "ds_isLogin=ds_isLogin ds_loginChk=ds_loginChk";
         	var strArg = "";
         	var callBack = "fn_callBack";
         	var inAsync = true;
@@ -230,16 +229,20 @@
         }
 
         this.loginSet = function () {
-        	this.ds_loginChk.clearData();
-        	this.ds_isLogin.clearData();
 
         	var glbAd = nexacro.getApplication();
 
-        	// 전역데이터셋 저장
+        	// 전역데이터셋 저장( copydata() )
         	glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
 
-        	//glbAd.gds_adminInfo.setColumn(0,"MEMBER_ID",this.ds_ds_loginChk.getColumn(0,"MEMBER_ID"));
 
+        	//직접 탑 프레임에 접근해서 상단에 멤버 id 띄우기(중요!)
+        	if (glbAd.gds_adminInfo.rowcount > 0) {
+        		var memberId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
+        		var topForm = glbAd.mainframe.VFrameSet00.TopFrame.form;
+        		topForm.admin_id.set_text(memberId);
+        		trace("로그인한 관리자 ID = " + memberId);
+        	}
 
         	// 메뉴/타이틀 영역 복구
         	nexacro.VFrameSet00.set_separatesize("50,*");   // TopFrame 높이 복원
