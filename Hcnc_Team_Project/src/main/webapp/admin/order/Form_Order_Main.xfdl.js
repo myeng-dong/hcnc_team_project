@@ -36,6 +36,20 @@
             this.addChild(obj.name, obj);
 
             obj = new Grid("grid_list","40","130",null,"390","40",null,null,null,null,null,this);
+
+            obj = new Button("btn_select","964","50",null,"40","80",null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("0");
+            obj.set_text("조회");
+            obj.set_borderRadius("5px");
+            obj.set_background("#3F00FF");
+            obj.set_color("white");
+            obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
+            obj.set_textAlign("center");
+            obj.set_cursor("pointer");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Grid("grid_list","40","220",null,null,"40","40",null,null,null,null,this);
+
             obj.set_taborder("0");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");

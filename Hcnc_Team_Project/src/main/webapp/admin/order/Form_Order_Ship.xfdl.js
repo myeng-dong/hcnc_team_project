@@ -29,6 +29,18 @@
             
             // UI Components Initialize
             obj = new Div("search_area","40","50",null,"140","40",null,null,null,null,null,this);
+            obj = new Dataset("ds_status", this);
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"10\"/><Column id=\"NAME\" type=\"STRING\" size=\"50\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">WAIT</Col><Col id=\"NAME\">발송대기</Col></Row><Row><Col id=\"CODE\">DONE</Col><Col id=\"NAME\">발송완료</Col></Row></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_selected", this);
+            obj._setContents("<ColumnInfo><Column id=\"SHIPMENT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"ORDER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"COUIER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"TRACKING_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"SHIPMENT_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"SHIPPED_DT\" type=\"STRING\" size=\"256\"/><Column id=\"DELIVERD_DT\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_DT\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+            
+            // UI Components Initialize
+            obj = new Div("search_area","40","40","1200","140",null,null,null,null,null,null,this);
+
             obj.set_taborder("1");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
@@ -93,8 +105,61 @@
             switch(svc){
         		case selectOrders  :
 
+
         	}
         };
+
+
+            switch(svcID) {
+                case "selectShip":
+                    trace("조회 완료");
+                    break;
+                case "saveSelectedShip":
+                    this.alert("저장 완료");
+                    this.fnSearchShip();
+                    break;
+            }
+        };
+
+        this.search_area_btn_save_onclick = function(obj,e)
+        {
+        	this.ds_selected.clearData();
+
+            for (var i = 0; i < this.ds_ship.getRowCount(); i++) {
+                if (this.ds_ship.getColumn(i, "CHK") == "1") {
+                    var nRow = this.ds_selected.addRow();
+                    this.ds_selected.copyRow(nRow, this.ds_ship, i);
+                }
+            }
+
+            if (this.ds_selected.getRowCount() == 0) {
+                this.alert("선택된 항목이 없습니다.");
+                return;
+            }
+
+            this.fnSaveSelectedShip();
+        };
+
+        this.grid_list_onheadclick = function(obj, e)
+        {
+            // 첫 번째 컬럼(체크박스 헤더) 클릭 시
+            if (e.cell == 0) {
+                var headVal = obj.getCellProperty("head", 0, "text");
+
+                // 현재 상태 확인 (체크 → 해제 / 해제 → 체크)
+                var newVal = (headVal == "1" ? "0" : "1");
+
+                // 헤더 갱신
+                obj.setCellProperty("head", 0, "text", newVal);
+
+                // 데이터셋 전체 반영
+                for (var i = 0; i < this.ds_ship.getRowCount(); i++) {
+                    this.ds_ship.setColumn(i, "CHK", newVal);
+                }
+            }
+        };
+
+
 
         });
         

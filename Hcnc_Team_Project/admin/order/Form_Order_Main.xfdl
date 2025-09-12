@@ -6,7 +6,7 @@
         <Div id="search_area" taborder="1" left="40" top="40" height="140" background="#ffffff" borderRadius="10px" right="40" text="">
           <Layouts>
             <Layout>
-              <Button id="btn_select" taborder="0" text="조회" left="1034" top="50" width="128" height="40" borderRadius="5px" background="#3F00FF" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" onclick="search_area_btn_select_onclick"/>
+              <Button id="btn_select" taborder="0" text="조회" left="964" top="50" height="40" borderRadius="5px" background="#3F00FF" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" onclick="search_area_btn_select_onclick" right="80"/>
             </Layout>
           </Layouts>
         </Div>

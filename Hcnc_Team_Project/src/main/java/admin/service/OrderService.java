@@ -30,6 +30,11 @@ public class OrderService {
 	public List<Map<String, Object>> selectShipListByAdmin(Map<String, Object> dsSearch) {
 		return orderMapper.selectShipListByAdmin(dsSearch);
 	}
+
+	public void updateShipListByAdmin(Map<String, Object> row) {
+		orderMapper.updateShipListByAdmin(row);
+		
+	}
 	
 
 	

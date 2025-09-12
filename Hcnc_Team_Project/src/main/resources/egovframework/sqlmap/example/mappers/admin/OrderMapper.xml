@@ -63,9 +63,9 @@
 		  FROM PAYMENTS
 		 WHERE 1=1
 	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
-	       AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
+	       AND PAYMENT_STATUS = #{PAYMENT_STATUS}
 	    </if>
-	</select>selectShipListByAdmin
+	</select>
 
 
 	<update id="updatePaymentListByAdmin" parameterType="map">
@@ -78,7 +78,6 @@
 	
 	<select id="selectShipListByAdmin" parameterType="map" resultType="map">
 	    #결제내역 조회
-	    
 		SELECT SHIPMENT_ID               -- 배송 ID
 			 , '0' AS CHK                -- 넥사 체크박스 설정을 위한 CHK
 		     , ORDER_ID                  -- 주문 ID
@@ -91,10 +90,17 @@
 		  FROM SHIPS
 		 WHERE 1=1
 	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
-	       AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
+	       AND PAYMENT_STATUS = #{PAYMENT_STATUS}
 	    </if>
 	</select>
-
 	
-
+	<update id="updateShipListByAdmin" parameterType="map">
+	     # 결제 상태 업데이트
+	     
+		 UPDATE SHIPS                                        -- 배송 테이블
+            SET SHIPMENT_STATUS = #{SHIPMENT_STATUS}         -- 배송 상황 업데이트
+              , TRACKING_NUMBER = #{TRACKING_NUMBER}         -- 송장번호 등록
+          WHERE SHIPMENT_ID = #{SHIPMENT_ID}	             -- 배송 ID로 조회
+	</update>
+	
 </mapper>

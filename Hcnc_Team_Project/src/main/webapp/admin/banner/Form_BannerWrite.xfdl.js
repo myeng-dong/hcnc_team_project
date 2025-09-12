@@ -11,13 +11,15 @@
         {
             this.set_name("Form_BannerWrite");
             this.set_titletext("New Form");
-            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
+<<<<<<< HEAD
+
+=======
             obj = new Dataset("ds_bwrite", this);
             obj._setContents("<ColumnInfo><Column id=\"BANNER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"BANNER_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"BANNER_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_ORIGIN_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_ATTACHED_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_PATH\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"LINKED_URL\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_DT\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
@@ -26,14 +28,12 @@
             obj = new Dataset("ds_radio_view_type", this);
             obj._setContents("<ColumnInfo><Column id=\"y\" type=\"STRING\" size=\"256\"/><Column id=\"n\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
+>>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
             
             // UI Components Initialize
-            obj = new Static("stat_bg","40","40",null,"470","40",null,null,null,null,null,this);
-            obj.set_taborder("0");
-            obj.set_background("#ffffff");
-            obj.set_borderRadius("10px");
-            this.addChild(obj.name, obj);
 
+<<<<<<< HEAD
+=======
             obj = new Static("txt_th","90","74","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("노출여부");
@@ -115,6 +115,7 @@
             obj.set_codecolumn("y");
             obj.set_datacolumn("y");
             this.addChild(obj.name, obj);
+>>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
@@ -133,8 +134,9 @@
         };
         
         // User Script
-        this.registerScript("Form_BannerWrite.xfdl", function() {
 
+<<<<<<< HEAD
+=======
         this.Form_BannerWrite_onload = function(obj,e)
         {
         	trace("배너 추가페이지>>>");
@@ -302,10 +304,14 @@
 
 
         });
+>>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
+<<<<<<< HEAD
+
+=======
             this.addEventHandler("onload",this.Form_BannerWrite_onload,this);
             this.txt_thbanner.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_thtitle.addEventHandler("onclick",this.txt_th00_onclick,this);
@@ -314,6 +320,7 @@
             this.txt_th_link.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.fileup_img.addEventHandler("onitemchanged",this.FileUpload00_onitemchanged,this);
             this.btn_cancle.addEventHandler("onclick",this.btn_cancle_onclick,this);
+>>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
         };
         this.loadIncludeScript("Form_BannerWrite.xfdl");
         this.loadPreloadList();
