@@ -5,12 +5,12 @@
 
 <!-- 	상품목록리스트조회  -->
 	<select id="selectProductListByAdmin"  parameterType="java.util.Map"  resultType="java.util.Map">
-		SELECT
+	SELECT
 		p.PRODUCT_CODE,
 		p.PRODUCT_NAME,
 		p.PRODUCT_CONTENT,
 		p.COST_PRICE,
-		p.PRODUCT_PRICE,
+		(p.PRODUCT_PRICE + o.ADDITIONAL_PRICE) as 'PRODUCT_PRICE',
 		o.ADDITIONAL_PRICE,
 		mc.MAIN_CATE_NM,
 		sc.SUB_CATE_NM,
@@ -38,7 +38,8 @@
 		ON
 		p.PRODUCT_ID = i.PRODUCT_ID
 		AND (o.OPTION_ID IS NULL
-			OR i.OPTION_ID = o.OPTION_ID)
+			OR i.OPTION_ID = o.OPTION_ID);
+
 	</select>
 	
 	
