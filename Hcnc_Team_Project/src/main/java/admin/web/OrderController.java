@@ -47,4 +47,21 @@ public class OrderController {
 		return result;
 	}
 
+
+    // 결제 상태 업데이트
+    @RequestMapping(value="/updatePaymentListByAdmin.do")
+    public NexacroResult updatePaymentListByAdmin(
+            @ParamDataSet(name="ds_selected", required=false) List<Map<String, Object>> dsSelected) {
+
+        NexacroResult result = new NexacroResult();
+
+        if (dsSelected != null) {
+            for (Map<String,Object> row : dsSelected) {
+                orderService.updatePaymentListByAdmin(row);
+            }
+        }
+
+        return result;
+    }
+
 }

@@ -50,13 +50,16 @@
 	
 	
 	<select id="selectPaymentListByAdmin" parameterType="map" resultType="map">
-		SELECT PAYMENT_ID
-		     , ORDER_ID
-		     , PAYMENT_METHOD
-		     , PAYMENT_AMOUNT
-		     , PAYMENT_STATUS
-		     , PAYMENT_DT
-		     , UPDATE_DT
+	   
+	    #결제내역 조회
+		SELECT PAYMENT_ID                -- 결제ID
+			 , '0' AS CHK                -- 프론트 체크박스 설정을 위한 CHK
+		     , ORDER_ID                  -- 주문ID
+		     , PAYMENT_METHOD            -- 결제 방법
+		     , PAYMENT_AMOUNT            -- 결제 금액
+		     , PAYMENT_STATUS            -- 결제 상태
+		     , PAYMENT_DT                -- 결제 일자
+		     , UPDATE_DT                 -- 수정 일자
 		  FROM PAYMENTS
 		 WHERE 1=1
 	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
@@ -64,6 +67,14 @@
 	    </if>
 	</select>
 
+	<update id="updatePaymentListByAdmin" parameterType="map">
+	   
+	     # 결제 상태 업데이트
+	     
+		 UPDATE PAYMENTS                                   -- 결제테이블
+            SET PAYMENT_STATUS = #{PAYMENT_STATUS}         -- 결제 상황 업데이트
+          WHERE PAYMENT_ID = #{PAYMENT_ID}	               -- 결제ID로 조회
+	</update>
 
 
 </mapper>

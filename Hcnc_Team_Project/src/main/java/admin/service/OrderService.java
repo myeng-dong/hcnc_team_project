@@ -22,6 +22,10 @@ public class OrderService {
 	public List<Map<String, Object>> selectPaymentListByAdmin(Map<String, Object> dsSearch) {
 		return orderMapper.selectPaymentListByAdmin(dsSearch);
 	}
+
+	public void updatePaymentListByAdmin(Map<String, Object> row) {
+		orderMapper.updatePaymentListByAdmin(row);
+	}
 	
 
 	
