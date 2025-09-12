@@ -1,8 +1,130 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_BannerWrite" width="1280" height="720" titletext="New Form">
+  <Form id="Form_BannerWrite" width="1280" height="720" titletext="New Form" background="#F4F7FE">
     <Layouts>
-      <Layout height="720" width="1280"/>
+      <Layout height="720" width="1280">
+        <Static id="stat_bg" taborder="0" left="40" top="40" height="470" background="#ffffff" borderRadius="10px" right="40"/>
+        <Static id="txt_th" taborder="1" text="노출여부" left="90" top="74" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="txt_th00" taborder="2" text="배너타입" left="90" top="150" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_th00_00" taborder="3" text="배너 제목" left="90" top="230" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_th00_00_00" taborder="4" text="첨부파일" left="100" top="316" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_th00_00_00_00" taborder="5" text="등록일" left="660" top="154" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_th00_00_00_00_00" taborder="6" text="링크" left="100" top="442" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Combo id="Combo00" taborder="7" text="Combo00" left="220" top="62" width="180" height="48"/>
+        <Edit id="Edit00" taborder="8" left="215" top="225" width="950" height="48"/>
+        <Edit id="Edit00_00" taborder="9" left="220" top="320" width="950" height="48"/>
+        <Combo id="Combo00_00" taborder="10" text="Combo00" left="220" top="146" width="180" height="48"/>
+      </Layout>
     </Layouts>
+    <Objects>
+      <Dataset id="ds_bwrite"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.FileDialog00.open('nexacro17', FileDialog.MULTILOAD);
+};
+
+this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	this.addFileList(e.virtualfiles);
+};
+
+this.addFileList = function(filelist)
+{
+	for (var i = 0, len = filelist.length, vFile; i < len; i++)
+	{
+		vFile = filelist[i];
+		vFile.addEventHandler("onsuccess", this.FileList_onsuccess, this);
+		vFile.addEventHandler("onerror", this.FileList_onerror , this);
+		
+		vFile.open(null, 1);
+	}
+}
+
+this.FileList_onsuccess = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	switch (e.reason)
+	{
+		case 1:
+			obj.getFileSize();
+			break;
+		case 9:
+			var nRowIdx = this.Dataset00.addRow();
+			this.Dataset00.setColumn(nRowIdx, 0, obj.filename);
+			this.Dataset00.setColumn(nRowIdx, 1, this.cutFileSize(e.filesize));
+			this.FileUpTransfer00.addFile(obj.filename, obj);
+			break;
+	}
+}
+
+this.FileList_onerror = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileErrorEventInfo)
+{
+	trace("errortype: "+e.errortype);
+	trace("errormsg: "+e.errormsg);
+	trace("statuscode: "+e.statuscode);
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications#Example_Showing_file(s)_size
+this.cutFileSize = function(filesize)
+{
+	var sOutput = filesize + " bytes";
+	for (var aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], nMultiple = 0, nApprox = filesize / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) 
+	{
+		sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
+	}
+	return sOutput;
+};
+this.Grid00_ondragenter = function(obj:nexacro.Grid,e:nexacro.DragEventInfo)
+{
+	if(e.datatype == "file")
+	{
+		this.Grid00.set_opacity(0.5);
+	}
+};
+
+this.Grid00_ondragleave = function(obj:nexacro.Grid,e:nexacro.DragEventInfo)
+{
+	this.Grid00.set_opacity(1);
+};
+
+this.Grid00_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{
+	this.Grid00.set_opacity(1);
+	if(e.datatype == "file")
+	{
+		this.addFileList(e.filelist);
+	}
+};
+
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.TextArea00.set_value("");
+	this.FileUpTransfer00.upload('http://demo.nexacro.com/developer_guide/17/Service/fileupload.jsp');
+};
+
+this.FileUpTransfer00_onprogress = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferProgressEventInfo)
+{
+	this.fn_addlog(e.loaded+"/"+e.total);
+};
+
+this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferEventinfo)
+{
+	this.fn_addlog(e.code);
+	this.fn_addlog(e.message);
+};
+
+this.FileUpTransfer00_onerror = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferErrorEventInfo)
+{
+	this.fn_addlog(e.errormsg);
+	this.fn_addlog(e.statuscode);
+};
+
+this.fn_addlog = function(strMessage)
+{
+	this.TextArea00.insertText(strMessage + '\n');
+	
+}
+]]></Script>
   </Form>
 </FDL>
