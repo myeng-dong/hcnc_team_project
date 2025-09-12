@@ -10,10 +10,38 @@
 		p.PRODUCT_NAME,
 		p.PRODUCT_CONTENT,
 		p.COST_PRICE,
+<<<<<<< Updated upstream
 		(p.PRODUCT_PRICE + o.ADDITIONAL_PRICE) as 'PRODUCT_PRICE',
+=======
+		(p.PRODUCT_PRICE + o.ADDITIONAL_PRICE)  'PRODUCT_PRICE',
+>>>>>>> Stashed changes
 		o.ADDITIONAL_PRICE,
 		mc.MAIN_CATE_NM,
 		sc.SUB_CATE_NM,
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		o.OPTION_NAME,
 		p.IS_VISIBLE,
 		i.QUANTITY,
@@ -23,6 +51,7 @@
 		END AS SOLD_OUT,
 		p.INPUT_DT,
 		p.UPDATE_DT
+<<<<<<< Updated upstream
 	FROM
 		hcnc_Team_06.PRODUCTS p
 	JOIN hcnc_Team_06.SUB_CATEGORIES sc 
@@ -39,6 +68,24 @@
 		p.PRODUCT_ID = i.PRODUCT_ID
 		AND (o.OPTION_ID IS NULL
 			OR i.OPTION_ID = o.OPTION_ID);
+=======
+		FROM
+			hcnc_Team_06.PRODUCTS p
+		JOIN hcnc_Team_06.SUB_CATEGORIES sc 
+		    ON
+			p.SUB_CATE_ID = sc.SUB_CATE_ID
+		JOIN hcnc_Team_06.MAIN_CATEGORIES mc 
+		    ON
+			sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+		LEFT JOIN hcnc_Team_06.`OPTIONS` o  
+		    ON
+			p.PRODUCT_ID = o.PRODUCT_ID
+		LEFT JOIN hcnc_Team_06.INVENTORIES i 
+			ON
+			p.PRODUCT_ID = i.PRODUCT_ID
+			AND (o.OPTION_ID IS NULL
+				OR i.OPTION_ID = o.OPTION_ID);
+>>>>>>> Stashed changes
 
 	</select>
 	
