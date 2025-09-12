@@ -23,12 +23,13 @@
     }
 
     try {
+    	 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         InputSource is = new InputSource(new StringReader(xmlData));
         is.setEncoding("UTF-8");
         Document doc = builder.parse(is);
-
+        
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Sheet1");
 
@@ -56,7 +57,6 @@
         bodyStyle.setBorderRight(BorderStyle.THIN);
 
         int currentRow = 0;
-
         // -------------------------------
         // 1. Header 처리 (병합 포함)
         // -------------------------------
@@ -108,7 +108,6 @@
             }
             currentRow++;
         }
-
         // -------------------------------
         // 2. Body 처리
         // -------------------------------
