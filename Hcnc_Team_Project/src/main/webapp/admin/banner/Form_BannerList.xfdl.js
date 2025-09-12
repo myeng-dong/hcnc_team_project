@@ -100,7 +100,7 @@
         };
 
 
-        // 주문 내역 조회
+        // 배너조회
         this.fnSearchBanner = function() {
             var strSvcID       = "selectBanner";
             var strURL         = "svc::selectBannerListByAdmin.do";  // Spring Controller 매핑
