@@ -464,7 +464,7 @@ textarea::-webkit-scrollbar { display: none; }
 }
 .GridCellControl .celltreeitem .treeitemtext
 {
-	font : 12px "Gulim";
+	font : normal 10pt/normal "Noto Sans KR Medium";
 	color : #666666;
 }
 .GridCellControl .celltreeline
@@ -1802,6 +1802,7 @@ textarea::-webkit-scrollbar { display: none; }
 }
 #nexacontainer .GridCellControl .celltreeitem .treeitemtext[status=disabled]
 {
+	font : normal 10pt/normal "Noto Sans KR Medium";
 	color : #999999;
 }
 #nexacontainer .GroupBox .groupboxcontents[status=disabled]
