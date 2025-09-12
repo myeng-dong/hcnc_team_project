@@ -33,15 +33,8 @@
             obj.set_image("url(\'imagerc::h1_logo.png\')");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00",null,"5","120","43","200",null,null,null,null,null,this);
-            obj.set_taborder("2");
-            obj.set_text("{login_id}");
-            obj.set_font("normal 12pt/normal \"Pretendard SemiBold\"");
-            obj.set_textAlign("right");
-            this.addChild(obj.name, obj);
-
             obj = new Button("btn_logout",null,"11","80","31","10",null,null,null,null,null,this);
-            obj.set_taborder("3");
+            obj.set_taborder("2");
             obj.set_text("로그아웃");
             obj.set_font("normal 10pt/normal \"Pretendard SemiBold\"");
             obj.set_background("transition");
@@ -50,8 +43,13 @@
             this.addChild(obj.name, obj);
 
             obj = new Div("div_grayline","0",null,null,"1","0","0",null,null,null,null,this);
-            obj.set_taborder("4");
+            obj.set_taborder("3");
             obj.set_background("#cccccc");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static01","1015","14","70","22",null,null,null,null,null,null,this);
+            obj.set_taborder("4");
+            obj.set_border("1px solid black");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -59,7 +57,9 @@
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-
+            obj = new BindItem("item0","Static01","text","gds_adminInfo","MEMBER_ID");
+            this.addChild(obj.name, obj);
+            obj.bind();
             
             // TriggerItem Information
 
@@ -72,15 +72,59 @@
         
         // User Script
         this.registerScript("Form_Top.xfdl", function() {
-
-        this.h1_logo_onclick = function(obj,e)
-        {
-
-        };
+        this.isWait = false; // 전역변수 선언!
+        //로그아웃 버튼 클릭시 세션 끊고 로그아웃
 
         this.btn_logout_onclick = function(obj,e)
         {
+        	console.log(this.isWait);
+        	if(this.isWait)return;
+        	this.isWait = true;
+        	this.logout();
+        };
 
+        //콜백
+        this.fn_callBack = function (svcID, errorCode, errorMSG)
+        {
+            if(errorCode == -1){
+        		this.alert(errorMSG);
+        	}
+
+        	switch(svcID){
+        	case "adminLogout" :
+
+        		var glbAd = nexacro.getApplication();
+
+        		//전역변수 초기화
+        		if(glbAd.gds_adminInfo){
+        			glbAd.gds_adminInfo.clearData();
+        		}
+
+        		//다시 로그인 화면 갔을 때 탑 메뉴, 레프트 메뉴 닫기
+        		nexacro.VFrameSet00.set_separatesize("0,*");     // Top 접기
+        		nexacro.HFrameSet00.set_separatesize("0,*");     // Left 접기
+        		nexacro.InnerVFrameSet.set_separatesize("0,*");  // Title 접기 (쓰는 경우만)
+
+        		//로그아웃 성공시 로그인 페이지로 이동
+        		this.isWait = false;
+        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": true};
+        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("member::Form_Login.xfdl");
+
+        		break;
+        	}
+        };
+
+        this.logout = function ()
+        {
+        	var strSvcID = "adminLogout"
+        	var setURL = "svc::/adminLogoutByAdmin.do?time=" + new Date().getTime();;
+        	var strInDatasets = "";
+        	var strOutDatasets = "";
+        	var strArg = "";
+        	var callBack = "fn_callBack";
+        	var inAsync = true;
+
+        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
         };
 
         });
@@ -88,6 +132,7 @@
         // Regist UI Components Event
         this.on_initEvent = function()
         {
+            this.addEventHandler("onload",this.Form_Top_onload,this);
             this.Static00.addEventHandler("onclick",this.Static00_onclick,this);
             this.h1_logo.addEventHandler("onclick",this.h1_logo_onclick,this);
             this.btn_logout.addEventHandler("onclick",this.btn_logout_onclick,this);

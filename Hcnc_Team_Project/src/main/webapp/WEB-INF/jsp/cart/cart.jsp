@@ -10,58 +10,57 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script type="text/javaScript" language="javascript" defer="defer"></script>
     <style>
-        /* 레이아웃 */
-    .container{max-width:1200px;margin:0 auto;padding:16px;}
-    .breadcrumb{display:flex;justify-content:flex-end;gap:6px;font-size:14px;margin-bottom:12px;}
-
-    /* 상단 체크/버튼 줄 */
-    .top-check{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:16px 0}
-
-    /* 좌측 테이블 / 우측 합계 배치 */
-    @media (min-width: 992px){
-    .cart-grid{float:left;width:calc(100% - 360px);margin-right:24px;}
-    .summary{float:right;width:336px}
-    }
-
-    /* 테이블 */
-    .cart-table{width:100%;border-collapse:collapse;table-layout:fixed;}
-    .cart-table thead th{background:#f8f9fa;font-weight:600;border-bottom:1px solid #e9ecef}
-    .cart-table th,.cart-table td{padding:14px 10px;border-bottom:1px solid #f1f3f5;vertical-align:middle}
-
-    /* 열 너비 & 정렬 */
-    .col-check{width:48px;text-align:center}
-    .col-img{width:96px;text-align:center}
-    .col-name{text-align:left}
-    .col-price{width:120px;text-align:right}
-    .col-qty{width:160px;text-align:center}
-    .col-total{width:140px;text-align:right}
-    .col-point{width:120px;text-align:right}
-    .col-actions{width:130px;text-align:center}
-
-    /* 상품 이미지 */
-    .col-img img{display:block;margin:0 auto;max-width:72px;max-height:72px;object-fit:cover;border-radius:6px}
-
-    /* 수량 박스 */
-    .qty-box{display:inline-flex;align-items:center;gap:8px}
-    .btn-qty{width:32px;height:32px;border:1px solid #ced4da;background:#f8f9fa;border-radius:6px;font-weight:700;cursor:pointer}
-    .btn-qty:hover{background:#eef1f4}
-
-    /* number 입력 정렬 & 스피너 제거 */
-    .col-qty input[type=number]{width:56px;height:32px;border:1px solid #ced4da;border-radius:6px;text-align:center}
-    input[type=number]::-webkit-outer-spin-button,
-    input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-    input[type=number]{-moz-appearance:textfield}
-
-    /* 우측 합계 카드 */
-    .summary{border:1px solid #e9ecef;border-radius:12px;padding:16px;background:#fafafa}
-    .summary h4{margin:0 0 12px 0}
-    .summary .sum-row,.summary .sum-total{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
-    .summary .sum-total{font-weight:700;border-top:1px dashed #e9ecef;margin-top:8px;padding-top:12px}
-    .price{font-weight:700}
-
-    /* 하단 툴바 */
-    .toolbar{display:flex;align-items:center;gap:10px;margin-top:16px}
-
+	        /* 레이아웃 */
+	    .container{max-width:1200px;margin:0 auto;padding:16px;}
+	    .breadcrumb{display:flex;justify-content:flex-end;gap:6px;font-size:14px;margin-bottom:12px;}
+	
+	    /* 상단 체크/버튼 줄 */
+	    .top-check{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:16px 0}
+	
+	    /* 좌측 테이블 / 우측 합계 배치 */
+	    @media (min-width: 992px){
+	    .cart-grid{float:left;width:calc(100% - 360px);margin-right:24px;}
+	    .summary{float:right;width:336px}
+	    }
+	
+	    /* 테이블 */
+	    .cart-table{width:100%;border-collapse:collapse;table-layout:fixed;}
+	    .cart-table thead th{background:#f8f9fa;font-weight:600;border-bottom:1px solid #e9ecef}
+	    .cart-table th,.cart-table td{padding:14px 10px;border-bottom:1px solid #f1f3f5;vertical-align:middle}
+	
+	    /* 열 너비 & 정렬 */
+	    .col-check{width:48px;text-align:center}
+	    .col-img{width:96px;text-align:center}
+	    .col-name{text-align:left}
+	    .col-price{width:120px;text-align:right}
+	    .col-qty{width:160px;text-align:center}
+	    .col-total{width:140px;text-align:right}
+	    .col-point{width:120px;text-align:right}
+	    .col-actions{width:130px;text-align:center}
+	
+	    /* 상품 이미지 */
+	    .col-img img{display:block;margin:0 auto;max-width:72px;max-height:72px;object-fit:cover;border-radius:6px}
+	
+	    /* 수량 박스 */
+	    .qty-box{display:inline-flex;align-items:center;gap:8px}
+	    .btn-qty{width:32px;height:32px;border:1px solid #ced4da;background:#f8f9fa;border-radius:6px;font-weight:700;cursor:pointer}
+	    .btn-qty:hover{background:#eef1f4}
+	
+	    /* number 입력 정렬 & 스피너 제거 */
+	    .col-qty input[type=number]{width:56px;height:32px;border:1px solid #ced4da;border-radius:6px;text-align:center}
+	    input[type=number]::-webkit-outer-spin-button,
+	    input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+	    input[type=number]{-moz-appearance:textfield}
+	
+	    /* 우측 합계 카드 */
+	    .summary{border:1px solid #e9ecef;border-radius:12px;padding:16px;background:#fafafa}
+	    .summary h4{margin:0 0 12px 0}
+	    .summary .sum-row,.summary .sum-total{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
+	    .summary .sum-total{font-weight:700;border-top:1px dashed #e9ecef;margin-top:8px;padding-top:12px}
+	    .price{font-weight:700}
+	
+	    /* 하단 툴바 */
+	    .toolbar{display:flex;align-items:center;gap:10px;margin-top:16px}
     </style>
     <script>
     	// 페이지 로드
@@ -71,7 +70,7 @@
     
     	// 장바구니 리스트 조회
     	const selectCartList = () => {
-    		var memberId = "kkk";
+    		var memberId = "user01";
     		var param = {
     				memberId : memberId
     		};
@@ -101,24 +100,32 @@
             }
 
             // document.getElementById("quantity").value = quantity - 1;
+            
+            updateCnt();
         }
 
         const countUp = () => {
             var quantity = Number( $("#quantity").val() );
 
             $("#quantity").val(quantity + 1);
+            
+            updateCnt();
         }
 
         // 상품 수량 디비 저장
         const updateCnt = () => {
             var quantity = Number( $("#quantity").val() );
-
+			var cartId = 1;
+			var memberId = "user01";
+            
             if (quantity <= 1){
                 $("#quantity").val(1);
             }
 
             var param = {
                 quantity : quantity
+                , cartId : cartId
+                , memberId : memberId
             };
 
             $.ajax({
