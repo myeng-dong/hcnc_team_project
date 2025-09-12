@@ -235,7 +235,99 @@
         };
         
         // User Script
-        this.registerScript("Form_Product_Main.xfdl", function() {
+        this.registerScript("Form_Product.xfdl", function() {
+         this.Form_ProductAdmin_onload = function(obj,e)
+         {
+         	this.fn_search();
+         };
+
+
+         this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+         	if (nErrorCode < 0) { this.alert("오류: "+strErrorMag); return; }
+
+         	switch(strSvcID){
+         	case "selectProductListByAdmin":
+         		var ea = this.ds_out_proList.getRowCount();
+         		this.stc_total.set_text("총"+ea+"건");
+         		break;
+         	}
+         }
+
+         this.fn_search = function(){
+         	var strSvcId 		= "selectProductListByAdmin";
+         	var strUrl 			= "svc::selectProductListByAdmin.do";
+         	var strInDatasets 	= "ds_in_proList=ds_in_proList";
+         	var strOutDatasets 	= "ds_out_proList=ds_out_proList";
+         	var strArg 			= "";
+         	var callBack 		= "fn_callback";
+         	var inAsync 		= true;
+
+         	this.transaction(strSvcId, strUrl, strInDatasets, strOutDatasets, strArg,callBack,inAsync);
+         }
+
+
+
+         // 엑셀버튼
+         this.btn_excel_onclick = function(obj,e)
+         {
+              var xmlStr = "<Rows>";
+
+             var grid = this.grid_list;
+             var ds = this.ds_out_proList;
+             var rowCount = ds.getRowCount();
+             var colCount = grid.getCellCount("body");
+             var headCellCount = grid.getCellCount("head");
+
+             // [1] Header 정보
+             xmlStr += "<Header>";
+             for (var hc = 0; hc < headCellCount; hc++) {
+                 var row     = grid.getCellProperty("head", hc, "row");
+                 var col     = grid.getCellProperty("head", hc, "col");
+                 var rowspan = grid.getCellProperty("head", hc, "rowspan");
+                 var colspan = grid.getCellProperty("head", hc, "colspan");
+                 var text    = grid.getCellProperty("head", hc, "text");
+                 if (text == null || text == "undefined") text = "";
+
+                 xmlStr += "<Cell row='" + row + "' col='" + col +
+         		"' rowspan='" + rowspan + "' colspan='" + colspan +
+         		"'><![CDATA[" + text + "]]></Cell>";
+             }
+             xmlStr += "</Header>";
+
+              //[2] Body 데이터
+             xmlStr += "<Body>";
+             for (var i = 0; i < rowCount; i++) {
+                 xmlStr += "<Row>";
+                 for (var j = 0; j < colCount; j++) {
+                     var cellValue = grid.getCellText(i, j);
+                     if (cellValue == null || cellValue == "undefined") cellValue = "";
+                     xmlStr += "<C" + j + "><![CDATA[" + cellValue + "]]></C" + j + ">";
+                 }
+                 xmlStr += "</Row>";
+             }
+             xmlStr += "</Body>";
+
+             xmlStr += "</Rows>";
+
+             // [3] POST 방식으로 JSP 호출
+             var svcUrl = "http://localhost:8080/admin/excelExport.jsp";
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open("POST", svcUrl, true);
+            xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState === 4) {
+                    if (xmlhttp.status === 200) {
+                        alert("엑셀 내보내기 완료!");
+                    } else {
+                        alert("엑셀 내보내기 실패! 상태코드: " + xmlhttp.status);
+                    }
+                }
+            };
+
+            xmlhttp.send("xmlData=" + encodeURIComponent(xmlStr));
+        }
 
         });
         
@@ -248,7 +340,7 @@
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
         };
-        this.loadIncludeScript("Form_Product_Main.xfdl");
+        this.loadIncludeScript("Form_Product.xfdl");
         this.loadPreloadList();
         
         // Remove Reference

@@ -116,6 +116,7 @@
         this.fnCallback = function(svc, err, errMsg) {
             if (err < 0) {
                 this.alert("에러 발생: " + errMsg);
+
                 return;
             }
             switch(svc){
