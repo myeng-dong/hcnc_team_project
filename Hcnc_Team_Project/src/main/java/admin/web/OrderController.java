@@ -63,5 +63,20 @@ public class OrderController {
 
         return result;
     }
+    
+    // 배송내역 조회
+  	@RequestMapping(value="/selectShipListByAdmin.do")
+  	public NexacroResult selectShipListByAdmin( 
+  			@ParamDataSet(name="ds_search", required=false) Map<String, Object> dsSearch) {
+  		NexacroResult result = new NexacroResult();
+  		
+  		List<Map<String, Object>> shipList = orderService.selectShipListByAdmin(dsSearch);
+  		
+  		result.addDataSet("ds_ship", shipList);
+
+  		return result;
+  	}
+
+    
 
 }
