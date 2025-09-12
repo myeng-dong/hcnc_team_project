@@ -9,15 +9,13 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>상품 상세페이지</title>
-<!--	
-	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
--->
+	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/global.css'/>"/>
 	<!-- j쿼리를 실행하기 위해 스크립트 선언을 해줘야한다. -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
 	<script type="text/javaScript" language="javascript" defer="defer">
 		$(function(){
-			seletProduct();
+			selectProduct();
 		});
 		
 		const selectProduct = () => {
@@ -34,18 +32,33 @@
 				, data : param
 				, dataType : "json"
 				, success : function(res){
+					console.log(res.product);
 					
+					var product = res.product;
+					
+					$("#product-name").html(product.PRODUCT_NAME);
+					$("#product-price").html(product.PRODUCT_PRICE);
+					$("#saled-price").html(product.SAILED_PRICE);
+					$("#product-code").html(product.PRODUCT_CODE);
+					$("#product-description").html(product.PRODUCT_CONTENT);
+					$("#product-option").html();
 				}
 				, error : function(){
 					
 				}
 			});		
 		}
+		
+		const changeQuantity = (num) => {
+			var quantity = $("#product-quantity").val();
+			
+			$("#product-quantity").val(quantity + num);
+		}
 	</script>
 </head>
 
 <body>
-    <div class="body-container">
+    <div class="container">
       <div class="product-container" style="display: flex; gap: 20px;">
         <div>
           <img id="product-image" src="https://placehold.co/400x400" alt="Product Image">
@@ -78,8 +91,8 @@
               </tr>
               <tr>
                 <td>수량</td>
-                <td>
-                  <input type="number" id="product-quantity" value="1" min="1">
+                <td id="quantity">
+                 
                 </td>
               </tr>
             </tbody>

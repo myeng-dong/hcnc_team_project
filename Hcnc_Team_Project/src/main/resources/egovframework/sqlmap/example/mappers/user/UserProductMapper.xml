@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user.mapper.UserProductMapper">
+	<!-- 상품 조회 -->
+	<!--
+	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
+					,PI.IMAGE_ID, PI.IMAGE_URL, PI.ALT_TEXT, PI.SORT_NUMBER, PI.IS_MAIN
+			FROM PRODUCTS P
+			INNER JOIN PRODUCT_IMG PI
+				ON P.PRODUCT_ID = PI.PRODUCT_ID
+			WHERE P.PRODUCT_ID = #{productId}
+	</select>
+	-->
+	
+	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
+			FROM PRODUCTS P
+			WHERE P.PRODUCT_ID = #{productId}
+	</select>
+	
+</mapper>
