@@ -10,4 +10,9 @@ public interface BannerMapper {
 
 	List<Map<String, Object>> selectBannerListByAdmin();
 
+
+	Object insertBannerByAdmin();
+
+	void updateBannerByAdmin();
+
 }
