@@ -29,8 +29,8 @@ if (nexacro.Environment)
         nexacro._addService("product", "form", "./product/", "session", null, "", "0", "0");
         nexacro._addService("stat", "form", "./stat/", "session", null, "", "0", "0");
         nexacro._addService("setting", "form", "./setting/", "session", null, "", "0", "0");
-        nexacro._addService("dashboard", "form", "./dashboard/", "session", null, "", "0", "0");
         nexacro._addService("banner", "form", "./banner/", "session", null, "", "0", "0");
+        nexacro._addService("dash", "form", "./dash/", "session", null, "", "0", "0");
     	nexacro._component_uri = (nexacro._arg_compurl ? nexacro._arg_compurl : "./nexacro17lib/component/");
     	nexacro._theme_uri = "./_resource_/_theme_/";
     	// load components
@@ -59,8 +59,15 @@ if (nexacro.Environment)
         		{"id":"Dataset", "classname":"nexacro.NormalDataset", "type":"JavaScript"},
         		{"id":"ListView", "classname":"nexacro.ListView", "type":"JavaScript"},
         		{"id":"DataObject", "classname":"nexacro.DataObject", "type":"JavaScript"},
+        		{"id":"View", "classname":"nexacro.View", "type":"JavaScript"},
+        		{"id":"WebBrowser", "classname":"nexacro.WebBrowser", "type":"JavaScript"},
+        		{"id":"FileDownTransfer", "classname":"nexacro.FileDownTransfer", "type":"JavaScript"},
+        		{"id":"FileDownload", "classname":"nexacro.FileDownload", "type":"JavaScript"},
         		{"id":"FileUpload", "classname":"nexacro.FileUpload", "type":"JavaScript"},
-        		{"id":"FileDownload", "classname":"nexacro.FileDownload", "type":"JavaScript"}
+        		{"id":"FileDialog", "classname":"nexacro.FileDialog", "type":"JavaScript"},
+        		{"id":"FileUpTransfer", "classname":"nexacro.FileUpTransfer", "type":"JavaScript"},
+        		{"id":"ExcelExportObject", "classname":"nexacro.ExcelExportObject", "type":"JavaScript"},
+        		{"id":"ExcelImportObject", "classname":"nexacro.ExcelImportObject", "type":"JavaScript"}
         ];
     	nexacro._addClasses(registerclass);
     };

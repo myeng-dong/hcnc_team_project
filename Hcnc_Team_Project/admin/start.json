@@ -112,8 +112,7 @@
         	"form":[
         				"./FrameBase/Form_Top.xfdl.js",
         		"./FrameBase/Form_Left.xfdl.js",
-        		"./FrameBase/Form_Work.xfdl.js",
-        		"./FrameBase/Form_Bottom.xfdl.js"
+        		"./FrameBase/Form_AdminTitle.xfdl.js"
         	]
         }
         ],  

@@ -1,8 +1,215 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_BannerWrite" width="1280" height="720" titletext="New Form">
+  <Form id="Form_BannerWrite" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_BannerWrite_onload">
     <Layouts>
-      <Layout height="720" width="1280"/>
+      <Layout height="720" width="1280">
+        <Static id="stat_bg" taborder="0" left="40" top="40" height="470" background="#ffffff" borderRadius="10px" right="40"/>
+        <Static id="txt_th" taborder="1" text="노출여부" left="90" top="74" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="txt_thbanner" taborder="2" text="배너타입" left="90" top="150" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_thtitle" taborder="3" text="배너 제목" left="90" top="230" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_th_file" taborder="4" text="첨부파일" left="100" top="316" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_date" taborder="5" text="등록일" left="660" top="154" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_th_link" taborder="6" text="링크" left="100" top="442" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
+        <Edit id="input_title" taborder="7" left="215" top="225" width="950" height="48"/>
+        <Edit id="edit_link" taborder="8" left="220" top="432" width="950" height="48"/>
+        <FileUpload id="fileup_img" taborder="9" left="210" top="306" width="955" height="34" onitemchanged="FileUpload00_onitemchanged"/>
+        <Radio id="radio_banner_type" taborder="10" left="215" top="141" width="285" height="55" innerdataset="ds_bwrite" codecolumn="main" datacolumn="메인배너"/>
+        <Button id="btn_done" taborder="11" text="저장" top="532" height="48" background="#1017ac" color="#ffffff" borderRadius="5px" border="0px none" right="40" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Button id="btn_cancle" taborder="12" text="취소" top="530" height="48" background="#ffffff" color="#ff3d3d" borderRadius="5px" border="1px solid #ff3d3d" right="1100" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_cancle_onclick"/>
+        <Radio id="radio_view_type" taborder="13" left="210" top="65" width="285" height="55" innerdataset="ds_radio_view_type" codecolumn="y" datacolumn="y"/>
+      </Layout>
     </Layouts>
+    <Objects>
+      <Dataset id="ds_bwrite">
+        <ColumnInfo>
+          <Column id="BANNER_ID" type="STRING" size="256"/>
+          <Column id="BANNER_TYPE" type="STRING" size="256"/>
+          <Column id="BANNER_TITLE" type="STRING" size="256"/>
+          <Column id="IMG_ORIGIN_NAME" type="STRING" size="256"/>
+          <Column id="IMG_ATTACHED_NAME" type="STRING" size="256"/>
+          <Column id="IMG_PATH" type="STRING" size="256"/>
+          <Column id="IS_VISIBLE" type="STRING" size="256"/>
+          <Column id="LINKED_URL" type="STRING" size="256"/>
+          <Column id="SORT_NUMBER" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="UPDATE_DT" type="STRING" size="256"/>
+          <Column id="INPUT_ID" type="STRING" size="256"/>
+          <Column id="UPDATE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_radio_view_type">
+        <ColumnInfo>
+          <Column id="y" type="STRING" size="256"/>
+          <Column id="n" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[
+this.Form_BannerWrite_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	trace("배너 추가페이지>>>");
+};
+
+this.btn_cancle_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	nexacro.WorkFrame.set_formurl("banner::Form_BannerList.xfdl");
+};
+
+
+this.btn_write_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (!this.radio_view_type || !this.radio_banner_type ||
+        !this.input_title || !this.fileup_img || !this.edit_link) {
+		trace(radio_view_type+"radio_view_type"+radio_banner_type+"radio_banner_type")
+		trace(fileup_img+"fileup_img"+edit_link+"edit_link"+input_title+"input_title")
+        alert("모두입력해라.");
+        return;
+    }
+    this.fnInsertBanner();
+};
+
+this.FileDialog_img_onclose = function(obj:nexacro.FileDialog, e:nexacro.FileDialogEventInfo)
+{
+    this.addFileList(e.virtualfiles);
+};
+
+// 선택한 파일 목록 추가
+this.addFileList = function(filelist)
+{
+    for (var i = 0, len = filelist.length, vFile; i < len; i++)
+    {
+        vFile = filelist[i];
+        vFile.addEventHandler("onsuccess", this.FileList_onsuccess, this);
+        vFile.addEventHandler("onerror", this.FileList_onerror , this);
+        
+        vFile.open(null, 1);
+    }
+}
+
+// 파일 상세정보
+this.FileList_onsuccess = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+    switch (e.reason)
+    {
+        case 1:
+            obj.getFileSize();
+            break;
+        case 9:
+            var nRowIdx = this.ds_bwrite.addRow();
+            this.ds_bwrite.setColumn(nRowIdx, "filename", obj.filename);
+            this.ds_bwrite.setColumn(nRowIdx, "filesize", this.cutFileSize(e.filesize));
+            this.fileup_img.addFile(obj.filename, obj);
+            break;
+    }
+}
+
+this.FileList_onerror = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileErrorEventInfo)
+{
+    trace("errortype: "+e.errortype);
+    trace("errormsg: "+e.errormsg);
+    trace("statuscode: "+e.statuscode);
+}
+
+// 파일 사이즈 단위 변환
+this.cutFileSize = function(filesize)
+{
+    var sOutput = filesize + " bytes";
+    for (var aMultiples = ["KB", "MB", "GB", "TB"], nMultiple = 0, nApprox = filesize / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) 
+    {
+        sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
+    }
+    return sOutput;
+}
+
+// 저장 버튼 눌렀을 때 업로드 실행
+this.btn_done_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+{
+    this.fileup_img.upload('http://demo.nexacro.com/developer_guide/17/Service/fileupload.jsp');
+};
+
+// 업로드 진행상황
+this.fileup_img_onprogress = function(obj:nexacro.FileUploadTransfer, e:nexacro.FileUploadTransferProgressEventInfo)
+{
+    trace(e.loaded+"/"+e.total);
+};
+
+// 업로드 성공
+this.fileup_img_onsuccess = function(obj:nexacro.FileUploadTransfer, e:nexacro.FileUploadTransferEventInfo)
+{
+    trace(e.code);
+    trace(e.message);
+};
+
+// 업로드 실패
+this.fileup_img_onerror = function(obj:nexacro.FileUploadTransfer, e:nexacro.FileUploadTransferErrorEventInfo)
+{
+    trace(e.errormsg);
+    trace(e.statuscode);
+};
+
+
+// 배너 insert용
+this.fnInsertBanner = function() {
+    var strSvcID       = "insertBanner";
+    var strURL         = "svc::insertBannerListByAdmin.do";  // Spring Controller 매핑
+    var strInDatasets  = "ds_bwrite=ds_bwrite";
+    var strOutDatasets = ""; 
+    var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
+    var strCallback    = "fnCallback";
+
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+	trace(transaction+" : 배너 update 요청 >>>");
+};
+
+// 배너 update용
+this.fnInsertBanner = function() {
+	if (!BANENR_CODE) {
+		this.alert("게시글 코드가 안넘어왔음");
+		return;
+	}
+    var strSvcID       = "updateBanner";
+    var strURL         = "svc::updateBannerListByAdmin.do";  // Spring Controller 매핑
+    var strInDatasets  = "ds_bwrite=ds_bwrite";
+    var strOutDatasets = "ds_bwrite=ds_bwrite"; 
+    var strArg         = "BANENR_CODE=" + BANENR_CODE; // 필요 시 조건 전달 (예: USER_ID=xxx)
+    var strCallback    = "fnCallback";
+	var inAsync = true; //동기true
+
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+	trace(transaction+" : 배너 update 요청 >>>");
+};
+
+
+// 공통 콜백
+this.fnCallback = function(svc, err, errMsg) {
+    if (err < 0) {
+        this.alert("에러 발생: " + errMsg);
+        return;
+    }
+    switch(svc){
+		case "insertBanner"  :
+			trace("잘 들어갔다");
+		return;
+		
+		case "" :
+		
+		var boardTitle  = this.ds_detail.getColumn(0, "BOARD_TITLE");
+			var boardWriter = this.ds_detail.getColumn(0, "BOARD_WRITER");
+			var boardContent   = this.ds_detail.getColumn(0, "BOARD_CONTENT");
+			var regDate     = this.ds_detail.getColumn(0, "REG_DATE");
+			
+			this.static_board_title.set_text(boardTitle);
+			this.static_board_writer.set_text(boardWriter);
+			this.static_board_content.set_text(boardContent);
+			this.static_board_regdate.set_text(regDate);
+			
+			console.log(this.ds_detail.saveXML());
+		return;
+		
+	}
+};
+
+
+]]></Script>
   </Form>
 </FDL>

@@ -1,75 +1,182 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Order_Main" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_Order_Main_onload">
+  <Form id="Form_Order_Pay" width="1280" height="720" titletext="결제 내역" background="#F4F7FE" onload="Form_Order_Pay_onload">
     <Layouts>
       <Layout height="720" width="1280">
-        <Div id="search_area" taborder="1" left="40" top="50" height="140" background="#ffffff" borderRadius="10px" right="40" text=""/>
-        <Grid id="grid_list" taborder="0" left="40" top="130" height="390" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_order">&gt; <Formats><Format id="default"><Columns><Column size="107"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/></Columns><Rows><Row size="44" band="head"/><Row size="33"/></Rows><Band id="head"><Cell text="주문번호" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="1" text="ID" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="2" text="총금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="3" text="할인금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="4" text="최종금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="5" text="결제상태" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="6" text="배송상태" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="7" text="쿠폰" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="8" text="프로모션" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="9" text="포인트" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/></Band><Band id="body"><Cell text="bind:ORDER_NUMBER" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="1" text="bind:USER_ID" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="2" text="bind:TOTAL_AMOUNT" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="3" text="bind:DISCOUNT_AMOUNT" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="4" text="bind:FINAL_AMOUNT" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="5" text="bind:PAYMENT_STATUS" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="6" text="bind:SHIPMENT_STATUS" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="7" text="bind:COUPON_TYPE" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="8" text="bind:PROMOTION_NAME" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="9" text="bind:POINT" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/></Band></Format></Formats></Grid>
+        <!-- 검색 영역 -->
+        <Div id="search_area" taborder="1" left="40" top="40" height="140" background="#ffffff" borderRadius="10px" right="40">
+          <Layouts>
+            <Layout>
+              <Button id="btn_save" taborder="0" text="저장" left="1034" top="50" width="128" height="40" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#3F00FF" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <!-- 결제 내역 그리드 -->
+        <Grid id="grid_list" taborder="0" left="40" top="220" right="40" bottom="40" binddataset="ds_pay" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="90"/>
+                <Column size="100"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="140"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="34"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="chk" displaytype="checkboxcontrol" edittype="checkbox" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="1" text="주문번호" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="2" text="결제수단" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="3" text="결제금액" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="4" text="결제상태" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="5" text="결제일" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="1" text="bind:ORDER_ID" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="2" text="bind:PAYMENT_METHOD" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="3" text="bind:PAYMENT_AMOUNT" textAlign="right" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="4" text="bind:PAYMENT_STATUS" displaytype="combocontrol" edittype="combo" combodataset="ds_status" combocodecol="NAME" combodatacol="NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="5" text="bind:PAYMENT_DT" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[//온로드시
-this.Form_Order_Main_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
-{
-	this.fnSearchOrders();
+    <Script type="xscript5.1"><![CDATA[// onload
+this.Form_Order_Pay_onload = function(obj, e) {
+    this.grid_list.setCellProperty("head", 0, "text", "0");
+
+    this.fnSearchPay();
+};
+
+// 조회
+this.fnSearchPay = function() {
+    var strSvcID       = "selectPayment";
+    var strURL         = "svc::selectPaymentListByAdmin.do";
+    var strInDatasets  = "";
+    var strOutDatasets = "ds_pay=ds_pay";
+    var strArg         = "";
+    var strCallback    = "fnCallback";
+
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
 };
 
 
-// 주문 내역 조회
-this.fnSearchOrders = function() {
-    var strSvcID       = "selectOrders";
-    var strURL         = "svc::selectOrderDetailListByAdmin.do";  // Spring Controller 매핑
-    var strInDatasets  = "";
-    var strOutDatasets = "ds_order=ds_order"; 
-    var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
+
+// 서버 전송
+this.fnSaveSelectedPay = function() {
+    var strSvcID       = "saveSelectedPay";
+    var strURL         = "svc::updatePaymentListByAdmin.do";
+    var strInDatasets  = "ds_selected=ds_selected";
+    var strOutDatasets = "";
+    var strArg         = "";
     var strCallback    = "fnCallback";
 
     this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
 };
 
 // 공통 콜백
-this.fnCallback = function(svc, err, errMsg) {
-    if (err < 0) {
-        this.alert("에러 발생: " + errMsg);
+this.fnCallback = function(svcID, errCode, errMsg) {
+    if (errCode < 0) {
+        this.alert("에러: " + errMsg);
         return;
     }
-    switch(svc){
-		case selectOrders  :
-		
-	}
+
+    switch(svcID) {
+        case "selectPayment":
+            trace("조회 완료");
+            break;
+        case "saveSelectedPay":
+            this.alert("저장 완료");
+            this.fnSearchPay();
+            break;
+    }
 };
+
+this.search_area_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_selected.clearData();
+
+    for (var i = 0; i < this.ds_pay.getRowCount(); i++) {
+        if (this.ds_pay.getColumn(i, "CHK") == "1") {
+            var nRow = this.ds_selected.addRow();
+            this.ds_selected.copyRow(nRow, this.ds_pay, i);
+        }
+    }
+
+    if (this.ds_selected.getRowCount() == 0) {
+        this.alert("선택된 항목이 없습니다.");
+        return;
+    }
+
+    this.fnSaveSelectedPay();
+};
+
+this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEventInfo)
+{
+    // 첫 번째 컬럼(체크박스 헤더) 클릭 시
+    if (e.cell == 0) {
+        var headVal = obj.getCellProperty("head", 0, "text");
+
+        // 현재 상태 확인 (체크 → 해제 / 해제 → 체크)
+        var newVal = (headVal == "1" ? "0" : "1");
+
+        // 헤더 갱신
+        obj.setCellProperty("head", 0, "text", newVal);
+
+        // 데이터셋 전체 반영
+        for (var i = 0; i < this.ds_pay.getRowCount(); i++) {
+            this.ds_pay.setColumn(i, "CHK", newVal);
+        }
+    }
+};
+
 ]]></Script>
-    <Bind>
-      <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
-    </Bind>
     <Objects>
+      <!-- 결제내역 Dataset -->
       <Dataset id="ds_pay">
         <ColumnInfo>
+          <Column id="CHK" type="STRING" size="1" default="0"/>
+          <Column id="PAYMENT_ID" type="STRING" size="256"/>
           <Column id="ORDER_ID" type="STRING" size="256"/>
-          <Column id="ORDER_NUMBER" type="STRING" size="256"/>
-          <Column id="USER_ID" type="STRING" size="256"/>
-          <Column id="TOTAL_AMOUNT" type="STRING" size="256"/>
-          <Column id="DISCOUNT_AMOUNT" type="STRING" size="256"/>
-          <Column id="FINAL_AMOUNT" type="STRING" size="256"/>
+          <Column id="PAYMENT_METHOD" type="STRING" size="256"/>
+          <Column id="PAYMENT_AMOUNT" type="STRING" size="256"/>
           <Column id="PAYMENT_STATUS" type="STRING" size="256"/>
-          <Column id="SHIPMENT_STATUS" type="STRING" size="256"/>
-          <Column id="COUPON_TYPE" type="STRING" size="256"/>
-          <Column id="PROMOTION_NAME" type="STRING" size="256"/>
-          <Column id="POINT" type="STRING" size="256"/>
+          <Column id="PAYMENT_DT" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row/>
-        </Rows>
       </Dataset>
-      <Dataset id="ds_search">
+      <!-- 선택된 Dataset -->
+      <Dataset id="ds_selected">
         <ColumnInfo>
-          <Column id="START_DATE" type="STRING" size="256"/>
-          <Column id="END_DATE" type="STRING" size="256"/>
-          <Column id="USER_ID" type="STRING" size="256"/>
-          <Column id="ORDER_STATUS" type="STRING" size="256"/>
+          <Column id="PAYMENT_ID" type="STRING" size="256"/>
+          <Column id="ORDER_ID" type="STRING" size="256"/>
+          <Column id="PAYMENT_METHOD" type="STRING" size="256"/>
+          <Column id="PAYMENT_AMOUNT" type="STRING" size="256"/>
           <Column id="PAYMENT_STATUS" type="STRING" size="256"/>
+          <Column id="PAYMENT_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <!-- 결제 상태 콤보 Dataset -->
+      <Dataset id="ds_status">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="10"/>
+          <Column id="NAME" type="STRING" size="50"/>
         </ColumnInfo>
         <Rows>
-          <Row/>
+          <Row>
+            <Col id="CODE">WAIT</Col>
+            <Col id="NAME">결제 대기</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">DONE</Col>
+            <Col id="NAME">결제 완료</Col>
+          </Row>
         </Rows>
       </Dataset>
     </Objects>

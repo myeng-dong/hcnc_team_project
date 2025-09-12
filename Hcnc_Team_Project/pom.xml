@@ -77,6 +77,35 @@
     </repositories>
 
 	<dependencies>
+	
+	<!-- 엑셀 파일 읽는 설정 추가 -->
+	    <dependency>
+	        <groupId>org.apache.poi</groupId>
+	        <artifactId>poi-ooxml</artifactId>
+	        <version>4.1.2</version> 
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.poi</groupId>
+	        <artifactId>poi</artifactId>
+	        <version>4.1.2</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.poi</groupId>
+	        <artifactId>poi-ooxml-schemas</artifactId>
+	        <version>4.1.2</version> 
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>org.apache.xmlbeans</groupId>
+	        <artifactId>xmlbeans</artifactId>
+	        <version>3.1.0</version>
+	    </dependency>
+	
+	
+	
+	
+	
+	
 <!-- ############  NEXACROPLATFORM UIADAPTER17 LIBRARY  ############ -->
 		<dependency>
 		  <groupId>com.nexacro.uiadapter17.spring</groupId>
@@ -136,6 +165,29 @@
 		  </exclusions>
 		</dependency>
 	
+	<!-- 엑셀 파일 읽는 설정 추가 -->
+	    <dependency>
+	        <groupId>org.apache.poi</groupId>
+	        <artifactId>poi-ooxml</artifactId>
+	        <version>4.1.2</version> 
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.poi</groupId>
+	        <artifactId>poi</artifactId>
+	        <version>4.1.2</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.apache.poi</groupId>
+	        <artifactId>poi-ooxml-schemas</artifactId>
+	        <version>4.1.2</version> 
+	    </dependency>
+	    
+	    <dependency>
+	        <groupId>org.apache.xmlbeans</groupId>
+	        <artifactId>xmlbeans</artifactId>
+	        <version>3.1.0</version>
+	    </dependency>
+	    
 		<!-- 표준프레임워크 실행환경 -->
         <dependency>
 		    <groupId>egovframework.rte</groupId>
@@ -332,6 +384,13 @@
         <version>1.6.2</version>
       </dependency>
 	</dependencies>
+
+
+
+
+
+
+
 
 	<build>
         <defaultGoal>install</defaultGoal>

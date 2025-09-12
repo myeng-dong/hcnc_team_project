@@ -3835,6 +3835,24 @@
         		imgcache[nexacro._getImageLocation("theme://theme_ie11.css")] = { width:0, height:0 };
         		imgcache[nexacro._getImageLocation("theme://theme_runtime.css")] = { width:0, height:0 };
         		imgcache[nexacro._getImageLocation("theme://theme_safari.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_common.map.js")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_common_chrome.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_common_ie10.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_common_ie11.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_common_runtime.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_common_safari.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_layout.map.js")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_layout_chrome.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_layout_ie10.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_layout_ie11.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_layout_runtime.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_layout_safari.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_leftgrid.map.js")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_leftgrid_chrome.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_leftgrid_ie10.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_leftgrid_ie11.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_leftgrid_runtime.css")] = { width:0, height:0 };
+        		imgcache[nexacro._getImageLocation("theme://xcssrc_leftgrid_safari.css")] = { width:0, height:0 };
 	};
 }
 )();

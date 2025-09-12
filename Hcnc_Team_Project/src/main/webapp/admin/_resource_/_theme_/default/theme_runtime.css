@@ -248,7 +248,7 @@
 }
 .GridCellControl .celltreeitem .treeitemtext
 {
-	font : 12px "Gulim";
+	font : normal 10pt/normal "Noto Sans KR Medium";
 	color : #666666;
 }
 .GridCellControl .celltreeline
@@ -1451,6 +1451,7 @@
 }
 .GridCellControl .celltreeitem .treeitemtext[status=disabled]
 {
+	font : normal 10pt/normal "Noto Sans KR Medium";
 	color : #999999;
 }
 .GroupBox .groupboxcontents[status=disabled]
