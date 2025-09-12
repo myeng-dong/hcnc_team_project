@@ -15,7 +15,7 @@
 
 
             obj = new Dataset("gds_adminInfo", this);
-            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this._addDataset(obj.name, obj);
             
             // global variable
@@ -99,7 +99,9 @@
             nexacro.InnerVFrameSet.set_separatesize("0,*"); // TitleFrame 높이 0
 
             //최초 화면 = 로그인 - feat. 09.11 'GJ'
+        	nexacro.WorkFrame.arguments = { "isLogout": false};
             nexacro.WorkFrame.set_formurl("member::Form_Login.xfdl");
+
         };
 
         });
