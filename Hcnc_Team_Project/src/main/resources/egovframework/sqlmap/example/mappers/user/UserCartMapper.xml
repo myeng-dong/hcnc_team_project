@@ -26,7 +26,8 @@
 			INNER JOIN CARTS C
 				ON CI.CART_ID = C.CART_ID
 			SET CI.QUANTITY = #{quantity}
+				, CI.SUB_TOTAL = #{price} * #{quantity}
 			WHERE CI.CART_ID = #{cartId}
-				AND C.MEMBER_ID = #{memberId}
+				AND CI.PRODUCT_ID = #{productId}
 	</update>
 </mapper>
