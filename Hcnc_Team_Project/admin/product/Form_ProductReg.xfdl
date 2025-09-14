@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_ProductReg" width="1280" height="1490" titletext="상품등록" background="#f5f7fa" onload="Form_ProductReg_onload">
+    <Layouts>
+      <Layout width="1280" height="1490">
+        <Static id="sta_title" text="상품관리 || 상품등록" left="20" top="10" width="400" height="40" font="bold 16pt 'Gulim'" color="#111111"/>
+        <Static id="box_display" left="20" top="60" width="1240" height="80" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
+        <Static id="sta_display" text="표시 설정" left="40" top="88" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
+        <Radio id="rdo_display" left="140" top="66" width="300" height="64" innerdataset="ds_display" codecolumn="code" datacolumn="name" font="normal 11pt 'Gulim'"/>
+        <Radio id="rdo_sale" left="470" top="66" width="300" height="64" innerdataset="ds_sale" codecolumn="code" datacolumn="name" font="normal 11pt 'Gulim'"/>
+        <Static id="box_category" left="20" top="150" width="1240" height="70" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
+        <Static id="sta_category" text="상품분류" left="40" top="173" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
+        <Combo id="cmb_maincate" left="140" top="170" width="200" height="30" innerdataset="ds_cate_main" codecolumn="CODE" datacolumn="NAME" font="normal 11pt 'Gulim'"/>
+        <Combo id="cmb_subcate" left="360" top="170" width="200" height="30" innerdataset="ds_cate_sub" codecolumn="CODE" datacolumn="NAME" font="normal 11pt 'Gulim'"/>
+        <Static id="box_basic" left="20" top="240" width="1240" height="280" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
+        <Static id="sta_basic" text="기본 정보" left="40" top="260" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
+        <Static id="sta_name" text="상품명" left="60" top="300" font="normal 11pt 'Gulim'" width="80" height="32"/>
+        <Edit id="edt_name" left="140" top="295" width="400" height="30" displaynulltext="상품명 입력" borderRadius="6px" font="normal 11pt 'Gulim'"/>
+        <Static id="sta_code" text="상품코드" left="60" top="340" font="normal 11pt 'Gulim'" width="80" height="32"/>
+        <Edit id="edt_code" left="140" top="335" width="400" height="30" enable="false" text="자동생성" borderRadius="6px" font="normal 11pt 'Gulim'"/>
+        <Static id="sta_desc" text="상세설명" left="60" top="380" font="normal 11pt 'Gulim'" width="80" height="32"/>
+        <TextArea id="txt_desc" left="140" top="375" width="800" height="80" displaynulltext="상세 설명 작성" borderRadius="6px" font="normal 11pt 'Gulim'"/>
+        <Static id="sta_keyword" text="검색어" left="60" top="470" font="normal 11pt 'Gulim'" width="80" height="32"/>
+        <Edit id="edt_keyword" left="140" top="465" width="800" height="30" displaynulltext="검색어 입력(, 로 구분)" borderRadius="6px" font="normal 11pt 'Gulim'"/>
+        <Static id="box_saleinfo" left="20" top="540" width="1240" height="100" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
+        <Static id="sta_saleinfo" text="판매 정보" left="40" top="560" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
+        <Static id="sta_price" text="판매가" left="60" top="588" font="normal 11pt 'Gulim'" width="80" height="32"/>
+        <Edit id="edt_price" left="140" top="595" width="200" height="30" borderRadius="6px" font="normal 11pt 'Gulim'"/>
+        <Static id="sta_supply" text="공급가" left="360" top="598" font="normal 11pt 'Gulim'" width="50" height="24"/>
+        <Edit id="edt_supply" left="420" top="595" width="200" height="30" borderRadius="6px" font="normal 11pt 'Gulim'"/>
+        <Static id="box_option" left="20" top="660" width="1240" height="180" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
+        <Static id="sta_option" text="옵션/재고" left="40" top="680" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
+        <Grid id="grd_option" left="40" top="710" width="1180" height="110" binddataset="ds_option" autofittype="col" borderRadius="6px" border="1px solid #dddddd" font="normal 11pt 'Gulim'"/>
+        <Static id="box_imgmemo" left="20" top="860" width="1240" height="200" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
+        <Static id="sta_img" text="이미지" left="40" top="880" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
+        <Button id="btn_imgUpload" text="이미지 등록" left="140" top="875" width="120" height="30" background="#000000" color="#ffffff" borderRadius="6px" font="bold 11pt 'Gulim'"/>
+        <Static id="sta_memo" text="메모" left="40" top="930" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
+        <TextArea id="txt_memo" left="140" top="925" width="800" height="80" borderRadius="6px" font="normal 11pt 'Gulim'"/>
+        <Button id="btn_save" text="저장" left="900" top="1100" width="150" height="40" background="#000000" color="#ffffff" borderRadius="8px" font="bold 12pt 'Gulim'"/>
+        <Button id="btn_cancel" text="취소" left="1070" top="1100" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" font="bold 12pt 'Gulim'"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_display">
+        <ColumnInfo>
+          <Column id="code" type="STRING"/>
+          <Column id="name" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">Y</Col>
+            <Col id="name">진열함</Col>
+          </Row>
+          <Row>
+            <Col id="code">N</Col>
+            <Col id="name">진열안함</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_sale">
+        <ColumnInfo>
+          <Column id="code" type="STRING"/>
+          <Column id="name" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">Y</Col>
+            <Col id="name">판매함</Col>
+          </Row>
+          <Row>
+            <Col id="code">N</Col>
+            <Col id="name">판매안함</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_cate_main"/>
+      <Dataset id="ds_cate_sub"/>
+      <Dataset id="ds_option">
+        <ColumnInfo>
+          <Column id="OPT_NAME" type="STRING"/>
+          <Column id="OPT_VALUE" type="STRING"/>
+          <Column id="ADD_PRICE" type="INT"/>
+          <Column id="STOCK" type="INT"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.Form_ProductReg_onload = function(obj,e)
+{
+    this.fn_loadCategory();
+    this.ds_option.addRow();
+};
+
+this.fn_loadCategory = function()
+{
+    var strSvcId = "selectCategory";
+    var strUrl = "svc::selectCategory.do";
+    var strIn = "";
+    var strOut = "ds_cate_main=ds_cate_main ds_cate_sub=ds_cate_sub";
+    var strArg = "";
+    var callBack = "fn_callback";
+    var bAsync = true;
+    this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
+};
+
+this.btn_save_onclick = function(obj,e)
+{
+    if (this.edt_name.value == null || this.edt_name.value == "") {
+        this.alert("상품명을 입력하세요.");
+        return;
+    }
+    if (this.edt_price.value == null || this.edt_price.value == "") {
+        this.alert("판매가를 입력하세요.");
+        return;
+    }
+
+    var strSvcId = "insertProduct";
+    var strUrl = "svc::insertProduct.do";
+    var strIn = "ds_option=ds_option";
+    var strOut = "";
+    var strArg = "";
+    strArg += "PRODUCT_NAME=" + this.edt_name.value;
+    strArg += " PRODUCT_DESC=" + this.txt_desc.value;
+    strArg += " PRODUCT_PRICE=" + this.edt_price.value;
+    strArg += " COST_PRICE=" + this.edt_supply.value;
+    strArg += " KEYWORD=" + this.edt_keyword.value;
+    strArg += " DISP_YN=" + this.rdo_display.value;
+    strArg += " SALE_YN=" + this.rdo_sale.value;
+    strArg += " MAIN_CATE=" + this.cmb_maincate.value;
+    strArg += " SUB_CATE=" + this.cmb_subcate.value;
+    strArg += " MEMO=" + this.txt_memo.value;
+
+    var callBack = "fn_callback";
+    var bAsync = true;
+    this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
+};
+
+this.btn_cancel_onclick = function(obj,e)
+{
+    this.go("Form_ProductAdmin.xfdl");
+};
+
+this.fn_callback = function(strSvcId, nErrorCode, strErrorMag)
+{
+    if (nErrorCode < 0) {
+        this.alert("오류: " + strErrorMag);
+        return;
+    }
+
+    switch(strSvcId){
+        case "insertProduct":
+            this.alert("상품등록이 완료되었습니다.");
+            this.go("Form_ProductAdmin.xfdl");
+            break;
+        case "selectCategory":
+            break;
+    }
+};
+]]></Script>
+  </Form>
+</FDL>
