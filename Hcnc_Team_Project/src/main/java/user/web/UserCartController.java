@@ -50,4 +50,27 @@ public class UserCartController {
 		return mav;
 	}
 	
+	// 상품 체크박스 수정
+	@RequestMapping(value="/updateChkBox.do")
+	public ModelAndView updateChkBox(@RequestParam HashMap<String, Object> param){
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		System.out.println(param);
+		
+		userCartService.updateChkBox(param);
+		
+		return mav;
+	}
+
+	// 상품 삭제
+	@RequestMapping(value="/deleteProduct.do")
+	public ModelAndView deleteProduct(@RequestParam HashMap<String, Object> param) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		System.out.println(param);
+		
+		userCartService.deleteProduct(param);
+		
+		return mav;
+	}
 }
