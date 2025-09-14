@@ -49,15 +49,41 @@
 			});		
 		}
 		
-		const changeQuantity = (num) => {
-			var quantity = $("#product-quantity").val();
-			
-			$("#product-quantity").val(quantity + num);
-		}
+		// 수량 버튼
+    const countDown = () => {
+        var quantity = $("#quantity").val();
+
+        $("#quantity").val(quantity - 1);
+
+        if (quantity <= 1){
+            $("#quantity").val(1);
+        }
+
+        // document.getElementById("quantity").value = quantity - 1;
+        
+        updateCnt();
+    }
+
+    const countUp = () => {
+        var quantity = Number( $("#quantity").val() );
+
+        $("#quantity").val(quantity + 1);
+        
+        updateCnt();
+    }
+    const updateCnt = () => {
+        var quantity = Number( $("#quantity").val() );
+        
+        if (quantity <= 1){
+            $("#quantity").val(1);
+        }
+    }
 	</script>
 </head>
 
 <body>
+		<jsp:include page="../layout/header.jsp" />
+		<jsp:include page="../layout/menu.jsp" />
     <div class="container">
       <div class="product-container" style="display: flex; gap: 20px;">
         <div>
@@ -91,8 +117,10 @@
               </tr>
               <tr>
                 <td>수량</td>
-                <td id="quantity">
-                 
+                <td>
+                 	<button onclick="countDown()">-</button>
+                  <input type="number" name="quantity" id="quantity" value="1" min="1" onchange="updateCnt()">
+                  <button onclick="countUp()">+</button>
                 </td>
               </tr>
             </tbody>
