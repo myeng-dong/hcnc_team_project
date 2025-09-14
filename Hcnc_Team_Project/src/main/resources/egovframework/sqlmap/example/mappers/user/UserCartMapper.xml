@@ -30,4 +30,19 @@
 			WHERE CI.CART_ID = #{cartId}
 				AND CI.PRODUCT_ID = #{productId}
 	</update>
+	
+	<!-- 상품 체크박스 수정  -->
+	<update id="updateChkBox" parameterType="java.util.HashMap">
+		UPDATE CART_ITEMS
+			SET IS_CHECKED = #{isChecked}
+			WHERE CART_ID = #{cartId}
+				AND PRODUCT_ID = #{productId}
+	</update>
+	
+	<!-- 상품 삭제 -->
+	<delete id="deleteProduct" parameterType="java.util.HashMap">
+		DELETE FROM CART_ITEMS
+			WHERE CART_ID = #{cartId}
+				AND PRODUCT_ID = #{productId}
+	</delete>
 </mapper>
