@@ -29,17 +29,32 @@
 
 
             obj = new Dataset("ds_cate_main", this);
-            obj._setContents("");
+            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_ID\" type=\"BIGDECIMAL\"/><Column id=\"MAIN_CATE_NM\" type=\"STRING\"/><Column id=\"SORT_NUMBER\" type=\"INT\"/><Column id=\"IS_ACTIVE\" type=\"STRING\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_cate_sub", this);
-            obj._setContents("");
+            obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"BIGDECIMAL\"/><Column id=\"MAIN_CATE_ID\" type=\"BIGDECIMAL\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\"/><Column id=\"SORT_NUMBER\" type=\"INT\"/><Column id=\"IS_ACTIVE\" type=\"STRING\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_product", this);
+            obj._setContents("<ColumnInfo><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\"/><Column id=\"SUB_CATE_ID\" type=\"BIGDECIMAL\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\"/><Column id=\"PRODUCT_DESC\" type=\"STRING\"/><Column id=\"PRODUCT_PRICE\" type=\"INT\"/><Column id=\"COST_PRICE\" type=\"INT\"/><Column id=\"IS_VISIBLE\" type=\"STRING\"/><Column id=\"KEYWORD\" type=\"STRING\"/><Column id=\"MEMO\" type=\"STRING\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_option", this);
-            obj._setContents("<ColumnInfo><Column id=\"OPT_NAME\" type=\"STRING\"/><Column id=\"OPT_VALUE\" type=\"STRING\"/><Column id=\"ADD_PRICE\" type=\"INT\"/><Column id=\"STOCK\" type=\"INT\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"OPTION_ID\" type=\"BIGDECIMAL\"/><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\"/><Column id=\"OPTION_NAME\" type=\"STRING\"/><Column id=\"OPTION_VALUE\" type=\"STRING\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_inventory", this);
+            obj._setContents("<ColumnInfo><Column id=\"INVENTORY_ID\" type=\"BIGDECIMAL\"/><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\"/><Column id=\"OPTION_ID\" type=\"BIGDECIMAL\"/><Column id=\"QUANTITY\" type=\"INT\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_product_img", this);
+            obj._setContents("<ColumnInfo><Column id=\"IMAGE_ID\" type=\"BIGDECIMAL\"/><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\"/><Column id=\"IMAGE_URL\" type=\"STRING\"/><Column id=\"ALT_TEXT\" type=\"STRING\"/><Column id=\"SORT_NUMBER\" type=\"INT\"/><Column id=\"IS_MAIN\" type=\"STRING\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -62,14 +77,14 @@
             obj.set_color("#222222");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("rdo_display","140","66","300","64",null,null,null,null,null,null,this);
+            obj = new Radio("rdo_display","140","66","190","64",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_display");
             obj.set_codecolumn("code");
             obj.set_datacolumn("name");
             obj.set_font("normal 11pt \'Gulim\'");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("rdo_sale","470","66","300","64",null,null,null,null,null,null,this);
+            obj = new Radio("rdo_sale","470","66","160","64",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_sale");
             obj.set_codecolumn("code");
             obj.set_datacolumn("name");
@@ -81,6 +96,7 @@
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("10px");
             obj.getSetter("shadow").set("1px 1px 6px #cccccc");
+            obj.set_text("");
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_category","40","173","80","32",null,null,null,null,null,null,this);
@@ -141,12 +157,6 @@
 
             obj = new Static("sta_desc","60","380","80","32",null,null,null,null,null,null,this);
             obj.set_text("상세설명");
-            obj.set_font("normal 11pt \'Gulim\'");
-            this.addChild(obj.name, obj);
-
-            obj = new TextArea("txt_desc","140","375","800","80",null,null,null,null,null,null,this);
-            obj.set_displaynulltext("상세 설명 작성");
-            obj.set_borderRadius("6px");
             obj.set_font("normal 11pt \'Gulim\'");
             this.addChild(obj.name, obj);
 
@@ -223,20 +233,6 @@
             obj.getSetter("shadow").set("1px 1px 6px #cccccc");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_img","40","880","80","32",null,null,null,null,null,null,this);
-            obj.set_text("이미지");
-            obj.set_font("bold 12pt \'Gulim\'");
-            obj.set_color("#222222");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_imgUpload","140","875","120","30",null,null,null,null,null,null,this);
-            obj.set_text("이미지 등록");
-            obj.set_background("#000000");
-            obj.set_color("#ffffff");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt \'Gulim\'");
-            this.addChild(obj.name, obj);
-
             obj = new Static("sta_memo","40","930","80","32",null,null,null,null,null,null,this);
             obj.set_text("메모");
             obj.set_font("bold 12pt \'Gulim\'");
@@ -263,6 +259,10 @@
             obj.set_borderRadius("8px");
             obj.set_font("bold 12pt \'Gulim\'");
             this.addChild(obj.name, obj);
+
+            obj = new WebBrowser("wb_detailDesc","139","370","801","81",null,null,null,null,null,null,this);
+            obj.set_taborder("35");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,1490,this,function(p){});
@@ -284,10 +284,35 @@
         this.registerScript("Form_ProductReg.xfdl", function() {
         this.Form_ProductReg_onload = function(obj,e)
         {
+            var html = "<!DOCTYPE html>" +
+                       "<html><head>" +
+                       "<script src='https://cdn.ckeditor.com/4.22.1/full/ckeditor.js'></script>" +
+                       "</head><body>" +
+                       "<textarea id='editor1'></textarea>" +
+                       "<script>" +
+                       " CKEDITOR.replace('editor1', {" +
+                       "     height: 350," +
+                       "     filebrowserUploadUrl: '/uploadImageProductByAdmin.do'," +
+                       "     filebrowserUploadMethod: 'form'" +
+                       " });" +
+                       "</script>" +
+                       "</body></html>";
+
+            this.wb_detailDesc.set_html(html);
+
             this.fn_loadCategory();
             this.ds_option.addRow();
         };
 
+        // CKEditor 본문 내용 가져오기
+        this.fn_getEditorContent = function()
+        {
+            var doc = this.wb_detailDesc.getProperty("document");
+            var content = doc.parentWindow.CKEDITOR.instances['editor1'].getData();
+            return content;
+        };
+
+        // 카테고리 조회
         this.fn_loadCategory = function()
         {
             var strSvcId = "selectCategory";
@@ -300,6 +325,7 @@
             this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
         };
 
+        // 저장 버튼 클릭
         this.btn_save_onclick = function(obj,e)
         {
             if (this.edt_name.value == null || this.edt_name.value == "") {
@@ -311,13 +337,15 @@
                 return;
             }
 
+            var desc = this.fn_getEditorContent();
+
             var strSvcId = "insertProduct";
             var strUrl = "svc::insertProduct.do";
             var strIn = "ds_option=ds_option";
-            var strOut = "";
+            var strOut = "ds_out_product=ds_out_product";
             var strArg = "";
             strArg += "PRODUCT_NAME=" + this.edt_name.value;
-            strArg += " PRODUCT_DESC=" + this.txt_desc.value;
+            strArg += " PRODUCT_DESC=" + desc;
             strArg += " PRODUCT_PRICE=" + this.edt_price.value;
             strArg += " COST_PRICE=" + this.edt_supply.value;
             strArg += " KEYWORD=" + this.edt_keyword.value;
@@ -332,11 +360,13 @@
             this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
         };
 
+        // 취소 버튼
         this.btn_cancel_onclick = function(obj,e)
         {
-            this.go("Form_ProductAdmin.xfdl");
+            this.go("product::Form_Product.xfdl");
         };
 
+        // 공통 콜백
         this.fn_callback = function(strSvcId, nErrorCode, strErrorMag)
         {
             if (nErrorCode < 0) {
@@ -346,12 +376,44 @@
 
             switch(strSvcId){
                 case "insertProduct":
-                    this.alert("상품등록이 완료되었습니다.");
-                    this.go("Form_ProductAdmin.xfdl");
+                    var newProductId = this.ds_out_product.getColumn(0, "PRODUCT_ID");
+                    this.alert("상품등록이 완료되었습니다. 상품번호: " + newProductId);
+
+                    // 이미지 매핑 및 대표이미지 지정
+                    this.fn_updateImageMapping(newProductId);
+
+                    this.go("product::Form_Product.xfdl");
                     break;
+
                 case "selectCategory":
                     break;
+
+                case "updateProductImageMapping":
+                    trace("이미지 매핑 및 대표 지정 완료");
+                    break;
             }
+        };
+
+        // 업로드된 이미지 PRODUCT_ID 매핑 및 대표 지정
+        this.fn_updateImageMapping = function(productId)
+        {
+            var strSvcId = "updateProductImageMapping";
+            var strUrl = "svc::updateProductImageMapping.do";
+            var strIn = "";
+            var strOut = "";
+            var strArg = "";
+            strArg += "PRODUCT_ID=" + productId;
+            strArg += " UPDATE_ID=admin";
+
+            var callBack = "fn_callback";
+            var bAsync = true;
+            this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
+        };
+
+        // 이미지 버튼
+        this.btn_imgUpload_onclick = function(obj,e)
+        {
+            this.alert("이미지는 상세설명 CKEditor에서 업로드하세요.");
         };
 
         });
@@ -360,6 +422,8 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_ProductReg_onload,this);
+            this.rdo_display.addEventHandler("onitemchanged",this.rdo_display_onitemchanged,this);
+            this.wb_detailDesc.addEventHandler("onusernotify",this.wb_detailDesc_onusernotify,this);
         };
         this.loadIncludeScript("Form_ProductReg.xfdl");
         this.loadPreloadList();
