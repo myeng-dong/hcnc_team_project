@@ -369,7 +369,7 @@
 	          <thead>
 	            <tr>
 	              <th class="col-check"><input type="checkbox" id="headCheck"></th>
-	              <th class="col-img col-name" colspan="2">상품명</th>
+	              <th class="col-img col-name" colspan="2">상품정보</th>
 	              <th class="col-price">가격</th>
 	              <th class="col-qty">수량</th>
 	              <th class="col-total">총금액</th>
