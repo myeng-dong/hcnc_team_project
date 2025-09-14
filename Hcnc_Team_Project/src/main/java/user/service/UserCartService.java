@@ -23,5 +23,15 @@ public class UserCartService {
 		return cartMapper.updateQuantity(param);
 		
 	}
+
+	public int deleteProduct(HashMap<String, Object> param) {
+		return cartMapper.deleteProduct(param);
+		
+	}
+
+	public int updateChkBox(HashMap<String, Object> param) {
+		// TODO Auto-generated method stub
+		return cartMapper.updateChkBox(param);
+	}
 	
 }

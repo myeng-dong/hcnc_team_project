@@ -10,4 +10,8 @@ public interface UserCartMapper {
 	public List<HashMap<String, Object>> selectCartListByUser(HashMap<String, Object> param);
 
 	public int updateQuantity(HashMap<String, Object> param);
+
+	public int deleteProduct(HashMap<String, Object> param);
+
+	public int updateChkBox(HashMap<String, Object> param);
 }
