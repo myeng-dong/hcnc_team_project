@@ -14,10 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.MemberService;
-
 
 @Controller
 public class MemberController {
@@ -131,7 +131,8 @@ public class MemberController {
 
 	// 회원 조회
 	@RequestMapping(value = "/selectMemberListByAdmin.do")
-	public NexacroResult selectMemberList(@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+	public NexacroResult selectMemberList(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
 
 		NexacroResult result = new NexacroResult();
 
@@ -150,5 +151,27 @@ public class MemberController {
 		}
 		return result;
 	};
+
+	
+	// 회원등급 조회
+	@RequestMapping(value = "/selectMemberGradeListByAdmin.do")
+	public NexacroResult selectMemberGradeList() {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+			// 회원등급 전체 조회 (param 필요 없음)
+			List<Map<String, Object>> gradeList = memberService.selectMemberGradeList();
+
+			// ds_grade라는 이름으로 넥사크로에 전달
+			result.addDataSet("ds_grade", gradeList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원등급 조회 실패 >>> " + e.getMessage());
+		}
+		return result;
+	}
 
 }

@@ -14,4 +14,6 @@ public interface MemberMapper {
 	//회원 목록조회 
 	List<Map<String, Object>> selectMemberList(Map<String, Object> param);
 
+	List<Map<String, Object>> selectMemberGradeList();
+
 }
