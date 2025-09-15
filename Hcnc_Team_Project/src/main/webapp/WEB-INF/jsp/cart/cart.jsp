@@ -1,179 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
 
-<head>
-  <meta charset="UTF-8">
-  <title>장바구니</title>
-  <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/global.css'/>" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script type="text/javaScript" language="javascript" defer="defer"></script>
-    <style>
-	.cart-container {
-/* 	  display: block;
-	  justify-content: initial; */
-	  width: 100%;
-	  max-width: 1100px;
-/* 	  margin: 40px auto; */
-	  padding: 28px;
-	  background: #fff;
-	  border: 1px solid #ececec;
-	  border-radius: 16px;
-	  box-shadow: 0 6px 14px rgba(0,0,0,.08);
-	}
-	
-	/* breadcrumb */
-	.breadcrumb {
-	  font-size: 13px;
-	  color: #73777f;
-	  margin-bottom: 16px;
-	  text-align: right;
-	}
-	.breadcrumb a { color:#73777f; text-decoration:none; }
-	.breadcrumb strong { color:#1f1f1f; }
-	
-	/* heading */
-	h3 {
-	  margin: 20px;
-	  padding: 20px;
-	  text-align: center;
-	  color: #DC0630;
-	  letter-spacing: 2px;
-	}
-	
-	/* table */
-	.cart-table {
-	  width: 100%;
-	  margin-top: 20px;
-	  border-collapse: collapse;
-	  table-layout: fixed; /* 컬럼 너비 고정 */
-	}
-	.cart-table th, .cart-table td {
-	  border-bottom: 1px solid #ececec;
-	  padding: 14px 10px;
-	  text-align: center;
-	  vertical-align: middle;
-	  word-break: break-word;
-	}
-	.cart-table thead th {
-	  background: #fff;
-	  font-weight: 700;
-	  color: #444;
-	}
-	.col-check { width: 44px; }
-	.col-img .col-name { width: 90px; }
-	.col-price, .col-total { text-align:right; }
-	.col-actions { text-align:center; }
-	
-	/* 이미지 */
-	.col-img img {
-	  width: 64px;
-	  height: 64px;
-	  object-fit: cover;
-	  border-radius: 8px;
-	  box-shadow: 0 2px 6px rgba(0,0,0,.08);
-	}
-	
-	/* checkbox */
-	#headCheck, .col-check input[type="checkbox"] {
-	  width: 18px; height: 18px;
-	  accent-color: #DC0630;
-	  cursor: pointer;
-	}
-	
-	/* 수량 */
-	.qty-box {
-	  display: inline-flex;
-	  align-items: center;
-	  gap: 6px;
-	  border: 1px solid #ececec;
-	  border-radius: 8px;
-	  padding: 4px 6px;
-	}
-	.quantity {
-	  width: 48px;
-	  text-align: center;
-	  border: none;
-	  font-weight: 700;
-	}
-	.btn-qty {
-	  border: 1px solid #DC0630;
-	  background: #fff;
-	  color: #DC0630;
-	  border-radius: 6px;
-	  width: 28px; height: 28px;
-	  cursor: pointer;
-	  font-weight: 700;
-	}
-	.btn-qty:hover { background: rgba(220,6,48,0.08); }
-	
-	/* 버튼 */
-	.btn, .btn-outline, .order-btn {
-	  border-radius: 8px;
-	  padding: 10px 16px;
-	  font-weight: 800;
-	  cursor: pointer;
-	  transition: .15s;
-	}
-	.btn {
-	  background: #DC0630; color: #fff; border: none;
-	}
-	.btn:hover { filter: brightness(.95); }
-	.btn-outline {
-	  background: #fff; color: #DC0630;
-	  border: 1px solid #DC0630;
-	}
-	.btn-outline:hover { background: rgba(220,6,48,0.05); }
-	.order-btn {
-	  display:block;
-	  width:100%;
-	  background: #DC0630;
-	  color:#fff;
-	  font-size:16px;
-	  margin-top:10px;
-	}
-	
-	/* 합계 영역 */
-	h4 { color:#1f1f1f; }
-	.sum-row, .sum-total {
-	  display:flex; justify-content:space-between; align-items:center;
-	  padding: 8px 0;
-	  border-bottom: 1px dashed #ececec;
-	}
-	.sum-row.small { font-size:14px; color:#73777f; }
-	.sum-total {
-	  border-bottom:none;
-	  font-size:18px;
-	  font-weight:900;
-	  margin-top:10px;
-	}
-	.footer { display: flex; justify-content: space-between; width:100%;}
-	.footer-btn { margin:40px 20px 20px 20px; }
-	.btnOrderSelected { margin-right: 50px; }
-	
-	.footer-total { width:30%; margin:20px; }
-	.orderInfo{ margin-top:60px; padding-left: 10px;}
-	.orderInfo > .bi-exclamation-circle, span { font-weight: bold; font-size: 13px; color:#333333; }
-	p { color:#888888; font-size:11px; line-height:0.7rem; }
-	#sum-final { color:#DC0630; }
-	
-	.bi { font-size: 17px; }
-	.bi-x-lg { margin-right:5px; cursor:pointer; }
-	.bi-suit-heart { margin-left:5px; cursor:pointer; }
-	
-	/* 반응형 */
-	@media (max-width:720px){
-	  .container.cart-container { padding:16px }
-	  .col-name { min-width:auto; }
-	  .container.cart-container > div > div {
-	    flex-direction: column; align-items: stretch; gap:8px;
-	  }
-	}
-	    	
-    </style>
-    <script>
+<jsp:include page="../layout/headertop.jsp" />
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/cart.css'/>" />
+<jsp:include page="../layout/header.jsp" />
+<jsp:include page="../layout/menu.jsp" />
+  
+ <script>
     	// 페이지 로드
     	$(function(){
     		selectCartList();
@@ -346,11 +178,15 @@
         		}
         	});
         }
-    </script>
-</head>
+        
+        // 체크박스 선택한 상품만 주문하기
 
-<body>
-  <div class="container">
+        //합계금액
+
+
+    </script>
+
+  <div class="container cart">
   	<div class="cart-container">
 	    <div class="breadcrumb">
 	      <a href="/">홈</a>
@@ -383,10 +219,10 @@
 	
 	    </div>
 	
-		<div class="footer">
+		<div class="cart-footer">
 			<div class="footer-btn">
-			        <button class="btn" id="btnContinue" onclick="window.location.href='/productDetailView.do'">계속 쇼핑하기</button>
-			        <button class="btn-outline" id="btnOrderSelected">
+			        <button class="cart-btn" id="btnContinue" onclick="window.location.href='/productDetailView.do'">계속 쇼핑하기</button>
+			        <button class="btn-outline" id="btnOrderSelected" onclick="orderSelected()">
 			        	<i class="bi bi-bag-check"></i>
 			        	선택상품 주문하기</button>
 			        <button class="btn-outline" id="btnDeleteSelected">
@@ -414,6 +250,5 @@
 	    </div>
 	  </div>
   </div>
-</body>
-
-</html>
+  
+<jsp:include page="../layout/footer.jsp" />
