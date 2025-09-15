@@ -1,9 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+
 </head>
 <body>
 
 <div id="container-wrap">
+
 		<header class="header_area">
 			<div class="header_event_area">
 				<div class="inner">상단 이벤트 배너 영역</div>
