@@ -35,6 +35,9 @@
             obj.set_text("");
             this.addChild(obj.name, obj);
 
+
+            obj = new Grid("grid_list","40","130",null,"390","40",null,null,null,null,null,this);
+
             obj = new Button("btn_select","964","50",null,"40","80",null,null,null,null,null,this.search_area.form);
             obj.set_taborder("0");
             obj.set_text("조회");
@@ -47,6 +50,7 @@
             this.search_area.addChild(obj.name, obj);
 
             obj = new Grid("grid_list","40","220",null,null,"40","40",null,null,null,null,this);
+
             obj.set_taborder("0");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
