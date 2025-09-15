@@ -14,7 +14,7 @@
 	</select>
 	<select id="insertSignUpByUser" parameterType="java.util.Map">
 		INSERT INTO
-    hcnc_Team_06.MEMBERS (
+	MEMBERS (
         MEMBER_ID,
         USER_NAME,
         PASSWORD,
@@ -31,9 +31,9 @@
         INPUT_DT,
         UPDATE_DT,
         MEMBER_TYPE
-    )
-VALUES
-(
+		)
+	VALUES
+	(
         #{id},
 		#{name},
         #{password},
@@ -52,5 +52,4 @@ VALUES
         'user'
     );
 	</select>
-
 </mapper>

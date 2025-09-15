@@ -14,6 +14,7 @@ import user.mail.UserMailService;
 import user.service.UserMemberService;
 
 @Controller
+@RequestMapping("/user") 
 public class UserMemberController {
 	@Autowired
 	private UserMemberService userMemberService;
@@ -29,6 +30,14 @@ public class UserMemberController {
 		private String phone;
 		private String bitrh;
 		private String gender;
+	}
+
+	
+	@RequestMapping("/login")
+	public ModelAndView insertSignUpByUser () {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("sign/login.html");
+		return mv;
 	}
 
 	@RequestMapping("/insertSignUpByUser.do")

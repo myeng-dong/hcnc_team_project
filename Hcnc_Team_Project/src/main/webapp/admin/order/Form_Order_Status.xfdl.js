@@ -91,7 +91,7 @@
                 return;
             }
             switch(svc){
-        		case selectOrders  :
+        		case "selectOrders"  :
 
         	}
         };

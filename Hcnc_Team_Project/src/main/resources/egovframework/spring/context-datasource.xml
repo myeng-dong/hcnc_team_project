@@ -29,7 +29,7 @@
 
 
 <!-- 해란 로컬 주소  -->
-<!--    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+<!--     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
         <property name="url" value="jdbc:log4jdbc:mysql://localhost:0118/sys" />
         <property name="username" value="root"/>
