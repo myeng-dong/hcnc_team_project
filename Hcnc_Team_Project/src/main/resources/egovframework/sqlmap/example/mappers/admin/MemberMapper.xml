@@ -14,19 +14,7 @@
 		   AND M.GRADE_CODE = 9
 	</select>
 	
-	<!-- 회원 목록 조화 -->
-	<select id="selectMemberList" parameterType="java.util.Map" resultType="java.util.Map">
-	
-	
-	
-	
-	
-	</select>
-	WHERE 1=1 
-	<if test="">
-	
-	
-	</if>
+
 	
 	
 </mapper>
