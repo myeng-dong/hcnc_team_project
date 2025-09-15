@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,7 +13,7 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="../../../common/utils.js"></script>
     <script src="../../../common/regex.js"></script>
-    <title>DOO.D 로그인</title>
+    <title>DOO.D 회원가입</title>
   </head>
   <script>
     const idChkByUser = () => {
