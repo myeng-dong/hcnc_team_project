@@ -3,7 +3,7 @@
   <Form id="Form_ProductAdmin" width="1280" height="800" titletext="상품관리" background="#ebf3fe" onload="Form_ProductAdmin_onload">
     <Layouts>
       <Layout width="1280" height="800">
-        <Div id="Div00" taborder="6" text="" left="24" top="20" width="1230" height="50" background="#ffffff"/>
+        <Div id="Div00" taborder="6" text="" left="24" top="20" width="1230" height="50" background="#ffffff" borderRadius="10px 0px 0px 10px"/>
         <Static id="stc_total" taborder="4" text="" left="39" top="10" width="120" height="60" font="bold 12px/normal &quot;Gulim&quot;"/>
         <Div id="Div00_00" taborder="9" text="" left="164" top="99" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px">
           <Layouts>
@@ -12,10 +12,27 @@
             </Layout>
           </Layouts>
         </Div>
-        <Combo id="cmb_searchType" left="179" top="101" width="150" height="35" text="상품명" taborder="11" font="normal 800 10pt/normal &quot;Arial&quot;"/>
+        <Combo id="cmb_searchType" left="179" top="101" width="150" height="35" text="상품명" taborder="11" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">PRODUCT_CODE</Col>
+                <Col id="datacolumn">상품코드</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">PRODUCT_NAME</Col>
+                <Col id="datacolumn">상품명</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
         <Div id="Div00_00_00" taborder="0" text="" left="164" top="156" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px"/>
-        <Combo id="cmb_cate1" left="179" top="158" width="150" height="35" text="- 대분류 선택 -" taborder="5" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Combo id="cmb_cate2" left="349" top="158" width="150" height="35" text="- 중분류 선택 -" taborder="10" font="normal 800 10pt/normal &quot;Arial&quot;"/>
+        <Combo id="cmb_cate1" left="179" top="158" width="150" height="35" text="" taborder="5" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_search_combo" codecolumn="MAIN_CATE_NM" datacolumn="대분류 선택" index="0" value=""/>
+        <Combo id="cmb_cate2" left="349" top="158" width="150" height="35" text="- 중분류 선택 -" taborder="10" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_search_combo" codecolumn="SUB_CATE_NM" datacolumn="중분류 선택"/>
         <Div id="Div00_00_00_00" taborder="2" text="" left="164" top="213" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px"/>
         <Calendar id="cal_start" left="179" top="215" height="35" width="149" taborder="7" font="normal 800 10pt/normal &quot;Arial&quot;"/>
         <Static id="sta_dash" text="~" left="334" top="216" height="35" width="20" taborder="12" font="normal bold 10pt/normal &quot;Arial&quot;"/>
@@ -145,13 +162,14 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_reg" text="상품등록" left="935" top="370" width="100" height="40" color="#FFFFFF" background="#89a7ff" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="1"/>
+        <Button id="btn_reg" text="상품등록" left="935" top="370" width="100" height="40" color="#FFFFFF" background="#89a7ff" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="1" onclick="btn_reg_onclick"/>
         <Button id="btn_excel" text="엑셀다운로드" left="1065" top="370" width="150" height="40" color="#2E7D32" background="url('imagerc::excel_logo.png') no-repeat left center /38px #ffffff" border="1px solid #CCCCCC" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" padding="0px 0px 0px 25px" taborder="3" onclick="btn_excel_onclick"/>
         <Static id="sta_listTitle" text="목록" left="50" height="61" top="360" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="8" color="#232323"/>
-        <Static id="sta_prodType" text="검색분류1" left="24" height="40" right="1116" top="99" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="16" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
+        <Static id="sta_prodType" text="검색분류" left="24" height="40" right="1116" top="99" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="16" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
         <Static id="sta_category" text="상품분류" left="24" height="40" right="1116" top="156" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="17" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
         <Static id="sta_regDate" text="상품등록일" left="24" height="40" right="1116" top="213" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="18" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
         <Static id="sta_sale" text="진열상태" left="24" height="40" right="1116" top="270" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="19" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
+        <Button id="btn_view" text="조회" left="698" top="102" width="72" height="34" color="#FFFFFF" background="#89a7ff" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="20"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -172,6 +190,24 @@
           <Column id="SOLD_OUT" type="STRING" size="256"/>
           <Column id="INPUT_DT" type="DATETIME" size="256"/>
           <Column id="UPDATE_DT" type="DATETIME" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_in_search_combo">
+        <ColumnInfo>
+          <Column id="MAIN_CATE_NM" type="STRING" size="256"/>
+          <Column id="SUB_CATE_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_out_search_combo00">
+        <ColumnInfo>
+          <Column id="MAIN_CATE_NM" type="STRING" size="256"/>
+          <Column id="SUB_CATE_NM" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -273,6 +309,12 @@
 	
     xmlhttp.send("xmlData=" + encodeURIComponent(xmlStr));
 }
+
+//상품등록
+this.btn_reg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.go("product::Form_ProductReg.xfdl");
+};
 ]]></Script>
   </Form>
 </FDL>
