@@ -1,6 +1,7 @@
 package admin.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -16,6 +17,7 @@ import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.MemberService;
+
 
 @Controller
 public class MemberController {
@@ -126,5 +128,27 @@ public class MemberController {
 		cookie.setMaxAge(0); // 즉시 만료
 		response.addCookie(cookie);
 	}
+
+	// 회원 조회
+	@RequestMapping(value = "/selectMemberListByAdmin.do")
+	public NexacroResult selectMemberList(@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			// 조회 결과를 list에 담고....
+			List<Map<String, Object>> selectList = memberService.selectMemberList(param);
+
+			// 넥사크로에 다시 보낸다!
+			result.addDataSet("ds_list", selectList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("catch 오류 >>>");
+		}
+		return result;
+	};
 
 }

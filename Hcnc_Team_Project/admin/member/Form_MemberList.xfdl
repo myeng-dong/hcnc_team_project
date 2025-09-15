@@ -2,7 +2,101 @@
 <FDL version="2.1">
   <Form id="Form_MemberList" width="1280" height="720" titletext="New Form">
     <Layouts>
-      <Layout height="720" mobileorientation="landscape" width="1280"/>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Grid id="member_list" taborder="0" left="20" top="350" height="320" background="#FFFFFF" border="0px none" borderRadius="10px" right="60" autofittype="col" binddataset="ds_list">&gt;
+          <Formats><Format id="default"><Columns><Column size="48"/><Column size="78"/><Column size="102"/><Column size="96"/><Column size="92"/><Column size="105"/><Column size="115"/><Column size="158"/><Column size="129"/><Column size="170"/><Column size="108"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol"/><Cell col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="이메일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="등급" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="휴대전화" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="성별" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="생년월일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="권한" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" text="bind:BANNER_ID"/><Cell col="1" text="expr:currow + 1"/><Cell col="2" text="bind:INPUT_DT"/><Cell col="3" text="bind:USER_NAME"/><Cell col="4" text="bind:MEMBER_ID"/><Cell col="5" text="bind:EAMIL_ADDRESS"/><Cell col="6" text="bind:GRADE_CODE"/><Cell col="7" edittype="normal" text="bind:PHONE_NUMBER"/><Cell col="8" text="bind:GENDER"/><Cell col="9" edittype="normal" text="bind:BIRTH"/><Cell col="10" edittype="normal" text="bind:MEMBER_TYPE"/></Band></Format></Formats></Grid>
+        <Static id="Static00" taborder="1" text="회원목록" left="15" top="330" width="70" height="20" textAlign="center" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Div id="search_box" taborder="2" text="" left="10" top="12" width="1243" height="296" border="1px solid black" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)">
+          <Layouts>
+            <Layout>
+              <Static id="m" taborder="0" text="개인정보" left="20" top="63" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m2" taborder="1" text="회원등급" left="20" top="109" width="59" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00" taborder="2" text="휴대전화" left="20" top="157" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00" taborder="3" text="접속일" left="20" top="199" width="50" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Combo id="member_info" taborder="4" left="94" top="62" width="104" height="33" text="" onitemchanged="search_box_member_info_onitemchanged"/>
+              <Edit id="Edit00" taborder="5" left="211" top="61" width="161" height="34"/>
+              <Combo id="member_grade" taborder="6" left="94" top="111" width="104" height="30"/>
+              <Edit id="member_phoneNum" taborder="7" left="94" top="156" width="137" height="29"/>
+              <Calendar id="Calendar00" taborder="8" left="94" top="199" width="58" height="24"/>
+              <Calendar id="Calendar00_00" taborder="9" left="179" top="199" width="52" height="24"/>
+              <Static id="Static00" taborder="10" text="~" left="162" top="205" width="34" height="16"/>
+              <Static id="Static01" taborder="11" text="회원 검색" left="9" top="11" width="102" height="38" textAlign="center" font="20px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Button id="search_btn" taborder="12" text="조회하기" left="280" top="247" width="100" height="31" font="13px/normal &quot;Noto Sans KR Black&quot;" background="#2563eb" color="#fff" borderRadius="4px"/>
+              <Button id="reset_btn" taborder="13" text="초기화" left="399" top="247" width="100" height="31" font="13px/normal &quot;Noto Sans KR Black&quot;" background=" #9ca3af" color="#fff" borderRadius="4px"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
     </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="member_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="Column0" type="STRING" size="256"/>
+          <Column id="Column1" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="FIRST_LOGIN_DT" type="STRING" size="256"/>
+          <Column id="LAST_LOGIN_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="EAMIL_ADDRESS" type="STRING" size="256"/>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="GENDER" type="STRING" size="256"/>
+          <Column id="BIRTH" type="STRING" size="256"/>
+          <Column id="MEMBER_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[//회원 리스트 조회
+this.fn_search = function(){
+	
+   //트랜잭션 id -> 콜백 함수에서 쓰임
+	var strSvcID = "selectList"
+	//url controller에서 받을 주소
+	var setURL = "svc::/selectList.do";
+	//컨트롤러로 보내는 값
+	var strInDatasets = "";
+	//컨트롤러에서 받는 값
+	var strOutDatasets = "ds_list=ds_list";
+	var strArg = "";
+	//콜백함수
+	var callBack = "fn_callBack";
+	//스크립트 바로 실행
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+
+// 공통 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+
+	if(errorCode == -1){
+		this.alert(errorMSG)
+	}
+	
+	switch(svcID){
+		case "selectMemberList" : 
+		   console.log(this.ds_list.saveXML());
+		break;
+	}
+}
+
+
+]]></Script>
   </Form>
 </FDL>
