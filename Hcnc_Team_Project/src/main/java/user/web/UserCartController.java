@@ -73,4 +73,14 @@ public class UserCartController {
 		
 		return mav;
 	}
+	
+	// 체크박스 선택한 상품만 주문하기
+	@RequestMapping(value="/orderSelected.do")
+	public ModelAndView orderSelected(@RequestParam HashMap<String, Object> param) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println(param);
+		
+		return mav;
+	}
 }

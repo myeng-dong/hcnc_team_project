@@ -15,8 +15,8 @@ body {
 }
 
 input,
-select,
-button {
+select
+{
   min-width: 120px;
   padding: 5px;
   margin: 3px 0;
@@ -76,8 +76,7 @@ input::-webkit-inner-spin-button {
 }
 
 /*hover공통*/
-input[type="button"]:hover,
-button:hover {
+input[type="button"]:hover {
   cursor: pointer;
   background: #333;
   color: #fff;
@@ -86,8 +85,7 @@ select:hover {
   cursor: pointer;
 }
 /*active공통*/
-input[type="button"]:active,
-button:active {
+input[type="button"]:active {
   background: #b20a0a;
   color: #fff;
 }

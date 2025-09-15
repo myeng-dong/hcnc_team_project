@@ -1,0 +1,4 @@
+@charset "UTF-8";
+
+/* 공통 변수, 레이아웃, 스타일 */
+@import url("../cart/cart.css");
