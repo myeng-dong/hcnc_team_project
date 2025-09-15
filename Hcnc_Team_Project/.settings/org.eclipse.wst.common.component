@@ -11,6 +11,10 @@
                         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+<<<<<<< HEAD
+=======
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/.apt_generated"/>
+>>>>>>> 624b22e16af0f43609fe8cc9b35264a230ff3991
                         
         
         <property name="java-output-path" value="/a/target/classes"/>
