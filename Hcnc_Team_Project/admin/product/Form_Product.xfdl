@@ -4,7 +4,7 @@
     <Layouts>
       <Layout width="1280" height="800">
         <Div id="Div00" taborder="6" text="" left="24" top="20" width="1230" height="50" background="#ffffff" borderRadius="10px 0px 0px 10px"/>
-        <Static id="stc_total" taborder="4" text="" left="39" top="10" width="120" height="60" font="bold 12px/normal &quot;Gulim&quot;"/>
+        <Static id="stc_total" taborder="4" text="" left="39" top="10" width="120" height="60" font="14px/normal &quot;Gulim&quot;"/>
         <Div id="Div00_00" taborder="9" text="" left="164" top="99" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px">
           <Layouts>
             <Layout>
@@ -165,10 +165,10 @@
         <Button id="btn_reg" text="상품등록" left="935" top="370" width="100" height="40" color="#FFFFFF" background="#89a7ff" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="1" onclick="btn_reg_onclick"/>
         <Button id="btn_excel" text="엑셀다운로드" left="1065" top="370" width="150" height="40" color="#2E7D32" background="url('imagerc::excel_logo.png') no-repeat left center /38px #ffffff" border="1px solid #CCCCCC" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" padding="0px 0px 0px 25px" taborder="3" onclick="btn_excel_onclick"/>
         <Static id="sta_listTitle" text="목록" left="50" height="61" top="360" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="8" color="#232323"/>
-        <Static id="sta_prodType" text="검색분류" left="24" height="40" right="1116" top="99" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="16" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
-        <Static id="sta_category" text="상품분류" left="24" height="40" right="1116" top="156" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="17" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
-        <Static id="sta_regDate" text="상품등록일" left="24" height="40" right="1116" top="213" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="18" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
-        <Static id="sta_sale" text="진열상태" left="24" height="40" right="1116" top="270" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="19" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
+        <Static id="sta_prodType" text="검색분류" left="24" height="40" top="99" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="16" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_category" text="상품분류" left="24" height="40" top="156" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="17" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_regDate" text="상품등록일" left="24" height="40" top="213" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="18" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_sale" text="진열상태" left="24" height="40" top="270" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="19" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
         <Button id="btn_view" text="조회" left="698" top="102" width="72" height="34" color="#FFFFFF" background="#89a7ff" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="20"/>
       </Layout>
     </Layouts>
@@ -313,8 +313,10 @@
 //상품등록
 this.btn_reg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
+	
 	this.go("product::Form_ProductReg.xfdl");
 };
+
 ]]></Script>
   </Form>
 </FDL>

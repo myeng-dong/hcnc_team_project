@@ -70,17 +70,7 @@ public class BannerController {
 
 
 
-	private BannerService adminService;
-	
-	@RequestMapping(value="/selectBannerListByAdmin.do")
-	public NexacroResult selectBannerListByAdmin() {
-		NexacroResult rs = new NexacroResult();
-		List<Map<String, Object>> selectBannerList = adminService.selectBannerListByAdmin();
-		System.out.println("확인용ㅇ good");
-		System.out.println(selectBannerList);
-		rs.addDataSet("ds_banner", selectBannerList);
-		return rs;
-	}
+
 
 	
 
