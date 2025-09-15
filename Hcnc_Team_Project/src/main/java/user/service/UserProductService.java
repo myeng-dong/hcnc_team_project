@@ -15,7 +15,7 @@ public class UserProductService {
 	@Autowired
 	private UserProductMapper userProductMapper;
 
-	public HashMap<String, Object> selectProductByUser(Map<String, Object> param) {
+	public List<HashMap<String, Object>> selectProductByUser(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		return userProductMapper.selectProductByUser(param);
 	}

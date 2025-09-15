@@ -1,6 +1,7 @@
 package user.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class UserProductController {
 		
 		System.out.println(param);
 		
-		HashMap<String, Object> productDetail = userProductService.selectProductByUser(param);
-
+		List<HashMap<String, Object>> productDetail = userProductService.selectProductByUser(param);
+		
 		mav.addObject("product", productDetail);
 		
 		return mav;

@@ -35,13 +35,29 @@
 					console.log(res.product);
 					
 					var product = res.product;
+					var productOption = product[0].OPTION_NAME;
 					
-					$("#product-name").html(product.PRODUCT_NAME);
-					$("#product-price").html(product.PRODUCT_PRICE);
-					$("#saled-price").html(product.SAILED_PRICE);
-					$("#product-code").html(product.PRODUCT_CODE);
-					$("#product-description").html(product.PRODUCT_CONTENT);
-					$("#product-option").html();
+					
+					$("#product-name").html(product[0].PRODUCT_NAME);
+					$("#product-price").html(product[0].PRODUCT_PRICE);
+					$("#saled-price").html(product[0].SAILED_PRICE);
+					$("#product-code").html(product[0].PRODUCT_CODE);
+					$("#product-description").html(product[0].PRODUCT_CONTENT);
+					$("#product-weight").html(product[0].PRODUCT_WEIGHT);
+					
+					if(productOption != null && productOption != undefined){
+						var options = '<td>옵션</td>';
+						options += '<td>';
+						options += '<select id="options-select" onchange="selectOption()">'
+						options += '<option value="default" selected disabled>--옵션 선택--</option>';
+						for(var i=0; i < product.length; i++){
+							options += '<option value=\' ['+ product[i].OPTION_NAME +'] '+ product[i].OPTION_VALUE +'\' > ['+ product[i].OPTION_NAME + '] ' + product[i].OPTION_VALUE + '</option>';
+						}
+						options += '</select>'
+						options += '</td>'
+						
+						$("#product-option").html(options);
+					}
 				}
 				, error : function(){
 					
@@ -78,6 +94,12 @@
             $("#quantity").val(1);
         }
     }
+    
+    const selectOption = () => {
+    	var selected = $("#options-select").val();
+    	
+    	console.log(selected);
+    }
 	</script>
 </head>
 
@@ -91,7 +113,7 @@
         </div>
         <div class="product-info">
           <div class="product-title">
-            <h3 id="product-name"></h3>
+            <h1 id="product-name"></h3>
           </div>
           <table>
             <tbody>
@@ -112,8 +134,11 @@
                 <td id="product-description"></td>
               </tr>
               <tr>
-                <td>옵션</td>
-                <td id="product-option"></td>
+              	<td>무게</td>
+              	<td id="product-weight"></td>
+              </tr>
+              <tr id="product-option">
+                
               </tr>
               <tr>
                 <td>수량</td>

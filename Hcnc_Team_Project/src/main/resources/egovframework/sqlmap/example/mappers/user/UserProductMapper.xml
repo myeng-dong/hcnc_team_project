@@ -15,7 +15,10 @@
 	
 	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
+					, O.OPTION_NAME, O.OPTION_VALUE
 			FROM PRODUCTS P
+			LEFT OUTER JOIN OPTIONS O
+				ON P.PRODUCT_ID = O.PRODUCT_ID 
 			WHERE P.PRODUCT_ID = #{productId}
 	</select>
 	

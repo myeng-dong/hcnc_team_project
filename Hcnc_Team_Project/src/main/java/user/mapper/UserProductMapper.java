@@ -9,6 +9,6 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("UserProductMapper")
 public interface UserProductMapper {
 
-	HashMap<String, Object> selectProductByUser(Map<String, Object> param);
+	List<HashMap<String, Object>> selectProductByUser(Map<String, Object> param);
 
 }
