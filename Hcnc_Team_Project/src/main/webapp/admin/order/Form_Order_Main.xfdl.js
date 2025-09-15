@@ -28,25 +28,14 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("search_area","40","40",null,"140","40",null,null,null,null,null,this);
+            obj = new Div("search_area","40","50",null,"140","40",null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
             obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_select","964","50",null,"40","80",null,null,null,null,null,this.search_area.form);
-            obj.set_taborder("0");
-            obj.set_text("조회");
-            obj.set_borderRadius("5px");
-            obj.set_background("#3F00FF");
-            obj.set_color("white");
-            obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
-            obj.set_textAlign("center");
-            obj.set_cursor("pointer");
-            this.search_area.addChild(obj.name, obj);
-
-            obj = new Grid("grid_list","40","220",null,null,"40","40",null,null,null,null,this);
+            obj = new Grid("grid_list","40","130",null,"390","40",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
@@ -107,19 +96,12 @@
         	}
         };
 
-        // 조회 버튼
-        this.search_area_btn_select_onclick = function(obj,e)
-        {
-
-        };
-
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_Order_Main_onload,this);
-            this.search_area.form.btn_select.addEventHandler("onclick",this.search_area_btn_select_onclick,this);
         };
         this.loadIncludeScript("Form_Order_Main.xfdl");
         this.loadPreloadList();
