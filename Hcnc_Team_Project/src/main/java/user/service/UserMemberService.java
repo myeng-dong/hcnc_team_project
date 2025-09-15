@@ -11,11 +11,11 @@ public class UserMemberService {
 	private UserMemberMapper userMemberMapper;
 	
 	public int selectIdCheckByUser(String id) {
-		return userMemberMapper.selectIdCheckByUser(String id);
+		return userMemberMapper.selectIdCheckByUser(id);
 	}
 
 	public int selectEmailCheckByUser(String email) {
-		return userMemberMapper.selectEmailCheckByUser(String email);
+		return userMemberMapper.selectEmailCheckByUser(email);
 	}
 
 	public int insertSignUpByUser() {
