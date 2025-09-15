@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.ProductService;
@@ -30,13 +31,65 @@ public class ProductController {
     // 상품 목록 조회
     @RequestMapping("/selectProductListByAdmin.do")
     public NexacroResult selectProductListByAdmin(
-            @ParamDataSet(name="ds_in_proList", required=false) List<Map<String,Object>> in) {
+            @ParamDataSet(name="ds_in_proList", required=false) List<Map<String,Object>> in,
+            @RequestParam Map<String,Object> param,
+            HttpServletRequest request) {
+    	
+        System.out.println(">>> selectProductListByAdmin.do called");
+        System.out.println("params=" + param);
+    	
         NexacroResult rs = new NexacroResult();
-        Map<String,Object> p = (in != null && !in.isEmpty()) ? in.get(0) : new HashMap<>();
-        rs.addDataSet("ds_out_proList", productService.selectProductListByAdmin(p));
+        
+     // 1) ds_in_proList + RequestParam 병합
+        Map<String,Object> p = (in != null && !in.isEmpty()) ? new HashMap<>(in.get(0)) : new HashMap<>();
+        if (param != null) p.putAll(param);
+
+        // 2) 'undefined' → "" 치환
+        cleanParam(p, "PRODUCT_NAME", "IS_VISIBLE", "QUANTITY_STATUS", 
+                      "START_DATE", "END_DATE", "MAIN_CATE_NM", "SUB_CATE_NM");
+
+        // 3) 디버깅 로그
+        System.out.println("[selectProductListByAdmin] params = " + p);
+
+        // 4) 서비스 호출
+        List<Map<String,Object>> list = productService.selectProductListByAdmin(p);
+
+        // 5) 결과
+        rs.addDataSet("ds_out_proList", list);
         return rs;
     }
 
+    // 간단한 파라미터 클리너
+    private void cleanParam(Map<String,Object> p, String... keys){
+        for (String k : keys){
+            Object v = p.get(k);
+            if (v == null) continue;
+            String s = String.valueOf(v);
+            if ("undefined".equalsIgnoreCase(s) || "null".equalsIgnoreCase(s)) {
+                p.put(k, "");
+            }
+        }
+    }
+    
+    
+    //대분류
+    @RequestMapping("selectMainCategoryComboByAdmin.do")
+    public NexacroResult selectMainCategoryComboByAdmin() {
+        NexacroResult result = new NexacroResult();
+        List<Map<String,Object>> list = productService.selectMainCategoryComboByAdmin();
+        result.addDataSet("ds_mainCate", list);
+        return result;
+    }
+    
+    //중분류
+    @RequestMapping("selectSubCategoryComboByAdmin.do")
+    public NexacroResult selectSubCategoryComboByAdmin(@ParamVariable(name="MAIN_CATE_ID") int mainCateId) {
+        NexacroResult result = new NexacroResult();
+        List<Map<String,Object>> list = productService.selectSubCategoryComboByAdmin(mainCateId);
+        result.addDataSet("ds_subCate", list);
+        return result;
+    }
+    
     // 상품 등록
     @RequestMapping("/insertProductByAdmin.do")
     public NexacroResult insertProductByAdmin(
