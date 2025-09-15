@@ -35,6 +35,11 @@ public class OrderService {
 		orderMapper.updateShipListByAdmin(row);
 		
 	}
+
+	public void insertShipListByAdmin(Map<String, Object> row) {
+		orderMapper.insertShipListByAdmin(row);
+		
+	}
 	
 
 	
