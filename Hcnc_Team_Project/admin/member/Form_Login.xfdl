@@ -72,7 +72,6 @@ this.fn_callBack = function (svcID, errorCode, errorMSG)
 		
 		if(isLogin != null && isLogin !='undefined'){
 			
-			
 			this.loginSet();
 		} 
 		break;

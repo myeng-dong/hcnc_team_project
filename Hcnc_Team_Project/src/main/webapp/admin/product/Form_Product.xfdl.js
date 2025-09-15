@@ -36,6 +36,16 @@
             obj = new Dataset("ds_out_search_combo00", this);
             obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_in_search_combo", this);
+            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_out_search_combo00", this);
+            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Div("Div00","24","20","1230","50",null,null,null,null,null,null,this);
@@ -202,11 +212,11 @@
             obj.set_color("#232323");
             this.addChild(obj.name, obj);
 
-<<<<<<< HEAD
+
             obj = new Static("sta_prodType","24","99",null,"40","1116",null,null,null,null,null,this);
-=======
+
             obj = new Static("sta_prodType","24","99","140","40",null,null,null,null,null,null,this);
->>>>>>> b1739fe8734768ed8724baeb0b7a716948dd9b81
+
             obj.set_text("검색분류");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
@@ -372,17 +382,20 @@
         //상품등록
         this.btn_reg_onclick = function(obj,e)
         {
-<<<<<<< HEAD
-        	this.go("product::Form_ProductReg.xfdl");
-        };
-
-=======
 
         	this.go("product::Form_ProductReg.xfdl");
         };
 
 
->>>>>>> b1739fe8734768ed8724baeb0b7a716948dd9b81
+        	this.go("product::Form_ProductReg.xfdl");
+        };
+
+
+
+        	this.go("product::Form_ProductReg.xfdl");
+        };
+
+
         });
         
         // Regist UI Components Event
