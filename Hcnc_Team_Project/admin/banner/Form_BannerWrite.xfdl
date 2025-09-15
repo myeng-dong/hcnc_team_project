@@ -18,7 +18,7 @@
         <FileUpTransfer id="fut_banner" maxcount="1" onsuccess="fut_onsuccess" onerror="fut_onerror"/>
         <Radio id="radio_banner_type" taborder="10" left="215" top="141" width="285" height="55" innerdataset="ds_bwrite" codecolumn="main" datacolumn="메인배너"/>
         <Button id="btn_done" taborder="11" text="저장" top="532" height="48" background="#1017ac" color="#ffffff" borderRadius="5px" border="0px none" right="40" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
-        <Button id="btn_cancle" taborder="12" text="취소" top="530" height="48" background="#ffffff" color="#ff3d3d" borderRadius="5px" border="1px solid #ff3d3d" right="1100" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_cancle_onclick"/>
+        <Button id="btn_cancle" taborder="12" text="취소" top="530" height="48" background="#ffffff" color="#ff3d3d" borderRadius="5px" border="1px solid #ff3d3d" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_cancle_onclick" left="40"/>
         <Static id="txt_date_td" taborder="13" text="YYYY.mm.dd" left="800" top="150" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th00_onclick"/>
         <Static id="txt_date00" taborder="14" text="상위노출" left="660" top="70" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick"/>
       </Layout>
