@@ -10,16 +10,35 @@ import admin.mapper.ProductMapper;
 
 @Service
 public class ProductService {
-	
-	@Autowired
-	private ProductMapper productMapper;
 
-	
-	
-	
-	
-	//상품목록리스트
-	public List<Map<String, Object>> selectProductListByAdmin(Map<String, Object> p) {
-			return productMapper.selectProductListByAdmin(p);
-		}
+    @Autowired
+    private ProductMapper productMapper;
+
+    public List<Map<String,Object>> selectProductListByAdmin(Map<String,Object> p) {
+        return productMapper.selectProductListByAdmin(p);
+    }
+
+    public void insertProduct(Map<String,Object> p) {
+        productMapper.insertProduct(p);
+    }
+
+    public void insertOption(Map<String,Object> p) {
+        productMapper.insertOption(p);
+    }
+
+    public void insertInventory(Map<String,Object> p) {
+        productMapper.insertInventory(p);
+    }
+
+    public void insertProductImage(Map<String,Object> fileInfo) {
+        productMapper.insertProductImage(fileInfo);
+    }
+
+    public void updateProductImageMapping(Map<String,Object> p) {
+        productMapper.updateProductImageMapping(p);
+    }
+
+    public void setMainImage(Map<String,Object> p) {
+        productMapper.setMainImage(p);
+    }
 }
