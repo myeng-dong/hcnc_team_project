@@ -11,18 +11,12 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script type="text/javaScript" language="javascript" defer="defer"></script>
     <style>
-    	/* =========================
-	   Cart Page - Red & White Theme
-	   Primary: #DC0630 / White
-	   ========================= */
-	
-	/* global.css 의 .container flex 무효화 */
 	.cart-container {
-	  display: block;
-	  justify-content: initial;
+/* 	  display: block;
+	  justify-content: initial; */
 	  width: 100%;
 	  max-width: 1100px;
-	  margin: 40px auto;
+/* 	  margin: 40px auto; */
 	  padding: 28px;
 	  background: #fff;
 	  border: 1px solid #ececec;
@@ -42,7 +36,8 @@
 	
 	/* heading */
 	h3 {
-	  margin: 8px 0 18px 0;
+	  margin: 20px;
+	  padding: 20px;
 	  text-align: center;
 	  color: #DC0630;
 	  letter-spacing: 2px;
@@ -51,6 +46,7 @@
 	/* table */
 	.cart-table {
 	  width: 100%;
+	  margin-top: 20px;
 	  border-collapse: collapse;
 	  table-layout: fixed; /* 컬럼 너비 고정 */
 	}
@@ -139,6 +135,8 @@
 	  margin-top:10px;
 	}
 	
+	
+	
 	/* 합계 영역 */
 	h4 { color:#1f1f1f; }
 	.sum-row, .sum-total {
@@ -155,6 +153,7 @@
 	}
 	.footer { display: flex; justify-content: space-between; width:100%;}
 	.footer-btn { margin:40px 20px 20px 20px; }
+	
 	.footer-total { width:30%; margin:20px; }
 	.orderInfo{ margin-top:60px; padding-left: 10px;}
 	.orderInfo > .bi-exclamation-circle, span { font-weight: bold; font-size: 13px; color:#333333; }
@@ -352,60 +351,69 @@
 </head>
 
 <body>
-  <div class="container cart-container">
-    <div class="breadcrumb">
-      <a href="/main.do">홈</a>
-      <span>›</span>
-      <strong>장바구니</strong>
-    </div>
-    <div>
-    <h3 style="text-align: center;">[ C A R T ]</h3>
-		</div>
-
-    <!-- 장바구니 상품 테이블 -->
-    <div class="cart-grid">
-      <div>
-        <table class="cart-table">
-          <thead>
-            <tr>
-              <th class="col-check"><input type="checkbox" id="headCheck"></th>
-              <th class="col-img col-name" colspan="2">상품명</th>
-              <th class="col-price">가격</th>
-              <th class="col-qty">수량</th>
-              <th class="col-total">총금액</th>
-              <th class="col-actions">삭제/관심</th>
-            </tr>
-          </thead>
-          <tbody id="cart-body">
-          	<!-- JS 렌더링 -->
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-
-	<div class="footer">
-		<div class="footer-btn">
-	        <button class="btn" id="btnContinue">계속 쇼핑하기</button>
-	        <button class="btn-outline" id="btnOrderSelected">선택상품 주문하기</button>
-	        <button class="btn-outline" id="btnClear">장바구니 비우기</button>
-	        <div class="orderInfo">
-	        	<i class="bi bi-exclamation-circle"></i>
-	        	<span>안내사항</span>
-	        	<p>- 상품 쿠폰 및 적립금 사용은 [주문서 작성/결제]에서 적용됩니다.</p>
-	        	<p>- 장바구니는 회원에 한해 직접 삭제할 때까지 보관됩니다. 더 오래 보관 하시려면 위시리스트에 담아주세요.</p>
-	        </div>
-		</div>
-	
-		<div class="footer-total">
-	      <h4>결제 예정 금액</h4>
-	      <div class="sum-row"><span>주문금액</span><span id="sum-products" class="price">0원</span></div>
-	      <div class="sum-row small"><span>일반배송비</span><span id="sum-ship-normal">0원</span></div>
-	      <div class="sum-row small"><span>개별배송비</span><span id="sum-ship-indiv">0원</span></div>
-	      <div class="sum-total"><span>결제금액</span><span id="sum-final" class="price">0원</span></div>
-	      <button class="order-btn" id="btnOrder">주문하기</button>
+  <div class="container">
+  	<div class="cart-container">
+	    <div class="breadcrumb">
+	      <a href="/main.do">홈</a>
+	      <span>›</span>
+	      <strong>장바구니</strong>
 	    </div>
-    </div>
+	    <div>
+	    <h3>[ C A R T ]</h3>
+			</div>
+	
+	    <!-- 장바구니 상품 테이블 -->
+	    <div class="cart-grid">
+	      <div>
+	        <table class="cart-table">
+	          <thead>
+	            <tr>
+	              <th class="col-check"><input type="checkbox" id="headCheck"></th>
+	              <th class="col-img col-name" colspan="2">상품정보</th>
+	              <th class="col-price">가격</th>
+	              <th class="col-qty">수량</th>
+	              <th class="col-total">총금액</th>
+	              <th class="col-actions">삭제/관심</th>
+	            </tr>
+	          </thead>
+	          <tbody id="cart-body">
+	          	<!-- JS 렌더링 -->
+	          </tbody>
+	        </table>
+	      </div>
+	
+	    </div>
+	
+		<div class="footer">
+			<div class="footer-btn">
+		        <button class="btn" id="btnContinue">계속 쇼핑하기</button>
+		        <button class="btn-outline" id="btnOrderSelected">
+		        	<i class="bi bi-bag-check"></i>
+		        	선택상품 주문하기</button>
+		        <button class="btn-outline" id="btnDeleteSelected">
+		        	<i class="bi bi-bag-x"></i>
+		        	선택상품 삭제하기</button>
+		        <button class="btn-outline" id="btnClear">
+		        	<i class="bi bi-trash3"></i>
+		        	장바구니 비우기</button>
+		        <div class="orderInfo">
+		        	<i class="bi bi-exclamation-circle"></i>
+		        	<span>안내사항</span>
+		        	<p>- 상품 쿠폰 및 적립금 사용은 [주문서 작성/결제]에서 적용됩니다.</p>
+		        	<p>- 장바구니는 회원에 한해 직접 삭제할 때까지 보관됩니다. 더 오래 보관 하시려면 위시리스트에 담아주세요.</p>
+		        </div>
+			</div>
+		
+			<div class="footer-total">
+		      <h4>결제 예정 금액</h4>
+		      <div class="sum-row"><span>주문금액</span><span id="sum-products" class="price">0원</span></div>
+		      <div class="sum-row small"><span>일반배송비</span><span id="sum-ship-normal">0원</span></div>
+		      <div class="sum-row small"><span>개별배송비</span><span id="sum-ship-indiv">0원</span></div>
+		      <div class="sum-total"><span>결제금액</span><span id="sum-final" class="price">0원</span></div>
+		      <button class="order-btn" id="btnOrder">주문하기</button>
+		    </div>
+	    </div>
+	  </div>
   </div>
 </body>
 
