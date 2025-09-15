@@ -353,7 +353,7 @@
   <div class="container">
   	<div class="cart-container">
 	    <div class="breadcrumb">
-	      <a href="/main.do">홈</a>
+	      <a href="/">홈</a>
 	      <span>›</span>
 	      <strong>장바구니</strong>
 	    </div>
