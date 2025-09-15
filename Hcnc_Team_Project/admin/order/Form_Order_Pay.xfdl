@@ -171,11 +171,11 @@ this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEvent
         <Rows>
           <Row>
             <Col id="CODE">WAIT</Col>
-            <Col id="NAME">결제 대기</Col>
+            <Col id="NAME">입금대기</Col>
           </Row>
           <Row>
             <Col id="CODE">DONE</Col>
-            <Col id="NAME">결제 완료</Col>
+            <Col id="NAME">입금완료</Col>
           </Row>
         </Rows>
       </Dataset>
