@@ -81,39 +81,6 @@
         this.Div00_00_00_00_00_Radio00_onitemchanged = function(obj,e)
         {
 
-<<<<<<< HEAD
-=======
-        this.btn_write_onclick = function(obj,e)
-        {
-        	nexacro.WorkFrame.set_formurl("banner::Form_BannerWrite.xfdl");
-        };
-
-
-        // 배너조회
-        this.fnSearchBanner = function() {
-            var strSvcID       = "selectBanner";
-            var strURL         = "svc::selectBannerListByAdmin.do";  // Spring Controller 매핑
-            var strInDatasets  = "";
-            var strOutDatasets = "ds_banner=ds_banner";
-            var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
-            var strCallback    = "fnCallback";
-
-            this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
-        };
-
-        // 공통 콜백
-        this.fnCallback = function(svc, err, errMsg) {
-            if (err < 0) {
-                this.alert("에러 발생: " + errMsg);
-
-                return;
-            }
-            switch(svc){
-        		case "selectBanner"  :
-        		return;
-
-        	}
->>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
         };
 
         });

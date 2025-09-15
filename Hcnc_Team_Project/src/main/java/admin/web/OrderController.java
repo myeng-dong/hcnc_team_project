@@ -89,7 +89,6 @@ public class OrderController {
                 orderService.updateShipListByAdmin(row);
             }
         }
-
         return result;
     }
 
