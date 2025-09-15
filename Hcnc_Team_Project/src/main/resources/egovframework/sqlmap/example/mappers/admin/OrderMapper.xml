@@ -2,55 +2,105 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.mapper.OrderMapper">
 
-
-	
 	<select id="selectOrderDetailListByAdmin" parameterType="map" resultType="map">
-    SELECT 
-           O.ORDER_ID              -- 오더아이디
-         , O.ORDER_NUMBER          -- 주문번호
-         , O.ORDER_DT              -- 주문일
-         , CASE					   -- 주문한 사람
-             WHEN M.MEMBER_ID
-             IS NULL THEN '비회원'
-             ELSE M.MEMBER_ID
-           END AS USER_ID
-         , O.TOTAL_AMOUNT          -- 총가격
-         , O.DISCOUNT_AMOUNT       -- 할인가격
-         , O.FINAL_AMOUNT          -- 최종가격
-         , O.ORDER_STATUS          -- 주문상태
-         , P.PAYMENT_STATUS        -- 결제상태(입금시)
-         , S.SHIPMENT_STATUS       -- 배송상태
-         , C.COUPON_TYPE           -- 어떤쿠폰인지
-         , PS.PROMOTION_NAME       -- 어떤프로모션인지
-         , PT.POINT                -- 사용 포인트
-    FROM ORDERS O
-    LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID
-    LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID
-    LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER
-    LEFT JOIN PROMOTION_LOG PL ON O.ORDER_ID = PL.ORDER_ID
-    LEFT JOIN PROMOTIONS PS ON PL.PROMOTION_ID = PS.PROMOTION_ID
-    LEFT JOIN COUPONS C ON O.ORDER_ID = C.ORDER_ID
-    LEFT JOIN POINTS PT ON O.ORDER_ID = PT.ORDER_ID AND PT.CHANGE_TYPE = '사용'
-    WHERE 1=1
-    <if test="START_DATE != null and START_DATE != ''">
-        AND O.ORDER_DT <![CDATA[ >= ]]> #{START_DATE}
-    </if>
-    <if test="END_DATE != null and END_DATE != ''">
-        AND O.ORDER_DT <![CDATA[ <= ]]> #{END_DATE}
-    </if>
-    <if test="USER_ID != null and USER_ID != ''">
-        AND (M.MEMBER_ID LIKE CONCAT('%', #{USER_ID}, '%')
-             OR (#{USER_ID} = '비회원' AND M.MEMBER_ID IS NULL))
-    </if>
-    <if test="ORDER_STATUS != null and ORDER_STATUS != ''">
-        AND O.ORDER_STATUS = #{ORDER_STATUS}
-    </if>
-    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
-        AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
-    </if>
-</select>
+	    SELECT 
+	           O.ORDER_ID              -- 오더아이디
+	         , O.ORDER_NUMBER          -- 주문번호
+	         , O.ORDER_DT              -- 주문일
+	         , CASE					   -- 주문한 사람
+	             WHEN M.MEMBER_ID
+	             IS NULL THEN '비회원'
+	             ELSE M.MEMBER_ID
+	           END AS USER_ID
+	         , O.TOTAL_AMOUNT          -- 총가격
+	         , O.DISCOUNT_AMOUNT       -- 할인가격
+	         , O.FINAL_AMOUNT          -- 최종가격
+	         , O.ORDER_COMMENT         -- 주문상태
+	         , P.PAYMENT_STATUS        -- 결제상태(입금시)
+	         , S.SHIPMENT_STATUS       -- 배송상태
+	         , C.COUPON_TYPE           -- 어떤쿠폰인지
+	         , PS.PROMOTION_NAME       -- 어떤프로모션인지
+	         , PT.POINT                -- 사용 포인트
+	    FROM ORDERS O
+	    LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID
+	    LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID
+	    LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER
+	    LEFT JOIN PROMOTION_LOG PL ON O.ORDER_ID = PL.ORDER_ID
+	    LEFT JOIN PROMOTIONS PS ON PL.PROMOTION_ID = PS.PROMOTION_ID
+	    LEFT JOIN COUPONS C ON O.ORDER_ID = C.ORDER_ID
+	    LEFT JOIN POINTS PT ON O.ORDER_ID = PT.ORDER_ID AND PT.CHANGE_TYPE = '사용'
+	    WHERE 1=1
+	    <if test="START_DATE != null and START_DATE != ''">
+	        AND O.ORDER_DT <![CDATA[ >= ]]> #{START_DATE}
+	    </if>
+	    <if test="END_DATE != null and END_DATE != ''">
+	        AND O.ORDER_DT <![CDATA[ <= ]]> #{END_DATE}
+	    </if>
+	    <if test="USER_ID != null and USER_ID != ''">
+	        AND (M.MEMBER_ID LIKE CONCAT('%', #{USER_ID}, '%')
+	             OR (#{USER_ID} = '비회원' AND M.MEMBER_ID IS NULL))
+	    </if>
+	    <if test="ORDER_STATUS != null and ORDER_STATUS != ''">
+	        AND O.ORDER_STATUS = #{ORDER_STATUS}
+	    </if>
+	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
+	        AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
+	    </if>
+	</select>
+	
+	
+	<select id="selectPaymentListByAdmin" parameterType="map" resultType="map">
+	    #결제내역 조회
+	    
+		SELECT PAYMENT_ID                -- 결제 ID
+			 , '0' AS CHK                -- 넥사 체크박스 설정을 위한 CHK
+		     , ORDER_ID                  -- 주문 ID
+		     , PAYMENT_METHOD            -- 결제 방법
+		     , PAYMENT_AMOUNT            -- 결제 금액
+		     , PAYMENT_STATUS            -- 결제 상태
+		     , PAYMENT_DT                -- 결제 일자
+		     , UPDATE_DT                 -- 수정 일자
+		  FROM PAYMENTS
+		 WHERE 1=1
+	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
+	       AND PAYMENT_STATUS = #{PAYMENT_STATUS}
+	    </if>
+	</select>
 
 
-
-
+	<update id="updatePaymentListByAdmin" parameterType="map">
+	     # 결제 상태 업데이트
+	     
+		 UPDATE PAYMENTS                                   -- 결제테이블
+            SET PAYMENT_STATUS = #{PAYMENT_STATUS}         -- 결제 상황 업데이트
+          WHERE PAYMENT_ID = #{PAYMENT_ID}	               -- 결제ID로 조회
+	</update>
+	
+	<select id="selectShipListByAdmin" parameterType="map" resultType="map">
+	    #결제내역 조회
+		SELECT SHIPMENT_ID               -- 배송 ID
+			 , '0' AS CHK                -- 넥사 체크박스 설정을 위한 CHK
+		     , ORDER_ID                  -- 주문 ID
+		     , COUIER_NAME               -- 택배 회사
+		     , TRACKING_NUMBER           -- 송장 번호
+		     , SHIPMENT_STATUS           -- 배송 상태
+		     , SHIPPED_DT                -- 결제 일자
+		     , DELIVERD_DT               -- 배송 완료 일자
+		     , UPDATE_DT                 -- 수정 일자
+		  FROM SHIPS
+		 WHERE 1=1
+	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != ''">
+	       AND PAYMENT_STATUS = #{PAYMENT_STATUS}
+	    </if>
+	</select>
+	
+	<update id="updateShipListByAdmin" parameterType="map">
+	     # 결제 상태 업데이트
+	     
+		 UPDATE SHIPS                                        -- 배송 테이블
+            SET SHIPMENT_STATUS = #{SHIPMENT_STATUS}         -- 배송 상황 업데이트
+              , TRACKING_NUMBER = #{TRACKING_NUMBER}         -- 송장번호 등록
+          WHERE SHIPMENT_ID = #{SHIPMENT_ID}	             -- 배송 ID로 조회
+	</update>
+	
 </mapper>

@@ -59,13 +59,13 @@
           <Col id="MENU_ID">02</Col>
           <Col id="MENU_NM">상품관리</Col>
           <Col id="MENU_LEVEL">0</Col>
-          <Col id="MENU_PATH"></Col>
+          <Col id="MENU_PATH"/>
         </Row>
         <Row>
           <Col id="MENU_ID">0201</Col>
           <Col id="MENU_NM">상품 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
-          <Col id="MENU_PATH">product::Form_Product_Main.xfdl</Col>
+          <Col id="MENU_PATH">product::Form_Product.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0202</Col>
@@ -101,35 +101,29 @@
           <Col id="MENU_ID">0301</Col>
           <Col id="MENU_NM">주문내역 확인</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">order::Form_Order_Main.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0302</Col>
           <Col id="MENU_NM">결제처리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">order::Form_Order_Pay.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0303</Col>
-          <Col id="MENU_NM">반품/교환/취소 관리</Col>
+          <Col id="MENU_NM">주문상태 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">order::Form_Order_Status.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0304</Col>
           <Col id="MENU_NM">송장 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">order::Form_Order_Ship.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0305</Col>
           <Col id="MENU_NM">배송비 정책 관리</Col>
-          <Col id="MENU_LEVEL">1</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">0306</Col>
-          <Col id="MENU_NM">주문상태 관리</Col>
-          <Col id="MENU_LEVEL">1</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">0307</Col>
-          <Col id="MENU_NM">엑셀 대량 주문 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
         </Row>
         <Row>
@@ -212,6 +206,9 @@
       <ColumnInfo>
         <Column id="MEMBER_ID" type="STRING" size="256"/>
       </ColumnInfo>
+      <Rows>
+        <Row/>
+      </Rows>
     </Dataset>
   </Datasets>
   <Variables/>

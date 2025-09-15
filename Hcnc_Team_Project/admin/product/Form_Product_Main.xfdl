@@ -5,7 +5,7 @@
       <Layout width="1280" height="800">
         <Div id="Div00" taborder="6" text="" left="24" top="20" width="1230" height="50" background="#ffffff"/>
         <Static id="stc_total" taborder="4" text="" left="39" top="10" width="120" height="60" font="bold 12px/normal &quot;Gulim&quot;"/>
-        <Div id="Div00_00" taborder="9" text="" left="164" top="99" width="1090" height="40" background="#ffffff">
+        <Div id="Div00_00" taborder="9" text="" left="164" top="99" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px">
           <Layouts>
             <Layout>
               <Edit id="edt_search" taborder="0" left="185" top="2" width="226" height="35"/>
@@ -13,14 +13,18 @@
           </Layouts>
         </Div>
         <Combo id="cmb_searchType" left="179" top="101" width="150" height="35" text="상품명" taborder="11" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Div id="Div00_00_00" taborder="0" text="" left="164" top="156" width="1090" height="40" background="#ffffff"/>
+        <Div id="Div00_00_00" taborder="0" text="" left="164" top="156" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px"/>
         <Combo id="cmb_cate1" left="179" top="158" width="150" height="35" text="- 대분류 선택 -" taborder="5" font="normal 800 10pt/normal &quot;Arial&quot;"/>
         <Combo id="cmb_cate2" left="349" top="158" width="150" height="35" text="- 중분류 선택 -" taborder="10" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Div id="Div00_00_00_00" taborder="2" text="" left="164" top="213" width="1090" height="40" background="#ffffff"/>
+        <Div id="Div00_00_00_00" taborder="2" text="" left="164" top="213" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px"/>
         <Calendar id="cal_start" left="179" top="215" height="35" width="149" taborder="7" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Static id="sta_dash" text="~" left="334" top="216" height="35" width="20" taborder="13" font="normal bold 10pt/normal &quot;Arial&quot;"/>
-        <Calendar id="cal_end" left="349" top="215" height="35" width="150" taborder="14" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Div id="Div00_00_00_00_00" taborder="16" text="" left="164" top="270" width="1090" height="40" background="#ffffff">
+        <Static id="sta_dash" text="~" left="334" top="216" height="35" width="20" taborder="12" font="normal bold 10pt/normal &quot;Arial&quot;"/>
+        <Calendar id="cal_end" left="349" top="215" height="35" width="150" taborder="13" font="normal 800 10pt/normal &quot;Arial&quot;"/>
+<<<<<<< Updated upstream
+        <Div id="Div00_00_00_00_00" taborder="15" text="" left="164" top="270" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px">
+=======
+        <Div id="Div00_00_00_00_00" taborder="15" text="" left="164" top="270" width="1090" height="40" background="#ffffff">
+>>>>>>> Stashed changes
           <Layouts>
             <Layout>
               <Radio id="Radio00" taborder="0" left="24" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;">
@@ -45,7 +49,7 @@
                   </Rows>
                 </Dataset>
               </Radio>
-              <Static id="sta_sale" text="판매상태" left="468" height="40" right="482" top="0" background="#9fbae8" taborder="1" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px"/>
+              <Static id="sta_sale" text="판매상태" left="468" height="40" right="482" top="0" taborder="1" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
               <Radio id="Radio00_00" taborder="2" left="634" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" onitemchanged="Div00_00_00_00_00_Radio00_00_onitemchanged">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
@@ -71,16 +75,123 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="15" left="24" top="349" height="416" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList">&gt;
+        <Grid id="grid_list" taborder="14" left="24" top="349" height="416" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList">&gt;
+<<<<<<< Updated upstream
+          <Formats><Format id="default"><Columns><Column size="26"/><Column size="32"/><Column size="55"/><Column size="96"/><Column size="148"/><Column size="66"/><Column size="66"/><Column size="66"/><Column size="76"/><Column size="76"/><Column size="76"/><Column size="32"/><Column size="49"/><Column size="32"/><Column size="119"/><Column size="119"/><Column size="55"/><Column size="40"/></Columns><Rows><Row size="80" band="head"/><Row size="48" band="head"/><Row size="24" band="head"/><Row size="40"/></Rows><Band id="head"><Cell colspan="18" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" rowspan="2" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol"/><Cell row="1" col="1" rowspan="2" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="2" rowspan="2" text="상품코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="3" rowspan="2" text="상품명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="4" rowspan="2" text="설명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="5" rowspan="2" text="원가" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="6" rowspan="2" text="판매가" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="7" rowspan="2" text="옵션가" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="8" colspan="2" text="상품분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="10" rowspan="2" text="옵션" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="11" rowspan="2" text="진열" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="12" rowspan="2" text="재고" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="13" rowspan="2" text="품절" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="14" rowspan="2" text="등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="15" rowspan="2" text="수정일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="16" rowspan="2" text="구매링크" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="17" rowspan="2" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="2" col="8" text="대분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="2" col="9" text="중분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" background="#ffffff" textAlign="center"/><Cell col="1" text="expr:currow + 1" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/><Cell col="2" background="#ffffff" text="bind:PRODUCT_CODE" font="12px/normal &quot;Gulim&quot;"/><Cell col="3" background="#ffffff" text="bind:PRODUCT_NAME" font="12px/normal &quot;Gulim&quot;"/><Cell col="4" edittype="normal" background="#ffffff" text="bind:PRODUCT_CONTENT" font="12px/normal &quot;Gulim&quot;"/><Cell col="5" background="#ffffff" text="bind:COST_PRICE" font="12px/normal &quot;Gulim&quot;"/><Cell col="6" edittype="normal" background="#ffffff" text="bind:PRODUCT_PRICE" font="12px/normal &quot;Gulim&quot;"/><Cell col="7" edittype="normal" background="#ffffff" text="bind:ADDITIONAL_PRICE" font="12px/normal &quot;Gulim&quot;"/><Cell col="8" edittype="normal" background="#ffffff" text="bind:MAIN_CATE_NM" font="12px/normal &quot;Gulim&quot;"/><Cell col="9" edittype="normal" background="#ffffff" text="bind:SUB_CATE_NM" font="12px/normal &quot;Gulim&quot;"/><Cell col="10" background="#ffffff" text="bind:OPTION_NAME" font="12px/normal &quot;Gulim&quot;"/><Cell col="11" edittype="normal" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;"/><Cell col="12" edittype="normal" background="#ffffff" text="bind:QUANTITY" font="12px/normal &quot;Gulim&quot;"/><Cell col="13" edittype="normal" background="#ffffff" text="bind:SOLD_OUT" font="12px/normal &quot;Gulim&quot;"/><Cell col="14" edittype="normal" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;"/><Cell col="15" edittype="normal" background="#ffffff" text="bind:UPDATE_DT" font="12px/normal &quot;Gulim&quot;"/><Cell col="16" edittype="normal" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/><Cell col="17" edittype="normal" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/></Band></Format></Formats></Grid>
+        <Button id="btn_reg" text="상품등록" left="935" top="370" width="100" height="40" color="#FFFFFF" background="#89a7ff" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="1"/>
+        <Button id="btn_excel" text="엑셀다운로드" left="1065" top="370" width="150" height="40" color="#2E7D32" background="url('imagerc::excel_logo.png') no-repeat left center /38px #ffffff" border="1px solid #CCCCCC" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" padding="0px 0px 0px 25px" taborder="3" onclick="btn_excel_onclick"/>
+        <Static id="sta_listTitle" text="목록" left="50" height="61" top="360" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="8" color="#232323"/>
+        <Static id="sta_prodType" text="검색분류1" left="24" height="40" right="1116" top="99" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="16" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
+        <Static id="sta_category" text="상품분류" left="24" height="40" right="1116" top="156" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="17" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
+        <Static id="sta_regDate" text="상품등록일" left="24" height="40" right="1116" top="213" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="18" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
+        <Static id="sta_sale" text="진열상태" left="24" height="40" right="1116" top="270" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="19" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[// this.Form_ProductAdmin_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+// {
+// 	this.fn_search();
+// };
+// 
+// 
+// this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+// 	if (nErrorCode < 0) { this.alert("오류: "+strErrorMag); return; }
+// 	
+// 	switch(strSvcID){
+// 	case "selectProductListByAdmin":	
+// 		var ea = this.ds_out_proList.getRowCount();
+// 		this.stc_total.set_text("총"+ea+"건");
+// 		break;
+// 	}
+// }
+// 
+// this.fn_search = function(){
+// 	var strSvcId 		= "selectProductListByAdmin";	
+// 	var strUrl 			= "svc::selectProductListByAdmin.do";
+// 	var strInDatasets 	= "ds_in_proList=ds_in_proList";
+// 	var strOutDatasets 	= "ds_out_proList=ds_out_proList";
+// 	var strArg 			= "";
+// 	var callBack 		= "fn_callback";
+// 	var inAsync 		= true;
+// 	
+// 	this.transaction(strSvcId, strUrl, strInDatasets, strOutDatasets, strArg,callBack,inAsync);
+// }
+// 
+// 
+// 
+// // 엑셀버튼
+// this.btn_excel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+// {
+//     var xmlStr = "<Rows>";
+// 	
+//     var grid = this.grid_list;
+//     var ds = this.ds_out_proList;
+//     var rowCount = ds.getRowCount();
+//     var colCount = grid.getCellCount("body");   
+//     var headCellCount = grid.getCellCount("head"); 
+// 	
+//     // [1] Header 정보
+//     xmlStr += "<Header>";
+//     for (var hc = 0; hc < headCellCount; hc++) {
+//         var row     = grid.getCellProperty("head", hc, "row");
+//         var col     = grid.getCellProperty("head", hc, "col");
+//         var rowspan = grid.getCellProperty("head", hc, "rowspan");
+//         var colspan = grid.getCellProperty("head", hc, "colspan");
+//         var text    = grid.getCellProperty("head", hc, "text");
+//         if (text == null || text == "undefined") text = "";
+// 		
+//         xmlStr += "<Cell row='" + row + "' col='" + col + 
+// 		"' rowspan='" + rowspan + "' colspan='" + colspan + 
+// 		"'><![CDATA[" + text + "]]]]><![CDATA[></Cell>";
+//     }
+//     xmlStr += "</Header>";
+// 	
+//     // [2] Body 데이터
+//     xmlStr += "<Body>";
+//     for (var i = 0; i < rowCount; i++) {
+//         xmlStr += "<Row>";
+//         for (var j = 0; j < colCount; j++) {
+//             var cellValue = grid.getCellText(i, j); 
+//             if (cellValue == null || cellValue == "undefined") cellValue = "";
+//             xmlStr += "<C" + j + "><![CDATA[" + cellValue + "]]]]><![CDATA[></C" + j + ">";
+//         }
+//         xmlStr += "</Row>";
+//     }
+//     xmlStr += "</Body>";
+// 	
+//     xmlStr += "</Rows>";
+// 	
+//     // [3] POST 방식으로 JSP 호출
+//     var svcUrl = "http://localhost:8080/admin/excelExport.jsp";
+//     var xmlhttp = new XMLHttpRequest();
+// 	
+//     xmlhttp.open("POST", svcUrl, true);
+//     xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+// 	
+//     xmlhttp.onreadystatechange = function() {
+//         if (xmlhttp.readyState === 4) {
+//             if (xmlhttp.status === 200) {
+//                 alert("엑셀 내보내기 완료!");
+//             } else {
+//                 alert("엑셀 내보내기 실패! 상태코드: " + xmlhttp.status);
+//             }
+//         }
+//     };
+// 	
+//     xmlhttp.send("xmlData=" + encodeURIComponent(xmlStr));
+// };
+// 
+// 
+// 
+// 
+=======
           <Formats><Format id="default"><Columns><Column size="26"/><Column size="32"/><Column size="55"/><Column size="96"/><Column size="148"/><Column size="66"/><Column size="66"/><Column size="66"/><Column size="76"/><Column size="76"/><Column size="76"/><Column size="32"/><Column size="49"/><Column size="32"/><Column size="119"/><Column size="119"/><Column size="55"/><Column size="40"/></Columns><Rows><Row size="80" band="head"/><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell colspan="18" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol"/><Cell row="1" col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="2" text="상품코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="3" text="상품명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="4" text="설명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="5" text="원가" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="6" text="판매가" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="7" text="옵션가" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="8" colspan="2" text="상품분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="10" text="옵션" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="11" text="진열" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="12" text="재고" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="13" text="품절" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="14" text="등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="15" text="수정일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="16" text="구매링크" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell row="1" col="17" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" background="#ffffff" textAlign="center"/><Cell col="1" text="expr:currow + 1" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/><Cell col="2" background="#ffffff" text="bind:PRODUCT_CODE" font="12px/normal &quot;Gulim&quot;"/><Cell col="3" background="#ffffff" text="bind:PRODUCT_NAME" font="12px/normal &quot;Gulim&quot;"/><Cell col="4" edittype="normal" background="#ffffff" text="bind:PRODUCT_CONTENT" font="12px/normal &quot;Gulim&quot;"/><Cell col="5" background="#ffffff" text="bind:COST_PRICE" font="12px/normal &quot;Gulim&quot;"/><Cell col="6" edittype="normal" background="#ffffff" text="bind:PRODUCT_PRICE" font="12px/normal &quot;Gulim&quot;"/><Cell col="7" edittype="normal" background="#ffffff" text="bind:ADDITIONAL_PRICE" font="12px/normal &quot;Gulim&quot;"/><Cell col="8" edittype="normal" background="#ffffff" text="bind:MAIN_CATE_NM" font="12px/normal &quot;Gulim&quot;"/><Cell col="9" edittype="normal" background="#ffffff" text="bind:SUB_CATE_NM" font="12px/normal &quot;Gulim&quot;"/><Cell col="10" background="#ffffff" text="bind:OPTION_NAME" font="12px/normal &quot;Gulim&quot;"/><Cell col="11" edittype="normal" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;"/><Cell col="12" edittype="normal" background="#ffffff" text="bind:QUANTITY" font="12px/normal &quot;Gulim&quot;"/><Cell col="13" edittype="normal" background="#ffffff" text="bind:SOLD_OUT" font="12px/normal &quot;Gulim&quot;"/><Cell col="14" edittype="normal" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;"/><Cell col="15" edittype="normal" background="#ffffff" text="bind:UPDATE_DT" font="12px/normal &quot;Gulim&quot;"/><Cell col="16" edittype="normal" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/><Cell col="17" edittype="normal" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/></Band></Format></Formats></Grid>
         <Button id="btn_reg" text="상품등록" left="954" top="370" width="100" height="60" color="#FFFFFF" background="#047aa9" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="1"/>
         <Button id="btn_excel" text="엑셀다운로드" left="1084" top="370" width="150" height="60" color="#2E7D32" background="url('imagerc::excel_logo.png') no-repeat left center /38px #ffffff" border="1px solid #CCCCCC" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" padding="0px 0px 0px 25px" taborder="3"/>
         <Static id="sta_listTitle" text="목록" left="50" height="61" top="369" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="8" color="#232323"/>
-        <Static id="sta_listTitle2" text="[총 회원수 0명  검색결과 0건]" left="114" height="61" top="369" font="normal 700 10pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="179" taborder="12" textDecoration="underline"/>
-        <Static id="sta_prodType" text="검색분류" left="24" height="40" right="1116" top="99" background="#9fbae8" onclick="sta_prodType_onclick" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="17"/>
-        <Static id="sta_category" text="상품분류" left="24" height="40" right="1116" top="156" background="#9fbae8" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="18"/>
-        <Static id="sta_regDate" text="상품등록일" left="24" height="40" right="1116" top="213" background="#9fbae8" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="19"/>
-        <Static id="sta_sale" text="진열상태" left="24" height="40" right="1116" top="270" background="#9fbae8" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="20"/>
+        <Static id="sta_prodType" text="검색분류" left="24" height="40" right="1116" top="99" background="#9fbae8" onclick="sta_prodType_onclick" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="16"/>
+        <Static id="sta_category" text="상품분류" left="24" height="40" right="1116" top="156" background="#9fbae8" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="17"/>
+        <Static id="sta_regDate" text="상품등록일" left="24" height="40" right="1116" top="213" background="#9fbae8" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="18"/>
+        <Static id="sta_sale" text="진열상태" left="24" height="40" right="1116" top="270" background="#9fbae8" font="bold 12px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="19"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[this.Form_ProductAdmin_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
@@ -88,24 +199,17 @@
 	this.fn_search();
 };
 
-
-
-
 this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
-
 	if (nErrorCode < 0) { this.alert("오류: "+strErrorMag); return; }
-
 	switch(strSvcID){
-		case "selectProductListByAdmin":	
-			var ea = this.ds_out_proList.getRowCount();
-					this.stc_total.set_text("총"+ea+"건");
+	case "selectProductListByAdmin":	
+		var ea = this.ds_out_proList.getRowCount();
+		this.stc_total.set_text("총"+ea+"건");
 		break;
-	
 	}
 }
 
 this.fn_search = function(){
-	
 	var strSvcId 		= "selectProductListByAdmin";	
 	var strUrl 			= "svc::selectProductListByAdmin.do";
 	var strInDatasets 	= "ds_in_proList=ds_in_proList";
@@ -125,6 +229,57 @@ this.fn_search = function(){
 
 
 
+alert("강해란 바보1");
+var xmlStr = "<Rows>";
+ 
+    var grid = this.grid_list;
+    var ds = this.ds_out_proList;
+    var rowCount = ds.getRowCount();
+    var colCount = grid.getCellCount("body"); // 그리드의 실제 컬럼 수
+alert("강해란 바보2");
+ 
+    // [1] 헤더 Row 추가
+    xmlStr += "<Row>";
+    for (var j = 0; j < colCount; j++) {
+        var headerText = grid.getCellText(-1, j); // -1: 헤더 행
+        xmlStr += "<C" + j + "><![CDATA[" + headerText + "]]]]><![CDATA[></C" + j + ">";
+    }
+    xmlStr += "</Row>";
+alert("강해란 바보3");
+    // [2] 데이터 Rows 추가
+    for (var i = 0; i < rowCount; i++) {
+        xmlStr += "<Row>";
+        for (var j = 0; j < colCount; j++) {
+            var cellValue = grid.getCellText(i, j); // 그리드에 보이는 실제 텍스트
+            xmlStr += "<C" + j + "><![CDATA[" + cellValue + "]]]]><![CDATA[></C" + j + ">";
+        }
+        xmlStr += "</Row>";
+    }
+alert("강해란 바보4");
+ 
+    xmlStr += "</Rows>";
+ 
+    // [3] POST 방식으로 JSP 호출
+    var svcUrl = "http://localhost:8080/admin/excelExport.jsp";
+    var xmlhttp = new XMLHttpRequest();
+ 
+    xmlhttp.open("POST", svcUrl, true);
+    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+ 
+alert("강해란 바보5");
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4) {
+            if (xmlhttp.status === 200) {
+                alert("엑셀 내보내기 완료!");
+            } else {
+                alert("엑셀 내보내기 실패! 상태코드: " + xmlhttp.status);
+            }
+        }
+    };
+ 
+alert("강해란 바보6");
+    xmlhttp.send("xmlData=" + encodeURIComponent(xmlStr));
+alert("강해란 바보7");
 
 
 
@@ -132,7 +287,7 @@ this.fn_search = function(){
 
 
 
-
+>>>>>>> Stashed changes
 ]]></Script>
     <Objects>
       <Dataset id="ds_in_proList"/>

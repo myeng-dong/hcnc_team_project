@@ -64,7 +64,7 @@
         };
         
         // User Script
-        this.registerScript("Form_Order_Pay_copy0.xfdl", function() {
+        this.registerScript("Form_Order_Status.xfdl", function() {
         //온로드시
         this.Form_Order_Main_onload = function(obj,e)
         {
@@ -103,7 +103,7 @@
         {
             this.addEventHandler("onload",this.Form_Order_Main_onload,this);
         };
-        this.loadIncludeScript("Form_Order_Pay_copy0.xfdl");
+        this.loadIncludeScript("Form_Order_Status.xfdl");
         this.loadPreloadList();
         
         // Remove Reference
