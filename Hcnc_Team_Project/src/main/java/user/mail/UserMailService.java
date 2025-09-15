@@ -14,7 +14,7 @@ public class UserMailService {
 	        // SMTP 서버 설정
 	        Properties props = new Properties();
 	        props.put("mail.smtp.host", host);
-	        props.put("mail.smtp.port", "587");
+	        props.put("mail.smtp.port", "465");
 	        props.put("mail.smtp.auth", "true");
 	        props.put("mail.smtp.starttls.enable", "true");
 
