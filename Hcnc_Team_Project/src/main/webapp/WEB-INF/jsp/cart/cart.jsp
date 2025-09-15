@@ -135,8 +135,6 @@
 	  margin-top:10px;
 	}
 	
-	
-	
 	/* 합계 영역 */
 	h4 { color:#1f1f1f; }
 	.sum-row, .sum-total {
@@ -153,6 +151,7 @@
 	}
 	.footer { display: flex; justify-content: space-between; width:100%;}
 	.footer-btn { margin:40px 20px 20px 20px; }
+	.btnOrderSelected { margin-right: 50px; }
 	
 	.footer-total { width:30%; margin:20px; }
 	.orderInfo{ margin-top:60px; padding-left: 10px;}
@@ -386,16 +385,16 @@
 	
 		<div class="footer">
 			<div class="footer-btn">
-		        <button class="btn" id="btnContinue">계속 쇼핑하기</button>
-		        <button class="btn-outline" id="btnOrderSelected">
-		        	<i class="bi bi-bag-check"></i>
-		        	선택상품 주문하기</button>
-		        <button class="btn-outline" id="btnDeleteSelected">
-		        	<i class="bi bi-bag-x"></i>
-		        	선택상품 삭제하기</button>
-		        <button class="btn-outline" id="btnClear">
-		        	<i class="bi bi-trash3"></i>
-		        	장바구니 비우기</button>
+			        <button class="btn" id="btnContinue" onclick="window.location.href='/productDetailView.do'">계속 쇼핑하기</button>
+			        <button class="btn-outline" id="btnOrderSelected">
+			        	<i class="bi bi-bag-check"></i>
+			        	선택상품 주문하기</button>
+			        <button class="btn-outline" id="btnDeleteSelected">
+			        	<i class="bi bi-bag-x"></i>
+			        	선택상품 삭제하기</button>
+			        <button class="btn-outline" id="btnClear">
+			        	<i class="bi bi-trash3"></i>
+			        	장바구니 비우기</button>
 		        <div class="orderInfo">
 		        	<i class="bi bi-exclamation-circle"></i>
 		        	<span>안내사항</span>
