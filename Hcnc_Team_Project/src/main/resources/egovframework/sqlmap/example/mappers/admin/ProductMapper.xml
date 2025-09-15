@@ -5,7 +5,8 @@
 
 <mapper namespace="admin.mapper.ProductMapper">
 
-    <select id="selectProductListByAdmin" parameterType="map" resultType="map">
+	<!-- 상품목록리스트 -->
+    <select id="selectProductListByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
             p.PRODUCT_CODE,
             p.PRODUCT_NAME,
@@ -34,7 +35,7 @@
     </select>
 
       <!-- 상품 등록 -->
-    <insert id="insertProduct" parameterType="map" useGeneratedKeys="true" keyProperty="PRODUCT_ID">
+    <insert id="insertProduct" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="PRODUCT_ID">
         INSERT INTO products
         (SUB_CATE_ID, PRODUCT_NAME, PRODUCT_CODE, PRODUCT_CONTENT, PRODUCT_PRICE, COST_PRICE, IS_VISIBLE, INPUT_DT, INPUT_ID)
         VALUES
@@ -42,7 +43,7 @@
     </insert>
 
     <!-- 옵션 등록 -->
-    <insert id="insertOption" parameterType="map" useGeneratedKeys="true" keyProperty="OPTION_ID">
+    <insert id="insertOption" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="OPTION_ID">
         INSERT INTO options
         (PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
         VALUES
@@ -50,7 +51,7 @@
     </insert>
 
     <!-- 재고 등록 -->
-    <insert id="insertInventory" parameterType="map" useGeneratedKeys="true" keyProperty="INVENTORY_ID">
+    <insert id="insertInventory" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="INVENTORY_ID">
         INSERT INTO inventories
         (PRODUCT_ID, OPTION_ID, QUANTITY, INPUT_DT, INPUT_ID)
         VALUES
@@ -58,7 +59,7 @@
     </insert>
 
     <!-- 이미지 등록 -->
-    <insert id="insertProductImage" parameterType="map">
+    <insert id="insertProductImage" parameterType="java.util.Map">
         INSERT INTO product_img
         (PRODUCT_ID, IMAGE_URL, ALT_TEXT, SORT_NUMBER, IS_MAIN, INPUT_DT)
         VALUES
@@ -66,14 +67,14 @@
     </insert>
 
     <!-- 이미지 매핑 -->
-    <update id="updateProductImageMapping" parameterType="map">
+    <update id="updateProductImageMapping" parameterType="java.util.Map">
         UPDATE product_img
         SET PRODUCT_ID = #{PRODUCT_ID}, UPDATE_DT = NOW(), UPDATE_ID = #{UPDATE_ID}
         WHERE PRODUCT_ID = 0
     </update>
 
     <!-- 대표 이미지 지정 -->
-    <update id="setMainImage" parameterType="map">
+    <update id="setMainImage" parameterType="java.util.Map">
         UPDATE product_img
         SET IS_MAIN = 'Y'
         WHERE PRODUCT_ID = #{PRODUCT_ID}

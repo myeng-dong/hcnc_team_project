@@ -1,6 +1,7 @@
 package admin.web;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,7 +70,9 @@ public class ProductController {
         // 4. 반환
         Map<String,Object> out = new HashMap<>();
         out.put("PRODUCT_ID", productId);
-        rs.addDataSet("ds_out_product", List.of(out));
+//        rs.addDataSet("ds_out_product", List.of(out));
+        rs.addDataSet("ds_out_product", Collections.singletonList(out));
+        
 
         return rs;
     }

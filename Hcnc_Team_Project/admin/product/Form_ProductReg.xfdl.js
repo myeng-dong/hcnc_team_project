@@ -171,11 +171,12 @@
             obj.set_font("normal 11pt \'Gulim\'");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_saleinfo","20","540","1240","100",null,null,null,null,null,null,this);
+            obj = new Static("box_saleinfo","20","550","1240","100",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("10px");
             obj.getSetter("shadow").set("1px 1px 6px #cccccc");
+            obj.set_text("");
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_saleinfo","40","560","80","32",null,null,null,null,null,null,this);
@@ -184,22 +185,22 @@
             obj.set_color("#222222");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_price","60","588","80","32",null,null,null,null,null,null,this);
+            obj = new Static("sta_price","150","588","80","32",null,null,null,null,null,null,this);
             obj.set_text("판매가");
             obj.set_font("normal 11pt \'Gulim\'");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_price","140","595","200","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_price","210","595","200","30",null,null,null,null,null,null,this);
             obj.set_borderRadius("6px");
             obj.set_font("normal 11pt \'Gulim\'");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_supply","360","598","50","24",null,null,null,null,null,null,this);
+            obj = new Static("sta_supply","430","598","50","24",null,null,null,null,null,null,this);
             obj.set_text("공급가");
             obj.set_font("normal 11pt \'Gulim\'");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_supply","420","595","200","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_supply","490","595","200","30",null,null,null,null,null,null,this);
             obj.set_borderRadius("6px");
             obj.set_font("normal 11pt \'Gulim\'");
             this.addChild(obj.name, obj);
@@ -339,8 +340,8 @@
 
             var desc = this.fn_getEditorContent();
 
-            var strSvcId = "insertProduct";
-            var strUrl = "svc::insertProduct.do";
+            var strSvcId = "insertProductByAdmin";
+            var strUrl = "svc::insertProductByAdmin.do";
             var strIn = "ds_option=ds_option";
             var strOut = "ds_out_product=ds_out_product";
             var strArg = "";
@@ -375,7 +376,7 @@
             }
 
             switch(strSvcId){
-                case "insertProduct":
+                case "insertProductByAdmin":
                     var newProductId = this.ds_out_product.getColumn(0, "PRODUCT_ID");
                     this.alert("상품등록이 완료되었습니다. 상품번호: " + newProductId);
 
@@ -388,7 +389,7 @@
                 case "selectCategory":
                     break;
 
-                case "updateProductImageMapping":
+                case "updateProductImageMappingByAdmin":
                     trace("이미지 매핑 및 대표 지정 완료");
                     break;
             }
@@ -397,8 +398,8 @@
         // 업로드된 이미지 PRODUCT_ID 매핑 및 대표 지정
         this.fn_updateImageMapping = function(productId)
         {
-            var strSvcId = "updateProductImageMapping";
-            var strUrl = "svc::updateProductImageMapping.do";
+            var strSvcId = "updateProductImageMappingByAdmin";
+            var strUrl = "svc::updateProductImageMappingByAdmin.do";
             var strIn = "";
             var strOut = "";
             var strArg = "";
@@ -410,11 +411,6 @@
             this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
         };
 
-        // 이미지 버튼
-        this.btn_imgUpload_onclick = function(obj,e)
-        {
-            this.alert("이미지는 상세설명 CKEditor에서 업로드하세요.");
-        };
 
         });
         
@@ -423,6 +419,8 @@
         {
             this.addEventHandler("onload",this.Form_ProductReg_onload,this);
             this.rdo_display.addEventHandler("onitemchanged",this.rdo_display_onitemchanged,this);
+            this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);
+            this.btn_cancel.addEventHandler("onclick",this.btn_cancel_onclick,this);
             this.wb_detailDesc.addEventHandler("onusernotify",this.wb_detailDesc_onusernotify,this);
         };
         this.loadIncludeScript("Form_ProductReg.xfdl");
