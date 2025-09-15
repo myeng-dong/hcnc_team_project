@@ -33,7 +33,7 @@ this.fnCallback = function(svc, err, errMsg) {
         return;
     }
     switch(svc){
-		case selectOrders  :
+		case "selectOrders"  :
 		
 	}
 };

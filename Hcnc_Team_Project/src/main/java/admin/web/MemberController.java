@@ -25,7 +25,7 @@ public class MemberController {
 
 	// 관리자 로그인
 	// By GJ.09.10
-	@RequestMapping(value = "adminLoginCheckByAdmin.do")
+	@RequestMapping(value = "/adminLoginCheckByAdmin.do")
 	public NexacroResult adminCheckLogin(HttpServletRequest request) {
 		NexacroResult result = new NexacroResult();
 		result.addDataSet("ds_isLogin", new HashMap<String, Object>());
@@ -39,7 +39,11 @@ public class MemberController {
 			if (isLogin == null) {
 				// 로그인 정보 없음
 				return result;
+			}else{
+				//새로고침해서 다시 닉네임 띄우게 자바단에서 해결
+				result.addDataSet("ds_loginChk", isLogin);
 			}
+			
 			result.addDataSet("ds_isLogin", isLogin);
 			return result;
 
@@ -54,12 +58,9 @@ public class MemberController {
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		NexacroResult result = new NexacroResult();
-		
-		System.out.println("로그인시도");
 
 		Map<String, Object> adminInfo = memberService.adminLogin(param);
 
-		
 		try {
 
 			if (adminInfo != null) {
@@ -69,16 +70,15 @@ public class MemberController {
 					System.out.println(session.getAttribute("adminInfo"));
 					session.setAttribute("adminInfo", adminInfo);
 
-//					String memberId = String.valueOf(adminInfo.get("MEMBER_ID"));
-//					Cookie idCookie = new Cookie("ADMIN_ID", memberId);
-//					idCookie.setPath("/");
-//					idCookie.setMaxAge(3600); // 1시간 유지
-//					response.addCookie(idCookie); // 클라이언트로 쿠키 내려보내기
+					String memberId = String.valueOf(adminInfo.get("MEMBER_ID"));
+					Cookie idCookie = new Cookie("ADMIN_ID", memberId);
+					idCookie.setPath("/");
+					idCookie.setMaxAge(3600); // 1시간 유지
+					response.addCookie(idCookie); // 클라이언트로 쿠키 내려보내기
 
-//					System.out.println("ADMIN_ID 쿠키 발급: " + memberId);
+					System.out.println("ADMIN_ID 쿠키 발급: " + memberId);
 
 					result.addDataSet("ds_loginChk", adminInfo);
-
 				}
 			}
 		} catch (Exception e) {

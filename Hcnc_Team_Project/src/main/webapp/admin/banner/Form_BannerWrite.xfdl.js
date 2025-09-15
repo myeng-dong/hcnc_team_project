@@ -17,7 +17,7 @@
                 this._setFormPosition(1280,720);
             }
             
-            // Object(Dataset, ExcelExportObject) Initialize
+            // 
             obj = new Dataset("ds_bwrite", this);
             obj._setContents("<ColumnInfo><Column id=\"BANNER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"BANNER_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"BANNER_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_ORIGIN_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_ATTACHED_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_PATH\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"LINKED_URL\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_DT\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
@@ -26,6 +26,7 @@
             obj = new Dataset("ds_radio_view_type", this);
             obj._setContents("<ColumnInfo><Column id=\"Y\" type=\"STRING\" size=\"256\"/><Column id=\"N\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
+
             
             // UI Components Initialize
             obj = new Static("stat_bg","40","40",null,"470","40",null,null,null,null,null,this);
@@ -141,8 +142,7 @@
             obj.set_text("상위노출");
             obj.set_font("normal 14pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
-            // Layout Functions
-            //-- Default Layout : this
+
             obj = new Layout("default","",1280,720,this,function(p){});
             this.addLayout(obj.name, obj);
             
@@ -160,6 +160,7 @@
         
         // User Script
         this.registerScript("Form_BannerWrite.xfdl", function() {
+
 
         this.Form_BannerWrite_onload = function(obj,e)
         {
@@ -342,6 +343,7 @@
 
 
         });
+
         
         // Regist UI Components Event
         this.on_initEvent = function()
