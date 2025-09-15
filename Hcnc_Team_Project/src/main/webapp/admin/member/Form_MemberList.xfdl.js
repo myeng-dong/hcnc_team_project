@@ -9,7 +9,7 @@
         
         this.on_create = function()
         {
-            this.set_name("Form_test");
+            this.set_name("Form_MemberList");
             this.set_titletext("New Form");
             if (Form == this.constructor)
             {
@@ -20,10 +20,7 @@
 
             
             // UI Components Initialize
-            obj = new Static("Static00","56","36","110","86",null,null,null,null,null,null,this);
-            obj.set_taborder("0");
-            obj.set_text("123123");
-            this.addChild(obj.name, obj);
+
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
@@ -48,9 +45,9 @@
         // Regist UI Components Event
         this.on_initEvent = function()
         {
-            this.addEventHandler("onload",this.Form_test_onload,this);
+
         };
-        this.loadIncludeScript("Form_test.xfdl");
+        this.loadIncludeScript("Form_MemberList.xfdl");
         this.loadPreloadList();
         
         // Remove Reference

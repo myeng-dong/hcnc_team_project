@@ -26,12 +26,23 @@
             obj = new Dataset("ds_out_proList", this);
             obj._setContents("<ColumnInfo><Column id=\"PRODUCT_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CONTENT\" type=\"STRING\" size=\"1000\"/><Column id=\"COST_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"PRODUCT_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"QUANTITY\" type=\"INT\" size=\"256\"/><Column id=\"SOLD_OUT\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"DATETIME\" size=\"256\"/><Column id=\"UPDATE_DT\" type=\"DATETIME\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_in_search_combo", this);
+            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_out_search_combo00", this);
+            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Div("Div00","24","20","1230","50",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_text("");
             obj.set_background("#ffffff");
+            obj.set_borderRadius("10px 0px 0px 10px");
             this.addChild(obj.name, obj);
 
             obj = new Static("stc_total","39","10","120","60",null,null,null,null,null,null,this);
@@ -54,7 +65,14 @@
             obj = new Combo("cmb_searchType","179","101","150","35",null,null,null,null,null,null,this);
             obj.set_taborder("11");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
+            obj.set_codecolumn("codecolumn");
+            obj.set_datacolumn("datacolumn");
+            var cmb_searchType_innerdataset = new nexacro.NormalDataset("cmb_searchType_innerdataset", obj);
+            cmb_searchType_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">PRODUCT_CODE</Col><Col id=\"datacolumn\">상품코드</Col></Row><Row><Col id=\"codecolumn\">PRODUCT_NAME</Col><Col id=\"datacolumn\">상품명</Col></Row></Rows>");
+            obj.set_innerdataset(cmb_searchType_innerdataset);
             obj.set_text("상품명");
+            obj.set_value("PRODUCT_NAME");
+            obj.set_index("1");
             this.addChild(obj.name, obj);
 
             obj = new Div("Div00_00_00","164","156","1090","40",null,null,null,null,null,null,this);
@@ -67,12 +85,20 @@
             obj = new Combo("cmb_cate1","179","158","150","35",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
-            obj.set_text("- 대분류 선택 -");
+            obj.set_innerdataset("ds_search_combo");
+            obj.set_codecolumn("MAIN_CATE_NM");
+            obj.set_datacolumn("대분류 선택");
+            obj.set_text("");
+            obj.set_value("");
+            obj.set_index("0");
             this.addChild(obj.name, obj);
 
             obj = new Combo("cmb_cate2","349","158","150","35",null,null,null,null,null,null,this);
             obj.set_taborder("10");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
+            obj.set_innerdataset("ds_search_combo");
+            obj.set_codecolumn("SUB_CATE_NM");
+            obj.set_datacolumn("중분류 선택");
             obj.set_text("- 중분류 선택 -");
             this.addChild(obj.name, obj);
 
@@ -177,7 +203,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_prodType","24","99",null,"40","1116",null,null,null,null,null,this);
-            obj.set_text("검색분류1");
+            obj.set_text("검색분류");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_taborder("16");
@@ -214,6 +240,16 @@
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_view","698","102","72","34",null,null,null,null,null,null,this);
+            obj.set_text("조회");
+            obj.set_color("#FFFFFF");
+            obj.set_background("#89a7ff");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 11pt/normal \"Arial\"");
+            obj.set_border("1px solid #CCCCCC");
+            obj.set_taborder("20");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -329,6 +365,12 @@
             xmlhttp.send("xmlData=" + encodeURIComponent(xmlStr));
         }
 
+        //상품등록
+        this.btn_reg_onclick = function(obj,e)
+        {
+        	this.go("product::Form_ProductReg.xfdl");
+        };
+
         });
         
         // Regist UI Components Event
@@ -336,6 +378,7 @@
         {
             this.addEventHandler("onload",this.Form_ProductAdmin_onload,this);
             this.Div00_00_00_00_00.form.Radio00_00.addEventHandler("onitemchanged",this.Div00_00_00_00_00_Radio00_00_onitemchanged,this);
+            this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);
             this.btn_excel.addEventHandler("onclick",this.btn_excel_onclick,this);
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
