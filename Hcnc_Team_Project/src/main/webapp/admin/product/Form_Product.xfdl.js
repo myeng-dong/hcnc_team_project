@@ -48,7 +48,7 @@
             obj = new Static("stc_total","39","10","120","60",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("");
-            obj.set_font("bold 12px/normal \"Gulim\"");
+            obj.set_font("14px/normal \"Gulim\"");
             this.addChild(obj.name, obj);
 
             obj = new Div("Div00_00","164","99","1090","40",null,null,null,null,null,null,this);
@@ -202,7 +202,11 @@
             obj.set_color("#232323");
             this.addChild(obj.name, obj);
 
+<<<<<<< HEAD
             obj = new Static("sta_prodType","24","99",null,"40","1116",null,null,null,null,null,this);
+=======
+            obj = new Static("sta_prodType","24","99","140","40",null,null,null,null,null,null,this);
+>>>>>>> b1739fe8734768ed8724baeb0b7a716948dd9b81
             obj.set_text("검색분류");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
@@ -212,7 +216,7 @@
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_category","24","156",null,"40","1116",null,null,null,null,null,this);
+            obj = new Static("sta_category","24","156","140","40",null,null,null,null,null,null,this);
             obj.set_text("상품분류");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
@@ -222,7 +226,7 @@
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_regDate","24","213",null,"40","1116",null,null,null,null,null,this);
+            obj = new Static("sta_regDate","24","213","140","40",null,null,null,null,null,null,this);
             obj.set_text("상품등록일");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
@@ -232,7 +236,7 @@
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_sale","24","270",null,"40","1116",null,null,null,null,null,this);
+            obj = new Static("sta_sale","24","270","140","40",null,null,null,null,null,null,this);
             obj.set_text("진열상태");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
@@ -368,9 +372,17 @@
         //상품등록
         this.btn_reg_onclick = function(obj,e)
         {
+<<<<<<< HEAD
         	this.go("product::Form_ProductReg.xfdl");
         };
 
+=======
+
+        	this.go("product::Form_ProductReg.xfdl");
+        };
+
+
+>>>>>>> b1739fe8734768ed8724baeb0b7a716948dd9b81
         });
         
         // Regist UI Components Event
