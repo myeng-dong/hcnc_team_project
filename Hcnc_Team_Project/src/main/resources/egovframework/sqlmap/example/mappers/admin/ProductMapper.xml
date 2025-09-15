@@ -1,52 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="admin.mapper.ProductMapper">
 
+	<!-- 상품목록리스트 -->
+    <select id="selectProductListByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            p.PRODUCT_CODE,
+            p.PRODUCT_NAME,
+            p.PRODUCT_CONTENT,
+            p.COST_PRICE,
+            (p.PRODUCT_PRICE + o.ADDITIONAL_PRICE) AS PRODUCT_PRICE,
+            o.ADDITIONAL_PRICE,
+            mc.MAIN_CATE_NM,
+            sc.SUB_CATE_NM,
+            o.OPTION_NAME,
+            p.IS_VISIBLE,
+            i.QUANTITY,
+            CASE WHEN i.QUANTITY = 0 THEN 'OUT' ELSE '' END AS SOLD_OUT,
+            p.INPUT_DT,
+            p.UPDATE_DT
+        FROM hcnc_Team_06.PRODUCTS p
+        JOIN hcnc_Team_06.SUB_CATEGORIES sc 
+            ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+        JOIN hcnc_Team_06.MAIN_CATEGORIES mc 
+            ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+        LEFT JOIN hcnc_Team_06.OPTIONS o  
+            ON p.PRODUCT_ID = o.PRODUCT_ID
+        LEFT JOIN hcnc_Team_06.INVENTORIES i 
+            ON p.PRODUCT_ID = i.PRODUCT_ID
+           AND (o.OPTION_ID IS NULL OR i.OPTION_ID = o.OPTION_ID)
+    </select>
 
-<!-- 	상품목록리스트조회  -->
-	<select id="selectProductListByAdmin"  parameterType="java.util.Map"  resultType="java.util.Map">
-		SELECT
-			p.PRODUCT_CODE,
-			p.PRODUCT_NAME,
-			p.PRODUCT_CONTENT,
-			p.COST_PRICE,
-			(p.PRODUCT_PRICE + o.ADDITIONAL_PRICE) as 'PRODUCT_PRICE',
-			o.ADDITIONAL_PRICE,
-			mc.MAIN_CATE_NM,
-			sc.SUB_CATE_NM,
-			o.OPTION_NAME,
-			p.IS_VISIBLE,
-			i.QUANTITY,
-		CASE
-			WHEN i.QUANTITY = 0 THEN 'OUT'
-			ELSE ''
-		END AS SOLD_OUT,
-		p.INPUT_DT,
-		p.UPDATE_DT
-		FROM
-			hcnc_Team_06.PRODUCTS p
-		JOIN hcnc_Team_06.SUB_CATEGORIES sc 
-		    ON
-			p.SUB_CATE_ID = sc.SUB_CATE_ID
-		JOIN hcnc_Team_06.MAIN_CATEGORIES mc 
-		    ON
-			sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
-		LEFT JOIN hcnc_Team_06.`OPTIONS` o  
-		    ON
-			p.PRODUCT_ID = o.PRODUCT_ID
-		LEFT JOIN hcnc_Team_06.INVENTORIES i 
-			ON
-			p.PRODUCT_ID = i.PRODUCT_ID
-			AND (o.OPTION_ID IS NULL
-				OR i.OPTION_ID = o.OPTION_ID)
-			
-	
-	
-	</select>
-	
-	
-	
-	
-	
-	
+      <!-- 상품 등록 -->
+    <insert id="insertProduct" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="PRODUCT_ID">
+        INSERT INTO products
+        (SUB_CATE_ID, PRODUCT_NAME, PRODUCT_CODE, PRODUCT_CONTENT, PRODUCT_PRICE, COST_PRICE, IS_VISIBLE, INPUT_DT, INPUT_ID)
+        VALUES
+        (#{SUB_CATE_ID}, #{PRODUCT_NAME}, UUID(), #{PRODUCT_DESC}, #{PRODUCT_PRICE}, #{COST_PRICE}, #{IS_VISIBLE}, NOW(), #{INPUT_ID})
+    </insert>
+
+    <!-- 옵션 등록 -->
+    <insert id="insertOption" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="OPTION_ID">
+        INSERT INTO options
+        (PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
+        VALUES
+        (#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID})
+    </insert>
+
+    <!-- 재고 등록 -->
+    <insert id="insertInventory" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="INVENTORY_ID">
+        INSERT INTO inventories
+        (PRODUCT_ID, OPTION_ID, QUANTITY, INPUT_DT, INPUT_ID)
+        VALUES
+        (#{PRODUCT_ID}, #{OPTION_ID}, #{QUANTITY}, NOW(), #{INPUT_ID})
+    </insert>
+
+    <!-- 이미지 등록 -->
+    <insert id="insertProductImage" parameterType="java.util.Map">
+        INSERT INTO product_img
+        (PRODUCT_ID, IMAGE_URL, ALT_TEXT, SORT_NUMBER, IS_MAIN, INPUT_DT)
+        VALUES
+        (#{PRODUCT_ID}, #{IMAGE_URL}, #{ALT_TEXT}, #{SORT_NUMBER}, #{IS_MAIN}, NOW())
+    </insert>
+
+    <!-- 이미지 매핑 -->
+    <update id="updateProductImageMapping" parameterType="java.util.Map">
+        UPDATE product_img
+        SET PRODUCT_ID = #{PRODUCT_ID}, UPDATE_DT = NOW(), UPDATE_ID = #{UPDATE_ID}
+        WHERE PRODUCT_ID = 0
+    </update>
+
+    <!-- 대표 이미지 지정 -->
+    <update id="setMainImage" parameterType="java.util.Map">
+        UPDATE product_img
+        SET IS_MAIN = 'Y'
+        WHERE PRODUCT_ID = #{PRODUCT_ID}
+          AND IMAGE_ID = (
+            SELECT t.IMAGE_ID FROM (
+              SELECT IMAGE_ID FROM product_img WHERE PRODUCT_ID = #{PRODUCT_ID} ORDER BY IMAGE_ID ASC LIMIT 1
+            ) t
+          )
+    </update>
 </mapper>
