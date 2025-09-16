@@ -1,11 +1,13 @@
 package admin.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import admin.mapper.MemberMapper;
+
 
 @Service
 public class MemberService {
@@ -18,4 +20,17 @@ public class MemberService {
 		
 		return memberMapper.adminLogin(param);
 	}
+	
+	//회원 목록 조회
+	public List<Map<String, Object>> selectMemberList(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return memberMapper.selectMemberList(param);
+	}
+
+	public List<Map<String, Object>> selectMemberGradeList() {
+		
+		return memberMapper.selectMemberGradeList();
+	}
+	
+
 }

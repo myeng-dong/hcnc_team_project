@@ -31,6 +31,16 @@
             obj = new Dataset("ds_selected", this);
             obj._setContents("<ColumnInfo><Column id=\"SHIPMENT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"ORDER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"COUIER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"TRACKING_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"SHIPMENT_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"SHIPPED_DT\" type=\"STRING\" size=\"256\"/><Column id=\"DELIVERD_DT\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_DT\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_orderStat", this);
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">전체</Col><Col id=\"NAME\">전체</Col></Row><Row><Col id=\"CODE\">발송대기</Col><Col id=\"NAME\">발송대기</Col></Row><Row><Col id=\"CODE\">발송완료</Col><Col id=\"NAME\">발송완료</Col></Row></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_search", this);
+            obj._setContents("<ColumnInfo><Column id=\"START_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"END_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"USER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"SHIPMENT_STATUS\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Div("search_area","40","40","1200","140",null,null,null,null,null,null,this);
@@ -39,18 +49,36 @@
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_save","1034","50","128","40",null,null,null,null,null,null,this.search_area.form);
+            obj = new Button("btn_save","1036","61","128","40",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("0");
             obj.set_text("저장");
             obj.set_borderRadius("5px");
-            obj.set_background("#3F00FF");
+            obj.set_background("#135dae");
             obj.set_color("white");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             obj.set_textAlign("center");
             obj.set_cursor("pointer");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","40","220",null,null,"40","40",null,null,null,null,this);
+            obj = new Static("txt_th00","40","65","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("1");
+            obj.set_text("배송 상태");
+            obj.set_font("normal 10pt/normal \"Noto Sans KR\"");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Radio("rad_ship","134","60","357","45",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("2");
+            obj.set_innerdataset("ds_orderStat");
+            obj.set_codecolumn("CODE");
+            obj.set_datacolumn("NAME");
+            obj.set_direction("vertical");
+            obj.set_font("normal 9pt/normal \"Noto Sans KR\"");
+            obj.set_text("전체");
+            obj.set_value("전체");
+            obj.set_index("0");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Grid("grid_list","40","250",null,null,"40","40",null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_binddataset("ds_ship");
             obj.set_autofittype("col");
@@ -90,7 +118,7 @@
         this.fnSearchShip = function() {
             var strSvcID       = "selectShip";
             var strURL         = "svc::selectShipListByAdmin.do";
-            var strInDatasets  = "";
+            var strInDatasets  = "ds_search=ds_search";
             var strOutDatasets = "ds_ship=ds_ship";
             var strArg         = "";
             var strCallback    = "fnCallback";
@@ -169,6 +197,13 @@
         };
 
 
+        this.search_area_rad_ship_onitemchanged = function(obj,e)
+        {
+        	   // ds_search에 반영
+            this.ds_search.setColumn(0, "SHIPMENT_STATUS", e.postvalue);
+            this.fnSearchShip();
+        };
+
         });
         
         // Regist UI Components Event
@@ -176,6 +211,8 @@
         {
             this.addEventHandler("onload",this.Form_Order_Ship_onload,this);
             this.search_area.form.btn_save.addEventHandler("onclick",this.search_area_btn_save_onclick,this);
+            this.search_area.form.txt_th00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
+            this.search_area.form.rad_ship.addEventHandler("onitemchanged",this.search_area_rad_ship_onitemchanged,this);
             this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
         };
         this.loadIncludeScript("Form_Order_Ship.xfdl");
