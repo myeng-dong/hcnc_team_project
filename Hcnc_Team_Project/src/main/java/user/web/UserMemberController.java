@@ -1,12 +1,15 @@
 package user.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import lombok.Data;
@@ -39,18 +42,6 @@ public class UserMemberController {
 	    }
 	}
 	
-	@Data
-	public class SignupForm {
-		private String id;
-		private String password;
-		private String name;
-		private String email;
-		private String emailCode;
-		private String phone;
-		private String bitrh;
-		private String gender;
-	}
-	
 	private static final Map<String, CodeInfo> emailAuthMap = new ConcurrentHashMap();
 	
 	public void saveAuthCode(String email, int code) {
@@ -67,6 +58,15 @@ public class UserMemberController {
 		return number;
 	}
 	
+	// LOGIN 로그인
+	@RequestMapping("/login.do")
+	public ModelAndView loginPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("sign/login");
+		return mv;
+	}
+	
+	// SIGN 회원가입
 	@RequestMapping("/sign.do")
 	public ModelAndView signUser () {
 		ModelAndView mv = new ModelAndView();
@@ -74,12 +74,40 @@ public class UserMemberController {
 		return mv;
 	}
 
-	@RequestMapping("/insertSignUpByUser.do")
-	public ModelAndView insertSignUpByUser (SignupForm signupForm) {
-		ModelAndView mv = new ModelAndView();
-		System.out.println(signupForm);
-		return mv;
-	}
+	@RequestMapping(value = "/insertSignUpByUser.do", method = RequestMethod.POST)
+    public ModelAndView insertSignUpByUser(
+            @RequestParam("id") String id,
+            @RequestParam("password") String password,
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam("phone") String phone,
+            @RequestParam("birth") String birth,
+            @RequestParam("gender") String gender
+    ) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("jsonView");
+        Map<String, Object> sign = new HashMap();
+        sign.put("id", id);
+        sign.put("password", password);
+        sign.put("name", name);
+        sign.put("email", email);
+        sign.put("phone", phone);
+        sign.put("birth", birth);
+        sign.put("gender", gender);
+        sign.put("loginType","IDPW");
+        try {
+        	int count = userMemberService.insertSignUpByUser(sign);
+        	if(count == 1) {
+        		mv.addObject("status", 200);
+        	} else {
+        		mv.addObject("status", 500);
+        	}
+        } catch (Exception e) {
+        	mv.addObject("status", 500);
+        	System.out.println(e);
+        }
+        return mv;
+    }
 
 	@RequestMapping("/selectIdCheckByUser.do")
 	public ModelAndView selectIdCheckByUser (@RequestParam("id") String id) {

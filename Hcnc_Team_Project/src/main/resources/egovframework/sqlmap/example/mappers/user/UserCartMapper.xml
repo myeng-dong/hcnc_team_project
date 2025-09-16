@@ -6,8 +6,7 @@
 		SELECT
 			  P.PRODUCT_ID
 			, P.PRODUCT_NAME
-			, CI.OPTION_NAME
-			, CI.OPTION_VALUE
+			, CI.PRODUCT_OPTION
 			, CI.PRICE
 			, CI.QUANTITY
 			, CI.SUB_TOTAL
@@ -29,6 +28,7 @@
 				, CI.SUB_TOTAL = #{price} * #{quantity}
 			WHERE CI.CART_ID = #{cartId}
 				AND CI.PRODUCT_ID = #{productId}
+				AND CI.PRODUCT_OPTION = #{option}
 	</update>
 	
 	<!-- 상품 체크박스 수정  -->
@@ -37,6 +37,7 @@
 			SET IS_CHECKED = #{isChecked}
 			WHERE CART_ID = #{cartId}
 				AND PRODUCT_ID = #{productId}
+				AND PRODUCT_OPTION = #{option}
 	</update>
 	
 	<!-- 상품 삭제 -->
@@ -44,5 +45,15 @@
 		DELETE FROM CART_ITEMS
 			WHERE CART_ID = #{cartId}
 				AND PRODUCT_ID = #{productId}
+				AND PRODUCT_OPTION = #{option}
 	</delete>
+	
+	<!-- 체크박스 선택한 상품만 주문하기 -->
+	<select id="selectedTotalPriceByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT CART_ID, SUM(SUB_TOTAL) AS SUM_SUB
+			FROM CART_ITEMS
+			WHERE CART_ID = #{cartId}
+				AND IS_CHECKED = 'Y'
+			GROUP BY CART_ID
+	</select>
 </mapper>
