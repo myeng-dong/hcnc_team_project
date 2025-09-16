@@ -112,4 +112,15 @@ public class OrderController {
         return result;
     }
 
+    @RequestMapping(value="/selectOrderItemByAdmin.do")
+  	public NexacroResult selectOrderItemByAdmin( 
+  			@ParamDataSet(name="ds_search", required=false) Map<String, Object> dsSearch) {
+  		NexacroResult result = new NexacroResult();
+  		
+  		List<Map<String, Object>> orderItemList = orderService.selectOrderItemByAdmin(dsSearch);
+  		
+  		result.addDataSet("ds_item", orderItemList);
+
+  		return result;
+  	}
 }

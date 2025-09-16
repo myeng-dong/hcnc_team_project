@@ -45,7 +45,7 @@
             obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_select","510","161","100","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Button("btn_select","510","163","100","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("0");
             obj.set_text("조회");
             obj.set_borderRadius("5px");
@@ -56,46 +56,46 @@
             obj.set_cursor("pointer");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("txt_th","34","59","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("txt_th","34","61","80","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("1");
             obj.set_text("주문자");
             obj.set_font("normal 10pt/normal \"Noto Sans KR\"");
             obj.set_letterSpacing("8px");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("txt_th00","628","103","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("txt_th00","628","105","80","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("2");
             obj.set_text("배송 상태");
             obj.set_font("normal 10pt/normal \"Noto Sans KR\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("txt_th02","628","60","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("txt_th02","628","62","80","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("3");
             obj.set_text("결제 상태");
             obj.set_font("normal 10pt/normal \"Noto Sans KR\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("txt_th00_01","34","102","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("txt_th00_01","34","104","80","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("4");
             obj.set_text("주문 날자");
             obj.set_font("normal 10pt/normal \"Noto Sans KR\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("txt_th00_00_00","246","102","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("txt_th00_00_00","246","104","80","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("5");
             obj.set_text("-");
             obj.set_font("normal 11pt/normal \"Noto Sans KR\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar00_00_00","269","106","120","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Calendar("Calendar00_00_00","269","108","120","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("6");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar00_01","101","106","120","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Calendar("Calendar00_01","101","108","120","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("7");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Radio("rad_pay","723","56","357","45",null,null,null,null,null,null,this.search_area.form);
+            obj = new Radio("rad_pay","723","58","357","45",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("8");
             obj.set_innerdataset("ds_payStat");
             obj.set_codecolumn("CODE");
@@ -107,11 +107,11 @@
             obj.set_index("0");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","101","65","289","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Edit("Edit00","101","67","289","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("9");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Button("btn_reset","629","161","100","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Button("btn_reset","629","163","100","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("10");
             obj.set_text("초기화");
             obj.set_borderRadius("5px");
@@ -122,7 +122,7 @@
             obj.set_cursor("pointer");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Radio("rad_ship","722","98","357","45",null,null,null,null,null,null,this.search_area.form);
+            obj = new Radio("rad_ship","722","100","357","45",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("11");
             obj.set_innerdataset("ds_orderStat");
             obj.set_codecolumn("CODE");
@@ -132,6 +132,11 @@
             obj.set_text("전체");
             obj.set_value("전체");
             obj.set_index("0");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Static("txt_cnt","111","7","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("12");
+            obj.set_font("normal 10pt/normal \"Noto Sans KR\"");
             this.search_area.addChild(obj.name, obj);
 
             obj = new Grid("grid_list","40","230",null,null,"40","40",null,null,null,null,this);
@@ -146,7 +151,7 @@
 
             obj = new Static("txt_th","69","7","80","36",null,null,null,null,null,null,this);
             obj.set_taborder("2");
-            obj.set_text("검색 조건");
+            obj.set_text("주문 내역");
             obj.set_font("normal 13pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
             // Layout Functions
@@ -209,14 +214,22 @@
         this.fnCallback = function(svc, err, errMsg) {
             if (err < 0) {
                 this.alert("에러 발생: " + errMsg);
+
                 return;
             }
             switch(svc){
                 case "selectOrders"  :
                     trace("주문 목록 조회 완료, 건수=" + this.ds_order.rowcount);
+        			var cnt = this.ds_order.rowcount;
+        			this.search_area.form.txt_cnt.set_text("총 "+ cnt + "개");
                     break;
             }
         };
+
+
+
+
+
 
         // 조회 버튼 (조건 적용 후 조회 실행)
         this.search_area_btn_select_onclick = function(obj, e)
@@ -230,6 +243,8 @@
 
         	this.reload();   // 폼 전체 리로드
         };
+
+
 
         // 배송 상태 라디오 onitemchanged
         this.search_area_rad_ship_onitemchanged = function(obj, e)
@@ -262,7 +277,6 @@
             var dd = ("0" + d.getDate()).slice(-2);
             return "" + yyyy + mm + dd;
         };
-
 
         // 시작일 변경 이벤트
         this.search_area_Calendar00_01_onchanged = function(obj, e)

@@ -43,6 +43,10 @@ public class OrderService {
 	public void insertShipListByAdmin(Map<String, Object> row) {
 		orderMapper.insertShipListByAdmin(row);
 	}
+
+	public List<Map<String, Object>> selectOrderItemByAdmin(Map<String, Object> dsSearch) {
+		return orderMapper.selectOrderItemByAdmin(dsSearch);
+	}
 	
 
 	

@@ -3,64 +3,63 @@
 <mapper namespace="admin.mapper.OrderMapper">
 
 	<select id="selectOrderDetailListByAdmin" parameterType="map" resultType="map">
-	# 주문내역 조회 쿼리
-	
-    SELECT 
-           O.ORDER_ID                                             -- 오더ID
-         , O.ORDER_NUMBER                                         -- 주문번호
-         , CASE					                                  -- 주문한 사람(NULL이면 '비회원'으로 조회되게)
-             WHEN M.USER_NAME
-             IS NULL THEN '비회원'
-             ELSE M.USER_NAME
-           END AS USER_NAME
-         , O.TOTAL_AMOUNT                                         -- 총가격
-         , O.DISCOUNT_AMOUNT                                      -- 할인가격
-         , O.FINAL_AMOUNT                                         -- 최종가격
-         , O.ORDER_COMMENT                                        -- 주문상태
-         , P.PAYMENT_STATUS                                       -- 결제상태(입금시)
-         , DATE_FORMAT(O.ORDER_DT, '%Y-%m-%d') AS ORDER_DT        -- 주문일
-         , CASE
-             WHEN S.SHIPMENT_STATUS
-             IS NULL THEN '발송대기'
-             ELSE S.SHIPMENT_STATUS
-           END AS SHIPMENT_STATUS                                 -- 배송상태 (NULL이면 '발송대기'로 조회되게)
-         , C.COUPON_TYPE                                          -- 어떤쿠폰인지
-         , PS.PROMOTION_NAME                                      -- 어떤프로모션인지
-         , PT.POINT                                               -- 사용 포인트
-    FROM ORDERS O
-    LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID                               -- 결제 테이블
-    LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID                                  -- 배송 테이블
-    LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER                        -- 맴버 테이블(폰번호로 조회)
-    LEFT JOIN PROMOTION_LOG PL ON O.ORDER_ID = PL.ORDER_ID                        -- 프로모션_로그 테이블
-    LEFT JOIN PROMOTIONS PS ON PL.PROMOTION_ID = PS.PROMOTION_ID                  -- 프로모션 테이블
-    LEFT JOIN COUPONS C ON O.ORDER_ID = C.ORDER_ID                                -- 쿠폰 테이블
-    LEFT JOIN POINTS PT ON O.ORDER_ID = PT.ORDER_ID AND PT.CHANGE_TYPE = '사용'    -- 포인트 테이블
-    WHERE 1=1
-    <if test="START_DATE != null and START_DATE != ''">
-        AND O.ORDER_DT <![CDATA[ >= ]]> #{START_DATE}
-    </if>
-    <if test="END_DATE != null and END_DATE != ''">
-        AND O.ORDER_DT <![CDATA[ <= ]]> #{END_DATE}
-    </if>
-    <if test="USER_NAME != null and USER_NAME != ''">
-        AND (M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
-             OR (#{USER_NAME} = '비회원' AND M.USER_NAME IS NULL))
-    </if>
-    <if test="SHIPMENT_STATUS != null and SHIPMENT_STATUS != '' and SHIPMENT_STATUS != '전체'">
-        AND (
-            (S.SHIPMENT_STATUS IS NULL AND '발송대기' = #{SHIPMENT_STATUS})
-            OR S.SHIPMENT_STATUS = #{SHIPMENT_STATUS}
-        )
-    </if>
-    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != '' and PAYMENT_STATUS != '전체'">
-        AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
-    </if>
-</select>
-
+		# 주문내역 조회 쿼리
+		
+	    SELECT 
+	           O.ORDER_ID                                             -- 오더ID
+	         , O.ORDER_NUMBER                                         -- 주문번호
+	         , CASE					                                  -- 주문한 사람(NULL이면 '비회원'으로 조회되게)
+	             WHEN M.USER_NAME
+	             IS NULL THEN '비회원'
+	             ELSE M.USER_NAME
+	           END AS USER_NAME
+	         , O.TOTAL_AMOUNT                                         -- 총가격
+	         , O.DISCOUNT_AMOUNT                                      -- 할인가격
+	         , O.FINAL_AMOUNT                                         -- 최종가격
+	         , O.ORDER_COMMENT                                        -- 주문상태
+	         , P.PAYMENT_STATUS                                       -- 결제상태(입금시)
+	         , DATE_FORMAT(O.ORDER_DT, '%Y-%m-%d') AS ORDER_DT        -- 주문일
+	         , CASE
+	             WHEN S.SHIPMENT_STATUS
+	             IS NULL THEN '발송대기'
+	             ELSE S.SHIPMENT_STATUS
+	           END AS SHIPMENT_STATUS                                 -- 배송상태 (NULL이면 '발송대기'로 조회되게)
+	         , C.COUPON_TYPE                                          -- 어떤쿠폰인지
+	         , PS.PROMOTION_NAME                                      -- 어떤프로모션인지
+	         , PT.POINT                                               -- 사용 포인트
+	    FROM ORDERS O
+	    LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID                               -- 결제 테이블
+	    LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID                                  -- 배송 테이블
+	    LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER                        -- 맴버 테이블(폰번호로 조회)
+	    LEFT JOIN PROMOTION_LOG PL ON O.ORDER_ID = PL.ORDER_ID                        -- 프로모션_로그 테이블
+	    LEFT JOIN PROMOTIONS PS ON PL.PROMOTION_ID = PS.PROMOTION_ID                  -- 프로모션 테이블
+	    LEFT JOIN COUPONS C ON O.ORDER_ID = C.ORDER_ID                                -- 쿠폰 테이블
+	    LEFT JOIN POINTS PT ON O.ORDER_ID = PT.ORDER_ID AND PT.CHANGE_TYPE = '사용'    -- 포인트 테이블
+	    WHERE 1=1
+	    <if test="START_DATE != null and START_DATE != ''">
+	        AND O.ORDER_DT <![CDATA[ >= ]]> #{START_DATE}
+	    </if>
+	    <if test="END_DATE != null and END_DATE != ''">
+	        AND O.ORDER_DT <![CDATA[ <= ]]> #{END_DATE}
+	    </if>
+	    <if test="USER_NAME != null and USER_NAME != ''">
+	        AND (M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
+	             OR (#{USER_NAME} = '비회원' AND M.USER_NAME IS NULL))
+	    </if>
+	    <if test="SHIPMENT_STATUS != null and SHIPMENT_STATUS != '' and SHIPMENT_STATUS != '전체'">
+	        AND (
+	            (S.SHIPMENT_STATUS IS NULL AND '발송대기' = #{SHIPMENT_STATUS})
+	            OR S.SHIPMENT_STATUS = #{SHIPMENT_STATUS}
+	        )
+	    </if>
+	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != '' and PAYMENT_STATUS != '전체'">
+	        AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
+	    </if>
+	</select>
 	
 	
 	<select id="selectPaymentListByAdmin" parameterType="map" resultType="map">
-	    #결제내역 조회
+	    # 결제내역 조회
 	    
 		SELECT PAYMENT_ID                -- 결제 ID
 			 , '0' AS CHK                -- 넥사 체크박스 설정을 위한 CHK
@@ -88,13 +87,16 @@
 	
 	
 	<select id="selectShipListByAdmin" parameterType="map" resultType="map">
-        -- 배송 조회 (ORDERS 기준, SHIPS LEFT JOIN)
+        # 배송 조회 (ORDERS 기준, SHIPS LEFT JOIN)
         
 	    SELECT 
-	    	
 	           O.ORDER_ID                                       -- 주문 ID
 	         , O.ORDER_DT                                       -- 주문 일자
 	         , O.PHONE_NUMBER                                   -- 연락처
+	         , CONCAT                                           -- 주소
+	             (O.SHIPPING_ADDR_1, ' ',
+	             IFNULL(O.SHIPPING_ADDR_2,''))
+	           AS ADDRESS  
 	         , IFNULL(S.SHIPMENT_ID, '') AS SHIPMENT_ID         -- 배송 ID (NULL이면 공백)
 	         , '0' AS CHK                                       -- 넥사 체크박스 설정용
 	         , S.COUIER_NAME                                    -- 택배 회사
@@ -104,18 +106,34 @@
 	             IS NULL THEN '발송대기'
 	             ELSE S.SHIPMENT_STATUS
 	           END AS SHIPMENT_STATUS                           -- 배송 상태 (NULL이면 '발송대기'로 조회되게)
-	         , CASE
-	         	 WHEN M.USER_NAME
-	         	 IS NULL THEN '비회원'
-	         	 ELSE M.USER_NAME
-	           END AS USER_NAME                                 -- 주문자
+	         , O.USER_NAME                                      -- 주문자
 	         , S.SHIPPED_DT                                     -- 발송 일자
 	         , S.DELIVERD_DT                                    -- 배송 완료 일자
 	         , S.UPDATE_DT                                      -- 수정 일자
+	         , CONCAT(
+				  MIN(CONCAT(I.PRODUCT_NAME,' ',                
+				   IFNULL(I.PRODUCT_OPTION,''),'*',
+				   I.QUANTITY,'개')),
+				  CASE WHEN COUNT(*) > 1
+				       THEN CONCAT(' 외 ', COUNT(*)-1, '건')
+				       ELSE ''
+				  END
+				) AS PRODUCT_SHORT                              -- 넥사크로 그리드에 표출될 내용(ex>딸기 1개 외 3건)
+	         , GROUP_CONCAT(
+	         	CONCAT(
+	         	 I.PRODUCT_NAME, ' ',
+	         	 IFNULL(I.PRODUCT_OPTION,''), '*',
+	         	 I.QUANTITY, '개')
+             	SEPARATOR '\r\n') AS PRODUCT_SUMMARY              -- 주문한 아이템 내역
+             , COUNT(DISTINCT I.ORDER_ITEM_ID) AS ITEM_COUNT    -- 주문한 아이템 갯수(제품의 총 CNT가 아니라 주문된 아이템의 종류의 갯수)
 	    FROM ORDERS O
 	    LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID                  -- 배송테이블
 	    LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER        -- 멤버테이블
+	    LEFT JOIN ORDER_ITEMS I ON O.ORDER_ID = I.ORDER_ID            -- 주문상품 테이블
 	    WHERE 1=1
+	    <if test="ORDER_ID != null and ORDER_ID != ''">
+	    AND O.ORDER_ID = #{ORDER_ID}
+	    </if>
 	    <if test="SHIPMENT_STATUS != null and SHIPMENT_STATUS != '' and SHIPMENT_STATUS != '전체'">
         AND (
             (S.SHIPMENT_STATUS IS NULL AND #{SHIPMENT_STATUS} = '발송대기')
@@ -123,12 +141,13 @@
         )
     	</if>
     	<if test="USER_NAME != null and USER_NAME != ''">
-        AND (M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
-             OR (#{USER_NAME} = '비회원' AND M.USER_NAME IS NULL))
+        AND (O.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
+             OR (#{USER_NAME} = '비회원' AND O.USER_NAME IS NULL))
     	</if>
     	<if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
         AND O.PHONE_NUMBER LIKE CONCAT('%', #{PHONE_NUMBER}, '%') 
     	</if>
+    	GROUP BY O.ORDER_ID
 	</select>
 	
 	<update id="updateShipListByAdmin" parameterType="map">
@@ -149,5 +168,20 @@
 		VALUES
 		(#{ORDER_ID}, #{COUIER_NAME}, #{TRACKING_NUMBER} , #{SHIPMENT_STATUS}, NOW())
 	</insert>
+	
+	<select id="selectOrderItemByAdmin" parameterType="map" resultType="map">
+		SELECT ORDER_ID                  -- 주문 ID
+			 , PRODUCT_ID                -- 제품 ID
+		     , PRODUCT_NAME              -- 제품 이름
+		     , QUANTITY                  -- 주문 수량
+		     , PRODUCT_OPTION            -- 제품 옵션
+		     , PRICE                     -- 제품 가격
+		     , SUB_TOTAL                 -- 결제 상태
+		  FROM ORDER_ITEMS
+		 WHERE 1=1
+	    <if test="ORDER_ID != null and ORDER_ID != ''">
+	       AND ORDER_ID = #{ORDER_ID}
+	    </if>
+	</select>
 	
 </mapper>
