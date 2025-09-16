@@ -10,11 +10,13 @@
     	$(function(){
     		selectCartList();
     	})
+    	
+    	const memberId = "user01"
+    	const cartId = 1;
     
     	// 장바구니 리스트 조회
     	const selectCartList = () => {
-    		var memberId = "user01";
-    		var cartId = 1;
+    		
     		var param = {
     				memberId : memberId
     				, cartId : cartId
@@ -30,36 +32,49 @@
     				
     				var list = res.cartList;
     				
+    				var allCheck = true;
     				var html = '';
     				for(var i = 0; i < list.length; i++){
+    					if(list[i].IS_CHECKED == 'N'){
+    						allCheck = false;
+    					}
+   
     					html += '<tr>';
     					if(list[i].IS_CHECKED == 'N'){
-    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ list[i].PRODUCT_ID +'-checkbox" onchange="updateChkBox(' + list[i].PRODUCT_ID + ',' + list[i].PRODUCT_OPTION +')"></td>';
+    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ list[i].CART_ITEM_ID +'-checkbox" onchange="updateChkBox(' + list[i].CART_ITEM_ID + ',\'' + list[i].PRODUCT_OPTION +'\')"></td>';
     				    } else {
-    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ list[i].PRODUCT_ID +'-checkbox" checked onchange="updateChkBox(' + list[i].PRODUCT_ID + ',' + list[i].PRODUCT_OPTION +')"></td>';
+    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ list[i].CART_ITEM_ID +'-checkbox" checked onchange="updateChkBox(' + list[i].CART_ITEM_ID + ',\'' + list[i].PRODUCT_OPTION +'\')"></td>';
     				    }
     					html += '<td class="col-img"><img src="sample.jpg" width="50"></td>';
     					html += '<td class="col-name">' + list[i].PRODUCT_NAME + '</td>';
     					if(list[i].PRODUCT_OPTION != null){
-    						html += '<td class="col-option"><span>' + list[i].PRODUCT_OPTION + '</span></td>';
+    						html += '<td class="col-option"><span id="'+ list[i].CART_ITEM_ID +'-option">' + list[i].PRODUCT_OPTION + '</span></td>';
     					} else {
     						html += '<td class="col-option"><span> - </span> </td>';
     					}
-    					html += '<td class="col-price"><span id="'+ list[i].PRODUCT_ID +'-price">' + list[i].PRICE.toLocaleString() + '</span><span>원</span></td>';
+    					html += '<td class="col-price"><span id="'+ list[i].CART_ITEM_ID +'-price">' + list[i].PRICE.toLocaleString() + '</span><span>원</span></td>';
     					html += '<td class="col-qty">';
     					html += '<div class="qty-box">';
-    					html += '<button type="button" class="btn-qty" onclick="countDown('+ list[i].PRODUCT_ID +')">-</button>'; // <button type="button" class="btn-qty" onclick="countDown(변수자리)">
-    					html += '<input class="quantity" id="'+ list[i].PRODUCT_ID +'-quantity" type="number" value="' + list[i].QUANTITY + '" min="1" onchange="updateCnt('+ list[i].PRODUCT_ID +')">';
-    					html += '<button type="button" class="btn-qty" onclick="countUp('+ list[i].PRODUCT_ID +')">+</button>';
+    					html += '<button type="button" class="btn-qty" onclick="countDown('+ list[i].CART_ITEM_ID +')">-</button>'; // <button type="button" class="btn-qty" onclick="countDown(변수자리)">
+    					html += '<input class="quantity" id="'+ list[i].CART_ITEM_ID +'-quantity" type="number" value="' + list[i].QUANTITY + '" min="1" onchange="updateCnt('+ list[i].CART_ITEM_ID +')">';
+    					html += '<button type="button" class="btn-qty" onclick="countUp('+ list[i].CART_ITEM_ID +')">+</button>';
     					html += '</div>';
     					html += '</td>';
-    					html += '<td class="col-total"><span id="'+ list[i].PRODUCT_ID +'-total">' + list[i].SUB_TOTAL.toLocaleString() + '</span><span>원</span></td>';
-    					html += '<td class="col-actions"><i class="bi bi-x-lg" onclick="deleteProduct(' + list[i].PRODUCT_ID + ')"></i> <i class="bi bi-suit-heart"></i></td>';
+    					html += '<td class="col-total"><span id="'+ list[i].CART_ITEM_ID +'-total">' + list[i].SUB_TOTAL.toLocaleString() + '</span><span>원</span></td>';
+    					html += '<td class="col-actions"><i class="bi bi-x-lg" onclick="deleteProduct(' + list[i].CART_ITEM_ID + ')"></i> <i class="bi bi-suit-heart"></i></td>';
     					html += '</tr>';
     				}
     				
     				$("#cart-body").html(html);
     				
+    				var checkData = '';
+    				if(allCheck){
+    					checkData = '<input type="checkbox" class="allCheck" id="headCheck" checked onchange="updateAllCheck()">'
+    				} else {
+    					checkData = '<input type="checkbox" class="allCheck" id="headCheck" onchange="updateAllCheck()">'
+    				}
+    				
+    				$("#allCheck-box").html(checkData);
     				
     				if(res.cartTotalPrice != null){
     					$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
@@ -74,10 +89,10 @@
     	}
     
         // 수량 버튼
-        const countDown = (product_id) => {
-            var quantity = Number( $("#" + product_id + "-quantity").val() );
+        const countDown = (cart_item_id) => {
+            var quantity = Number( $("#" + cart_item_id + "-quantity").val() );
 
-            $("#" + product_id + "-quantity").val(quantity - 1);
+            $("#" + cart_item_id + "-quantity").val(quantity - 1);
 
             if (quantity <= 1){
                 $("#quantity").val(1);
@@ -85,26 +100,27 @@
 
             // document.getElementById("quantity").value = quantity - 1;
             
-            updateCnt(product_id);
+            updateCnt(cart_item_id);
         }
 
-        const countUp = (product_id) => {
-            var quantity = Number( $("#" + product_id + "-quantity").val() );
+        const countUp = (cart_item_id) => {
+            var quantity = Number( $("#" + cart_item_id + "-quantity").val() );
 
-            $("#" + product_id + "-quantity").val(quantity + 1);
+            $("#" + cart_item_id + "-quantity").val(quantity + 1);
             
-            updateCnt(product_id);
+            updateCnt(cart_item_id);
         }
 
         // 상품 수량 디비 저장
-        const updateCnt = (product_id) => {
-            var quantity = Number( $("#" + product_id + "-quantity").val() );
-            var price = Number( $("#" + product_id + "-price").text().replace(/[^\d.-]/g, '') );
-			var cartId = 1;
+        const updateCnt = (cart_item_id) => {
+            var quantity = Number( $("#" + cart_item_id + "-quantity").val() );
+            var price = Number( $("#" + cart_item_id + "-price").text().replace(/[^\d.-]/g, '') );
+           	var option = $("#" + cart_item_id +"-option").text();
+			
             
             if (quantity <= 1){
             	
-                quantity = Number( $("#" + product_id + "-quantity").val(1) );
+                quantity = Number( $("#" + cart_item_id + "-quantity").val(1) );
                 
             } else {
 
@@ -112,7 +128,8 @@
 	                quantity : quantity
 	                , price : price
 	                , cartId : cartId
-	                , productId : product_id
+	                , cartItemId : cart_item_id
+	                , option : option
 	            };
 	
 	            $.ajax({
@@ -123,7 +140,7 @@
 					, success: function(res){
 						var subTotal = price * quantity;
 						
-						$("#" + product_id + "-total").text(subTotal.toLocaleString());
+						$("#" + cart_item_id + "-total").text(subTotal.toLocaleString());
 						
 						$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
 					}
@@ -135,11 +152,12 @@
         }
         
         // 개별 체크박스 수정
-        const updateChkBox = (product_id, option) => {
+        const updateChkBox = (cart_item_id, option) => {
         	
-        	var cartId = 1;
-        	var checkboxValue = $("#"+ product_id + "-checkbox").prop("checked");
+        	var checkboxValue = $("#"+ cart_item_id + "-checkbox").prop("checked");
    			
+        	console.log(checkboxValue);
+        	
         	var is_checked = '';
         	
         	if(checkboxValue){
@@ -152,7 +170,7 @@
         	
         	var param = {
         		cartId : cartId
-        		, productId : product_id
+        		, cartItemId : cart_item_id
         		, isChecked : is_checked	
         		, option : option
         	};
@@ -179,12 +197,10 @@
         }
         
         // 삭제
-        const deleteProduct = (product_id) => {
-        	
-        	var cartId = 1;
+        const deleteProduct = (cart_item_id) => {
         	
         	var param = {
-        		productId : product_id
+        			cartItemId : cart_item_id
         		, cartId : cartId
         	};
         	
@@ -208,8 +224,7 @@
         $(document).on("change", ".allCheck", function(){
         	const checked = $(this).prop("checked");
         	$(".check").prop("checked", checked)
-        	
-        	updateChkBox();
+
         });
         
         $(document).on("change", ".check", function(){
@@ -219,6 +234,43 @@
         	$(".allCheck").prop("checked", total > 0 && total === checked);
         });
 
+
+        const updateAllCheck = () => {
+        	
+        	var isCheck = $("#headCheck").prop("checked");
+
+        	
+        	if(isCheck){
+        		is_checked = 'Y';
+        		   		
+        	} else {
+        		is_checked = 'N';
+        		
+        	}
+        	
+        	var param = {
+        			cartId : cartId
+        			, isChecked : is_checked
+        	};
+        	
+        	$.ajax({
+        		url: "/updateChkBox.do"
+        		, type: "post"
+        		, data: param
+        		, dataType: "json"
+        		, success: function(res){
+        			if(res.cartTotalPrice != null){
+        				$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
+        			} else {
+        				$("#sum-products").text("0원");
+        			}
+        		}
+        		, error: function(){
+        			
+        		}
+        	});
+        }
+        // 
 
     </script>
 
@@ -240,7 +292,7 @@
 	        <table class="cart-table">
 	          <thead>
 	            <tr>
-	              <th class="col-check"><input type="checkbox" class="allCheck" id="headCheck"></th>
+	              <th class="col-check" id="allCheck-box"></th>
 	              <th class="col-img col-name" colspan="2">상품정보</th>
 	              <th class="col-option">옵션</th>
 	              <th class="col-price">가격</th>
