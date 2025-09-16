@@ -77,7 +77,7 @@ public class OrderController {
   		return result;
   	}
 
-  	 // 결제 상태 업데이트
+  	 // 배송 상태 업데이트 -> 배송대기? 인서트문 : 업데이트문
     @RequestMapping(value="/updateShipListByAdmin.do")
     public NexacroResult updateShipListByAdmin(
             @ParamDataSet(name="ds_selected", required=false) List<Map<String, Object>> dsSelected) {
@@ -85,9 +85,17 @@ public class OrderController {
         NexacroResult result = new NexacroResult();
 
         if (dsSelected != null) {
-            for (Map<String,Object> row : dsSelected) {
-                orderService.updateShipListByAdmin(row);
-            }
+        	 for (Map<String, Object> row : dsSelected) {
+        	        Object shipmentId = row.get("SHIPMENT_ID");
+        	        
+        	        if (shipmentId == null || "".equals(shipmentId.toString())) {
+        	            // INSERT 실행
+        	        	orderService.insertShipListByAdmin(row);
+        	        } else {
+        	            // UPDATE 실행
+        	        	orderService.updateShipListByAdmin(row);
+        	        }
+        	    }
         }
         return result;
     }
