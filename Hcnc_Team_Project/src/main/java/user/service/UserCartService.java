@@ -33,5 +33,10 @@ public class UserCartService {
 		// TODO Auto-generated method stub
 		return cartMapper.updateChkBox(param);
 	}
+
+	public List<HashMap<String, Object>> selectedTotalPriceListByUser(HashMap<String, Object> param) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
