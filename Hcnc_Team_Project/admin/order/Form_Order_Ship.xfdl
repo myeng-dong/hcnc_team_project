@@ -4,25 +4,34 @@
     <Layouts>
       <Layout height="720" width="1280">
         <!-- 검색 영역 -->
-        <Div id="search_area" taborder="1" left="40" top="40" height="140" background="#ffffff" borderRadius="10px" width="1200">
+        <!-- 결제 내역 그리드 -->
+        <Div id="search_area" taborder="1" left="40" top="0" height="190" background="#ffffff" borderRadius="10px" text="" right="40">
           <Layouts>
             <Layout>
-              <Button id="btn_save" taborder="0" text="저장" left="1036" top="61" width="128" height="40" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer"/>
-              <Static id="txt_th00" taborder="1" text="배송 상태" left="40" top="65" width="80" height="36" font="normal 10pt/normal &quot;Noto Sans KR&quot;" onclick="search_area_txt_th_onclick"/>
-              <Radio id="rad_ship" taborder="2" left="134" top="60" width="357" height="45" innerdataset="ds_orderStat" codecolumn="CODE" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onitemchanged="search_area_rad_ship_onitemchanged" index="0" text="전체" value="전체"/>
+              <Static id="stc_name" taborder="2" text="주문자" left="32" top="50" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Edit id="Edit00" taborder="3" left="128" top="54" width="125" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
+              <Button id="Button00" taborder="4" text="⌕" left="235" top="54" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick"/>
+              <Static id="stc_ship" taborder="0" text="배송 상태" left="30" top="8" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Radio id="rad_ship" taborder="1" left="130" top="4" width="357" height="45" innerdataset="ds_orderStat" codecolumn="CODE" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onitemchanged="search_area_rad_ship_onitemchanged" index="0" text="전체" value="전체"/>
+              <Static id="stc_name00" taborder="5" text="연락처" left="32" top="96" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Edit id="Edit00_00" taborder="7" left="128" top="100" width="262" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
+              <Button id="Button00_00" taborder="6" text="⌕" left="375" top="100" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick"/>
             </Layout>
           </Layouts>
         </Div>
-        <!-- 결제 내역 그리드 -->
-        <Grid id="grid_list" taborder="0" left="40" top="250" right="40" bottom="40" binddataset="ds_ship" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick">
+        <Grid id="grid_list" taborder="0" left="40" top="255" right="40" bottom="40" binddataset="ds_ship" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="40"/>
-                <Column size="90"/>
-                <Column size="100"/>
-                <Column size="120"/>
-                <Column size="140"/>
+                <Column size="26"/>
+                <Column size="47"/>
+                <Column size="52"/>
+                <Column size="113"/>
+                <Column size="75"/>
+                <Column size="125"/>
+                <Column size="60"/>
+                <Column size="53"/>
+                <Column size="78"/>
               </Columns>
               <Rows>
                 <Row size="40" band="head"/>
@@ -31,29 +40,37 @@
               <Band id="head">
                 <Cell text="chk" displaytype="checkboxcontrol" edittype="checkbox" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
                 <Cell col="1" text="주문번호" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="2" text="택배사" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="3" text="배송 상태" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="4" text="송장 번호" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="2" text="주문자" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="3" text="주문 상품" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="4" text="연락처" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="5" text="주소" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="6" text="택배사" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="7" text="배송 상태" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="8" text="송장 번호" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
                 <Cell col="1" text="bind:ORDER_ID" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="2" text="bind:COUIER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="3" text="bind:SHIPMENT_STATUS" displaytype="combocontrol" edittype="combo" combodataset="ds_status" combocodecol="NAME" combodatacol="NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="4" text="bind:TRACKING_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                <Cell col="2" text="bind:USER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="3" text="bind:PRODUCT_SHORT" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none" cursor="pointer"/>
+                <Cell col="4" text="bind:PHONE_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="5" text="bind:ADDRESS" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="6" text="bind:COUIER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                <Cell col="7" text="bind:SHIPMENT_STATUS" displaytype="combocontrol" edittype="combo" combodataset="ds_status" combocodecol="NAME" combodatacol="NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="8" text="bind:TRACKING_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
+        <Button id="btn_save" taborder="2" text="저장" left="1140" top="208" width="100" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[this.Form_Order_Ship_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	 this.grid_list.setCellProperty("head", 0, "text", "0");
-
+	this.grid_list.setCellProperty("head", 0, "text", "0");
     this.fnSearchShip();
+	
 };
-
 
 // 배송 조회
 this.fnSearchShip = function() {
@@ -66,8 +83,6 @@ this.fnSearchShip = function() {
 
     this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
 };
-
-
 
 // 서버 전송
 this.fnSaveSelectedShip = function() {
@@ -91,6 +106,7 @@ this.fnCallback = function(svcID, errCode, errMsg) {
     switch(svcID) {
         case "selectShip":
             trace("조회 완료");
+			
             break;
         case "saveSelectedShip":
             this.alert("저장 완료");
@@ -99,6 +115,7 @@ this.fnCallback = function(svcID, errCode, errMsg) {
     }
 };
 
+// 저장 버튼 클릭시
 this.search_area_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.ds_selected.clearData();
@@ -118,6 +135,7 @@ this.search_area_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
     this.fnSaveSelectedShip();
 };
 
+//체크박스 전체 선택+ 전체 해제
 this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEventInfo)
 {
     // 첫 번째 컬럼(체크박스 헤더) 클릭 시
@@ -138,16 +156,81 @@ this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEvent
 };
 
 
+// 라디오박스 선택시
 this.search_area_rad_ship_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
 {
 	   // ds_search에 반영
     this.ds_search.setColumn(0, "SHIPMENT_STATUS", e.postvalue);
     this.fnSearchShip();
 };
+
+this.ds_ship_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	 if (e.columnid == "CHK") {
+        var orderId = obj.getColumn(e.row, "ORDER_ID");
+
+        if (e.newvalue == "1") {
+            // 추가
+            var findRow = this.ds_selected.findRow("ORDER_ID", orderId);
+            if (findRow < 0) {
+                var nRow = this.ds_selected.addRow();
+                this.ds_selected.copyRow(nRow, obj, e.row);
+            }
+        } else {
+            // 해제 시 삭제
+            var delRow = this.ds_selected.findRow("ORDER_ID", orderId);
+            if (delRow >= 0) {
+                this.ds_selected.deleteRow(delRow);
+            }
+        }
+    }
+};
+
+this.search_area_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSearchShip();
+};
+
+
+// 엔터 눌렀을때 검색 되도록 
+this.search_area_Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	 if (e.keycode == 13) {  // 13 = Enter 키
+        // 조회 버튼 클릭 이벤트와 동일 동작 실행
+        this.fnSearchShip();
+    }
+};
+
+
+// 그리드 셀클릭이벤트
+this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var row = e.row;      // 클릭한 행 번호
+    var col = e.col;      // 클릭한 컬럼 번호
+    var colId = obj.getCellProperty("body", col, "text");
+
+    // 특정 컬럼만 동작시키고 싶다면 조건문
+    if (colId.indexOf("PRODUCT_SHORT") > -1) {
+        var orderId = this.ds_ship.getColumn(row, "ORDER_ID");
+        var popupArgs = { ORDER_ID: orderId }
+		
+		var rect = obj.getCellRect(row, col); // 셀의 상대좌표
+        var gridX = obj.getOffsetLeft();
+        var gridY = obj.getOffsetTop();
+        var absX = gridX + rect.left + rect.width;  // 셀 오른쪽 옆
+        var absY = gridY + rect.top;                // 같은 높이
+		
+		
+		
+        var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
+		objChildFrame.init("itemPop", absX, absY, 400, 300, null, null, "popup::Pop_ProductDetail.xfdl"); // init
+		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
+    }
+};
 ]]></Script>
     <Objects>
       <!-- 결제내역 Dataset -->
-      <Dataset id="ds_ship">
+      <Dataset id="ds_ship" oncolumnchanged="ds_ship_oncolumnchanged">
         <ColumnInfo>
           <Column id="CHK" type="STRING" size="1" default="0"/>
           <Column id="SHIPMENT_ID" type="STRING" size="256"/>
@@ -158,6 +241,11 @@ this.search_area_rad_ship_onitemchanged = function(obj:nexacro.Radio,e:nexacro.I
           <Column id="SHIPPED_DT" type="STRING" size="256"/>
           <Column id="DELIVERD_DT" type="STRING" size="256"/>
           <Column id="UPDATE_DT" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="ADDRESS" type="STRING" size="256"/>
+          <Column id="PRODUCT_SHORT" type="STRING" size="256"/>
+          <Column id="PRODUCT_SUMMARY" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -217,13 +305,18 @@ this.search_area_rad_ship_onitemchanged = function(obj:nexacro.Radio,e:nexacro.I
         <ColumnInfo>
           <Column id="START_DATE" type="STRING" size="256"/>
           <Column id="END_DATE" type="STRING" size="256"/>
-          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
           <Column id="SHIPMENT_STATUS" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
         </Rows>
       </Dataset>
     </Objects>
+    <Bind>
+      <BindItem id="item0" compid="search_area.form.Edit00" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
+      <BindItem id="item1" compid="search_area.form.Edit00_00" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
+    </Bind>
   </Form>
 </FDL>

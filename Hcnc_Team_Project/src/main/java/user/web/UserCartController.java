@@ -33,7 +33,10 @@ public class UserCartController {
 		
 		List<HashMap<String, Object>> cartList = userCartService.selectCartListByUser(param);
 		
+		HashMap<String, Object> cartTotalPrice = userCartService.selectedTotalPriceByUser(param);
+		
 		mav.addObject("cartList", cartList);
+		mav.addObject("cartTotalPrice", cartTotalPrice);
 		
 		return mav;
 	}
@@ -46,6 +49,10 @@ public class UserCartController {
 		System.out.println(param);
 		
 		userCartService.updateQuantity(param);
+
+		HashMap<String, Object> cartTotalPrice = userCartService.selectedTotalPriceByUser(param);
+		
+		mav.addObject("cartTotalPrice", cartTotalPrice);
 		
 		return mav;
 	}
@@ -58,6 +65,10 @@ public class UserCartController {
 		System.out.println(param);
 		
 		userCartService.updateChkBox(param);
+		
+		HashMap<String, Object> cartTotalPrice = userCartService.selectedTotalPriceByUser(param);
+		
+		mav.addObject("cartTotalPrice", cartTotalPrice);
 		
 		return mav;
 	}
@@ -83,4 +94,15 @@ public class UserCartController {
 		
 		return mav;
 	}
+	
+	// 선택 상품 삭제
+	@RequestMapping(value="/deleteSelectedProducts.do")
+	public ModelAndView deleteSelectedProducts(@RequestParam HashMap<String, Object> param) {
+		ModelAndView mav = new ModelAndView("");
+		
+		System.out.println(param);
+		
+		return mav;
+	}
+	
 }

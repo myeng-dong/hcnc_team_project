@@ -30,8 +30,11 @@ public class UserCartService {
 	}
 
 	public int updateChkBox(HashMap<String, Object> param) {
-		// TODO Auto-generated method stub
 		return cartMapper.updateChkBox(param);
+	}
+
+	public HashMap<String, Object> selectedTotalPriceByUser(HashMap<String, Object> param) {
+		return cartMapper.selectedTotalPriceByUser(param);
 	}
 	
 }

@@ -2,7 +2,9 @@ package user.mail;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserMailService {
 	  private final String host = "smtp.naver.com";
 	    private final String username = "wpvos123@naver.com";
@@ -16,7 +18,9 @@ public class UserMailService {
 	        props.put("mail.smtp.host", host);
 	        props.put("mail.smtp.port", "465");
 	        props.put("mail.smtp.auth", "true");
+	        props.put("mail.smtp.ssl.enable", "true");
 	        props.put("mail.smtp.starttls.enable", "true");
+	        props.put("mail.smtp.ssl.trust", host);
 
 	        // 인증 정보 등록
 	        Session session = Session.getInstance(props, new Authenticator() {
