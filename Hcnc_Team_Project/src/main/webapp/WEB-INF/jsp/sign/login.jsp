@@ -3,75 +3,125 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
-    <meta name="description" content="" />
+    <title>DDD.D 로그인</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="../../../css/egovframework/import.css" />
-    <link rel="stylesheet" href="../../../css/egovframework/global.css" />
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script
       src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.6/kakao.min.js"
       integrity="sha384-WAtVcQYcmTO/N+C1N+1m6Gp8qxh+3NlnP7X1U7qP6P5dQY/MsRBNTh+e1ahJrkEm"
       crossorigin="anonymous"
     ></script>
-    <script type="text/javascript">
-      Kakao.init("58d56fb6efcae0f41fd505c8bd4300c9");
-      const loginWithKakao = () => {
-        Kakao.Auth.authorize({
-          redirectUri:
-            "http://127.0.0.1:5500/Hcnc_Team_Project/src/main/webapp/WEB-INF/jsp/sign/login.html",
-          prompt: "login",
+    <script src="../../../common/utils.js"></script>
+    <script src="../../../common/regex.js"></script>
+  </head>
+  <script type="text/javascript">
+    Kakao.init("58d56fb6efcae0f41fd505c8bd4300c9");
+    const loginWithKakao = () => {
+      Kakao.Auth.authorize({
+        redirectUri:
+          "http://127.0.0.1:5500/Hcnc_Team_Project/src/main/webapp/WEB-INF/jsp/sign/login.html",
+        prompt: "login",
+      });
+    };
+    // 서버 이전 예정
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      if (code) {
+        $.ajax({
+          url: "https://kauth.kakao.com/oauth/token",
+          type: "POST",
+          contentType: "application/x-www-form-urlencoded;charset=utf-8",
+          data: {
+            grant_type: "authorization_code",
+            client_id: "f8098d531cc49f4deb438dc740363565", // ⚠️ 프론트에 노출되면 안 됨
+            redirect_uri:
+              "http://127.0.0.1:5500/Hcnc_Team_Project/src/main/webapp/WEB-INF/jsp/sign/login.html",
+            code: code,
+            scope: "openid",
+            // client_secret: "CLIENT_SECRET",
+          },
+          success: function (res) {
+            console.log("토큰 응답:", res.id_token.split(".")[0]);
+            // res.access_token, res.refresh_token 사용 가능
+          },
+          error: function (err) {
+            console.error("토큰 요청 실패:", err);
+          },
         });
-      };
-      // 서버 이전 예정
-      window.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const code = params.get("code");
-        if (code) {
-          $.ajax({
-            url: "https://kauth.kakao.com/oauth/token",
-            type: "POST",
-            contentType: "application/x-www-form-urlencoded;charset=utf-8",
-            data: {
-              grant_type: "authorization_code",
-              client_id: "f8098d531cc49f4deb438dc740363565", // ⚠️ 프론트에 노출되면 안 됨
-              redirect_uri:
-                "http://127.0.0.1:5500/Hcnc_Team_Project/src/main/webapp/WEB-INF/jsp/sign/login.html",
-              code: code,
-              scope: "openid",
-              // client_secret: "CLIENT_SECRET",
-            },
-            success: function (res) {
-              console.log("토큰 응답:", res.id_token.split(".")[0]);
-              // res.access_token, res.refresh_token 사용 가능
-            },
-            error: function (err) {
-              console.error("토큰 요청 실패:", err);
-            },
-          });
+      }
+    });
+  </script>
+  <script type="text/javascript">
+    $(() => {
+      $(".login-unknown").hide();
+      const saveId = getCookie("loginId");
+      if (saveId) {
+        $("#id").val(saveId);
+        $("#saveId").prop("checked", true);
+      }
+    });
+    const getCookie = (name) => {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(";"); // 모든 쿠키를 ;로 나눔
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim(); // 앞뒤 공백 제거
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
+      }
+      return null;
+    };
+    const selectLoginTab = () => {
+      $(".tab-login").removeClass("active");
+      $(".tab-unknown").removeClass("active");
+      $(".login-main").show();
+      $(".login-unknown").hide();
+    };
+    const selectUnknownTab = () => {
+      $(".tab-login").addClass("active");
+      $(".tab-unknown").addClass("active");
+      $(".login-main").hide();
+      $(".login-unknown").show();
+    };
+
+    const selectLoginByUser = () => {
+      const id = $("#id").val().trim();
+      const password = $("#password").val().trim();
+      if (id == "") {
+        alert("아이디를 입력해주세요.");
+        return;
+      }
+      if (password == "") {
+        alert("비밀번호를 입력해주세요.");
+        return;
+      }
+      const param = { id: id, password: password };
+
+      ajaxUtil(param, "selectLoginByUser.do", (response) => {
+        console.log(JSON.stringify(response));
+        if (response.status === 200) {
+          if ($("input[name='saveId']").is(":checked")) {
+            document.cookie =
+              "loginId=" +
+              encodeURIComponent($("#id").val()) +
+              "; path=/; max-age=" +
+              7 * 24 * 60 * 60;
+          } else {
+            document.cookie =
+              "loginId=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+          }
+          location.href = "/";
+        }
+        if (response.status === 404) {
+          alert("회원정보를 찾을수없습니다.");
         }
       });
-    </script>
-    <script type="text/javascript">
-      $(() => {
-        $(".login-unknown").hide();
-      });
-      const selectLoginTab = () => {
-        $(".tab-login").removeClass("active");
-        $(".tab-unknown").removeClass("active");
-        $(".login-main").show();
-        $(".login-unknown").hide();
-      };
-      const selectUnknownTab = () => {
-        $(".tab-login").addClass("active");
-        $(".tab-unknown").addClass("active");
-        $(".login-main").hide();
-        $(".login-unknown").show();
-      };
-    </script>
-  </head>
-  <body style="background-color: #f7f7f7">
+    };
+  </script>
+
+  <body
+    style="background-color: #f7f7f7; padding-top: 20px; padding-bottom: 20px"
+  >
     <style>
       input[type="password"],
       input[type="number"],
@@ -86,14 +136,12 @@
       }
 
       .loginbox {
+        margin: 0 auto;
         width: 628px;
-        display: inline-block;
         background-color: #fff;
         border-radius: 16px;
         box-shadow: 0px 0px 30px #ccc;
-        padding-left: 40px;
-        padding-right: 40px;
-        padding-top: 55px;
+        padding: 55px 40px 55px 40px;
         min-width: 628px;
         max-width: 628px;
       }
@@ -184,157 +232,172 @@
       }
     </style>
 
-    <div class="container">
-      <div class="loginbox">
-        <div class="login-header">로그인</div>
-        <div class="login-body">
-          <div
-            class="login-tab"
-            style="display: flex; flex-direction: row; flex: 1"
-          >
-            <div class="tab-login" onclick="selectLoginTab()">회원로그인</div>
-            <div class="tab-unknown" onclick="selectUnknownTab()">
-              비회원 주문확인
-            </div>
-          </div>
-          <div class="login-main">
-            <div class="login-input-container">
-              <input id="id" name="id" type="text" placeholder="아이디" />
-              <div style="height: 6px"></div>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="비밀번호"
-              />
-            </div>
+    <div class="container login">
+      <div class="inner">
+        <div class="loginbox">
+          <div class="login-header">로그인</div>
+          <div class="login-body">
             <div
-              style="
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                padding-left: 40px;
-                padding-top: 6px;
-              "
+              class="login-tab"
+              style="display: flex; flex-direction: row; flex: 1"
             >
-              <input type="checkbox" style="width: 15px; height: 15px" />
+              <div class="tab-login" onclick="selectLoginTab()">회원로그인</div>
+              <div class="tab-unknown" onclick="selectUnknownTab()">
+                비회원 주문확인
+              </div>
+            </div>
+            <div class="login-main">
+              <div class="login-input-container">
+                <input id="id" name="id" type="text" placeholder="아이디" />
+                <div style="height: 6px"></div>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="비밀번호"
+                />
+              </div>
               <div
                 style="
-                  font-size: 12px;
-                  font-weight: 400;
-                  color: #777;
-                  padding-left: 5px;
-                  line-height: 10px;
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  padding-left: 40px;
+                  padding-top: 6px;
                 "
               >
-                아이디 저장
+                <input
+                  type="checkbox"
+                  name="saveId"
+                  id="saveId"
+                  style="width: 15px; height: 15px"
+                />
+                <div
+                  style="
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: #777;
+                    padding-left: 5px;
+                    line-height: 10px;
+                  "
+                >
+                  아이디 저장
+                </div>
               </div>
-            </div>
-            <div style="height: 23px"></div>
-            <div class="login-btn">
-              <div style="font-size: 18px; font-weight: 700; color: #fff">
-                로그인
+              <div style="height: 23px"></div>
+              <div class="login-btn" onclick="selectLoginByUser()">
+                <div style="font-size: 18px; font-weight: 700; color: #fff">
+                  로그인
+                </div>
               </div>
-            </div>
-            <div style="height: 6px"></div>
-            <div class="sign-btn" onclick="location.href='sign-up.html'">
-              <div style="font-size: 18px; font-weight: 700; color: #ea0e25">
-                회원가입
+              <div style="height: 6px"></div>
+              <div class="sign-btn" onclick="location.href='/sign.do'">
+                <div style="font-size: 18px; font-weight: 700; color: #ea0e25">
+                  회원가입
+                </div>
               </div>
-            </div>
-            <div style="height: 14px"></div>
-            <div
-              style="
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: center;
-              "
-            >
-              <div class="find-info" onclick="location.href='find-id.html'">
-                아이디 찾기
-              </div>
+              <div style="height: 14px"></div>
               <div
-                class="find-info"
-                style="padding-left: 15px; padding-right: 15px"
+                style="
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: center;
+                "
               >
-                |
-              </div>
-              <div class="find-info" onclick="location.href='find-pw.html'">
-                비밀번호 찾기
-              </div>
-            </div>
-            <div
-              style="
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                padding-left: 40px;
-                padding-right: 40px;
-                padding-top: 31px;
-                padding-bottom: 18px;
-              "
-            >
-              <div
-                style="display: flex; flex: 1; border-bottom: 1px solid #d9d9d9"
-              ></div>
-              <div style="font-size: 12; font-weight: 400; color: #777">
-                또는 간편하게 로그인
+                <div class="find-info" onclick="location.href='findId.do'">
+                  아이디 찾기
+                </div>
+                <div
+                  class="find-info"
+                  style="padding-left: 15px; padding-right: 15px"
+                >
+                  |
+                </div>
+                <div class="find-info" onclick="location.href='findPw.do'">
+                  비밀번호 찾기
+                </div>
               </div>
               <div
-                style="display: flex; flex: 1; border-bottom: 1px solid #d9d9d9"
-              ></div>
-            </div>
+                style="
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  padding-left: 40px;
+                  padding-right: 40px;
+                  padding-top: 31px;
+                  padding-bottom: 18px;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex: 1;
+                    border-bottom: 1px solid #d9d9d9;
+                  "
+                ></div>
+                <div style="font-size: 12; font-weight: 400; color: #777">
+                  또는 간편하게 로그인
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex: 1;
+                    border-bottom: 1px solid #d9d9d9;
+                  "
+                ></div>
+              </div>
 
-            <div
-              onclick="loginWithKakao()"
-              style="
-                display: flex;
-                background-color: #fee500;
-                margin-left: 40px;
-                margin-right: 40px;
-                border-radius: 4px;
-                justify-content: space-between;
-                align-items: center;
-                padding: 7px 10px 7px 10px;
-                cursor: pointer;
-              "
-            >
-              <img
-                style="width: 40px; height: 40px"
-                src="../../../images/egovframework/example/kakao_icon.png"
-              />
-              <div style="font-size: 18px">카카오 로그인</div>
-              <div style="width: 40px"></div>
-            </div>
-            <div style="height: 42px"></div>
-          </div>
-          <div class="login-unknown">
-            <div style="height: 60px"></div>
-            <div class="unknown-input" style="padding: 0 40px 0 40px">
-              <input
-                id="orderId"
-                name="orderId"
-                type="text"
-                placeholder="주문번호"
-              />
-              <div style="height: 10px"></div>
-              <input
-                type="number"
-                id="phone"
-                name="phone"
-                inputmode="numeric"
-                placeholder="전화번호"
-                pattern="[0-9]*"
-              />
-            </div>
-            <div style="height: 35px"></div>
-            <div class="login-btn">
-              <div style="font-size: 18px; font-weight: 700; color: #fff">
-                조회하기
+              <div
+                onclick="loginWithKakao()"
+                style="
+                  display: flex;
+                  background-color: #fee500;
+                  margin-left: 40px;
+                  margin-right: 40px;
+                  border-radius: 4px;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 7px 10px 7px 10px;
+                  cursor: pointer;
+                "
+              >
+                <img
+                  style="width: 40px; height: 40px"
+                  src="../../../images/egovframework/example/kakao_icon.png"
+                />
+                <div style="font-size: 18px">카카오 로그인</div>
+                <div style="width: 40px"></div>
               </div>
+              <div style="height: 42px"></div>
             </div>
-            <div style="height: 42px"></div>
+            <div class="login-unknown">
+              <div style="height: 60px"></div>
+              <div class="unknown-input" style="padding: 0 40px 0 40px">
+                <input
+                  id="orderId"
+                  name="orderId"
+                  type="text"
+                  placeholder="주문번호"
+                />
+                <div style="height: 10px"></div>
+                <input
+                  type="number"
+                  id="phone"
+                  name="phone"
+                  inputmode="numeric"
+                  placeholder="전화번호"
+                  pattern="[0-9]*"
+                />
+              </div>
+              <div style="height: 35px"></div>
+              <div class="login-btn">
+                <div style="font-size: 18px; font-weight: 700; color: #fff">
+                  조회하기
+                </div>
+              </div>
+              <div style="height: 42px"></div>
+            </div>
           </div>
         </div>
       </div>

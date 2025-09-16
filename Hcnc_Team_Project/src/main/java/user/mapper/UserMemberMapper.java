@@ -11,4 +11,8 @@ public interface UserMemberMapper {
 	public int selectEmailCheckByUser(String email);
 
 	public int insertSignUpByUser(Map<String, Object> sign);
+
+	public Map<String, Object> selectLoginByUser(Map<String, Object> login);
+
+	public Map<String, Object> selectFindIdByUser(String email);
 }

@@ -23,4 +23,12 @@ public class UserMemberService {
 	public int insertSignUpByUser(Map<String, Object> sign) {
 		return userMemberMapper.insertSignUpByUser(sign);
 	}
+
+	public Map<String, Object> selectLoginByUser(Map<String, Object> login) {
+		return userMemberMapper.selectLoginByUser(login);
+	}
+	
+	public Map<String, Object> selectFindIdByUser(String email) {
+		return userMemberMapper.selectFindIdByUser(email);
+	}
 }
