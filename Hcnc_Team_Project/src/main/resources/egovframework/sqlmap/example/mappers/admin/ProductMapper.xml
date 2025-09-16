@@ -22,6 +22,7 @@
 		    mc.MAIN_CATE_NM,
 		    sc.SUB_CATE_NM,
 		    o.OPTION_NAME,
+		    o.OPTION_VALUE,
 		    p.IS_VISIBLE,
 		    i.QUANTITY,
 		    CASE WHEN i.QUANTITY = 0 THEN 'OUT' ELSE '' END AS SOLD_OUT,
@@ -81,7 +82,7 @@
 		    AND sc.SUB_CATE_ID = #{SUB_CATE_ID}
 		</if>
 		
-		ORDER BY p.INPUT_DT DESC
+		ORDER BY p.PRODUCT_CODE 
 </select>
 
 
