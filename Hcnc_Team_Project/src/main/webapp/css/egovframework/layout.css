@@ -1,32 +1,86 @@
 @charset "utf-8";
 
-	 	
 /* 공통 레이아웃 */
-.inner {width: 1280px; min-width: 1024px; margin: 0 auto; padding: 0 20px;}
+.inner {
+  width: 1280px;
+  min-width: 1024px;
+  margin: 0 auto;
+  padding: 0;
+}
 
 .container {
-  
   /* margin-left: calc(50vw - 314px); */
   justify-content: center;
   width: 100%;
-  
 }
 
-.main-menu { background-color: #333; padding: 10px; }
-.main-menu ul { list-style: none; margin: 0; padding: 0; display: flex; }
-.main-menu li { margin-right: 20px; }
-.main-menu a { color: #fff; text-decoration: none; }
-.main-menu a:hover { text-decoration: underline; }
+.main-menu {
+  background-color: #333;
+  padding: 10px;
+}
+.main-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+.main-menu li {
+  margin-right: 20px;
+}
+.main-menu a {
+  color: #fff;
+  text-decoration: none;
+}
+.main-menu a:hover {
+  text-decoration: underline;
+}
 
 /* HEADER */
-.header_event_area {background: #f62e2e; color: #fff; text-align: center; font-size: 13px; padding: 6px 0;}
-.header_top_area {background: #f8f8f8; border-bottom: 1px solid #eaeaea;}
-.header_menu_list {justify-content: flex-end; gap: 20px;}
-.header_main_area {background: #fff; padding: 15px 0; border-bottom: 1px solid #eaeaea; justify-content: space-between;}
-.logo a {font-size: 22px; font-weight: bold; color: #222;}
-.header_search_area {display: flex; gap: 8px;}
-.header_search_area input {border: 1px solid #ddd; padding: 8px 12px; border-radius: 4px; min-width: 240px;}
+.header_event_area {
+  background: #f62e2e;
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  padding: 6px 0;
+}
+.header_top_area {
+  background: #f8f8f8;
+  border-bottom: 1px solid #eaeaea;
+}
+.header_menu_list {
+  justify-content: flex-end;
+  gap: 20px;
+}
+.header_main_area {
+  background: #fff;
+  padding: 15px 0;
+  border-bottom: 1px solid #eaeaea;
+  justify-content: space-between;
+}
+.logo a {
+  font-size: 22px;
+  font-weight: bold;
+  color: #222;
+}
+.header_search_area {
+  display: flex;
+  gap: 8px;
+}
+.header_search_area input {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  min-width: 240px;
+}
 
 /* FOOTER */
-.footer_area {background: #222; color: #aaa; font-size: 13px; padding: 40px 0;}
-.footer_info_area {text-align: center; line-height: 1.8;}
+.footer_area {
+  background: #222;
+  color: #aaa;
+  font-size: 13px;
+  padding: 40px 0;
+}
+.footer_info_area {
+  text-align: center;
+  line-height: 1.8;
+}

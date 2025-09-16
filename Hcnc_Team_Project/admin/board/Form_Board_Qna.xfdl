@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Board_Notice" width="1280" height="720" titletext="New Form" color="blue" onload="Form_Board_Notice_onload" background="#F4F7FE">
+  <Form id="Form_Board_Qna" width="1280" height="720" titletext="New Form" background="#F4F7FE">
     <Layouts>
-      <Layout height="720" mobileorientation="landscape" width="1280">
-        <Div id="search_area" taborder="2" left="40" top="0" height="60" background="#ffffff" borderRadius="10px" text="" right="40">
+      <Layout height="720" width="1280">
+        <Div id="search_area" taborder="0" left="40" top="0" height="60" background="#ffffff" borderRadius="10px" text="" right="40">
           <Layouts>
             <Layout>
               <Static id="stc_name" taborder="2" text="작성자" left="447" top="13" width="50" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
               <Edit id="Edit00" taborder="3" left="503" top="17" width="125" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
               <Button id="Button00" taborder="4" text="⌕" left="610" top="17" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick" cursor="pointer"/>
-              <Static id="stc_ship" taborder="0" text="게시글 유형" left="30" top="13" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Static id="stc_ship" taborder="0" text="답변 유무" left="30" top="13" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
               <Radio id="rad_type" taborder="1" left="130" top="13" width="220" height="36" innerdataset="ds_boardType" codecolumn="CODE" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onitemchanged="search_area_rad_ship_onitemchanged" index="0" text="전체" value="전체"/>
-              <Static id="stc_name00" taborder="5" text="작성일" left="790" top="13" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Static id="stc_name00" taborder="5" text="작성일" left="806" top="13" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="0" left="40" top="125" right="40" bottom="40" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
+        <Grid id="grid_list" taborder="1" left="40" top="90" right="40" bottom="40" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -58,18 +58,16 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_new" taborder="1" text="등록" top="74" height="30" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" onclick="btn_new_onclick" right="40" width="100"/>
-        <Calendar id="Calendar00_01" taborder="3" left="907" top="16" width="120" height="30" onchanged="search_area_Calendar00_01_onchanged"/>
-        <Static id="txt_th00_00_00" taborder="4" text="-" left="1052" top="12" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR&quot;" onclick="search_area_txt_th_onclick"/>
-        <Calendar id="Calendar00_00_00" taborder="5" left="1075" top="16" width="120" height="30" onchanged="search_area_Calendar00_00_00_onchanged"/>
+        <Calendar id="Calendar00_01" taborder="2" left="907" top="16" width="120" height="30" onchanged="search_area_Calendar00_01_onchanged"/>
+        <Static id="txt_th00_00_00" taborder="3" text="-" left="1052" top="12" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR&quot;" onclick="search_area_txt_th_onclick"/>
+        <Calendar id="Calendar00_00_00" taborder="4" left="1075" top="16" width="120" height="30" onchanged="search_area_Calendar00_00_00_onchanged"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[
-this.btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	
-};
-]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="search_area.form.Edit00" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
+      <BindItem id="item1" compid="Calendar00_01" propid="value" datasetid="ds_search" columnid="START_DATE"/>
+      <BindItem id="item2" compid="Calendar00_00_00" propid="value" datasetid="ds_search" columnid="END_DATE"/>
+    </Bind>
     <Objects>
       <Dataset id="ds_boardType">
         <ColumnInfo>
@@ -83,11 +81,11 @@ this.btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
           </Row>
           <Row>
             <Col id="CODE">1</Col>
-            <Col id="NAME">공지사항</Col>
+            <Col id="NAME">답변대기</Col>
           </Row>
           <Row>
             <Col id="CODE">3</Col>
-            <Col id="NAME">FAQ</Col>
+            <Col id="NAME">답변완료</Col>
           </Row>
         </Rows>
       </Dataset>
@@ -107,7 +105,6 @@ this.btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
           <Column id="START_DATE" type="STRING" size="256"/>
           <Column id="END_DATE" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
-          <Column id="SHIPMENT_STATUS" type="STRING" size="256"/>
           <Column id="PHONE_NUMBER" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
@@ -125,10 +122,5 @@ this.btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Bind>
-      <BindItem id="item0" compid="search_area.form.Edit00" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
-      <BindItem id="item1" compid="Calendar00_01" propid="value" datasetid="ds_search" columnid="START_DATE"/>
-      <BindItem id="item2" compid="Calendar00_00_00" propid="value" datasetid="ds_search" columnid="END_DATE"/>
-    </Bind>
   </Form>
 </FDL>

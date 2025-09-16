@@ -6,15 +6,103 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../../../css/egovframework/global.css" />
     <link rel="stylesheet" href="../../../css/egovframework/import.css" />
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script
-      src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.6/kakao.min.js"
-      integrity="sha384-WAtVcQYcmTO/N+C1N+1m6Gp8qxh+3NlnP7X1U7qP6P5dQY/MsRBNTh+e1ahJrkEm"
-      crossorigin="anonymous"
-    ></script>
-    <script type="text/javascript"></script>
+    <script src="../../../common/utils.js"></script>
+    <script src="../../../common/regex.js"></script>
+    <script>
+      $(() => {
+        $("#btn-mail").click(() => {
+          const email = $("#email").val().trim();
+          const emailCode = $("#emailCode").val().trim();
+          sendMailByUser(
+            email,
+            false,
+            (response) => {
+              if (response.status === 200) {
+                $("#guide-title").text("인증번호가 발송되었습니다.");
+                $("#email").prop("readonly", true);
+                $("#email").css("display", "none");
+                $("#emailCode").css("display", "block");
+                $("#btn-post").text("확인");
+                $("#btn-mail").click(() => {
+                  mailCodeCheckByUser(
+                    email,
+                    emailCode,
+                    true,
+                    (response) => {
+                      console.log(JSON.stringify(response));
+                      if (response.result === true) {
+                        alert("인증이 완료되었습니다.");
+                        sessionStorage.setItem("mailFlag", "pass");
+                        $("#email").prop("readonly", true);
+                        $("#emailCode").prop("readonly", true);
+                      } else {
+                        alert(
+                          "인증에 실패하였습니다. 인증번호를 확인해주세요."
+                        );
+                      }
+                    },
+                    () => {
+                      alert("인증에 실패하였습니다.");
+                    }
+                  );
+                });
+              }
+            },
+            () => {
+              alert("메일발송에 실패하였습니다");
+            }
+          );
+        });
+      });
+      mailCodeCheckByUser();
+      const emailCodeCheck = () => {
+        const email = $("#email").val().trim();
+        const emailCode = $("#emailCode").val().trim();
+        if (emailCode == "") {
+          alert("이메일 인증번호를 입력해주세요.");
+          return;
+        }
+        if (emailCode.length < 6) {
+          alert("인증번호를 입력해주세요.");
+          return;
+        }
+        var param = { to: email, code: emailCode };
+        if (sessionStorage.getItem("to") !== email) {
+          alert(
+            "입력된 이메일과 요청한 이메일이 다릅니다. 인증번호를 다시 요청해주세요."
+          );
+          mailInit();
+          return;
+        }
+        ajaxUtil(param, "selectVerifyAuthByUser.do", (response) => {
+          console.log(JSON.stringify(response));
+          if (response.result && response.loginId != null) {
+            $("#login-main").css("display", "none");
+            $("#complete-body").css("display", "block");
+            $("#complete-id").text(response.loginId.EMAIL);
+            return;
+          }
+          if (!response.result) {
+            alert("인증에 실패하였습니다. 인증번호를 확인해주세요.");
+            return;
+          }
+          if (response.loginId != null) {
+            if (
+              confirm(
+                "이메일에 해당되는 아이디를 찾을수없습니다. 회원가입페이지로 이동하시겠습니까?"
+              )
+            ) {
+              location.href = "/sign.do";
+            } else {
+              location.href = "/findId.do";
+            }
+            return;
+          }
+        });
+      };
+    </script>
   </head>
   <body style="background-color: #f7f7f7">
     <style>
@@ -39,14 +127,12 @@
         box-shadow: 0 0 0 1000px white inset;
       }
       .loginbox {
+        margin: 0 auto;
         width: 628px;
-        display: inline-block;
         background-color: #fff;
         border-radius: 16px;
         box-shadow: 0px 0px 30px #ccc;
-        padding-left: 40px;
-        padding-right: 40px;
-        padding-top: 55px;
+        padding: 55px 40px 55px 40px;
         min-width: 628px;
         max-width: 628px;
       }
@@ -121,71 +207,160 @@
         color: #777;
         cursor: pointer;
       }
+      .sign-btn {
+        display: flex;
+        flex: 1;
+        background-color: #fff;
+        justify-content: center;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border-radius: 8px;
+        margin-top: 37px;
+        border: 1px solid #ea0e25;
+        cursor: pointer;
+      }
     </style>
     <div class="container">
-      <div class="loginbox">
-        <div class="login-header">회원정보 찾기</div>
-        <div class="login-body">
-          <div
-            class="login-tab"
-            style="display: flex; flex-direction: row; flex: 1"
-          >
-            <div class="tab-login" onclick="location.href = 'find-id.html'">
-              아이디 찾기
-            </div>
-            <div class="tab-unknown" onclick="location.href = 'find-pw.html'">
-              비밀번호 찾기
-            </div>
-          </div>
-          <div class="login-main">
+      <div class="inner" style="margin-top: 20px">
+        <div class="loginbox">
+          <div class="login-header">회원정보 찾기</div>
+          <div class="login-body">
             <div
-              style="
-                padding-left: 40px;
-                font-size: 20px;
-                font-weight: 600;
-                padding-top: 30px;
-              "
+              class="login-tab"
+              style="display: flex; flex-direction: row; flex: 1"
             >
-              내 정보에 등록된 이메일로 찾기
-            </div>
-            <div class="login-input-container">
-              <input id="email" name="email" type="text" placeholder="이메일" />
-              <div style="height: 6px"></div>
-              <input
-                id="emailCode"
-                name="emailCode"
-                maxlength="6"
-                type="text"
-                placeholder="인증번호"
-                style="display: none"
-              />
-            </div>
-            <div style="height: 23px"></div>
-            <div class="login-btn">
-              <div style="font-size: 18px; font-weight: 700; color: #fff">
-                인증번호 보내기
+              <div class="tab-login" onclick="location.href = '/findId.do'">
+                아이디 찾기
+              </div>
+              <div class="tab-unknown" onclick="location.href = '/findId.do'">
+                비밀번호 찾기
               </div>
             </div>
-            <div
-              style="
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                padding-left: 40px;
-                padding-right: 40px;
-                padding-top: 31px;
-                padding-bottom: 18px;
-              "
-            >
+            <div class="login-main" style="display: block">
               <div
-                style="display: flex; flex: 1; border-bottom: 1px solid #d9d9d9"
-              ></div>
-              <div style="font-size: 12; font-weight: 400; color: #777">
-                이메일에 전송된 인증번호를 입력해주세요
+                id="guide-title"
+                style="
+                  padding-left: 40px;
+                  font-size: 20px;
+                  font-weight: 600;
+                  padding-top: 30px;
+                "
+              >
+                내 정보에 등록된 이메일로 찾기
+              </div>
+              <div class="login-input-container">
+                <input
+                  id="email"
+                  name="email"
+                  type="text"
+                  placeholder="이메일"
+                />
+                <div style="height: 6px"></div>
+
+                <input
+                  id="emailCode"
+                  name="emailCode"
+                  maxlength="6"
+                  type="text"
+                  placeholder="인증번호 6자리"
+                  style="display: none"
+                />
+              </div>
+              <div style="height: 23px"></div>
+              <div id="btn-mail" class="login-btn">
+                <div
+                  id="btn-post"
+                  style="font-size: 18px; font-weight: 700; color: #fff"
+                >
+                  인증번호 보내기
+                </div>
               </div>
               <div
-                style="display: flex; flex: 1; border-bottom: 1px solid #d9d9d9"
-              ></div>
+                style="
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  padding-left: 40px;
+                  padding-right: 40px;
+                  padding-top: 31px;
+                  padding-bottom: 18px;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex: 1;
+                    border-bottom: 1px solid #d9d9d9;
+                  "
+                ></div>
+                <div style="font-size: 12; font-weight: 400; color: #777">
+                  이메일에 전송된 인증번호를 입력해주세요
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex: 1;
+                    border-bottom: 1px solid #d9d9d9;
+                  "
+                ></div>
+              </div>
+            </div>
+            <div class="complete-body" style="display: none">
+              <div
+                id="complete-title"
+                style="
+                  max-width: 500px;
+                  margin: 50px auto;
+                  margin-bottom: 0;
+                  padding: 30px 20px;
+                  /* background-color: #f9f9f9; */
+                  border-radius: 12px;
+                  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
+                  text-align: center;
+                  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                "
+              >
+                <!-- 안내 문구 -->
+                <p
+                  style="
+                    font-size: 22px;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                    color: #333;
+                  "
+                >
+                  DOO.D 회원님의 아이디를 찾았어요
+                </p>
+
+                <!-- 강조할 이메일 -->
+                <p
+                  id="complete-id"
+                  style="
+                    font-size: 24px;
+                    font-weight: 700;
+                    margin-bottom: 10px;
+                    color: #222;
+                    word-break: break-all;
+                    text-decoration: underline;
+                  "
+                >
+                  test
+                </p>
+              </div>
+
+              <div
+                id="btn"
+                class="sign-btn"
+                style="margin-top: 0; margin-bottom: 20px"
+                onclick="location.href = '/login.do'"
+              >
+                <div
+                  id="btn-post"
+                  style="font-size: 18px; font-weight: 700; color: #ea0e25"
+                >
+                  로그인 하러가기
+                </div>
+              </div>
             </div>
           </div>
         </div>
