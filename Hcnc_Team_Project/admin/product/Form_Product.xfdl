@@ -96,18 +96,18 @@
                 <Column size="32"/>
                 <Column size="71"/>
                 <Column size="92"/>
-                <Column size="182"/>
+                <Column size="158"/>
+                <Column size="63"/>
+                <Column size="63"/>
+                <Column size="63"/>
                 <Column size="70"/>
-                <Column size="70"/>
-                <Column size="70"/>
-                <Column size="70"/>
-                <Column size="94"/>
-                <Column size="94"/>
-                <Column size="94"/>
-                <Column size="94"/>
+                <Column size="90"/>
+                <Column size="90"/>
+                <Column size="90"/>
+                <Column size="90"/>
                 <Column size="41"/>
                 <Column size="41"/>
-                <Column size="41"/>
+                <Column size="77"/>
                 <Column size="123"/>
                 <Column size="123"/>
                 <Column size="55"/>
@@ -180,7 +180,15 @@
       </Layout>
     </Layouts>
     <Objects>
-      <Dataset id="ds_in_proList"/>
+      <Dataset id="ds_in_proList">
+        <ColumnInfo>
+          <Column id="SEARCH_TEXT" type="STRING" size="256"/>
+          <Column id="SEARCH_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
       <Dataset id="ds_out_proList">
         <ColumnInfo>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
@@ -251,6 +259,8 @@ this.Form_Product_ontimer = function(obj,e){
 
 
 
+
+
 // 콤보 연동 (대분류 선택 시 중분류)
 this.cmb_cate1_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
@@ -297,30 +307,33 @@ this.btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  
  
 //상품 목록 조회 (조건포함)
-this.fn_search = function(){
-    var searchType = this.cmb_searchType.value;  
-    var searchText = this.Div00_00.form.edt_search.value; 
-    var isVisible  = this.Div00_00_00_00_00.form.Radio00.value; 
-    var saleStatus = this.Div00_00_00_00_00.form.Radio00_00.value;
-    var startDate  = this._dateOrEmpty(this.cal_start);
-    var endDate    = this._dateOrEmpty(this.cal_end);
-    var mainCateId = this.cmb_cate1.value;
-    var subCateId  = this.cmb_cate2.value;
-
+this.fn_search = function() {
     var strArg = "";
-    if (searchType) strArg += " SEARCH_TYPE=" + searchType;
-    if (searchText) strArg += " SEARCH_TEXT=" + encodeURIComponent(searchText);
-    if (isVisible && isVisible !== "all") strArg += " IS_VISIBLE=" + isVisible;
-    if (saleStatus && saleStatus !== "allS") strArg += " QUANTITY_STATUS=" + saleStatus;
-    if (startDate) strArg += " START_DATE=" + startDate;
-    if (endDate)   strArg += " END_DATE=" + endDate;
-    if (mainCateId) strArg += " MAIN_CATE_ID=" + mainCateId;
-    if (subCateId)  strArg += " SUB_CATE_ID=" + subCateId;
 
-    trace("[search args] " + strArg);
+    var searchType = this.cmb_searchType.value;   // 검색분류 (상품코드/상품명)
+    var searchText = this.Div00_00.form.edt_search.text; // 검색어
+    var isVisible  = this.Div00_00_00_00_00.form.Radio00.value;   // 진열상태 (all, Y, N)
+    var saleStatus = this.Div00_00_00_00_00.form.Radio00_00.value; // 판매상태 (allS, sale, nosale)
+    var startDate  = this._dateOrEmpty(this.cal_start); // 시작일
+    var endDate    = this._dateOrEmpty(this.cal_end);   // 종료일
+    var mainCateId = this.cmb_cate1.value;  // 대분류
+    var subCateId  = this.cmb_cate2.value;  // 중분류
+
+    // 조건 문자열 만들기
+    if (searchText)  strArg += (strArg ? "&" : "") + "SEARCH_TEXT=" + nexacro.wrapQuote(searchText);
+    if (searchType)  strArg += (strArg ? "&" : "") + "SEARCH_TYPE=" + searchType;
+    if (isVisible && isVisible !== "all") 
+                     strArg += (strArg ? "&" : "") + "IS_VISIBLE=" + isVisible;
+    if (saleStatus && saleStatus !== "allS") 
+                     strArg += (strArg ? "&" : "") + "QUANTITY_STATUS=" + saleStatus;
+    if (startDate)   strArg += (strArg ? "&" : "") + "START_DATE=" + startDate;
+    if (endDate)     strArg += (strArg ? "&" : "") + "END_DATE=" + endDate;
+    if (mainCateId)  strArg += (strArg ? "&" : "") + "MAIN_CATE_ID=" + mainCateId;
+    if (subCateId)   strArg += (strArg ? "&" : "") + "SUB_CATE_ID=" + subCateId;
+
+    trace(">>> fn_search strArg = " + strArg);
 
     this.transaction(
-
         "selectProductListByAdmin",
         "svc::selectProductListByAdmin.do",
         "",
@@ -332,18 +345,21 @@ this.fn_search = function(){
 };
 
 
+
  
  
   //콜백
 this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
     if (nErrorCode < 0) {
-        this.alert("오류: "+strErrorMag); return;
+        this.alert("오류: "+strErrorMag);
+		return;
     }
 
     switch(strSvcID){
         case "selectProductListByAdmin":
             var ea = this.ds_out_proList.getRowCount();
             this.stc_total.set_text("총 "+ea+"건");
+			
             break;
         case "selectMainCategoryComboByAdmin":
             this.ds_mainCate.insertRow(0);
@@ -429,11 +445,6 @@ this.btn_reg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.go("product::Form_ProductReg.xfdl");
 };
  
-
-
-
-
-
 ]]></Script>
   </Form>
 </FDL>

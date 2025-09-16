@@ -27,38 +27,75 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-
-    // 상품 목록 조회
+    
+ // 상품 목록 조회
     @RequestMapping("/selectProductListByAdmin.do")
     public NexacroResult selectProductListByAdmin(
-            @ParamDataSet(name="ds_in_proList", required=false) List<Map<String,Object>> in,
-            @RequestParam Map<String,Object> param,
-            HttpServletRequest request) {
-    	
-        System.out.println(">>> selectProductListByAdmin.do called");
-        System.out.println("params=" + param);
-    	
-        NexacroResult rs = new NexacroResult();
-        
-     // 1) ds_in_proList + RequestParam 병합
-        Map<String,Object> p = (in != null && !in.isEmpty()) ? new HashMap<>(in.get(0)) : new HashMap<>();
-        if (param != null) p.putAll(param);
+            @ParamVariable(name="SEARCH_TEXT", required=false) String searchText,
+            @ParamVariable(name="SEARCH_TYPE", required=false) String searchType,
+            @ParamVariable(name="IS_VISIBLE", required=false) String isVisible,
+            @ParamVariable(name="QUANTITY_STATUS", required=false) String quantityStatus,
+            @ParamVariable(name="START_DATE", required=false) String startDate,
+            @ParamVariable(name="END_DATE", required=false) String endDate,
+            @ParamVariable(name="MAIN_CATE_ID", required=false) String mainCateId,
+            @ParamVariable(name="SUB_CATE_ID", required=false) String subCateId
+    ) {
+        Map<String,Object> p = new HashMap<>();
+        if (searchText != null) p.put("SEARCH_TEXT", searchText);
+        if (searchType != null) p.put("SEARCH_TYPE", searchType);
+        if (isVisible != null) p.put("IS_VISIBLE", isVisible);
+        if (quantityStatus != null) p.put("QUANTITY_STATUS", quantityStatus);
+        if (startDate != null) p.put("START_DATE", startDate);
+        if (endDate != null) p.put("END_DATE", endDate);
+        if (mainCateId != null) p.put("MAIN_CATE_ID", mainCateId);
+        if (subCateId != null) p.put("SUB_CATE_ID", subCateId);
 
-        // 2) 'undefined' → "" 치환
-        cleanParam(p, "PRODUCT_NAME", "IS_VISIBLE", "QUANTITY_STATUS", 
-                      "START_DATE", "END_DATE", "MAIN_CATE_NM", "SUB_CATE_NM");
+        System.out.println(">>> [Controller param] " + p);
 
-        // 3) 디버깅 로그
-        System.out.println("[selectProductListByAdmin] params = " + p);
-
-        // 4) 서비스 호출
         List<Map<String,Object>> list = productService.selectProductListByAdmin(p);
 
-        // 5) 결과
+        NexacroResult rs = new NexacroResult();
         rs.addDataSet("ds_out_proList", list);
         return rs;
     }
 
+
+    
+    
+		/*
+		 * @RequestMapping("/selectProductListByAdmin.do") public NexacroResult
+		 * selectProductListByAdmin(
+		 * 
+		 * @ParamDataSet(name="ds_in_proList", required=false) List<Map<String,Object>>
+		 * in,
+		 * 
+		 * @RequestParam Map<String,Object> param, HttpServletRequest request) {
+		 * 
+		 * System.out.println("params=" + param); NexacroResult rs = new
+		 * NexacroResult();
+		 * 
+		 * // 1) ds_in_proList + RequestParam 병합 Map<String,Object> p = (in != null &&
+		 * !in.isEmpty()) ? new HashMap<>(in.get(0)) : new HashMap<>(); if (param !=
+		 * null) p.putAll(param); System.out.println(">>> [Controller param] " + p);
+		 * 
+		 * // 2) 'undefined' → "" 치환 cleanParam(p, "PRODUCT_NAME", "IS_VISIBLE",
+		 * "QUANTITY_STATUS", "START_DATE", "END_DATE", "MAIN_CATE_NM", "SUB_CATE_NM");
+		 * 
+		 * // 3) 디버깅 로그 System.out.println("[selectProductListByAdmin] params = " + p);
+		 * 
+		 * List<Map<String,Object>> list = productService.selectProductListByAdmin(p);
+		 * System.out.println(">>> [Controller param] " + p);
+		 * 
+		 * // 5) 결과 rs.addDataSet("ds_out_proList", list);
+		 * 
+		 * try { System.out.println(">>> selectProductListByAdmin.do called"); } catch
+		 * (Exception e) { rs.setErrorCode(-1); } return rs; }
+		 */
+    
+    
+    
+    
+    
     // 간단한 파라미터 클리너
     private void cleanParam(Map<String,Object> p, String... keys){
         for (String k : keys){

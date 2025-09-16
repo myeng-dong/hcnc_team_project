@@ -7,83 +7,84 @@
 
 	<!-- 상품목록리스트 -->
 <select id="selectProductListByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
-		SELECT
-		    p.PRODUCT_CODE,
-		    p.PRODUCT_NAME,
-		    p.PRODUCT_CONTENT,
-		    p.COST_PRICE,
-		    p.PRODUCT_PRICE,
-		    o.ADDITIONAL_PRICE,
-		    CASE 
-		        WHEN p.SALED_PRICE IS NULL OR p.SALED_PRICE = '' 
-		        THEN (p.PRODUCT_PRICE + IFNULL(o.ADDITIONAL_PRICE,0))
-		        ELSE p.SALED_PRICE
-		    END AS TOTAL_PRICE,
-		    mc.MAIN_CATE_NM,
-		    sc.SUB_CATE_NM,
-		    o.OPTION_NAME,
-		    o.OPTION_VALUE,
-		    p.IS_VISIBLE,
-		    i.QUANTITY,
-		    CASE WHEN i.QUANTITY = 0 THEN 'OUT' ELSE '' END AS SOLD_OUT,
-		    p.INPUT_DT,
-		    p.UPDATE_DT
-		FROM PRODUCTS p
-		JOIN SUB_CATEGORIES sc ON p.SUB_CATE_ID = sc.SUB_CATE_ID
-		JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
-		LEFT JOIN OPTIONS o ON p.PRODUCT_ID = o.PRODUCT_ID
-		LEFT JOIN INVENTORIES i ON p.PRODUCT_ID = i.PRODUCT_ID
-		WHERE 1=1
-		
-		<!-- 검색 분류 -->
-	<if test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
-	    <choose>
-	        <when test="SEARCH_TYPE == 'PRODUCT_CODE'">
-	            AND p.PRODUCT_CODE LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
-	        </when>
-			<when test="SEARCH_TYPE == 'PRODUCT_NAME'">
-			    AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
-			</when>
-
-	    </choose>
-	</if>
-
-		
-		<!-- 진열상태 -->
-		<if test="IS_VISIBLE != null and IS_VISIBLE != ''">
-		    AND p.IS_VISIBLE = #{IS_VISIBLE}
-		</if>
-		
-		<!-- 판매상태 -->
-		<if test="QUANTITY_STATUS != null and QUANTITY_STATUS != ''">
-		    <choose>
-		        <when test="QUANTITY_STATUS == 'sale'">
-		            AND i.QUANTITY &gt; 0
-		        </when>
-		        <when test="QUANTITY_STATUS == 'nosale'">
-		            AND i.QUANTITY = 0
-		        </when>
-		    </choose>
-		</if>
-		
-		<!-- 등록일/수정일 -->
-		<if test="START_DATE != null and START_DATE != ''">
-		    AND COALESCE(p.UPDATE_DT, p.INPUT_DT) &gt;= #{START_DATE}
-		</if>
-		<if test="END_DATE != null and END_DATE != ''">
-		    AND COALESCE(p.UPDATE_DT, p.INPUT_DT) &lt;= #{END_DATE}
-		</if>
-		
-		<!-- 카테고리 -->
-		<if test="MAIN_CATE_ID != null and MAIN_CATE_ID != ''">
-		    AND mc.MAIN_CATE_ID = #{MAIN_CATE_ID}
-		</if>
-		<if test="SUB_CATE_ID != null and SUB_CATE_ID != ''">
-		    AND sc.SUB_CATE_ID = #{SUB_CATE_ID}
-		</if>
-		
-		ORDER BY p.PRODUCT_CODE 
+	    SELECT
+	        p.PRODUCT_ID,
+	        p.PRODUCT_CODE,
+	        p.PRODUCT_NAME,
+	        p.PRODUCT_CONTENT,
+	        p.COST_PRICE,
+	        p.PRODUCT_PRICE,
+	        o.OPTION_ID,
+	        o.OPTION_NAME,
+	        o.OPTION_VALUE,
+	        o.ADDITIONAL_PRICE,
+	        CASE
+	            WHEN p.SALED_PRICE IS NULL
+	                THEN (p.PRODUCT_PRICE + IFNULL(o.ADDITIONAL_PRICE,0))
+	            ELSE p.SALED_PRICE
+	        END AS TOTAL_PRICE,
+	        mc.MAIN_CATE_NM,
+	        sc.SUB_CATE_NM,
+	        p.IS_VISIBLE,
+	        IFNULL(i.QUANTITY, 0) AS QUANTITY,
+	        CASE WHEN IFNULL(i.QUANTITY, 0) = 0 THEN 'SOLDOUT' ELSE '' END AS SOLD_OUT,
+	        p.INPUT_DT,
+	        p.UPDATE_DT
+	    FROM PRODUCTS p
+	    LEFT JOIN OPTIONS o ON p.PRODUCT_ID = o.PRODUCT_ID
+	    LEFT JOIN INVENTORIES i ON o.OPTION_ID = i.OPTION_ID
+	    JOIN SUB_CATEGORIES sc ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+	    JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+	    WHERE 1=1
+	    
+	    <!-- 검색어 -->
+	    <if test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
+	        <choose>
+	            <when test="SEARCH_TYPE eq 'PRODUCT_CODE'">
+	                AND p.PRODUCT_CODE LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+	            </when>
+	            <when test="SEARCH_TYPE eq 'PRODUCT_NAME'">
+	                AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+	            </when>
+	        </choose>
+	    </if>
+	    
+	    <!-- 진열상태 -->
+	    <if test="IS_VISIBLE != null and IS_VISIBLE != ''">
+	        AND p.IS_VISIBLE = #{IS_VISIBLE}
+	    </if>
+	    
+	    <!-- 판매상태 -->
+	    <if test="QUANTITY_STATUS != null and QUANTITY_STATUS != ''">
+	        <choose>
+	            <when test="QUANTITY_STATUS eq 'sale'">
+	                AND i.QUANTITY &gt; 0
+	            </when>
+	            <when test="QUANTITY_STATUS eq 'nosale'">
+	                AND i.QUANTITY = 0
+	            </when>
+	        </choose>
+	    </if>
+	    
+	    <!-- 등록일/수정일 -->
+	    <if test="START_DATE != null and START_DATE != ''">
+	        AND COALESCE(p.UPDATE_DT, p.INPUT_DT) &gt;= #{START_DATE}
+	    </if>
+	    <if test="END_DATE != null and END_DATE != ''">
+	        AND COALESCE(p.UPDATE_DT, p.INPUT_DT) &lt;= #{END_DATE}
+	    </if>
+	    
+	    <!-- 카테고리 -->
+	    <if test="MAIN_CATE_ID != null and MAIN_CATE_ID != ''">
+	        AND mc.MAIN_CATE_ID = #{MAIN_CATE_ID}
+	    </if>
+	    <if test="SUB_CATE_ID != null and SUB_CATE_ID != ''">
+	        AND sc.SUB_CATE_ID = #{SUB_CATE_ID}
+	    </if>
+	    
+	    ORDER BY p.PRODUCT_ID, o.OPTION_ID
 </select>
+
 
 
 	<!--  대분류 콤보-->
