@@ -2,13 +2,18 @@ package user.web;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.Data;
 import user.service.UserCartService;
 
 @Controller
@@ -57,7 +62,7 @@ public class UserCartController {
 		return mav;
 	}
 	
-	// 상품 체크박스 수정
+	// 상품 체크박스 수정 + 전체 체크박스 컨트롤
 	@RequestMapping(value="/updateChkBox.do")
 	public ModelAndView updateChkBox(@RequestParam HashMap<String, Object> param){
 		ModelAndView mav = new ModelAndView("jsonView");
@@ -69,6 +74,7 @@ public class UserCartController {
 		HashMap<String, Object> cartTotalPrice = userCartService.selectedTotalPriceByUser(param);
 		
 		mav.addObject("cartTotalPrice", cartTotalPrice);
+		
 		
 		return mav;
 	}
@@ -104,5 +110,4 @@ public class UserCartController {
 		
 		return mav;
 	}
-	
 }
