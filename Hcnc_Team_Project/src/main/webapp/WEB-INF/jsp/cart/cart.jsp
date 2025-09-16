@@ -34,13 +34,18 @@
     				for(var i = 0; i < list.length; i++){
     					html += '<tr>';
     					if(list[i].IS_CHECKED == 'N'){
-    				        html += '<td class="col-check"><input type="checkbox" id="'+ list[i].PRODUCT_ID +'-checkbox" onchange="updateChkBox(' + list[i].PRODUCT_ID + ')"></td>';
+    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ list[i].PRODUCT_ID +'-checkbox" onchange="updateChkBox(' + list[i].PRODUCT_ID + ',' + list[i].PRODUCT_OPTION +')"></td>';
     				    } else {
-    				        html += '<td class="col-check"><input type="checkbox" id="'+ list[i].PRODUCT_ID +'-checkbox" checked onchange="updateChkBox(' + list[i].PRODUCT_ID + ')"></td>';
+    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ list[i].PRODUCT_ID +'-checkbox" checked onchange="updateChkBox(' + list[i].PRODUCT_ID + ',' + list[i].PRODUCT_OPTION +')"></td>';
     				    }
     					html += '<td class="col-img"><img src="sample.jpg" width="50"></td>';
     					html += '<td class="col-name">' + list[i].PRODUCT_NAME + '</td>';
-    					html += '<td class="col-price" id="'+ list[i].PRODUCT_ID +'-price">' + list[i].PRICE + '</td>';
+    					if(list[i].PRODUCT_OPTION != null){
+    						html += '<td class="col-option"><span>' + list[i].PRODUCT_OPTION + '</span></td>';
+    					} else {
+    						html += '<td class="col-option"><span> - </span> </td>';
+    					}
+    					html += '<td class="col-price"><span id="'+ list[i].PRODUCT_ID +'-price">' + list[i].PRICE.toLocaleString() + '</span><span>원</span></td>';
     					html += '<td class="col-qty">';
     					html += '<div class="qty-box">';
     					html += '<button type="button" class="btn-qty" onclick="countDown('+ list[i].PRODUCT_ID +')">-</button>'; // <button type="button" class="btn-qty" onclick="countDown(변수자리)">
@@ -48,7 +53,7 @@
     					html += '<button type="button" class="btn-qty" onclick="countUp('+ list[i].PRODUCT_ID +')">+</button>';
     					html += '</div>';
     					html += '</td>';
-    					html += '<td class="col-total" id="'+ list[i].PRODUCT_ID +'-total">' + list[i].SUB_TOTAL + '</td>';
+    					html += '<td class="col-total"><span id="'+ list[i].PRODUCT_ID +'-total">' + list[i].SUB_TOTAL.toLocaleString() + '</span><span>원</span></td>';
     					html += '<td class="col-actions"><i class="bi bi-x-lg" onclick="deleteProduct(' + list[i].PRODUCT_ID + ')"></i> <i class="bi bi-suit-heart"></i></td>';
     					html += '</tr>';
     				}
@@ -57,9 +62,9 @@
     				
     				
     				if(res.cartTotalPrice != null){
-    					$("#sum-products").text(res.cartTotalPrice.SUM_SUB);
+    					$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
     				} else {
-    					$("#sum-products").text(0);
+    					$("#sum-products").text("0원");
     				}
     			}
     			, error: function(err){
@@ -94,7 +99,7 @@
         // 상품 수량 디비 저장
         const updateCnt = (product_id) => {
             var quantity = Number( $("#" + product_id + "-quantity").val() );
-            var price = Number( $("#" + product_id + "-price").text() );
+            var price = Number( $("#" + product_id + "-price").text().replace(/[^\d.-]/g, '') );
 			var cartId = 1;
             
             if (quantity <= 1){
@@ -116,10 +121,11 @@
 					, data: param
 					, dataType: "json"
 					, success: function(res){
-						var price = $("#" + product_id + "-price").text();
 						var subTotal = price * quantity;
 						
-						$("#" + product_id + "-total").text(subTotal);
+						$("#" + product_id + "-total").text(subTotal.toLocaleString());
+						
+						$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
 					}
 					, error: function(err){
 						alert("상품 수량 디비 저장 통신 실패");
@@ -129,7 +135,7 @@
         }
         
         // 개별 체크박스 수정
-        const updateChkBox = (product_id) => {
+        const updateChkBox = (product_id, option) => {
         	
         	var cartId = 1;
         	var checkboxValue = $("#"+ product_id + "-checkbox").prop("checked");
@@ -148,6 +154,7 @@
         		cartId : cartId
         		, productId : product_id
         		, isChecked : is_checked	
+        		, option : option
         	};
         	
         	$.ajax({
@@ -158,9 +165,9 @@
         		, success: function(res){
         			// 장바구니 전체 금액 조회 결과 //
         			if(res.cartTotalPrice != null){
-        				$("#sum-products").text(res.cartTotalPrice.SUM_SUB);
+        				$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
         			} else {
-        				$("#sum-products").text(0);
+        				$("#sum-products").text("0원");
         			}
         			
         		}
@@ -197,7 +204,20 @@
         	});
         }
 
-        //합계금액
+        // 전체 선택
+        $(document).on("change", ".allCheck", function(){
+        	const checked = $(this).prop("checked");
+        	$(".check").prop("checked", checked)
+        	
+        	updateChkBox();
+        });
+        
+        $(document).on("change", ".check", function(){
+        	const total = $(".check").length;
+        	const checked = $(".check:checked").length;
+        	
+        	$(".allCheck").prop("checked", total > 0 && total === checked);
+        });
 
 
     </script>
@@ -220,8 +240,9 @@
 	        <table class="cart-table">
 	          <thead>
 	            <tr>
-	              <th class="col-check"><input type="checkbox" id="headCheck"></th>
+	              <th class="col-check"><input type="checkbox" class="allCheck" id="headCheck"></th>
 	              <th class="col-img col-name" colspan="2">상품정보</th>
+	              <th class="col-option">옵션</th>
 	              <th class="col-price">가격</th>
 	              <th class="col-qty">수량</th>
 	              <th class="col-total">총금액</th>
@@ -246,8 +267,10 @@
 			        	<i class="bi bi-trash3"></i>
 			        	장바구니 비우기</button>
 		        <div class="orderInfo">
-		        	<i class="bi bi-exclamation-circle"></i>
-		        	<span>안내사항</span>
+		        	<div>
+			        	<i class="bi bi-exclamation-circle"></i>
+			        	<span>안내사항</span>
+		        	</div>
 		        	<p>- 상품 쿠폰 및 적립금 사용은 [주문서 작성/결제]에서 적용됩니다.</p>
 		        	<p>- 장바구니는 회원에 한해 직접 삭제할 때까지 보관됩니다. 더 오래 보관 하시려면 위시리스트에 담아주세요.</p>
 		        </div>
@@ -257,7 +280,6 @@
 		      <h4>결제 예정 금액</h4>
 		      <div class="sum-row"><span>주문금액</span><span id="sum-products" class="price"></span></div>
 		      <div class="sum-row small"><span>일반배송비</span><span id="sum-ship-normal">0원</span></div>
-		      <div class="sum-row small"><span>개별배송비</span><span id="sum-ship-indiv">0원</span></div>
 		      <div class="sum-total"><span>결제금액</span><span id="sum-final" class="price">0원</span></div>
 		      <button class="order-btn" id="btnOrder">주문하기</button>
 		    </div>
