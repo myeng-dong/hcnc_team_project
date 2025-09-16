@@ -18,6 +18,11 @@
 		FROM MEMBERS
 		WHERE EMAIL_ADDR = #{to}
 	</select>
+    <select id="selectFindIdByUser" resultType="java.util.Map">
+		SELECT MEMBER_ID
+		FROM MEMBERS
+		WHERE EMAIL_ADDR = #{to}
+	</select>
 	<insert id="insertSignUpByUser" parameterType="java.util.Map">
 		INSERT INTO
 	MEMBERS (

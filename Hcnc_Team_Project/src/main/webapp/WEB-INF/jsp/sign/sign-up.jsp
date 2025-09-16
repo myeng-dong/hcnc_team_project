@@ -160,7 +160,7 @@
         alert("이메일 형식을 확인해주세요.");
         return;
       }
-      var param = { to: email };
+      var param = { to: email, isDuplicate: true };
       ajaxUtil(param, "selectEmailCheckByUser.do", (response) => {
         if (response.status === 200) {
           alert("인증번호를 발송하였습니다");
@@ -185,7 +185,7 @@
         alert("인증번호를 입력해주세요.");
         return;
       }
-      var param = { to: email, code: emailCode };
+      var param = { to: email, code: emailCode, checkOnly: true };
       if (sessionStorage.getItem("to") !== email) {
         alert(
           "입력된 이메일과 요청한 이메일이 다릅니다. 인증번호를 다시 요청해주세요."

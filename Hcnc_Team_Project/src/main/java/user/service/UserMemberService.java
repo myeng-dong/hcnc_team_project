@@ -27,4 +27,8 @@ public class UserMemberService {
 	public Map<String, Object> selectLoginByUser(Map<String, Object> login) {
 		return userMemberMapper.selectLoginByUser(login);
 	}
+	
+	public Map<String, Object> selectFindIdByUser(String email) {
+		return userMemberMapper.selectFindIdByUser(email);
+	}
 }

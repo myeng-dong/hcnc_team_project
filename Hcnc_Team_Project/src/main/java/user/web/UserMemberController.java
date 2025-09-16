@@ -55,7 +55,11 @@ public class UserMemberController {
 	
 	public boolean verifyAuthCode(String email, int inputCode) {
 	    CodeInfo info = emailAuthMap.get(email);
-	    return info != null && info.getCode() == inputCode;
+		if (info != null && info.getCode() == inputCode) {
+        emailAuthMap.remove(email);
+        return true;
+    }
+    	return false;
 	}
 	
 	public static int RandomCode () {
@@ -192,7 +196,8 @@ public class UserMemberController {
 
 	@RequestMapping("/selectEmailCheckByUser.do")
 	public ModelAndView selectEmailCheckByUser(
-	        @RequestParam("to") String to
+	        @RequestParam("to") String to,
+			@RequestParam("isDuplicate",required=false) Boolean isDuplicate
         ) {
 	    ModelAndView mv = new ModelAndView("mailResult");
 	    mv.setViewName("jsonView");
@@ -200,7 +205,7 @@ public class UserMemberController {
 			int emailChk = userMemberService.selectEmailCheckByUser(to);
 			System.out.println(to);
 			System.out.println(emailChk == 0);
-			if(emailChk == 0){
+			if(emailChk == 0 || !isDuplicate){
 				String subject = "DDD.D 이메일 인증번호";
 				String text = "DDD.D 이메일 인증번호: ";
 				int code = RandomCode();
@@ -220,11 +225,16 @@ public class UserMemberController {
 	@RequestMapping("/selectVerifyAuthByUser.do")
 	public ModelAndView selectVerifyAuthByUser(
 			@RequestParam("to") String to,
-			@RequestParam("code") int code
+			@RequestParam("code") int code,
+			@RequestParam("checkOnly") Boolean checkOnly
 			) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("jsonView");
 		mv.addObject("result", verifyAuthCode(to,code)) ;
+		if(verifyAuthCode(to,code) && !checkOnly){
+			Map<String, Object> findId = userMemberService.selectFindIdByUser(to);
+			mv.addObject("loginId",findId);
+		}
 		return mv;
 	}
 }
