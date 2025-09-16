@@ -22,7 +22,10 @@ public interface OrderMapper {
 	List<Map<String, Object>> selectShipListByAdmin(Map<String, Object> dsSearch);
 
 	// 배송 업데이트
-	void updateShipListByAdmin(Map<String, Object> row); 
+	void updateShipListByAdmin(Map<String, Object> row);
+
+	// 배송 인서트 
+	void insertShipListByAdmin(Map<String, Object> row); 
 
 	
 

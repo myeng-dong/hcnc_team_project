@@ -14,6 +14,7 @@
           <Col id="MENU_ID">00</Col>
           <Col id="MENU_NM">메인대쉬보드</Col>
           <Col id="MENU_LEVEL">0</Col>
+          <Col id="MENU_PATH"></Col>
         </Row>
         <Row>
           <Col id="MENU_ID">01</Col>
@@ -24,6 +25,7 @@
           <Col id="MENU_ID">0101</Col>
           <Col id="MENU_NM">회원목록</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">member::Form_MemberList.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0102</Col>
