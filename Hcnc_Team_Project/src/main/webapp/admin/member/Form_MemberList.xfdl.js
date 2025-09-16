@@ -37,7 +37,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Grid("member_list","20","350",null,"320","60",null,null,null,null,null,this);
+            obj = new Grid("member_list","20","360",null,"350","40",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
@@ -47,7 +47,7 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"48\"/><Column size=\"68\"/><Column size=\"100\"/><Column size=\"87\"/><Column size=\"92\"/><Column size=\"98\"/><Column size=\"102\"/><Column size=\"142\"/><Column size=\"113\"/><Column size=\"143\"/><Column size=\"108\"/><Column size=\"101\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\"/><Cell col=\"1\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"권한\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"이름\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"아이디\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"이메일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" text=\"등급\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"휴대전화\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"성별\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"생년월일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"10\" text=\"상태\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"11\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" text=\"bind:BANNER_ID\"/><Cell col=\"1\" text=\"expr:currow + 1\"/><Cell col=\"2\" text=\"bind:MEMBER_TYPE\"/><Cell col=\"3\" text=\"bind:USER_NAME\"/><Cell col=\"4\" text=\"bind:MEMBER_ID\"/><Cell col=\"5\" text=\"bind:EMAIL_ADDR\"/><Cell col=\"6\" text=\"bind:GRADE_NAME\"/><Cell col=\"7\" edittype=\"normal\" text=\"bind:PHONE_NUMBER\"/><Cell col=\"8\" text=\"bind:GENDER\"/><Cell col=\"9\" edittype=\"normal\" text=\"bind:BIRTH\"/><Cell col=\"10\" edittype=\"normal\" text=\"bind:STATUS\"/><Cell col=\"11\" text=\"bind:INPUT_DT\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00","15","330","70","20",null,null,null,null,null,null,this);
+            obj = new Static("Static00","15","340","70","20",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("회원목록");
             obj.set_textAlign("center");
@@ -147,6 +147,15 @@
             obj.set_color("#fff");
             obj.set_borderRadius("4px");
             this.search_box.addChild(obj.name, obj);
+
+            obj = new Button("insert_member","1117","318","123","35",null,null,null,null,null,null,this);
+            obj.set_taborder("3");
+            obj.set_text("등록");
+            obj.set_font("13px/normal \"Noto Sans KR Black\"");
+            obj.set_borderRadius("8px");
+            obj.set_background("#2563eb");
+            obj.set_color("#fff");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
@@ -271,6 +280,11 @@
         	this.reload();
         };
 
+        //등록하기 페이지 이동(관리자 생성 또는 회원 강제 insert)
+        this.Button00_onclick = function(obj,e)
+        {
+        	this.getOwnerFrame().set_formurl("member::Form_MemberInsert.xfdl");
+        };
 
         });
         
@@ -281,6 +295,7 @@
             this.search_box.form.member_info.addEventHandler("onitemchanged",this.search_box_member_info_onitemchanged,this);
             this.search_box.form.search_btn.addEventHandler("onclick",this.search_box_search_btn_onclick,this);
             this.search_box.form.reset_btn.addEventHandler("onclick",this.search_box_reset_btn_onclick,this);
+            this.insert_member.addEventHandler("onclick",this.Button00_onclick,this);
         };
         this.loadIncludeScript("Form_MemberList.xfdl");
         this.loadPreloadList();

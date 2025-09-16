@@ -14,10 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
-import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.MemberService;
+import admin.util.PasswordUtil;
 
 @Controller
 public class MemberController {
@@ -61,6 +61,12 @@ public class MemberController {
 
 		NexacroResult result = new NexacroResult();
 
+		// 로그인도 암호하 과정과 똑같이 비밀번호 param에서 꺼내서 암호화로 덮어쓰기
+		String password = String.valueOf(param.get("PASSWORD"));
+		String crypto = PasswordUtil.encryptSHA256(password);
+
+		param.put("PASSWORD", crypto);
+
 		Map<String, Object> adminInfo = memberService.adminLogin(param);
 
 		try {
@@ -72,8 +78,8 @@ public class MemberController {
 					System.out.println(session.getAttribute("adminInfo"));
 					session.setAttribute("adminInfo", adminInfo);
 
+					// 쿠키에 member_id를 넣기 위해 String 변환
 					String memberId = String.valueOf(adminInfo.get("MEMBER_ID"));
-
 					Cookie idCookie = new Cookie("ADMIN_ID", memberId);
 
 					idCookie.setPath("/");
@@ -90,7 +96,7 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println(e);
 			result.setErrorCode(-1);
-			result.setErrorMsg("catch 오류 >>>");
+			result.setErrorMsg("로그인 실패");
 		}
 		return result;
 	};
@@ -130,6 +136,7 @@ public class MemberController {
 	}
 
 	// 회원 조회
+	// By.PJ 09.15
 	@RequestMapping(value = "/selectMemberListByAdmin.do")
 	public NexacroResult selectMemberList(
 			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
@@ -147,13 +154,13 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println(e);
 			result.setErrorCode(-1);
-			result.setErrorMsg("catch 오류 >>>");
+			result.setErrorMsg("회원조회 중 오류");
 		}
 		return result;
 	};
 
-	
 	// 회원등급 조회
+	// BY.PJ 09.15, 09.16
 	@RequestMapping(value = "/selectMemberGradeListByAdmin.do")
 	public NexacroResult selectMemberGradeList() {
 
@@ -172,6 +179,49 @@ public class MemberController {
 			result.setErrorMsg("회원등급 조회 실패 >>> " + e.getMessage());
 		}
 		return result;
+	}
+
+	// 관리자 등록 및 암호화 
+	// BY.PJ 09.16
+	@RequestMapping(value = "/insertMemberByAdmin.do")
+	public NexacroResult insertMember(@ParamDataSet(name = "ds_member", required = false) Map<String, Object> param) {
+		// 1.넥사크로에서 전송된 DataSet을 Map으로 받음
+		// 1-1. 받아오는 데이터 셋과 이름이 일치해야한다.
+		// 1-2. Map<String, Object> param 이렇게 받아올게요 라는 뜻
+		NexacroResult result = new NexacroResult();
+
+		// 비밀번호 param에서 꺼내서 암호화로 덮어쓰기
+		String password = String.valueOf(param.get("PASSWORD"));
+		String crypto = PasswordUtil.encryptSHA256(password);
+
+		param.put("PASSWORD", crypto);
+
+		try {
+
+			// 아아디, 비밀번호, 휴대전화, 이메일 중복체크
+			int duplicate = memberService.isDuplicated(param);
+
+			if (duplicate > 0) {
+				result.setErrorCode(-1);
+				result.setErrorMsg("중복된 아이디, 이메일 또는 전화번호가 있습니다");
+				
+				return result;
+			}
+
+			Map<String, Object> dsInsCnt = new HashMap<>();
+
+			int inserted = memberService.insertMember(param);
+
+			dsInsCnt.put("INSERTED", inserted);
+			result.addDataSet("ds_insCnt", dsInsCnt);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("등록실패");
+		}
+		return result;
+
 	}
 
 }

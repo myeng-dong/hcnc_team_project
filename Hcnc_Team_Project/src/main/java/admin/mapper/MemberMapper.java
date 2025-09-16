@@ -13,7 +13,14 @@ public interface MemberMapper {
 	
 	//회원 목록조회 
 	List<Map<String, Object>> selectMemberList(Map<String, Object> param);
-
+	
+	//회원 등급 조회
 	List<Map<String, Object>> selectMemberGradeList();
+	
+	//관리자 등록하기 
+	int insertMember(Map<String, Object> param);
+	
+	//관리자 등록시 중복체크
+	int isDuplicated(Map<String, Object> param);
 
 }
