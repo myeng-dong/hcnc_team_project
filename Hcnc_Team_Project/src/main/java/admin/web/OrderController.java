@@ -81,19 +81,31 @@ public class OrderController {
     @RequestMapping(value="/updateShipListByAdmin.do")
     public NexacroResult updateShipListByAdmin(
             @ParamDataSet(name="ds_selected", required=false) List<Map<String, Object>> dsSelected) {
-
-        NexacroResult result = new NexacroResult();
+    	
+    	int insertCnt = 0;     // 인서트문 실행된 갯수 파악할 변수
+    	int upCnt = 0;         // 업데이트문 실행된 갯수 파악할 변수
+    			
+        NexacroResult result = new NexacroResult(); 
 
         if (dsSelected != null) {
         	 for (Map<String, Object> row : dsSelected) {
         	        Object shipmentId = row.get("SHIPMENT_ID");
         	        
-        	        if (shipmentId == null || "".equals(shipmentId.toString())) {
+        	        System.out.println("---------------------------------------------------");
+        	        System.out.println(shipmentId);
+        	        System.out.println("---------------------------------------------------");
+        	        
+        	        if (shipmentId == null || "".equals(shipmentId.toString())) { // 배송ID가 없으면 데이터가 없으므로
         	            // INSERT 실행
         	        	orderService.insertShipListByAdmin(row);
-        	        } else {
+        	        	insertCnt++;
+        	        	System.out.println("실행된 인서트문의 갯수 : "+insertCnt);
+        	        	
+        	        } else { // 배송ID가 있으면 업데이트문 실행
         	            // UPDATE 실행
         	        	orderService.updateShipListByAdmin(row);
+        	        	upCnt++;
+        	        	System.out.println("실행된 업데이트문의 갯수 : "+upCnt);
         	        }
         	    }
         }
