@@ -4,8 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../../css/egovframework/global.css" />
-    <link rel="stylesheet" href="../../../css/egovframework/layout.css" />
+    <link rel="stylesheet" href="../../../css/egovframework/import.css" />
     <link
       rel="stylesheet"
       href="//cdn.jsdelivr.net/xeicon/2.3.0/xeicon.min.css"
@@ -555,15 +554,14 @@
     }
     .signbox {
       width: 628px;
-      display: inline-block;
+      margin: 0 auto;
+      /* display: inline-block; */
       background-color: #fff;
       border-radius: 16px;
       box-shadow: 0px 0px 30px #ccc;
       padding-left: 40px;
       padding-right: 40px;
       padding-top: 55px;
-      min-width: 628px;
-      max-width: 628px;
     }
     .sign-title {
       display: flex;
@@ -608,148 +606,158 @@
       display: flex;
     }
   </style>
-  <body style="background-color: #f7f7f7">
-    <div class="container">
-      <div class="signbox">
-        <div class="sign-title">회원가입</div>
-        <div style="display: flex; flex-direction: column">
-          <div class="input-parent">
-            <i class="xi-user-o"></i>
-            <div class="input-name">아이디</div>
-            <div class="input-line">|</div>
-            <input
-              name="id"
-              id="id"
-              type="text"
-              placeholder="영문 4자이상, 최대 20자"
-              maxlength="20"
-            />
-            <div class="btn-verify" onclick="idChkByUser()">
-              <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
-                중복체크
-              </p>
+  <body
+    style="background-color: #f7f7f7; padding-top: 20px; padding-bottom: 20px"
+  >
+    <div class="container sign">
+      <div class="inner">
+        <div class="signbox">
+          <div class="sign-title">회원가입</div>
+          <div style="display: flex; flex-direction: column">
+            <div class="input-parent">
+              <i class="xi-user-o"></i>
+              <div class="input-name">아이디</div>
+              <div class="input-line">|</div>
+              <input
+                name="id"
+                id="id"
+                type="text"
+                placeholder="영문 4자이상, 최대 20자"
+                maxlength="20"
+              />
+              <div class="btn-verify" onclick="idChkByUser()">
+                <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                  중복체크
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="input-parent">
-            <i class="xi-lock-o"></i>
-            <div class="input-name">비밀번호</div>
-            <div class="input-line">|</div>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              maxlength="30"
-              placeholder="영문,숫자,특수문자 포함 최소 8자리 이상"
-            />
-          </div>
-          <div class="input-parent">
-            <i class="xi-lock"></i>
-            <div class="input-name">비밀번호확인</div>
-            <div class="input-line">|</div>
-            <input
-              name="passwordCheck"
-              id="passwordCheck"
-              type="password"
-              maxlength="30"
-              placeholder="비밀번호 한번 더 입력"
-            />
-          </div>
-          <div class="input-parent">
-            <i class="xi-pen-o"></i>
-            <div class="input-name">이름</div>
-            <div class="input-line">|</div>
-            <input
-              name="name"
-              id="name"
-              type="text"
-              maxlength="14"
-              placeholder="2자 이상 입력해주세요"
-            />
-          </div>
-          <div class="input-parent">
-            <i class="xi-mail-o"></i>
-            <div class="input-name">이메일</div>
-            <div class="input-line">|</div>
-            <input
-              name="email"
-              id="email"
-              type="text"
-              maxlength="255"
-              placeholder="example@example.com"
-            />
-            <div class="btn-verify" onclick="emailChkByUser()">
-              <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
-                전송
-              </p>
+            <div class="input-parent">
+              <i class="xi-lock-o"></i>
+              <div class="input-name">비밀번호</div>
+              <div class="input-line">|</div>
+              <input
+                name="password"
+                id="password"
+                type="password"
+                maxlength="30"
+                placeholder="영문,숫자,특수문자 포함 최소 8자리 이상"
+              />
             </div>
-          </div>
-          <div class="input-parent">
-            <i class="xi-mail"></i>
+            <div class="input-parent">
+              <i class="xi-lock"></i>
+              <div class="input-name">비밀번호확인</div>
+              <div class="input-line">|</div>
+              <input
+                name="passwordCheck"
+                id="passwordCheck"
+                type="password"
+                maxlength="30"
+                placeholder="비밀번호 한번 더 입력"
+              />
+            </div>
+            <div class="input-parent">
+              <i class="xi-pen-o"></i>
+              <div class="input-name">이름</div>
+              <div class="input-line">|</div>
+              <input
+                name="name"
+                id="name"
+                type="text"
+                maxlength="14"
+                placeholder="2자 이상 입력해주세요"
+              />
+            </div>
+            <div class="input-parent">
+              <i class="xi-mail-o"></i>
+              <div class="input-name">이메일</div>
+              <div class="input-line">|</div>
+              <input
+                name="email"
+                id="email"
+                type="text"
+                maxlength="255"
+                placeholder="example@example.com"
+              />
+              <div class="btn-verify" onclick="emailChkByUser()">
+                <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                  전송
+                </p>
+              </div>
+            </div>
+            <div class="input-parent">
+              <i class="xi-mail"></i>
 
-            <div class="input-name">인증번호</div>
-            <div class="input-line">|</div>
-            <input
-              name="emailCode"
-              id="emailCode"
-              type="text"
-              maxlength="6"
-              placeholder="이메일 인증번호 입력"
-            />
-            <div class="btn-verify" onclick="emailCodeCheck()">
-              <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
-                확인
-              </p>
+              <div class="input-name">인증번호</div>
+              <div class="input-line">|</div>
+              <input
+                name="emailCode"
+                id="emailCode"
+                type="text"
+                maxlength="6"
+                placeholder="이메일 인증번호 입력"
+              />
+              <div class="btn-verify" onclick="emailCodeCheck()">
+                <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                  확인
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="input-parent">
-            <i class="xi-call"></i>
-            <div class="input-name">휴대폰</div>
-            <div class="input-line">|</div>
-            <input
-              name="phone"
-              id="phone"
-              type="text"
-              maxlength="13"
-              placeholder="ex) 010-0000-0000"
-            />
-          </div>
-          <div class="input-parent">
-            <i class="xi-cake"></i>
-            <div class="input-name">생일</div>
-            <div class="input-line">|</div>
-            <input
-              readonly
-              name="birth"
-              id="birth"
-              type="text"
-              maxlength="8"
-              placeholder="날짜 선택"
-            />
-          </div>
-          <div class="input-parent" style="border: 0">
-            <i class="xi-label-o"></i>
-            <div class="input-name">성별</div>
-            <div class="input-line">|</div>
-            <fieldset
-              style="border: 0; display: flex; flex-direction: row; flex: 1"
-            >
-              <label>
-                <input type="radio" name="gender" value="M" /><span>남</span>
-              </label>
-              <div style="width: 20px"></div>
-              <label
-                ><input type="radio" name="gender" value="W" /><span
-                  >여</span
-                ></label
+            <div class="input-parent">
+              <i class="xi-call"></i>
+              <div class="input-name">휴대폰</div>
+              <div class="input-line">|</div>
+              <input
+                name="phone"
+                id="phone"
+                type="text"
+                maxlength="13"
+                placeholder="ex) 010-0000-0000"
+              />
+            </div>
+            <div class="input-parent">
+              <i class="xi-cake"></i>
+              <div class="input-name">생일</div>
+              <div class="input-line">|</div>
+              <input
+                readonly
+                name="birth"
+                id="birth"
+                type="text"
+                maxlength="8"
+                placeholder="날짜 선택"
+              />
+            </div>
+            <div class="input-parent" style="border: 0">
+              <i class="xi-label-o"></i>
+              <div class="input-name">성별</div>
+              <div class="input-line">|</div>
+              <fieldset
+                style="
+                  border: 0;
+                  display: flex;
+                  flex-direction: row;
+                  flex: 1;
+                  padding-left: 10px;
+                "
               >
-            </fieldset>
-          </div>
-          <div class="sign-btn" onclick="insertSign()">
-            <div style="font-size: 24px; font-weight: 700; color: #ea0e25">
-              회원가입
+                <label>
+                  <input type="radio" name="gender" value="M" /><span>남</span>
+                </label>
+                <div style="width: 20px"></div>
+                <label
+                  ><input type="radio" name="gender" value="W" /><span
+                    >여</span
+                  ></label
+                >
+              </fieldset>
             </div>
+            <div class="sign-btn" onclick="insertSign()">
+              <div style="font-size: 24px; font-weight: 700; color: #ea0e25">
+                회원가입
+              </div>
+            </div>
+            <div style="height: 100px"></div>
           </div>
-          <div style="height: 100px"></div>
         </div>
       </div>
     </div>

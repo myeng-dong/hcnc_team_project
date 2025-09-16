@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="user.mapper.UserMemberMapper">
+     <select id="selectLoginByUser" resultType="java.util.Map">
+		SELECT MEMBER_ID, "O" as PASSWORD
+		FROM   MEMBERS
+		WHERE  MEMBER_ID = #{id}
+		  AND  PASSWORD = #{password}
+	</select>
 	<select id="selectIdCheckByUser" resultType="int">
 		SELECT COUNT(MEMBER_ID) AS COUNT
 		FROM MEMBERS
