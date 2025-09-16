@@ -7,12 +7,14 @@
         <Div id="search_area" taborder="1" left="40" top="40" height="140" background="#ffffff" borderRadius="10px" width="1200">
           <Layouts>
             <Layout>
-              <Button id="btn_save" taborder="0" text="저장" left="1034" top="50" width="128" height="40" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#3F00FF" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer"/>
+              <Button id="btn_save" taborder="0" text="저장" left="1036" top="61" width="128" height="40" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer"/>
+              <Static id="txt_th00" taborder="1" text="배송 상태" left="40" top="65" width="80" height="36" font="normal 10pt/normal &quot;Noto Sans KR&quot;" onclick="search_area_txt_th_onclick"/>
+              <Radio id="rad_ship" taborder="2" left="134" top="60" width="357" height="45" innerdataset="ds_orderStat" codecolumn="CODE" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onitemchanged="search_area_rad_ship_onitemchanged" index="0" text="전체" value="전체"/>
             </Layout>
           </Layouts>
         </Div>
         <!-- 결제 내역 그리드 -->
-        <Grid id="grid_list" taborder="0" left="40" top="220" right="40" bottom="40" binddataset="ds_ship" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick">
+        <Grid id="grid_list" taborder="0" left="40" top="250" right="40" bottom="40" binddataset="ds_ship" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -57,7 +59,7 @@
 this.fnSearchShip = function() {
     var strSvcID       = "selectShip";
     var strURL         = "svc::selectShipListByAdmin.do";
-    var strInDatasets  = "";
+    var strInDatasets  = "ds_search=ds_search";
     var strOutDatasets = "ds_ship=ds_ship";
     var strArg         = "";
     var strCallback    = "fnCallback";
@@ -135,6 +137,13 @@ this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEvent
     }
 };
 
+
+this.search_area_rad_ship_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	   // ds_search에 반영
+    this.ds_search.setColumn(0, "SHIPMENT_STATUS", e.postvalue);
+    this.fnSearchShip();
+};
 ]]></Script>
     <Objects>
       <!-- 결제내역 Dataset -->
@@ -183,6 +192,37 @@ this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEvent
           <Column id="DELIVERD_DT" type="STRING" size="256"/>
           <Column id="UPDATE_DT" type="STRING" size="256"/>
         </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_orderStat">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">전체</Col>
+            <Col id="NAME">전체</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">발송대기</Col>
+            <Col id="NAME">발송대기</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">발송완료</Col>
+            <Col id="NAME">발송완료</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="START_DATE" type="STRING" size="256"/>
+          <Column id="END_DATE" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="SHIPMENT_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
       </Dataset>
     </Objects>
   </Form>

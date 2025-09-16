@@ -14,7 +14,7 @@ body {
 #wrap {
 }
 
-input,
+/* input,
 select
 {
   min-width: 120px;
@@ -68,14 +68,14 @@ input[type="checkbox"]:checked:after {
   content: "✓";
 }
 
-/*number공통*/
+number공통
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/*hover공통*/
+hover공통
 input[type="button"]:hover {
   cursor: pointer;
   background: #333;
@@ -84,42 +84,12 @@ input[type="button"]:hover {
 select:hover {
   cursor: pointer;
 }
-/*active공통*/
+active공통
 input[type="button"]:active {
   background: #b20a0a;
   color: #fff;
 }
 
-textarea {
-  width: 100%;
-  min-height: 120px;
-  margin: 8px 0;
-  resize: none;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-}
-
-table {
-  border-collapse: collapse;
-  border-top: 2px solid #333;
-}
-th {
-  padding: 2px 8px;
-  background: #f5f5f5;
-  border-bottom: 1px solid #ccc;
-}
-td {
-  padding: 2px 8px;
-  border-bottom: 1px solid #ccc;
-}
-table .warning {
-  font-size: 12px;
-  color: red;
-}
-table .check {
-  font-size: 12px;
-  color: green;
-}
 
 ul.list {
   padding: 0;
@@ -135,20 +105,20 @@ ul.list li:before {
   content: "-";
 }
 
- /*flex 선언*/ 
+ flex 선언 
   .flex{display: flex;}
   .flex.ju-center{justify-content: center;}
   .flex.ju-between{justify-content: space-between;}
   .flex.ai-center{align-items: center;}
   .flex.fd-column{flex-direction: column;}
 
-  /*text*/
+  text
   .txt-right{text-align: right;}
   .txt-center{text-align: center;}
   .txt.warning{color:red;}
 
-  /*content*/
+  content
   .title-area{padding-top:10px; padding-bottom:10px;}
   .btn-area{padding-top:1rem;}
   .btn-area input,
-  .btn-area button{margin:0 10px;}
+  .btn-area button{margin:0 10px;} */
