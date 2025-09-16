@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Pop_ProductDetail" width="400" height="300" titletext="New Form" onload="Pop_ProductDetail_onload">
+    <Layouts>
+      <Layout height="300" mobileorientation="landscape" width="400">
+        <Grid id="grid_list" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="ds_item" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="58"/>
+                <Column size="189"/>
+                <Column size="74"/>
+                <Column size="95"/>
+              </Columns>
+              <Rows>
+                <Row size="40" band="head"/>
+                <Row size="34"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="제품ID" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="1" text="제품명" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="2" text="주문 옵션" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="3" text="주문 수량" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:PRODUCT_ID" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="1" text="bind:PRODUCT_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="2" text="bind:PRODUCT_OPTION" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none" cursor="pointer"/>
+                <Cell col="3" text="bind:QUANTITY" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Pop_ProductDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var orderId = this.parent["ORDER_ID"];
+	this.ds_search.setColumn(0,"ORDER_ID", orderId);
+	this.fnSearchOrderItem();
+};
+
+this.fnSearchOrderItem = function(){
+
+	var strSvcID       = "selectOrderItem";
+    var strURL         = "svc::selectOrderItemByAdmin.do";
+    var strInDatasets  = "ds_search=ds_search";
+    var strOutDatasets = "ds_item=ds_item";
+    var strArg         = "";
+    var strCallback    = "fnCallback";
+
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+}
+
+this.fnCallback = function(svcID, errCode, errMsg) {
+    if (errCode < 0) {
+        this.alert("에러: " + errMsg);
+        return;
+    }
+
+    switch(svcID) {
+        case "selectOrderItem":
+            trace("조회 완료");
+            break;
+    }
+};]]></Script>
+    <Objects>
+      <Dataset id="ds_item">
+        <ColumnInfo>
+          <Column id="PRODUCT_ID" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="QUANTITY" type="STRING" size="256"/>
+          <Column id="PRODUCT_OPTION" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="ORDER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

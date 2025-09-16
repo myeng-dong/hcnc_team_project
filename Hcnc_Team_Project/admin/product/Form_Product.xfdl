@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductAdmin" width="1280" height="800" titletext="상품관리" background="#ebf3fe" onload="Form_ProductAdmin_onload">
+  <Form id="Form_Product" width="1280" height="800" titletext="상품관리" background="#ebf3fe" onload="Form_Product_onload" ontimer="Form_Product_ontimer">
     <Layouts>
       <Layout width="1280" height="800">
         <Div id="Div00" taborder="6" text="" left="24" top="20" width="1230" height="50" background="#ffffff" borderRadius="10px 0px 0px 10px"/>
@@ -31,8 +31,8 @@
           </Dataset>
         </Combo>
         <Div id="Div00_00_00" taborder="0" text="" left="164" top="156" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px"/>
-        <Combo id="cmb_cate1" left="179" top="158" width="150" height="35" text="" taborder="5" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_search_combo" codecolumn="MAIN_CATE_NM" datacolumn="대분류 선택" index="0" value=""/>
-        <Combo id="cmb_cate2" left="349" top="158" width="150" height="35" text="- 중분류 선택 -" taborder="10" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_search_combo" codecolumn="SUB_CATE_NM" datacolumn="중분류 선택"/>
+        <Combo id="cmb_cate1" left="179" top="158" width="150" height="35" text="" taborder="5" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_mainCate" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM" index="-1" value="" displayrowcount="20" onitemchanged="cmb_cate1_onitemchanged"/>
+        <Combo id="cmb_cate2" left="349" top="158" width="150" height="35" text="- 중분류 선택 -" taborder="10" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_subCate" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM" displayrowcount="20"/>
         <Div id="Div00_00_00_00" taborder="2" text="" left="164" top="213" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px"/>
         <Calendar id="cal_start" left="179" top="215" height="35" width="149" taborder="7" font="normal 800 10pt/normal &quot;Arial&quot;"/>
         <Static id="sta_dash" text="~" left="334" top="216" height="35" width="20" taborder="12" font="normal bold 10pt/normal &quot;Arial&quot;"/>
@@ -40,7 +40,7 @@
         <Div id="Div00_00_00_00_00" taborder="15" text="" left="164" top="270" width="1090" height="40" background="#ffffff" borderRadius="0px 10px 10px 0px">
           <Layouts>
             <Layout>
-              <Radio id="Radio00" taborder="0" left="24" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;">
+              <Radio id="Radio00" taborder="0" left="24" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" index="0" text="전체" value="all">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="codecolumn" size="256"/>
@@ -52,18 +52,18 @@
                       <Col id="datacolumn">전체</Col>
                     </Row>
                     <Row>
-                      <Col id="codecolumn">display</Col>
+                      <Col id="codecolumn">Y</Col>
                       <Col id="datacolumn">진열함</Col>
                     </Row>
                     <Row>
-                      <Col id="codecolumn">displayN</Col>
+                      <Col id="codecolumn">N</Col>
                       <Col id="datacolumn">진열안함</Col>
                     </Row>
                   </Rows>
                 </Dataset>
               </Radio>
               <Static id="sta_sale" text="판매상태" left="468" height="40" right="482" top="0" taborder="1" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
-              <Radio id="Radio00_00" taborder="2" left="634" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" onitemchanged="Div00_00_00_00_00_Radio00_00_onitemchanged">
+              <Radio id="Radio00_00" taborder="2" left="634" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" onitemchanged="Div00_00_00_00_00_Radio00_00_onitemchanged" index="0" text="전체" value="allS">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="codecolumn" size="256"/>
@@ -75,11 +75,11 @@
                       <Col id="datacolumn">전체</Col>
                     </Row>
                     <Row>
-                      <Col id="codecolumn">displayS</Col>
+                      <Col id="codecolumn">sale</Col>
                       <Col id="datacolumn">판매함</Col>
                     </Row>
                     <Row>
-                      <Col id="codecolumn">displayNS</Col>
+                      <Col id="codecolumn">nosale</Col>
                       <Col id="datacolumn">판매안함</Col>
                     </Row>
                   </Rows>
@@ -172,7 +172,7 @@
         <Static id="sta_category" text="상품분류" left="24" height="40" top="156" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="17" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
         <Static id="sta_regDate" text="상품등록일" left="24" height="40" top="213" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="18" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
         <Static id="sta_sale" text="진열상태" left="24" height="40" top="270" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="19" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Button id="btn_view" text="조회" left="698" top="102" width="72" height="34" color="#FFFFFF" background="#89a7ff" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="20"/>
+        <Button id="btn_view" text="조회" left="698" top="102" width="72" height="34" color="#FFFFFF" background="#89a7ff" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="20" onclick="btn_view_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -199,56 +199,158 @@
           <Row/>
         </Rows>
       </Dataset>
-      <Dataset id="ds_in_search_combo">
+      <Dataset id="ds_mainCate">
         <ColumnInfo>
+          <Column id="MAIN_CATE_ID" type="INT" size="256"/>
           <Column id="MAIN_CATE_NM" type="STRING" size="256"/>
-          <Column id="SUB_CATE_NM" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row/>
-        </Rows>
       </Dataset>
-      <Dataset id="ds_out_search_combo00">
+      <Dataset id="ds_subCate">
         <ColumnInfo>
-          <Column id="MAIN_CATE_NM" type="STRING" size="256"/>
+          <Column id="SUB_CATE_ID" type="INT" size="256"/>
           <Column id="SUB_CATE_NM" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row/>
-        </Rows>
       </Dataset>
     </Objects>
-    <Bind>
-      <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
-    </Bind>
-    <Script type="xscript5.1"><![CDATA[ this.Form_ProductAdmin_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
- {
- 	this.fn_search();
- };
+    <Script type="xscript5.1"><![CDATA[this.Form_Product_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.setTimer(1, 10); //10ms 후 실행
+};
+
+this.Form_Product_ontimer = function(obj,e){
+    if (e.timerid == 1) {
+        this.killTimer(1);
+
+        // 라디오 기본값 세팅
+        this.Div00_00_00_00_00.form.Radio00.set_value("all");
+        this.Div00_00_00_00_00.form.Radio00_00.set_value("allS");
+
+        if (this.cal_start) this.cal_start.set_dateformat("yyyy-MM-dd");
+        if (this.cal_end)   this.cal_end.set_dateformat("yyyy-MM-dd");
+
+        // 대분류 콤보 데이터 조회
+        this.transaction(
+            "selectMainCategoryComboByAdmin",
+            "svc::selectMainCategoryComboByAdmin.do",
+            "",
+            "ds_mainCate=ds_mainCate",
+            "",
+            "fn_callback",
+            true
+        );
+
+        //  전체조회 실행 (조건 없음)
+        this.fn_search();
+    }
+};
+
+
+
+// 콤보 연동 (대분류 선택 시 중분류)
+this.cmb_cate1_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+    var mainCateId = obj.value;  // 선택한 값
+
+    if (!mainCateId) {
+        this.ds_subCate.clearData();
+        return;
+    }
+
+    this.transaction(
+        "selectSubCategoryComboByAdmin",
+        "svc::selectSubCategoryComboByAdmin.do",
+        "",
+        "ds_subCate=ds_subCate",
+        "MAIN_CATE_ID=" + mainCateId,
+        "fn_callback",
+        true
+    );
+};
+
+
+
+
+ // Calendar -> 'yyyy-MM-dd' 또는 빈값
+// Calendar 값 안전하게 변환
+this._dateOrEmpty = function(cal) {
+    if (!cal) return "";
+    var t = cal.text;
+    if (!t || t.trim() === "" || t.indexOf("-") === -1) return "";
+    return t;
+};
+
+
+
+
+ 
+ //조회버튼
+this.btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+};
  
  
- this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
- 	if (nErrorCode < 0) { this.alert("오류: "+strErrorMag); return; }
- 	
- 	switch(strSvcID){
- 	case "selectProductListByAdmin":	
- 		var ea = this.ds_out_proList.getRowCount();
- 		this.stc_total.set_text("총"+ea+"건");
- 		break;
- 	}
- }
  
- this.fn_search = function(){
- 	var strSvcId 		= "selectProductListByAdmin";	
- 	var strUrl 			= "svc::selectProductListByAdmin.do";
- 	var strInDatasets 	= "ds_in_proList=ds_in_proList";
- 	var strOutDatasets 	= "ds_out_proList=ds_out_proList";
- 	var strArg 			= "";
- 	var callBack 		= "fn_callback";
- 	var inAsync 		= true;
- 	
- 	this.transaction(strSvcId, strUrl, strInDatasets, strOutDatasets, strArg,callBack,inAsync);
- }
+//상품 목록 조회 (조건포함)
+this.fn_search = function(){
+    var searchType = this.cmb_searchType.value;  
+    var searchText = this.Div00_00.form.edt_search.value; 
+    var isVisible  = this.Div00_00_00_00_00.form.Radio00.value; 
+    var saleStatus = this.Div00_00_00_00_00.form.Radio00_00.value;
+    var startDate  = this._dateOrEmpty(this.cal_start);
+    var endDate    = this._dateOrEmpty(this.cal_end);
+    var mainCateId = this.cmb_cate1.value;
+    var subCateId  = this.cmb_cate2.value;
+
+    var strArg = "";
+    if (searchType) strArg += " SEARCH_TYPE=" + searchType;
+    if (searchText) strArg += " SEARCH_TEXT=" + encodeURIComponent(searchText);
+    if (isVisible && isVisible !== "all") strArg += " IS_VISIBLE=" + isVisible;
+    if (saleStatus && saleStatus !== "allS") strArg += " QUANTITY_STATUS=" + saleStatus;
+    if (startDate) strArg += " START_DATE=" + startDate;
+    if (endDate)   strArg += " END_DATE=" + endDate;
+    if (mainCateId) strArg += " MAIN_CATE_ID=" + mainCateId;
+    if (subCateId)  strArg += " SUB_CATE_ID=" + subCateId;
+
+    trace("[search args] " + strArg);
+
+    this.transaction(
+        "selectProductListByAdmin",
+        "svc::selectProductListByAdmin.do",
+        "",
+        "ds_out_proList=ds_out_proList",
+        strArg,
+        "fn_callback",
+        true
+    );
+};
+
+
+ 
+ 
+  //콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+    if (nErrorCode < 0) {
+        this.alert("오류: "+strErrorMag); return;
+    }
+
+    switch(strSvcID){
+        case "selectProductListByAdmin":
+            var ea = this.ds_out_proList.getRowCount();
+            this.stc_total.set_text("총 "+ea+"건");
+            break;
+        case "selectMainCategoryComboByAdmin":
+            this.ds_mainCate.insertRow(0);
+            this.ds_mainCate.setColumn(0,"MAIN_CATE_ID","");
+            this.ds_mainCate.setColumn(0,"MAIN_CATE_NM","- 전체 -");
+            break;
+        case "selectSubCategoryComboByAdmin":
+            this.ds_subCate.insertRow(0);
+            this.ds_subCate.setColumn(0,"SUB_CATE_ID","");
+            this.ds_subCate.setColumn(0,"SUB_CATE_NM","- 전체 -");
+            break;
+    }
+};
  
  
  
@@ -314,12 +416,17 @@
     xmlhttp.send("xmlData=" + encodeURIComponent(xmlStr));
 }
 
-//상품등록
+//상품등록(페이지이동)
 this.btn_reg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	
 	this.go("product::Form_ProductReg.xfdl");
 };
+ 
+
+
+
+
 
 ]]></Script>
   </Form>

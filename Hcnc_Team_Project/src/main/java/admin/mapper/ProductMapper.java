@@ -14,4 +14,6 @@ public interface ProductMapper {
     void insertProductImage(Map<String,Object> p);
     void updateProductImageMapping(Map<String,Object> p);
     void setMainImage(Map<String,Object> p);
+	List<Map<String, Object>> selectMainCategoryComboByAdmin();
+	List<Map<String, Object>> selectSubCategoryComboByAdmin(int mainCateId);
 }
