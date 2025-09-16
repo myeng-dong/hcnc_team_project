@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="egovframework.sqlmap.example.mappers.user.UserMemberMapper">
-	<select id="selectIdCheckByUser" resultType="java.util.Map">
-		SELECT COUNT (MEMBER_ID)
+	namespace="user.mapper.UserMemberMapper">
+	<select id="selectIdCheckByUser" resultType="int">
+		SELECT COUNT(MEMBER_ID) AS COUNT
 		FROM MEMBERS
 		WHERE MEMBER_ID = #{id}
 	</select>
-	<select id="selectEmailCheckByUser" resultType="java.util.Map">
-		SELECT COUNT (MEMBER_ID)
+	<select id="selectEmailCheckByUser" resultType="int">
+		SELECT COUNT(MEMBER_ID) AS COUNT
 		FROM MEMBERS
-		WHERE EMAIL_ADDR = #{email}
+		WHERE EMAIL_ADDR = #{to}
 	</select>
 	<select id="insertSignUpByUser" parameterType="java.util.Map">
 		INSERT INTO

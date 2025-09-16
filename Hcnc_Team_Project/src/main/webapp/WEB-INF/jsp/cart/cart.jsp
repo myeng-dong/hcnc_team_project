@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <jsp:include page="../layout/headertop.jsp" />
-<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/cart.css'/>" />
+<%-- <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/cart.css'/>" /> --%>
 <jsp:include page="../layout/header.jsp" />
 <jsp:include page="../layout/menu.jsp" />
   
@@ -128,8 +128,10 @@
         	
         	if(current_checked == 'N'){
         		is_checked = 'Y';
+        		   		
         	} else if(current_checked == 'Y'){
         		is_checked = 'N';
+        		
         	}
         	
         	var param = {
@@ -144,6 +146,8 @@
         		, data: param
         		, dataType: "json"
         		, success: function(){
+        			
+        			selectedPrice(product_id, is_checked);
         			
         		}
         		, error: function(){
@@ -180,6 +184,22 @@
         }
         
         // 체크박스 선택한 상품만 주문하기
+        const selectedPrice = (product_id, is_checked) => {
+        	var selectedPrice = Number( $("#" + product_id +"-total").text() );
+        	var totalPrice = Number( $("#sum-products").text() );
+        	
+        	if(is_checked == 'Y'){
+	        	
+	        	totalPrice += selectedPrice;
+	       
+        	} else if(is_checked == 'N') {
+        		
+        		totalPrice -= selectedPrice;
+        		
+        	}
+        	
+        	$("#sum-products").text(totalPrice);
+        }
 
         //합계금액
 
@@ -187,6 +207,7 @@
     </script>
 
   <div class="container cart">
+  	<div class="inner">
   	<div class="cart-container">
 	    <div class="breadcrumb">
 	      <a href="/">홈</a>
@@ -222,9 +243,6 @@
 		<div class="cart-footer">
 			<div class="footer-btn">
 			        <button class="cart-btn" id="btnContinue" onclick="window.location.href='/productDetailView.do'">계속 쇼핑하기</button>
-			        <button class="btn-outline" id="btnOrderSelected" onclick="orderSelected()">
-			        	<i class="bi bi-bag-check"></i>
-			        	선택상품 주문하기</button>
 			        <button class="btn-outline" id="btnDeleteSelected">
 			        	<i class="bi bi-bag-x"></i>
 			        	선택상품 삭제하기</button>
@@ -241,7 +259,7 @@
 		
 			<div class="footer-total">
 		      <h4>결제 예정 금액</h4>
-		      <div class="sum-row"><span>주문금액</span><span id="sum-products" class="price">0원</span></div>
+		      <div class="sum-row"><span>주문금액</span><span id="sum-products" class="price">0</span></div>
 		      <div class="sum-row small"><span>일반배송비</span><span id="sum-ship-normal">0원</span></div>
 		      <div class="sum-row small"><span>개별배송비</span><span id="sum-ship-indiv">0원</span></div>
 		      <div class="sum-total"><span>결제금액</span><span id="sum-final" class="price">0원</span></div>
@@ -249,6 +267,7 @@
 		    </div>
 	    </div>
 	  </div>
+  	</div>
   </div>
   
 <jsp:include page="../layout/footer.jsp" />

@@ -16,17 +16,31 @@
     <title>DOO.D 회원가입</title>
   </head>
   <script>
+    $(() => {
+      init();
+    });
+    const init = () => {
+      sessionStorage.setItem("signid", "");
+      sessionStorage.setItem("mailCode", "");
+      sessionStorage.setItem("mailFlag", "");
+      sessionStorage.setItem("to", "");
+    };
+    const mailInit = () => {
+      sessionStorage.setItem("mailCode", "");
+      sessionStorage.setItem("mailFlag", "");
+      sessionStorage.setItem("to", "");
+    };
     const idChkByUser = () => {
-      var id = $("#id").val().trim();
+      const id = $("#id").val().trim();
       if (id === "") {
         alert("아이디를 입력해주세요.");
         return;
       }
-      if (containsSqlKeywords(id)) {
-        alert("아이디형식을 확인해주세요.");
+      if (id.length < 4) {
+        alert("아이디 4자이상 입력해주세요.");
         return;
       }
-      if (!loginIdRegex.test(id)) {
+      if (containsSqlKeywords(id) || !loginIdRegex.test(id)) {
         alert("아이디형식을 확인해주세요.");
         return;
       }
@@ -34,13 +48,124 @@
       ajaxUtil(param, "selectIdCheckByUser.do", (response) => {
         if (response.status === 200) {
           alert("사용 가능한 아이디입니다.");
+          sessionStorage.setItem("signid", id);
         }
         if (response.status === 409) {
           alert("이미 존재하는 아이디입니다.");
-        } else {
-          console.log("알 수 없는 응답: " + response);
         }
       });
+    };
+
+    const emailChkByUser = () => {
+      const email = $("#email").val().trim();
+      if (email === "") {
+        alert("이메일을 입력해주세요.");
+        return;
+      }
+      if (containsSqlKeywords(email) || !emailRegex.test(email)) {
+        alert("이메일 형식을 확인해주세요.");
+        return;
+      }
+      var param = { to: email };
+      ajaxUtil(param, "selectEmailCheckByUser.do", (response) => {
+        if (response.status === 200) {
+          alert("인증번호를 발송하였습니다");
+          // sessionStorage.setItem("mailCode", response.mailCode);
+          // sessionStorage.setItem("to", email);
+        }
+        if (response.status === 409) {
+          alert("이미 존재하는 이메일입니다.");
+          mailInit();
+        }
+      });
+    };
+
+    const emailCodeCheck = () => {
+      const email = $("#email").val().trim();
+      const emailCode = $("#emailCode").val().trim();
+      if (emailCode == "") {
+        alert("이메일 인증번호를 입력해주세요.");
+        return;
+      }
+      if (emailCode.length < 6) {
+        alert("인증번호를 입력해주세요.");
+        return;
+      }
+      var param = { to: email, code: emailCode };
+      // if(sessionStorage.getItem("to") !== email){
+      // 	alert("입력된 이메일과 요청한 이메일이 다릅니다. 인증번호를 다시 요청해주세요.");
+      // 	mailInit();
+      //       return;
+      // }
+      // if(sessionStorage.getItem("mailCode") === emailCode){
+      // 	sessionStorage.setItem("mailFlag","pass");
+      // 	alert("인증이 완료되었습니다.");
+      //   return;
+      // }
+      ajaxUtil(param, "selectVerifyAuthByUser.do", (response) => {
+        console.log(JSON.stringify(response));
+        if (response.result === true) {
+          alert("인증이 완료되었습니다.");
+        } else {
+          alert("인증에 실패하였습니다. 인증번호를 확인해주세요.");
+        }
+      });
+    };
+
+    const insertSign = () => {
+      const id = $("#id").val().trim();
+      const name = $("#name").val().trim();
+      const password = $("#password").val().trim();
+      const passwordCheck = $("#passwordCheck").val().trim();
+      const email = $("#email").val().trim();
+      const emailCode = $("#emailCode").val().trim();
+      const phone = $("#phone").val().trim();
+      const birth = $("#birth").val().trim();
+      const gender = $("input[name='gender']:checked").val();
+      if (sessionStorage.getItem("signid") !== id) {
+        alert("아이디 중복체크를 해주세요.");
+        return;
+      }
+      if (sessionStorage.getItem("to") !== email) {
+        alert(
+          "입력된 이메일과 요청한 이메일이 다릅니다. 인증번호를 다시 요청해주세요."
+        );
+        mailInit();
+        return;
+      }
+      if (sessionStorage.getItem("mailFlag") !== "pass") {
+        alert("이메일 인증을 완료해주세요.");
+      }
+      if (name === "" || name == undefined) {
+        alert("이름을 입력해주세요.");
+        return;
+      }
+      if (password === "") {
+        alert("비밀번호를 입력해주세요.");
+        return;
+      }
+      if (passwordCheck === "") {
+        alert("비밀번호확인을 입력해주세요.");
+        return;
+      }
+      if (containsSqlKeywords(password)) {
+        alert("비밀번호형식을 확인해주세요.");
+        return;
+      }
+      if (containsSqlKeywords(passwordCheck)) {
+        alert("비밀번호형식을 확인해주세요.");
+        return;
+      }
+      if (!passwordRegex.test(password)) {
+        alert(
+          "비밀번호를 8자리이상 영문,숫자,특수문자 1개이상 포함시켜주세요."
+        );
+        return;
+      }
+      if (password !== passwordCheck) {
+        alert("비밀번호와 비밀번호확인란이 일치하지않습니다.");
+        return;
+      }
     };
   </script>
   <style>
@@ -56,7 +181,7 @@
       /* width: 100%; */
       height: 40px;
       border: 0px;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 500;
       padding-left: 10px;
       color: #222;
@@ -163,7 +288,13 @@
             <i class="xi-user-o"></i>
             <div class="input-name">아이디</div>
             <div class="input-line">|</div>
-            <input name="id" id="id" type="text" />
+            <input
+              name="id"
+              id="id"
+              type="text"
+              placeholder="영문 4자이상, 최대 20자"
+              maxlength="20"
+            />
             <div class="btn-verify" onclick="idChkByUser()">
               <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
                 중복체크
@@ -174,26 +305,50 @@
             <i class="xi-lock-o"></i>
             <div class="input-name">비밀번호</div>
             <div class="input-line">|</div>
-            <input name="password" id="password" type="password" />
+            <input
+              name="password"
+              id="password"
+              type="password"
+              maxlength="30"
+              placeholder="영문,숫자,특수문자 포함 최소 8자리 이상"
+            />
           </div>
           <div class="input-parent">
             <i class="xi-lock"></i>
             <div class="input-name">비밀번호확인</div>
             <div class="input-line">|</div>
-            <input name="passwordCheck" id="passwordCheck" type="password" />
+            <input
+              name="passwordCheck"
+              id="passwordCheck"
+              type="password"
+              maxlength="30"
+              placeholder="비밀번호 한번 더 입력"
+            />
           </div>
           <div class="input-parent">
             <i class="xi-pen-o"></i>
             <div class="input-name">이름</div>
             <div class="input-line">|</div>
-            <input name="name" id="name" type="text" />
+            <input
+              name="name"
+              id="name"
+              type="text"
+              maxlength="14"
+              placeholder="2자 이상 입력해주세요"
+            />
           </div>
           <div class="input-parent">
             <i class="xi-mail-o"></i>
             <div class="input-name">이메일</div>
             <div class="input-line">|</div>
-            <input name="email" id="email" type="text" />
-            <div class="btn-verify">
+            <input
+              name="email"
+              id="email"
+              type="text"
+              maxlength="255"
+              placeholder="example@example.com"
+            />
+            <div class="btn-verify" onclick="emailChkByUser()">
               <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
                 전송
               </p>
@@ -204,8 +359,14 @@
 
             <div class="input-name">인증번호</div>
             <div class="input-line">|</div>
-            <input name="emailCode" id="emailCode" type="text" />
-            <div class="btn-verify">
+            <input
+              name="emailCode"
+              id="emailCode"
+              type="text"
+              maxlength="6"
+              placeholder="이메일 인증번호 입력"
+            />
+            <div class="btn-verify" onclick="emailCodeCheck()">
               <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
                 확인
               </p>
@@ -215,13 +376,25 @@
             <i class="xi-call"></i>
             <div class="input-name">휴대폰</div>
             <div class="input-line">|</div>
-            <input name="phone" id="phone" type="number" />
+            <input
+              name="phone"
+              id="phone"
+              type="number"
+              maxlength="11"
+              placeholder="010-0000-0000"
+            />
           </div>
           <div class="input-parent">
             <i class="xi-cake"></i>
             <div class="input-name">생일</div>
             <div class="input-line">|</div>
-            <input name="bitrh" id="bitrh" type="text" />
+            <input
+              name="birth"
+              id="birth"
+              type="text"
+              maxlength="8"
+              placeholder="2000.00.00"
+            />
           </div>
           <div class="input-parent" style="border: 0">
             <i class="xi-label-o"></i>
@@ -241,7 +414,7 @@
               >
             </fieldset>
           </div>
-          <div class="sign-btn">
+          <div class="sign-btn" onclick="insertSign()">
             <div style="font-size: 24px; font-weight: 700; color: #ea0e25">
               회원가입
             </div>
