@@ -63,6 +63,41 @@
 			GRADE_CODE
 			,GRADE_NAME
 		FROM GRADES
+		ORDER BY GRADE_CODE
 	</select>	
+	
+	<!-- 관리자등록 -->
+	<insert id="insertMember" parameterType="java.util.Map">
+		INSERT INTO MEMBERS(
+			MEMBER_ID
+			,USER_NAME
+			,PASSWORD
+			,EMAIL_ADDR
+			,PHONE_NUMBER
+			,BIRTH
+			,GENDER
+			,GRADE_CODE
+			,MEMBER_TYPE
+		)VALUES(
+			#{MEMBER_ID}
+			,#{USER_NAME}
+			,#{PASSWORD}
+			,#{EMAIL_ADDR}
+			,#{PHONE_NUMBER}
+			,#{BIRTH}
+			,#{GENDER}
+			,#{GRADE_CODE}
+			,#{MEMBER_TYPE}
+		)
+	</insert>
+	
+	<!-- 회원, 관리자 등록시 중복체크 -->
+	<select id="isDuplicated" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*)
+		  FROM MEMBERS
+		 WHERE (MEMBER_ID = #{MEMBER_ID}
+		 	OR EMAIL_ADDR = #{EMAIL_ADDR}
+		 	OR PHONE_NUMBER = #{PHONE_NUMBER})
+	</select>
 	
 </mapper>
