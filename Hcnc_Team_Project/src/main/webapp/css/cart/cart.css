@@ -29,6 +29,7 @@
 	  text-align: center;
 	  color: #DC0630;
 	  letter-spacing: 2px;
+	  font-weight: bold;
 	}
 	
 	/* table */
@@ -52,7 +53,6 @@
 	}
 	.cart-container .col-check { width: 44px; }
 	.cart-container .col-img .col-name { width: 90px; }
-	.cart-container .col-price, .col-total { text-align:right; }
 	.cart-container .col-actions { text-align:center; }
 	
 	/* 이미지 */
@@ -124,7 +124,7 @@
 	}
 	
 	/* 합계 영역 */
-	.cart-container h4 { color:#1f1f1f; }
+	.cart-container h4 { font-size:medium; font-weight:bold; color:#1f1f1f; margin: 10px 0px; }
 	.cart-container .sum-row, .sum-total {
 	  display:flex; justify-content:space-between; align-items:center;
 	  padding: 8px 0;
@@ -144,7 +144,8 @@
 	.cart-container .footer-total { width:30%; margin:20px; }
 	.cart-container .orderInfo{ margin-top:60px; padding-left: 10px;}
 	.cart-container .orderInfo > .bi-exclamation-circle, span { font-weight: bold; font-size: 13px; color:#333333; }
-	.cart-container p { color:#888888; font-size:11px; line-height:0.7rem; }
+	.cart-container .orderInfo > div { margin-bottom: 10px; }
+	.cart-container p { color:#888888; font-size:11px; line-height:1.1rem; }
 	.cart-container #sum-final { color:#DC0630; }
 	
 	.cart-container .bi { font-size: 17px; }

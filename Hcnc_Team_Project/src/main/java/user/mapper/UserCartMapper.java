@@ -14,4 +14,6 @@ public interface UserCartMapper {
 	public int deleteProduct(HashMap<String, Object> param);
 
 	public int updateChkBox(HashMap<String, Object> param);
+
+	public HashMap<String, Object> selectedTotalPriceByUser(HashMap<String, Object> param);
 }
