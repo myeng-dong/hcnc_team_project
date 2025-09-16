@@ -1,5 +1,7 @@
 package user.mapper;
 
+import java.util.Map;
+
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("UserMemberMapper")
@@ -8,5 +10,5 @@ public interface UserMemberMapper {
 
 	public int selectEmailCheckByUser(String email);
 
-	public int insertSignUpByUser();
+	public int insertSignUpByUser(Map<String, Object> sign);
 }

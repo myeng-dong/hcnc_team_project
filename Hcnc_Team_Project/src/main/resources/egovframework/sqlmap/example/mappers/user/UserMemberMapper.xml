@@ -12,7 +12,7 @@
 		FROM MEMBERS
 		WHERE EMAIL_ADDR = #{to}
 	</select>
-	<select id="insertSignUpByUser" parameterType="java.util.Map">
+	<insert id="insertSignUpByUser" parameterType="java.util.Map">
 		INSERT INTO
 	MEMBERS (
         MEMBER_ID,
@@ -51,5 +51,5 @@
         NULL,
         'user'
     );
-	</select>
+	</insert>
 </mapper>

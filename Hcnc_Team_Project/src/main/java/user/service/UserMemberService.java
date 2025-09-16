@@ -1,5 +1,7 @@
 package user.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class UserMemberService {
 		return userMemberMapper.selectEmailCheckByUser(email);
 	}
 
-	public int insertSignUpByUser() {
-		return userMemberMapper.insertSignUpByUser();
+	public int insertSignUpByUser(Map<String, Object> sign) {
+		return userMemberMapper.insertSignUpByUser(sign);
 	}
 }
