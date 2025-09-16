@@ -35,9 +35,6 @@
 
             obj = new Dataset("ds_subCate", this);
             obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"INT\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
-            obj = new Dataset("ds_out_search_combo00", this);
-            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
-
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -491,6 +488,10 @@
 
         	this.go("product::Form_ProductReg.xfdl");
         };
+
+
+
+
 
 
 
