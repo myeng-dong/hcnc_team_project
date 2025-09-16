@@ -235,6 +235,7 @@
         });
 
 
+        // 전체 선택 상품 디비 저장
         const updateAllCheck = () => {
         	
         	var isCheck = $("#headCheck").prop("checked");
@@ -270,7 +271,8 @@
         		}
         	});
         }
-        // 
+        
+        
 
     </script>
 
