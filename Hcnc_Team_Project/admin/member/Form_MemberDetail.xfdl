@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_MemberDetail" width="1280" height="720" titletext="New Form" onload="Form_MemberDetail_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Div id="detail_box" taborder="0" text="" left="10" top="12" width="1243" height="688" border="1px solid black" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)">
+          <Layouts>
+            <Layout>
+              <Static id="m" taborder="0" text="아이디" left="23" top="63" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m2" taborder="1" text="이름" left="21" top="114" width="59" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00" taborder="2" text="이메일" left="19" top="161" width="50" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00" taborder="3" text="~" left="1109" top="159" width="34" height="16"/>
+              <Static id="Static01" taborder="4" text="회원 및 관리자 상세" left="9" top="6" width="170" height="38" textAlign="center" font="20px/normal &quot;Noto Sans KR Black&quot;" onclick="insert_box_Static01_onclick"/>
+              <Static id="Static00_00_00_00_00" taborder="5" text="휴대전화" left="14" top="219" width="59" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00_00_00" taborder="6" text="생일" left="21" top="273" width="38" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00_00_00_00" taborder="7" text="성별" left="18" top="333" width="38" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00_00_00_00_00" taborder="8" text="등급" left="18" top="381" width="38" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00_00_00_00_00_00" taborder="9" text="회원타입" left="9" top="443" width="57" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Button id="close_btn" taborder="10" text="뒤로가기" left="564" top="567" width="95" height="36" background=" #9ca3af" borderRadius="4px" color="#fff" font="13px/normal &quot;Noto Sans KR Black&quot;" onclick="insert_box_close_btn_onclick"/>
+              <Static id="m00" taborder="11" text="로그인 타입" left="399" top="63" width="80" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m00_00" taborder="12" text="첫 로그인 날짜" left="399" top="117" width="90" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m00_00_00" taborder="13" text="마지막 로그인 날짜" left="398" top="170" width="123" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m00_00_00_00" taborder="14" text="회원 상태" left="399" top="213" width="61" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m00_00_00_00_00" taborder="15" text="누적 금액" left="399" top="259" width="61" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m00_00_00_00_00_00" taborder="16" text="가입 날짜" left="398" top="307" width="61" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m00_00_00_00_00_00_00" taborder="17" text="최종 수정 날짜" left="399" top="357" width="101" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Button id="update_btn" taborder="18" text="수정하기" left="456" top="567" width="93" height="36" background="#2563eb" borderRadius="4px" color="#fff" font="bold 13px &quot;Noto Sans KR Black&quot;"/>
+              <Radio id="gender_radio" taborder="19" left="78" top="333" width="144" height="24" onitemchanged="detail_box_gender_radio_onitemchanged" innerdataset="ds_gender" codecolumn="GENDER" datacolumn="CODE" direction="vertical" font="12pt/normal &quot;Noto Sans KR Black&quot;"/>
+              <Radio id="type_radio" taborder="20" left="83" top="447" width="124" height="27" innerdataset="ds_type" codecolumn="MEMBER_TYPE" datacolumn="CODE" direction="vertical" font="12pt &quot;Noto Sans KR Black&quot;"/>
+              <Radio id="status_radio" taborder="21" left="548" top="217" width="191" height="24" innerdataset="ds_status" codecolumn="STATUS" datacolumn="CODE" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Edit id="detail_loginType00" taborder="22" left="549" top="63" width="161" height="34"/>
+              <Calendar id="dstail_first_login_dt00" taborder="23" left="549" top="118" width="183" height="29"/>
+              <Calendar id="dstail_last_login_dt00" taborder="24" left="549" top="167" width="183" height="29"/>
+              <Edit id="detail_price_amount00" taborder="25" left="546" top="260" width="161" height="34"/>
+              <Calendar id="dstail_input_dt00" taborder="26" left="546" top="313" width="183" height="29"/>
+              <Calendar id="dstail_update_dt00" taborder="27" left="546" top="363" width="183" height="29"/>
+              <Combo id="grade_combo00" taborder="28" text="Combo00" left="78" top="381" width="108" height="37" innerdataset="ds_grade" codecolumn="GRADE_CODE" datacolumn="GRADE_NAME"/>
+              <Calendar id="dstail_birth00" taborder="29" left="79" top="274" width="183" height="29"/>
+              <Edit id="detail_phoneNumber00" taborder="30" left="80" top="220" width="161" height="34"/>
+              <Edit id="detail_email00" taborder="31" left="80" top="159" width="161" height="34"/>
+              <Edit id="dstail_name00" taborder="32" left="83" top="111" width="161" height="34" onchanged="insert_box_insert_name_onchanged"/>
+              <Edit id="detail_id00" taborder="33" left="83" top="63" width="161" height="34"/>
+            </Layout>
+          </Layouts>
+          <InitValue>
+            <Radio id="gender_radio" readonly="true"/>
+            <Radio id="type_radio" readonly="true"/>
+            <Radio id="status_radio" readonly="true"/>
+            <Edit id="detail_loginType00" readonly="true"/>
+            <Calendar id="dstail_first_login_dt00" readonly="true"/>
+            <Calendar id="dstail_last_login_dt00" readonly="true"/>
+            <Edit id="detail_price_amount00" readonly="true"/>
+            <Calendar id="dstail_input_dt00" readonly="true"/>
+            <Calendar id="dstail_update_dt00" readonly="true"/>
+            <Combo id="grade_combo00" readonly="true"/>
+            <Calendar id="dstail_birth00" readonly="true"/>
+            <Edit id="detail_phoneNumber00" readonly="true"/>
+            <Edit id="detail_email00" readonly="true"/>
+            <Edit id="dstail_name00" readonly="true"/>
+            <Edit id="detail_id00" readonly="true"/>
+          </InitValue>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item2" compid="detail_box.form.gender_radio" propid="value" datasetid="ds_memberDt" columnid="GENDER"/>
+      <BindItem id="item7" compid="detail_box.form.type_radio" propid="value" datasetid="ds_memberDt" columnid="MEMBER_TYPE"/>
+      <BindItem id="item8" compid="detail_box.form.status_radio" propid="value" datasetid="ds_memberDt" columnid="STATUS"/>
+      <BindItem id="item9" compid="detail_box.form.detail_loginType00" propid="value" datasetid="ds_memberDt" columnid="LOGIN_TYPE"/>
+      <BindItem id="item10" compid="detail_box.form.dstail_first_login_dt00" propid="value" datasetid="ds_memberDt" columnid="FIRST_LOGIN_DT"/>
+      <BindItem id="item11" compid="detail_box.form.dstail_last_login_dt00" propid="value" datasetid="ds_memberDt" columnid="LAST_LOGIN_DT"/>
+      <BindItem id="item12" compid="detail_box.form.detail_price_amount00" propid="value" datasetid="ds_memberDt" columnid="PRICE_AMOUNT"/>
+      <BindItem id="item13" compid="detail_box.form.dstail_input_dt00" propid="value" datasetid="ds_memberDt" columnid="INPUT_DT"/>
+      <BindItem id="item14" compid="detail_box.form.dstail_update_dt00" propid="value" datasetid="ds_memberDt" columnid="UPDATE_DT"/>
+      <BindItem id="item6" compid="detail_box.form.grade_combo00" propid="value" datasetid="ds_memberDt" columnid="GRADE_CODE"/>
+      <BindItem id="item5" compid="detail_box.form.dstail_birth00" propid="value" datasetid="ds_memberDt" columnid="BIRTH"/>
+      <BindItem id="item4" compid="detail_box.form.detail_phoneNumber00" propid="value" datasetid="ds_memberDt" columnid="PHONE_NUMBER"/>
+      <BindItem id="item3" compid="detail_box.form.detail_email00" propid="value" datasetid="ds_memberDt" columnid="EMAIL_ADDR"/>
+      <BindItem id="item1" compid="detail_box.form.dstail_name00" propid="value" datasetid="ds_memberDt" columnid="USER_NAME"/>
+      <BindItem id="item0" compid="detail_box.form.detail_id00" propid="value" datasetid="ds_memberDt" columnid="MEMBER_ID"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_memberDt">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="EMAIL_ADDR" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="BIRTH" type="STRING" size="256"/>
+          <Column id="GENDER" type="STRING" size="256"/>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="MEMBER_TYPE" type="STRING" size="256"/>
+          <Column id="LOGIN_TYPE" type="STRING" size="256"/>
+          <Column id="FIRST_LOGIN_DT" type="STRING" size="256"/>
+          <Column id="LAST_LOGIN_DT" type="STRING" size="256"/>
+          <Column id="STATUS" type="STRING" size="256"/>
+          <Column id="PRICE_AMOUNT" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="UPDATE_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_gender">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="GENDER" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">남자</Col>
+            <Col id="GENDER">Male</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">여자</Col>
+            <Col id="GENDER">Female</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_type">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="MEMBER_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">회원</Col>
+            <Col id="MEMBER_TYPE">user</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">관리자</Col>
+            <Col id="MEMBER_TYPE">admin</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_grade">
+        <ColumnInfo>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="GRADE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_status">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="STATUS">Y</Col>
+            <Col id="CODE">이용중</Col>
+          </Row>
+          <Row>
+            <Col id="STATUS">N</Col>
+            <Col id="CODE">탈퇴</Col>
+          </Row>
+          <Row>
+            <Col id="STATUS">R</Col>
+            <Col id="CODE">휴면</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.memberId=""; //전역변수 선언
+this.Form_MemberDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	// 부모 Frame에서 arguments 꺼내오기
+    var ownerFrame = this.getOwnerFrame();
+    var memberId = ownerFrame.arguments["MEMBER_ID"];
+	
+	this.fn_memberDetail(memberId);
+	this.fn_gradeSearch();
+	
+};
+
+//상세 조회 함수
+this.fn_memberDetail = function(memberId){
+	
+	var strSvcID = "selectMemberDetail"
+	var setURL = "svc::/selectMemberDetailByAdmin.do";
+	var strInDatasets = ""; 
+	var strOutDatasets = "ds_memberDt=ds_memberDt"; 
+	var strArg = "memberId="+memberId;
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+//회원 등급 조회
+this.fn_gradeSearch = function(){
+	
+	var strSvcID = "selectMemberGradeList"
+	var setURL = "svc::/selectMemberGradeListByAdmin.do";
+	var strInDatasets = "";
+	var strOutDatasets = "ds_grade=ds_grade";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+
+// 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+	
+	if(errorCode == -1){
+		this.alert(errorMSG)
+	}
+	
+	switch(svcID){
+	case "selectMemberDetail" : 
+		console.log(this.ds_memberDt.saveXML());
+		break;
+		
+	case "selectMemberGradeList" :
+		console.log(this.ds_grade.saveXML())
+		break;
+		
+	}
+}
+
+//뒤로가기 버튼 
+this.insert_box_close_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.getOwnerFrame().set_formurl("member::Form_MemberList.xfdl");
+};
+]]></Script>
+  </Form>
+</FDL>

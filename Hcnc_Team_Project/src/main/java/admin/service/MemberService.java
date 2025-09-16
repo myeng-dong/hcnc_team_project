@@ -42,5 +42,11 @@ public class MemberService {
 		return memberMapper.isDuplicated(param);
 	}
 	
+	//회원 상세조회
+	public Map<String, Object> selectMemberDetail(String memberId) {
+		
+		return memberMapper.selectMemberDetail(memberId);
+	}
+	
 
 }
