@@ -59,6 +59,8 @@ public class UserCartController {
 		
 		userCartService.updateChkBox(param);
 		
+		userCartService.selectedTotalPriceListByUser(param);
+		
 		return mav;
 	}
 

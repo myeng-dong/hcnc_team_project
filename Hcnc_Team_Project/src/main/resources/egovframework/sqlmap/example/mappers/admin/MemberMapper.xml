@@ -13,5 +13,56 @@
 		   AND M.PASSWORD = #{PASSWORD}
 		   AND M.GRADE_CODE = 9
 	</select>
-
+	
+	<!-- 회원 목록 조회와 검색-->
+	<select id="selectMemberList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			M.INPUT_DT
+			,M.USER_NAME
+			,M.MEMBER_ID
+			,M.EMAIL_ADDR
+			,G.GRADE_NAME 
+ 			,M.PHONE_NUMBER
+ 			,M.STATUS
+			,M.GENDER
+			,M.BIRTH
+			,M.MEMBER_TYPE
+		  FROM MEMBERS M INNER JOIN GRADES G
+		    ON M.GRADE_CODE = G.GRADE_CODE
+		 WHERE 1=1 
+	     <if test="SEARCH_TYPE == '아이디'">
+           AND M.MEMBER_ID LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+         </if>
+         <if test="SEARCH_TYPE == '이름'">
+           AND M.USER_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+         </if>
+         <if test="SEARCH_TYPE == '이메일'">
+          AND M.EMAIL_ADDR LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+        </if>
+         <if test="GRADE_NAME != null and GRADE_NAME != ''">
+           AND G.GRADE_NAME = #{GRADE_NAME}
+        </if>
+        <if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
+          AND M.PHONE_NUMBER LIKE CONCAT('%', #{PHONE_NUMBER}, '%')
+        </if>
+       	<!-- 검색 범위에서 마지막날도 포함하기  -->
+       	<!-- BETWEEN 은 기본적으로 양쪽 끝값을 포함 -->
+       	<!-- M.INPUT_DT컬럼이 DATETIME 이런 식으로 날짜만 넘기면 → 실제로는 2025-09-15 00:00:00 으로 처리 -->
+       	<!-- 2025-09-15 10:30:00 같은 값은 범위에 안 들어오고 빠짐 -->
+       	<!-- 시간이 있는 DATETIME 전체 포함시키고 싶으면: INTERVAL 1 DAY -->
+       	<!-- mariadb => DATE_ADD()함수 활용 -->
+        <if test="FIRST_LOGIN_DT != null and LAST_LOGIN_DT != null">
+          AND M.INPUT_DT BETWEEN #{FIRST_LOGIN_DT} AND DATE_ADD(#{LAST_LOGIN_DT}, INTERVAL 1 DAY)
+       </if>
+	</select>
+	
+	
+	<!-- 회원등급 조회 -->
+	<select id="selectMemberGradeList" resultType="java.util.Map">
+		SELECT 
+			GRADE_CODE
+			,GRADE_NAME
+		FROM GRADES
+	</select>	
+	
 </mapper>

@@ -29,7 +29,7 @@
 
 
             obj = new Dataset("ds_status", this);
-            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"10\"/><Column id=\"NAME\" type=\"STRING\" size=\"50\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">WAIT</Col><Col id=\"NAME\">결제 대기</Col></Row><Row><Col id=\"CODE\">DONE</Col><Col id=\"NAME\">결제 완료</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"10\"/><Column id=\"NAME\" type=\"STRING\" size=\"50\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">WAIT</Col><Col id=\"NAME\">입금대기</Col></Row><Row><Col id=\"CODE\">DONE</Col><Col id=\"NAME\">입금완료</Col></Row></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
