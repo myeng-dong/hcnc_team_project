@@ -9,7 +9,7 @@
         
         this.on_create = function()
         {
-            this.set_name("Form_ProductAdmin");
+            this.set_name("Form_Product");
             this.set_titletext("상품관리");
             this.set_background("#ebf3fe");
             if (Form == this.constructor)
@@ -28,13 +28,16 @@
             this.addChild(obj.name, obj);
 
 
-            obj = new Dataset("ds_in_search_combo", this);
-            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj = new Dataset("ds_mainCate", this);
+            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_ID\" type=\"INT\" size=\"256\"/><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
+            obj = new Dataset("ds_subCate", this);
+            obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"INT\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             obj = new Dataset("ds_out_search_combo00", this);
             obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -85,20 +88,22 @@
             obj = new Combo("cmb_cate1","179","158","150","35",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
-            obj.set_innerdataset("ds_search_combo");
-            obj.set_codecolumn("MAIN_CATE_NM");
-            obj.set_datacolumn("대분류 선택");
+            obj.set_innerdataset("ds_mainCate");
+            obj.set_codecolumn("MAIN_CATE_ID");
+            obj.set_datacolumn("MAIN_CATE_NM");
+            obj.set_displayrowcount("20");
             obj.set_text("");
             obj.set_value("");
-            obj.set_index("0");
+            obj.set_index("-1");
             this.addChild(obj.name, obj);
 
             obj = new Combo("cmb_cate2","349","158","150","35",null,null,null,null,null,null,this);
             obj.set_taborder("10");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
-            obj.set_innerdataset("ds_search_combo");
-            obj.set_codecolumn("SUB_CATE_NM");
-            obj.set_datacolumn("중분류 선택");
+            obj.set_innerdataset("ds_subCate");
+            obj.set_codecolumn("SUB_CATE_ID");
+            obj.set_datacolumn("SUB_CATE_NM");
+            obj.set_displayrowcount("20");
             obj.set_text("- 중분류 선택 -");
             this.addChild(obj.name, obj);
 
@@ -139,8 +144,11 @@
             obj.set_direction("vertical");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             var Div00_00_00_00_00_form_Radio00_innerdataset = new nexacro.NormalDataset("Div00_00_00_00_00_form_Radio00_innerdataset", obj);
-            Div00_00_00_00_00_form_Radio00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">all</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">display</Col><Col id=\"datacolumn\">진열함</Col></Row><Row><Col id=\"codecolumn\">displayN</Col><Col id=\"datacolumn\">진열안함</Col></Row></Rows>");
+            Div00_00_00_00_00_form_Radio00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">all</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">Y</Col><Col id=\"datacolumn\">진열함</Col></Row><Row><Col id=\"codecolumn\">N</Col><Col id=\"datacolumn\">진열안함</Col></Row></Rows>");
             obj.set_innerdataset(Div00_00_00_00_00_form_Radio00_innerdataset);
+            obj.set_text("전체");
+            obj.set_value("all");
+            obj.set_index("0");
             this.Div00_00_00_00_00.addChild(obj.name, obj);
 
             obj = new Static("sta_sale","468","0",null,"40","482",null,null,null,null,null,this.Div00_00_00_00_00.form);
@@ -160,8 +168,11 @@
             obj.set_direction("vertical");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             var Div00_00_00_00_00_form_Radio00_00_innerdataset = new nexacro.NormalDataset("Div00_00_00_00_00_form_Radio00_00_innerdataset", obj);
-            Div00_00_00_00_00_form_Radio00_00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">allS</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">displayS</Col><Col id=\"datacolumn\">판매함</Col></Row><Row><Col id=\"codecolumn\">displayNS</Col><Col id=\"datacolumn\">판매안함</Col></Row></Rows>");
+            Div00_00_00_00_00_form_Radio00_00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">allS</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">sale</Col><Col id=\"datacolumn\">판매함</Col></Row><Row><Col id=\"codecolumn\">nosale</Col><Col id=\"datacolumn\">판매안함</Col></Row></Rows>");
             obj.set_innerdataset(Div00_00_00_00_00_form_Radio00_00_innerdataset);
+            obj.set_text("전체");
+            obj.set_value("allS");
+            obj.set_index("0");
             this.Div00_00_00_00_00.addChild(obj.name, obj);
 
             obj = new Grid("grid_list","24","349",null,"416","26",null,null,null,null,null,this);
@@ -257,9 +268,7 @@
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item0","grid_list","binddataset","ds_user","");
-            this.addChild(obj.name, obj);
-            obj.bind();
+
             
             // TriggerItem Information
 
@@ -272,34 +281,145 @@
         
         // User Script
         this.registerScript("Form_Product.xfdl", function() {
-         this.Form_ProductAdmin_onload = function(obj,e)
-         {
-         	this.fn_search();
-         };
+        this.Form_Product_onload = function(obj,e)
+        {
+        	this.setTimer(1, 10); //10ms 후 실행
+        };
+
+        this.Form_Product_ontimer = function(obj,e){
+            if (e.timerid == 1) {
+                this.killTimer(1);
+
+                // 라디오 기본값 세팅
+                this.Div00_00_00_00_00.form.Radio00.set_value("all");
+                this.Div00_00_00_00_00.form.Radio00_00.set_value("allS");
+
+                if (this.cal_start) this.cal_start.set_dateformat("yyyy-MM-dd");
+                if (this.cal_end)   this.cal_end.set_dateformat("yyyy-MM-dd");
+
+                // 대분류 콤보 데이터 조회
+                this.transaction(
+                    "selectMainCategoryComboByAdmin",
+                    "svc::selectMainCategoryComboByAdmin.do",
+                    "",
+                    "ds_mainCate=ds_mainCate",
+                    "",
+                    "fn_callback",
+                    true
+                );
+
+                //  전체조회 실행 (조건 없음)
+                this.fn_search();
+            }
+        };
 
 
-         this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
-         	if (nErrorCode < 0) { this.alert("오류: "+strErrorMag); return; }
 
-         	switch(strSvcID){
-         	case "selectProductListByAdmin":
-         		var ea = this.ds_out_proList.getRowCount();
-         		this.stc_total.set_text("총"+ea+"건");
-         		break;
-         	}
-         }
+        // 콤보 연동 (대분류 선택 시 중분류)
+        this.cmb_cate1_onitemchanged = function(obj,e)
+        {
+            var mainCateId = obj.value;  // 선택한 값
 
-         this.fn_search = function(){
-         	var strSvcId 		= "selectProductListByAdmin";
-         	var strUrl 			= "svc::selectProductListByAdmin.do";
-         	var strInDatasets 	= "ds_in_proList=ds_in_proList";
-         	var strOutDatasets 	= "ds_out_proList=ds_out_proList";
-         	var strArg 			= "";
-         	var callBack 		= "fn_callback";
-         	var inAsync 		= true;
+            if (!mainCateId) {
+                this.ds_subCate.clearData();
+                return;
+            }
 
-         	this.transaction(strSvcId, strUrl, strInDatasets, strOutDatasets, strArg,callBack,inAsync);
-         }
+            this.transaction(
+                "selectSubCategoryComboByAdmin",
+                "svc::selectSubCategoryComboByAdmin.do",
+                "",
+                "ds_subCate=ds_subCate",
+                "MAIN_CATE_ID=" + mainCateId,
+                "fn_callback",
+                true
+            );
+        };
+
+
+
+
+         // Calendar -> 'yyyy-MM-dd' 또는 빈값
+        // Calendar 값 안전하게 변환
+        this._dateOrEmpty = function(cal) {
+            if (!cal) return "";
+            var t = cal.text;
+            if (!t || t.trim() === "" || t.indexOf("-") === -1) return "";
+            return t;
+        };
+
+
+
+
+
+         //조회버튼
+        this.btn_view_onclick = function(obj,e)
+        {
+        	this.fn_search();
+        };
+
+
+
+        //상품 목록 조회 (조건포함)
+        this.fn_search = function(){
+            var searchType = this.cmb_searchType.value;
+            var searchText = this.Div00_00.form.edt_search.value;
+            var isVisible  = this.Div00_00_00_00_00.form.Radio00.value;
+            var saleStatus = this.Div00_00_00_00_00.form.Radio00_00.value;
+            var startDate  = this._dateOrEmpty(this.cal_start);
+            var endDate    = this._dateOrEmpty(this.cal_end);
+            var mainCateId = this.cmb_cate1.value;
+            var subCateId  = this.cmb_cate2.value;
+
+            var strArg = "";
+            if (searchType) strArg += " SEARCH_TYPE=" + searchType;
+            if (searchText) strArg += " SEARCH_TEXT=" + encodeURIComponent(searchText);
+            if (isVisible && isVisible !== "all") strArg += " IS_VISIBLE=" + isVisible;
+            if (saleStatus && saleStatus !== "allS") strArg += " QUANTITY_STATUS=" + saleStatus;
+            if (startDate) strArg += " START_DATE=" + startDate;
+            if (endDate)   strArg += " END_DATE=" + endDate;
+            if (mainCateId) strArg += " MAIN_CATE_ID=" + mainCateId;
+            if (subCateId)  strArg += " SUB_CATE_ID=" + subCateId;
+
+            trace("[search args] " + strArg);
+
+            this.transaction(
+                "selectProductListByAdmin",
+                "svc::selectProductListByAdmin.do",
+                "",
+                "ds_out_proList=ds_out_proList",
+                strArg,
+                "fn_callback",
+                true
+            );
+        };
+
+
+
+
+          //콜백
+        this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+            if (nErrorCode < 0) {
+                this.alert("오류: "+strErrorMag); return;
+            }
+
+            switch(strSvcID){
+                case "selectProductListByAdmin":
+                    var ea = this.ds_out_proList.getRowCount();
+                    this.stc_total.set_text("총 "+ea+"건");
+                    break;
+                case "selectMainCategoryComboByAdmin":
+                    this.ds_mainCate.insertRow(0);
+                    this.ds_mainCate.setColumn(0,"MAIN_CATE_ID","");
+                    this.ds_mainCate.setColumn(0,"MAIN_CATE_NM","- 전체 -");
+                    break;
+                case "selectSubCategoryComboByAdmin":
+                    this.ds_subCate.insertRow(0);
+                    this.ds_subCate.setColumn(0,"SUB_CATE_ID","");
+                    this.ds_subCate.setColumn(0,"SUB_CATE_NM","- 전체 -");
+                    break;
+            }
+        };
 
 
 
@@ -365,7 +485,7 @@
             xmlhttp.send("xmlData=" + encodeURIComponent(xmlStr));
         }
 
-        //상품등록
+        //상품등록(페이지이동)
         this.btn_reg_onclick = function(obj,e)
         {
 
@@ -373,17 +493,21 @@
         };
 
 
+
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
-            this.addEventHandler("onload",this.Form_ProductAdmin_onload,this);
+            this.addEventHandler("onload",this.Form_Product_onload,this);
+            this.addEventHandler("ontimer",this.Form_Product_ontimer,this);
+            this.cmb_cate1.addEventHandler("onitemchanged",this.cmb_cate1_onitemchanged,this);
             this.Div00_00_00_00_00.form.Radio00_00.addEventHandler("onitemchanged",this.Div00_00_00_00_00_Radio00_00_onitemchanged,this);
             this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);
             this.btn_excel.addEventHandler("onclick",this.btn_excel_onclick,this);
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
+            this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
         };
         this.loadIncludeScript("Form_Product.xfdl");
         this.loadPreloadList();
