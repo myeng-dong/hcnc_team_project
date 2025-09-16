@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.MemberService;
@@ -181,7 +182,7 @@ public class MemberController {
 		return result;
 	}
 
-	// 관리자 등록 및 암호화 
+	// 관리자 등록 및 암호화
 	// BY.PJ 09.16
 	@RequestMapping(value = "/insertMemberByAdmin.do")
 	public NexacroResult insertMember(@ParamDataSet(name = "ds_member", required = false) Map<String, Object> param) {
@@ -204,7 +205,7 @@ public class MemberController {
 			if (duplicate > 0) {
 				result.setErrorCode(-1);
 				result.setErrorMsg("중복된 아이디, 이메일 또는 전화번호가 있습니다");
-				
+
 				return result;
 			}
 
@@ -223,5 +224,25 @@ public class MemberController {
 		return result;
 
 	}
+
+	// 회원 목록 상세 보기
+	@RequestMapping(value = "/selectMemberDetailByAdmin.do")
+	public NexacroResult selectMemberDetail(@ParamVariable(name = "memberId", required = false) String memberId) {
+	
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			Map<String, Object> memberDetail = memberService.selectMemberDetail(memberId);
+
+			result.addDataSet("ds_memberDt", memberDetail);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("상세조회 중 오류발생");
+		}
+		return result;
+	};
 
 }

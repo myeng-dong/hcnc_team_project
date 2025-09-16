@@ -22,5 +22,8 @@ public interface MemberMapper {
 	
 	//관리자 등록시 중복체크
 	int isDuplicated(Map<String, Object> param);
+	
+	//회원 상세조회
+	Map<String, Object> selectMemberDetail(String memberId);
 
 }

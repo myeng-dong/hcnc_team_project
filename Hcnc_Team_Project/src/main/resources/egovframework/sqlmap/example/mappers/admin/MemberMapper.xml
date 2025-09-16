@@ -100,4 +100,26 @@
 		 	OR PHONE_NUMBER = #{PHONE_NUMBER})
 	</select>
 	
+	<!-- 회원 상세조회 -->
+	<select id="selectMemberDetail" parameterType="String" resultType="java.util.Map">
+	   SELECT 
+			MEMBER_ID
+			,USER_NAME
+            ,LOGIN_TYPE
+            ,EMAIL_ADDR
+            ,PHONE_NUMBER
+            ,BIRTH
+            ,GENDER
+            ,GRADE_CODE
+            ,FIRST_LOGIN_DT
+            ,LAST_LOGIN_DT
+            ,STATUS
+            ,PRICE_AMOUNT
+            ,INPUT_DT
+            ,UPDATE_DT
+            ,MEMBER_TYPE
+         FROM MEMBERS
+        WHERE MEMBER_ID = #{memberId}
+	</select>
+	
 </mapper>
