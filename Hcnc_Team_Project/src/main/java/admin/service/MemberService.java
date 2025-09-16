@@ -26,4 +26,11 @@ public class MemberService {
 		// TODO Auto-generated method stub
 		return memberMapper.selectMemberList(param);
 	}
+
+	public List<Map<String, Object>> selectMemberGradeList() {
+		
+		return memberMapper.selectMemberGradeList();
+	}
+	
+
 }
