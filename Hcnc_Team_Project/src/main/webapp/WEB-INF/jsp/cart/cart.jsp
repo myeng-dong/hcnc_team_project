@@ -14,8 +14,10 @@
     	// 장바구니 리스트 조회
     	const selectCartList = () => {
     		var memberId = "user01";
+    		var cartId = 1;
     		var param = {
     				memberId : memberId
+    				, cartId : cartId
     		};
     		
     		$.ajax({
@@ -32,9 +34,9 @@
     				for(var i = 0; i < list.length; i++){
     					html += '<tr>';
     					if(list[i].IS_CHECKED == 'N'){
-    				        html += '<td class="col-check"><input type="checkbox" onchange="updateChkBox(' + list[i].PRODUCT_ID + ', \'' + list[i].IS_CHECKED + '\')"></td>';
+    				        html += '<td class="col-check"><input type="checkbox" id="'+ list[i].PRODUCT_ID +'-checkbox" onchange="updateChkBox(' + list[i].PRODUCT_ID + ')"></td>';
     				    } else {
-    				        html += '<td class="col-check"><input type="checkbox" checked onchange="updateChkBox(' + list[i].PRODUCT_ID + ', \'' + list[i].IS_CHECKED + '\')"></td>';
+    				        html += '<td class="col-check"><input type="checkbox" id="'+ list[i].PRODUCT_ID +'-checkbox" checked onchange="updateChkBox(' + list[i].PRODUCT_ID + ')"></td>';
     				    }
     					html += '<td class="col-img"><img src="sample.jpg" width="50"></td>';
     					html += '<td class="col-name">' + list[i].PRODUCT_NAME + '</td>';
@@ -52,6 +54,13 @@
     				}
     				
     				$("#cart-body").html(html);
+    				
+    				
+    				if(res.cartTotalPrice != null){
+    					$("#sum-products").text(res.cartTotalPrice.SUM_SUB);
+    				} else {
+    					$("#sum-products").text(0);
+    				}
     			}
     			, error: function(err){
     				alert("장바구니 리스트 조회 통신 실패");
@@ -120,16 +129,17 @@
         }
         
         // 개별 체크박스 수정
-        const updateChkBox = (product_id, current_checked) => {
+        const updateChkBox = (product_id) => {
         	
         	var cartId = 1;
+        	var checkboxValue = $("#"+ product_id + "-checkbox").prop("checked");
    			
         	var is_checked = '';
         	
-        	if(current_checked == 'N'){
+        	if(checkboxValue){
         		is_checked = 'Y';
         		   		
-        	} else if(current_checked == 'Y'){
+        	} else {
         		is_checked = 'N';
         		
         	}
@@ -145,9 +155,13 @@
         		, type: "post"
         		, data: param
         		, dataType: "json"
-        		, success: function(){
-        			
-        			selectedPrice(product_id, is_checked);
+        		, success: function(res){
+        			// 장바구니 전체 금액 조회 결과 //
+        			if(res.cartTotalPrice != null){
+        				$("#sum-products").text(res.cartTotalPrice.SUM_SUB);
+        			} else {
+        				$("#sum-products").text(0);
+        			}
         			
         		}
         		, error: function(){
@@ -181,24 +195,6 @@
         			alert("삭제 통신 실패");
         		}
         	});
-        }
-        
-        // 체크박스 선택한 상품만 주문하기
-        const selectedPrice = (product_id, is_checked) => {
-        	var selectedPrice = Number( $("#" + product_id +"-total").text() );
-        	var totalPrice = Number( $("#sum-products").text() );
-        	
-        	if(is_checked == 'Y'){
-	        	
-	        	totalPrice += selectedPrice;
-	       
-        	} else if(is_checked == 'N') {
-        		
-        		totalPrice -= selectedPrice;
-        		
-        	}
-        	
-        	$("#sum-products").text(totalPrice);
         }
 
         //합계금액
@@ -259,7 +255,7 @@
 		
 			<div class="footer-total">
 		      <h4>결제 예정 금액</h4>
-		      <div class="sum-row"><span>주문금액</span><span id="sum-products" class="price">0</span></div>
+		      <div class="sum-row"><span>주문금액</span><span id="sum-products" class="price"></span></div>
 		      <div class="sum-row small"><span>일반배송비</span><span id="sum-ship-normal">0원</span></div>
 		      <div class="sum-row small"><span>개별배송비</span><span id="sum-ship-indiv">0원</span></div>
 		      <div class="sum-total"><span>결제금액</span><span id="sum-final" class="price">0원</span></div>
