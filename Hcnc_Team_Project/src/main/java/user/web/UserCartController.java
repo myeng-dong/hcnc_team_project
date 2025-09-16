@@ -33,7 +33,10 @@ public class UserCartController {
 		
 		List<HashMap<String, Object>> cartList = userCartService.selectCartListByUser(param);
 		
+		HashMap<String, Object> cartTotalPrice = userCartService.selectedTotalPriceByUser(param);
+		
 		mav.addObject("cartList", cartList);
+		mav.addObject("cartTotalPrice", cartTotalPrice);
 		
 		return mav;
 	}
@@ -59,7 +62,9 @@ public class UserCartController {
 		
 		userCartService.updateChkBox(param);
 		
-		userCartService.selectedTotalPriceListByUser(param);
+		HashMap<String, Object> cartTotalPrice = userCartService.selectedTotalPriceByUser(param);
+		
+		mav.addObject("cartTotalPrice", cartTotalPrice);
 		
 		return mav;
 	}

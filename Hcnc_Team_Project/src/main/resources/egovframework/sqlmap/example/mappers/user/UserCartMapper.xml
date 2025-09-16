@@ -45,4 +45,13 @@
 			WHERE CART_ID = #{cartId}
 				AND PRODUCT_ID = #{productId}
 	</delete>
+	
+	<!-- 체크박스 선택한 상품만 주문하기 -->
+	<select id="selectedTotalPriceByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT CART_ID, SUM(SUB_TOTAL) AS SUM_SUB
+			FROM CART_ITEMS
+			WHERE CART_ID = #{cartId}
+				AND IS_CHECKED = 'Y'
+			GROUP BY CART_ID
+	</select>
 </mapper>
