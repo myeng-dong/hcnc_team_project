@@ -197,7 +197,7 @@ public class UserMemberController {
 	@RequestMapping("/selectEmailCheckByUser.do")
 	public ModelAndView selectEmailCheckByUser(
 	        @RequestParam("to") String to,
-			@RequestParam("isDuplicate",required=false) Boolean isDuplicate
+			@RequestParam(value="isDuplicate",required=false) Boolean isDuplicate
         ) {
 	    ModelAndView mv = new ModelAndView("mailResult");
 	    mv.setViewName("jsonView");
