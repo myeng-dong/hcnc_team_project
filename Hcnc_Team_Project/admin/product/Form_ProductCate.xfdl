@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_ProductCate" width="1280" height="800" titletext="카테고리관리" onload="Form_ProductCate_onload">
+    <Layouts>
+      <Layout width="1280" height="800">
+        <!-- 좌측 버튼들 -->
+        <Button id="btn_addCommon" text="분류추가" left="20" top="730" width="100" height="30" onclick="btn_addCommon_onclick"/>
+        <Button id="btn_delete" text="삭제" left="130" top="730" width="60" height="30" onclick="btn_delete_onclick"/>
+        <Button id="btn_saveMove" text="분류이동저장" left="200" top="730" width="100" height="30" onclick="btn_saveMove_onclick"/>
+        <!-- 상단 메뉴 버튼 -->
+        <Button id="btn_productList" text="상품목록" left="1010" top="20" width="80" height="30"/>
+        <Button id="btn_productDisplay" text="상품진열" left="1100" top="20" width="80" height="30"/>
+        <Button id="btn_productReg" text="상품등록" left="1190" top="20" width="80" height="30"/>
+        <!-- 카테고리 그리드 -->
+        <Grid id="grd_category" binddataset="ds_category" left="20" top="60" width="300" height="500" oncellclick="grd_category_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="30"/>
+                <Column size="162"/>
+                <Column size="86"/>
+              </Columns>
+              <Rows>
+                <Row size="24"/>
+              </Rows>
+              <Band id="body">
+                <!-- 접기/펼치기 -->
+                <Cell text="expr:(expanded=='Y' ? '-' : '+')"/>
+                <!-- 카테고리명 -->
+                <Cell col="1" text="expr:( (level==0 ? '' : (level==1 ? '   ' : '      ')) + cate_name )"/>
+                <!-- 인라인 버튼 -->
+                <Cell col="2" displaytype="buttoncontrol" text="추가/수정/삭제"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <!-- 우측 Div: 상세정보 -->
+        <Div id="div_detail" left="360" top="60" width="850" height="700" background="#ffffff" color="#000000">
+          <Layouts>
+            <Layout>
+              <Static id="sta_current" text="현재분류" left="20" top="20" width="80" height="25"/>
+              <Edit id="edt_current" left="120" top="20" width="300" height="25" readonly="true"/>
+              <Static id="sta_name" text="분류명" left="20" top="60" width="80" height="25"/>
+              <Edit id="edt_cateName" left="120" top="60" width="300" height="25"/>
+              <Static id="sta_desc" text="분류설명" left="20" top="100" width="80" height="25"/>
+              <Edit id="edt_cateDesc" left="120" top="100" width="600" height="25"/>
+              <Static id="sta_display" text="진열상태" left="20" top="140" width="80" height="25"/>
+              <Radio id="rdo_display" left="120" top="140" width="200" height="25">
+                <RadioItem text="표시함" value="Y"/>
+                <RadioItem text="표시안함" value="N"/>
+              </Radio>
+              <Button id="btn_saveDetail" text="저장" left="120" top="180" width="80" height="30" onclick="btn_saveDetail_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_mainCate">
+        <ColumnInfo>
+          <Column id="MAIN_CATE_ID" type="INT" size="256"/>
+          <Column id="MAIN_CATE_NM" type="STRING" size="256"/>
+          <Column id="SORT_NUMBER" type="INT" size="256"/>
+          <Column id="IS_ACTIVE" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="DATETIME" size="256"/>
+          <Column id="UPDATE_DT" type="DATETIME" size="256"/>
+          <Column id="INPUT_ID" type="STRING" size="256"/>
+          <Column id="UPDATE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_subCate">
+        <ColumnInfo>
+          <Column id="SUB_CATE_ID" type="INT" size="256"/>
+          <Column id="MAIN_CATE_ID" type="INT" size="256"/>
+          <Column id="SUB_CATE_NM" type="STRING" size="256"/>
+          <Column id="SORT_NUMBER" type="INT" size="256"/>
+          <Column id="IS_ACTIVE" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="DATETIME" size="256"/>
+          <Column id="UPDATE_DT" type="DATETIME" size="256"/>
+          <Column id="INPUT_ID" type="STRING" size="256"/>
+          <Column id="UPDATE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_product"/>
+      <Dataset id="ds_in">
+        <ColumnInfo>
+          <Column id="TYPE" type="STRING" size="256"/>
+          <Column id="MAIN_CATE_ID" type="INT" size="256"/>
+          <Column id="SUB_CATE_ID" type="INT" size="256"/>
+          <Column id="MAIN_CATE_NM" type="STRING" size="256"/>
+          <Column id="SUB_CATE_NM" type="STRING" size="256"/>
+          <Column id="IS_ACTIVE" type="STRING" size="256"/>
+          <Column id="INPUT_ID" type="STRING" size="256"/>
+          <Column id="UPDATE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_category">
+        <ColumnInfo>
+          <Column id="cate_id" type="string" size="32"/>
+          <Column id="parent_id" type="string" size="32"/>
+          <Column id="cate_name" type="string" size="255"/>
+          <Column id="level" type="int" size="3"/>
+          <Column id="expanded" type="string" size="1"/>
+          <Column id="visible" type="string" size="1"/>
+          <Column id="type" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="cate_id">C1</Col>
+            <Col id="parent_id"/>
+            <Col id="cate_name">문구</Col>
+            <Col id="level">0</Col>
+            <Col id="expanded">N</Col>
+            <Col id="visible">Y</Col>
+            <Col id="type">main</Col>
+          </Row>
+          <Row>
+            <Col id="cate_id">C2</Col>
+            <Col id="parent_id">C1</Col>
+            <Col id="cate_name">필기류</Col>
+            <Col id="level">1</Col>
+            <Col id="expanded">N</Col>
+            <Col id="visible">N</Col>
+            <Col id="type">sub</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.Form_ProductCate_onload = function(obj,e)
+{
+    this._loadedMain = false;
+    this._loadedSub  = false;
+
+    this.transaction("selectMainCategoryByAdmin",
+        "svc::selectMainCategoryByAdmin.do",
+        "",
+        "ds_mainCate=ds_mainCate",
+        "",
+        "fn_callback", true);
+
+    this.transaction("selectSubCategoryByAdmin",
+        "svc::selectSubCategoryByAdmin.do",
+        "",
+        "ds_subCate=ds_subCate",
+        "",
+        "fn_callback", true);
+};
+
+this.fn_callback = function(svcID,errCode,errMsg)
+{
+    if (errCode < 0) {
+        alert("에러: " + errMsg);
+        return;
+    }
+
+    if (svcID == "selectMainCategoryByAdmin") {
+        this._loadedMain = true;
+        if (this._loadedMain && this._loadedSub) this.fn_makeTree();
+    }
+    else if (svcID == "selectSubCategoryByAdmin") {
+        this._loadedSub = true;
+        if (this._loadedMain && this._loadedSub) this.fn_makeTree();
+    }
+    else if (svcID.indexOf("CategoryByAdmin") > -1) {
+        alert("처리 성공");
+        this.Form_ProductCate_onload();
+    }
+};
+
+this.fn_makeTree = function()
+{
+    var dsTree = this.ds_category;
+    dsTree.clearData();
+
+    for (var i=0; i<this.ds_mainCate.getRowCount(); i++) {
+        var r = dsTree.addRow();
+        dsTree.setColumn(r,"cate_id","M"+this.ds_mainCate.getColumn(i,"MAIN_CATE_ID"));
+        dsTree.setColumn(r,"parent_id","");
+        dsTree.setColumn(r,"cate_name",this.ds_mainCate.getColumn(i,"MAIN_CATE_NM"));
+        dsTree.setColumn(r,"level",0);
+        dsTree.setColumn(r,"expanded","N");
+        dsTree.setColumn(r,"visible","Y");
+        dsTree.setColumn(r,"type","main");
+    }
+    for (var j=0; j<this.ds_subCate.getRowCount(); j++) {
+        var r2 = dsTree.addRow();
+        dsTree.setColumn(r2,"cate_id","S"+this.ds_subCate.getColumn(j,"SUB_CATE_ID"));
+        dsTree.setColumn(r2,"parent_id","M"+this.ds_subCate.getColumn(j,"MAIN_CATE_ID"));
+        dsTree.setColumn(r2,"cate_name",this.ds_subCate.getColumn(j,"SUB_CATE_NM"));
+        dsTree.setColumn(r2,"level",1);
+        dsTree.setColumn(r2,"expanded","N");
+        dsTree.setColumn(r2,"visible","N");
+        dsTree.setColumn(r2,"type","sub");
+    }
+
+    this.ds_category.filter("visible=='Y'");
+};
+
+this.fn_hideChildren = function(parentId)
+{
+    var ds = this.ds_category;
+    ds.set_enableevent(false);
+    for (var i=0; i<ds.getRowCount(); i++) {
+        if (ds.getColumn(i,"parent_id") == parentId) {
+            ds.setColumn(i,"visible","N");
+            ds.setColumn(i,"expanded","N");
+            this.fn_hideChildren(ds.getColumn(i,"cate_id"));
+        }
+    }
+    ds.set_enableevent(true);
+};
+
+this.fn_showChildren = function(parentId)
+{
+    var ds = this.ds_category;
+    ds.set_enableevent(false);
+    for (var i=0; i<ds.getRowCount(); i++) {
+        if (ds.getColumn(i,"parent_id") == parentId) {
+            ds.setColumn(i,"visible","Y");
+        }
+    }
+    ds.set_enableevent(true);
+    this.ds_category.filter("visible=='Y'");
+};
+
+this.grd_category_oncellclick = function(obj,e)
+{
+    var row = e.row, col = e.col;
+    if (row < 0) return;
+
+    if (col == 0) {
+        var cateId = this.ds_category.getColumn(row,"cate_id");
+        var expanded = this.ds_category.getColumn(row,"expanded");
+        if (expanded=="Y") {
+            this.ds_category.setColumn(row,"expanded","N");
+            this.fn_hideChildren(cateId);
+        } else {
+            this.ds_category.setColumn(row,"expanded","Y");
+            this.fn_showChildren(cateId);
+        }
+        this.ds_category.filter("visible=='Y'");
+    }
+    else if (col == 2) {
+        var posX = e.canvasx - obj.getCellRect(row,col).left;
+        var cellWidth = obj.getCellRect(row,col).width;
+        var partWidth = cellWidth/3;
+
+        if (posX < partWidth) this.fn_addCategory(row);
+        else if (posX < partWidth*2) this.fn_editCategory(row);
+        else this.fn_deleteCategory(row);
+    }
+    else {
+        this.fn_showDetail(row);
+    }
+};
+
+this.fn_showDetail = function(row)
+{
+    this.div_detail.form.edt_current.set_value(this.ds_category.getColumn(row,"cate_id"));
+    this.div_detail.form.edt_cateName.set_value(this.ds_category.getColumn(row,"cate_name"));
+    this.div_detail.form.rdo_display.set_value("Y");
+};
+
+this.fn_addCategory = function(row)
+{
+    var type = this.ds_category.getColumn(row,"type");
+    this.ds_in.clearData();
+    var nRow = this.ds_in.addRow();
+
+    if (type=="main") {
+        var mainId = this.ds_category.getColumn(row,"cate_id").replace("M","");
+        this.ds_in.setColumn(nRow,"TYPE","sub");
+        this.ds_in.setColumn(nRow,"MAIN_CATE_ID", mainId);
+        this.ds_in.setColumn(nRow,"SUB_CATE_NM","신규중분류");
+    } else {
+        this.ds_in.setColumn(nRow,"TYPE","main");
+        this.ds_in.setColumn(nRow,"MAIN_CATE_NM","신규대분류");
+    }
+    this.ds_in.setColumn(nRow,"IS_ACTIVE","Y");
+    this.ds_in.setColumn(nRow,"INPUT_ID","admin");
+
+    this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do",
+                     "ds_in=ds_in","","","fn_callback",true);
+};
+
+this.fn_editCategory = function(row)
+{
+    var type = this.ds_category.getColumn(row,"type");
+    var cateId = this.ds_category.getColumn(row,"cate_id").substring(1);
+    var newName = prompt("새 분류명 입력:", this.ds_category.getColumn(row,"cate_name"));
+    if (!newName) return;
+
+    this.ds_in.clearData();
+    var nRow = this.ds_in.addRow();
+    this.ds_in.setColumn(nRow,"TYPE", type);
+
+    if (type=="main") {
+        this.ds_in.setColumn(nRow,"MAIN_CATE_ID", cateId);
+        this.ds_in.setColumn(nRow,"MAIN_CATE_NM", newName);
+    } else {
+        this.ds_in.setColumn(nRow,"SUB_CATE_ID", cateId);
+        this.ds_in.setColumn(nRow,"SUB_CATE_NM", newName);
+    }
+    this.ds_in.setColumn(nRow,"UPDATE_ID","admin");
+
+    this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do",
+                     "ds_in=ds_in","","","fn_callback",true);
+};
+
+this.fn_deleteCategory = function(row)
+{
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    var type = this.ds_category.getColumn(row,"type");
+    var cateId = this.ds_category.getColumn(row,"cate_id").substring(1);
+
+    this.ds_in.clearData();
+    var nRow = this.ds_in.addRow();
+    this.ds_in.setColumn(nRow,"TYPE", type);
+    if (type=="main") this.ds_in.setColumn(nRow,"MAIN_CATE_ID",cateId);
+    else this.ds_in.setColumn(nRow,"SUB_CATE_ID",cateId);
+
+    this.transaction("deleteCategoryByAdmin","svc::deleteCategoryByAdmin.do",
+                     "ds_in=ds_in","","","fn_callback",true);
+};
+
+this.btn_saveDetail_onclick = function(obj,e)
+{
+    alert("저장 버튼 클릭됨");
+};
+]]></Script>
+    <Bind/>
+  </Form>
+</FDL>

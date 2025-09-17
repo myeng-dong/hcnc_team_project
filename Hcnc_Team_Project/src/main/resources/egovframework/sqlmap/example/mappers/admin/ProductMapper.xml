@@ -162,4 +162,72 @@
           )
     </update>
 
+
+
+
+	<!-- 대분류 -->
+<select id="selectMainCategoryByAdmin" resultType="map">
+  SELECT MAIN_CATE_ID, MAIN_CATE_NM, SORT_NUMBER, IS_ACTIVE
+  FROM MAIN_CATEGORIES
+  ORDER BY SORT_NUMBER
+</select>
+
+<!-- 중분류 -->
+<select id="selectSubCategoryByAdmin" resultType="map">
+  SELECT SUB_CATE_ID, MAIN_CATE_ID, SUB_CATE_NM, SORT_NUMBER, IS_ACTIVE
+  FROM SUB_CATEGORIES
+  ORDER BY MAIN_CATE_ID, SORT_NUMBER
+</select>
+
+<insert id="insertCategoryByAdmin" parameterType="map">
+  <choose>
+    <when test="TYPE == 'main'">
+      INSERT INTO MAIN_CATEGORIES(MAIN_CATE_NM, IS_ACTIVE, INPUT_ID, INPUT_DT)
+      VALUES(#{MAIN_CATE_NM}, #{IS_ACTIVE}, #{INPUT_ID}, NOW())
+    </when>
+    <otherwise>
+      INSERT INTO SUB_CATEGORIES(MAIN_CATE_ID, SUB_CATE_NM, IS_ACTIVE, INPUT_ID, INPUT_DT)
+      VALUES(#{MAIN_CATE_ID}, #{SUB_CATE_NM}, #{IS_ACTIVE}, #{INPUT_ID}, NOW())
+    </otherwise>
+  </choose>
+</insert>
+
+<update id="updateCategoryByAdmin" parameterType="map">
+  <choose>
+    <when test="TYPE == 'main'">
+      UPDATE MAIN_CATEGORIES
+      SET MAIN_CATE_NM=#{MAIN_CATE_NM}, IS_ACTIVE=#{IS_ACTIVE},
+          UPDATE_ID=#{UPDATE_ID}, UPDATE_DT=NOW()
+      WHERE MAIN_CATE_ID=#{MAIN_CATE_ID}
+    </when>
+    <otherwise>
+      UPDATE SUB_CATEGORIES
+      SET SUB_CATE_NM=#{SUB_CATE_NM}, IS_ACTIVE=#{IS_ACTIVE},
+          UPDATE_ID=#{UPDATE_ID}, UPDATE_DT=NOW()
+      WHERE SUB_CATE_ID=#{SUB_CATE_ID}
+    </otherwise>
+  </choose>
+</update>
+
+<delete id="deleteCategoryByAdmin" parameterType="map">
+  <choose>
+    <when test="TYPE == 'main'">
+      DELETE FROM MAIN_CATEGORIES WHERE MAIN_CATE_ID=#{MAIN_CATE_ID}
+    </when>
+    <otherwise>
+      DELETE FROM SUB_CATEGORIES WHERE SUB_CATE_ID=#{SUB_CATE_ID}
+    </otherwise>
+  </choose>
+</delete>
+	
+
+
+
+
+
+
+
+
+
+
 </mapper>
