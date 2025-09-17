@@ -228,7 +228,7 @@ public class MemberController {
 	// 회원 목록 상세 보기
 	@RequestMapping(value = "/selectMemberDetailByAdmin.do")
 	public NexacroResult selectMemberDetail(@ParamVariable(name = "memberId", required = false) String memberId) {
-	
+
 		NexacroResult result = new NexacroResult();
 
 		try {
@@ -244,5 +244,67 @@ public class MemberController {
 		}
 		return result;
 	};
+	
+	// 문자열을 yyyyMMddHHmmss (14자리) 로 맞춰주는 헬퍼
+	//넥사크로에서 캘린더값읆 문자열로 받아오는데 14자리로 고정 
+	private String normalizeDateString(Object obj) {
+	    if (obj == null) return null;
+	    String s = obj.toString();
+	    if (s.length() >= 14) {
+	        return s.substring(0, 14); // yyyyMMddHHmmss
+	    } else if (s.length() == 8) {
+	        return s + "000000";       // yyyyMMdd → yyyyMMdd000000
+	    } else {
+	        return null; // 잘못된 값
+	    }
+	}
+
+	// 회원 정보 수정
+	@RequestMapping(value = "/memberUpdateByAdmin.do")
+	public NexacroResult memberUpdate(@ParamDataSet(name = "ds_memberDt", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+		
+
+		try {
+			
+			// 날짜 파라미터 변환
+	        param.put("FIRST_LOGIN_DT", normalizeDateString(param.get("FIRST_LOGIN_DT")));
+	        param.put("LAST_LOGIN_DT", normalizeDateString(param.get("LAST_LOGIN_DT")));
+	        param.put("BIRTH", normalizeDateString(param.get("BIRTH")));
+
+			//비밀번호 암호화 및 이미 암호화 되있다면 패스(비밀번호 변경하지 않았을시 암호화한걸 또 암호화 하는 거 방지)
+			if (param.get("PASSWORD") != null && !"".equals(param.get("PASSWORD").toString())) {
+			    String password = String.valueOf(param.get("PASSWORD"));
+
+			    // 이미 해시된 64자리 hex 문자열이면 암호화 스킵
+			    if (!password.matches("^[0-9a-f]{64}$")) {
+			        String crypto = PasswordUtil.encryptSHA256(password);
+			        param.put("PASSWORD", crypto);
+			    }
+			}
+
+
+			// 중복체크
+			int duplicated = memberService.updateDuplicated(param);
+			if (duplicated > 0) {
+				result.setErrorCode(-1);
+				result.setErrorMsg("중복된 이메일 또는 전화번호가 있습니다");
+				return result;
+			}
+
+			// UPDATE 실행
+			int updated = memberService.memberUpdate(param);
+			Map<String, Object> dsUpCnt = new HashMap<>();
+			dsUpCnt.put("UPDATED", updated);
+			result.addDataSet("ds_upCnt", dsUpCnt);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원 수정 중 오류 발생");
+		}
+		return result;
+	}
 
 }

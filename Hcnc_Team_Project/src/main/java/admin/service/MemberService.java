@@ -48,5 +48,17 @@ public class MemberService {
 		return memberMapper.selectMemberDetail(memberId);
 	}
 	
+	//회원 정보 수정
+	public int memberUpdate(Map<String, Object> param) {
+		
+		return memberMapper.memberUpdate(param);
+	}
+	
+	//회원정보 수정시 이메일, 전화번호 중복체크 
+	public int updateDuplicated(Map<String, Object> param) {
+		
+		return memberMapper.updateDuplicated(param);
+	}
+	
 
 }
