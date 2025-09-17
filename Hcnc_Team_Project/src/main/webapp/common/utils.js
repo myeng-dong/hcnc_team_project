@@ -52,16 +52,15 @@ const containsSqlKeywords = (input) => {
   return sqlKeywords.some((keyword) => upperInput.includes(keyword));
 };
 
-const sendMailByUser = (email, isDuplicate, successCallBack, failCallBack) => {
-  if (email === "") {
+const sendMailByUser = (param, successCallBack, failCallBack) => {
+  if (param.to === "") {
     alert("이메일을 입력해주세요.");
     return;
   }
-  if (containsSqlKeywords(email) || !emailRegex.test(email)) {
+  if (containsSqlKeywords(param.to) || !emailRegex.test(param.to)) {
     alert("이메일 형식을 확인해주세요.");
     return;
   }
-  var param = { to: email, isDuplicate: isDuplicate };
   ajaxUtil(
     param,
     "selectEmailCheckByUser.do",
@@ -74,22 +73,15 @@ const sendMailByUser = (email, isDuplicate, successCallBack, failCallBack) => {
   );
 };
 
-const mailCodeCheckByUser = (
-  email,
-  emailCode,
-  checkOnly,
-  successCallBack,
-  failCallBack
-) => {
-  if (emailCode == "") {
+const mailCodeCheckByUser = (param, successCallBack, failCallBack) => {
+  if (param.code == "") {
     alert("이메일 인증번호를 입력해주세요.");
     return;
   }
-  if (emailCode.length < 6) {
+  if (param.code.length < 6) {
     alert("인증번호를 입력해주세요.");
     return;
   }
-  var param = { to: email, code: emailCode, checkOnly: checkOnly };
   ajaxUtil(
     param,
     "selectVerifyAuthByUser.do",

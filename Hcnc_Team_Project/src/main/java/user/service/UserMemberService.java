@@ -31,4 +31,8 @@ public class UserMemberService {
 	public Map<String, Object> selectFindIdByUser(String email) {
 		return userMemberMapper.selectFindIdByUser(email);
 	}
+
+	public int updatePasswordByUser(Map<String, Object> param) {
+		return userMemberMapper.updatePasswordByUser(param);
+	}
 }

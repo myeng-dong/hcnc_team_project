@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="user.mapper.UserMemberMapper">
+<mapper namespace="user.mapper.UserMemberMapper">
+    <select id="selectFindIdByUser" resultType="java.util.Map">
+		SELECT MEMBER_ID, LOGIN_TYPE
+		FROM MEMBERS
+		WHERE EMAIL_ADDR = #{to}
+	</select>
      <select id="selectLoginByUser" resultType="java.util.Map">
 		SELECT MEMBER_ID, "O" as PASSWORD
 		FROM   MEMBERS
@@ -15,11 +19,6 @@
 	</select>
 	<select id="selectEmailCheckByUser" resultType="int">
 		SELECT COUNT(MEMBER_ID) AS COUNT
-		FROM MEMBERS
-		WHERE EMAIL_ADDR = #{to}
-	</select>
-    <select id="selectFindIdByUser" resultType="java.util.Map">
-		SELECT MEMBER_ID
 		FROM MEMBERS
 		WHERE EMAIL_ADDR = #{to}
 	</select>
@@ -63,4 +62,9 @@
         'user'
     );
 	</insert>
+    <update id="updatePasswordByUser" parameterType="java.util.Map">
+        UPDATE MEMBERS
+        SET PASSWORD = #{password}
+        WHERE MEMBER_ID = #{id} 
+    </update>
 </mapper>

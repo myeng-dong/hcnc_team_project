@@ -1,6 +1,7 @@
 package user.web;
 
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,8 +83,17 @@ public class UserMemberController {
 	        } catch (Exception e) {
 	            throw new RuntimeException(e);
 	        }
-	    }
-	
+	}
+
+	private void sendVerificationEmail(String to, ModelAndView mv) throws Exception {
+		String subject = "DDD.D 이메일 인증번호";
+		String text = "DDD.D 이메일 인증번호: ";
+		int code = RandomCode();
+		saveAuthCode(to, code);
+		mailService.sendMail(to, subject, text + code); 
+		mv.addObject("status", 200);
+		mv.addObject("to", to);
+	}
 	// LOGIN 로그인
 	@RequestMapping("/login.do")
 	public ModelAndView loginPage() {
@@ -126,10 +136,30 @@ public class UserMemberController {
 		mv.setViewName("sign/find-id");
 		return mv;
 	}
+
 	@RequestMapping("/findPw.do")
 	public ModelAndView findPwPage() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("sign/find-pw");
+		return mv;
+	}
+
+	@RequestMapping("/updatePasswordByUser.do")
+	public ModelAndView updateUserPassword(
+		@RequestParam("id") String id,
+		@RequestParam("password") String password
+	) {
+		ModelAndView mv = new ModelAndView();
+		Map<String, Object> param = new HashMap();
+		param.put("id",id);
+		param.put("password",sha256(password));
+		int count = userMemberService.updatePasswordByUser(param);
+		if(count == 1){
+			mv.addObject("status",200);
+		} else{
+			mv.addObject("status",409);
+		}
+		mv.setViewName("jsonView");
 		return mv;
 	}
 	
@@ -197,24 +227,36 @@ public class UserMemberController {
 	@RequestMapping("/selectEmailCheckByUser.do")
 	public ModelAndView selectEmailCheckByUser(
 	        @RequestParam("to") String to,
-			@RequestParam(value="isDuplicate",required=false) Boolean isDuplicate
+			@RequestParam(value="type") String type,
+			@RequestParam(value="id", required=false) String id
         ) {
 	    ModelAndView mv = new ModelAndView("mailResult");
 	    mv.setViewName("jsonView");
 	    try {
-			int emailChk = userMemberService.selectEmailCheckByUser(to);
-			System.out.println(to);
-			System.out.println(emailChk == 0);
-			if(emailChk == 0 || !isDuplicate){
-				String subject = "DDD.D 이메일 인증번호";
-				String text = "DDD.D 이메일 인증번호: ";
-				int code = RandomCode();
-				saveAuthCode(to,code);
-	    		mailService.sendMail(to, subject, text + code);	
-				mv.addObject("status", 200);
-				mv.addObject("to",to);
-			} else {
-				mv.addObject("status", 409);
+			if(type.equals("sign")){
+				int emailChk = userMemberService.selectEmailCheckByUser(to);	
+				if(emailChk == 0){
+					sendVerificationEmail(to,mv);
+				} else {
+					mv.addObject("status", 409);
+				}
+			}
+			if(type.equals("find-id")){
+				int emailChk = userMemberService.selectEmailCheckByUser(to);
+				if(emailChk == 1){
+					sendVerificationEmail(to,mv);
+				} else {
+					mv.addObject("status", 409);
+				}
+			}
+			if(type.equals("find-pw") && id != null){
+				int emailChk = userMemberService.selectEmailCheckByUser(to);
+				int idCnt = userMemberService.selectIdCheckByUser(id);
+				if(emailChk + idCnt == 2){
+					sendVerificationEmail(to,mv);
+				} else {
+					mv.addObject("status", 409);
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -226,14 +268,17 @@ public class UserMemberController {
 	public ModelAndView selectVerifyAuthByUser(
 			@RequestParam("to") String to,
 			@RequestParam("code") int code,
-			@RequestParam("checkOnly") Boolean checkOnly
+			@RequestParam("type") String type
 			) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("jsonView");
-		mv.addObject("result", verifyAuthCode(to,code)) ;
-		if(verifyAuthCode(to,code) && !checkOnly){
-			Map<String, Object> findId = userMemberService.selectFindIdByUser(to);
-			mv.addObject("loginId",findId);
+		boolean isSame = verifyAuthCode(to,code);
+		mv.addObject("result", isSame);
+		mv.addObject("resultInfo", null);
+		String[] findTypes = {"find-id", "find-pw"};
+		if(Arrays.asList(findTypes).contains(type) && isSame){
+			Map<String, Object> info = userMemberService.selectFindIdByUser(to);
+			mv.addObject("resultInfo", info);
 		}
 		return mv;
 	}

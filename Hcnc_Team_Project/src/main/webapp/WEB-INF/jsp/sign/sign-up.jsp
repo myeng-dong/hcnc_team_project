@@ -23,7 +23,6 @@
   <script>
     $(() => {
       init();
-      // initTest();
       $("#birth").datepicker({
         dateFormat: "yy-mm-dd",
         prevText: "이전 달",
@@ -101,7 +100,6 @@
           );
         }
       });
-      // $("#birth").datepicker("setDate", "today");
     });
 
     const init = () => {
@@ -110,20 +108,13 @@
       sessionStorage.setItem("mailFlag", "");
       sessionStorage.setItem("to", "");
     };
+
     const mailInit = () => {
       sessionStorage.setItem("mailCode", "");
       sessionStorage.setItem("mailFlag", "");
       sessionStorage.setItem("to", "");
     };
-    // const initTest = () => {
-    //   $("#id").val("test");
-    //   $("#password").val("1234");
-    //   $("#passwordCheck").val("1234");
-    //   $("#name").val("홍길동");
-    //   $("#email").val("test@test.com");
-    //   $("#phone").val("010-0000-0000");
-    //   $("#birth").val("2022-04-04");
-    // };
+
     const idChkByUser = () => {
       const id = $("#id").val().trim();
       if (id === "") {
@@ -152,16 +143,8 @@
 
     const emailChkByUser = () => {
       const email = $("#email").val().trim();
-      if (email === "") {
-        alert("이메일을 입력해주세요.");
-        return;
-      }
-      if (containsSqlKeywords(email) || !emailRegex.test(email)) {
-        alert("이메일 형식을 확인해주세요.");
-        return;
-      }
-      var param = { to: email, isDuplicate: true };
-      ajaxUtil(param, "selectEmailCheckByUser.do", (response) => {
+      const param = { to: email, type: "sign" };
+      sendMailByUser(param, (response) => {
         if (response.status === 200) {
           alert("인증번호를 발송하였습니다");
           sessionStorage.setItem("mailCode", response.mailCode);
@@ -177,15 +160,7 @@
     const emailCodeCheck = () => {
       const email = $("#email").val().trim();
       const emailCode = $("#emailCode").val().trim();
-      if (emailCode == "") {
-        alert("이메일 인증번호를 입력해주세요.");
-        return;
-      }
-      if (emailCode.length < 6) {
-        alert("인증번호를 입력해주세요.");
-        return;
-      }
-      var param = { to: email, code: emailCode, checkOnly: true };
+      const param = { to: email, code: emailCode, type: "sign" };
       if (sessionStorage.getItem("to") !== email) {
         alert(
           "입력된 이메일과 요청한 이메일이 다릅니다. 인증번호를 다시 요청해주세요."
@@ -193,7 +168,7 @@
         mailInit();
         return;
       }
-      ajaxUtil(param, "selectVerifyAuthByUser.do", (response) => {
+      mailCodeCheckByUser(param, (response) => {
         console.log(JSON.stringify(response));
         if (response.result === true) {
           alert("인증이 완료되었습니다.");

@@ -15,4 +15,6 @@ public interface UserMemberMapper {
 	public Map<String, Object> selectLoginByUser(Map<String, Object> login);
 
 	public Map<String, Object> selectFindIdByUser(String email);
+
+	public int updatePasswordByUser(Map<String, Object> param);
 }
