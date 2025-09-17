@@ -11,4 +11,8 @@ public interface UserProductMapper {
 
 	List<HashMap<String, Object>> selectProductByUser(Map<String, Object> param);
 
+	int insertCartItemByUser(Map<String, Object> param);
+	
+	List<HashMap<String, Object>> slectOptionInfoByUser(Map<String, Object> param);
+
 }
