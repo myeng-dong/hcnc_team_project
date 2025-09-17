@@ -684,10 +684,6 @@
             xhr.send("xmlData=" + encodeURIComponent(xmlStr));
         };
 
-
-
-
-
         });
         
         // Regist UI Components Event
