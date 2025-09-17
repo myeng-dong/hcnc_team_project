@@ -21,6 +21,23 @@
     <title>DOO.D 회원가입</title>
   </head>
   <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("uuid");
+      if (code != null) {
+        sessionStorage.setItem("token", code);
+        sessionStorage.setItem("loginType", "KAKAO");
+        $("#idpw-Box").css("display", "none");
+      } else {
+        sessionStorage.removeItem("token");
+        sessionStorage.setItem("loginType", "IDPW");
+      }
+    });
+    window.addEventListener("beforeunload", () => {
+      sessionStorage.clear();
+    });
+  </script>
+  <script>
     $(() => {
       init();
       $("#birth").datepicker({
@@ -191,12 +208,13 @@
       const phone = $("#phone").val().trim().replace(/-/gi, "");
       const birth = $("#birth").val().trim();
       const gender = $("input[name='gender']:checked").val();
+      const isSocial = sessionStorage.getItem("token");
 
-      if (id === "") {
+      if (id === "" && isSocial == null) {
         alert("아이디를 입력해주세요.");
         return;
       }
-      if (sessionStorage.getItem("signid") !== id) {
+      if (sessionStorage.getItem("signid") !== id && isSocial == null) {
         alert("아이디 중복체크를 해주세요.");
         return;
       }
@@ -215,25 +233,25 @@
         alert("이름을 입력해주세요.");
         return;
       }
-      if (password === "") {
+      if (password === "" && isSocial == null) {
         alert("비밀번호를 입력해주세요.");
         return;
       }
-      if (passwordCheck === "") {
+      if (passwordCheck === "" && isSocial == null) {
         alert("비밀번호확인을 입력해주세요.");
         return;
       }
-      if (containsSqlKeywords(password)) {
+      if (containsSqlKeywords(password) && isSocial == null) {
         alert("비밀번호형식을 확인해주세요.");
         return;
       }
-      if (!passwordRegex.test(password)) {
+      if (!passwordRegex.test(password) && isSocial == null) {
         alert(
           "비밀번호를 8자리이상 영문,숫자,특수문자 1개이상 포함시켜주세요."
         );
         return;
       }
-      if (password !== passwordCheck) {
+      if (password !== passwordCheck && isSocial == null) {
         alert("비밀번호와 비밀번호확인란이 일치하지않습니다.");
         return;
       }
@@ -260,9 +278,11 @@
         name: name,
         password: password,
         email: email,
+        loginType: sessionStorage.getItem("loginType"),
         phone: phone,
         birth: birth,
         gender: gender,
+        uuid: sessionStorage.getItem("token") ?? "",
       };
 
       ajaxUtil(param, "insertSignUpByUser.do", (response) => {
@@ -589,46 +609,48 @@
         <div class="signbox">
           <div class="sign-title">회원가입</div>
           <div style="display: flex; flex-direction: column">
-            <div class="input-parent">
-              <i class="xi-user-o"></i>
-              <div class="input-name">아이디</div>
-              <div class="input-line">|</div>
-              <input
-                name="id"
-                id="id"
-                type="text"
-                placeholder="영문 4자이상, 최대 20자"
-                maxlength="20"
-              />
-              <div class="btn-verify" onclick="idChkByUser()">
-                <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
-                  중복체크
-                </p>
+            <div id="idpw-Box">
+              <div class="input-parent">
+                <i class="xi-user-o"></i>
+                <div class="input-name">아이디</div>
+                <div class="input-line">|</div>
+                <input
+                  name="id"
+                  id="id"
+                  type="text"
+                  placeholder="영문 4자이상, 최대 20자"
+                  maxlength="20"
+                />
+                <div class="btn-verify" onclick="idChkByUser()">
+                  <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                    중복체크
+                  </p>
+                </div>
               </div>
-            </div>
-            <div class="input-parent">
-              <i class="xi-lock-o"></i>
-              <div class="input-name">비밀번호</div>
-              <div class="input-line">|</div>
-              <input
-                name="password"
-                id="password"
-                type="password"
-                maxlength="30"
-                placeholder="영문,숫자,특수문자 포함 최소 8자리 이상"
-              />
-            </div>
-            <div class="input-parent">
-              <i class="xi-lock"></i>
-              <div class="input-name">비밀번호확인</div>
-              <div class="input-line">|</div>
-              <input
-                name="passwordCheck"
-                id="passwordCheck"
-                type="password"
-                maxlength="30"
-                placeholder="비밀번호 한번 더 입력"
-              />
+              <div class="input-parent">
+                <i class="xi-lock-o"></i>
+                <div class="input-name">비밀번호</div>
+                <div class="input-line">|</div>
+                <input
+                  name="password"
+                  id="password"
+                  type="password"
+                  maxlength="30"
+                  placeholder="영문,숫자,특수문자 포함 최소 8자리 이상"
+                />
+              </div>
+              <div class="input-parent">
+                <i class="xi-lock"></i>
+                <div class="input-name">비밀번호확인</div>
+                <div class="input-line">|</div>
+                <input
+                  name="passwordCheck"
+                  id="passwordCheck"
+                  type="password"
+                  maxlength="30"
+                  placeholder="비밀번호 한번 더 입력"
+                />
+              </div>
             </div>
             <div class="input-parent">
               <i class="xi-pen-o"></i>

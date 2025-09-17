@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@
+taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -19,39 +20,11 @@
     Kakao.init("58d56fb6efcae0f41fd505c8bd4300c9");
     const loginWithKakao = () => {
       Kakao.Auth.authorize({
-        redirectUri:
-          "http://127.0.0.1:5500/Hcnc_Team_Project/src/main/webapp/WEB-INF/jsp/sign/login.html",
+        redirectUri: "http://localhost:8080/kakaoLogin.do",
         prompt: "login",
       });
     };
     // 서버 이전 예정
-    window.addEventListener("DOMContentLoaded", () => {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
-      if (code) {
-        $.ajax({
-          url: "https://kauth.kakao.com/oauth/token",
-          type: "POST",
-          contentType: "application/x-www-form-urlencoded;charset=utf-8",
-          data: {
-            grant_type: "authorization_code",
-            client_id: "f8098d531cc49f4deb438dc740363565", // ⚠️ 프론트에 노출되면 안 됨
-            redirect_uri:
-              "http://127.0.0.1:5500/Hcnc_Team_Project/src/main/webapp/WEB-INF/jsp/sign/login.html",
-            code: code,
-            scope: "openid",
-            // client_secret: "CLIENT_SECRET",
-          },
-          success: function (res) {
-            console.log("토큰 응답:", res.id_token.split(".")[0]);
-            // res.access_token, res.refresh_token 사용 가능
-          },
-          error: function (err) {
-            console.error("토큰 요청 실패:", err);
-          },
-        });
-      }
-    });
   </script>
   <script type="text/javascript">
     $(() => {
