@@ -71,6 +71,7 @@
     <Service prefixid="banner" type="form" url="./banner/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="dash" type="form" url="./dash/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="popup" type="form" url="./popup/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="techtip" type="form" url="./techtip/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
   </Services>
   <Protocols/>
   <DeviceAdaptors/>
