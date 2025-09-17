@@ -104,6 +104,7 @@
 	<select id="selectMemberDetail" parameterType="String" resultType="java.util.Map">
 	   SELECT 
 			MEMBER_ID
+			,PASSWORD
 			,USER_NAME
             ,LOGIN_TYPE
             ,EMAIL_ADDR
@@ -121,5 +122,34 @@
          FROM MEMBERS
         WHERE MEMBER_ID = #{memberId}
 	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="memberUpdate" parameterType="java.util.Map">
+		UPDATE MEMBERS
+		   SET USER_NAME = #{USER_NAME}
+		   	   ,PASSWORD = #{PASSWORD}
+		   	   ,EMAIL_ADDR = #{EMAIL_ADDR}
+		   	   ,PHONE_NUMBER = #{PHONE_NUMBER}
+		   	   ,GENDER = #{GENDER}
+		   	   ,BIRTH = STR_TO_DATE(#{BIRTH}, '%Y%m%d%H%i%s')
+		   	   ,FIRST_LOGIN_DT = STR_TO_DATE(#{FIRST_LOGIN_DT}, '%Y%m%d%H%i%s')
+		   	   ,LAST_LOGIN_DT = STR_TO_DATE(#{LAST_LOGIN_DT}, '%Y%m%d%H%i%s')
+		   	   ,GRADE_CODE = #{GRADE_CODE}
+		   	   ,MEMBER_TYPE = #{MEMBER_TYPE}
+		   	   ,STATUS = #{STATUS}
+		   	   ,UPDATE_DT = NOW()
+		 WHERE MEMBER_ID = #{MEMBER_ID}
+	</update>
+	
+	<!-- 회원, 관리자 정보 수정시 중복체크 -->
+	<select id="updateDuplicated" parameterType="java.util.Map" resultType="int">
+       SELECT COUNT(*)
+         FROM MEMBERS
+        WHERE MEMBER_ID != #{MEMBER_ID}
+          AND (EMAIL_ADDR = #{EMAIL_ADDR}
+           OR PHONE_NUMBER = #{PHONE_NUMBER})
+   </select>
+
+
 	
 </mapper>
