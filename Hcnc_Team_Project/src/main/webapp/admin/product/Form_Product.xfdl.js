@@ -67,6 +67,7 @@
             obj.set_text("");
             obj.set_background("#ffffff");
             obj.set_borderRadius("0px 10px 10px 0px");
+            obj.set_color("#215825");
             this.addChild(obj.name, obj);
 
             obj = new Div("Div00_00_00_00","40","213",null,"40","40",null,null,null,null,null,this);
@@ -134,7 +135,7 @@
             obj = new Button("btn_reg","935","370","100","40",null,null,null,null,null,null,this);
             obj.set_text("상품등록");
             obj.set_color("#FFFFFF");
-            obj.set_background("#344ad9");
+            obj.set_background("#26548c");
             obj.set_borderRadius("6px");
             obj.set_font("bold 11pt/normal \"Arial\"");
             obj.set_border("1px solid #CCCCCC");
@@ -144,7 +145,7 @@
 
             obj = new Button("btn_excel","1065","370","150","40",null,null,null,null,null,null,this);
             obj.set_text("엑셀다운로드");
-            obj.set_color("#2E7D32");
+            obj.set_color("#2e7d32");
             obj.set_background("url(\'imagerc::excel_logo.png\') no-repeat left center /38px #ffffff");
             obj.set_border("1px solid #CCCCCC");
             obj.set_borderRadius("6px");
@@ -204,7 +205,7 @@
             obj = new Button("btn_view","698","102","72","34",null,null,null,null,null,null,this);
             obj.set_text("조회");
             obj.set_color("#FFFFFF");
-            obj.set_background("#344ad9");
+            obj.set_background("#26548c");
             obj.set_borderRadius("6px");
             obj.set_font("bold 11pt/normal \"Arial\"");
             obj.set_border("1px solid #CCCCCC");
