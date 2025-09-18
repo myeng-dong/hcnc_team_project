@@ -59,6 +59,24 @@ public class MemberService {
 		
 		return memberMapper.updateDuplicated(param);
 	}
+    
+	//회원 등급 관리 조회
+	public List<Map<String, Object>> selectGradeManage(Map<String, Object> param) {
+		
+		return  memberMapper.selectGradeManage(param);
+	}
+	
+	//회원등급 변경
+	public int updateMemberGrade(Map<String, Object> updateGrade) {
+		return memberMapper.updateMemberGrade(updateGrade);
+		
+	}
+	
+	//관리자 제외 등급 조회 
+	public List<Map<String, Object>> selectGradeExceptionAdminList() {
+		
+		return memberMapper.selectGradeExceptionAdminList();
+	}
 	
 
 }
