@@ -221,6 +221,7 @@ public class UserMemberController {
             if(count == 1) {
             	HttpSession session = request.getSession();
             	Map<String, Object> info = new HashMap();
+				info.put("MEMBER_ID",token.split("\\.")[0]);
 				info.put("userType", "user");
 				session.setAttribute("userInfo", info);
 				mv.addObject("status", 200);
@@ -399,10 +400,4 @@ public class UserMemberController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/mypage.do",method = RequestMethod.GET)
-	public ModelAndView myPage () {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("mypage/mypage");
-		return mv;
-	}
 }

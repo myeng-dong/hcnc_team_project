@@ -1,0 +1,54 @@
+package user.web;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import user.mail.UserMailService;
+import user.service.UserMemberService;
+
+
+@Controller
+public class UserMypageController {
+    @Autowired
+	private UserMemberService userMemberService;
+	@Autowired
+	private UserMailService mailService;
+
+    @RequestMapping(value="/mypage.do",method = RequestMethod.GET)
+	public ModelAndView myPage (HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		ObjectMapper objectMapper = new ObjectMapper();
+		HttpSession session = request.getSession(false);
+		try {
+			if(session != null) {
+				Map<String, Object> info = (Map<String, Object>) session.getAttribute("userInfo");
+				if(info != null) {
+					mv.addObject("status",200);
+					String id = (String) info.get("MEMBER_ID");
+					Map<String, Object> user = userMemberService.selectUserInfoByUser(id);
+                    List<Map<String, Object>> orders = userMemberService.selectMypageShippingInfoByUser(id);
+					mv.addObject("user",user);
+                    mv.addObject("orders",objectMapper.writeValueAsString(orders));
+					mv.setViewName("mypage/mypage");
+				}
+				mv.setViewName("redirect:/login.do");
+			} else {
+				mv.setViewName("redirect:/login.do");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		mv.setViewName("mypage/mypage");
+		return mv;
+	}
+}

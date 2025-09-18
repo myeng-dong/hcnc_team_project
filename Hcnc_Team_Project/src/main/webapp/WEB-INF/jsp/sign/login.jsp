@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@
 taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:include page="../layout/headerlink.jsp" />
 <!DOCTYPE html>
 <html>
   <head>
@@ -86,6 +87,9 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
           location.href = "/";
         }
         if (response.status === 404) {
+          alert("회원정보를 찾을수없습니다.");
+        }
+        if (response.status === 500) {
           alert("회원정보를 찾을수없습니다.");
         }
       });

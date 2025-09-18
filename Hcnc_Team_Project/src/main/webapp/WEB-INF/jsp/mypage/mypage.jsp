@@ -1,12 +1,84 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="../layout/headertop.jsp" />
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>DDD.D - 마이페이지</title>
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-  rel="stylesheet"
-/>
+<jsp:include page="../layout/headerlink.jsp" />
+<!DOCTYPE html>
+<head>
+  <jsp:include page="../layout/headertop.jsp" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDD.D - 마이페이지</title>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+  />
+</head>
+<script>
+  // 간단한 인터랙션
+  document.querySelectorAll(".status-item").forEach((item) => {
+    item.addEventListener("click", function () {
+      const label = this.querySelector(".status-label").textContent;
+      alert(`${label} 상품을 확인하시겠습니까?`);
+    });
+  });
+
+  document.querySelectorAll(".wishlist-item").forEach((item) => {
+    item.addEventListener("click", function () {
+      const name = this.querySelector(".item-name").textContent;
+      const price = this.querySelector(".item-price").textContent;
+      alert(`${name}\n가격: ${price}\n\n장바구니에 추가하시겠습니까?`);
+    });
+  });
+
+  document
+    .querySelector(".edit-profile-btn")
+    .addEventListener("click", function () {
+      alert("프로필 수정 페이지로 이동합니다! ✏️");
+    });
+
+  // 메뉴 클릭 이벤트
+  document.querySelectorAll(".menu-item").forEach((item) => {
+    item.addEventListener("click", function (e) {
+      e.preventDefault();
+      const menuName = this.querySelector("span").textContent;
+      alert(`${menuName} 페이지로 이동합니다! 📝`);
+    });
+  });
+</script>
+<script language="javascript">
+  $(() => {
+    // let orderList = "${orders}";
+    // console.log(orderList);
+    // if (orderList.legnth != 0) {
+    //   shipCalculator(orderList);
+    // }
+  });
+  const shipCalculator = (orders) => {
+    let payWait = 0;
+    let shipReady = 0;
+    let shipping = 0;
+    let shipDone = 0;
+    orders.map((res) => {
+      if (res.PAYMENT_STATUS == "결제대기") {
+        payWait += 1;
+        return;
+      }
+      if (res.ORDER_COMMENT == "결제완료") {
+        shipReady += 1;
+        return;
+      }
+      if (res.ORDER_COMMENT == "배송중") {
+        shipping += 1;
+        return;
+      }
+      if (res.ORDER_COMMENT == "배송완료") {
+        shipDone += 1;
+        return;
+      }
+    });
+    $("#payWait").text(payWait);
+    $("#shipReady").text(shipReady);
+    $("#shipping").text(shipping);
+    $("#shipDone").text(shipDone);
+  };
+</script>
 <style>
   .user-info {
     display: flex;
@@ -50,7 +122,7 @@
   .profile-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 30px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -367,166 +439,140 @@
   }
 </style>
 
-<div class="container">
-  <!-- 메인 콘텐츠 -->
-  <div class="inner">
-    <div class="main-content">
-      <!-- 사이드바 -->
-      <div class="sidebar">
-        <!-- 프로필 카드 -->
-        <div class="profile-card">
-          <div class="profile-img">✏️</div>
-          <div class="profile-name">김문구</div>
-          <div class="profile-email">stationery@dddd.com</div>
-          <button class="edit-profile-btn">프로필 수정</button>
-        </div>
+<body>
+  <jsp:include page="../layout/header.jsp" />
+  <jsp:include page="../layout/menu.jsp" />
+  <div style="height: 20px"></div>
+  <div class="container">
+    <!-- 메인 콘텐츠 -->
+    <div class="inner">
+      <div class="main-content">
+        <!-- 사이드바 -->
+        <div class="sidebar">
+          <!-- 프로필 카드 -->
+          <div class="profile-card">
+            <div class="profile-img">✏️</div>
+            <div class="profile-name">${user.USER_NAME}</div>
+            <div class="profile-email">${user.EMAIL_ADDR}</div>
+            <button class="edit-profile-btn">프로필 수정</button>
+          </div>
 
-        <!-- 퀵 메뉴 -->
-        <div class="quick-menu">
-          <h3><i class="fas fa-bolt"></i> 빠른 메뉴</h3>
-          <a href="#" class="menu-item">
-            <div class="menu-icon">📦</div>
-            <span>주문/배송 조회</span>
-          </a>
-          <a href="#" class="menu-item">
-            <div class="menu-icon">❤️</div>
-            <span>찜한 상품</span>
-          </a>
-          <a href="#" class="menu-item">
-            <div class="menu-icon">💳</div>
-            <span>적립금/쿠폰</span>
-          </a>
-          <a href="#" class="menu-item">
-            <div class="menu-icon">📝</div>
-            <span>상품 후기</span>
-          </a>
-          <a href="#" class="menu-item">
-            <div class="menu-icon">💬</div>
-            <span>1:1 문의</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- 메인 패널 -->
-      <div class="main-panel">
-        <!-- 주문 현황 -->
-        <div class="order-status">
-          <h2 class="section-title">
-            <i class="fas fa-shopping-cart"></i>
-            나의 주문 현황
-          </h2>
-          <div class="status-grid">
-            <div class="status-item">
-              <div class="status-number">2</div>
-              <div class="status-label">결제완료</div>
-            </div>
-            <div class="status-item">
-              <div class="status-number">1</div>
-              <div class="status-label">배송준비</div>
-            </div>
-            <div class="status-item">
-              <div class="status-number">3</div>
-              <div class="status-label">배송중</div>
-            </div>
-            <div class="status-item">
-              <div class="status-number">15</div>
-              <div class="status-label">배송완료</div>
-            </div>
+          <!-- 퀵 메뉴 -->
+          <div class="quick-menu">
+            <h3><i class="fas fa-bolt"></i> 빠른 메뉴</h3>
+            <a href="#" class="menu-item">
+              <div class="menu-icon">📦</div>
+              <span>주문/배송 조회</span>
+            </a>
+            <a href="#" class="menu-item">
+              <div class="menu-icon">❤️</div>
+              <span>찜한 상품</span>
+            </a>
+            <a href="#" class="menu-item">
+              <div class="menu-icon">💳</div>
+              <span>적립금/쿠폰</span>
+            </a>
+            <a href="#" class="menu-item">
+              <div class="menu-icon">📝</div>
+              <span>상품 후기</span>
+            </a>
+            <a href="#" class="menu-item">
+              <div class="menu-icon">💬</div>
+              <span>1:1 문의</span>
+            </a>
           </div>
         </div>
 
-        <!-- 최근 주문 -->
-        <div class="recent-orders">
-          <h2 class="section-title">
-            <i class="fas fa-clock"></i>
-            최근 주문 내역
-          </h2>
-          <div class="order-item">
-            <div class="order-info">
-              <h4>모나미 153 볼펜 세트 (12색)</h4>
-              <div class="order-date">2024-11-15</div>
+        <!-- 메인 패널 -->
+        <div class="main-panel">
+          <!-- 주문 현황 -->
+          <div class="order-status">
+            <h2 class="section-title">
+              <i class="fas fa-shopping-cart"></i>
+              나의 주문 현황
+            </h2>
+            <div class="status-grid">
+              <div class="status-item">
+                <div id="payWait" class="status-number">2</div>
+                <div class="status-label">입금대기</div>
+              </div>
+              <div class="status-item">
+                <div id="shipReady" class="status-number">1</div>
+                <div class="status-label">배송준비</div>
+              </div>
+              <div class="status-item">
+                <div id="shipping" class="status-number">3</div>
+                <div class="status-label">배송중</div>
+              </div>
+              <div class="status-item">
+                <div id="shipDone" class="status-number">15</div>
+                <div class="status-label">배송완료</div>
+              </div>
             </div>
-            <div class="order-status-badge delivered">배송완료</div>
           </div>
-          <div class="order-item">
-            <div class="order-info">
-              <h4>코쿠요 캠퍼스 노트 A4</h4>
-              <div class="order-date">2024-11-12</div>
-            </div>
-            <div class="order-status-badge shipping">배송중</div>
-          </div>
-          <div class="order-item">
-            <div class="order-info">
-              <h4>포스트잇 플래그 세트</h4>
-              <div class="order-date">2024-11-10</div>
-            </div>
-            <div class="order-status-badge">결제완료</div>
-          </div>
-        </div>
 
-        <!-- 위시리스트 -->
-        <div class="wishlist">
-          <h2 class="section-title">
-            <i class="fas fa-heart"></i>
-            찜한 상품
-          </h2>
-          <div class="wishlist-grid">
-            <div class="wishlist-item">
-              <div class="item-img">📐</div>
-              <div class="item-name">프리미엄 제도용품 세트</div>
-              <div class="item-price">₩35,000</div>
+          <!-- 최근 주문 -->
+          <div class="recent-orders">
+            <h2 class="section-title">
+              <i class="fas fa-clock"></i>
+              최근 주문 내역
+            </h2>
+            <div class="order-item">
+              <div class="order-info">
+                <h4>모나미 153 볼펜 세트 (12색)</h4>
+                <div class="order-date">2024-11-15</div>
+              </div>
+              <div class="order-status-badge delivered">배송완료</div>
             </div>
-            <div class="wishlist-item">
-              <div class="item-img">🖊️</div>
-              <div class="item-name">파일럿 만년필 한정판</div>
-              <div class="item-price">₩89,000</div>
+            <div class="order-item">
+              <div class="order-info">
+                <h4>코쿠요 캠퍼스 노트 A4</h4>
+                <div class="order-date">2024-11-12</div>
+              </div>
+              <div class="order-status-badge shipping">배송중</div>
             </div>
-            <div class="wishlist-item">
-              <div class="item-img">📚</div>
-              <div class="item-name">몰스킨 다이어리 2025</div>
-              <div class="item-price">₹42,000</div>
+            <div class="order-item">
+              <div class="order-info">
+                <h4>포스트잇 플래그 세트</h4>
+                <div class="order-date">2024-11-10</div>
+              </div>
+              <div class="order-status-badge">결제완료</div>
             </div>
-            <div class="wishlist-item">
-              <div class="item-img">✂️</div>
-              <div class="item-name">OLFA 프리미엄 커터</div>
-              <div class="item-price">₩15,800</div>
+          </div>
+
+          <!-- 위시리스트 -->
+          <div class="wishlist">
+            <h2 class="section-title">
+              <i class="fas fa-heart"></i>
+              찜한 상품
+            </h2>
+            <div class="wishlist-grid">
+              <div class="wishlist-item">
+                <div class="item-img">📐</div>
+                <div class="item-name">프리미엄 제도용품 세트</div>
+                <div class="item-price">₩35,000</div>
+              </div>
+              <div class="wishlist-item">
+                <div class="item-img">🖊️</div>
+                <div class="item-name">파일럿 만년필 한정판</div>
+                <div class="item-price">₩89,000</div>
+              </div>
+              <div class="wishlist-item">
+                <div class="item-img">📚</div>
+                <div class="item-name">몰스킨 다이어리 2025</div>
+                <div class="item-price">₹42,000</div>
+              </div>
+              <div class="wishlist-item">
+                <div class="item-img">✂️</div>
+                <div class="item-name">OLFA 프리미엄 커터</div>
+                <div class="item-price">₩15,800</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<script>
-  // 간단한 인터랙션
-  document.querySelectorAll(".status-item").forEach((item) => {
-    item.addEventListener("click", function () {
-      const label = this.querySelector(".status-label").textContent;
-      alert(`${label} 상품을 확인하시겠습니까?`);
-    });
-  });
-
-  document.querySelectorAll(".wishlist-item").forEach((item) => {
-    item.addEventListener("click", function () {
-      const name = this.querySelector(".item-name").textContent;
-      const price = this.querySelector(".item-price").textContent;
-      alert(`${name}\n가격: ${price}\n\n장바구니에 추가하시겠습니까?`);
-    });
-  });
-
-  document
-    .querySelector(".edit-profile-btn")
-    .addEventListener("click", function () {
-      alert("프로필 수정 페이지로 이동합니다! ✏️");
-    });
-
-  // 메뉴 클릭 이벤트
-  document.querySelectorAll(".menu-item").forEach((item) => {
-    item.addEventListener("click", function (e) {
-      e.preventDefault();
-      const menuName = this.querySelector("span").textContent;
-      alert(`${menuName} 페이지로 이동합니다! 📝`);
-    });
-  });
-</script>
+  <div style="height: 20px"></div>
+  <jsp:include page="../layout/footer.jsp" />
+</body>
