@@ -25,5 +25,10 @@ public interface MemberMapper {
 	
 	//회원 상세조회
 	Map<String, Object> selectMemberDetail(String memberId);
+	
+	//회원 정보 수정
+	int memberUpdate(Map<String, Object> param);
+
+	int updateDuplicated(Map<String, Object> param);
 
 }

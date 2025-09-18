@@ -1,26 +1,15 @@
 package admin.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
-import com.nexacro17.xapi.data.DataSet;
-import com.nexacro17.xapi.data.DataTypes;
 
-import admin.service.AdminService;
 import admin.service.BoardService;
 
 @Controller
@@ -29,27 +18,46 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping(value="/selectBoardCodeByAdmin.do")
-	public NexacroResult selectBoardCodeByAdmin(
-	/*
-	 * @ParamDataSet(name="ds_data", required = false) Map<String, Object> ds_data
-	 */
-			) {
+	//1대1 문의 게시판 조회
+	@RequestMapping(value="/selectOneOnOneByAdmin.do")
+	public NexacroResult selectOneOnOneByAdmin(
+			@ParamDataSet(name="ds_search", required = false) Map<String,Object> dsSearch) {
 		NexacroResult result = new NexacroResult();
-		List<Map<String, Object>> selectBoardCodeByAdmin = boardService.selectBoardCodeByAdmin();
-		result.addDataSet("ds_radio", selectBoardCodeByAdmin);
+		
+		List<Map<String, Object>> oneList = boardService.selectOneOnOneByAdmin(dsSearch);
+		
+		result.addDataSet("ds_board", oneList);
+
 		return result;
 	}
 	
-	@RequestMapping(value="/selectBoardByAdmin.do")
-	public NexacroResult selectBoardByAdmin(
-	/*
-	 * @ParamDataSet(name="ds_data", required = false) Map<String, Object> ds_data
-	 */
-			) {
+	//1대1 문의 게시글 답변 추가 + 원 게시물 게시상태 변경
+	@RequestMapping(value="/insertCommentByAdmin.do")
+	public NexacroResult insertCommentByAdmin(
+			@ParamDataSet(name="ds_comment", required = false) Map<String,Object> dsComment) {
 		NexacroResult result = new NexacroResult();
-		List<Map<String, Object>> selectBoardByAdmin = boardService.selectBoardByAdmin();
-		result.addDataSet("ds_list", selectBoardByAdmin);
+		
+		String postId = (String) dsComment.get("POST_ID");
+
+		boardService.insertCommentByAdmin(dsComment);    //코멘트 인서트 
+		
+		if(postId != null && !"".equals(postId)){
+			boardService.updatePostStatusByAdmin(dsComment); //코멘트 단 원 게시물의 게시상태 변경
+		}
+
+		return result;
+	}
+	
+	// 공지사항, FAQ, QnA 게시판 조회
+	@RequestMapping(value="/selectPostListByAdmin.do")
+	public NexacroResult selectPostListByAdmin(
+			@ParamDataSet(name="ds_search", required = false) Map<String,Object> dsSearch) {
+		NexacroResult result = new NexacroResult();
+		
+		List<Map<String, Object>> postList = boardService.selectPostListByAdmin(dsSearch);
+		
+		result.addDataSet("ds_board", postList);
+		
 		return result;
 	}
 	

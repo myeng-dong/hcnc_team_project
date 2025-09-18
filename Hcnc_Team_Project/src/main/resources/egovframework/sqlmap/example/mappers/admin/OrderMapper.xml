@@ -99,7 +99,7 @@
 	           AS ADDRESS  
 	         , IFNULL(S.SHIPMENT_ID, '') AS SHIPMENT_ID         -- 배송 ID (NULL이면 공백)
 	         , '0' AS CHK                                       -- 넥사 체크박스 설정용
-	         , S.COUIER_NAME                                    -- 택배 회사
+	         , C.COURIER_NAME                                   -- 택배 회사
 	         , S.TRACKING_NUMBER                                -- 송장 번호
 	         , CASE 
 	             WHEN S.SHIPMENT_STATUS
@@ -119,17 +119,12 @@
 				       ELSE ''
 				  END
 				) AS PRODUCT_SHORT                              -- 넥사크로 그리드에 표출될 내용(ex>딸기 1개 외 3건)
-	         , GROUP_CONCAT(
-	         	CONCAT(
-	         	 I.PRODUCT_NAME, ' ',
-	         	 IFNULL(I.PRODUCT_OPTION,''), '*',
-	         	 I.QUANTITY, '개')
-             	SEPARATOR '\r\n') AS PRODUCT_SUMMARY              -- 주문한 아이템 내역
              , COUNT(DISTINCT I.ORDER_ITEM_ID) AS ITEM_COUNT    -- 주문한 아이템 갯수(제품의 총 CNT가 아니라 주문된 아이템의 종류의 갯수)
 	    FROM ORDERS O
 	    LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID                  -- 배송테이블
 	    LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER        -- 멤버테이블
 	    LEFT JOIN ORDER_ITEMS I ON O.ORDER_ID = I.ORDER_ID            -- 주문상품 테이블
+	    LEFT JOIN COURIER C ON S.COURIER_ID = C.COURIER_ID            -- 택배사 테이블
 	    WHERE 1=1
 	    <if test="ORDER_ID != null and ORDER_ID != ''">
 	    AND O.ORDER_ID = #{ORDER_ID}

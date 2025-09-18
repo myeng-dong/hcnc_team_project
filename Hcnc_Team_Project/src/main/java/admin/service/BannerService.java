@@ -18,14 +18,13 @@ public class BannerService {
 	public List<Map<String, Object>> selectBannerListByAdmin() {
 		return bannerMapper.selectBannerListByAdmin();
 	}
+	
+	public int insertBannerByAdmin(Map<String, Object> dsBWrite) {
+        return bannerMapper.insertBannerByAdmin(dsBWrite);
+    }
 
-
-	public void insertBannerByAdmin(Map<String, Object> dsBWrite) {
-		 bannerMapper.insertBannerByAdmin();
-	}
-
-	public void updateBannerByAdmin(Map<String, Object> dsBUpdate) {
-		 bannerMapper.updateBannerByAdmin();
-	}
+    public int updateBannerByAdmin(Map<String, Object> dsBUpdate) {
+        return bannerMapper.updateBannerByAdmin(dsBUpdate);
+    }
 
 }
