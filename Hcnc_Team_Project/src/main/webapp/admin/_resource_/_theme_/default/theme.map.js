@@ -1550,7 +1550,11 @@
             								{
             									"enabled" :
             									{
+<<<<<<< HEAD
             										"font" : nexacro.FontObject("12px Gulim"),
+=======
+            										"font" : nexacro.FontObject("12px \"Gulim\""),
+>>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
             										"color" : nexacro.ColorObject("#666666")
             									},
             									"disabled" :

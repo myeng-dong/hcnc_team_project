@@ -1,24 +1,24 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
 <!DOCTYPE html>
+<jsp:include page="../layout/headerlink.jsp" />
 
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>두디</title>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/css/egovframework/import.css">
-    <link rel="stylesheet" href="/css/egovframework/import-sub.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/xeicon/2.3.0/xeicon.min.css">
+    <title>각자페이지마다 pagename</title>
+    <jsp:include page="../layout/headertop.jsp" />
 </head>
 <body>
-
 <jsp:include page="../layout/header.jsp" />
 <jsp:include page="../layout/menu.jsp" />
-  
-<div class="container">
-	<p>test page임</p>
+
+<div class="container-wrap">
+    <div class="container pagename">
+        <p>test page임</p>
+    </div>
 </div>
 
-</body>
 <jsp:include page="../layout/footer.jsp" />
+</body>
+</html>

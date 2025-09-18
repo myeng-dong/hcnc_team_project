@@ -5,14 +5,15 @@
 		SELECT *
 		FROM BANNERS
 		WHERE 1=1
-		<if test="bannerType != null and bannerType != ''">
+		<if test="BANNER_TYPE != null and BANNER_TYPE != ''">
 	        AND BANNER_TYPE = #{BANNER_TYPE}
 	    </if>
 	</select>
 	
+	<!-- 배너작성 -->
 	<insert id="insertBannerByAdmin" parameterType="map">
 	    INSERT INTO BANNERS (
-	        ,BANNER_TYPE
+	        BANNER_TYPE
 	        ,BANNER_TITLE
 	        ,IMG_ORIGIN_NAME
 	        ,IMG_ATTACHED_NAME
@@ -23,7 +24,7 @@
 	        ,INPUT_DT
 	        ,INPUT_ID
 	    ) VALUES (
-	        ,#{BANNER_TYPE}
+	        #{BANNER_TYPE}
 	        ,#{BANNER_TITLE}
 	        ,#{IMG_ORIGIN_NAME}
 	        ,#{IMG_ATTACHED_NAME}
@@ -32,10 +33,11 @@
 	        ,#{LINKED_URL}
 	        ,#{SORT_NUMBER}
 	        ,NOW()
-	        ,#{INPUT_ID}
+	        ,#{MEMBER_ID}
 	    )
 	</insert>
 	
+	<!-- 배너수정 -->
 	<update id="updateBannerByAdmin" parameterType="map">
         UPDATE BANNERS
         SET
@@ -48,7 +50,7 @@
             LINKED_URL       = #{LINKED_URL},
             SORT_NUMBER      = #{SORT_NUMBER},
             UPDATE_DT        = NOW(),
-            UPDATE_ID        = #{UPDATE_ID}
+            UPDATE_ID        = #{MEMBER_ID}
         WHERE BANNER_ID = #{BANNER_ID}
     </update>
 </mapper>
