@@ -73,7 +73,19 @@ public class ProductService {
 	    productMapper.deleteCategoryByAdmin(p);
 	}
 
+
 	
+	// ------ 옵션 -------
+
+    public List<Map<String,Object>> selectOptionByAdmin(Map<String,Object> p) {
+        return productMapper.selectOptionByAdmin(p);
+    }
+
+    public void updateOptionVisibleByAdmin(Map<String,Object> p) {
+        productMapper.updateOptionVisibleByAdmin(p);
+    }
+
+
 	
 	
 }

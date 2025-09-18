@@ -104,9 +104,9 @@
 	<select id="selectSubCategoryComboByAdmin" parameterType="int"
 		resultType="java.util.Map">
 		SELECT SUB_CATE_ID, SUB_CATE_NM
-		FROM SUB_CATEGORIES
-		WHERE MAIN_CATE_ID = #{_parameter}
-		ORDER BY SUB_CATE_NM
+		  FROM SUB_CATEGORIES
+		 WHERE MAIN_CATE_ID = #{_parameter}
+		 ORDER BY SUB_CATE_NM
 	</select>
 
 
@@ -117,96 +117,95 @@
 	<insert id="insertProduct" parameterType="java.util.Map"
 		useGeneratedKeys="true" keyProperty="PRODUCT_ID">
 		INSERT INTO products
-		(SUB_CATE_ID, PRODUCT_NAME, PRODUCT_CODE, PRODUCT_CONTENT, PRODUCT_PRICE,
-		COST_PRICE, IS_VISIBLE, INPUT_DT, INPUT_ID)
-		VALUES
-		(#{SUB_CATE_ID}, #{PRODUCT_NAME}, UUID(), #{PRODUCT_CONTENT}, #{PRODUCT_PRICE},
-		#{COST_PRICE}, #{IS_VISIBLE}, NOW(), #{INPUT_ID})
+				(SUB_CATE_ID, PRODUCT_NAME, PRODUCT_CODE, PRODUCT_CONTENT, PRODUCT_PRICE,
+				COST_PRICE, IS_VISIBLE, INPUT_DT, INPUT_ID)
+			 VALUES
+				(#{SUB_CATE_ID}, #{PRODUCT_NAME}, UUID(), #{PRODUCT_CONTENT}, #{PRODUCT_PRICE},
+				#{COST_PRICE}, #{IS_VISIBLE}, NOW(), #{INPUT_ID})
 	</insert>
 
 	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="java.util.Map"
 		useGeneratedKeys="true" keyProperty="OPTION_ID">
 		INSERT INTO options
-		(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
-		VALUES
-		(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(),
-		#{INPUT_ID})
+				(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
+			 VALUES
+				(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(),
+				#{INPUT_ID})
 	</insert>
 
 	<!-- 재고 등록 -->
 	<insert id="insertInventory" parameterType="java.util.Map"
 		useGeneratedKeys="true" keyProperty="INVENTORY_ID">
 		INSERT INTO inventories
-		(PRODUCT_ID, OPTION_ID, QUANTITY, INPUT_DT, INPUT_ID)
-		VALUES
-		(#{PRODUCT_ID}, #{OPTION_ID}, #{QUANTITY}, NOW(), #{INPUT_ID})
+				(PRODUCT_ID, OPTION_ID, QUANTITY, INPUT_DT, INPUT_ID)
+			 VALUES
+				(#{PRODUCT_ID}, #{OPTION_ID}, #{QUANTITY}, NOW(), #{INPUT_ID})
 	</insert>
 
 	<!-- 이미지 등록 -->
 	<insert id="insertProductImage" parameterType="java.util.Map">
 		INSERT INTO product_img
-		(PRODUCT_ID, IMAGE_URL, ALT_TEXT, SORT_NUMBER, IS_MAIN, INPUT_DT)
-		VALUES
-		(#{PRODUCT_ID}, #{IMAGE_URL}, #{ALT_TEXT}, #{SORT_NUMBER}, #{IS_MAIN}, NOW())
+				(PRODUCT_ID, IMAGE_URL, ALT_TEXT, SORT_NUMBER, IS_MAIN, INPUT_DT)
+			 VALUES
+				(#{PRODUCT_ID}, #{IMAGE_URL}, #{ALT_TEXT}, #{SORT_NUMBER}, #{IS_MAIN}, NOW())
 	</insert>
 
 	<!-- 이미지 매핑 -->
 	<update id="updateProductImageMapping"
 		parameterType="java.util.Map">
 		UPDATE product_img
-		SET PRODUCT_ID = #{PRODUCT_ID}, UPDATE_DT = NOW(), UPDATE_ID =
-		#{UPDATE_ID}
-		WHERE PRODUCT_ID = 0
+				SET PRODUCT_ID = #{PRODUCT_ID}, UPDATE_DT = NOW(), UPDATE_ID =
+				#{UPDATE_ID}
+		 WHERE PRODUCT_ID = 0
 	</update>
 
 	<!-- 대표 이미지 지정 (가장 빠른 IMAGE_ID 하나) -->
 	<update id="setMainImage" parameterType="java.util.Map">
 		UPDATE product_img
-		SET IS_MAIN = 'Y'
-		WHERE PRODUCT_ID = #{PRODUCT_ID}
-		AND IMAGE_ID = (
+		   SET IS_MAIN = 'Y'
+		 WHERE PRODUCT_ID = #{PRODUCT_ID}
+		   AND IMAGE_ID = (
 		SELECT t.IMAGE_ID FROM (
 		SELECT IMAGE_ID
-		FROM product_img
-		WHERE PRODUCT_ID = #{PRODUCT_ID}
-		ORDER BY IMAGE_ID ASC
-		LIMIT 1
-		) t
-		)
+		  FROM product_img
+		 WHERE PRODUCT_ID = #{PRODUCT_ID}
+		 ORDER BY IMAGE_ID ASC
+		 LIMIT 1
+				) t
+				)
 	</update>
 
 
 
 <!-- 카테고리 관리  -->
 	<!-- 대분류 -->
-	<select id="selectMainCategoryByAdmin"
-		resultType="java.util.Map">
+	<select id="selectMainCategoryByAdmin" resultType="java.util.Map">
 		SELECT MAIN_CATE_ID, MAIN_CATE_NM, SORT_NUMBER, IS_ACTIVEㅇ
-		FROM MAIN_CATEGORIES
-		ORDER BY SORT_NUMBER
+		  FROM MAIN_CATEGORIES
+		 ORDER BY SORT_NUMBER
 	</select>
 
 	<!-- 중분류 -->
 	<select id="selectSubCategoryByAdmin" resultType="java.util.Map">
 		SELECT SUB_CATE_ID, MAIN_CATE_ID, SUB_CATE_NM, SORT_NUMBER, IS_ACTIVE
-		FROM SUB_CATEGORIES
-		ORDER BY MAIN_CATE_ID, SORT_NUMBER
+		  FROM SUB_CATEGORIES
+		 ORDER BY MAIN_CATE_ID, SORT_NUMBER
 	</select>
 
 	<insert id="insertCategoryByAdmin" parameterType="java.util.Map">
 		<choose>
 			<when test="TYPE == 'main'">
 				INSERT INTO MAIN_CATEGORIES
-				(MAIN_CATE_NM, SORT_NUMBER, IS_ACTIVE, INPUT_ID, INPUT_DT)
-				VALUES
-				(#{MAIN_CATE_NM}, #{SORT_NUMBER}, #{IS_ACTIVE}, #{INPUT_ID}, NOW())
+						(MAIN_CATE_NM, SORT_NUMBER, IS_ACTIVE, INPUT_ID, INPUT_DT)
+				  	 VALUES
+						(#{MAIN_CATE_NM}, #{SORT_NUMBER}, #{IS_ACTIVE}, #{INPUT_ID}, NOW())
 			</when>
 			<otherwise>
 				INSERT INTO SUB_CATEGORIES
-				(MAIN_CATE_ID, SUB_CATE_NM, SORT_NUMBER, IS_ACTIVE, INPUT_ID, INPUT_DT)
-				VALUES
-				(#{MAIN_CATE_ID}, #{SUB_CATE_NM}, #{SORT_NUMBER}, #{IS_ACTIVE}, #{INPUT_ID}, NOW())
+						(MAIN_CATE_ID, SUB_CATE_NM, SORT_NUMBER, IS_ACTIVE, INPUT_ID, INPUT_DT)
+					 VALUES
+						(#{MAIN_CATE_ID}, #{SUB_CATE_NM}, #{SORT_NUMBER}, #{IS_ACTIVE}, #{INPUT_ID}, NOW())
 			</otherwise>
 		</choose>
 	</insert>
@@ -215,21 +214,21 @@
 		<choose>
 			<when test="TYPE == 'main'">
 				UPDATE MAIN_CATEGORIES
-				SET MAIN_CATE_NM = #{MAIN_CATE_NM},
-				SORT_NUMBER = #{SORT_NUMBER},
-				IS_ACTIVE = #{IS_ACTIVE},
-				UPDATE_ID = #{UPDATE_ID},
-				UPDATE_DT = NOW()
-				WHERE MAIN_CATE_ID = #{MAIN_CATE_ID}
+				   SET MAIN_CATE_NM = #{MAIN_CATE_NM},
+						SORT_NUMBER = #{SORT_NUMBER},
+						IS_ACTIVE = #{IS_ACTIVE},
+						UPDATE_ID = #{UPDATE_ID},
+						UPDATE_DT = NOW()
+						WHERE MAIN_CATE_ID = #{MAIN_CATE_ID}
 			</when>
 			<otherwise>
 				UPDATE SUB_CATEGORIES
-				SET SUB_CATE_NM = #{SUB_CATE_NM},
-				SORT_NUMBER = #{SORT_NUMBER},
-				IS_ACTIVE = #{IS_ACTIVE},
-				UPDATE_ID = #{UPDATE_ID},
-				UPDATE_DT = NOW()
-				WHERE SUB_CATE_ID = #{SUB_CATE_ID}
+				   SET SUB_CATE_NM = #{SUB_CATE_NM},
+						SORT_NUMBER = #{SORT_NUMBER},
+						IS_ACTIVE = #{IS_ACTIVE},
+						UPDATE_ID = #{UPDATE_ID},
+						UPDATE_DT = NOW()
+						WHERE SUB_CATE_ID = #{SUB_CATE_ID}
 			</otherwise>
 		</choose>
 	</update>
@@ -246,9 +245,48 @@
 	</delete>
 
 
+<!-- 옵션  관리-->
+	<!-- 옵션 조회,검색 -->
+	<select id="selectOptionByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
+	    SELECT
+	        o.OPTION_ID,
+	        o.OPTION_NAME,
+	        o.OPTION_VALUE,
+	        p.PRODUCT_NAME,
+	        o.ADDITIONAL_PRICE,
+	        o.INPUT_DT
+	      FROM OPTIONS o
+	      JOIN PRODUCTS p ON o.PRODUCT_ID = p.PRODUCT_ID
+	      WHERE 1=1
+	    <!-- 검색어 처리 -->
+	    <if test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
+	        <choose>
+	            <when test="SEARCH_TYPE == 'OPTION_ID'">
+	                AND o.OPTION_ID = #{SEARCH_TEXT}
+	            </when>
+	            <when test="SEARCH_TYPE == 'OPTION_NAME'">
+	                AND o.OPTION_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+	            </when>
+	            <when test="SEARCH_TYPE == 'OPTION_VALUE'">
+	                AND o.OPTION_VALUE LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+	            </when>
+	            <when test="SEARCH_TYPE == 'PRODUCT_NAME'">
+	                AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+	            </when>
+	        </choose>
+	    </if>
+	    ORDER BY o.OPTION_ID
+	</select>
 
 
+	<update id="updateOptionVisibleByAdmin" parameterType="java.util.Map">
+	    UPDATE OPTIONS
+	       SET IS_VISIBLE = #{IS_VISIBLE},
+	           UPDATE_DT = NOW()
+	     WHERE OPTION_ID = #{OPTION_ID}
+	</update>
 
+	
 
 
 

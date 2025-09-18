@@ -4,9 +4,9 @@
     <Layouts>
       <Layout width="1280" height="800">
         <!-- 상단 메뉴 버튼 -->
-        <Button id="btn_goProduct" text="상품목록" left="10" top="10" width="100" height="35" onclick="btn_goProduct_onclick" background="#226f9e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #90caf9"/>
-        <Button id="btn_goDisplay" text="상품진열" left="120" top="10" width="100" height="35" onclick="btn_goDisplay_onclick" background="#226f9e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #90caf9"/>
-        <Button id="btn_goProductReg" text="상품등록" left="230" top="10" width="100" height="35" onclick="btn_goProductReg_onclick" background="#226f9e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #90caf9"/>
+        <Button id="btn_goProduct" text="상품목록" left="10" top="10" width="100" height="35" onclick="btn_goProduct_onclick" background="#056e70" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
+        <Button id="btn_goDisplay" text="상품진열" left="120" top="10" width="100" height="35" onclick="btn_goDisplay_onclick" background="#056e70" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
+        <Button id="btn_goProductReg" text="상품등록" left="230" top="10" width="100" height="35" onclick="btn_goProductReg_onclick" background="#056e70" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
         <!-- 좌측: 카테고리 트리 -->
         <Grid id="grd_category" binddataset="ds_category" left="10" top="60" width="500" height="650" oncellclick="grd_category_oncellclick" border="1px solid #90caf9" borderRadius="12px">
           <Formats>
@@ -55,15 +55,15 @@
                   </Rows>
                 </Dataset>
               </Radio>
-              <Button id="btn_saveDetail" text="저장" left="140" top="230" width="100" height="30" onclick="btn_saveDetail_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0px"/>
+              <Button id="btn_saveDetail" text="저장" left="140" top="230" width="100" height="30" onclick="btn_saveDetail_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
             </Layout>
           </Layouts>
         </Div>
         <!-- 하단 버튼 영역 -->
-        <Button id="btn_addMain" text="대분류추가" left="10" top="730" width="100" height="35" onclick="btn_addMain_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #90caf9"/>
-        <Button id="btn_addSub" text="하위추가" left="120" top="730" width="100" height="35" onclick="btn_addSub_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #90caf9"/>
-        <Button id="btn_edit" text="수정" left="230" top="730" width="100" height="35" onclick="btn_edit_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0px"/>
-        <Button id="btn_delete" text="삭제" left="340" top="730" width="100" height="35" onclick="btn_delete_onclick" background="#a1162f" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0px"/>
+        <Button id="btn_addMain" text="대분류추가" left="10" top="730" width="100" height="35" onclick="btn_addMain_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
+        <Button id="btn_addSub" text="하위추가" left="120" top="730" width="100" height="35" onclick="btn_addSub_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
+        <Button id="btn_edit" text="수정" left="230" top="730" width="100" height="35" onclick="btn_edit_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
+        <Button id="btn_delete" text="삭제" left="340" top="730" width="100" height="35" onclick="btn_delete_onclick" background="#a1162f" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
       </Layout>
     </Layouts>
     <!-- 데이터셋 정의 -->

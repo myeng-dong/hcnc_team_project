@@ -40,29 +40,29 @@
             // UI Components Initialize
             obj = new Button("btn_goProduct","10","10","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품목록");
-            obj.set_background("#226f9e");
+            obj.set_background("#056e70");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_goDisplay","120","10","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품진열");
-            obj.set_background("#226f9e");
+            obj.set_background("#056e70");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_goProductReg","230","10","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품등록");
-            obj.set_background("#226f9e");
+            obj.set_background("#056e70");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Grid("grd_category","10","60","500","650",null,null,null,null,null,null,this);
@@ -146,7 +146,7 @@
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0px");
+            obj.set_border("0");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Button("btn_addMain","10","730","100","35",null,null,null,null,null,null,this);
@@ -155,7 +155,7 @@
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_addSub","120","730","100","35",null,null,null,null,null,null,this);
@@ -164,7 +164,7 @@
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_edit","230","730","100","35",null,null,null,null,null,null,this);
@@ -173,7 +173,7 @@
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0px");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_delete","340","730","100","35",null,null,null,null,null,null,this);
@@ -182,7 +182,7 @@
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0px");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this

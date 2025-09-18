@@ -38,50 +38,51 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("Div00","40","20",null,"50","40",null,null,null,null,null,this);
+            obj = new Div("Div00","24","20",null,"50","1166",null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("");
             obj.set_background("#ffffff");
-            obj.set_borderRadius("10px 0px 0px 10px");
+            obj.set_borderRadius("10px 10px 10px 10px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_total","59","15","120","60",null,null,null,null,null,null,this);
+            obj = new Static("stc_total","34","20","71","50",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("");
             obj.set_font("bold 14px/normal \"Gulim\",\"Arial Black\"");
+            obj.set_borderRadius("0px 10px 10px 0px");
             this.addChild(obj.name, obj);
 
-            obj = new Div("Div00_00","40","99",null,"40","40",null,null,null,null,null,this);
+            obj = new Div("Div00_00","24","99",null,"40","30",null,null,null,null,null,this);
             obj.set_taborder("7");
             obj.set_text("");
             obj.set_background("#ffffff");
-            obj.set_borderRadius("0px 10px 10px 0px");
+            obj.set_borderRadius("10px 10px 10px 10px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_search","400","2","226","35",null,null,null,null,null,null,this.Div00_00.form);
+            obj = new Edit("edt_search","309","5","317","30",null,null,null,null,null,null,this.Div00_00.form);
             obj.set_taborder("0");
             this.Div00_00.addChild(obj.name, obj);
 
-            obj = new Div("Div00_00_00","40","156",null,"40","40",null,null,null,null,null,this);
+            obj = new Div("Div00_00_00","24","156",null,"40","30",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("");
             obj.set_background("#ffffff");
-            obj.set_borderRadius("0px 10px 10px 0px");
+            obj.set_borderRadius("10px 10px 10px 10px");
             obj.set_color("#215825");
             this.addChild(obj.name, obj);
 
-            obj = new Div("Div00_00_00_00","40","213",null,"40","40",null,null,null,null,null,this);
+            obj = new Div("Div00_00_00_00","24","213",null,"40","30",null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("");
             obj.set_background("#ffffff");
-            obj.set_borderRadius("0px 10px 10px 0px");
+            obj.set_borderRadius("10px 10px 10px 10px");
             this.addChild(obj.name, obj);
 
-            obj = new Div("Div00_00_00_00_00","40","270",null,"40","40",null,null,null,null,null,this);
+            obj = new Div("Div00_00_00_00_00","24","270",null,"40","30",null,null,null,null,null,this);
             obj.set_taborder("9");
             obj.set_text("");
             obj.set_background("#ffffff");
-            obj.set_borderRadius("0px 10px 10px 0px");
+            obj.set_borderRadius("10px 10px 10px 10px");
             this.addChild(obj.name, obj);
 
             obj = new Radio("Radio00","140","5","246","35",null,null,null,null,null,null,this.Div00_00_00_00_00.form);
@@ -167,7 +168,7 @@
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_taborder("10");
-            obj.set_background("#ffffff");
+            obj.set_background("transparent");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
@@ -177,7 +178,7 @@
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_taborder("11");
-            obj.set_background("#ffffff");
+            obj.set_background("transparent");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
@@ -187,7 +188,7 @@
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_taborder("12");
-            obj.set_background("#ffffff");
+            obj.set_background("transparent");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
@@ -197,7 +198,7 @@
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_taborder("13");
-            obj.set_background("#ffffff");
+            obj.set_background("transparent");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
@@ -213,7 +214,7 @@
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("cmb_searchType","179","101","150","35",null,null,null,null,null,null,this);
+            obj = new Combo("cmb_searchType","179","104","150","30",null,null,null,null,null,null,this);
             obj.set_taborder("15");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             obj.set_codecolumn("codecolumn");
@@ -226,7 +227,7 @@
             obj.set_index("1");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("cmb_cate1","179","158","150","35",null,null,null,null,null,null,this);
+            obj = new Combo("cmb_cate1","179","161","150","30",null,null,null,null,null,null,this);
             obj.set_taborder("16");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             obj.set_innerdataset("ds_mainCate");
@@ -238,12 +239,12 @@
             obj.set_index("-1");
             this.addChild(obj.name, obj);
 
-            obj = new Calendar("cal_start","179","215","149","35",null,null,null,null,null,null,this);
+            obj = new Calendar("cal_start","179","218","149","30",null,null,null,null,null,null,this);
             obj.set_taborder("17");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("cmb_cate2","349","158","150","35",null,null,null,null,null,null,this);
+            obj = new Combo("cmb_cate2","349","161","150","30",null,null,null,null,null,null,this);
             obj.set_taborder("18");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             obj.set_innerdataset("ds_subCate");
@@ -253,7 +254,7 @@
             obj.set_text("- 중분류 선택 -");
             this.addChild(obj.name, obj);
 
-            obj = new Calendar("cal_end","349","215","150","35",null,null,null,null,null,null,this);
+            obj = new Calendar("cal_end","349","218","150","30",null,null,null,null,null,null,this);
             obj.set_taborder("19");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             this.addChild(obj.name, obj);
