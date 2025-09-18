@@ -13,6 +13,7 @@ import user.mapper.UserBannerMapper;
 public class UserBannerService {
 	@Autowired
 	private UserBannerMapper userBannerMapper;
+	
 	public List<Map<String, Object>> selectBannerListByUser() {
 		return userBannerMapper.selectBannerListByUser();
 	}
