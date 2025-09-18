@@ -273,7 +273,47 @@
         }
         
         // 선택 상품 삭제
-
+		const deleteSelected = () => {
+			var selectedItems = true;
+			var param = {
+				cartId : cartId
+				, selectedItems : selectedItems
+			};
+			$.ajax({
+				url: "/deleteProduct.do"
+				, type: "post"
+				, data: param
+				, dataType: "json"
+				, success: function(){
+					alert("삭제 되었습니다.");
+			        			
+        			window.location.reload();
+				}
+				, error: function(){
+        			alert("개별 삭제 통신 실패");
+				}
+			});
+		}
+		
+		const deleteCart = () => {
+			var param = {
+				cartId : cartId
+			};
+			$.ajax({
+				url: "/deleteProduct.do"
+				, type: "post"
+				, data: param
+				, dataType: "json"
+				, success: function(){
+					alert("삭제 되었습니다.");
+        			
+        			window.location.reload();
+				}
+				, error: function(){
+        			alert("전체 삭제 통신 실패");
+				}
+			});
+		}
 
     </script>
 
@@ -315,10 +355,10 @@
 		<div class="cart-footer">
 			<div class="footer-btn">
 			        <button class="cart-btn" id="btnContinue" onclick="window.location.href='/productDetailView.do'">계속 쇼핑하기</button>
-			        <button class="btn-outline" id="btnDeleteSelected">
+			        <button class="btn-outline" id="btnDeleteSelected" onclick="deleteSelected()">
 			        	<i class="bi bi-bag-x"></i>
 			        	선택상품 삭제하기</button>
-			        <button class="btn-outline" id="btnClear">
+			        <button class="btn-outline" id="btnClear" onclick="deleteCart()">
 			        	<i class="bi bi-trash3"></i>
 			        	장바구니 비우기</button>
 		        <div class="orderInfo">
