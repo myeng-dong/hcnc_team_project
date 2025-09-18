@@ -56,7 +56,7 @@
             obj.getSetter("taborder").set("4");
             obj.getSetter("borderRadius").set("5px");
             obj.getSetter("border").set("1px solid #CCCCCC");
-            obj.getSetter("fileurl").set("Svc_web::richeditor/jsp/upload.jsp");
+            obj.getSetter("fileurl").set("svc::admin/richeditor/jsp/upload.jsp");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_cancel",null,null,"100","40","140","20",null,null,null,null,this);

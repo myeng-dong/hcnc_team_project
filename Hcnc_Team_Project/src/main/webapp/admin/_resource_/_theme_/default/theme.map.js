@@ -10,7 +10,7 @@
             				{
             					"enabled" :
             					{
-            						"font" : nexacro.FontObject("12px \"Gulim\""),
+            						"font" : nexacro.FontObject("12px Gulim"),
             						"color" : nexacro.ColorObject("#555555"),
             						"border" : nexacro.BorderObject("0px none")
             					},
@@ -557,7 +557,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"color" : nexacro.ColorObject("#555555"),
             								"border" : nexacro.BorderObject("1px solid #b1b1b1")
             							}
@@ -569,7 +569,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"color" : nexacro.ColorObject("#555555"),
             								"border" : nexacro.BorderObject("1px solid #b1b1b1")
             							}
@@ -585,7 +585,7 @@
             								{
             									"enabled" :
             									{
-            										"font" : nexacro.FontObject("12px \"Gulim\""),
+            										"font" : nexacro.FontObject("12px Gulim"),
             										"color" : nexacro.ColorObject("#555555")
             									}
             								}
@@ -596,7 +596,7 @@
             								{
             									"enabled" :
             									{
-            										"font" : nexacro.FontObject("12px \"Gulim\""),
+            										"font" : nexacro.FontObject("12px Gulim"),
             										"color" : nexacro.ColorObject("#555555")
             									}
             								}
@@ -867,7 +867,7 @@
             										{
             											"enabled" :
             											{
-            												"font" : nexacro.FontObject("bold 12px \"Gulim\""),
+            												"font" : nexacro.FontObject("bold 12px Gulim"),
             												"color" : nexacro.ColorObject("#2f2f2f"),
             												"border" : nexacro.BorderObject("1px solid #cacaca"),
             												"padding" : nexacro.PaddingObject("4px 4px 4px 4px")
@@ -925,7 +925,7 @@
             										{
             											"enabled" :
             											{
-            												"font" : nexacro.FontObject("bold 12px \"Gulim\""),
+            												"font" : nexacro.FontObject("bold 12px Gulim"),
             												"color" : nexacro.ColorObject("#333333"),
             												"border" : nexacro.BorderObject("1px solid #c8c1c2")
             											}
@@ -1139,7 +1139,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"color" : nexacro.ColorObject("#555555"),
             								"border" : nexacro.BorderObject("1px solid #c2c2c2")
             							},
@@ -1170,7 +1170,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"color" : nexacro.ColorObject("#555555"),
             								"border" : nexacro.BorderObject("1px solid #c2c2c2")
             							},
@@ -1204,7 +1204,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					},
@@ -1214,7 +1214,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					}
@@ -1230,7 +1230,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					},
@@ -1240,7 +1240,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					}
@@ -1256,7 +1256,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					},
@@ -1266,7 +1266,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					}
@@ -1360,7 +1360,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"border" : nexacro.BorderObject("1px solid #d5d5d5"),
             								"padding" : nexacro.PaddingObject("1px 9px 0px 9px")
             							},
@@ -1384,7 +1384,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"border" : nexacro.BorderObject("1px solid #d5d5d5"),
             								"padding" : nexacro.PaddingObject("1px 9px 0px 9px")
             							},
@@ -1440,7 +1440,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"border" : nexacro.BorderObject("1px solid #d5d5d5"),
             								"padding" : nexacro.PaddingObject("1px 9px 0px 9px")
             							},
@@ -1464,7 +1464,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"border" : nexacro.BorderObject("1px solid #d5d5d5"),
             								"padding" : nexacro.PaddingObject("1px 9px 0px 9px")
             							},
@@ -1494,7 +1494,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					},
@@ -1504,7 +1504,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					}
@@ -1520,7 +1520,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					},
@@ -1530,7 +1530,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							}
             						}
             					}
@@ -1550,12 +1550,11 @@
             								{
             									"enabled" :
             									{
-            										"font" : nexacro.FontObject("normal 10pt/normal \"Noto Sans KR Medium\""),
+            										"font" : nexacro.FontObject("12px Gulim"),
             										"color" : nexacro.ColorObject("#666666")
             									},
             									"disabled" :
             									{
-            										"font" : nexacro.FontObject("normal 10pt/normal \"Noto Sans KR Medium\""),
             										"color" : nexacro.ColorObject("#999999")
             									}
             								}
@@ -2039,7 +2038,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("bold 13px \"Gulim\""),
+            								"font" : nexacro.FontObject("bold 13px Gulim"),
             								"color" : nexacro.ColorObject("#ffffff"),
             								"padding" : nexacro.PaddingObject("0px 30px 0px 30px")
             							},
@@ -2067,7 +2066,7 @@
             						{
             							"enabled" :
             							{
-            								"font" : nexacro.FontObject("12px \"Gulim\""),
+            								"font" : nexacro.FontObject("12px Gulim"),
             								"color" : nexacro.ColorObject("#555555"),
             								"border" : nexacro.BorderObject("1px solid #034389")
             							}
@@ -2160,6 +2159,63 @@
             							"disabled" :
             							{
             								"color" : nexacro.ColorObject("#999999")
+            							}
+            						}
+            					}
+            				}
+            			},
+            			"popupmenuitemcheckbox" :
+            			{
+            				"parent" :
+            				{
+            					"popupmenuitem" :
+            					{
+            						"parent" :
+            						{
+            							"menupopupmenu" :
+            							{
+            								"parent" :
+            								{
+            									"Menu" :
+            									{
+            										"self" :
+            										{
+            											"enabled" :
+            											{
+            												"padding" : nexacro.PaddingObject("0px 7px 0px 0px"),
+            												"icon" : nexacro.UrlObject("URL('theme://images/chk_WF_Popupmenu_O.png')")
+            											},
+            											"mouseover" :
+            											{
+            												"icon" : nexacro.UrlObject("URL('theme://images/chk_WF_Popupmenu_O.png')")
+            											}
+            										}
+            									}
+            								}
+            							},
+            							"PopupMenu" :
+            							{
+            								"self" :
+            								{
+            									"mouseover" :
+            									{
+            									},
+            									"disabled" :
+            									{
+            									}
+            								}
+            							},
+            							"PopupMenuControl" :
+            							{
+            								"self" :
+            								{
+            									"mouseover" :
+            									{
+            									},
+            									"disabled" :
+            									{
+            									}
+            								}
             							}
             						}
             					}
@@ -2307,7 +2363,8 @@
             										{
             											"enabled" :
             											{
-            												"icon" : nexacro.UrlObject("URL('theme://images/btn_WF_Popupexpand2.png')")
+            												"padding" : nexacro.PaddingObject("0px 0px 2px 0px"),
+            												"icon" : nexacro.UrlObject("URL('theme://images/btn_WF_Popupexpand.png')")
             											}
             										}
             									}
@@ -2363,7 +2420,7 @@
             				{
             					"enabled" :
             					{
-            						"font" : nexacro.FontObject("12px \"Gulim\""),
+            						"font" : nexacro.FontObject("12px Gulim"),
             						"color" : nexacro.ColorObject("#555555"),
             						"border" : nexacro.BorderObject("1px solid #b5b5b5")
             					}
@@ -2375,45 +2432,9 @@
             				{
             					"enabled" :
             					{
-            						"font" : nexacro.FontObject("12px \"Gulim\""),
+            						"font" : nexacro.FontObject("12px Gulim"),
             						"color" : nexacro.ColorObject("#555555"),
             						"border" : nexacro.BorderObject("1px solid #b5b5b5")
-            					}
-            				}
-            			},
-            			"popupmenuitemcheckbox" :
-            			{
-            				"parent" :
-            				{
-            					"popupmenuitem" :
-            					{
-            						"parent" :
-            						{
-            							"PopupMenu" :
-            							{
-            								"self" :
-            								{
-            									"mouseover" :
-            									{
-            									},
-            									"disabled" :
-            									{
-            									}
-            								}
-            							},
-            							"PopupMenuControl" :
-            							{
-            								"self" :
-            								{
-            									"mouseover" :
-            									{
-            									},
-            									"disabled" :
-            									{
-            									}
-            								}
-            							}
-            						}
             					}
             				}
             			},
@@ -2565,7 +2586,7 @@
             										{
             											"enabled" :
             											{
-            												"font" : nexacro.FontObject("bold 14px \"Tahoma\""),
+            												"font" : nexacro.FontObject("bold 14px Tahoma"),
             												"color" : nexacro.ColorObject("#ffffff")
             											}
             										}
@@ -2588,7 +2609,7 @@
             										{
             											"enabled" :
             											{
-            												"font" : nexacro.FontObject("bold 14px \"Tahoma\""),
+            												"font" : nexacro.FontObject("bold 14px Tahoma"),
             												"color" : nexacro.ColorObject("#ffffff")
             											}
             										}
@@ -2837,26 +2858,6 @@
             					}
             				}
             			},
-            			"WebView" :
-            			{
-            				"self" :
-            				{
-            					"enabled" :
-            					{
-            						"border" : nexacro.BorderObject("1px solid #d5d5d5")
-            					}
-            				}
-            			},
-            			"WebViewControl" :
-            			{
-            				"self" :
-            				{
-            					"enabled" :
-            					{
-            						"border" : nexacro.BorderObject("1px solid #d5d5d5")
-            					}
-            				}
-            			},
             			"tabpage" :
             			{
             				"parent" :
@@ -3000,7 +3001,7 @@
             								{
             									"enabled" :
             									{
-            										"font" : nexacro.FontObject("bold 14px \"Tahoma\""),
+            										"font" : nexacro.FontObject("bold 14px Tahoma"),
             										"color" : nexacro.ColorObject("#ffffff"),
             										"padding" : nexacro.PaddingObject("0px 10px 0px 0px")
             									},
@@ -3028,7 +3029,7 @@
             								{
             									"enabled" :
             									{
-            										"font" : nexacro.FontObject("bold 14px \"Tahoma\""),
+            										"font" : nexacro.FontObject("bold 14px Tahoma"),
             										"color" : nexacro.ColorObject("#ffffff"),
             										"padding" : nexacro.PaddingObject("0px 10px 0px 0px")
             									},
@@ -3067,22 +3068,22 @@
             							"enabled" :
             							{
             								"border" : nexacro.BorderObject("0px none, 0px none, 1px solid #dbdee2, 0px none"),
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							},
             							"readonly" :
             							{
             								"border" : nexacro.BorderObject("0px none, 0px none, 1px solid #dbdee2, 0px none"),
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							},
             							"focused" :
             							{
             								"border" : nexacro.BorderObject("0px none, 0px none, 1px solid #dbdee2, 0px none"),
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							},
             							"mouseover" :
             							{
             								"border" : nexacro.BorderObject("0px none, 0px none, 1px solid #dbdee2, 0px none"),
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							},
             							"selected" :
             							{
@@ -3461,7 +3462,7 @@
             				{
             					"enabled" :
             					{
-            						"font" : nexacro.FontObject("bold 12px \"Gulim\""),
+            						"font" : nexacro.FontObject("bold 12px Gulim"),
             						"color" : nexacro.ColorObject("#ffffff"),
             						"padding" : nexacro.PaddingObject("0px 0px 0px 10px")
             					}
@@ -3639,22 +3640,22 @@
             							"readonly" :
             							{
             								"border" : nexacro.BorderObject("0px none, 0px none, 1px solid #dbdee2, 0px none"),
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							},
             							"focused" :
             							{
             								"border" : nexacro.BorderObject("0px none, 0px none, 1px solid #dbdee2, 0px none"),
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							},
             							"mouseover" :
             							{
             								"border" : nexacro.BorderObject("0px none, 0px none, 1px solid #dbdee2, 0px none"),
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							},
             							"enabled" :
             							{
             								"border" : nexacro.BorderObject("0px none, 0px none, 1px solid #dbdee2, 0px none"),
-            								"font" : nexacro.FontObject("12px \"Gulim\"")
+            								"font" : nexacro.FontObject("12px Gulim")
             							},
             							"selected" :
             							{
@@ -3681,6 +3682,7 @@
             								{
             									"enabled" :
             									{
+            										"icon" : nexacro.UrlObject("URL('theme://images/cmb_WF_Drop.png')"),
             										"border" : nexacro.BorderObject("1px solid #c2c2c2")
             									},
             									"mouseover" :
@@ -3691,18 +3693,16 @@
             									{
             										"border" : nexacro.BorderObject("1px solid #a0a0a0")
             									},
+            									"pushed" :
+            									{
+            									},
+            									"selected" :
+            									{
+            									},
             									"disabled" :
             									{
             										"color" : nexacro.ColorObject("#bbbbbb"),
             										"border" : nexacro.BorderObject("1px solid #d9d9d9")
-            									},
-            									"collapse" :
-            									{
-            										"icon" : nexacro.UrlObject("URL('theme://images/cmb_WF_Drop.png')")
-            									},
-            									"expand" :
-            									{
-            										"icon" : nexacro.UrlObject("URL('theme://images/btn_expand.png')")
             									}
             								}
             							}
@@ -3712,8 +3712,7 @@
             			}
 		},
 		{
-            "includeStatusMap" : true,
-            			"hasListViewExpandStatus" : true
+            "includeStatusMap" : true
 		}
 		);
 		var imgcache = nexacro._getImageCacheMaps();
@@ -3755,15 +3754,16 @@
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenunext.png")] = { width:11, height:6 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenunext_O.png")] = { width:11, height:6 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenunext_D.png")] = { width:11, height:6 };
-        		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popupexpand2.png")] = { width:4, height:7 };
+        		imgcache[nexacro._getImageLocation("theme://images/chk_WF_Popupmenu_O.png")] = { width:13, height:13 };
+        		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popupexpand.png")] = { width:3, height:5 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenuprev2.png")] = { width:11, height:6 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenuprev2_O.png")] = { width:11, height:6 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenuprev2_D.png")] = { width:11, height:6 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenunext2.png")] = { width:11, height:6 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenunext2_O.png")] = { width:11, height:6 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popmenunext2_D.png")] = { width:11, height:6 };
-        		imgcache[nexacro._getImageLocation("theme://images/chk_WF_Popupmenu_O.png")] = { width:13, height:13 };
-        		imgcache[nexacro._getImageLocation("theme://images/chk_WF_Popupmenu.png")] = { width:13, height:13 };
+        		imgcache[nexacro._getImageLocation("theme://images/chk_WF_Box_F.png")] = { width:13, height:13 };
+        		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popupexpand2.png")] = { width:4, height:7 };
         		imgcache[nexacro._getImageLocation("theme://images/rdo_WF_Radio.png")] = { width:14, height:14 };
         		imgcache[nexacro._getImageLocation("theme://images/rdo_WF_Radio_S.png")] = { width:14, height:14 };
         		imgcache[nexacro._getImageLocation("theme://images/rdo_WF_Radio_O.png")] = { width:14, height:14 };
@@ -3815,9 +3815,8 @@
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Stepitem.png")] = { width:13, height:13 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Stepitem_S.png")] = { width:13, height:13 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_expand.png")] = { width:9, height:6 };
-        		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Popupexpand.png")] = { width:3, height:5 };
         		imgcache[nexacro._getImageLocation("theme://images/btn_WF_Tabextra_S.png")] = { width:8, height:8 };
-        		imgcache[nexacro._getImageLocation("theme://images/chk_WF_Box_F.png")] = { width:13, height:13 };
+        		imgcache[nexacro._getImageLocation("theme://images/chk_WF_Popupmenu.png")] = { width:13, height:13 };
         		imgcache[nexacro._getImageLocation("theme://images/img_WF_Grdimg.png")] = { width:12, height:14 };
         		imgcache[nexacro._getImageLocation("theme://images/img_WF_Htrackbar.png")] = { width:8, height:5 };
         		imgcache[nexacro._getImageLocation("theme://images/img_WF_Htrackbar_D.png")] = { width:8, height:5 };

@@ -1290,7 +1290,7 @@
         var initConfig = {
         	editor : {
         		// editor.html 의 경로
-        		url : "http://localhost/RichTextEditor17/ui/file/richtexteditor/html/editor.html",
+        		url : "file:///C:/eGovFrameDev-3.10.0-64bit_nexa/hcnc_team_project/Hcnc_Team_Project/src/main/webapp/admin/file/richtexteditor/html/editor.html",
 
         		// 툴바 영역을 보일지 여부
         		showToolbar : true,
