@@ -5,54 +5,114 @@
 
 <mapper namespace="admin.mapper.ProductMapper">
 
-	<!-- 상품목록리스트 -->
+    <!-- 
+         상품 목록 조회
+         - 파라미터: Map (ds_searchCond)
+         - 빈값/전체값은 Controller에서 대부분 제거 → 여기선 값이 있을 때만 WHERE 추가
+        -->
     <select id="selectProductListByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
-			p.PRODUCT_CODE,
-			p.PRODUCT_NAME,
-			p.PRODUCT_CONTENT,
-			p.COST_PRICE,
-			p.PRODUCT_PRICE,
-			o.ADDITIONAL_PRICE,
-					CASE
-				WHEN p.SALED_PRICE IS NULL THEN (p.PRODUCT_PRICE + o.ADDITIONAL_PRICE)
-				ELSE p.SALED_PRICE
-			END AS TOTAL_PRICE,
-			mc.MAIN_CATE_NM,
-			sc.SUB_CATE_NM,
-			o.OPTION_NAME,
-			p.IS_VISIBLE,
-			i.QUANTITY,
-			CASE
-				WHEN i.QUANTITY = 0 THEN 'OUT'
-				ELSE ''
-			END AS SOLD_OUT,
-			p.INPUT_DT,
-			p.UPDATE_DT
-		FROM
-			hcnc_Team_06.PRODUCTS p
-		JOIN hcnc_Team_06.SUB_CATEGORIES sc 
-		            ON
-			p.SUB_CATE_ID = sc.SUB_CATE_ID
-		JOIN hcnc_Team_06.MAIN_CATEGORIES mc 
-		            ON
-			sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
-		LEFT JOIN hcnc_Team_06.OPTIONS o  
-		            ON
-			p.PRODUCT_ID = o.PRODUCT_ID
-		LEFT JOIN hcnc_Team_06.INVENTORIES i 
-		            ON
-			p.PRODUCT_ID = i.PRODUCT_ID
-			AND (o.OPTION_ID IS NULL
-				OR i.OPTION_ID = o.OPTION_ID);
+            p.PRODUCT_ID,
+            p.PRODUCT_CODE,
+            p.PRODUCT_NAME,
+            p.PRODUCT_CONTENT,
+            p.COST_PRICE,
+            p.PRODUCT_PRICE,
+            o.OPTION_ID,
+            o.OPTION_NAME,
+            o.OPTION_VALUE,
+            o.ADDITIONAL_PRICE,
+            CASE
+                WHEN p.SALED_PRICE IS NULL
+                    THEN (p.PRODUCT_PRICE + IFNULL(o.ADDITIONAL_PRICE,0))
+                ELSE p.SALED_PRICE
+            END AS TOTAL_PRICE,
+            mc.MAIN_CATE_NM,
+            sc.SUB_CATE_NM,
+            p.IS_VISIBLE,
+            IFNULL(i.QUANTITY, 0) AS QUANTITY,
+            CASE WHEN IFNULL(i.QUANTITY, 0) = 0 THEN 'SOLDOUT' ELSE '' END AS SOLD_OUT,
+            p.INPUT_DT,
+            p.UPDATE_DT
+        FROM PRODUCTS p
+        LEFT JOIN OPTIONS o     ON p.PRODUCT_ID = o.PRODUCT_ID
+        LEFT JOIN INVENTORIES i ON o.OPTION_ID  = i.OPTION_ID
+        JOIN SUB_CATEGORIES sc  ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+        JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+        WHERE 1=1
+
+        <!-- 검색어 -->
+        <if test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
+            <choose>
+                <when test="SEARCH_TYPE == 'PRODUCT_CODE'">
+                    AND p.PRODUCT_CODE LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+                </when>
+                <when test="SEARCH_TYPE == 'PRODUCT_NAME'">
+                    AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+                </when>
+            </choose>
+        </if>
+
+        <!-- 진열상태 (Controller에서 'all'은 제거함) -->
+        <if test="IS_VISIBLE != null and IS_VISIBLE != ''">
+            AND p.IS_VISIBLE = #{IS_VISIBLE}
+        </if>
+
+        <!-- 판매상태 (Controller에서 'allS'는 제거함) -->
+        <if test="QUANTITY_STATUS != null and QUANTITY_STATUS != ''">
+            <choose>
+                <when test="QUANTITY_STATUS == 'sale'">
+                    AND IFNULL(i.QUANTITY, 0) &gt; 0
+                </when>
+                <when test="QUANTITY_STATUS == 'nosale'">
+                    AND IFNULL(i.QUANTITY, 0) = 0
+                </when>
+            </choose>
+        </if>
+
+        <!-- 등록일/수정일 (둘 중 입력된 값 기준으로 필터) -->
+        <if test="START_DATE != null and START_DATE != ''">
+            AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) &gt;= #{START_DATE}
+        </if>
+        <if test="END_DATE != null and END_DATE != ''">
+            AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) &lt;= #{END_DATE}
+        </if>
+
+        <!-- 카테고리 -->
+        <if test="MAIN_CATE_ID != null and MAIN_CATE_ID != ''">
+            AND mc.MAIN_CATE_ID = #{MAIN_CATE_ID}
+        </if>
+        <if test="SUB_CATE_ID != null and SUB_CATE_ID != ''">
+            AND sc.SUB_CATE_ID = #{SUB_CATE_ID}
+        </if>
+
+        ORDER BY p.PRODUCT_ID, o.OPTION_ID
     </select>
 
-      <!-- 상품 등록 -->
+    <!-- 대분류 콤보 -->
+    <select id="selectMainCategoryComboByAdmin" resultType="java.util.Map">
+        SELECT MAIN_CATE_ID, MAIN_CATE_NM
+        FROM MAIN_CATEGORIES
+        ORDER BY MAIN_CATE_NM
+    </select>
+
+    <!-- 중분류 콤보
+         - Service에서 int 하나로 호출하므로 parameterType="int"
+         - int/단일파라미터는 #{_parameter} 로 참조
+    -->
+    <select id="selectSubCategoryComboByAdmin" parameterType="int" resultType="java.util.Map">
+        SELECT SUB_CATE_ID, SUB_CATE_NM
+        FROM SUB_CATEGORIES
+        WHERE MAIN_CATE_ID = #{_parameter}
+        ORDER BY SUB_CATE_NM
+    </select>
+
+    <!-- 상품 등록 : PRODUCT_CONTENT 로 통일 -->
     <insert id="insertProduct" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="PRODUCT_ID">
         INSERT INTO products
         (SUB_CATE_ID, PRODUCT_NAME, PRODUCT_CODE, PRODUCT_CONTENT, PRODUCT_PRICE, COST_PRICE, IS_VISIBLE, INPUT_DT, INPUT_ID)
         VALUES
-        (#{SUB_CATE_ID}, #{PRODUCT_NAME}, UUID(), #{PRODUCT_DESC}, #{PRODUCT_PRICE}, #{COST_PRICE}, #{IS_VISIBLE}, NOW(), #{INPUT_ID})
+        (#{SUB_CATE_ID}, #{PRODUCT_NAME}, UUID(), #{PRODUCT_CONTENT}, #{PRODUCT_PRICE}, #{COST_PRICE}, #{IS_VISIBLE}, NOW(), #{INPUT_ID})
     </insert>
 
     <!-- 옵션 등록 -->
@@ -86,15 +146,20 @@
         WHERE PRODUCT_ID = 0
     </update>
 
-    <!-- 대표 이미지 지정 -->
+    <!-- 대표 이미지 지정 (가장 빠른 IMAGE_ID 하나) -->
     <update id="setMainImage" parameterType="java.util.Map">
         UPDATE product_img
         SET IS_MAIN = 'Y'
         WHERE PRODUCT_ID = #{PRODUCT_ID}
           AND IMAGE_ID = (
             SELECT t.IMAGE_ID FROM (
-              SELECT IMAGE_ID FROM product_img WHERE PRODUCT_ID = #{PRODUCT_ID} ORDER BY IMAGE_ID ASC LIMIT 1
+              SELECT IMAGE_ID
+              FROM product_img
+              WHERE PRODUCT_ID = #{PRODUCT_ID}
+              ORDER BY IMAGE_ID ASC
+              LIMIT 1
             ) t
           )
     </update>
+
 </mapper>

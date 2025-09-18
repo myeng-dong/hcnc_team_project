@@ -26,10 +26,26 @@ public class MemberService {
 		// TODO Auto-generated method stub
 		return memberMapper.selectMemberList(param);
 	}
-
+	
+	//회원 등급 조회
 	public List<Map<String, Object>> selectMemberGradeList() {
-		
 		return memberMapper.selectMemberGradeList();
+	}
+
+	//관리자 등록
+	public int insertMember(Map<String, Object> param) {
+		return memberMapper.insertMember(param);
+	}
+	
+	//등록시 중복체크
+	public int isDuplicated(Map<String, Object> param) {
+		return memberMapper.isDuplicated(param);
+	}
+	
+	//회원 상세조회
+	public Map<String, Object> selectMemberDetail(String memberId) {
+		
+		return memberMapper.selectMemberDetail(memberId);
 	}
 	
 
