@@ -4,7 +4,7 @@
 	<select id="selectBannerListByUser" resultType="java.util.Map">
 		SELECT *
 		FROM BANNERS
-		WHERE 1=1
+		WHERE IS_VISIBLE = 1
 		<if test="bannerType != null and bannerType != ''">
 	        AND BANNER_TYPE = #{BANNER_TYPE}
 	    </if>

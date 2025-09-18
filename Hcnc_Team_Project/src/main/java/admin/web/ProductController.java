@@ -89,6 +89,98 @@ public class ProductController {
         return result;
     }
 
+    
+ // ----------------- 카테고리 관리 -----------------
+
+ // 대분류 조회
+ @RequestMapping("/selectMainCategoryByAdmin.do")
+ public NexacroResult selectMainCategoryByAdmin() {
+     NexacroResult result = new NexacroResult();
+     result.addDataSet("ds_mainCate", productService.selectMainCategoryByAdmin());
+     return result;
+ }
+
+ // 중분류 조회
+ @RequestMapping("/selectSubCategoryByAdmin.do")
+ public NexacroResult selectSubCategoryByAdmin() {
+     NexacroResult result = new NexacroResult();
+     result.addDataSet("ds_subCate", productService.selectSubCategoryByAdmin());
+     return result;
+ }
+
+ // 추가
+ @RequestMapping("/insertCategoryByAdmin.do")
+ public NexacroResult insertCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+     productService.insertCategoryByAdmin(param);
+     return new NexacroResult();
+ }
+
+ // 수정
+ @RequestMapping("/updateCategoryByAdmin.do")
+ public NexacroResult updateCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+     productService.updateCategoryByAdmin(param);
+     return new NexacroResult();
+ }
+
+ // 삭제
+ @RequestMapping("/deleteCategoryByAdmin.do")
+ public NexacroResult deleteCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+     productService.deleteCategoryByAdmin(param);
+     return new NexacroResult();
+ }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // 상품 등록 (상품/옵션/재고)
     @RequestMapping("/insertProductByAdmin.do")
     public NexacroResult insertProductByAdmin(

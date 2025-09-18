@@ -9,7 +9,7 @@
               <Static id="m" taborder="0" text="아이디" left="8" top="63" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
               <Static id="m2" taborder="1" text="이름" left="8" top="117" width="59" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
               <Static id="Static00_00_00" taborder="2" text="비밀번호" left="8" top="170" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
-              <Static id="Static00_00_00_00" taborder="3" text="이메일" left="8" top="229" width="50" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00" taborder="3" text="이메일" left="9" top="226" width="50" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
               <Edit id="insert_id" taborder="4" left="83" top="60" width="161" height="34"/>
               <Static id="Static00" taborder="5" text="~" left="1109" top="159" width="34" height="16"/>
               <Static id="Static01" taborder="6" text="회원 및 관리자 등록" left="9" top="6" width="170" height="38" textAlign="center" font="20px/normal &quot;Noto Sans KR Black&quot;" onclick="insert_box_Static01_onclick"/>
@@ -81,17 +81,17 @@ this.insert_box_insert_btn_onclick = function(obj:nexacro.Button,e:nexacro.Click
 	var phoneNumber = this.ds_member.getColumn(0,"PHONE_NUMBER")
 	
 	if(memberId == "" || memberId == null){
-		this.alert("아이디를 입력하세요우워어")
+		this.alert("아이디를 입력하세요")
 		return;
 	}
 	
 	if(emailAddr == "" || emailAddr == null){
-		this.alert("이메일를 입력하거라")
+		this.alert("이메일를 입력하세요")
 		return;
 	}
 	
 	if(phoneNumber == "" || phoneNumber == null){
-		this.alert("전화번호를 입력안하니?")
+		this.alert("전화번호를 입력하세요")
 		return;
 	}
 	
