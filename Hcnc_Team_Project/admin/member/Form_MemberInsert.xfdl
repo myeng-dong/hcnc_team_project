@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_MemberInsert" width="1280" height="720" titletext="New Form" onload="Form_MemberInsert_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Div id="insert_box" taborder="0" text="" left="10" top="12" width="1243" height="688" border="1px solid black" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)">
+          <Layouts>
+            <Layout>
+              <Static id="m" taborder="0" text="아이디" left="8" top="63" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="m2" taborder="1" text="이름" left="8" top="117" width="59" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00" taborder="2" text="비밀번호" left="8" top="170" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00" taborder="3" text="이메일" left="9" top="226" width="50" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Edit id="insert_id" taborder="4" left="83" top="60" width="161" height="34"/>
+              <Static id="Static00" taborder="5" text="~" left="1109" top="159" width="34" height="16"/>
+              <Static id="Static01" taborder="6" text="회원 및 관리자 등록" left="9" top="6" width="170" height="38" textAlign="center" font="20px/normal &quot;Noto Sans KR Black&quot;" onclick="insert_box_Static01_onclick"/>
+              <Static id="Static00_00_00_00_00" taborder="7" text="휴대전화" left="8" top="279" width="59" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00_00_00" taborder="8" text="생일" left="8" top="337" width="38" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00_00_00_00" taborder="9" text="성별" left="8" top="401" width="38" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00_00_00_00_00" taborder="10" text="등급" left="8" top="463" width="38" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static00_00_00_00_00_00_00_00_00" taborder="11" text="회원타입" left="8" top="527" width="57" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Edit id="insert_name" taborder="12" left="83" top="111" width="161" height="34" onchanged="insert_box_insert_name_onchanged"/>
+              <Edit id="insert_password" taborder="13" left="83" top="167" width="161" height="34"/>
+              <Edit id="insert_password00" taborder="14" left="83" top="223" width="161" height="34"/>
+              <Edit id="insert_password00_00" taborder="15" left="83" top="278" width="161" height="34"/>
+              <Combo id="Combo00" taborder="16" text="Combo00" left="80" top="457" width="172" height="36" innerdataset="ds_grade" codecolumn="GRADE_CODE" datacolumn="GRADE_NAME"/>
+              <Calendar id="Calendar01" taborder="17" left="83" top="338" width="183" height="29"/>
+              <Button id="close_btn" taborder="18" text="취소" left="573" top="600" width="95" height="31" background=" #9ca3af" borderRadius="4px" color="#fff" font="13px/normal &quot;Noto Sans KR Black&quot;" onclick="insert_box_close_btn_onclick"/>
+              <Radio id="gender_radio" taborder="19" left="80" top="398" width="119" height="34" innerdataset="ds_gender" codecolumn="GENDER" datacolumn="CODE" font="12px &quot;Noto Sans KR Black&quot;" direction="vertical"/>
+              <Radio id="type_radio" taborder="20" left="83" top="527" width="116" height="28" innerdataset="ds_type" codecolumn="MEMBER_TYPE" datacolumn="CODE" font="12px/normal &quot;Noto Sans KR Black&quot;" direction="vertical"/>
+              <Button id="insert_btn" taborder="21" text="등록하기" left="469" top="600" width="90" height="31" background="#2563eb" borderRadius="4px" color="#fff" font="13px/normal &quot;Noto Sans KR Black&quot;" onclick="insert_box_insert_btn_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="insert_box.form.insert_id" propid="value" datasetid="ds_member" columnid="MEMBER_ID"/>
+      <BindItem id="item6" compid="insert_box.form.insert_name" propid="value" datasetid="ds_member" columnid="USER_NAME"/>
+      <BindItem id="item7" compid="insert_box.form.insert_password" propid="value" datasetid="ds_member" columnid="PASSWORD"/>
+      <BindItem id="item8" compid="insert_box.form.insert_password00" propid="value" datasetid="ds_member" columnid="EMAIL_ADDR"/>
+      <BindItem id="item9" compid="insert_box.form.insert_password00_00" propid="value" datasetid="ds_member" columnid="PHONE_NUMBER"/>
+      <BindItem id="item1" compid="insert_box.form.Calendar01" propid="value" datasetid="ds_member" columnid="BIRTH"/>
+      <BindItem id="item2" compid="insert_box.form.gender_radio" propid="value" datasetid="ds_member" columnid="GENDER"/>
+      <BindItem id="item3" compid="insert_box.form.Combo00" propid="value" datasetid="ds_member" columnid="GRADE_CODE"/>
+      <BindItem id="item4" compid="insert_box.form.type_radio" propid="value" datasetid="ds_member" columnid="MEMBER_TYPE"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[//취소 버튼
+this.insert_box_close_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.getOwnerFrame().set_formurl("member::Form_MemberList.xfdl");
+};
+
+//회원 등급 조회 함수
+this.fn_gradeSearch = function(){
+	
+	var strSvcID = "selectMemberGradeList"
+	var setURL = "svc::/selectMemberGradeListByAdmin.do";
+	var strInDatasets = "";
+	var strOutDatasets = "ds_grade=ds_grade";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+
+//시작 시 등급 조회 
+this.Form_MemberInsert_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_gradeSearch();
+};
+
+
+//등록 버튼시 insert
+this.insert_box_insert_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	//빈값체크
+	var memberId = this.ds_member.getColumn(0,"MEMBER_ID")
+	var emailAddr = this.ds_member.getColumn(0,"EMAIL_ADDR")
+	var phoneNumber = this.ds_member.getColumn(0,"PHONE_NUMBER")
+	
+	if(memberId == "" || memberId == null){
+		this.alert("아이디를 입력하세요")
+		return;
+	}
+	
+	if(emailAddr == "" || emailAddr == null){
+		this.alert("이메일를 입력하세요")
+		return;
+	}
+	
+	if(phoneNumber == "" || phoneNumber == null){
+		this.alert("전화번호를 입력하세요")
+		return;
+	}
+	
+	//통신하기
+	var strSvcID = "insertMember"
+	var setURL = "svc::/insertMemberByAdmin.do";
+	var strInDatasets = "ds_member=ds_member";
+	var strOutDatasets = "ds_insCnt=ds_insCnt";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+};
+
+
+// 공통 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+	
+	if(errorCode == -1){
+		this.alert(errorMSG)
+		
+		return;
+	}
+	
+	switch(svcID){
+	case "selectMemberList" : 
+		console.log(this.ds_list.saveXML());
+		break;
+		
+	case "selectMemberGradeList" :
+		console.log(this.ds_grade.saveXML())
+		break;
+		
+	case "insertMember" : 
+		console.log(this.ds_member.saveXML())
+		
+		if(this.ds_insCnt.getColumn(0,"INSERTED") > 0){
+			alert("등록완료")
+			this.getOwnerFrame().set_formurl("member::Form_MemberList.xfdl");
+		}else{
+			alert("등록실패")
+		}
+		
+		break;
+	}
+	
+}
+]]></Script>
+    <Objects>
+      <Dataset id="ds_gender">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="GENDER" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">남자</Col>
+            <Col id="GENDER">Male</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">여자</Col>
+            <Col id="GENDER">Female</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_type">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="MEMBER_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">회원</Col>
+            <Col id="MEMBER_TYPE">user</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">관리자</Col>
+            <Col id="MEMBER_TYPE">admin</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_grade">
+        <ColumnInfo>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="GRADE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_member">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="PASSWORD" type="STRING" size="256"/>
+          <Column id="EMAIL_ADDR" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="BIRTH" type="STRING" size="256"/>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="MEMBER_TYPE" type="STRING" size="256"/>
+          <Column id="GENDER" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_insCnt">
+        <ColumnInfo>
+          <Column id="INSERTED" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

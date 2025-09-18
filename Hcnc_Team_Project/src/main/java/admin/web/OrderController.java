@@ -77,19 +77,47 @@ public class OrderController {
   		return result;
   	}
 
-  	 // 결제 상태 업데이트
+  	 // 배송 상태 업데이트 -> 배송대기? 인서트문 : 업데이트문
     @RequestMapping(value="/updateShipListByAdmin.do")
     public NexacroResult updateShipListByAdmin(
             @ParamDataSet(name="ds_selected", required=false) List<Map<String, Object>> dsSelected) {
-
-        NexacroResult result = new NexacroResult();
+    	
+    	int insertCnt = 0;     // 인서트문 실행된 갯수 파악할 변수
+    	int upCnt = 0;         // 업데이트문 실행된 갯수 파악할 변수
+    			
+        NexacroResult result = new NexacroResult(); 
 
         if (dsSelected != null) {
-            for (Map<String,Object> row : dsSelected) {
-                orderService.updateShipListByAdmin(row);
-            }
+        	 for (Map<String, Object> row : dsSelected) {
+        	        Object shipmentId = row.get("SHIPMENT_ID");
+        	        
+        	        if (shipmentId == null || "".equals(shipmentId.toString())) { // 배송ID가 없으면 데이터가 없으므로
+        	            // INSERT 실행
+        	        	orderService.insertShipListByAdmin(row);
+        	        	insertCnt++;
+        	        	System.out.println("실행된 인서트문의 갯수 : "+insertCnt);
+        	        	
+        	        } else { // 배송ID가 있으면 업데이트문 실행
+        	            // UPDATE 실행
+        	        	orderService.updateShipListByAdmin(row);
+        	        	upCnt++;
+        	        	System.out.println("실행된 업데이트문의 갯수 : "+upCnt);
+        	        }
+        	    }
         }
         return result;
     }
 
+    @RequestMapping(value="/selectOrderItemByAdmin.do")
+  	public NexacroResult selectOrderItemByAdmin( 
+  			@ParamDataSet(name="ds_search", required=false) Map<String, Object> dsSearch) {
+  		NexacroResult result = new NexacroResult();
+  		
+  		List<Map<String, Object>> orderItemList = orderService.selectOrderItemByAdmin(dsSearch);
+  		
+  		result.addDataSet("ds_item", orderItemList);
+
+  		return result;
+  	}
+    
 }
