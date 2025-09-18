@@ -191,12 +191,12 @@
         	var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
         	var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
 
-        	if(adminId == 'undefined' || adminId ==''){
+        	if(adminId == null || adminId ==''){
         		this.alert('아이디를 입력해 주세요')
         		return;
         	}
 
-        	if(adminPw == 'undefined' || adminPw ==''){
+        	if(adminPw == null || adminPw ==''){
         		this.alert('비밀번호를 입력해 주새요')
         		return;
         	}
@@ -253,7 +253,33 @@
 
         }
 
+        this.admin_pw_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
+        		var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
 
+        		if(adminId == null || adminId ==''){
+        			this.alert('아이디를 입력해 주세요')
+        			return;
+        		}
+
+        		if(adminPw == null || adminPw ==''){
+        			this.alert('비밀번호를 입력해 주새요')
+        			return;
+        		}
+
+        		var strSvcID = "adminLogin"
+        		var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
+        		var strInDatasets = "ds_admin=ds_admin";
+        		var strOutDatasets = "ds_loginChk=ds_loginChk";
+        		var strArg = "";
+        		var callBack = "fn_callBack";
+        		var inAsync = true;
+
+        		this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+        	}
+        };
 
         });
         
@@ -261,8 +287,10 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_Login_onload,this);
+            this.addEventHandler("onkeyup",this.Form_Login_onkeyup,this);
             this.loginForm.addEventHandler("onclick",this.Static03_onclick,this);
             this.Static00_00.addEventHandler("onclick",this.Static00_00_onclick,this);
+            this.admin_pw.addEventHandler("onkeyup",this.admin_pw_onkeyup,this);
             this.admin_login.addEventHandler("onclick",this.admin_login_onclick,this);
             this.Static02.addEventHandler("onclick",this.Static02_onclick,this);
             this.h1_logo.addEventHandler("onclick",this.h1_logo_onclick,this);

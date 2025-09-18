@@ -49,8 +49,15 @@
 	<delete id="deleteProduct" parameterType="java.util.HashMap">
 		DELETE FROM CART_ITEMS
 			WHERE CART_ID = #{cartId}
+			<if test="cartItemId != null">	
 				AND CART_ITEM_ID = #{cartItemId}
+			</if>
+			<if test="option != null">
 				AND PRODUCT_OPTION = #{option}
+			</if>
+			<if	test="selectedItems">
+				AND IS_CHECKED = 'Y'
+			</if>
 	</delete>
 	
 	<!-- 체크박스 선택한 상품만 주문하기 -->
