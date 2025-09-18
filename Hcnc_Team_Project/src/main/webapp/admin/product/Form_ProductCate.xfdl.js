@@ -215,22 +215,141 @@
         /***************************************************
         * 공통 콜백
         ***************************************************/
-        this.fn_callback = function(svcID,errCode,errMsg)
+        /***************************************************
+        * 공통 콜백
+        ***************************************************/
+        this.fn_callback = function(svcID, errCode, errMsg)
         {
             if (errCode < 0) {
                 alert("에러: " + errMsg);
                 return;
             }
 
-            if (svcID=="selectMainCategoryByAdmin" || svcID=="selectSubCategoryByAdmin") {
-                if (this.ds_mainCate.getRowCount() > 0 && this.ds_subCate.getRowCount() > 0) {
-                    this.fn_makeTree();
+            // 저장/수정/삭제 성공 후 → 재조회 시작
+            if (svcID=="insertCategoryByAdmin" || svcID=="updateCategoryByAdmin" || svcID=="deleteCategoryByAdmin") {
+                if (svcID=="insertCategoryByAdmin") {
+                    if (this._insertMode && this._insertMode.type=="main") {
+                        this._lastAction = "insertMain";
+                    } else {
+                        this._lastAction = "insertSub";
+                        this._lastMainId = this._insertMode ? this._insertMode.mainId : null;
+                    }
                 }
-            } else {
-                alert("처리 완료");
-                this.Form_ProductCate_onload();
+                else if (svcID=="updateCategoryByAdmin") {
+                    this._lastAction = "update";
+                    this._lastCateType = this.ds_in.getColumn(0,"TYPE"); // main/sub 구분 저장
+                    this._lastCateId   = this.ds_in.getColumn(0, this._lastCateType=="main" ? "MAIN_CATE_ID" : "SUB_CATE_ID");
+                }
+                else if (svcID=="deleteCategoryByAdmin") {
+                    this._lastAction = "delete";
+                    this._lastCateType = this.ds_in.getColumn(0,"TYPE");
+                    if (this._lastCateType=="sub") {
+                        this._lastMainId = this.ds_subCate.getColumn(
+                            this.ds_subCate.findRow("SUB_CATE_ID", this.ds_in.getColumn(0,"SUB_CATE_ID")),
+                            "MAIN_CATE_ID"
+                        );
+                    }
+                }
+
+                // 공통 재조회 실행
+                this.fn_reloadTree();
+            }
+
+            // 메인 조회 끝나면 → 서브 조회
+            else if (svcID=="selectMainCategoryByAdmin") {
+                this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do",
+                    "", "ds_subCate=ds_subCate", "", "fn_callback", true);
+            }
+
+            // 서브 조회 끝나면 최종 처리
+            else if (svcID=="selectSubCategoryByAdmin") {
+                if (this.ds_mainCate.rowcount > 0 && this.ds_subCate.rowcount > 0) {
+                    this.fn_makeTree();
+
+                    // ✅ 작업별 알림 + 선택 처리
+                    if (this._lastAction == "insertMain") {
+                        alert("대분류가 추가되었습니다.");
+                        var newId = this.ds_mainCate.getColumn(this.ds_mainCate.rowcount-1,"MAIN_CATE_ID");
+                        var row = this.ds_category.findRow("cate_id","M"+newId);
+                        if (row >= 0) {
+                            this.grd_category.selectRow(row);
+                            this.fn_showDetail(row);
+                        }
+                    }
+                    else if (this._lastAction == "insertSub") {
+                        alert("하위 분류가 추가되었습니다.");
+                        var newId = this.ds_subCate.getColumn(this.ds_subCate.rowcount-1,"SUB_CATE_ID");
+                        var mainRow = this.ds_category.findRow("cate_id","M"+this._lastMainId);
+
+                        if (mainRow >= 0) {
+                            // 부모 대분류 펼치기
+                            this.grd_category.selectRow(mainRow);
+                            this.grd_category_oncellclick(this.grd_category, {row:mainRow});
+
+                            // 새 하위 분류 선택
+                            var subRow = this.ds_category.findRow("cate_id","S"+newId);
+                            if (subRow >= 0) {
+                                this.grd_category.selectRow(subRow);
+                                this.fn_showDetail(subRow);
+                            }
+                        }
+                    }
+                    else if (this._lastAction == "update") {
+                        alert("수정이 완료되었습니다.");
+                        var prefix = (this._lastCateType=="main" ? "M" : "S");
+                        var row = this.ds_category.findRow("cate_id", prefix+this._lastCateId);
+                        if (row >= 0) {
+                            this.grd_category.selectRow(row);
+                            this.fn_showDetail(row);
+                        }
+                    }
+                    else if (this._lastAction == "delete") {
+                        alert("삭제가 완료되었습니다.");
+                        if (this._lastCateType=="sub" && this._lastMainId) {
+                            // 부모 대분류 선택 + 펼치기
+                            var mainRow = this.ds_category.findRow("cate_id","M"+this._lastMainId);
+                            if (mainRow >= 0) {
+                                this.grd_category.selectRow(mainRow);
+                                this.grd_category_oncellclick(this.grd_category, {row:mainRow});
+                            }
+                        }
+                    }
+
+                    // 우측 입력창 초기화
+                    this.fn_clearDetail();
+
+                    // 상태값 리셋
+                    this._insertMode = null;
+                    this._lastAction = null;
+                    this._lastMainId = null;
+                    this._lastCateId = null;
+                    this._lastCateType = null;
+                }
             }
         };
+
+
+
+        /***************************************************
+        * 공통 재조회 함수 : 메인 → 서브 순차 조회
+        ***************************************************/
+        this.fn_reloadTree = function()
+        {
+            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do",
+                "", "ds_mainCate=ds_mainCate", "", "fn_callback", true);
+        };
+
+
+        //우측 초기화 함수
+        this.fn_clearDetail = function()
+        {
+            this.div_detail.form.sta_idValue.set_text("자동생성");
+            this.div_detail.form.edt_cateName.set_value("");
+            this.div_detail.form.edt_sort.set_value("");
+            this.div_detail.form.rdo_display.set_value("Y");  // 기본 진열함
+        };
+
+
 
         /***************************************************
         * 트리 데이터 구성 (처음에는 대분류만)
@@ -305,7 +424,7 @@
                         }
                     }
 
-                    // ✅ 클릭한 대분류 선택 유지
+                    // 클릭한 대분류 선택 유지
                     this.ds_category.set_rowposition(row);
                 }
 
@@ -388,7 +507,7 @@
             this.div_detail.form.edt_sort.set_value(this.fn_getNextSortNumber("main"));
             this.div_detail.form.rdo_display.set_value("Y");
 
-            alert("신규 대분류 정보를 입력 후 [저장]을 누르세요.");
+            alert("우측 신규 대분류 정보를 입력 후 [저장]을 누르세요.");
         };
 
         /***************************************************
@@ -415,7 +534,7 @@
             this.div_detail.form.edt_sort.set_value(this.fn_getNextSortNumber("sub", mainId));
             this.div_detail.form.rdo_display.set_value("Y");
 
-            alert("신규 중분류 정보를 입력 후 [저장]을 누르세요.");
+            alert("우측 신규 중분류 정보를 입력 후 [저장]을 누르세요.");
         };
 
         /***************************************************
@@ -430,7 +549,7 @@
             }
             this.fn_showDetail(row);
             this._insertMode = null;
-            alert("선택한 항목 정보를 수정 후 [저장] 버튼을 누르세요.");
+            alert("선택한 항목 정보를 우측 화면에서 수정 후 [저장] 버튼을 누르세요.");
         };
 
         /***************************************************
@@ -456,6 +575,9 @@
 
             this.transaction("deleteCategoryByAdmin","svc::deleteCategoryByAdmin.do",
                 "ds_in=ds_in","","","fn_callback",true);
+
+
+
         };
 
         /***************************************************
@@ -481,7 +603,7 @@
             this.ds_in.clearData();
             var nRow = this.ds_in.addRow();
 
-            // 신규 모드
+            // 신규
             if (this._insertMode) {
                 if (this._insertMode.type=="main") {
                     this.ds_in.setColumn(nRow,"TYPE","main");
@@ -498,7 +620,7 @@
                 this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do",
                     "ds_in=ds_in","","","fn_callback",true);
             }
-            // 수정 모드
+            // 수정
             else {
                 var row = this.grd_category.currentrow;
                 if (row < 0) {
@@ -524,9 +646,9 @@
                 this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do",
                     "ds_in=ds_in","","","fn_callback",true);
             }
-
-            this._insertMode = null;
+            // this._insertMode 는 콜백에서 초기화
         };
+
 
 
         /***************************************************
