@@ -398,4 +398,11 @@ public class UserMemberController {
 		}
 		return mv;
 	}
+	
+	@RequestMapping(value="/mypage.do",method = RequestMethod.GET)
+	public ModelAndView myPage () {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("mypage/mypage");
+		return mv;
+	}
 }

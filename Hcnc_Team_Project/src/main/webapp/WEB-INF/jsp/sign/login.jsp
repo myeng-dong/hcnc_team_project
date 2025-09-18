@@ -92,120 +92,121 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     };
   </script>
 
-  <body
-    style="background-color: #f7f7f7; padding-top: 20px; padding-bottom: 20px"
-  >
-    <style>
-      input[type="password"],
-      input[type="number"],
-      input[type="text"] {
-        width: 100%;
-        height: 40px;
-        border: 1px solid #d9d9d9;
-        border-radius: 5px;
-        font-size: 18px;
-        padding-left: 10px;
-        box-sizing: border-box;
-      }
+  <style>
+    input[type="password"],
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      font-size: 18px;
+      padding-left: 10px;
+      box-sizing: border-box;
+    }
 
-      .loginbox {
-        margin: 0 auto;
-        width: 628px;
-        background-color: #fff;
-        border-radius: 16px;
-        box-shadow: 0px 0px 30px #ccc;
-        padding: 55px 40px 55px 40px;
-        min-width: 628px;
-        max-width: 628px;
-      }
-      .login-header {
-        display: flex;
-        font-weight: bold;
-        font-size: 28px;
-        padding-bottom: 19px;
-        border-bottom: 1px solid #d9d9d9;
-        margin-bottom: 34px;
-      }
-      .login-body {
-        border: 1px solid #d9d9d9;
-        border-radius: 5px;
-        margin-bottom: 42px;
-      }
-      .tab-login,
-      .tab-unknown {
-        display: flex;
-        flex: 1;
-        justify-content: center;
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 20px;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        cursor: pointer;
-      }
-      .tab-login {
-      }
-      .tab-unknown {
-        background-color: #f7f7f7;
-        border-left: 1px solid #d9d9d9;
-        border-bottom: 1px solid #d9d9d9;
-        border-top-right-radius: 5px;
-      }
-      .tab-login.active {
-        background-color: #f7f7f7;
-        border-right: 1px solid #d9d9d9;
-        border-bottom: 1px solid #d9d9d9;
-        border-top-left-radius: 5px;
-      }
-      .tab-unknown.active {
-        background-color: #fff;
-        border-left: 0px solid #d9d9d9;
-        border-bottom: 0px solid #d9d9d9;
-        border-top-right-radius: 5px;
-      }
-      .login-input-container {
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        flex-direction: column;
-        padding-top: 26px;
-        padding-left: 40px;
-        padding-right: 40px;
-      }
-      .login-btn {
-        margin-left: 40px;
-        margin-right: 40px;
-        display: flex;
-        flex: 1;
-        background-color: #ea0e25;
-        justify-content: center;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-      .sign-btn {
-        margin-left: 40px;
-        margin-right: 40px;
-        display: flex;
-        flex: 1;
-        background-color: #fff;
-        justify-content: center;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        border-radius: 4px;
-        border: 1px solid #ea0e25;
-        cursor: pointer;
-      }
-      .find-info {
-        font-size: 12px;
-        font-weight: 400;
-        color: #777;
-        cursor: pointer;
-      }
-    </style>
-
-    <div class="container login">
+    .loginbox {
+      margin: 0 auto;
+      width: 628px;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0px 0px 30px #ccc;
+      padding: 55px 40px 55px 40px;
+      min-width: 628px;
+      max-width: 628px;
+    }
+    .login-header {
+      display: flex;
+      font-weight: bold;
+      font-size: 28px;
+      padding-bottom: 19px;
+      border-bottom: 1px solid #d9d9d9;
+      margin-bottom: 34px;
+    }
+    .login-body {
+      border: 1px solid #d9d9d9;
+      border-radius: 5px;
+      margin-bottom: 42px;
+    }
+    .tab-login,
+    .tab-unknown {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 20px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      cursor: pointer;
+    }
+    .tab-login {
+    }
+    .tab-unknown {
+      background-color: #f7f7f7;
+      border-left: 1px solid #d9d9d9;
+      border-bottom: 1px solid #d9d9d9;
+      border-top-right-radius: 5px;
+    }
+    .tab-login.active {
+      background-color: #f7f7f7;
+      border-right: 1px solid #d9d9d9;
+      border-bottom: 1px solid #d9d9d9;
+      border-top-left-radius: 5px;
+    }
+    .tab-unknown.active {
+      background-color: #fff;
+      border-left: 0px solid #d9d9d9;
+      border-bottom: 0px solid #d9d9d9;
+      border-top-right-radius: 5px;
+    }
+    .login-input-container {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      padding-top: 26px;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+    .login-btn {
+      margin-left: 40px;
+      margin-right: 40px;
+      display: flex;
+      flex: 1;
+      background-color: #ea0e25;
+      justify-content: center;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .sign-btn {
+      margin-left: 40px;
+      margin-right: 40px;
+      display: flex;
+      flex: 1;
+      background-color: #fff;
+      justify-content: center;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border-radius: 4px;
+      border: 1px solid #ea0e25;
+      cursor: pointer;
+    }
+    .find-info {
+      font-size: 12px;
+      font-weight: 400;
+      color: #777;
+      cursor: pointer;
+    }
+  </style>
+  <body>
+    <jsp:include page="../layout/headertop.jsp" />
+    <div
+      class="container login"
+      style="background-color: #f7f7f7; padding-top: 20px; padding-bottom: 20px"
+    >
       <div class="inner">
         <div class="loginbox">
           <div class="login-header">로그인</div>
