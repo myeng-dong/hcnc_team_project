@@ -1,12 +1,16 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- jsp:include page="../layout/header-top.jsp" /-->
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
-<jsp:include page="../layout/header.jsp" />
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<jsp:include page="../layout/headerlink.jsp" />
 
-<jsp:include page="../layout/menu.jsp" />
-  
-<style>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>메인페이지</title>
+    <jsp:include page="../layout/headertop.jsp" />
+</head>
+<body>
+	<style>
 	.swiper {
       width: 100%;
       height: 100%;
@@ -29,8 +33,12 @@
     }
     
 </style>  
-<div class="container">
-	<main class="main_area">
+<jsp:include page="../layout/header.jsp" />
+<jsp:include page="../layout/menu.jsp" />
+
+<div class="container-wrap">
+    <div class="container main">
+        	<main class="main_area">
 		<section class="main_banner_area">
 			<div class="swiper mySwiper">
 			    <div class="swiper-wrapper">
@@ -105,7 +113,8 @@
 			</div>
 		</section>
 	</main>
+    </div>
 </div>
-
-
 <jsp:include page="../layout/footer.jsp" />
+</body>
+</html>
