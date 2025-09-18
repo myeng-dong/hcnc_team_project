@@ -7,5 +7,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("UserBannerMapper")
 public interface UserBannerMapper {
+
 	public List<Map<String, Object>> selectBannerListByUser();
+
 }
