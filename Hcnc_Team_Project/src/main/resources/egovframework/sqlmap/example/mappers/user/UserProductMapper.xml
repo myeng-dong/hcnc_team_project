@@ -34,4 +34,15 @@
 			VALUES (#{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} )
 	</insert>
 	
+	
+	<select id="selectProductQnAListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT PRODUCT_QNA_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, DATE_FORMAT(UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT
+			FROM PRODUCT_QNA
+		  WHERE PRODUCT_ID = #{productId}
+	</select>
+	
+	<insert id="insertQnAByUser" parameterType="java.util.Map">
+		INSERT INTO PRODUCT_QNA (PRODUCT_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT)
+			VALUES ( #{productId}, #{memberId}, #{qnaTitle}, #{qnaContent} )
+	</insert>
 </mapper>

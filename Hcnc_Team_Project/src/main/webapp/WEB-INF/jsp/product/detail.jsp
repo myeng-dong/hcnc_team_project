@@ -19,7 +19,66 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
+	<style>
+		/* QnA모달 CSS */
+		
+		.qna-modal {
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.5)
+		}
+		
+		.qna-modal-content {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: white;
+			padding: 30px;
+			border-radius: 8px;
+			min-width: 500px;
+			max-width: 800px;
+			width: 90%;
+			box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+		}
+		
+		.qna-close {
+			position: absolute;
+			top: 10px;
+			right: 15px;
+			font-size: 28px;
+			cursor: pointer;
+		}
+		
+		.form-group {
+			margin-bottom: 15px;
+		}
+		
+		.form-group input, .form-group textarea {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-readius: 4px;
+		}
+		
+		.form-group textarea {
+			min-height: 300px;
+			max-height: 300px;
+		}
+		
+		.form-button {
+			display: flex;
+			justify-content: flex-end;
+		}
+		
+	</style>
+	
 	<script>
+		// 부트스트랩 네비 메뉴 버튼
 		const triggerTabList = document.querySelectorAll('#myTab button')
 		triggerTabList.forEach(triggerEl => {
 		  const tabTrigger = new bootstrap.Tab(triggerEl)
@@ -31,16 +90,88 @@
 		})
 	</script>
 	
+	<!-- 상품 QnA 등록시 처리하기 위함 -->
+	<c:if test="${not empty message}">
+		<script>
+			$(document).ready(function(){
+				
+				if("${messageType}" === "success"){
+					alert("${message}");
+				} else {
+					alert("오류: ${message}");
+				}
+				
+				
+				// QnA 문의하기 버튼 광클 금지
+				var isSubmitting = false;
+				
+				$('#qnaForm').submit(function(e){
+					if (isSubmitting) {
+						e.preventDefault();
+						return false;
+					}
+					
+					isSubmitting = true;
+					$('#qnaSubmitBtn').prop('disabled', true).text('상품 문의 등록중...');
+					
+					return true;
+				});
+				
+			});
+		</script>
+	</c:if>
+	
 	<script type="text/javaScript" language="javascript" defer="defer">
 	
-		$(function(){
-			selectProduct();
-			
-		});
-		
 		const memberId = "user01";
 		const cartId = 1;
-		const productId = 2;
+		const productId = 1;
+	
+		$(function(){
+			
+			selectProduct();
+			
+			selectProductQnAList();
+			
+			// 페이지 로드시 모달html 정의.
+			var modalHTML =
+				'<div id="qnaModal" class="qna-modal" style="display: none;">' +
+	            '<div class="qna-modal-content">' +
+	              '<span class="qna-close">&times;</span>' +
+	              '<h2>상품 문의하기</h2>' +
+	              '<form id="qnaForm" action="/insertQnA.do" method="post">' +
+	                '<div class="form-group">' +
+	                  '<input type="text" id="qnaProdut_'+ productId +'" name="productId" value="'+ productId +'" placeholder="상품" required hidden>' +
+	                '</div>' +
+	                '<div class="form-group">' +
+	                  '<input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required>' +
+	                '</div>' +
+	                '<div class="form-group">' +
+	                  '<input type="text" id="'+ memberId +'" name="memberId" value="'+ memberId +'" placeholder="작성자" required hidden>' +
+	                '</div>' +
+	                '<div class="form-group">' +
+	                  '<textarea id="qnaContent" name="qnaContent" placeholder="내용" required></textarea>' +
+	                '</div>' +
+	                '<div class="form-button">' +
+	                	'<button type="submit" id="qnaSubmitBtn">문의하기</button>' +
+	                '</div>'
+	              '</form>' +
+	            '</div>' +  
+	          '</div>'; 
+	     $('body').append(modalHTML);
+	     
+	     // 모달 닫기 이베트들
+	     $('.qna-close').click(function(){
+	    	 $('#qnaModal').hide();
+	     });
+	     
+	     $('.btn-cancel').click(function(){
+	    	 $('#qnaModal').hide();
+	     })
+
+		});
+		
+		
 		
 		const selectProduct = () => {
 			
@@ -110,6 +241,42 @@
 			    error: function () {
 			        alert("상품 옵션을 불러오는 중 오류가 발생했습니다.");
 			    }
+			});
+		}
+		
+		const selectProductQnAList = () => {
+			
+			var param = {
+					productId : productId
+			};
+			
+			$.ajax({
+				url: "/selectProductQnAList.do"
+				, type: "post"
+				, data: param
+				, dataType: "json"
+				, success: function(res){
+					console.log(res.qnaList);
+					
+					var list = res.qnaList;
+					
+					var qnaListHTML = '<td colspan="4" style="text-align: center;">상품 문의 목록이 없습니다.</td>'
+					
+					if(list.length != undefined && list.length > 0){
+						for(var i=0; i < list.length; i++){
+							qnaListHTML =
+								'<tr>' +
+									'<td>'+ (i + 1) +'</td>' +
+									'<td id="'+ list[i].PRODUCT_QNA_ID +'-title"><p style="cursor: pointer;">'+ list[i].QNA_TITLE +'</p></td>' +
+									'<td id="'+ list[i].PRODUCT_QNA_ID +'-writer">'+ list[i].MEMBER_ID +'</td>' +
+									'<td id="'+ list[i].PRODUCT_QNA_ID +'-inputDt">'+ list[i].INPUT_DT +'</td>'
+						}
+					}
+					$('#productQnAList').html(qnaListHTML);
+				}
+				, error: function(){
+					
+				}
 			});
 		}
 		
@@ -195,61 +362,11 @@
     	}
     }
 	</script>
-	
+		
 	<script>
-			const createModal = () => {
-				const modal = document.createElement('div');
-				modal.id = 'qnaModal';
-				modal.className = 'qna-modal';
-				modal.style.display = 'none';
-				
-				modal.innerHTML =
-					'<div id="qnaModal" class="qna-modal" style="display: none;">' +
-		            '<div class="qna-modal-content">' +
-		              '<span class="qna-close">&times;</span>' +
-		              '<h2>상품 문의하기</h2>' +
-		              '<form id="qnaForm">' +
-		                '<div class="form-group">' +
-		                  '<input type="text" id="qnaProduct" name="qnaProduct" value="" placeholder="상품" required hidden>' +
-		                '</div>' +
-		                '<div class="form-group">' +
-		                  '<input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required>' +
-		                '</div>' +
-		                '<div class="form-group">' +
-		                  '<input type="text" id="qnaWriter" name="qnaWriter" value="" placeholder="작성자" required hidden>' +
-		                '</div>' +
-		                '<div class="form-group">' +
-		                  '<textarea id="qnaContent" name="qnaContent" placeholder="내용" required></textarea>' +
-		                '</div>' +
-		                '<button type="submit">문의하기</button>' +
-		              '</form>' +
-		            '</div>' +  
-		          '</div>';
-		          
-		    return modal;    
-			}
-	
-      document.addEventListener("DOMContentLoaded", function(){
-        const modal = createModal();
-        document.body.appendChild(modal);
-
-          document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-          // 모달 닫기 이벤트들
-          document.querySelector('.qna-close').addEventListener('click', function() {
-            document.getElementById('qnaModal').style.display = 'none';
-          });
-
-          document.getElementById('qnaModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-              this.style.display = 'none';
-            }
-          });
-      });
-
-      function formModalShow(){
-        document.getElementById('qnaModal').style.display = 'block';
-      }
+		const formModalShow = () => {
+			$('#qnaModal').show();
+		}
     </script>
 </head>
 
@@ -796,29 +913,22 @@
 				  		<p style="font-weight: bold;">상품 Q&A</p>
 				  		<p>상품에 대한 문의사항을 남겨주세요.</p>
 				  	</div>
+				  	<div class="review-btn-area" style="display: flex; justify-content: right;">
+							<button type="button" onclick="formModalShow()">상품 문의하기</button>
+						</div>
 				  	<table class="table">
 						  <thead>
 						    <tr>
 						      <th scope="col" width="10%">NO</th>
 						      <th scope="col" width="60%">TITLE</th>
-						      <th scope="col" width="10%">WRITER</th>
-						      <th scope="col" width="10%">DATE</th>
-						      <th scope="col" width="10%">VIEW</th>
+						      <th scope="col" width="15%">WRITER</th>
+						      <th scope="col" width="15%">DATE</th>
 						    </tr>
 						  </thead>
-						  <tbody>
-						    <tr>
-						      <th scope="row">1</th>
-						      <td>Mark</td>
-						      <td>Otto</td>
-						      <td>@mdo</td>
-						      <td>101</td>
-						    </tr>
+						  <tbody id="productQnAList">
+						    
 						  </tbody>
 						</table>
-						<div class="review-btn-area" style="display: flex; justify-content: right;">
-							<button type="button" onclick="formModalShow()">상품 문의하기</button>
-						</div>
 					</div>
 				</div>
     	</div>

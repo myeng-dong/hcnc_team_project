@@ -40,4 +40,14 @@ public class UserProductService {
 		// TODO Auto-generated method stub
 		return userProductMapper.slectOptionInfoByUser(param);
 	}
+
+	public int insertQnAByUser(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return userProductMapper.insertQnAByUser(param);
+	}
+
+	public List<HashMap<String, Object>> selectProductQnAListByUser(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return userProductMapper.selectProductQnAListByUser(param);
+	}
 }

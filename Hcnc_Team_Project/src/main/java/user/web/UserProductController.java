@@ -9,8 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import user.service.UserProductService;
 
@@ -55,6 +54,33 @@ public class UserProductController {
 		mav.addObject("insertResult", insertCartItem);
 		
 		System.out.println(insertCartItem);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/insertQnA.do")
+	public ModelAndView insertQnAByUser(@RequestParam Map<String, Object> param, RedirectAttributes redirectAttributes) {
+		ModelAndView mav = new ModelAndView();
+		
+		String productId = (String) param.get("productId");
+		
+		int insertQnA = userProductService.insertQnAByUser(param);
+		
+		redirectAttributes.addFlashAttribute("message", "등록이 완료되었습니다.");
+		redirectAttributes.addFlashAttribute("messageType", "success");
+		
+		mav.setViewName("redirect:/productDetailView.do?productId=" + productId);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/selectProductQnAList.do")
+	public ModelAndView selectProductQnAListByUser(@RequestParam Map<String, Object> param) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		List<HashMap<String, Object>> productQnAList = userProductService.selectProductQnAListByUser(param);
+		
+		mav.addObject("qnaList", productQnAList);
 		
 		return mav;
 	}

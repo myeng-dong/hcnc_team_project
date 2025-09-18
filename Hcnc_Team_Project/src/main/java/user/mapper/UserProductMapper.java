@@ -15,4 +15,8 @@ public interface UserProductMapper {
 	
 	List<HashMap<String, Object>> slectOptionInfoByUser(Map<String, Object> param);
 
+	int insertQnAByUser(Map<String, Object> param);
+
+	List<HashMap<String, Object>> selectProductQnAListByUser(Map<String, Object> param);
+
 }
