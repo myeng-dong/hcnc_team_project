@@ -114,7 +114,7 @@
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
-            obj.set_font("bold 12px/normal \"Noto Sans KR Black\"");
+            obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
             obj = new Static("grade_search_box00","20","333","1240","337",null,null,null,null,null,null,this);
