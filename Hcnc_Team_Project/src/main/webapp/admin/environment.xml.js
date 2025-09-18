@@ -67,9 +67,7 @@ if (nexacro.Environment)
         		{"id":"FileDownload", "classname":"nexacro.FileDownload", "type":"JavaScript"},
         		{"id":"FileUpload", "classname":"nexacro.FileUpload", "type":"JavaScript"},
         		{"id":"FileDialog", "classname":"nexacro.FileDialog", "type":"JavaScript"},
-        		{"id":"FileUpTransfer", "classname":"nexacro.FileUpTransfer", "type":"JavaScript"},
-        		{"id":"ExcelExportObject", "classname":"nexacro.ExcelExportObject", "type":"JavaScript"},
-        		{"id":"ExcelImportObject", "classname":"nexacro.ExcelImportObject", "type":"JavaScript"}
+        		{"id":"FileUpTransfer", "classname":"nexacro.FileUpTransfer", "type":"JavaScript"}
         ];
     	nexacro._addClasses(registerclass);
     };
