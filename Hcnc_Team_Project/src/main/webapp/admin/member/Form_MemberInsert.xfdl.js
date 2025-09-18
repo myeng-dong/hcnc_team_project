@@ -69,7 +69,7 @@
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00","8","229","50","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00_00","9","226","50","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("3");
             obj.set_text("이메일");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
@@ -274,17 +274,17 @@
         	var phoneNumber = this.ds_member.getColumn(0,"PHONE_NUMBER")
 
         	if(memberId == "" || memberId == null){
-        		this.alert("아이디를 입력하세요우워어")
+        		this.alert("아이디를 입력하세요")
         		return;
         	}
 
         	if(emailAddr == "" || emailAddr == null){
-        		this.alert("이메일를 입력하거라")
+        		this.alert("이메일를 입력하세요")
         		return;
         	}
 
         	if(phoneNumber == "" || phoneNumber == null){
-        		this.alert("전화번호를 입력안하니?")
+        		this.alert("전화번호를 입력하세요")
         		return;
         	}
 

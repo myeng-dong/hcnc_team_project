@@ -91,10 +91,6 @@ public class OrderController {
         	 for (Map<String, Object> row : dsSelected) {
         	        Object shipmentId = row.get("SHIPMENT_ID");
         	        
-        	        System.out.println("---------------------------------------------------");
-        	        System.out.println(shipmentId);
-        	        System.out.println("---------------------------------------------------");
-        	        
         	        if (shipmentId == null || "".equals(shipmentId.toString())) { // 배송ID가 없으면 데이터가 없으므로
         	            // INSERT 실행
         	        	orderService.insertShipListByAdmin(row);
@@ -123,4 +119,5 @@ public class OrderController {
 
   		return result;
   	}
+    
 }
