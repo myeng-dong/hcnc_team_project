@@ -106,10 +106,18 @@ this.fn_callback = function(svcID, errCode, errMsg)
         }
         else if (svcID=="updateCategoryByAdmin") {
             this._lastAction = "update";
-            this._lastCateId = this.ds_in.getColumn(0, this.ds_in.getColumn(0,"TYPE")=="main" ? "MAIN_CATE_ID" : "SUB_CATE_ID");
+            this._lastCateType = this.ds_in.getColumn(0,"TYPE"); // main/sub 구분 저장
+            this._lastCateId   = this.ds_in.getColumn(0, this._lastCateType=="main" ? "MAIN_CATE_ID" : "SUB_CATE_ID");
         }
         else if (svcID=="deleteCategoryByAdmin") {
             this._lastAction = "delete";
+            this._lastCateType = this.ds_in.getColumn(0,"TYPE");
+            if (this._lastCateType=="sub") {
+                this._lastMainId = this.ds_subCate.getColumn(
+                    this.ds_subCate.findRow("SUB_CATE_ID", this.ds_in.getColumn(0,"SUB_CATE_ID")),
+                    "MAIN_CATE_ID"
+                );
+            }
         }
 
         // 공통 재조회 실행
@@ -127,6 +135,7 @@ this.fn_callback = function(svcID, errCode, errMsg)
         if (this.ds_mainCate.rowcount > 0 && this.ds_subCate.rowcount > 0) {
             this.fn_makeTree();
 
+            // ✅ 작업별 알림 + 선택 처리
             if (this._lastAction == "insertMain") {
                 alert("대분류가 추가되었습니다.");
                 var newId = this.ds_mainCate.getColumn(this.ds_mainCate.rowcount-1,"MAIN_CATE_ID");
@@ -142,9 +151,11 @@ this.fn_callback = function(svcID, errCode, errMsg)
                 var mainRow = this.ds_category.findRow("cate_id","M"+this._lastMainId);
 
                 if (mainRow >= 0) {
+                    // 부모 대분류 펼치기
                     this.grd_category.selectRow(mainRow);
                     this.grd_category_oncellclick(this.grd_category, {row:mainRow});
 
+                    // 새 하위 분류 선택
                     var subRow = this.ds_category.findRow("cate_id","S"+newId);
                     if (subRow >= 0) {
                         this.grd_category.selectRow(subRow);
@@ -154,9 +165,23 @@ this.fn_callback = function(svcID, errCode, errMsg)
             }
             else if (this._lastAction == "update") {
                 alert("수정이 완료되었습니다.");
+                var prefix = (this._lastCateType=="main" ? "M" : "S");
+                var row = this.ds_category.findRow("cate_id", prefix+this._lastCateId);
+                if (row >= 0) {
+                    this.grd_category.selectRow(row);
+                    this.fn_showDetail(row);
+                }
             }
             else if (this._lastAction == "delete") {
                 alert("삭제가 완료되었습니다.");
+                if (this._lastCateType=="sub" && this._lastMainId) {
+                    // 부모 대분류 선택 + 펼치기
+                    var mainRow = this.ds_category.findRow("cate_id","M"+this._lastMainId);
+                    if (mainRow >= 0) {
+                        this.grd_category.selectRow(mainRow);
+                        this.grd_category_oncellclick(this.grd_category, {row:mainRow});
+                    }
+                }
             }
 
             // 우측 입력창 초기화
@@ -167,9 +192,11 @@ this.fn_callback = function(svcID, errCode, errMsg)
             this._lastAction = null;
             this._lastMainId = null;
             this._lastCateId = null;
+            this._lastCateType = null;
         }
     }
 };
+
 
 
 /***************************************************
