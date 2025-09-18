@@ -135,7 +135,7 @@
             obj = new Button("btn_reg","935","370","100","40",null,null,null,null,null,null,this);
             obj.set_text("상품등록");
             obj.set_color("#FFFFFF");
-            obj.set_background("#26548c");
+            obj.set_background("#102b6e");
             obj.set_borderRadius("6px");
             obj.set_font("bold 11pt/normal \"Arial\"");
             obj.set_border("1px solid #CCCCCC");
@@ -204,8 +204,8 @@
 
             obj = new Button("btn_view","698","102","72","34",null,null,null,null,null,null,this);
             obj.set_text("조회");
-            obj.set_color("#FFFFFF");
-            obj.set_background("#26548c");
+            obj.set_color("#ffffff");
+            obj.set_background("#102b6e");
             obj.set_borderRadius("6px");
             obj.set_font("bold 11pt/normal \"Arial\"");
             obj.set_border("1px solid #CCCCCC");

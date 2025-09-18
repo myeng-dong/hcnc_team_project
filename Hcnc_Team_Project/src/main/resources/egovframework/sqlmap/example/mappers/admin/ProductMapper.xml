@@ -95,6 +95,9 @@
 		 FROM MAIN_CATEGORIES
 		ORDER BY MAIN_CATE_NM
 	</select>
+	
+	
+	
 
 	<!-- 중분류 콤보 - Service에서 int 하나로 호출하므로 parameterType="int" - int/단일파라미터는 
 		#{_parameter} 로 참조 -->
@@ -105,6 +108,10 @@
 		WHERE MAIN_CATE_ID = #{_parameter}
 		ORDER BY SUB_CATE_NM
 	</select>
+
+
+
+
 
 	<!-- 상품 등록 : PRODUCT_CONTENT 로 통일 -->
 	<insert id="insertProduct" parameterType="java.util.Map"
@@ -171,11 +178,11 @@
 
 
 
-
+<!-- 카테고리 관리  -->
 	<!-- 대분류 -->
 	<select id="selectMainCategoryByAdmin"
 		resultType="java.util.Map">
-		SELECT MAIN_CATE_ID, MAIN_CATE_NM, SORT_NUMBER, IS_ACTIVE
+		SELECT MAIN_CATE_ID, MAIN_CATE_NM, SORT_NUMBER, IS_ACTIVEㅇ
 		FROM MAIN_CATEGORIES
 		ORDER BY SORT_NUMBER
 	</select>
