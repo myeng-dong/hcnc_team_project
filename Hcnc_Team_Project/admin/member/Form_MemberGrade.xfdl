@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_MemberGrade" width="1280" height="720" titletext="New Form" background="lightblue" onload="Form_MemberGrade_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="grade_search_box" taborder="0" left="20" top="17" width="1240" height="303" background="white" text="" borderRadius="8px"/>
+        <Radio id="member_grade" taborder="1" left="100" top="53" width="980" height="34" innerdataset="ds_grade" codecolumn="GRADE_CODE" datacolumn="GRADE_NAME" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00" taborder="2" text="등급" left="34" top="57" width="52" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_00" taborder="3" text="이름" left="34" top="110" width="52" bottom="583" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_00_00" taborder="4" text="이메일" left="34" top="170" width="52" bottom="523" font="bold 14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_00_00_00" taborder="5" text="가입일" left="34" top="230" width="52" bottom="463" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Edit id="grade_name" taborder="6" left="100" top="106" width="1093" height="35"/>
+        <Edit id="grade_emil" taborder="7" left="100" top="165" width="1093" height="35"/>
+        <Calendar id="Calendar00" taborder="8" left="100" top="224" width="520" height="32"/>
+        <Calendar id="Calendar00_00" taborder="9" left="649" top="224" width="520" height="32"/>
+        <Static id="Static01" taborder="10" text="~" left="632" top="228" width="17" height="24" font="bold 12px &quot;Noto Sans KR Black&quot;"/>
+        <Button id="search_btn" taborder="11" text="검색" left="523" top="275" width="97" height="30" background="#2563eb" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" borderRadius="4px" onclick="Button00_onclick"/>
+        <Button id="reset_btn" taborder="12" text="초기화" left="649" top="275" width="97" height="30" background=" #9ca3af" borderRadius="4px" font="bold 12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button00_00_onclick"/>
+        <Static id="grade_search_box00" taborder="13" left="20" top="333" width="1240" height="337" background="white" text="" borderRadius="8px"/>
+        <Grid id="grid_list" taborder="14" left="45" top="350" height="303" background="#FFFFFF" border="0px none" borderRadius="10px" right="45" autofittype="col" binddataset="ds_gradeList">&gt;
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="165"/><Column size="136"/><Column size="164"/><Column size="150"/><Column size="145"/><Column size="237"/><Column size="144"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="이메일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="전화번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="구매액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="가입일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="등급변경" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/></Band><Band id="body"><Cell text="expr:currow + 1"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center"/><Cell col="2" text="bind:USER_NAME" textAlign="center"/><Cell col="3" text="bind:EMAIL_ADDR" textAlign="center"/><Cell col="4" text="bind:PHONE_NUMBER" textAlign="center"/><Cell col="5" edittype="normal" text="bind:PRICE_AMOUNT" textAlign="center"/><Cell col="6" text="bind:INPUT_DT" textAlign="center"/><Cell col="7" text="bind:GRADE_CODE" displaytype="combocontrol" edittype="combo" combocodecol="GRADE_CODE" combodatacol="GRADE_NAME" combodataset="ds_grade"/></Band></Format></Formats></Grid>
+        <Button id="update_grade" taborder="15" text="등급 변경" left="591" top="680" width="82" height="35" onclick="inse_onclick" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_grade">
+        <ColumnInfo>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="GRADE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_gradeList">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="EMAIL_ADDR" type="STRING" size="256"/>
+          <Column id="GRADE_NAME" type="STRING" size="256"/>
+          <Column id="PRICE_AMOUNT" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="EMAIL_ADDR" type="STRING" size="256"/>
+          <Column id="SDATE" type="STRING" size="256"/>
+          <Column id="EDATE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_upCnt">
+        <ColumnInfo>
+          <Column id="UPDATED" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+      <BindItem id="item1" compid="member_grade" propid="value" datasetid="ds_search" columnid="GRADE_CODE"/>
+      <BindItem id="item2" compid="grade_name" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
+      <BindItem id="item3" compid="grade_emil" propid="value" datasetid="ds_search" columnid="EMAIL_ADDR"/>
+      <BindItem id="item4" compid="Calendar00" propid="value" datasetid="ds_search" columnid="SDATE"/>
+      <BindItem id="item5" compid="Calendar00_00" propid="value" datasetid="ds_search" columnid="EDATE"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[this.Form_MemberGrade_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_gradeSearch();
+	this.fn_GradeManageSearch();
+};
+
+
+//회원 등급 관리 리스트 조회
+this.fn_GradeManageSearch = function(){
+	
+	var strSvcID = "selectGradeManageList"
+	var setURL = "svc::/selectGradeManageByAdmin.do";
+	var strInDatasets = "ds_search=ds_search";
+	var strOutDatasets = "ds_gradeList=ds_gradeList";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+//회원 등급 조회
+this.fn_gradeSearch = function(){
+	
+	var strSvcID = "selectGradeExceptionAdminList"
+	var setURL = "svc::/selectGradeExceptionAdminListByAdmin.do";
+	var strInDatasets = "";
+	var strOutDatasets = "ds_grade=ds_grade";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+//등급 변경하기
+this.inse_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+	// 변경된 행만 추려서 업데이트
+	var strSvcID = "updateMemberGrade";
+	var setURL = "svc::/updateMemberGradeByAdmin.do";
+	var strInDatasets = "ds_gradeList=ds_gradeList:u"; // 수정된 데이터만 서버로 보냄
+	var strOutDatasets = "ds_upCnt = ds_upCnt";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
+	
+};
+
+
+// 공통 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+	
+	if(errorCode == -1){
+		this.alert(errorMSG)
+	}
+	
+	switch(svcID){
+	case "selectGradeManageList" : 
+		console.log(this.ds_gradeList.saveXML());
+		break;
+		
+	case "selectGradeExceptionAdminList" :
+		console.log(this.ds_grade.saveXML())
+		break;
+		
+	case "updateMemberGrade" :
+		console.log(this.ds_upCnt.saveXML())
+		if(this.ds_upCnt.getColumn(0,"UPDATED") > 0 ){
+			
+			this.alert("등급이 변경되었습니다")
+			this.reload();
+			
+		}else{
+			this.alert("등급이 변경되지 않았습니다")
+		}
+		break;
+	}
+	
+}
+
+//검색하기
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    this.fn_GradeManageSearch();
+};
+
+//초기화
+this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+
+
+]]></Script>
+  </Form>
+</FDL>
