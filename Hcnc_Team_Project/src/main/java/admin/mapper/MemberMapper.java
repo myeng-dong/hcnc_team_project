@@ -28,7 +28,17 @@ public interface MemberMapper {
 	
 	//회원 정보 수정
 	int memberUpdate(Map<String, Object> param);
-
+	
+	//회원 정보 수정시 중복체크 
 	int updateDuplicated(Map<String, Object> param);
+	
+	//회원 등급 관리 조회
+	List<Map<String, Object>> selectGradeManage(Map<String, Object> param);
+	
+	//회원 등급변경
+	int updateMemberGrade(Map<String, Object> updateGrade);
+	
+	//관리자 제외한 등급 조회 
+	List<Map<String, Object>> selectGradeExceptionAdminList();
 
 }
