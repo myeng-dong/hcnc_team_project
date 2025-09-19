@@ -381,7 +381,7 @@
 
 
 
-        // Grid 헤더 클릭 시 이벤트
+        // Grid 헤더 클릭 시 이벤트 (전체선택)
         this.grid_list_onheadclick = function(obj, e)
         {
             // "선택" 컬럼(체크박스) 헤더일 때만 동작
@@ -407,10 +407,42 @@
         };
 
 
-        this.ds_out_opList_oncolumnchanged = function(obj,e)
+        // this.ds_out_opList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+        // {
+        // 	trace("row=" + e.row + ", colid=" + e.columnid + ", newval=" + e.newvalue);
+        // };
+
+
+
+        /***************************************************
+         * 옵션목록 더블클릭 → 등록/수정 폼으로 이동
+         ***************************************************/
+        this.grid_list_oncelldblclick = function(obj,e)
         {
-        	trace("row=" + e.row + ", colid=" + e.columnid + ", newval=" + e.newvalue);
+            // 선택된 행 데이터 가져오기
+            var nRow = e.row;
+            if (nRow < 0) return;
+
+            var optionId   = this.ds_out_opList.getColumn(nRow, "OPTION_ID");
+            var optionName = this.ds_out_opList.getColumn(nRow, "OPTION_NAME");
+            var optionVal  = this.ds_out_opList.getColumn(nRow, "OPTION_VALUE");
+            var addPrice   = this.ds_out_opList.getColumn(nRow, "ADDITIONAL_PRICE");
+
+            // 확인 메시지
+            if (confirm("해당 옵션 정보를 수정하시겠습니까?")) {
+                var sArgs = "OPTION_ID=" + optionId
+                          + " OPTION_NAME=" + optionName
+                          + " OPTION_VALUE=" + optionVal
+                          + " ADDITIONAL_PRICE=" + addPrice;
+
+                // 새창 열기
+                var objChild = new ChildFrame();
+                objChild.init("OptionRegPop", 200, 100, 900, 600, null, null, "Form::Form_ProductOptionReg.xfdl");
+                objChild.set_titletext("옵션 등록/수정");
+                objChild.showModal(this.getOwnerFrame(), sArgs, this, "fn_callback");
+            }
         };
+
 
         });
         
@@ -419,6 +451,7 @@
         {
             this.addEventHandler("onload",this.Form_ProductOption_onload,this);
             this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
+            this.grid_list.addEventHandler("oncelldblclick",this.grid_list_oncelldblclick,this);
             this.btn_show.addEventHandler("onclick",this.btn_show_onclick,this);
             this.btn_hide.addEventHandler("onclick",this.btn_hide_onclick,this);
             this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);

@@ -35,7 +35,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_notice","30","80","600","30",null,null,null,null,null,null,this);
-            obj.set_text("옵션 입력 (옵션명/옵션값, 추가금액, 색상설정)");
+            obj.set_text("옵션 입력 (옵션명/옵션값, 추가금액)");
             obj.set_font("11pt \'Gulim\'");
             obj.set_color("#666666");
             this.addChild(obj.name, obj);
