@@ -40,5 +40,11 @@ public interface MemberMapper {
 	
 	//관리자 제외한 등급 조회 
 	List<Map<String, Object>> selectGradeExceptionAdminList();
+	
+	//휴면처리 
+	int updateDormantMembers();
+	
+	//탈퇴처리
+	int deleteOldWithdrawnMembers();
 
 }
