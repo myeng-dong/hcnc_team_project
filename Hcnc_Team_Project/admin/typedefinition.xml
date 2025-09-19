@@ -33,24 +33,12 @@
     <Component type="JavaScript" id="ListView" classname="nexacro.ListView"/>
     <Component type="JavaScript" id="DataObject" classname="nexacro.DataObject"/>
     <Component type="JavaScript" id="View" classname="nexacro.View"/>
-    <Component type="JavaScript" id="TutorialAlertAction" classname="nexacro.TutorialAlertAction"/>
-    <Component type="JavaScript" id="TutorialQueryAction" classname="nexacro.TutorialQueryAction"/>
     <Component type="JavaScript" id="WebBrowser" classname="nexacro.WebBrowser"/>
     <Component type="JavaScript" id="FileDownTransfer" classname="nexacro.FileDownTransfer"/>
     <Component type="JavaScript" id="FileDownload" classname="nexacro.FileDownload"/>
     <Component type="JavaScript" id="FileUpload" classname="nexacro.FileUpload"/>
     <Component type="JavaScript" id="FileDialog" classname="nexacro.FileDialog"/>
     <Component type="JavaScript" id="FileUpTransfer" classname="nexacro.FileUpTransfer"/>
-    <Component type="JavaScript" id="BasicChart" classname="nexacro.BasicChart" iconindex="400" iconextra="true" prefixid=""/>
-    <Component type="JavaScript" id="PyramidChart" classname="nexacro.PyramidChart" iconindex="407" iconextra="true" prefixid=""/>
-    <Component type="JavaScript" id="FloatChart" classname="nexacro.FloatChart" iconindex="406" iconextra="true" prefixid=""/>
-    <Component type="JavaScript" id="RoseChart" classname="nexacro.RoseChart" iconindex="405" iconextra="true" prefixid=""/>
-    <Component type="JavaScript" id="RadarChart" classname="nexacro.RadarChart" iconindex="404" iconextra="true" prefixid=""/>
-    <Component type="JavaScript" id="GaugeChart" classname="nexacro.GaugeChart" iconindex="403" iconextra="true" prefixid=""/>
-    <Component type="JavaScript" id="PieChart" classname="nexacro.PieChart" iconindex="402" iconextra="true" prefixid=""/>
-    <Component type="JavaScript" id="BubbleChart" classname="nexacro.BubbleChart" iconindex="401" iconextra="true"/>
-    <Component type="JavaScript" id="ExcelExportObject" classname="nexacro.ExcelExportObject"/>
-    <Component type="JavaScript" id="ExcelImportObject" classname="nexacro.ExcelImportObject"/>
   </Components>
   <Services>
     <Service prefixid="theme" type="resource" url="./_resource_/_theme_/" version="0" cachelevel="session" include_subdir="true"/>
@@ -71,6 +59,9 @@
     <Service prefixid="banner" type="form" url="./banner/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="dash" type="form" url="./dash/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="popup" type="form" url="./popup/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="techtip" type="form" url="./techtip/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="lib" type="js" url="./lib/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+    <Service prefixid="file" type="file" url="./file/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
   </Services>
   <Protocols/>
   <DeviceAdaptors/>
