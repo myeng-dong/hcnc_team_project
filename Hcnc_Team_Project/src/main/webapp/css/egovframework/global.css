@@ -10,14 +10,4 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.container {
-  display: flex;
-  /* margin-left: calc(50vw - 314px); */
-  justify-content: center;
-  width: 100%;
-  max-width: 1280px;
-  min-width: 1024px;
-  margin: 0 auto;
-  padding: 0 20px;
-  /* height: 100vh; */
-}
+

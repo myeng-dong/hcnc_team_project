@@ -14,6 +14,7 @@
           <Col id="MENU_ID">00</Col>
           <Col id="MENU_NM">메인대쉬보드</Col>
           <Col id="MENU_LEVEL">0</Col>
+          <Col id="MENU_PATH"/>
         </Row>
         <Row>
           <Col id="MENU_ID">01</Col>
@@ -24,6 +25,7 @@
           <Col id="MENU_ID">0101</Col>
           <Col id="MENU_NM">회원목록</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">member::Form_MemberList.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0102</Col>
@@ -166,19 +168,9 @@
         </Row>
         <Row>
           <Col id="MENU_ID">0501</Col>
-          <Col id="MENU_NM">공지사항</Col>
+          <Col id="MENU_NM">공지사항 / FAQ</Col>
           <Col id="MENU_LEVEL">1</Col>
-          <Col id="MENU_PATH">board::Form_NoticeList.xfdl</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">0502</Col>
-          <Col id="MENU_NM">FAQ</Col>
-          <Col id="MENU_LEVEL">1</Col>
-        </Row>
-        <Row>
-          <Col id="MENU_ID">0503</Col>
-          <Col id="MENU_NM">QnA</Col>
-          <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">board::Form_Board_Notice.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0504</Col>
@@ -189,6 +181,7 @@
           <Col id="MENU_ID">0505</Col>
           <Col id="MENU_NM">1:1 문의 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">board::Form_Board_Qna.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">06</Col>

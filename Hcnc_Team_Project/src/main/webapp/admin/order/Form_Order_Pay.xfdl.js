@@ -29,28 +29,28 @@
 
 
             obj = new Dataset("ds_status", this);
-            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"10\"/><Column id=\"NAME\" type=\"STRING\" size=\"50\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">WAIT</Col><Col id=\"NAME\">결제 대기</Col></Row><Row><Col id=\"CODE\">DONE</Col><Col id=\"NAME\">결제 완료</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"10\"/><Column id=\"NAME\" type=\"STRING\" size=\"50\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">WAIT</Col><Col id=\"NAME\">입금대기</Col></Row><Row><Col id=\"CODE\">DONE</Col><Col id=\"NAME\">입금완료</Col></Row></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("search_area","40","40",null,"140","40",null,null,null,null,null,this);
+            obj = new Div("search_area","40","0",null,"140","40",null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_save","1034","50","128","40",null,null,null,null,null,null,this.search_area.form);
+            obj = new Button("btn_save",null,"50","100","30","40",null,null,null,null,null,this.search_area.form);
             obj.set_taborder("0");
             obj.set_text("저장");
             obj.set_borderRadius("5px");
-            obj.set_background("#3F00FF");
+            obj.set_background("#135dae");
             obj.set_color("white");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             obj.set_textAlign("center");
             obj.set_cursor("pointer");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","40","220",null,null,"40","40",null,null,null,null,this);
+            obj = new Grid("grid_list","40","170",null,null,"40","40",null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_binddataset("ds_pay");
             obj.set_autofittype("col");

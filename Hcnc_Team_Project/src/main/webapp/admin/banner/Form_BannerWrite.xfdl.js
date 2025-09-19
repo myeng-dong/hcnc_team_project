@@ -11,75 +11,96 @@
         {
             this.set_name("Form_BannerWrite");
             this.set_titletext("New Form");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
-<<<<<<< HEAD
-
-=======
             obj = new Dataset("ds_bwrite", this);
             obj._setContents("<ColumnInfo><Column id=\"BANNER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"BANNER_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"BANNER_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_ORIGIN_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_ATTACHED_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_PATH\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"LINKED_URL\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_DT\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_radio_view_type", this);
-            obj._setContents("<ColumnInfo><Column id=\"y\" type=\"STRING\" size=\"256\"/><Column id=\"n\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"Y\" type=\"STRING\" size=\"256\"/><Column id=\"N\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
->>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
             
             // UI Components Initialize
+            obj = new Static("stat_bg","40","40",null,"470","40",null,null,null,null,null,this);
+            obj.set_taborder("0");
+            obj.set_background("#ffffff");
+            obj.set_borderRadius("10px");
+            this.addChild(obj.name, obj);
 
-<<<<<<< HEAD
-=======
-            obj = new Static("txt_th","90","74","120","36",null,null,null,null,null,null,this);
+            obj = new Static("txt_th","85","74","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("노출여부");
             obj.set_font("normal 14pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_thbanner","90","150","120","36",null,null,null,null,null,null,this);
+            obj = new Static("txt_thbanner","85","150","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("배너타입");
             obj.set_font("normal 14pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_thtitle","90","230","120","36",null,null,null,null,null,null,this);
+            obj = new Static("txt_thtitle","85","230","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text("배너 제목");
             obj.set_font("normal 14pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_th_file","100","316","120","36",null,null,null,null,null,null,this);
+            obj = new Static("txt_th_file","85","314","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("첨부파일");
             obj.set_font("normal 14pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_date","660","154","120","36",null,null,null,null,null,null,this);
+            obj = new Static("txt_date","660","150","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("등록일");
             obj.set_font("normal 14pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_th_link","100","442","120","36",null,null,null,null,null,null,this);
+            obj = new Static("txt_th_link","85","442","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_text("링크");
             obj.set_font("normal 14pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("input_title","215","225","950","48",null,null,null,null,null,null,this);
+            obj = new Edit("input_title","200","225",null,"48","100",null,null,null,null,null,this);
             obj.set_taborder("7");
+            obj.set_border("1px solid #cccccc");
+            obj.set_borderRadius("5px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edit_link","220","432","950","48",null,null,null,null,null,null,this);
+            obj = new Edit("edit_link","200","432",null,"48","100",null,null,null,null,null,this);
             obj.set_taborder("8");
+            obj.set_borderRadius("5px");
+            obj.set_border("1px solid #cccccc");
             this.addChild(obj.name, obj);
 
-            obj = new FileUpload("fileup_img","210","306","955","34",null,null,null,null,null,null,this);
+            obj = new FileUpload("fileup_img","200","290",null,"48","100",null,null,null,null,null,this);
             obj.set_taborder("9");
+            this.addChild(obj.name, obj);
+
+            obj = new Edit("edt_file","200","332","850","48",null,null,null,null,null,null,this);
+            obj.set_readonly("true");
+            obj.set_borderRadius("6px");
+            obj.set_border("1px solid #ccc");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_file","1060","332",null,"48","100",null,null,null,null,null,this);
+            obj.set_text("파일 선택");
+            obj.set_background("#5B72F2");
+            obj.set_color("#ffffff");
+            obj.set_borderRadius("6px");
+            this.addChild(obj.name, obj);
+
+            obj = new FileUpTransfer("fut_banner",null,null,null,null,null,null,null,null,null,null,this);
+            obj.getSetter("maxcount").set("1");
             this.addChild(obj.name, obj);
 
             obj = new Radio("radio_banner_type","215","141","285","55",null,null,null,null,null,null,this);
@@ -99,7 +120,7 @@
             obj.set_font("normal bold 10pt/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_cancle",null,"530","140","48","1100",null,null,null,null,null,this);
+            obj = new Button("btn_cancle","40","530","140","48",null,null,null,null,null,null,this);
             obj.set_taborder("12");
             obj.set_text("취소");
             obj.set_background("#ffffff");
@@ -109,13 +130,17 @@
             obj.set_font("normal bold 10pt/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("radio_view_type","210","65","285","55",null,null,null,null,null,null,this);
+            obj = new Static("txt_date_td","800","150","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("13");
-            obj.set_innerdataset("ds_radio_view_type");
-            obj.set_codecolumn("y");
-            obj.set_datacolumn("y");
+            obj.set_text("YYYY.mm.dd");
+            obj.set_font("normal 14pt/normal \"Noto Sans KR\"");
             this.addChild(obj.name, obj);
->>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
+
+            obj = new Static("txt_date00","660","70","120","36",null,null,null,null,null,null,this);
+            obj.set_taborder("14");
+            obj.set_text("상위노출");
+            obj.set_font("normal 14pt/normal \"Noto Sans KR Black\"");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
@@ -134,9 +159,8 @@
         };
         
         // User Script
+        this.registerScript("Form_BannerWrite.xfdl", function() {
 
-<<<<<<< HEAD
-=======
         this.Form_BannerWrite_onload = function(obj,e)
         {
         	trace("배너 추가페이지>>>");
@@ -159,6 +183,20 @@
             }
             this.fnInsertBanner();
         };
+
+        function btn_file_onclick(obj,e){
+            // FileUpTransfer 열기
+            fut_banner.openDialog();
+        }
+
+        // 업로드 성공 시
+        function fut_onsuccess(obj, e){
+            var fileInfo = obj.filelist[0];
+            if(fileInfo){
+                // 선택한 파일명을 Edit에 표시
+                edt_file.set_value(fileInfo.name);
+            }
+        }
 
         this.FileDialog_img_onclose = function(obj, e)
         {
@@ -304,14 +342,10 @@
 
 
         });
->>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
-<<<<<<< HEAD
-
-=======
             this.addEventHandler("onload",this.Form_BannerWrite_onload,this);
             this.txt_thbanner.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_thtitle.addEventHandler("onclick",this.txt_th00_onclick,this);
@@ -319,8 +353,12 @@
             this.txt_date.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_th_link.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.fileup_img.addEventHandler("onitemchanged",this.FileUpload00_onitemchanged,this);
+            this.btn_file.addEventHandler("onclick",this.btn_file_onclick,this);
+            this.fut_banner.addEventHandler("onsuccess",this.fut_onsuccess,this);
+            this.fut_banner.addEventHandler("onerror",this.fut_onerror,this);
             this.btn_cancle.addEventHandler("onclick",this.btn_cancle_onclick,this);
->>>>>>> ec2c8b3bda2e844b83e076e7ec27329b76186173
+            this.txt_date_td.addEventHandler("onclick",this.txt_th00_onclick,this);
+            this.txt_date00.addEventHandler("onclick",this.txt_th00_onclick,this);
         };
         this.loadIncludeScript("Form_BannerWrite.xfdl");
         this.loadPreloadList();

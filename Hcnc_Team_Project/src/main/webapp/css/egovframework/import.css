@@ -2,5 +2,6 @@
 
 /* 공통 변수, 레이아웃, 스타일 */
 @import url("./reset.css");
+@import url("./global.css");
 @import url("./common.css");
 @import url("./layout.css");

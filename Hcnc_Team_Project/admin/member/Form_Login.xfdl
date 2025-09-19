@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Login" width="1280" height="720" titletext="New Form" background="#CACDDC" onload="Form_Login_onload">
+  <Form id="Form_Login" width="1280" height="720" titletext="New Form" background="#CACDDC" onload="Form_Login_onload" onkeyup="Form_Login_onkeyup">
     <Layouts>
       <Layout height="720" width="1280">
         <Static id="loginForm" taborder="10" top="33" width="553" height="620" onclick="Static03_onclick" left="365" borderRadius="15px" background="white" boxShadow="6px 6px 12px rgba(0,0,0,0.25)"/>
         <Static id="Static00" taborder="0" text="아이디*" left="484" top="311" width="48" height="24" textAlign="center" font="13px/normal &quot;Noto Sans KR Medium&quot;"/>
         <Edit id="admin_id" taborder="1" left="486" top="343" width="310" height="44" borderRadius="15px"/>
         <Static id="Static00_00" taborder="2" text="비밀번호*" left="486" top="405" width="56" height="24" textAlign="center" font="13px/normal &quot;Noto Sans KR Medium&quot;" onclick="Static00_00_onclick"/>
-        <Edit id="admin_pw" taborder="3" left="486" top="437" width="310" height="44" borderRadius="15px" password="true"/>
+        <Edit id="admin_pw" taborder="3" left="486" top="437" width="310" height="44" borderRadius="15px" password="true" onkeyup="admin_pw_onkeyup"/>
         <Static id="Static01" taborder="4" text="관리자 로그인" left="490" top="150" width="291" height="104" textAlign="center" font="normal 50px/normal &quot;Noto Sans KR Black&quot;"/>
         <Button id="admin_login" taborder="5" text="로그인" left="504" top="546" width="272" height="49" borderRadius="15px" background="black" color="white" onclick="admin_login_onclick" font="15px/normal &quot;Noto Sans KR Medium&quot;"/>
         <Static id="Static02" taborder="6" text="아이디 및 비밀번호를 입력하세요" left="1000" top="30" width="230" height="38" font="normal 15px/normal" onclick="Static02_onclick"/>
@@ -27,8 +27,16 @@
           <Row/>
         </Rows>
       </Dataset>
-      <Dataset id="ds_loginChk"/>
-      <Dataset id="ds_isLogin"/>
+      <Dataset id="ds_loginChk">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_isLogin">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[
 this.Form_Login_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
@@ -61,13 +69,11 @@ this.fn_callBack = function (svcID, errorCode, errorMSG)
 		
 		var isLogin = this.ds_isLogin.getColumn(0,"MEMBER_ID");
 		
-		console.log("isLogin= "+isLogin);
 		
 		if(isLogin != null && isLogin !='undefined'){
-			this.loginSet();
-		} else{
 			
-		}
+			this.loginSet();
+		} 
 		break;
 	case "adminLogin" :
 		if(this.ds_loginChk.getRowCount() == 0){
@@ -87,12 +93,12 @@ this.admin_login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
 	var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
 	
-	if(adminId == 'undefined' || adminId ==''){
+	if(adminId == null || adminId ==''){
 		this.alert('아이디를 입력해 주세요')
 		return;
 	}
 	
-	if(adminPw == 'undefined' || adminPw ==''){
+	if(adminPw == null || adminPw ==''){
 		this.alert('비밀번호를 입력해 주새요')
 		return;
 	}
@@ -109,12 +115,12 @@ this.admin_login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	
 };
 
-
+//ds_loginChk도 다시 업데이트 
 this.checkLogin = function(){
 	var strSvcID = "adminCheckLogin"
-	var setURL = "svc::adminLoginCheckByAdmin.do?time=" + new Date().getTime();
+	var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "";
-	var strOutDatasets = "ds_isLogin=ds_isLogin";
+	var strOutDatasets = "ds_isLogin=ds_isLogin ds_loginChk=ds_loginChk";
 	var strArg = "";
 	var callBack = "fn_callBack";
 	var inAsync = true;
@@ -124,16 +130,20 @@ this.checkLogin = function(){
 }
 
 this.loginSet = function () {
-	this.ds_loginChk.clearData();
-	this.ds_isLogin.clearData();
 	
 	var glbAd = nexacro.getApplication();
 	
-	// 전역데이터셋 저장
+	// 전역데이터셋 저장( copydata() )
 	glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
 	
-	//glbAd.gds_adminInfo.setColumn(0,"MEMBER_ID",this.ds_ds_loginChk.getColumn(0,"MEMBER_ID"));
 	
+	//직접 탑 프레임에 접근해서 상단에 멤버 id 띄우기(중요!) 
+	if (glbAd.gds_adminInfo.rowcount > 0) {
+		var memberId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
+		var topForm = glbAd.mainframe.VFrameSet00.TopFrame.form;
+		topForm.admin_id.set_text(memberId);
+		trace("로그인한 관리자 ID = " + memberId);
+	}	
 	
 	// 메뉴/타이틀 영역 복구
 	nexacro.VFrameSet00.set_separatesize("50,*");   // TopFrame 높이 복원
@@ -145,7 +155,33 @@ this.loginSet = function () {
 	
 }
 
-
+this.admin_pw_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
+		var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
+		
+		if(adminId == null || adminId ==''){
+			this.alert('아이디를 입력해 주세요')
+			return;
+		}
+		
+		if(adminPw == null || adminPw ==''){
+			this.alert('비밀번호를 입력해 주새요')
+			return;
+		}
+		
+		var strSvcID = "adminLogin"
+		var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
+		var strInDatasets = "ds_admin=ds_admin";
+		var strOutDatasets = "ds_loginChk=ds_loginChk";
+		var strArg = "";
+		var callBack = "fn_callBack";
+		var inAsync = true;
+		
+		this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+	}
+};
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="admin_id" propid="value" datasetid="ds_admin" columnid="MEMBER_ID"/>

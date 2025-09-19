@@ -1,5 +1,7 @@
 package user.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +13,22 @@ public class UserMemberService {
 	private UserMemberMapper userMemberMapper;
 	
 	public int selectIdCheckByUser(String id) {
-		return userMemberMapper.selectIdCheckByUser(String id);
+		return userMemberMapper.selectIdCheckByUser(id);
 	}
 
 	public int selectEmailCheckByUser(String email) {
-		return userMemberMapper.selectEmailCheckByUser(String email);
+		return userMemberMapper.selectEmailCheckByUser(email);
 	}
 
-	public int insertSignUpByUser() {
-		return userMemberMapper.insertSignUpByUser();
+	public int insertSignUpByUser(Map<String, Object> sign) {
+		return userMemberMapper.insertSignUpByUser(sign);
+	}
+
+	public Map<String, Object> selectLoginByUser(Map<String, Object> login) {
+		return userMemberMapper.selectLoginByUser(login);
+	}
+	
+	public Map<String, Object> selectFindIdByUser(String email) {
+		return userMemberMapper.selectFindIdByUser(email);
 	}
 }
