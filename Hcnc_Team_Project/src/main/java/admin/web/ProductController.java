@@ -92,45 +92,99 @@ public class ProductController {
     
  // ----------------- 카테고리 관리 -----------------
 
- // 대분류 조회
- @RequestMapping("/selectMainCategoryByAdmin.do")
- public NexacroResult selectMainCategoryByAdmin() {
-     NexacroResult result = new NexacroResult();
-     result.addDataSet("ds_mainCate", productService.selectMainCategoryByAdmin());
-     return result;
+	 // 대분류 조회
+	 @RequestMapping("/selectMainCategoryByAdmin.do")
+	 public NexacroResult selectMainCategoryByAdmin() {
+	     NexacroResult result = new NexacroResult();
+	     result.addDataSet("ds_mainCate", productService.selectMainCategoryByAdmin());
+	     return result;
+	 }
+	
+	 // 중분류 조회
+	 @RequestMapping("/selectSubCategoryByAdmin.do")
+	 public NexacroResult selectSubCategoryByAdmin() {
+	     NexacroResult result = new NexacroResult();
+	     result.addDataSet("ds_subCate", productService.selectSubCategoryByAdmin());
+	     return result;
+	 }
+	
+	 // 추가
+	 @RequestMapping("/insertCategoryByAdmin.do")
+	 public NexacroResult insertCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+	     productService.insertCategoryByAdmin(param);
+	     return new NexacroResult();
+	 }
+	
+	 // 수정
+	 @RequestMapping("/updateCategoryByAdmin.do")
+	 public NexacroResult updateCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+	     productService.updateCategoryByAdmin(param);
+	     return new NexacroResult();
+	 }
+	
+	 // 삭제
+	 @RequestMapping("/deleteCategoryByAdmin.do")
+	 public NexacroResult deleteCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+	     productService.deleteCategoryByAdmin(param);
+	     return new NexacroResult();
  }
 
- // 중분류 조회
- @RequestMapping("/selectSubCategoryByAdmin.do")
- public NexacroResult selectSubCategoryByAdmin() {
-     NexacroResult result = new NexacroResult();
-     result.addDataSet("ds_subCate", productService.selectSubCategoryByAdmin());
-     return result;
- }
+	 
+	 
+	 
+	 
+	// 상품 진열상태 변경
+	 @RequestMapping("/updateProductVisibleByAdmin.do")
+	 public NexacroResult updateProductVisibleByAdmin(
+	         @ParamDataSet(name="ds_in") List<Map<String,Object>> dsIn) {
 
- // 추가
- @RequestMapping("/insertCategoryByAdmin.do")
- public NexacroResult insertCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
-     productService.insertCategoryByAdmin(param);
-     return new NexacroResult();
- }
+	     for (Map<String,Object> row : dsIn) {
+	         productService.updateProductVisibleByAdmin(row);
+	     }
+	     return new NexacroResult();
+	 }
 
- // 수정
- @RequestMapping("/updateCategoryByAdmin.do")
- public NexacroResult updateCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
-     productService.updateCategoryByAdmin(param);
-     return new NexacroResult();
- }
-
- // 삭제
- @RequestMapping("/deleteCategoryByAdmin.do")
- public NexacroResult deleteCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
-     productService.deleteCategoryByAdmin(param);
-     return new NexacroResult();
- }
+	 
+	 
+	 
+	 
+	 
 
     
     
+ // ----------------- 옵션 관리 -----------------
+    
+	 //옵션 목록 리스트 조회,검색
+	 @RequestMapping("/selectOptionByAdmin.do")
+	 public NexacroResult selectOptionByAdmin(
+			 @ParamDataSet(name = "ds_searchCond", required = false) Map<String, Object> cond) {
+		 NexacroResult result = new NexacroResult();
+		 
+		 // null 방지
+		 if (cond == null) cond = new HashMap<>();
+		 
+		 result.addDataSet("ds_out_opList", productService.selectOptionByAdmin(cond));
+		 return result;
+	 }
+	    
+	    
+	    
+    
+   
+	// 옵션 진열상태 변경 (선택된 행들 일괄 처리)
+	 @RequestMapping("/updateOptionVisibleByAdmin.do")
+	 public NexacroResult updateOptionVisibleByAdmin(
+	         @ParamDataSet(name="ds_in") List<Map<String,Object>> dsIn) {
+
+	     for (Map<String,Object> row : dsIn) {
+	    	 
+	         // row 예시: {OPTION_ID=5, IS_VISIBLE="N"}
+	         productService.updateOptionVisibleByAdmin(row);
+	     }
+
+	     return new NexacroResult(); // 성공 여부만 반환
+	 }
+
     
     
     
@@ -156,31 +210,7 @@ public class ProductController {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ // ----------------- 상품관리 -----------------  
     // 상품 등록 (상품/옵션/재고)
     @RequestMapping("/insertProductByAdmin.do")
     public NexacroResult insertProductByAdmin(
