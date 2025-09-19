@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberList" width="1280" height="720" titletext="New Form" onload="Form_MemberList_onload">
+  <Form id="Form_MemberList" width="1280" height="720" titletext="New Form" onload="Form_MemberList_onload" background="lightblue">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1280">
         <Grid id="member_list" taborder="0" left="20" top="360" height="350" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_list" oncellclick="member_list_oncellclick">&gt;

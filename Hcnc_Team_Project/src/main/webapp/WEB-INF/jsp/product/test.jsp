@@ -7,17 +7,16 @@
     <meta charset="UTF-8" />
     <title>각자페이지마다 pagename</title>
     <jsp:include page="../layout/headertop.jsp" />
-  </head>
-  <body>
-    <jsp:include page="../layout/header.jsp" />
-    <jsp:include page="../layout/menu.jsp" />
-
-    <div class="container-wrap">
-      <div class="container pagename">
+</head>
+<body>
+<div class="container-wrap">
+	<jsp:include page="../layout/header.jsp" />
+    <div class="container pagename">
         <p>test page임</p>
       </div>
     </div>
-
     <jsp:include page="../layout/footer.jsp" />
-  </body>
+</div>
+
+</body>
 </html>

@@ -121,7 +121,33 @@ this.search_area_rad_ship_onitemchanged = function(obj:nexacro.Radio,e:nexacro.I
     this.fnselectPostListByAdmin();
 };
 
+this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var row = e.row;      // 클릭한 행 번호
+    var col = e.col;      // 클릭한 컬럼 번호
+    var colId = obj.getCellProperty("body", col, "text");
 
+    // 특정 컬럼만 동작시키고 싶다면 조건문
+    if (colId.indexOf("USER_NAME") > -1) {
+        var postId = this.ds_board.getColumn(row, "POST_ID");
+        var popupArgs = { POST_ID: postId }
+		
+		
+		 // 팝업 크기
+        var popW = 500;
+        var popH = 350;
+		
+		var owner = this.getOwnerFrame();
+        var absX = (owner.width  - popW) / 2;
+        var absY = (owner.height - popH) / 2;
+		
+		
+		
+        var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
+		objChildFrame.init("itemPop", absX, absY, popW, popH, null, null, "popup::Pop_BaordInsert.xfdl"); // init
+		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
+    }
+};
 
 //엔터 눌렀을때 조회되게
 this.search_area_Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)

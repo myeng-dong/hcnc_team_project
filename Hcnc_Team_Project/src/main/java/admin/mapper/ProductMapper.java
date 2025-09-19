@@ -25,6 +25,15 @@ public interface ProductMapper {
 	void insertCategoryByAdmin(Map<String,Object> p);
 	void updateCategoryByAdmin(Map<String,Object> p);
 	void deleteCategoryByAdmin(Map<String,Object> p);
+	
+	
+	
+	// ----- 옵션 -----
+	List<Map<String, Object>> selectOptionByAdmin(Map<String, Object> p);
+	void updateOptionVisibleByAdmin(Map<String,Object> p);
+	void updateProductVisibleByAdmin(Map<String, Object> p);
+
+
 
 	
 }
