@@ -188,11 +188,41 @@
      ORDER BY GRADE_CODE 
    </select>
    
-   <!-- 회원등급 변경 -->
+   <!-- 회원등급 자동 변경-->
    <update id="updateMemberGrade" parameterType="java.util.Map">
-   		UPDATE MEMBERS 
-   		   SET GRADE_CODE = #{GRADE_CODE}
-   		 WHERE MEMBER_ID = #{MEMBER_ID}
+    UPDATE MEMBERS M
+       SET M.GRADE_CODE =
+       <choose>
+           <!-- 수동 변경 -->
+           <when test="GRADE_CODE != null and GRADE_CODE != ''">
+               #{GRADE_CODE}
+           </when>
+           <!-- 자동 변경 -->
+           <otherwise>
+               (SELECT G.GRADE_CODE
+                  FROM GRADES G
+                 WHERE M.PRICE_AMOUNT >= G.STANDARD_AMOUNT
+                 ORDER BY G.STANDARD_AMOUNT DESC
+                 LIMIT 1)
+           </otherwise>
+       </choose>
+      WHERE M.MEMBER_ID = #{MEMBER_ID}
+   </update>
+   
+   <!-- 휴면 전환: 1년 이상 미접속 회원을 휴면(R)으로 -->
+   <update id="updateDormantMembers">
+    UPDATE MEMBERS
+       SET STATUS = 'R',
+           UPDATE_DT = NOW()
+     WHERE STATUS = 'Y'
+       AND LAST_LOGIN_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
    </update>
 
+   <!-- 탈퇴 회원 완전 삭제: 탈퇴 후 1년 지난 회원을 DB에서 삭제 -->
+   <delete id="deleteOldWithdrawnMembers">
+       DELETE FROM MEMBERS
+        WHERE STATUS = 'N'
+          AND UPDATE_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
+   </delete>
+   
 </mapper>
