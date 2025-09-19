@@ -46,5 +46,18 @@ public interface MemberMapper {
 	
 	//탈퇴처리
 	int deleteOldWithdrawnMembers();
+	
+
+	// 휴면/탈퇴 회원 조회
+	List<Map<String, Object>> selectDormantWithdrawnMembers(Map<String, Object> param);
+
+	// 휴면 회원 복구
+	int reactivateDormantMember(Map<String,Object> param);
+
+	//스케쥴러에서 상태가 탈퇴인 사람 1년후 자동삭제
+	int deleteWithdrawnMember(Map<String, Object> param);
+	
+	//회원 삭제 상태만 
+	int withdrawMember(Map<String, Object> param);
 
 }
