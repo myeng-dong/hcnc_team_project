@@ -10,15 +10,13 @@
     <jsp:include page="../layout/headertop.jsp" />
 </head>
 <body>
-<jsp:include page="../layout/header.jsp" />
-<jsp:include page="../layout/menu.jsp" />
-
 <div class="container-wrap">
+	<jsp:include page="../layout/header.jsp" />
     <div class="container pagename">
         <p>test page임</p>
     </div>
+    <jsp:include page="../layout/footer.jsp" />
 </div>
 
-<jsp:include page="../layout/footer.jsp" />
 </body>
 </html>
