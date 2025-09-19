@@ -40,6 +40,11 @@ public class UserMemberService {
 	public int updatePasswordByUser(Map<String, Object> param) {
 		return userMemberMapper.updatePasswordByUser(param);
 	}
+
+	public int updateMemberByUser(Map<String, Object> param) {
+		return userMemberMapper.updateMemberByUser(param);
+	}
+
 	public List<Map<String, Object>> selectMypageShippingInfoByUser(String id){
 		return userMemberMapper.selectMypageShippingInfoByUser(id);
 	}

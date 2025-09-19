@@ -106,4 +106,25 @@
         SET PASSWORD = #{password}
         WHERE MEMBER_ID = #{id} 
     </update>
+    <update id="updateMemberByUser" parameterType="java.util.Map">
+        UPDATE MEMBERS
+        <set>
+            <if test="name != null and name != ''">
+            USER_NAME = #{name},
+            </if>
+            <if test="password != null and password != ''">
+            PASSWORD = #{password},
+            </if>
+            <if test="email != null and email != ''">
+            EMAIL_ADDR = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+            PHONE_NUMBER = #{phone},
+            </if>
+            <if test="birth != null and birth != ''">
+            BIRTH = #{birth},
+            </if>
+        </set>
+        WHERE MEMBER_ID = #{id}
+    </update>
 </mapper>

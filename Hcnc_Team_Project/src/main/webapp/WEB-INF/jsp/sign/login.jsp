@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@
-taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:include page="../layout/headerlink.jsp" />
+taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <%@ taglib
+prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib prefix="form"
+uri="http://www.springframework.org/tags/form" %> <%@ taglib prefix="ui"
+uri="http://egovframework.gov/ctl/ui"%> <%@ taglib prefix="spring"
+uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -36,6 +39,11 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         $("#saveId").prop("checked", true);
       }
     });
+    const enterkey = () => {
+      if (window.event.keyCode == 13) {
+        selectLoginByUser();
+      }
+    };
     const getCookie = (name) => {
       const nameEQ = name + "=";
       const ca = document.cookie.split(";"); // 모든 쿠키를 ;로 나눔
@@ -233,6 +241,7 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   name="password"
                   type="password"
                   placeholder="비밀번호"
+                  onkeyup="enterkey()"
                 />
               </div>
               <div

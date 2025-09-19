@@ -22,4 +22,6 @@ public interface UserMemberMapper {
 	public List<Map<String, Object>> selectMypageShippingInfoByUser(String id);
 
 	public int updatePasswordByUser(Map<String, Object> param);
+
+	public int updateMemberByUser(Map<String, Object> param);
 }

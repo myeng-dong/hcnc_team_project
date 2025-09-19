@@ -1,5 +1,8 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="../layout/headerlink.jsp" />
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%> <%@
+taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib
+prefix="form" uri="http://www.springframework.org/tags/form" %> <%@ taglib
+prefix="ui" uri="http://egovframework.gov/ctl/ui"%> <%@ taglib prefix="spring"
+uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <head>
   <jsp:include page="../layout/headertop.jsp" />
@@ -10,45 +13,10 @@
     rel="stylesheet"
   />
 </head>
-<script>
-  // 간단한 인터랙션
-  document.querySelectorAll(".status-item").forEach((item) => {
-    item.addEventListener("click", function () {
-      const label = this.querySelector(".status-label").textContent;
-      alert(`${label} 상품을 확인하시겠습니까?`);
-    });
-  });
-
-  document.querySelectorAll(".wishlist-item").forEach((item) => {
-    item.addEventListener("click", function () {
-      const name = this.querySelector(".item-name").textContent;
-      const price = this.querySelector(".item-price").textContent;
-      alert(`${name}\n가격: ${price}\n\n장바구니에 추가하시겠습니까?`);
-    });
-  });
-
-  document
-    .querySelector(".edit-profile-btn")
-    .addEventListener("click", function () {
-      alert("프로필 수정 페이지로 이동합니다! ✏️");
-    });
-
-  // 메뉴 클릭 이벤트
-  document.querySelectorAll(".menu-item").forEach((item) => {
-    item.addEventListener("click", function (e) {
-      e.preventDefault();
-      const menuName = this.querySelector("span").textContent;
-      alert(`${menuName} 페이지로 이동합니다! 📝`);
-    });
-  });
-</script>
 <script language="javascript">
   $(() => {
-    // let orderList = "${orders}";
-    // console.log(orderList);
-    // if (orderList.legnth != 0) {
-    //   shipCalculator(orderList);
-    // }
+    var orders = JSON.parse('<c:out value="${orders}" escapeXml="false"/>');
+    shipCalculator(orders);
   });
   const shipCalculator = (orders) => {
     let payWait = 0;
@@ -454,7 +422,13 @@
             <div class="profile-img">✏️</div>
             <div class="profile-name">${user.USER_NAME}</div>
             <div class="profile-email">${user.EMAIL_ADDR}</div>
-            <button class="edit-profile-btn">프로필 수정</button>
+            <button
+              class="edit-profile-btn"
+              type="button"
+              onclick="location.href='/profile/update.do'"
+            >
+              프로필 수정
+            </button>
           </div>
 
           <!-- 퀵 메뉴 -->
