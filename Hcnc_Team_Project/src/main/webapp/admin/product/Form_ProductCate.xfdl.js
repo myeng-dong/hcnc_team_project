@@ -38,41 +38,41 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Button("btn_goProduct","10","10","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_goProduct","10","43","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품목록");
-            obj.set_background("#547aed");
+            obj.set_background("#056e70");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_goDisplay","120","10","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_goDisplay","120","43","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품진열");
-            obj.set_background("#547aed");
+            obj.set_background("#056e70");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_goProductReg","230","10","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_goProductReg","230","43","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품등록");
-            obj.set_background("#547aed");
+            obj.set_background("#056e70");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grd_category","10","60","500","650",null,null,null,null,null,null,this);
+            obj = new Grid("grd_category","10","100","500","590",null,null,null,null,null,null,this);
             obj.set_binddataset("ds_category");
             obj.set_border("1px solid #90caf9");
             obj.set_borderRadius("12px");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"30\"/><Column size=\"370\"/></Columns><Rows><Row size=\"37\"/></Rows><Band id=\"body\"><Cell text=\"expr:(type==&apos;main&apos; ? (expanded==&apos;Y&apos; ? &apos;-&apos; : &apos;+&apos;) : &apos;&apos;)\" textAlign=\"center\" font=\"14px/normal &quot;Gulim&quot;\"/><Cell col=\"1\" text=\"expr:(level==0 ? cate_name : &apos;   &apos; + cate_name)\" font=\"14px/normal &quot;Gulim&quot;\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Div("div_detail","530","60","730","650",null,null,null,null,null,null,this);
+            obj = new Div("div_detail","530","100","730","590",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #90caf9");
             obj.set_borderRadius("12px");
@@ -142,47 +142,47 @@
 
             obj = new Button("btn_saveDetail","140","230","100","30",null,null,null,null,null,null,this.div_detail.form);
             obj.set_text("저장");
-            obj.set_background("#344ad9");
+            obj.set_background("#102b6e");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0px");
+            obj.set_border("0");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Button("btn_addMain","10","730","100","35",null,null,null,null,null,null,this);
             obj.set_text("대분류추가");
-            obj.set_background("#547aed");
+            obj.set_background("#102b6e");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_addSub","120","730","100","35",null,null,null,null,null,null,this);
             obj.set_text("하위추가");
-            obj.set_background("#547aed");
+            obj.set_background("#102b6e");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_edit","230","730","100","35",null,null,null,null,null,null,this);
             obj.set_text("수정");
-            obj.set_background("#344ad9");
+            obj.set_background("#102b6e");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0px");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_delete","340","730","100","35",null,null,null,null,null,null,this);
             obj.set_text("삭제");
-            obj.set_background("#cf0224");
+            obj.set_background("#a1162f");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0px");
+            obj.set_border("0");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
