@@ -215,8 +215,37 @@
 			var productDetail = ${productDetailJson};
 			var optionInfo = ${optionInfoJson};
 			
+			var basePrice = productDetail[0].PRODUCT_PRICE; 
+			
 			console.log(productDetail);
 			console.log(optionInfo);
+			
+			//숫자에 천 단위 콤마 추가 함수
+			function addCommas(num){
+				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+			
+			// 옵션별로 그룹핑하는 함수
+			function groupOptionByName(data){
+				var grouped = {};
+				
+				for(var i=0; i < data.length; i++){
+					var item = data[i];
+					if (!grouped[item.OPTION_NAME]){
+						grouped[item.OPTION_NAME] = [];
+					}
+					grouped[item.OPTION_NAME].push(item);
+				}
+				
+				return grouped;
+			}
+			
+			// 셀렉트 박스 생성 함수
+			function createSelectBoxes(groupedOptions){
+				var optionContainer = $("#optionContainer");
+				
+				
+			}
 		</script>
 	</c:if>
 	
@@ -273,6 +302,7 @@
 			var currentValue = parseInt($quantityInput.val());
 			if (currentValue > 1) {
 				$quantityInput.val(currentValue - 1);
+				
 				updateCnt();
 			}
 		}
@@ -431,7 +461,7 @@
 							<c:if test="${productDetail[0].OPTION_NAME != null}">
 								<tr id="product-option">
 									<td>옵션</td>
-									<td>
+									<td id="optionContainer">
 										<!-- 여기에 옵션 셀렉트 박스가 동적으로 생성됩니다 -->
 									</td>
 								</tr>
