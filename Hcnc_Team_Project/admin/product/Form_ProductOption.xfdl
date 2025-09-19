@@ -3,19 +3,19 @@
   <Form id="Form_ProductOption" width="1280" height="800" titletext="상품관리" background="#eff7ff" onload="Form_ProductOption_onload">
     <Layouts>
       <Layout width="1280" height="800" stepcount="0">
-        <Div id="Div00_00" taborder="2" text="" left="24" top="84" height="76" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
+        <Div id="Div00_00" taborder="0" text="" left="24" top="84" height="76" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
           <Layouts>
             <Layout>
               <Edit id="edt_search" taborder="0" left="315" top="21" width="331" height="35"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="3" left="24" top="200" height="570" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_opList">
+        <Grid id="grid_list" taborder="1" left="24" top="200" height="570" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_opList" onheadclick="grid_list_onheadclick">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="53"/>
-                <Column size="39"/>
+                <Column size="78"/>
+                <Column size="49"/>
                 <Column size="100"/>
                 <Column size="151"/>
                 <Column size="151"/>
@@ -32,7 +32,7 @@
               </Rows>
               <Band id="head">
                 <Cell colspan="9" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
-                <Cell row="1" rowspan="2" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell row="1" rowspan="2" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol" edittype="checkbox" text="전체" verticalAlign="bottom"/>
                 <Cell row="1" col="1" rowspan="2" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="2" rowspan="2" text="옵션코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="3" rowspan="2" text="옵션명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
@@ -50,14 +50,18 @@
                 <Cell col="4" edittype="none" background="#ffffff" text="bind:OPTION_VALUE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
                 <Cell col="5" edittype="none" background="#ffffff" text="bind:PRODUCT_NAME" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
                 <Cell col="6" edittype="none" background="#ffffff" text="bind:ADDITIONAL_PRICE" font="12px/normal &quot;Gulim&quot;"/>
-                <Cell col="7" edittype="none" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;"/>
+                <Cell col="7" edittype="none" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
                 <Cell col="8" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_toggle" text="진열상태 변경" left="900" top="211" width="120" height="40" color="#FFFFFF" background="#f0ad4e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" onclick="btn_toggle_onclick" cursor="pointer"/>
-        <Button id="btn_reg" text="옵션등록" left="1060" top="211" width="120" height="40" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="0" onclick="btn_reg_onclick" cursor="pointer"/>
+        <Static id="stc_total_prefix" text="총 [ " left="168" top="221" height="20" width="20"/>
+        <Static id="stc_total_value" text="" left="200" top="221" textDecoration="underline" height="20" width="20"/>
+        <Static id="stc_total_suffix" text=" ]건" left="222" top="221" height="20" width="20"/>
+        <Button id="btn_show" text="선택 진열" left="630" top="221" width="92" height="35" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_show_onclick"/>
+        <Button id="btn_hide" text="진열 취소" left="740" top="221" width="92" height="35" color="#FFFFFF" background="#18b391" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_hide_onclick"/>
+        <Button id="btn_reg" text="옵션등록" left="1060" top="221" width="120" height="35" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="0" onclick="btn_reg_onclick" cursor="pointer"/>
         <Static id="sta_listTitle" text="옵션 목록" left="50" height="61" top="201" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="1" color="#232323"/>
         <Static id="sta_prodType" text="옵션검색" left="40" height="40" top="102" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="4" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
         <Button id="btn_view" text="조회" left="690" top="105" width="72" height="34" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="5" onclick="btn_view_onclick" cursor="pointer"/>
@@ -87,7 +91,6 @@
             </Rows>
           </Dataset>
         </Combo>
-        <Static id="stc_total" taborder="7" text="" left="175" top="201" width="70" height="60" font="12px/normal &quot;Gulim&quot;,&quot;Arial Black&quot;"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -100,15 +103,24 @@
           <Row/>
         </Rows>
       </Dataset>
-      <Dataset id="ds_out_opList">
+      <Dataset id="ds_out_opList" useclientlayout="true" oncolumnchanged="ds_out_opList_oncolumnchanged">
         <ColumnInfo>
-          <Column id="chk" type="INT" size="256"/>
+          <Column id="chk" type="INT" size="1"/>
           <Column id="OPTION_ID" type="INT" size="256"/>
           <Column id="PRODUCT_NAME" type="STRING" size="256"/>
           <Column id="ADDITIONAL_PRICE" type="INT" size="256"/>
           <Column id="OPTION_NAME" type="STRING" size="256"/>
           <Column id="OPTION_VALUE" type="STRING" size="256"/>
           <Column id="INPUT_DT" type="DATETIME" size="256"/>
+          <Column id="IS_VISIBLE" type="STRING" size="1"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_in" useclientlayout="true" oncolumnchanged="ds_out_opList_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="OPTION_ID" type="INT" size="256"/>
           <Column id="IS_VISIBLE" type="STRING" size="1"/>
         </ColumnInfo>
         <Rows>
@@ -185,14 +197,15 @@ this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
     switch(strSvcID){
 	case "selectOptionByAdmin":
 		var ea = this.ds_out_opList.getRowCount();
-		this.stc_total.set_text("총 ["+ea+"]건");
 		
+		this.stc_total_value.set_text(ea);
+		this.stc_total_value.set_textDecoration("underline");
 		break;
 		
-	case "deleteOptionByAdmin":
-		this.alert("삭제가 완료되었습니다.");
-        this.fn_search();  // 삭제 후 목록 재조회
 		
+	case "updateOptionVisibleByAdmin":
+		this.alert("진열상태 변경 완료되었습니다.");
+        this.fn_search(); 
 		break;
 		
     }
@@ -210,59 +223,21 @@ this.btn_reg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 
 
 
-//삭제버튼
-this.btn_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-    var delRows = [];
 
-    // 1) 체크박스 선택된 행 OPTION_ID 수집
-    for (var i = 0; i < this.ds_out_opList.getRowCount(); i++) {
-        if (this.ds_out_opList.getColumn(i, "chk") == 1) {
-            delRows.push(this.ds_out_opList.getColumn(i, "OPTION_ID"));
-        }
-    }
 
-    // 2) 유효성 검사
-    if (delRows.length == 0) {
-        this.alert("삭제할 옵션을 선택하세요.");
-        return;
-    }
 
-    // 3) 사용자 확인
-    if (!this.confirm("총 " + delRows.length + "건의 옵션을 삭제하시겠습니까?")) {
-        return;
-    }
 
-    // 4) 삭제용 Dataset 구성
-    var ds_in = new Dataset();
-    ds_in.addColumn("OPTION_ID", "int");
 
-    for (var j=0; j<delRows.length; j++) {
-        var row = ds_in.addRow();
-        ds_in.setColumn(row, "OPTION_ID", delRows[j]);
-    }
 
-    // 5) 트랜잭션 호출
-    this.transaction(
-        "deleteOptionByAdmin",
-        "svc::deleteOptionByAdmin.do",
-        "ds_in=ds_in",     // 선택된 ID만 전달
-        "",
-        "",
-        "fn_callback",
-        true
-    );
-};
 
 this.btn_toggle_onclick = function(obj, e)
 {
     var selRows = [];
 
-    // 1) 체크박스 선택된 행 수집
     for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
         if (this.ds_out_opList.getColumn(i, "chk") == 1) {
-            var optionId = this.ds_out_opList.getColumn(i, "OPTION_ID");
-            var isVisible = this.ds_out_opList.getColumn(i, "IS_VISIBLE");
+            var optionId   = this.ds_out_opList.getColumn(i, "OPTION_ID");
+            var isVisible  = this.ds_out_opList.getColumn(i, "IS_VISIBLE");
             selRows.push({ OPTION_ID: optionId, IS_VISIBLE: isVisible });
         }
     }
@@ -276,21 +251,20 @@ this.btn_toggle_onclick = function(obj, e)
         return;
     }
 
-    // 2) 변경할 Dataset 구성
-    var ds_in = new Dataset();
-    ds_in.addColumn("OPTION_ID", "int");
-    ds_in.addColumn("IS_VISIBLE", "string");
+    // 기존 ds_in Dataset 초기화
+    this.ds_in.clearData();
 
+    // 선택된 행만 채우기
     for (var j=0; j<selRows.length; j++) {
-        var row = ds_in.addRow();
-        ds_in.setColumn(row, "OPTION_ID", selRows[j].OPTION_ID);
+        var row = this.ds_in.addRow();
+        this.ds_in.setColumn(row, "OPTION_ID", selRows[j].OPTION_ID);
 
         // 상태 반전 (Y → N, N → Y)
         var newState = (selRows[j].IS_VISIBLE == "Y" ? "N" : "Y");
-        ds_in.setColumn(row, "IS_VISIBLE", newState);
+        this.ds_in.setColumn(row, "IS_VISIBLE", newState);
     }
 
-    // 3) 트랜잭션 호출
+    //  transaction 호출 (이제 ds_in은 Form에 있으므로 정상 동작)
     this.transaction(
         "updateOptionVisibleByAdmin",
         "svc::updateOptionVisibleByAdmin.do",
@@ -304,19 +278,111 @@ this.btn_toggle_onclick = function(obj, e)
 
 
 
+// 선택된 행들을 모아오는 공통 함수
+this._getSelectedOptionIds = function() {
+    var ids = [];
+    for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
+        if (this.ds_out_opList.getColumn(i, "chk") == 1) {
+            ids.push(this.ds_out_opList.getColumn(i, "OPTION_ID"));
+        }
+    }
+    return ids;
+};
 
 
 
 
+/**
+ * 옵션 진열상태 변경 공통 함수
+ * @param {string} newState - "Y" = 진열, "N" = 숨김
+ */
+this.fn_updateVisible = function(newState)
+{
+    var selRows = [];
+
+    // 1) 체크박스 선택된 행 수집
+    for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
+        if (this.ds_out_opList.getColumn(i, "chk") == 1) {
+            selRows.push(this.ds_out_opList.getColumn(i, "OPTION_ID"));
+        }
+    }
+
+    // 2) 유효성 검사
+    if (selRows.length == 0) {
+        this.alert((newState == "Y" ? "진열" : "숨김") + "할 옵션을 선택하세요.");
+        return;
+    }
+
+    if (!this.confirm("총 " + selRows.length + "건을 " + (newState == "Y" ? "진열" : "숨김") + " 상태로 변경하시겠습니까?")) {
+        return;
+    }
+
+    // 3) ds_in Dataset 채우기
+    this.ds_in.clearData();
+
+    for (var j=0; j<selRows.length; j++) {
+        var row = this.ds_in.addRow();
+        this.ds_in.setColumn(row, "OPTION_ID", selRows[j]);
+        this.ds_in.setColumn(row, "IS_VISIBLE", newState);
+    }
+
+    // 4) 트랜잭션 호출
+    this.transaction(
+        "updateOptionVisibleByAdmin",
+        "svc::updateOptionVisibleByAdmin.do",
+        "ds_in=ds_in",
+        "",
+        "",
+        "fn_callback",
+        true
+    );
+};
+
+
+
+// 선택 진열 버튼
+this.btn_show_onclick = function(obj, e) {
+    this.fn_updateVisible("Y"); // 무조건 진열
+};
+
+// 선택 숨김 버튼
+this.btn_hide_onclick = function(obj, e) {
+    this.fn_updateVisible("N"); // 무조건 숨김
+};
 
 
 
 
+// Grid 헤더 클릭 시 이벤트
+this.grid_list_onheadclick = function(obj, e)
+{
+    // "선택" 컬럼(체크박스) 헤더일 때만 동작
+    if (e.col == 0) {
+        var allChecked = true;
+		
+        // 전체가 이미 체크 상태인지 확인
+        for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
+            if (this.ds_out_opList.getColumn(i, "chk") != 1) {
+                allChecked = false;
+                break;
+            }
+        }
+		
+        // 전체가 체크되어 있으면 → 전체 해제
+        // 일부라도 체크 안 된 게 있으면 → 전체 체크
+        var newVal = allChecked ? 0 : 1;
+		
+        for (var j=0; j<this.ds_out_opList.getRowCount(); j++) {
+            this.ds_out_opList.setColumn(j, "chk", newVal);
+        }
+    }
+};
 
 
-
-
-
+this.ds_out_opList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	trace("row=" + e.row + ", colid=" + e.columnid + ", newval=" + e.newvalue);
+};
 ]]></Script>
   </Form>
 </FDL>

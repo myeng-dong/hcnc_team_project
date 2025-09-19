@@ -85,6 +85,10 @@ public class ProductService {
         productMapper.updateOptionVisibleByAdmin(p);
     }
 
+	public void updateProductVisibleByAdmin(Map<String, Object> p) {
+		productMapper.updateProductVisibleByAdmin(p);
+	}
+
 
 	
 	

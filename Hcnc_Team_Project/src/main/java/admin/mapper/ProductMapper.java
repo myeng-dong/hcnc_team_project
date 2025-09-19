@@ -31,6 +31,7 @@ public interface ProductMapper {
 	// ----- 옵션 -----
 	List<Map<String, Object>> selectOptionByAdmin(Map<String, Object> p);
 	void updateOptionVisibleByAdmin(Map<String,Object> p);
+	void updateProductVisibleByAdmin(Map<String, Object> p);
 
 
 

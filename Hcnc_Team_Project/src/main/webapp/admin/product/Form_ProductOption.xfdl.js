@@ -24,12 +24,19 @@
 
 
             obj = new Dataset("ds_out_opList", this);
-            obj._setContents("<ColumnInfo><Column id=\"chk\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"DATETIME\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"1\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj.set_useclientlayout("true");
+            obj._setContents("<ColumnInfo><Column id=\"chk\" type=\"INT\" size=\"1\"/><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"DATETIME\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"1\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_in", this);
+            obj.set_useclientlayout("true");
+            obj._setContents("<ColumnInfo><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"1\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Div("Div00_00","24","84",null,"76","26",null,null,null,null,null,this);
-            obj.set_taborder("2");
+            obj.set_taborder("0");
             obj.set_text("");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px 10px 10px 10px");
@@ -40,26 +47,45 @@
             this.Div00_00.addChild(obj.name, obj);
 
             obj = new Grid("grid_list","24","200",null,"570","26",null,null,null,null,null,this);
-            obj.set_taborder("3");
+            obj.set_taborder("1");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_out_opList");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"53\"/><Column size=\"39\"/><Column size=\"100\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"69\"/><Column size=\"223\"/></Columns><Rows><Row size=\"62\" band=\"head\"/><Row size=\"48\" band=\"head\"/><Row size=\"24\" band=\"head\"/><Row size=\"36\"/></Rows><Band id=\"head\"><Cell colspan=\"9\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\"/><Cell row=\"1\" col=\"1\" rowspan=\"2\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"2\" rowspan=\"2\" text=\"옵션코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"3\" rowspan=\"2\" text=\"옵션명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"4\" rowspan=\"2\" text=\"옵션 세부사항\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"5\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"관련 상품명\"/><Cell row=\"1\" col=\"6\" rowspan=\"2\" text=\"옵션가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"7\" rowspan=\"2\" text=\"진열상태\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"8\" rowspan=\"2\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" background=\"#ffffff\" textAlign=\"center\" edittype=\"checkbox\" text=\"bind:chk\"/><Cell col=\"1\" text=\"expr:currow + 1\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"2\" background=\"#ffffff\" text=\"bind:OPTION_ID\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"3\" background=\"#ffffff\" text=\"bind:OPTION_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"4\" edittype=\"none\" background=\"#ffffff\" text=\"bind:OPTION_VALUE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"5\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"6\" edittype=\"none\" background=\"#ffffff\" text=\"bind:ADDITIONAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"7\" edittype=\"none\" background=\"#ffffff\" text=\"bind:IS_VISIBLE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"8\" edittype=\"none\" background=\"#ffffff\" text=\"bind:INPUT_DT\" font=\"12px/normal &quot;Gulim&quot;\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"78\"/><Column size=\"49\"/><Column size=\"100\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"69\"/><Column size=\"223\"/></Columns><Rows><Row size=\"62\" band=\"head\"/><Row size=\"48\" band=\"head\"/><Row size=\"24\" band=\"head\"/><Row size=\"36\"/></Rows><Band id=\"head\"><Cell colspan=\"9\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" text=\"전체\" verticalAlign=\"bottom\"/><Cell row=\"1\" col=\"1\" rowspan=\"2\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"2\" rowspan=\"2\" text=\"옵션코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"3\" rowspan=\"2\" text=\"옵션명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"4\" rowspan=\"2\" text=\"옵션 세부사항\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"5\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"관련 상품명\"/><Cell row=\"1\" col=\"6\" rowspan=\"2\" text=\"옵션가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"7\" rowspan=\"2\" text=\"진열상태\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"8\" rowspan=\"2\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" background=\"#ffffff\" textAlign=\"center\" edittype=\"checkbox\" text=\"bind:chk\"/><Cell col=\"1\" text=\"expr:currow + 1\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"2\" background=\"#ffffff\" text=\"bind:OPTION_ID\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"3\" background=\"#ffffff\" text=\"bind:OPTION_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"4\" edittype=\"none\" background=\"#ffffff\" text=\"bind:OPTION_VALUE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"5\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"6\" edittype=\"none\" background=\"#ffffff\" text=\"bind:ADDITIONAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"7\" edittype=\"none\" background=\"#ffffff\" text=\"bind:IS_VISIBLE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"8\" edittype=\"none\" background=\"#ffffff\" text=\"bind:INPUT_DT\" font=\"12px/normal &quot;Gulim&quot;\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_toggle","900","211","120","40",null,null,null,null,null,null,this);
-            obj.set_text("진열상태 변경");
+            obj = new Static("stc_total_prefix","168","221","20","20",null,null,null,null,null,null,this);
+            obj.set_text("총 [ ");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("stc_total_value","200","221","20","20",null,null,null,null,null,null,this);
+            obj.set_text("");
+            obj.set_textDecoration("underline");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("stc_total_suffix","222","221","20","20",null,null,null,null,null,null,this);
+            obj.set_text(" ]건");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_show","630","221","92","35",null,null,null,null,null,null,this);
+            obj.set_text("선택 진열");
             obj.set_color("#FFFFFF");
-            obj.set_background("#f0ad4e");
+            obj.set_background("#f09d37");
             obj.set_borderRadius("6px");
             obj.set_font("bold 11pt/normal \"Arial\"");
-            obj.set_border("1px solid #CCCCCC");
-            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_reg","1060","211","120","40",null,null,null,null,null,null,this);
+            obj = new Button("btn_hide","740","221","92","35",null,null,null,null,null,null,this);
+            obj.set_text("진열 취소");
+            obj.set_color("#FFFFFF");
+            obj.set_background("#18b391");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 11pt/normal \"Arial\"");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_reg","1060","221","120","35",null,null,null,null,null,null,this);
             obj.set_text("옵션등록");
             obj.set_color("#FFFFFF");
             obj.set_background("#102b6e");
@@ -109,12 +135,6 @@
             obj.set_text("상품명");
             obj.set_value("PRODUCT_NAME");
             obj.set_index("1");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("stc_total","175","201","70","60",null,null,null,null,null,null,this);
-            obj.set_taborder("7");
-            obj.set_text("");
-            obj.set_font("12px/normal \"Gulim\",\"Arial Black\"");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -205,14 +225,15 @@
             switch(strSvcID){
         	case "selectOptionByAdmin":
         		var ea = this.ds_out_opList.getRowCount();
-        		this.stc_total.set_text("총 ["+ea+"]건");
 
+        		this.stc_total_value.set_text(ea);
+        		this.stc_total_value.set_textDecoration("underline");
         		break;
 
-        	case "deleteOptionByAdmin":
-        		this.alert("삭제가 완료되었습니다.");
-                this.fn_search();  // 삭제 후 목록 재조회
 
+        	case "updateOptionVisibleByAdmin":
+        		this.alert("진열상태 변경 완료되었습니다.");
+                this.fn_search();
         		break;
 
             }
@@ -230,59 +251,21 @@
 
 
 
-        //삭제버튼
-        this.btn_del_onclick = function(obj,e)
-        {
-            var delRows = [];
 
-            // 1) 체크박스 선택된 행 OPTION_ID 수집
-            for (var i = 0; i < this.ds_out_opList.getRowCount(); i++) {
-                if (this.ds_out_opList.getColumn(i, "chk") == 1) {
-                    delRows.push(this.ds_out_opList.getColumn(i, "OPTION_ID"));
-                }
-            }
 
-            // 2) 유효성 검사
-            if (delRows.length == 0) {
-                this.alert("삭제할 옵션을 선택하세요.");
-                return;
-            }
 
-            // 3) 사용자 확인
-            if (!this.confirm("총 " + delRows.length + "건의 옵션을 삭제하시겠습니까?")) {
-                return;
-            }
 
-            // 4) 삭제용 Dataset 구성
-            var ds_in = new Dataset();
-            ds_in.addColumn("OPTION_ID", "int");
 
-            for (var j=0; j<delRows.length; j++) {
-                var row = ds_in.addRow();
-                ds_in.setColumn(row, "OPTION_ID", delRows[j]);
-            }
 
-            // 5) 트랜잭션 호출
-            this.transaction(
-                "deleteOptionByAdmin",
-                "svc::deleteOptionByAdmin.do",
-                "ds_in=ds_in",     // 선택된 ID만 전달
-                "",
-                "",
-                "fn_callback",
-                true
-            );
-        };
 
         this.btn_toggle_onclick = function(obj, e)
         {
             var selRows = [];
 
-            // 1) 체크박스 선택된 행 수집
             for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
                 if (this.ds_out_opList.getColumn(i, "chk") == 1) {
-                    var optionId = this.ds_out_opList.getColumn(i, "OPTION_ID");
-                    var isVisible = this.ds_out_opList.getColumn(i, "IS_VISIBLE");
+                    var optionId   = this.ds_out_opList.getColumn(i, "OPTION_ID");
+                    var isVisible  = this.ds_out_opList.getColumn(i, "IS_VISIBLE");
                     selRows.push({ OPTION_ID: optionId, IS_VISIBLE: isVisible });
                 }
             }
@@ -296,21 +279,20 @@
                 return;
             }
 
-            // 2) 변경할 Dataset 구성
-            var ds_in = new Dataset();
-            ds_in.addColumn("OPTION_ID", "int");
-            ds_in.addColumn("IS_VISIBLE", "string");
+            // 기존 ds_in Dataset 초기화
+            this.ds_in.clearData();
 
+            // 선택된 행만 채우기
             for (var j=0; j<selRows.length; j++) {
-                var row = ds_in.addRow();
-                ds_in.setColumn(row, "OPTION_ID", selRows[j].OPTION_ID);
+                var row = this.ds_in.addRow();
+                this.ds_in.setColumn(row, "OPTION_ID", selRows[j].OPTION_ID);
 
                 // 상태 반전 (Y → N, N → Y)
                 var newState = (selRows[j].IS_VISIBLE == "Y" ? "N" : "Y");
-                ds_in.setColumn(row, "IS_VISIBLE", newState);
+                this.ds_in.setColumn(row, "IS_VISIBLE", newState);
             }
 
-            // 3) 트랜잭션 호출
+            //  transaction 호출 (이제 ds_in은 Form에 있으므로 정상 동작)
             this.transaction(
                 "updateOptionVisibleByAdmin",
                 "svc::updateOptionVisibleByAdmin.do",
@@ -324,19 +306,111 @@
 
 
 
+        // 선택된 행들을 모아오는 공통 함수
+        this._getSelectedOptionIds = function() {
+            var ids = [];
+            for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
+                if (this.ds_out_opList.getColumn(i, "chk") == 1) {
+                    ids.push(this.ds_out_opList.getColumn(i, "OPTION_ID"));
+                }
+            }
+            return ids;
+        };
 
 
 
 
+        /**
+         * 옵션 진열상태 변경 공통 함수
+         * @param {string} newState - "Y" = 진열, "N" = 숨김
+         */
+        this.fn_updateVisible = function(newState)
+        {
+            var selRows = [];
+
+            // 1) 체크박스 선택된 행 수집
+            for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
+                if (this.ds_out_opList.getColumn(i, "chk") == 1) {
+                    selRows.push(this.ds_out_opList.getColumn(i, "OPTION_ID"));
+                }
+            }
+
+            // 2) 유효성 검사
+            if (selRows.length == 0) {
+                this.alert((newState == "Y" ? "진열" : "숨김") + "할 옵션을 선택하세요.");
+                return;
+            }
+
+            if (!this.confirm("총 " + selRows.length + "건을 " + (newState == "Y" ? "진열" : "숨김") + " 상태로 변경하시겠습니까?")) {
+                return;
+            }
+
+            // 3) ds_in Dataset 채우기
+            this.ds_in.clearData();
+
+            for (var j=0; j<selRows.length; j++) {
+                var row = this.ds_in.addRow();
+                this.ds_in.setColumn(row, "OPTION_ID", selRows[j]);
+                this.ds_in.setColumn(row, "IS_VISIBLE", newState);
+            }
+
+            // 4) 트랜잭션 호출
+            this.transaction(
+                "updateOptionVisibleByAdmin",
+                "svc::updateOptionVisibleByAdmin.do",
+                "ds_in=ds_in",
+                "",
+                "",
+                "fn_callback",
+                true
+            );
+        };
+
+
+
+        // 선택 진열 버튼
+        this.btn_show_onclick = function(obj, e) {
+            this.fn_updateVisible("Y"); // 무조건 진열
+        };
+
+        // 선택 숨김 버튼
+        this.btn_hide_onclick = function(obj, e) {
+            this.fn_updateVisible("N"); // 무조건 숨김
+        };
 
 
 
 
+        // Grid 헤더 클릭 시 이벤트
+        this.grid_list_onheadclick = function(obj, e)
+        {
+            // "선택" 컬럼(체크박스) 헤더일 때만 동작
+            if (e.col == 0) {
+                var allChecked = true;
+
+                // 전체가 이미 체크 상태인지 확인
+                for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
+                    if (this.ds_out_opList.getColumn(i, "chk") != 1) {
+                        allChecked = false;
+                        break;
+                    }
+                }
+
+                // 전체가 체크되어 있으면 → 전체 해제
+                // 일부라도 체크 안 된 게 있으면 → 전체 체크
+                var newVal = allChecked ? 0 : 1;
+
+                for (var j=0; j<this.ds_out_opList.getRowCount(); j++) {
+                    this.ds_out_opList.setColumn(j, "chk", newVal);
+                }
+            }
+        };
 
 
-
-
-
+        this.ds_out_opList_oncolumnchanged = function(obj,e)
+        {
+        	trace("row=" + e.row + ", colid=" + e.columnid + ", newval=" + e.newvalue);
+        };
 
         });
         
@@ -344,11 +418,15 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_ProductOption_onload,this);
-            this.btn_toggle.addEventHandler("onclick",this.btn_toggle_onclick,this);
+            this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
+            this.btn_show.addEventHandler("onclick",this.btn_show_onclick,this);
+            this.btn_hide.addEventHandler("onclick",this.btn_hide_onclick,this);
             this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
             this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
+            this.ds_out_opList.addEventHandler("oncolumnchanged",this.ds_out_opList_oncolumnchanged,this);
+            this.ds_in.addEventHandler("oncolumnchanged",this.ds_out_opList_oncolumnchanged,this);
         };
         this.loadIncludeScript("Form_ProductOption.xfdl");
         this.loadPreloadList();

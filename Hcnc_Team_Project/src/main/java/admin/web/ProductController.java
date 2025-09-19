@@ -129,6 +129,26 @@ public class ProductController {
 	     return new NexacroResult();
  }
 
+	 
+	 
+	 
+	 
+	// 상품 진열상태 변경
+	 @RequestMapping("/updateProductVisibleByAdmin.do")
+	 public NexacroResult updateProductVisibleByAdmin(
+	         @ParamDataSet(name="ds_in") List<Map<String,Object>> dsIn) {
+
+	     for (Map<String,Object> row : dsIn) {
+	         productService.updateProductVisibleByAdmin(row);
+	     }
+	     return new NexacroResult();
+	 }
+
+	 
+	 
+	 
+	 
+	 
 
     
     
@@ -151,15 +171,18 @@ public class ProductController {
 	    
     
    
-	// 옵션 진열상태 변경
+	// 옵션 진열상태 변경 (선택된 행들 일괄 처리)
 	 @RequestMapping("/updateOptionVisibleByAdmin.do")
 	 public NexacroResult updateOptionVisibleByAdmin(
 	         @ParamDataSet(name="ds_in") List<Map<String,Object>> dsIn) {
 
 	     for (Map<String,Object> row : dsIn) {
+	    	 
+	         // row 예시: {OPTION_ID=5, IS_VISIBLE="N"}
 	         productService.updateOptionVisibleByAdmin(row);
 	     }
-	     return new NexacroResult();
+
+	     return new NexacroResult(); // 성공 여부만 반환
 	 }
 
     

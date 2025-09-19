@@ -109,9 +109,23 @@
 		 ORDER BY SUB_CATE_NM
 	</select>
 
+	
+	<update id="updateProductVisibleByAdmin" parameterType="java.util.Map">
+	    UPDATE PRODUCTS
+	       SET IS_VISIBLE = #{IS_VISIBLE},
+	           UPDATE_DT = NOW()
+	     WHERE PRODUCT_ID = #{PRODUCT_ID}
+	</update>
 
 
 
+
+
+
+
+
+
+<!-- 상품등록  -->
 
 	<!-- 상품 등록 : PRODUCT_CONTENT 로 통일 -->
 	<insert id="insertProduct" parameterType="java.util.Map"
@@ -245,6 +259,11 @@
 	</delete>
 
 
+
+
+
+
+
 <!-- 옵션  관리-->
 	<!-- 옵션 조회,검색 -->
 	<select id="selectOptionByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
@@ -254,6 +273,7 @@
 	        o.OPTION_VALUE,
 	        p.PRODUCT_NAME,
 	        o.ADDITIONAL_PRICE,
+	        o.IS_VISIBLE,
 	        o.INPUT_DT
 	      FROM OPTIONS o
 	      JOIN PRODUCTS p ON o.PRODUCT_ID = p.PRODUCT_ID
