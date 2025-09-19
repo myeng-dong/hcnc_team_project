@@ -1,9 +1,10 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
+    <title>DDD.D 회원정보 찾기</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="../../../css/egovframework/import.css" />
@@ -14,40 +15,20 @@
       $(() => {
         $("#btn-mail").click(() => {
           const email = $("#email").val().trim();
-          const emailCode = $("#emailCode").val().trim();
+          const param = { to: email, type: "find-id" };
           sendMailByUser(
-            email,
-            false,
+            param,
             (response) => {
               if (response.status === 200) {
                 $("#guide-title").text("인증번호가 발송되었습니다.");
                 $("#email").prop("readonly", true);
                 $("#email").css("display", "none");
                 $("#emailCode").css("display", "block");
-                $("#btn-post").text("확인");
-                $("#btn-mail").click(() => {
-                  mailCodeCheckByUser(
-                    email,
-                    emailCode,
-                    true,
-                    (response) => {
-                      console.log(JSON.stringify(response));
-                      if (response.result === true) {
-                        alert("인증이 완료되었습니다.");
-                        sessionStorage.setItem("mailFlag", "pass");
-                        $("#email").prop("readonly", true);
-                        $("#emailCode").prop("readonly", true);
-                      } else {
-                        alert(
-                          "인증에 실패하였습니다. 인증번호를 확인해주세요."
-                        );
-                      }
-                    },
-                    () => {
-                      alert("인증에 실패하였습니다.");
-                    }
-                  );
-                });
+                $("#btn-mail").css("display", "none");
+                $("#btn-code").css("display", "block");
+              }
+              if (response.status === 409) {
+                alert("이메일의 회원정보를 찾을수없습니다.");
               }
             },
             () => {
@@ -55,53 +36,38 @@
             }
           );
         });
-      });
-      mailCodeCheckByUser();
-      const emailCodeCheck = () => {
-        const email = $("#email").val().trim();
-        const emailCode = $("#emailCode").val().trim();
-        if (emailCode == "") {
-          alert("이메일 인증번호를 입력해주세요.");
-          return;
-        }
-        if (emailCode.length < 6) {
-          alert("인증번호를 입력해주세요.");
-          return;
-        }
-        var param = { to: email, code: emailCode };
-        if (sessionStorage.getItem("to") !== email) {
-          alert(
-            "입력된 이메일과 요청한 이메일이 다릅니다. 인증번호를 다시 요청해주세요."
-          );
-          mailInit();
-          return;
-        }
-        ajaxUtil(param, "selectVerifyAuthByUser.do", (response) => {
-          console.log(JSON.stringify(response));
-          if (response.result && response.loginId != null) {
-            $("#login-main").css("display", "none");
-            $("#complete-body").css("display", "block");
-            $("#complete-id").text(response.loginId.EMAIL);
-            return;
-          }
-          if (!response.result) {
-            alert("인증에 실패하였습니다. 인증번호를 확인해주세요.");
-            return;
-          }
-          if (response.loginId != null) {
-            if (
-              confirm(
-                "이메일에 해당되는 아이디를 찾을수없습니다. 회원가입페이지로 이동하시겠습니까?"
-              )
-            ) {
-              location.href = "/sign.do";
-            } else {
-              location.href = "/findId.do";
+        $("#btn-code").click(() => {
+          const email = $("#email").val().trim();
+          const emailCode = $("#emailCode").val().trim();
+          const param = { to: email, code: emailCode, type: "find-id" };
+          mailCodeCheckByUser(
+            param,
+            (response) => {
+              if (response.resultInfo.LOGIN_TYPE == "KAKAO") {
+                $("#login-main").css("display", "none");
+                $("#complete-body").css("display", "block");
+                $("#complete-id").text(
+                  "KAKAO 소셜로그인으로 등록된 계정이에요"
+                );
+                return;
+              }
+              if (response.result && response.resultInfo != null) {
+                $("#login-main").css("display", "none");
+                $("#complete-body").css("display", "block");
+                $("#complete-id").text(response.resultInfo.MEMBER_ID);
+                return;
+              }
+              if (!response.result) {
+                alert("인증에 실패하였습니다. 인증번호를 확인해주세요.");
+                return;
+              }
+            },
+            () => {
+              alert("인증에 실패하였습니다.");
             }
-            return;
-          }
+          );
         });
-      };
+      });
     </script>
   </head>
   <body style="background-color: #f7f7f7">
@@ -232,11 +198,11 @@
               <div class="tab-login" onclick="location.href = '/findId.do'">
                 아이디 찾기
               </div>
-              <div class="tab-unknown" onclick="location.href = '/findId.do'">
+              <div class="tab-unknown" onclick="location.href = '/findPw.do'">
                 비밀번호 찾기
               </div>
             </div>
-            <div class="login-main" style="display: block">
+            <div id="login-main" class="login-main" style="display: block">
               <div
                 id="guide-title"
                 style="
@@ -275,6 +241,19 @@
                   인증번호 보내기
                 </div>
               </div>
+              <div id="btn-code" class="login-btn" style="display: none">
+                <div
+                  id="btn-post"
+                  style="
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #fff;
+                    text-align: center;
+                  "
+                >
+                  확인
+                </div>
+              </div>
               <div
                 style="
                   display: flex;
@@ -305,7 +284,7 @@
                 ></div>
               </div>
             </div>
-            <div class="complete-body" style="display: none">
+            <div id="complete-body" class="complete-body" style="display: none">
               <div
                 id="complete-title"
                 style="
