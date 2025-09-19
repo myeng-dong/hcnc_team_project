@@ -15,11 +15,12 @@
 	
 	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
-					, O.OPTION_NAME, O.OPTION_VALUE
+					, O.OPTION_NAME, O.OPTION_VALUE, O.ADDITIONAL_PRICE
 			FROM PRODUCTS P
 			LEFT OUTER JOIN OPTIONS O
 				ON P.PRODUCT_ID = O.PRODUCT_ID 
-			WHERE P.PRODUCT_ID = #{productId}
+			WHERE 1=1
+				AND P.PRODUCT_ID = #{productId}
 	</select>
 	
 	<select id="slectOptionInfoByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
@@ -38,7 +39,8 @@
 	<select id="selectProductQnAListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT PRODUCT_QNA_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, DATE_FORMAT(UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT
 			FROM PRODUCT_QNA
-		  WHERE PRODUCT_ID = #{productId}
+		  WHERE 1=1
+		  	AND PRODUCT_ID = #{productId}
 	</select>
 	
 	<insert id="insertQnAByUser" parameterType="java.util.Map">

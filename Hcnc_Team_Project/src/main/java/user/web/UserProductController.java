@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import user.service.UserProductService;
 
 @Controller
@@ -20,28 +23,50 @@ public class UserProductController {
 	private UserProductService userProductService;
 
 	@RequestMapping(value="/productDetailView.do")
-	public String productDetailView() {
-		return "product/detail";
-	}
-	///////////////////////////////////////////////////////////////
-	
-	@RequestMapping(value="/selectProductByUser.do")
-	public ModelAndView selectProductByUser(@RequestParam Map<String, Object> param) {
+	public ModelAndView productDetailView(@RequestParam("productId") Long productId) throws JsonProcessingException {
 		
-		ModelAndView mav = new ModelAndView("jsonView");
+		ModelAndView mav = new ModelAndView();
 		
-		System.out.println(param);
+		List<HashMap<String, Object>> productQnAList = userProductService.selectProductQnAListByUser(productId);
 		
-		List<HashMap<String, Object>> productDetail = userProductService.selectProductByUser(param);
+		List<HashMap<String, Object>> productDetail = userProductService.selectProductByUser(productId);
 		
-		List<HashMap<String, Object>> productOptionInfo = userProductService.slectOptionInfoByUser(param);
+		List<HashMap<String, Object>> productOptionInfo = userProductService.slectOptionInfoByUser(productId);
 		
-		mav.addObject("product", productDetail);
-		mav.addObject("productOptions", productOptionInfo);
+		mav.addObject("productQnAList", productQnAList);
+		mav.addObject("productDetail", productDetail);
+		mav.addObject("optionInfo", productOptionInfo);
+		
+		// JavaScript에서 사용할 수 있도록 JSON 형태로도 전달
+	    ObjectMapper mapper = new ObjectMapper();
+	    mav.addObject("productDetailJson", mapper.writeValueAsString(productDetail));
+	    mav.addObject("optionInfoJson", mapper.writeValueAsString(productOptionInfo));
+	    
+		mav.setViewName("product/detail");
 		
 		return mav;
 	}
+	///////////////////////////////////////////////////////////////
 	
+	/*
+	 * @RequestMapping(value="/selectProductByUser.do") public ModelAndView
+	 * selectProductByUser(@RequestParam Map<String, Object> param) {
+	 * 
+	 * ModelAndView mav = new ModelAndView("jsonView");
+	 * 
+	 * System.out.println(param);
+	 * 
+	 * List<HashMap<String, Object>> productDetail =
+	 * userProductService.selectProductByUser(param);
+	 * 
+	 * List<HashMap<String, Object>> productOptionInfo =
+	 * userProductService.slectOptionInfoByUser(param);
+	 * 
+	 * mav.addObject("product", productDetail); mav.addObject("productOptions",
+	 * productOptionInfo);
+	 * 
+	 * return mav; }
+	 */
 	@RequestMapping(value="/insertCartItem.do")
 	public ModelAndView insertCartItemByUser(@RequestParam Map<String, Object> param) {
 		
@@ -74,14 +99,16 @@ public class UserProductController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/selectProductQnAList.do")
-	public ModelAndView selectProductQnAListByUser(@RequestParam Map<String, Object> param) {
-		ModelAndView mav = new ModelAndView("jsonView");
-		
-		List<HashMap<String, Object>> productQnAList = userProductService.selectProductQnAListByUser(param);
-		
-		mav.addObject("qnaList", productQnAList);
-		
-		return mav;
-	}
+	/*
+	 * @RequestMapping(value="/selectProductQnAList.do") public ModelAndView
+	 * selectProductQnAListByUser(@RequestParam Map<String, Object> param) {
+	 * ModelAndView mav = new ModelAndView("jsonView");
+	 * 
+	 * List<HashMap<String, Object>> productQnAList =
+	 * userProductService.selectProductQnAListByUser(param);
+	 * 
+	 * mav.addObject("qnaList", productQnAList);
+	 * 
+	 * return mav; }
+	 */
 }

@@ -19,9 +19,9 @@ public class UserProductService {
 	@Autowired
 	private UserProductMapper userProductMapper;
 
-	public List<HashMap<String, Object>> selectProductByUser(Map<String, Object> param) {
+	public List<HashMap<String, Object>> selectProductByUser(Long productId) {
 		// TODO Auto-generated method stub
-		return userProductMapper.selectProductByUser(param);
+		return userProductMapper.selectProductByUser(productId);
 	}
 
 	public int insertCartItemByUser(Map<String, Object> param) {
@@ -36,18 +36,18 @@ public class UserProductService {
 		return result;
 	}
 
-	public List<HashMap<String, Object>> slectOptionInfoByUser(Map<String, Object> param) {
+	public List<HashMap<String, Object>> slectOptionInfoByUser(Long productId) {
 		// TODO Auto-generated method stub
-		return userProductMapper.slectOptionInfoByUser(param);
+		return userProductMapper.slectOptionInfoByUser(productId);
 	}
 
 	public int insertQnAByUser(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		return userProductMapper.insertQnAByUser(param);
 	}
-
-	public List<HashMap<String, Object>> selectProductQnAListByUser(Map<String, Object> param) {
+	
+	public List<HashMap<String, Object>> selectProductQnAListByUser(Long productId) {
 		// TODO Auto-generated method stub
-		return userProductMapper.selectProductQnAListByUser(param);
+		return userProductMapper.selectProductQnAListByUser(productId);
 	}
 }
