@@ -100,14 +100,31 @@ public class UserCartController {
 		
 		return mav;
 	}
-	
-	// 선택 상품 삭제
-	@RequestMapping(value="/deleteSelectedProducts.do")
-	public ModelAndView deleteSelectedProducts(@RequestParam HashMap<String, Object> param) {
-		ModelAndView mav = new ModelAndView("");
-		
-		System.out.println(param);
-		
-		return mav;
+
+	// 장바구니 옵션 변경
+	@RequestMapping(value="/updateOption.do")
+	public ModelAndView updateOption(@RequestParam HashMap<String, Object> param) {
+	    ModelAndView mav = new ModelAndView("jsonView");
+	    
+	    try {
+	        HashMap<String, Object> result = userCartService.updateOptionByUser(param);
+	        
+	        // Service에서 받은 결과를 그대로 전달
+	        mav.addObject("success", result.get("success"));
+	        if((Boolean)result.get("success")) {
+	            mav.addObject("newPrice", result.get("newPrice"));
+	            mav.addObject("cartTotalPrice", result.get("cartTotalPrice"));
+	        } else {
+	            mav.addObject("message", result.get("message"));
+	            mav.addObject("errorCode", result.get("errorCode"));
+	        }
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        mav.addObject("success", false);
+	        mav.addObject("message", "옵션 변경 중 오류 발생");
+	    }
+	    
+	    return mav;
 	}
 }
