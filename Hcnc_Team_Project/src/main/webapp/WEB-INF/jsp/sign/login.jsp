@@ -10,7 +10,7 @@ uri="http://www.springframework.org/tags"%>
     <meta charset="utf-8" />
     <title>DDD.D 로그인</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../../../css/egovframework/import.css" />
+    <jsp:include page="../layout/headertop.jsp" />
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script
       src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.6/kakao.min.js"
@@ -28,7 +28,6 @@ uri="http://www.springframework.org/tags"%>
         prompt: "login",
       });
     };
-    // 서버 이전 예정
   </script>
   <script type="text/javascript">
     $(() => {
@@ -37,6 +36,13 @@ uri="http://www.springframework.org/tags"%>
       if (saveId) {
         $("#id").val(saveId);
         $("#saveId").prop("checked", true);
+      }
+      const val = window.location.search;
+      const params = new URLSearchParams(val);
+      const type = params.get("type");
+      console.log(type);
+      if (type == "list") {
+        selectUnknownTab();
       }
     });
     const enterkey = () => {
@@ -214,180 +220,191 @@ uri="http://www.springframework.org/tags"%>
     }
   </style>
   <body>
-    <jsp:include page="../layout/headertop.jsp" />
-    <div
-      class="container login"
-      style="background-color: #f7f7f7; padding-top: 20px; padding-bottom: 20px"
-    >
-      <div class="inner">
-        <div class="loginbox">
-          <div class="login-header">로그인</div>
-          <div class="login-body">
-            <div
-              class="login-tab"
-              style="display: flex; flex-direction: row; flex: 1"
-            >
-              <div class="tab-login" onclick="selectLoginTab()">회원로그인</div>
-              <div class="tab-unknown" onclick="selectUnknownTab()">
-                비회원 주문확인
+    <div class="container-wrap">
+      <jsp:include page="../layout/header.jsp" />
+      <div
+        class="container login"
+        style="
+          background-color: #f7f7f7;
+          padding-top: 20px;
+          padding-bottom: 20px;
+        "
+      >
+        <div class="inner">
+          <div class="loginbox">
+            <div class="login-header">로그인</div>
+            <div class="login-body">
+              <div
+                class="login-tab"
+                style="display: flex; flex-direction: row; flex: 1"
+              >
+                <div class="tab-login" onclick="selectLoginTab()">
+                  회원로그인
+                </div>
+                <div class="tab-unknown" onclick="selectUnknownTab()">
+                  비회원 주문확인
+                </div>
               </div>
-            </div>
-            <div class="login-main">
-              <div class="login-input-container">
-                <input id="id" name="id" type="text" placeholder="아이디" />
+              <div class="login-main">
+                <div class="login-input-container">
+                  <input id="id" name="id" type="text" placeholder="아이디" />
+                  <div style="height: 6px"></div>
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="비밀번호"
+                    onkeyup="enterkey()"
+                  />
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    padding-left: 40px;
+                    padding-top: 6px;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    name="saveId"
+                    id="saveId"
+                    style="width: 15px; height: 15px"
+                  />
+                  <div
+                    style="
+                      font-size: 12px;
+                      font-weight: 400;
+                      color: #777;
+                      padding-left: 5px;
+                      line-height: 10px;
+                    "
+                  >
+                    아이디 저장
+                  </div>
+                </div>
+                <div style="height: 23px"></div>
+                <div class="login-btn" onclick="selectLoginByUser()">
+                  <div style="font-size: 18px; font-weight: 700; color: #fff">
+                    로그인
+                  </div>
+                </div>
                 <div style="height: 6px"></div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="비밀번호"
-                  onkeyup="enterkey()"
-                />
-              </div>
-              <div
-                style="
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  padding-left: 40px;
-                  padding-top: 6px;
-                "
-              >
-                <input
-                  type="checkbox"
-                  name="saveId"
-                  id="saveId"
-                  style="width: 15px; height: 15px"
-                />
-                <div
-                  style="
-                    font-size: 12px;
-                    font-weight: 400;
-                    color: #777;
-                    padding-left: 5px;
-                    line-height: 10px;
-                  "
-                >
-                  아이디 저장
+                <div class="sign-btn" onclick="location.href='/sign.do'">
+                  <div
+                    style="font-size: 18px; font-weight: 700; color: #ea0e25"
+                  >
+                    회원가입
+                  </div>
                 </div>
-              </div>
-              <div style="height: 23px"></div>
-              <div class="login-btn" onclick="selectLoginByUser()">
-                <div style="font-size: 18px; font-weight: 700; color: #fff">
-                  로그인
-                </div>
-              </div>
-              <div style="height: 6px"></div>
-              <div class="sign-btn" onclick="location.href='/sign.do'">
-                <div style="font-size: 18px; font-weight: 700; color: #ea0e25">
-                  회원가입
-                </div>
-              </div>
-              <div style="height: 14px"></div>
-              <div
-                style="
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  justify-content: center;
-                "
-              >
-                <div class="find-info" onclick="location.href='findId.do'">
-                  아이디 찾기
-                </div>
-                <div
-                  class="find-info"
-                  style="padding-left: 15px; padding-right: 15px"
-                >
-                  |
-                </div>
-                <div class="find-info" onclick="location.href='findPw.do'">
-                  비밀번호 찾기
-                </div>
-              </div>
-              <div
-                style="
-                  display: flex;
-                  flex-direction: row;
-                  align-items: center;
-                  padding-left: 40px;
-                  padding-right: 40px;
-                  padding-top: 31px;
-                  padding-bottom: 18px;
-                "
-              >
+                <div style="height: 14px"></div>
                 <div
                   style="
                     display: flex;
-                    flex: 1;
-                    border-bottom: 1px solid #d9d9d9;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
                   "
-                ></div>
-                <div style="font-size: 12; font-weight: 400; color: #777">
-                  또는 간편하게 로그인
+                >
+                  <div class="find-info" onclick="location.href='findId.do'">
+                    아이디 찾기
+                  </div>
+                  <div
+                    class="find-info"
+                    style="padding-left: 15px; padding-right: 15px"
+                  >
+                    |
+                  </div>
+                  <div class="find-info" onclick="location.href='findPw.do'">
+                    비밀번호 찾기
+                  </div>
                 </div>
                 <div
                   style="
                     display: flex;
-                    flex: 1;
-                    border-bottom: 1px solid #d9d9d9;
+                    flex-direction: row;
+                    align-items: center;
+                    padding-left: 40px;
+                    padding-right: 40px;
+                    padding-top: 31px;
+                    padding-bottom: 18px;
                   "
-                ></div>
-              </div>
+                >
+                  <div
+                    style="
+                      display: flex;
+                      flex: 1;
+                      border-bottom: 1px solid #d9d9d9;
+                    "
+                  ></div>
+                  <div style="font-size: 12; font-weight: 400; color: #777">
+                    또는 간편하게 로그인
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      flex: 1;
+                      border-bottom: 1px solid #d9d9d9;
+                    "
+                  ></div>
+                </div>
 
-              <div
-                onclick="loginWithKakao()"
-                style="
-                  display: flex;
-                  background-color: #fee500;
-                  margin-left: 40px;
-                  margin-right: 40px;
-                  border-radius: 4px;
-                  justify-content: space-between;
-                  align-items: center;
-                  padding: 7px 10px 7px 10px;
-                  cursor: pointer;
-                "
-              >
-                <img
-                  style="width: 40px; height: 40px"
-                  src="../../../images/egovframework/example/kakao_icon.png"
-                />
-                <div style="font-size: 18px">카카오 로그인</div>
-                <div style="width: 40px"></div>
-              </div>
-              <div style="height: 42px"></div>
-            </div>
-            <div class="login-unknown">
-              <div style="height: 60px"></div>
-              <div class="unknown-input" style="padding: 0 40px 0 40px">
-                <input
-                  id="orderId"
-                  name="orderId"
-                  type="text"
-                  placeholder="주문번호"
-                />
-                <div style="height: 10px"></div>
-                <input
-                  type="number"
-                  id="phone"
-                  name="phone"
-                  inputmode="numeric"
-                  placeholder="전화번호"
-                  pattern="[0-9]*"
-                />
-              </div>
-              <div style="height: 35px"></div>
-              <div class="login-btn">
-                <div style="font-size: 18px; font-weight: 700; color: #fff">
-                  조회하기
+                <div
+                  onclick="loginWithKakao()"
+                  style="
+                    display: flex;
+                    background-color: #fee500;
+                    margin-left: 40px;
+                    margin-right: 40px;
+                    border-radius: 4px;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 7px 10px 7px 10px;
+                    cursor: pointer;
+                  "
+                >
+                  <img
+                    style="width: 40px; height: 40px"
+                    src="../../../images/egovframework/example/kakao_icon.png"
+                  />
+                  <div style="font-size: 18px">카카오 로그인</div>
+                  <div style="width: 40px"></div>
                 </div>
+                <div style="height: 42px"></div>
               </div>
-              <div style="height: 42px"></div>
+              <div class="login-unknown">
+                <div style="height: 60px"></div>
+                <div class="unknown-input" style="padding: 0 40px 0 40px">
+                  <input
+                    id="orderId"
+                    name="orderId"
+                    type="text"
+                    placeholder="주문번호"
+                  />
+                  <div style="height: 10px"></div>
+                  <input
+                    type="number"
+                    id="phone"
+                    name="phone"
+                    inputmode="numeric"
+                    placeholder="전화번호"
+                    pattern="[0-9]*"
+                  />
+                </div>
+                <div style="height: 35px"></div>
+                <div class="login-btn">
+                  <div style="font-size: 18px; font-weight: 700; color: #fff">
+                    조회하기
+                  </div>
+                </div>
+                <div style="height: 42px"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <jsp:include page="../layout/footer.jsp" />
     </div>
   </body>
 </html>

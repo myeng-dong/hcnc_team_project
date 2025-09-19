@@ -409,7 +409,6 @@ uri="http://www.springframework.org/tags"%>
 
 <body>
   <jsp:include page="../layout/header.jsp" />
-  <jsp:include page="../layout/menu.jsp" />
   <div style="height: 20px"></div>
   <div class="container">
     <!-- 메인 콘텐츠 -->

@@ -713,7 +713,6 @@ uri="http://www.springframework.org/tags"%>
   </style>
   <body>
     <jsp:include page="../layout/header.jsp" />
-    <jsp:include page="../layout/menu.jsp" />
     <div style="height: 20px"></div>
     <div class="container">
       <div class="inner" style="width: 860px">
