@@ -4,13 +4,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../../css/egovframework/global.css" />
-    <link rel="stylesheet" href="../../../css/egovframework/layout.css" />
+    <link rel="stylesheet" href="../../../css/egovframework/import.css" />
     <link
       rel="stylesheet"
       href="//cdn.jsdelivr.net/xeicon/2.3.0/xeicon.min.css"
     />
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="../../../common/utils.js"></script>
     <script src="../../../common/regex.js"></script>
     <title>DOO.D 회원가입</title>
@@ -18,7 +23,87 @@
   <script>
     $(() => {
       init();
+      // initTest();
+      $("#birth").datepicker({
+        dateFormat: "yy-mm-dd",
+        prevText: "이전 달",
+        nextText: "다음 달",
+        monthNames: [
+          "1월",
+          "2월",
+          "3월",
+          "4월",
+          "5월",
+          "6월",
+          "7월",
+          "8월",
+          "9월",
+          "10월",
+          "11월",
+          "12월",
+        ],
+        monthNamesShort: [
+          "1월",
+          "2월",
+          "3월",
+          "4월",
+          "5월",
+          "6월",
+          "7월",
+          "8월",
+          "9월",
+          "10월",
+          "11월",
+          "12월",
+        ],
+        dayNames: ["일", "월", "화", "수", "목", "금", "토"],
+        dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+        dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+        showMonthAfterYear: true,
+        changeMonth: true, // 월 선택 허용
+        changeYear: true, // 연도 선택 허용
+        yearRange: "-100:+0",
+        onChangeMonthYear: function (year, month, inst) {
+          // 연도 select 옵션에 "년" 붙이기
+          $(inst.dpDiv)
+            .find(".ui-datepicker-year option")
+            .each(function () {
+              const val = $(this).val();
+              $(this).text(val + "년");
+            });
+        },
+        beforeShow: function (input, inst) {
+          setTimeout(function () {
+            $(inst.dpDiv)
+              .find(".ui-datepicker-year option")
+              .each(function () {
+                const val = $(this).val();
+                $(this).text(val + "년");
+              });
+          }, 0);
+        },
+      });
+      $("#phone").on("input", function () {
+        let num = $(this)
+          .val()
+          .replace(/[^0-9]/g, ""); // 숫자만 남김
+        if (num.length < 4) {
+          $(this).val(num);
+        } else if (num.length < 7) {
+          $(this).val(num.substr(0, 3) + "-" + num.substr(3));
+        } else if (num.length <= 11) {
+          $(this).val(
+            num.substr(0, 3) + "-" + num.substr(3, 4) + "-" + num.substr(7)
+          );
+        } else {
+          $(this).val(
+            num.substr(0, 3) + "-" + num.substr(3, 4) + "-" + num.substr(7, 4)
+          );
+        }
+      });
+      // $("#birth").datepicker("setDate", "today");
     });
+
     const init = () => {
       sessionStorage.setItem("signid", "");
       sessionStorage.setItem("mailCode", "");
@@ -30,6 +115,15 @@
       sessionStorage.setItem("mailFlag", "");
       sessionStorage.setItem("to", "");
     };
+    // const initTest = () => {
+    //   $("#id").val("test");
+    //   $("#password").val("1234");
+    //   $("#passwordCheck").val("1234");
+    //   $("#name").val("홍길동");
+    //   $("#email").val("test@test.com");
+    //   $("#phone").val("010-0000-0000");
+    //   $("#birth").val("2022-04-04");
+    // };
     const idChkByUser = () => {
       const id = $("#id").val().trim();
       if (id === "") {
@@ -66,12 +160,12 @@
         alert("이메일 형식을 확인해주세요.");
         return;
       }
-      var param = { to: email };
+      var param = { to: email, isDuplicate: true };
       ajaxUtil(param, "selectEmailCheckByUser.do", (response) => {
         if (response.status === 200) {
           alert("인증번호를 발송하였습니다");
-          // sessionStorage.setItem("mailCode", response.mailCode);
-          // sessionStorage.setItem("to", email);
+          sessionStorage.setItem("mailCode", response.mailCode);
+          sessionStorage.setItem("to", email);
         }
         if (response.status === 409) {
           alert("이미 존재하는 이메일입니다.");
@@ -91,21 +185,21 @@
         alert("인증번호를 입력해주세요.");
         return;
       }
-      var param = { to: email, code: emailCode };
-      // if(sessionStorage.getItem("to") !== email){
-      // 	alert("입력된 이메일과 요청한 이메일이 다릅니다. 인증번호를 다시 요청해주세요.");
-      // 	mailInit();
-      //       return;
-      // }
-      // if(sessionStorage.getItem("mailCode") === emailCode){
-      // 	sessionStorage.setItem("mailFlag","pass");
-      // 	alert("인증이 완료되었습니다.");
-      //   return;
-      // }
+      var param = { to: email, code: emailCode, checkOnly: true };
+      if (sessionStorage.getItem("to") !== email) {
+        alert(
+          "입력된 이메일과 요청한 이메일이 다릅니다. 인증번호를 다시 요청해주세요."
+        );
+        mailInit();
+        return;
+      }
       ajaxUtil(param, "selectVerifyAuthByUser.do", (response) => {
         console.log(JSON.stringify(response));
         if (response.result === true) {
           alert("인증이 완료되었습니다.");
+          sessionStorage.setItem("mailFlag", "pass");
+          $("#email").prop("readonly", true);
+          $("#emailCode").prop("readonly", true);
         } else {
           alert("인증에 실패하였습니다. 인증번호를 확인해주세요.");
         }
@@ -119,9 +213,14 @@
       const passwordCheck = $("#passwordCheck").val().trim();
       const email = $("#email").val().trim();
       const emailCode = $("#emailCode").val().trim();
-      const phone = $("#phone").val().trim();
+      const phone = $("#phone").val().trim().replace(/-/gi, "");
       const birth = $("#birth").val().trim();
       const gender = $("input[name='gender']:checked").val();
+
+      if (id === "") {
+        alert("아이디를 입력해주세요.");
+        return;
+      }
       if (sessionStorage.getItem("signid") !== id) {
         alert("아이디 중복체크를 해주세요.");
         return;
@@ -135,6 +234,7 @@
       }
       if (sessionStorage.getItem("mailFlag") !== "pass") {
         alert("이메일 인증을 완료해주세요.");
+        return;
       }
       if (name === "" || name == undefined) {
         alert("이름을 입력해주세요.");
@@ -152,10 +252,6 @@
         alert("비밀번호형식을 확인해주세요.");
         return;
       }
-      if (containsSqlKeywords(passwordCheck)) {
-        alert("비밀번호형식을 확인해주세요.");
-        return;
-      }
       if (!passwordRegex.test(password)) {
         alert(
           "비밀번호를 8자리이상 영문,숫자,특수문자 1개이상 포함시켜주세요."
@@ -166,8 +262,240 @@
         alert("비밀번호와 비밀번호확인란이 일치하지않습니다.");
         return;
       }
+      if (phone === "") {
+        alert("휴대폰번호를 입력해주세요.");
+        return;
+      }
+      if (!phoneRegex.test(phone)) {
+        alert("올바르지 않은 휴대폰 번호입니다. 휴대폰번호를 확인해주세요.");
+        return;
+      }
+      if (birth === "") {
+        alert("생일을 선택해주세요.");
+        return;
+      }
+      if (gender === "" || gender == null) {
+        alert("성별을 선택해주세요.");
+
+        return;
+      }
+
+      const param = {
+        id: id,
+        name: name,
+        password: password,
+        email: email,
+        phone: phone,
+        birth: birth,
+        gender: gender,
+      };
+
+      ajaxUtil(param, "insertSignUpByUser.do", (response) => {
+        console.log(JSON.stringify(response));
+        if (response.status === 200) {
+          alert(
+            "DOO.D에 회원이 되신걸 환영합니다.\n로그인페이지로 이동합니다. :)"
+          );
+          location.href = "/login.do";
+        } else {
+          alert("회원가입에 문제가 생겼습니다. 새로고침 후 다시 시도해주세요.");
+        }
+      });
     };
   </script>
+  <style>
+    /*데이트피커 커스텀*/
+    .i_datepicker input {
+      cursor: pointer;
+    }
+    .ui-datepicker select.ui-datepicker-month,
+    .ui-datepicker select.ui-datepicker-year {
+      border: none;
+      background: rgba(234, 14, 37, 0.2); /* 배경색 넣어주기 */
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center; /* 텍스트 가운데 정렬 */
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+    }
+    .i_datepicker img {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background: url(../img/ico_datepicker.svg) no-repeat center/cover;
+    }
+    #ui-datepicker-div {
+      z-index: 9 !important;
+    }
+    .ui-widget-header {
+      border: 0px solid #dddddd;
+      background: #fff;
+    }
+
+    .ui-datepicker-calendar > thead > tr > th {
+      font-size: 14px !important;
+    }
+
+    .ui-datepicker .ui-datepicker-header {
+      position: relative;
+      padding: 10px 0;
+    }
+
+    .ui-state-default,
+    .ui-widget-content .ui-state-default,
+    .ui-widget-header .ui-state-default,
+    .ui-button,
+    html .ui-button.ui-state-disabled:hover,
+    html .ui-button.ui-state-disabled:active {
+      border: 0px solid #c5c5c5;
+      background-color: transparent;
+      font-weight: normal;
+      color: #454545;
+      text-align: center;
+    }
+
+    .ui-datepicker .ui-datepicker-title {
+      margin: 0 0em;
+      line-height: 16px;
+      text-align: center;
+      font-size: 14px;
+      padding: 0px;
+      font-weight: bold;
+    }
+
+    .ui-datepicker {
+      display: none;
+      background-color: #fff;
+      border-radius: 4px;
+      margin-top: 10px;
+      margin-left: 0px;
+      margin-right: 0px;
+      padding: 20px;
+      padding-bottom: 10px;
+      width: 300px;
+      box-shadow: 10px 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .ui-widget.ui-widget-content {
+      border: 1px solid #eee;
+    }
+
+    #datepicker:focus > .ui-datepicker {
+      display: block;
+    }
+
+    .ui-datepicker-prev,
+    .ui-datepicker-next {
+      display: none;
+      cursor: pointer;
+    }
+
+    .ui-datepicker-next {
+      float: right;
+    }
+
+    .ui-state-disabled {
+      cursor: auto;
+      color: hsla(0, 0%, 80%, 1);
+    }
+
+    .ui-datepicker-title {
+      text-align: center;
+      padding: 10px;
+      font-weight: 100;
+      font-size: 20px;
+    }
+
+    .ui-datepicker-calendar {
+      width: 100%;
+    }
+
+    .ui-datepicker-calendar > thead > tr > th {
+      padding: 5px;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .ui-datepicker-calendar > tbody > tr > td > a {
+      color: #000;
+      font-size: 14px !important;
+      font-weight: bold !important;
+      text-decoration: none;
+    }
+
+    .ui-datepicker-calendar > tbody > tr > .ui-state-disabled:hover {
+      cursor: auto;
+      background-color: #fff;
+    }
+
+    .ui-datepicker-calendar > tbody > tr > td {
+      border-radius: 100%;
+      width: 44px;
+      height: 30px;
+      cursor: pointer;
+      padding: 5px;
+      font-weight: 100;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .ui-datepicker-calendar > tbody > tr > td:hover {
+      background-color: transparent;
+      opacity: 0.6;
+    }
+
+    .ui-state-hover,
+    .ui-widget-content .ui-state-hover,
+    .ui-widget-header .ui-state-hover,
+    .ui-state-focus,
+    .ui-widget-content .ui-state-focus,
+    .ui-widget-header .ui-state-focus,
+    .ui-button:hover,
+    .ui-button:focus {
+      border: 0px solid #cccccc;
+      background-color: transparent;
+      font-weight: normal;
+      color: #2b2b2b;
+    }
+    .ui-datepicker-calendar > tbody > tr > td:first-child a {
+      color: red !important;
+    }
+
+    .ui-datepicker-calendar > tbody > tr > td:last-child a {
+      color: #0099ff !important;
+    }
+
+    .ui-datepicker-calendar > thead > tr > th:first-child {
+      color: red !important;
+    }
+
+    .ui-datepicker-calendar > thead > tr > th:last-child {
+      color: #0099ff !important;
+    }
+
+    .ui-state-highlight,
+    .ui-widget-content .ui-state-highlight,
+    .ui-widget-header .ui-state-highlight {
+      border: 0px;
+      background: #f1f1f1;
+      border-radius: 50%;
+      padding-top: 7px;
+      padding-bottom: 8px;
+    }
+
+    .inp {
+      padding: 10px 10px;
+      background-color: #f1f1f1;
+      border-radius: 4px;
+      border: 0px;
+    }
+  </style>
   <style>
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
@@ -226,15 +554,14 @@
     }
     .signbox {
       width: 628px;
-      display: inline-block;
+      margin: 0 auto;
+      /* display: inline-block; */
       background-color: #fff;
       border-radius: 16px;
       box-shadow: 0px 0px 30px #ccc;
       padding-left: 40px;
       padding-right: 40px;
       padding-top: 55px;
-      min-width: 628px;
-      max-width: 628px;
     }
     .sign-title {
       display: flex;
@@ -279,147 +606,158 @@
       display: flex;
     }
   </style>
-  <body style="background-color: #f7f7f7">
-    <div class="container">
-      <div class="signbox">
-        <div class="sign-title">회원가입</div>
-        <div style="display: flex; flex-direction: column">
-          <div class="input-parent">
-            <i class="xi-user-o"></i>
-            <div class="input-name">아이디</div>
-            <div class="input-line">|</div>
-            <input
-              name="id"
-              id="id"
-              type="text"
-              placeholder="영문 4자이상, 최대 20자"
-              maxlength="20"
-            />
-            <div class="btn-verify" onclick="idChkByUser()">
-              <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
-                중복체크
-              </p>
+  <body
+    style="background-color: #f7f7f7; padding-top: 20px; padding-bottom: 20px"
+  >
+    <div class="container sign">
+      <div class="inner">
+        <div class="signbox">
+          <div class="sign-title">회원가입</div>
+          <div style="display: flex; flex-direction: column">
+            <div class="input-parent">
+              <i class="xi-user-o"></i>
+              <div class="input-name">아이디</div>
+              <div class="input-line">|</div>
+              <input
+                name="id"
+                id="id"
+                type="text"
+                placeholder="영문 4자이상, 최대 20자"
+                maxlength="20"
+              />
+              <div class="btn-verify" onclick="idChkByUser()">
+                <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                  중복체크
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="input-parent">
-            <i class="xi-lock-o"></i>
-            <div class="input-name">비밀번호</div>
-            <div class="input-line">|</div>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              maxlength="30"
-              placeholder="영문,숫자,특수문자 포함 최소 8자리 이상"
-            />
-          </div>
-          <div class="input-parent">
-            <i class="xi-lock"></i>
-            <div class="input-name">비밀번호확인</div>
-            <div class="input-line">|</div>
-            <input
-              name="passwordCheck"
-              id="passwordCheck"
-              type="password"
-              maxlength="30"
-              placeholder="비밀번호 한번 더 입력"
-            />
-          </div>
-          <div class="input-parent">
-            <i class="xi-pen-o"></i>
-            <div class="input-name">이름</div>
-            <div class="input-line">|</div>
-            <input
-              name="name"
-              id="name"
-              type="text"
-              maxlength="14"
-              placeholder="2자 이상 입력해주세요"
-            />
-          </div>
-          <div class="input-parent">
-            <i class="xi-mail-o"></i>
-            <div class="input-name">이메일</div>
-            <div class="input-line">|</div>
-            <input
-              name="email"
-              id="email"
-              type="text"
-              maxlength="255"
-              placeholder="example@example.com"
-            />
-            <div class="btn-verify" onclick="emailChkByUser()">
-              <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
-                전송
-              </p>
+            <div class="input-parent">
+              <i class="xi-lock-o"></i>
+              <div class="input-name">비밀번호</div>
+              <div class="input-line">|</div>
+              <input
+                name="password"
+                id="password"
+                type="password"
+                maxlength="30"
+                placeholder="영문,숫자,특수문자 포함 최소 8자리 이상"
+              />
             </div>
-          </div>
-          <div class="input-parent">
-            <i class="xi-mail"></i>
+            <div class="input-parent">
+              <i class="xi-lock"></i>
+              <div class="input-name">비밀번호확인</div>
+              <div class="input-line">|</div>
+              <input
+                name="passwordCheck"
+                id="passwordCheck"
+                type="password"
+                maxlength="30"
+                placeholder="비밀번호 한번 더 입력"
+              />
+            </div>
+            <div class="input-parent">
+              <i class="xi-pen-o"></i>
+              <div class="input-name">이름</div>
+              <div class="input-line">|</div>
+              <input
+                name="name"
+                id="name"
+                type="text"
+                maxlength="14"
+                placeholder="2자 이상 입력해주세요"
+              />
+            </div>
+            <div class="input-parent">
+              <i class="xi-mail-o"></i>
+              <div class="input-name">이메일</div>
+              <div class="input-line">|</div>
+              <input
+                name="email"
+                id="email"
+                type="text"
+                maxlength="255"
+                placeholder="example@example.com"
+              />
+              <div class="btn-verify" onclick="emailChkByUser()">
+                <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                  전송
+                </p>
+              </div>
+            </div>
+            <div class="input-parent">
+              <i class="xi-mail"></i>
 
-            <div class="input-name">인증번호</div>
-            <div class="input-line">|</div>
-            <input
-              name="emailCode"
-              id="emailCode"
-              type="text"
-              maxlength="6"
-              placeholder="이메일 인증번호 입력"
-            />
-            <div class="btn-verify" onclick="emailCodeCheck()">
-              <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
-                확인
-              </p>
+              <div class="input-name">인증번호</div>
+              <div class="input-line">|</div>
+              <input
+                name="emailCode"
+                id="emailCode"
+                type="text"
+                maxlength="6"
+                placeholder="이메일 인증번호 입력"
+              />
+              <div class="btn-verify" onclick="emailCodeCheck()">
+                <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                  확인
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="input-parent">
-            <i class="xi-call"></i>
-            <div class="input-name">휴대폰</div>
-            <div class="input-line">|</div>
-            <input
-              name="phone"
-              id="phone"
-              type="number"
-              maxlength="11"
-              placeholder="010-0000-0000"
-            />
-          </div>
-          <div class="input-parent">
-            <i class="xi-cake"></i>
-            <div class="input-name">생일</div>
-            <div class="input-line">|</div>
-            <input
-              name="birth"
-              id="birth"
-              type="text"
-              maxlength="8"
-              placeholder="2000.00.00"
-            />
-          </div>
-          <div class="input-parent" style="border: 0">
-            <i class="xi-label-o"></i>
-            <div class="input-name">성별</div>
-            <div class="input-line">|</div>
-            <fieldset
-              style="border: 0; display: flex; flex-direction: row; flex: 1"
-            >
-              <label>
-                <input type="radio" name="gender" value="man" /><span>남</span>
-              </label>
-              <div style="width: 20px"></div>
-              <label
-                ><input type="radio" name="gender" value="woman" /><span
-                  >여</span
-                ></label
+            <div class="input-parent">
+              <i class="xi-call"></i>
+              <div class="input-name">휴대폰</div>
+              <div class="input-line">|</div>
+              <input
+                name="phone"
+                id="phone"
+                type="text"
+                maxlength="13"
+                placeholder="ex) 010-0000-0000"
+              />
+            </div>
+            <div class="input-parent">
+              <i class="xi-cake"></i>
+              <div class="input-name">생일</div>
+              <div class="input-line">|</div>
+              <input
+                readonly
+                name="birth"
+                id="birth"
+                type="text"
+                maxlength="8"
+                placeholder="날짜 선택"
+              />
+            </div>
+            <div class="input-parent" style="border: 0">
+              <i class="xi-label-o"></i>
+              <div class="input-name">성별</div>
+              <div class="input-line">|</div>
+              <fieldset
+                style="
+                  border: 0;
+                  display: flex;
+                  flex-direction: row;
+                  flex: 1;
+                  padding-left: 10px;
+                "
               >
-            </fieldset>
-          </div>
-          <div class="sign-btn" onclick="insertSign()">
-            <div style="font-size: 24px; font-weight: 700; color: #ea0e25">
-              회원가입
+                <label>
+                  <input type="radio" name="gender" value="M" /><span>남</span>
+                </label>
+                <div style="width: 20px"></div>
+                <label
+                  ><input type="radio" name="gender" value="W" /><span
+                    >여</span
+                  ></label
+                >
+              </fieldset>
             </div>
+            <div class="sign-btn" onclick="insertSign()">
+              <div style="font-size: 24px; font-weight: 700; color: #ea0e25">
+                회원가입
+              </div>
+            </div>
+            <div style="height: 100px"></div>
           </div>
-          <div style="height: 100px"></div>
         </div>
       </div>
     </div>

@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="user.mapper.UserMemberMapper">
+     <select id="selectLoginByUser" resultType="java.util.Map">
+		SELECT MEMBER_ID, "O" as PASSWORD
+		FROM   MEMBERS
+		WHERE  MEMBER_ID = #{id}
+		  AND  PASSWORD = #{password}
+	</select>
 	<select id="selectIdCheckByUser" resultType="int">
 		SELECT COUNT(MEMBER_ID) AS COUNT
 		FROM MEMBERS
@@ -12,7 +18,12 @@
 		FROM MEMBERS
 		WHERE EMAIL_ADDR = #{to}
 	</select>
-	<select id="insertSignUpByUser" parameterType="java.util.Map">
+    <select id="selectFindIdByUser" resultType="java.util.Map">
+		SELECT MEMBER_ID
+		FROM MEMBERS
+		WHERE EMAIL_ADDR = #{to}
+	</select>
+	<insert id="insertSignUpByUser" parameterType="java.util.Map">
 		INSERT INTO
 	MEMBERS (
         MEMBER_ID,
@@ -51,5 +62,5 @@
         NULL,
         'user'
     );
-	</select>
+	</insert>
 </mapper>
