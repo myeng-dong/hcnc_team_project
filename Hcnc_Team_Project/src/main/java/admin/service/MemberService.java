@@ -78,5 +78,17 @@ public class MemberService {
 		return memberMapper.selectGradeExceptionAdminList();
 	}
 	
+	//휴면 처리
+	public int updateDormantMembers() {
+		
+		return memberMapper.updateDormantMembers();
+	}
+	
+	//탈퇴 처리
+	public int deleteOldWithdrawnMembers() {
+		
+		return memberMapper.deleteOldWithdrawnMembers();
+	}
+	
 
 }

@@ -2,21 +2,13 @@
 <XCSS version="1.0"><![CDATA[/*
 nexacro17 Application Theme
 default.xtheme
-<<<<<<< HEAD
-last-modified : 2019-11-05
-=======
 last-modified : 2021-10-26
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 */
 
 /* Frame/Form */
 .Form
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #555555;
 	background : #ffffff;
 	-nexa-border : 0px none;
@@ -122,11 +114,6 @@ last-modified : 2021-10-26
 	background : #efefef;
 }
 
-.Calendar .calendaredit,.CalendarControl .calendaredit
-{
-	/* Same as MaskEditControl */
-}
-
 .Calendar .dropbutton,.CalendarControl .dropbutton
 {
 	-nexa-icon : URL('theme://images/btn_WF_Calendar.png');
@@ -136,6 +123,7 @@ last-modified : 2021-10-26
 {
 	-nexa-icon : URL('theme://images/btn_WF_Calendar_D.png');
 }
+
 
 .Calendar .calendarspinupbutton,.CalendarControl .calendarspinupbutton
 {
@@ -264,11 +252,9 @@ last-modified : 2021-10-26
 
 .Combo .combolist,.ComboControl .combolist
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
+
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
+
 	color : #555555;
 	background : #ffffff;
 	-nexa-border : 1px solid #b1b1b1;
@@ -323,14 +309,10 @@ last-modified : 2021-10-26
 	-nexa-border : 2px solid #125dae, 1px solid #b7b1b2, 1px solid #b7b1b2, 1px solid #b7b1b2;
 }
 
-/* head */
+/* Grid head */
 .Grid .head .row .cell
 {
-<<<<<<< HEAD
-	font : bold 12px Gulim;
-=======
 	font : bold 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #2f2f2f;
 	background : linear-gradient(to top, #eff0f0, #f9fafa);
 	-nexa-border : 1px solid #cacaca;
@@ -413,11 +395,7 @@ last-modified : 2021-10-26
 /* bodycellbutton (Same as ButtonControl) */
 /* bodycellcalendar (Same as CalendarControl) */
 /* bodycellcheckbox (Same as CheckBoxControl) */
-<<<<<<< HEAD
-/* bodycellcombo (Smae as ComboControl) */
-=======
 /* bodycellcombo (Same as ComboControl) */
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 /* bodycelledit (Same as EditControl) */
 /* bodycellexpandbutton */
 /* bodycellimage (No style applied) */
@@ -432,52 +410,20 @@ last-modified : 2021-10-26
 	-nexa-border : 1px solid #c8c1c2, 0px none, 0px none, 0px none;
 }
 
+/* Grid summary */
 .Grid .summary .row .cell
 {
-<<<<<<< HEAD
-	font : bold 12px Gulim;
-=======
 	font : bold 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #333333;
 	background : #fdfbe5;
 	-nexa-border : 1px solid #c8c1c2;
 	-nexa-text-align : center;
 }
 
-/* summarycellbutton (Same as ButtonControl) */
-/* summarycellcalendar (Same as CalendarControl) */
-/* summarycellcheckbox (Same as CheckBoxControl) */
-/* summarycellcombo (Same as ComboControl) */
-/* summarycelledit (Same as EditControl) */
-/* summarycellexpandbutton */
-/* summarycellimage (No style applied) */
-/* summarycellmaskedit (Same as MaskEditControl) */
-/* summarycellprogressbar (Same as ProgressBarControl) */
-/* summarycelltextarea (Same as TextAreaControl) */
-/* summarycelltreeitem */
-
-/* Grid hscrollbar */
-.Grid .hscrollbar
-{
-	-nexa-border : 1px solid #b1b1b1, 0px none, 0px none, 0px none;
-}
-
-/* Grid vscrollbar */
-.Grid .vscrollbar
-{
-	-nexa-border : 0px none, 0px none, 0px none, 1px solid #b1b1b1;
-}
-
-
-/* cellbutton (Same as ButtonControl) */
+/* cellbutton */
 .GridCellControl .cellbutton
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #555555;
 	background : linear-gradient(to top,#eaeaea,#ffffff);
 	-nexa-border : 1px solid #c2c2c2;
@@ -504,40 +450,27 @@ last-modified : 2021-10-26
 /* cellcalendar (Same as CalendarControl) */
 .GridCellControl .cellcalendar
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 /* cellcheckbox (Same as CheckBoxControl) */
 .GridCellControl .cellcheckbox
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
+
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 /* cellcombo (Same as ComboControl) */
 .GridCellControl .cellcombo
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
+
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
+
 }
 
 .GridCellControl .cellcombo .combolist
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #555555;
 }
 
@@ -546,90 +479,92 @@ last-modified : 2021-10-26
 	background : #e8e9ed;
 }
 
-/* celledit (Same as EditControl) */
+
 .GridCellControl .celledit
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	background : #ffffff;
 	-nexa-border : 1px solid #d5d5d5;
 	-nexa-padding : 1px 9px 0px 9px;
 }
 
-.GridCellControl .celledit[status=mouseover],.GridCellControl .celledit[status=focused]
+/* MaskEdit */
+.MaskEdit
 {
-	-nexa-border : 1px solid #5a86cd;
-}
-
-.GridCellControl .celledit[status=disabled]
-{
-	color : #999999;
-	background : #efefef;
-}
-
-/* cellexpandbutton */
-.GridCellControl .cellexpandbutton
-{
-	-nexa-icon : URL('theme://images/btn_WF_Grdexpand.png');
-}
-
-/* cellimage (No style applied) */
-
-/* cellmaskedit(Same as MaskEditControl) */
-.GridCellControl .cellmaskedit
-{
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	background : #ffffff;
 	-nexa-border : 1px solid #d5d5d5;
 	-nexa-padding : 1px 9px 0px 9px;
 }
 
-.GridCellControl .cellmaskedit[status=mouseover],.GridCellControl .cellmaskedit[status=focused]
+/* Menu */
+.Menu .menuitem
 {
-	-nexa-border : 1px solid #5a86cd;
+	font : bold 13px "Gulim";
+	color : #ffffff;
+	-nexa-padding : 0px 30px 0px 30px;
+	cursor : pointer;
 }
 
-.GridCellControl .cellmaskedit[status=disabled]
+.Menu .menupopupmenu
 {
-	color : #999999;
-	background : #efefef;
-}
-
-/* cellprogressbar (Same as ProgressBarControl) */
-.GridCellControl .cellprogressbar
-{
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
+	color : #555555;
+	background : #0753a5;
+	-nexa-border : 1px solid #034389;
 }
 
-/* celltextarea (Same as TextAreaControl) */
-.GridCellControl .celltextarea
+/* PopupMenu */
+.PopupMenu,.PopupMenuControl
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
+	color : #555555;
+
+	background : #ffffff;
+	-nexa-border : 1px solid #b5b5b5;
 }
+
+/* TitleBar */
+.TitleBarControl
+{
+	font : bold 12px "Gulim";
+	color : #ffffff;
+	background : #003284;
+	-nexa-padding : 0px 0px 0px 10px;
+}
+
+/* DatePickerControl */
+.DatePickerControl .head .yearstatic,.DatePickerControl .head .monthstatic
+{
+	font : bold 14px "Tahoma";
+	color : #ffffff;
+}
+
+/* ListView */
+.ListView .body,
+.ListView .detail
+{
+	font : 12px "Gulim";
+}
+
+/* ListViewCellControl */
+.ListViewCellControl .cellbutton,
+.ListViewCellControl .cellcalendar,
+.ListViewCellControl .cellcheckbox,
+.ListViewCellControl .cellcombo,
+.ListViewCellControl .celledit,
+.ListViewCellControl .cellmaskedit,
+.ListViewCellControl .cellprogressbar,
+.ListViewCellControl .celltextarea
+{
+	font : 12px "Gulim";
+}
+
 
 /* celltreeitem: */
 .GridCellControl .celltreeitem .treeitemtext
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #666666;
 }
 
@@ -815,10 +750,7 @@ last-modified : 2021-10-26
 {
 	-nexa-padding : 0px 5px 0px 15px;
 	-nexa-icon : URL('theme://images/btn_WF_Menuprev.png');
-<<<<<<< HEAD
-=======
 	cursor : pointer;
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .Menu .prevbutton[status=mouseover],.Menu .prevbutton[userstatus=pushed]
@@ -835,10 +767,7 @@ last-modified : 2021-10-26
 {
 	-nexa-padding : 0px 15px 0px 5px;
 	-nexa-icon : URL('theme://images/btn_WF_Menunext.png');
-<<<<<<< HEAD
-=======
 	cursor : pointer;
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .Menu .nextbutton[status=mouseover],.Menu .nextbutton[userstatus=pushed]
@@ -853,16 +782,10 @@ last-modified : 2021-10-26
 
 .Menu .menuitem
 {
-<<<<<<< HEAD
-	font : bold 13px Gulim;
-	color : #ffffff;
-	-nexa-padding : 0px 30px 0px 30px;
-=======
 	font : bold 13px "Gulim";
 	color : #ffffff;
 	-nexa-padding : 0px 30px 0px 30px;
 	cursor : pointer;
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .Menu .menuitem[status=disabled]
@@ -870,7 +793,6 @@ last-modified : 2021-10-26
 	color : #c7d4e2;
 }
 
-<<<<<<< HEAD
 .Menu .menuitem[status=mouseover],.Menu .menuitem[userstatus=selected]
 {
 	background : URL('theme://images/img_WF_Menu_O.png') no-repeat center top;
@@ -879,7 +801,6 @@ last-modified : 2021-10-26
 .Menu .menupopupmenu
 {
 	font : 12px Gulim;
-=======
 .Menu .menuitem[status=mouseover]
 {
 	background : #00438b;
@@ -891,7 +812,6 @@ last-modified : 2021-10-26
 .Menu .menupopupmenu
 {
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #555555;
 	background : #0753a5;
 	-nexa-border : 1px solid #034389;
@@ -900,10 +820,7 @@ last-modified : 2021-10-26
 .Menu .menupopupmenu .prevbutton
 {
 	-nexa-icon : URL('theme://images/btn_WF_Popmenuprev.png');
-<<<<<<< HEAD
-=======
 	cursor : pointer;
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .Menu .menupopupmenu .prevbutton[status=mouseover]
@@ -919,10 +836,7 @@ last-modified : 2021-10-26
 .Menu .menupopupmenu .nextbutton
 {
 	-nexa-icon : URL('theme://images/btn_WF_Popmenunext.png');
-<<<<<<< HEAD
-=======
 	cursor : pointer;
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .Menu .menupopupmenu .nextbutton[status=mouseover]
@@ -942,30 +856,23 @@ last-modified : 2021-10-26
 	-nexa-padding : 3px 8px 3px 8px;
 }
 
-<<<<<<< HEAD
 .Menu .menupopupmenu .popupmenuitem[status=mouseover],.Menu .menupopupmenu .popupmenuitem[status=focused],.Menu .menupopupmenu .popupmenuitem[userstatus=selected]
-=======
-.Menu .menupopupmenu .popupmenuitem[status=mouseover]
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 {
 	color : #ffffff;
 	background : transparent;
 }
-<<<<<<< HEAD
-=======
 .Menu .menupopupmenu .popupmenuitem[status=focused],.Menu .menupopupmenu .popupmenuitem[userstatus=selected]
 {
 	color : #ffffff;
 	background : #00438b;
 }
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 
 .Menu .menupopupmenu .popupmenuitem[status=disabled]
 {
 	color : #2665af;
 }
 
-<<<<<<< HEAD
+
 .Menu .menupopupmenu .popupmenuitem .popupmenuitemcheckbox
 {
 	-nexa-padding : 0px 7px 0px 0px;
@@ -976,8 +883,6 @@ last-modified : 2021-10-26
 {
 	-nexa-icon : URL('theme://images/chk_WF_Popupmenu_O.png');
 }
-=======
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 
 .Menu .menupopupmenu .popupmenuitem .popupmenuitemtext
 {
@@ -1014,13 +919,9 @@ last-modified : 2021-10-26
 
 .Menu .menupopupmenu .popupmenuitem .popupmenuitemexpandimage
 {
-<<<<<<< HEAD
 	-nexa-padding : 0px 0px 2px 0px;
-	-nexa-icon : URL('theme://images/btn_WF_Popupexpand.png');
-=======
-	
+	-nexa-icon : URL('theme://images/btn_WF_Popupexpand.png');	
 	-nexa-icon : URL('theme://images/btn_WF_Popupexpand2.png');
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 /* Plugin */
 .Plugin,.PluginControl
@@ -1032,11 +933,7 @@ last-modified : 2021-10-26
 /* PopupMenu */
 .PopupMenu,.PopupMenuControl
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #555555;
 	background : #ffffff;
 	-nexa-border : 1px solid #b5b5b5;
@@ -1096,29 +993,22 @@ last-modified : 2021-10-26
 
 .PopupMenu .popupmenuitem .popupmenuitemcheckbox,.PopupMenuControl .popupmenuitem .popupmenuitemcheckbox
 {
-<<<<<<< HEAD
 	background : URL('theme://images/chk_WF_Box_F.png') no-repeat left center;
-=======
+
 	background : URL('theme://images/chk_WF_Popupmenu_O.png') no-repeat left center;
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .PopupMenu .popupmenuitem .popupmenuitemcheckbox[status=mouseover],.PopupMenuControl .popupmenuitem .popupmenuitemcheckbox[status=mouseover]
 {
-<<<<<<< HEAD
-	background : URL('theme://images/chk_WF_Box_F.png') no-repeat left center;
-=======
 	background : URL('theme://images/chk_WF_Popupmenu_O.png') no-repeat left center;
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .PopupMenu .popupmenuitem .popupmenuitemcheckbox[status=disabled],.PopupMenuControl .popupmenuitem .popupmenuitemcheckbox[status=disabled]
 {
-<<<<<<< HEAD
-	background : URL('theme://images/chk_WF_Box_D.png') no-repeat left center;
-=======
 	background : URL('theme://images/chk_WF_Popupmenu.png') no-repeat left center;
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
+
+	background : URL('theme://images/chk_WF_Box_D.png') no-repeat left center;
+
 }
 
 .PopupMenu .popupmenuitem .popupmenuitemtext,.PopupMenuControl .popupmenuitem .popupmenuitemtext
@@ -1329,13 +1219,10 @@ last-modified : 2021-10-26
 }
 
 
-<<<<<<< HEAD
-/* WebBrowser */
-.WebBrowser,.WebBrowserControl
-=======
+
 /* WebBrowser/WebView */
 .WebBrowser,.WebBrowserControl,.WebView,.WebViewControl
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
+
 {
 	-nexa-border : 1px solid #d5d5d5;
 }
@@ -1343,12 +1230,9 @@ last-modified : 2021-10-26
 
 /* Div (No style applied) */
 /* PopupDiv (No style applied) */
-<<<<<<< HEAD
-.Div,.PopupDiv
-=======
 /* View (No style applied) */
 .Div,.PopupDiv,.View
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
+
 {
 	/* No style applied */
 }
@@ -1515,11 +1399,7 @@ last-modified : 2021-10-26
 
 .DatePickerControl .head .yearstatic,.DatePickerControl .head .monthstatic
 {
-<<<<<<< HEAD
-	font : bold 14px Tahoma;
-=======
 	font : bold 14px "Tahoma";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #ffffff;
 	-nexa-padding : 0px 10px 0px 0px;
 }
@@ -1536,11 +1416,7 @@ last-modified : 2021-10-26
 
 .DatePickerControl .head .yearspin .spinedit,.DatePickerControl .head .monthspin .spinedit
 {
-<<<<<<< HEAD
-	font : bold 14px Tahoma;
-=======
 	font : bold 14px "Tahoma";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #ffffff;
 	background : #0042a0;
 }
@@ -1848,11 +1724,7 @@ last-modified : 2021-10-26
 /* TitleBar */
 .TitleBarControl
 {
-<<<<<<< HEAD
-	font : bold 12px Gulim;
-=======
 	font : bold 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #ffffff;
 	background : #003284;
 	-nexa-padding : 0px 0px 0px 10px;
@@ -1965,21 +1837,13 @@ last-modified : 2021-10-26
 {
 	-nexa-border : 0px none, 0px none, 1px solid #dbdee2, 0px none;
 	background : #ffffff;
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 .ListView .detail
 {
 	-nexa-border : 0px none, 0px none, 1px solid #dbdee2, 0px none;
 	background : #f9f9f9;
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 .ListView .body[userstatus=selected]
 {
@@ -2010,11 +1874,7 @@ last-modified : 2021-10-26
 /* cellbutton (Same as ButtonControl) */
 .ListViewCellControl .cellbutton
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #555555;
 	background : linear-gradient(to top,#eaeaea,#ffffff);
 	-nexa-border : 1px solid #c2c2c2;
@@ -2041,40 +1901,24 @@ last-modified : 2021-10-26
 /* cellcalendar (Same as CalendarControl) */
 .ListViewCellControl .cellcalendar
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 /* cellcheckbox (Same as CheckBoxControl) */
 .ListViewCellControl .cellcheckbox
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 /* cellcombo (Same as ComboControl) */
 .ListViewCellControl .cellcombo
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .ListViewCellControl .cellcombo .combolist
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	color : #555555;
 }
 
@@ -2086,11 +1930,7 @@ last-modified : 2021-10-26
 /* celledit (Same as EditControl) */
 .ListViewCellControl .celledit
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	background : #ffffff;
 	-nexa-border : 1px solid #d5d5d5;
 	-nexa-padding : 1px 9px 0px 9px;
@@ -2118,11 +1958,7 @@ last-modified : 2021-10-26
 /* cellmaskedit (Same as MaskEditControl) */
 .ListViewCellControl .cellmaskedit
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	background : #ffffff;
 	-nexa-border : 1px solid #d5d5d5;
 	-nexa-padding : 1px 9px 0px 9px;
@@ -2142,30 +1978,19 @@ last-modified : 2021-10-26
 /* cellprogressbar (Same as ProgressBarControl) */
 .ListViewCellControl .cellprogressbar
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 /* celltextarea (Same as TextAreaControl) */
 .ListViewCellControl .celltextarea
 {
-<<<<<<< HEAD
-	font : 12px Gulim;
-=======
 	font : 12px "Gulim";
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 }
 
 .ListView .body .expandbar
 {
 	background : linear-gradient(to top,#eaeaea,#ffffff);
-<<<<<<< HEAD
 	-nexa-icon : URL('theme://images/cmb_WF_Drop.png');
-=======
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 	-nexa-border : 1px solid #c2c2c2;
 }
 
@@ -2175,21 +2000,16 @@ last-modified : 2021-10-26
 	-nexa-border : 1px solid #a0a0a0;
 }
 
-<<<<<<< HEAD
 .ListView .body .expandbar[userstatus=pushed],.ListView .body .expandbar[userstatus=selected]
 {
 	background : linear-gradient(to top,#fefefe,#e9e9e9);
 }
 
-=======
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
 .ListView .body .expandbar[status=disabled]
 {
 	color : #bbbbbb;
 	background : #f5f5f5;
 	-nexa-border : 1px solid #d9d9d9;
-<<<<<<< HEAD
-=======
 	opacity : 0.50;
 }
 .ListView .body .expandbar[userstatus=collapse]
@@ -2200,5 +2020,5 @@ last-modified : 2021-10-26
 .ListView .body .expandbar[userstatus=expand]
 {
 	-nexa-icon : URL('theme://images/btn_expand.png');
->>>>>>> e45f92972c8fae7b854511f48ab3f57e9b96b144
+
 }]]></XCSS>

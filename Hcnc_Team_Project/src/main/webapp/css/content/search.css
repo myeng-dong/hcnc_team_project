@@ -1,0 +1,41 @@
+/*컨트롤러 없어서 가상으로 잡은 영역이라 깨지는대로 냅둬도 ㄱㅊ*/
+.searh-result-area .no-data {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+}
+
+.searh-result-area .search-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/*이 하단은 기존 list에 사용하던게 있으면 동일하게 사용하며 삭제해도 무방*/
+.searh-result-area .product {
+    background-color: #fff;
+    width: 30%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.searh-result-area .product img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.searh-result-area .product .title {
+    font-size: 1.2em;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.searh-result-area .product .price {
+    font-size: 1.4em;
+    color: #333;
+}

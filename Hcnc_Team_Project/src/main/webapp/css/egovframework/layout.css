@@ -9,31 +9,24 @@
 }
 
 .container {
-  /* margin-left: calc(50vw - 314px); */
   justify-content: center;
   width: 100%;
 }
 
-.main-menu {
-  background-color: #333;
-  padding: 10px;
-}
-.main-menu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-.main-menu li {
-  margin-right: 20px;
-}
-.main-menu a {
-  color: #fff;
-  text-decoration: none;
-}
-.main-menu a:hover {
-  text-decoration: underline;
-}
+
+header .flex,
+footer .flex{ display: flex; }
+
+footer .flex.ju-center,
+header .flex.ju-center{justify-content: center;}
+footer .flex.ju-between,
+header .flex.ju-between{justify-content: space-between;}
+footer .flex.ju-end,
+header .flex.ju-end{justify-content: flex-end;}
+footer .flex.ai-center,
+header .flex.ai-center{align-items: center;}
+footer .flex.fd-column,
+header .flex.fd-column{flex-direction: column;}
 
 /* HEADER */
 .header_event_area {
@@ -47,31 +40,163 @@
   background: #f8f8f8;
   border-bottom: 1px solid #eaeaea;
 }
-.header_menu_list {
-  justify-content: flex-end;
-  gap: 20px;
-}
+
 .header_main_area {
   background: #fff;
   padding: 15px 0;
   border-bottom: 1px solid #eaeaea;
-  justify-content: space-between;
 }
 .logo a {
-  font-size: 22px;
-  font-weight: bold;
-  color: #222;
+  display: block; 
+    width: 140px;
+    height: 60px;
+    background-image: url('../../images/egovframework/layout/h1-logo.jpg');
+    background-size: 170% auto;
+    background-position: 42% -13px; 
+    /*지금 로고 임시로 심어둠 -13px부분 조정하면 다른 이미지 다들어있음*/
 }
+
 .header_search_area {
-  display: flex;
-  gap: 8px;
+  width: 100%;
+  max-width: 500px; /* 선택적 최대 너비 */
+  margin: 0 auto;
 }
-.header_search_area input {
-  border: 1px solid #ddd;
-  padding: 8px 12px;
-  border-radius: 4px;
-  min-width: 240px;
+
+.header_search_area form {
+  width: 100%;
+  background: #fff;
+  border: 2px solid #ff3366;
+  border-radius: 30px;
+  padding: 0 10px;
+  transition: all 0.3s ease;
 }
+
+.header_search_area form:focus-within {
+  box-shadow:0 0 10px #ccc;
+}
+
+.header_search_area input[type="text"] {
+  flex: 1; /* 가로 공간 꽉 채우기 */
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 30px;
+  outline: none;
+}
+
+.header_search_area input[type="text"]::placeholder {
+  color: #999;
+  transition: color 0.2s ease;
+}
+
+.header_search_area input[type="text"]:focus::placeholder {
+  color: transparent;
+}
+
+.header_search_area .btn_search {
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.header_search_area .btn_search:hover {
+  background: rgba(255, 51, 102, 0.1);
+}
+
+.header_search_area .btn_search i {
+  font-size: 20px;
+  color: #ff3366;
+}
+
+/* GNB */
+.gnb { background:#fff; border-top:1px solid #eee; border-bottom:1px solid #eee; }
+.gnb ul { width:100%; list-style:none; }
+.gnb li{flex:1;}
+.gnb li a { display:block; width:100%; padding:12px 0; text-align:center; font-weight:bold; }
+
+/* 카테고리 바 */
+.category-bar {
+  background: #333;
+  position: relative;
+}
+.category-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.category-bar li {
+  flex: 1;
+}
+.category-bar li a,
+.category-bar li button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.category-col li a{text-align:left;}
+
+/* 카테고리 메뉴 */
+.category-menu {
+  display: none; /* 기본 숨김 */
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 2px solid #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* JS 토글용 클래스 */
+.category-menu.show {
+  display: block;
+}
+
+/* hover-item 호버 시 메뉴 표시 */
+.hover-item:hover ~ .category-menu {
+  display: block;
+}
+
+/* 카테고리 컬럼 */
+.category-col {
+  flex:1;
+  border-left:1px solid #ccc;	
+  padding: 20px 10px;
+}
+
+.category-col:first-child{ border-left:none;}
+.category-col:last-child{ border-right:1px solid #ccc;}
+
+.category-col h5 {
+  font-size: 15px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.category-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.category-col li a {
+  display: block;
+  padding: 3px 0;
+  font-size: 14px;
+  color: #555;
+}
+
 
 /* FOOTER */
 .footer_area {
