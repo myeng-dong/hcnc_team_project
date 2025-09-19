@@ -10,34 +10,38 @@
 	<select id="selectProductListByAdmin"
 		parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-		p.PRODUCT_ID,
-		p.PRODUCT_CODE,
-		p.PRODUCT_NAME,
-		p.PRODUCT_CONTENT,
-		p.COST_PRICE,
-		p.PRODUCT_PRICE,
-		o.OPTION_ID,
-		o.OPTION_NAME,
-		o.OPTION_VALUE,
-		o.ADDITIONAL_PRICE,
+		p.PRODUCT_ID
+		,p.PRODUCT_CODE
+		,p.PRODUCT_NAME
+		,p.PRODUCT_CONTENT
+		,p.COST_PRICE
+		,p.PRODUCT_PRICE
+		,o.OPTION_ID
+		,o.OPTION_NAME
+		,o.OPTION_VALUE
+		,o.ADDITIONAL_PRICE,
 		CASE
 		WHEN p.SALED_PRICE IS NULL
-		THEN (p.PRODUCT_PRICE + IFNULL(o.ADDITIONAL_PRICE,0))
+		THEN (p.PRODUCT_PRICE +
+		IFNULL(o.ADDITIONAL_PRICE,0))
 		ELSE p.SALED_PRICE
-		END AS TOTAL_PRICE,
-		mc.MAIN_CATE_NM,
-		sc.SUB_CATE_NM,
-		p.IS_VISIBLE,
+		END AS TOTAL_PRICE
+		,mc.MAIN_CATE_NM
+		,sc.SUB_CATE_NM
+		,p.IS_VISIBLE,
 		IFNULL(i.QUANTITY, 0) AS QUANTITY,
-		CASE WHEN IFNULL(i.QUANTITY, 0) = 0 THEN 'SOLDOUT' ELSE '' END AS
-		SOLD_OUT,
-		p.INPUT_DT,
-		p.UPDATE_DT
+		CASE WHEN IFNULL(i.QUANTITY, 0) = 0
+		THEN 'SOLDOUT' ELSE '' END AS SOLD_OUT,
+		p.INPUT_DT
+		,p.UPDATE_DT
 		FROM PRODUCTS p
 		LEFT JOIN OPTIONS o ON p.PRODUCT_ID = o.PRODUCT_ID
-		LEFT JOIN INVENTORIES i ON o.OPTION_ID = i.OPTION_ID
-		JOIN SUB_CATEGORIES sc ON p.SUB_CATE_ID = sc.SUB_CATE_ID
-		JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+		LEFT
+		JOIN INVENTORIES i ON o.OPTION_ID = i.OPTION_ID
+		JOIN SUB_CATEGORIES sc
+		ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+		JOIN MAIN_CATEGORIES mc ON
+		sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
 		WHERE 1=1
 
 		<!-- 검색어 -->
@@ -45,10 +49,12 @@
 			test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
 			<choose>
 				<when test="SEARCH_TYPE == 'PRODUCT_CODE'">
-					AND p.PRODUCT_CODE LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+					AND p.PRODUCT_CODE LIKE CONCAT('%', #{SEARCH_TEXT},
+					'%')
 				</when>
 				<when test="SEARCH_TYPE == 'PRODUCT_NAME'">
-					AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+					AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT},
+					'%')
 				</when>
 			</choose>
 		</if>
@@ -62,7 +68,8 @@
 		<if test="QUANTITY_STATUS != null and QUANTITY_STATUS != ''">
 			<choose>
 				<when test="QUANTITY_STATUS == 'sale'">
-					AND IFNULL(i.QUANTITY, 0) &gt; 0
+					AND IFNULL(i.QUANTITY, 0) <![CDATA[>]]>
+					0
 				</when>
 				<when test="QUANTITY_STATUS == 'nosale'">
 					AND IFNULL(i.QUANTITY, 0) = 0
@@ -72,10 +79,12 @@
 
 		<!-- 등록일/수정일 (둘 중 입력된 값 기준으로 필터) -->
 		<if test="START_DATE != null and START_DATE != ''">
-			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) &gt;= #{START_DATE}
+			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) &gt;=
+			#{START_DATE}
 		</if>
 		<if test="END_DATE != null and END_DATE != ''">
-			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) &lt;= #{END_DATE}
+			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) &lt;=
+			#{END_DATE}
 		</if>
 
 		<!-- 카테고리 -->
@@ -92,10 +101,14 @@
 	<!-- 대분류 콤보 -->
 	<select id="selectMainCategoryComboByAdmin"
 		resultType="java.util.Map">
-		SELECT MAIN_CATE_ID, MAIN_CATE_NM
+		SELECT MAIN_CATE_ID
+		, MAIN_CATE_NM
 		FROM MAIN_CATEGORIES
 		ORDER BY MAIN_CATE_NM
 	</select>
+
+
+
 
 	<!-- 중분류 콤보 - Service에서 int 하나로 호출하므로 parameterType="int" - int/단일파라미터는 
 		#{_parameter} 로 참조 -->
@@ -106,6 +119,25 @@
 		WHERE MAIN_CATE_ID = #{_parameter}
 		ORDER BY SUB_CATE_NM
 	</select>
+
+
+	<update id="updateProductVisibleByAdmin"
+		parameterType="java.util.Map">
+		UPDATE PRODUCTS
+		SET IS_VISIBLE = #{IS_VISIBLE},
+		UPDATE_DT = NOW()
+		WHERE PRODUCT_ID = #{PRODUCT_ID}
+	</update>
+
+
+
+
+
+
+
+
+
+	<!-- 상품등록 -->
 
 	<!-- 상품 등록 : PRODUCT_CONTENT 로 통일 -->
 	<insert id="insertProduct" parameterType="java.util.Map"
@@ -139,7 +171,8 @@
 
 	<!-- 이미지 등록 -->
 	<insert id="insertProductImage" parameterType="java.util.Map">
-		INSERT INTO product_img
+		INSERT INTO
+		product_img
 		(PRODUCT_ID, IMAGE_URL, ALT_TEXT, SORT_NUMBER, IS_MAIN, INPUT_DT)
 		VALUES
 		(#{PRODUCT_ID}, #{IMAGE_URL}, #{ALT_TEXT}, #{SORT_NUMBER}, #{IS_MAIN}, NOW())
@@ -172,7 +205,7 @@
 
 
 
-
+	<!-- 카테고리 관리 -->
 	<!-- 대분류 -->
 	<select id="selectMainCategoryByAdmin"
 		resultType="java.util.Map">
@@ -183,7 +216,8 @@
 
 	<!-- 중분류 -->
 	<select id="selectSubCategoryByAdmin" resultType="java.util.Map">
-		SELECT SUB_CATE_ID, MAIN_CATE_ID, SUB_CATE_NM, SORT_NUMBER, IS_ACTIVE
+		SELECT
+		SUB_CATE_ID, MAIN_CATE_ID, SUB_CATE_NM, SORT_NUMBER, IS_ACTIVE
 		FROM SUB_CATEGORIES
 		ORDER BY MAIN_CATE_ID, SORT_NUMBER
 	</select>
@@ -231,16 +265,66 @@
 	<delete id="deleteCategoryByAdmin" parameterType="java.util.Map">
 		<choose>
 			<when test="TYPE == 'main'">
-				DELETE FROM MAIN_CATEGORIES WHERE MAIN_CATE_ID=#{MAIN_CATE_ID}
+				DELETE FROM MAIN_CATEGORIES WHERE
+				MAIN_CATE_ID=#{MAIN_CATE_ID}
 			</when>
 			<otherwise>
-				DELETE FROM SUB_CATEGORIES WHERE SUB_CATE_ID=#{SUB_CATE_ID}
+				DELETE FROM SUB_CATEGORIES WHERE
+				SUB_CATE_ID=#{SUB_CATE_ID}
 			</otherwise>
 		</choose>
 	</delete>
 
 
 
+
+
+
+
+	<!-- 옵션 관리 -->
+	<!-- 옵션 조회,검색 -->
+	<select id="selectOptionByAdmin" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		SELECT
+		o.OPTION_ID,
+		o.OPTION_NAME,
+		o.OPTION_VALUE,
+		p.PRODUCT_NAME,
+		o.ADDITIONAL_PRICE,
+		o.IS_VISIBLE,
+		o.INPUT_DT
+		FROM OPTIONS o
+		JOIN PRODUCTS p ON o.PRODUCT_ID = p.PRODUCT_ID
+		WHERE 1=1
+		<!-- 검색어 처리 -->
+		<if
+			test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
+			<choose>
+				<when test="SEARCH_TYPE == 'OPTION_ID'">
+					AND o.OPTION_ID = #{SEARCH_TEXT}
+				</when>
+				<when test="SEARCH_TYPE == 'OPTION_NAME'">
+					AND o.OPTION_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+				</when>
+				<when test="SEARCH_TYPE == 'OPTION_VALUE'">
+					AND o.OPTION_VALUE LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+				</when>
+				<when test="SEARCH_TYPE == 'PRODUCT_NAME'">
+					AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+				</when>
+			</choose>
+		</if>
+		ORDER BY o.OPTION_ID
+	</select>
+
+
+	<update id="updateOptionVisibleByAdmin"
+		parameterType="java.util.Map">
+		UPDATE OPTIONS
+		SET IS_VISIBLE = #{IS_VISIBLE},
+		UPDATE_DT = NOW()
+		WHERE OPTION_ID = #{OPTION_ID}
+	</update>
 
 
 

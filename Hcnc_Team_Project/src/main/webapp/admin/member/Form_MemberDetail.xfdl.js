@@ -11,6 +11,7 @@
         {
             this.set_name("Form_MemberDetail");
             this.set_titletext("New Form");
+            this.set_background("lightblue");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);

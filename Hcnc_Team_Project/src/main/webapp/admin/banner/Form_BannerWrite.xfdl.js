@@ -535,11 +535,13 @@
             switch(svc) {
                 case "insertBanner":
                     alert("배너 등록 완료");
+
                     this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
                     break;
                 case "updateBanner":
                     alert("배너 수정 완료");
                     this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
+
                     break;
             }
         };
