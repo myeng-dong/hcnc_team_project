@@ -2,17 +2,13 @@
 <XCSS version="1.0"><![CDATA[/*
 nexacro17 Application Theme
 default.xtheme
-
 last-modified : 2021-10-26
-
 */
 
 /* Frame/Form */
 .Form
 {
-
 	font : 12px "Gulim";
-
 	color : #555555;
 	background : #ffffff;
 	-nexa-border : 0px none;
@@ -118,11 +114,6 @@ last-modified : 2021-10-26
 	background : #efefef;
 }
 
-.Calendar .calendaredit,.CalendarControl .calendaredit
-{
-	/* Same as MaskEditControl */
-}
-
 .Calendar .dropbutton,.CalendarControl .dropbutton
 {
 	-nexa-icon : URL('theme://images/btn_WF_Calendar.png');
@@ -132,6 +123,7 @@ last-modified : 2021-10-26
 {
 	-nexa-icon : URL('theme://images/btn_WF_Calendar_D.png');
 }
+
 
 .Calendar .calendarspinupbutton,.CalendarControl .calendarspinupbutton
 {
@@ -317,12 +309,10 @@ last-modified : 2021-10-26
 	-nexa-border : 2px solid #125dae, 1px solid #b7b1b2, 1px solid #b7b1b2, 1px solid #b7b1b2;
 }
 
-/* head */
+/* Grid head */
 .Grid .head .row .cell
 {
-
 	font : bold 12px "Gulim";
-
 	color : #2f2f2f;
 	background : linear-gradient(to top, #eff0f0, #f9fafa);
 	-nexa-border : 1px solid #cacaca;
@@ -420,6 +410,7 @@ last-modified : 2021-10-26
 	-nexa-border : 1px solid #c8c1c2, 0px none, 0px none, 0px none;
 }
 
+/* Grid summary */
 .Grid .summary .row .cell
 {
 	font : bold 12px "Gulim";
@@ -429,32 +420,7 @@ last-modified : 2021-10-26
 	-nexa-text-align : center;
 }
 
-/* summarycellbutton (Same as ButtonControl) */
-/* summarycellcalendar (Same as CalendarControl) */
-/* summarycellcheckbox (Same as CheckBoxControl) */
-/* summarycellcombo (Same as ComboControl) */
-/* summarycelledit (Same as EditControl) */
-/* summarycellexpandbutton */
-/* summarycellimage (No style applied) */
-/* summarycellmaskedit (Same as MaskEditControl) */
-/* summarycellprogressbar (Same as ProgressBarControl) */
-/* summarycelltextarea (Same as TextAreaControl) */
-/* summarycelltreeitem */
-
-/* Grid hscrollbar */
-.Grid .hscrollbar
-{
-	-nexa-border : 1px solid #b1b1b1, 0px none, 0px none, 0px none;
-}
-
-/* Grid vscrollbar */
-.Grid .vscrollbar
-{
-	-nexa-border : 0px none, 0px none, 0px none, 1px solid #b1b1b1;
-}
-
-
-/* cellbutton (Same as ButtonControl) */
+/* cellbutton */
 .GridCellControl .cellbutton
 {
 	font : 12px "Gulim";
@@ -513,7 +479,7 @@ last-modified : 2021-10-26
 	background : #e8e9ed;
 }
 
-/* celledit (Same as EditControl) */
+
 .GridCellControl .celledit
 {
 	font : 12px "Gulim";
@@ -522,27 +488,8 @@ last-modified : 2021-10-26
 	-nexa-padding : 1px 9px 0px 9px;
 }
 
-.GridCellControl .celledit[status=mouseover],.GridCellControl .celledit[status=focused]
-{
-	-nexa-border : 1px solid #5a86cd;
-}
-
-.GridCellControl .celledit[status=disabled]
-{
-	color : #999999;
-	background : #efefef;
-}
-
-/* cellexpandbutton */
-.GridCellControl .cellexpandbutton
-{
-	-nexa-icon : URL('theme://images/btn_WF_Grdexpand.png');
-}
-
-/* cellimage (No style applied) */
-
-/* cellmaskedit(Same as MaskEditControl) */
-.GridCellControl .cellmaskedit
+/* MaskEdit */
+.MaskEdit
 {
 	font : 12px "Gulim";
 	background : #ffffff;
@@ -550,28 +497,69 @@ last-modified : 2021-10-26
 	-nexa-padding : 1px 9px 0px 9px;
 }
 
-.GridCellControl .cellmaskedit[status=mouseover],.GridCellControl .cellmaskedit[status=focused]
+/* Menu */
+.Menu .menuitem
 {
-	-nexa-border : 1px solid #5a86cd;
+	font : bold 13px "Gulim";
+	color : #ffffff;
+	-nexa-padding : 0px 30px 0px 30px;
+	cursor : pointer;
 }
 
-.GridCellControl .cellmaskedit[status=disabled]
+.Menu .menupopupmenu
 {
-	color : #999999;
-	background : #efefef;
+	font : 12px "Gulim";
+	color : #555555;
+	background : #0753a5;
+	-nexa-border : 1px solid #034389;
 }
 
-/* cellprogressbar (Same as ProgressBarControl) */
-.GridCellControl .cellprogressbar
+/* PopupMenu */
+.PopupMenu,.PopupMenuControl
+{
+	font : 12px "Gulim";
+	color : #555555;
+
+	background : #ffffff;
+	-nexa-border : 1px solid #b5b5b5;
+}
+
+/* TitleBar */
+.TitleBarControl
+{
+	font : bold 12px "Gulim";
+	color : #ffffff;
+	background : #003284;
+	-nexa-padding : 0px 0px 0px 10px;
+}
+
+/* DatePickerControl */
+.DatePickerControl .head .yearstatic,.DatePickerControl .head .monthstatic
+{
+	font : bold 14px "Tahoma";
+	color : #ffffff;
+}
+
+/* ListView */
+.ListView .body,
+.ListView .detail
 {
 	font : 12px "Gulim";
 }
 
-/* celltextarea (Same as TextAreaControl) */
-.GridCellControl .celltextarea
+/* ListViewCellControl */
+.ListViewCellControl .cellbutton,
+.ListViewCellControl .cellcalendar,
+.ListViewCellControl .cellcheckbox,
+.ListViewCellControl .cellcombo,
+.ListViewCellControl .celledit,
+.ListViewCellControl .cellmaskedit,
+.ListViewCellControl .cellprogressbar,
+.ListViewCellControl .celltextarea
 {
 	font : 12px "Gulim";
 }
+
 
 /* celltreeitem: */
 .GridCellControl .celltreeitem .treeitemtext
@@ -2032,4 +2020,5 @@ last-modified : 2021-10-26
 .ListView .body .expandbar[userstatus=expand]
 {
 	-nexa-icon : URL('theme://images/btn_expand.png');
+
 }]]></XCSS>
