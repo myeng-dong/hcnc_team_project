@@ -280,7 +280,7 @@
         };
         
         // User Script
-        this.registerScript("Form_Product.xfdl", function() {
+        this.registerScript("Form_ProductOption.xfdl", function() {
         this.Form_Product_onload = function(obj,e)
         {
         	this.setTimer(1, 10); //10ms 후 실행
@@ -699,7 +699,7 @@
             this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
             this.cmb_cate1.addEventHandler("onitemchanged",this.cmb_cate1_onitemchanged,this);
         };
-        this.loadIncludeScript("Form_Product.xfdl");
+        this.loadIncludeScript("Form_ProductOption.xfdl");
         this.loadPreloadList();
         
         // Remove Reference

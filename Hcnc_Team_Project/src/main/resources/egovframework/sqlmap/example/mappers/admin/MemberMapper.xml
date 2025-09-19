@@ -149,7 +149,80 @@
           AND (EMAIL_ADDR = #{EMAIL_ADDR}
            OR PHONE_NUMBER = #{PHONE_NUMBER})
    </select>
-
-
 	
+   <!-- 회원 등급 관리 조회 -->
+   <select id="selectGradeManage" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			M.MEMBER_ID
+			,M.USER_NAME
+			,M.EMAIL_ADDR
+			,M.PHONE_NUMBER
+			,M.GRADE_CODE
+			,G.GRADE_NAME
+			,M.PRICE_AMOUNT
+			,M.INPUT_DT
+		FROM MEMBERS M INNER JOIN GRADES G
+		  ON M.GRADE_CODE = G.GRADE_CODE
+		WHERE 1=1 AND M.GRADE_CODE != 9
+		<if test="USER_NAME != null and USER_NAME != ''">
+			AND M.USER_NAME LIKE CONCAT ('%',#{USER_NAME},'%')
+		</if>
+		<if test="EMAIL_ADDR != null and EMAIL_ADDR != ''">
+			AND M.EMAIL_ADDR LIKE CONCAT ('%',#{EMAIL_ADDR},'%')
+		</if>
+		<if test="SDATE != null and EDATE != null">
+			AND M.INPUT_DT BETWEEN #{SDATE} AND DATE_ADD(#{EDATE}, INTERVAL 1 DAY)
+		</if>
+		<if test="GRADE_CODE != null and GRADE_CODE != ''">
+		   	AND G.GRADE_CODE = #{GRADE_CODE} 
+		</if>
+   </select>
+   
+   <!-- 관리자 뺴고 오로지 회원만  -->
+   <select id="selectGradeExceptionAdminList" resultType="java.util.Map">
+   	 SELECT 
+          GRADE_CODE
+          ,GRADE_NAME
+      FROM GRADES
+     WHERE GRADE_CODE <![CDATA[<>]]> 9 
+     ORDER BY GRADE_CODE 
+   </select>
+   
+   <!-- 회원등급 자동 변경-->
+   <update id="updateMemberGrade" parameterType="java.util.Map">
+    UPDATE MEMBERS M
+       SET M.GRADE_CODE =
+       <choose>
+           <!-- 수동 변경 -->
+           <when test="GRADE_CODE != null and GRADE_CODE != ''">
+               #{GRADE_CODE}
+           </when>
+           <!-- 자동 변경 -->
+           <otherwise>
+               (SELECT G.GRADE_CODE
+                  FROM GRADES G
+                 WHERE M.PRICE_AMOUNT >= G.STANDARD_AMOUNT
+                 ORDER BY G.STANDARD_AMOUNT DESC
+                 LIMIT 1)
+           </otherwise>
+       </choose>
+      WHERE M.MEMBER_ID = #{MEMBER_ID}
+   </update>
+   
+   <!-- 휴면 전환: 1년 이상 미접속 회원을 휴면(R)으로 -->
+   <update id="updateDormantMembers">
+    UPDATE MEMBERS
+       SET STATUS = 'R',
+           UPDATE_DT = NOW()
+     WHERE STATUS = 'Y'
+       AND LAST_LOGIN_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
+   </update>
+
+   <!-- 탈퇴 회원 완전 삭제: 탈퇴 후 1년 지난 회원을 DB에서 삭제 -->
+   <delete id="deleteOldWithdrawnMembers">
+       DELETE FROM MEMBERS
+        WHERE STATUS = 'N'
+          AND UPDATE_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
+   </delete>
+   
 </mapper>
