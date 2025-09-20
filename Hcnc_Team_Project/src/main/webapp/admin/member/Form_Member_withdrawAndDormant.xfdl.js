@@ -304,9 +304,6 @@
         this.withdraw_btn_onclick = function(obj,e)
         {
 
-        	trace(this.ds_list.saveXML());
-
-
         	// 트랜잭션 호출
         	var strSvcID = "withdrawMember"
         	var setURL = "svc::/withdrawMemberByAdmin.do";
@@ -318,8 +315,6 @@
 
         	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
         };
-
-
 
         //휴면 복구 버튼
         this.Button01_00_onclick = function(obj,e)
@@ -362,6 +357,7 @@
 
         }
 
+        //체크박스 체크하기
         this.grid_list_oncellclick = function(obj,e)
         {
         	if(e.cell == 0){

@@ -386,7 +386,7 @@ public class MemberController {
 	}
 
 	// 휴면/탈퇴 회원 조회
-	//By. PJ 09.19
+	// By. PJ 09.19
 	@RequestMapping(value = "/selectDormantWithdrawnMembersByAdmin.do")
 	public NexacroResult selectDormantWithdrawnMembers(
 			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
@@ -407,8 +407,8 @@ public class MemberController {
 		return result;
 	}
 
-	// 휴면 회원 복구 (다시 활성화 N -> Y)
-	//By. 09.19 Pj
+	// 휴면 회원 복구 (다시 활성화 R -> Y)
+	// By. 09.19 Pj
 	@RequestMapping(value = "/reactivateDormantMemberByAdmin.do")
 	public NexacroResult reactivateDormantMember(
 			@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> param) {
@@ -416,7 +416,7 @@ public class MemberController {
 		NexacroResult result = new NexacroResult();
 
 		try {
-			
+
 			int updated = memberService.reactivateDormantMember(param);
 
 			Map<String, Object> dsUpCnt = new HashMap<>();
@@ -431,11 +431,11 @@ public class MemberController {
 		return result;
 	}
 
-	// 회원 탈퇴 처리 (STATUS를 N으로 변경)
-	//실제 삭제는 스케쥴러를 통해 1년간 보관하다 삭제됨
-	//By.09.19 Pj
+	// 회원 탈퇴 상태 처리 (STATUS를 N으로 변경)
+	// By.09.19 Pj
 	@RequestMapping(value = "/withdrawMemberByAdmin.do")
-	public NexacroResult withdrawMember(@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> param) {
+	public NexacroResult withdrawMember(
+			@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> param) {
 
 		NexacroResult result = new NexacroResult();
 

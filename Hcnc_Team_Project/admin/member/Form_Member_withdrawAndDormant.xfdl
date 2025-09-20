@@ -68,9 +68,6 @@ this.fn_selectDormantWithdrawnMembers = function(){
 this.withdraw_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	
-	trace(this.ds_list.saveXML());
-   
-	
 	// 트랜잭션 호출
 	var strSvcID = "withdrawMember"
 	var setURL = "svc::/withdrawMemberByAdmin.do";
@@ -82,8 +79,6 @@ this.withdraw_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo
 	
 	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
 };
-
-
 
 //휴면 복구 버튼
 this.Button01_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
@@ -126,6 +121,7 @@ this.fn_callBack = function(svcID, errorCode, errorMSG){
 	
 }
 
+//체크박스 체크하기
 this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
 	if(e.cell == 0){

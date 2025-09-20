@@ -77,12 +77,13 @@ public class MemberService {
 		return memberMapper.selectGradeExceptionAdminList();
 	}
 
-	// 휴면 처리
+	// 휴면 처리 -> 스케쥴러
 	public int updateDormantMembers() {
 
 		return memberMapper.updateDormantMembers();
 	}
-	// 탈퇴 처리
+	
+	// 탈퇴 -> 스케쥴러
 	public int deleteOldWithdrawnMembers() {
 
 		return memberMapper.deleteOldWithdrawnMembers();
@@ -93,7 +94,7 @@ public class MemberService {
 		return memberMapper.selectDormantWithdrawnMembers(param);
 	}
 
-	//휴면 회원 복구 (상태를 Y로 변경) -> 수동
+	//휴면 회원 복구 (상태를 Y로 변경) -> 넥사크로에서
 	public int reactivateDormantMember(List<Map<String, Object>> param) {
 		int cnt = 0;
 
@@ -105,13 +106,7 @@ public class MemberService {
 		return cnt;
 	}
 
-	//상태가 탈퇴인 회원 스케쥴러에서 자동삭제
-	public int deleteWithdrawnMember(Map<String, Object> param) {
-
-		return memberMapper.deleteWithdrawnMember(param);
-	}
-
-	// 회원 탈퇴 (상태만 변경)
+	// 회원 탈퇴 (상태만 변경) -> 넥사크로에서
 	public int withdrawMember(List<Map<String,Object>> param) {
 		
 		int delCnt = 0;

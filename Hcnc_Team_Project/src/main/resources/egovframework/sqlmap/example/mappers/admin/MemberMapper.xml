@@ -178,7 +178,7 @@
 		</if>
    </select>
    
-   <!-- 관리자 뺴고 오로지 회원만  -->
+   <!-- 관리자 뺴고 오로지 회원 등급만 조회-->
    <select id="selectGradeExceptionAdminList" resultType="java.util.Map">
    	 SELECT 
           GRADE_CODE
@@ -209,45 +209,7 @@
       WHERE M.MEMBER_ID = #{MEMBER_ID}
    </update>
    
-
-    <!-- 회원 탈퇴 (상태만 변경, 실제 삭제는 아님) -->
-    <update id="withdrawMember" parameterType="java.util.Map">
-      UPDATE MEMBERS
-         SET STATUS = 'N',
-           DELETE_DT = NOW(),
-           UPDATE_DT = NOW()
-       WHERE MEMBER_ID = #{MEMBER_ID}
-         AND STATUS != 'N'
-    </update>
-
-    <!-- 실제 삭제는 스케쥴러에서 돌림 -->
-    <!-- 상태가 탈퇴인 사람 1년 보관후 자동삭제 -->
-    <delete id="deleteOldWithdrawnMembers">
-      DELETE FROM MEMBERS
-       WHERE STATUS = 'N'
-         AND DELETE_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
-    </delete>
-   	
-   	<!-- 휴면 회원 복구 (상태를 Y로 변경) -->
-    <update id="reactivateDormantMember" parameterType="java.util.Map">
-     UPDATE MEMBERS
-        SET STATUS = 'Y'
-            ,UPDATE_DT = NOW()
-      WHERE MEMBER_ID = #{MEMBER_ID}
-        AND STATUS = 'R'  
-    </update>
-    
-   <!-- 휴면 전환: 1년 이상 미접속 회원을 휴면(R)으로 -->
-   <update id="updateDormantMembers">
-    UPDATE MEMBERS
-       SET STATUS = 'R',
-           UPDATE_DT = NOW()
-     WHERE STATUS = 'Y'
-       AND LAST_LOGIN_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
-   </update>
-  
-
-	<!-- 휴면/탈퇴 회원 조회 -->
+   	<!-- 휴면/탈퇴 회원 조회 -->
 	<select id="selectDormantWithdrawnMembers"
 		parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
@@ -309,7 +271,44 @@
 		ORDER BY
 		CASE WHEN M.STATUS='R' THEN M.LAST_LOGIN_DT ELSE M.DELETE_DT END DESC
 	</select>
+   
+    <!-- 회원 탈퇴 (상태만 변경, 실제 삭제는 아님) : 넥사크로에서 탈퇴 처리 -->
+    <update id="withdrawMember" parameterType="java.util.Map">
+      UPDATE MEMBERS
+         SET STATUS = 'N',
+           DELETE_DT = NOW(),
+           UPDATE_DT = NOW()
+       WHERE MEMBER_ID = #{MEMBER_ID}
+         AND STATUS != 'N'
+    </update>
+
+    <!-- 실제 테이블에서 삭제 : 스케쥴러에서 돌림 -->
+    <!-- 상태가 탈퇴인 사람 1년 보관후 자동삭제 -->
+    <delete id="deleteOldWithdrawnMembers">
+      DELETE FROM MEMBERS
+       WHERE STATUS = 'N'
+         AND DELETE_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
+    </delete>
+   	
  
+   <!-- 휴면 전환: 1년 이상 미접속 회원을 휴면(R)으로 (스케쥴러)-->
+   <update id="updateDormantMembers">
+    UPDATE MEMBERS
+       SET STATUS = 'R',
+           UPDATE_DT = NOW()
+     WHERE STATUS = 'Y'
+       AND LAST_LOGIN_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
+   </update>
+ 
+   	
+   	<!-- 휴면 회원 복구 (상태를 Y로 변경): 넥사크로에서 휴면 복구-->
+    <update id="reactivateDormantMember" parameterType="java.util.Map">
+     UPDATE MEMBERS
+        SET STATUS = 'Y'
+            ,UPDATE_DT = NOW()
+      WHERE MEMBER_ID = #{MEMBER_ID}
+        AND STATUS = 'R'  
+    </update>
     
- 
+  
 </mapper>
