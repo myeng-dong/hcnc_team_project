@@ -21,5 +21,11 @@ public interface BoardMapper {
 	// 공지사항, FAQ, QnA 조회
 	List<Map<String, Object>> selectPostListByAdmin(Map<String, Object> dsSearch);
 
+	// 공지사항, FAQ 인서트
+	int insertPostByAdmin(Map<String, Object> dsPost);
+
+	// 게시글 상세 조회 
+	Map<String, Object> selectPostDetailByAdmin(Map<String, Object> dsPostId);
+
 	
 }
