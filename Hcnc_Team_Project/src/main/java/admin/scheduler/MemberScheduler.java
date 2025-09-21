@@ -1,13 +1,14 @@
-package admin.scheduler;
+// package admin.scheduler;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.scheduling.annotation.Scheduled;
+// import org.springframework.stereotype.Component;
 
-import admin.service.MemberService;
+// import admin.service.MemberService;
 
-@Component
-public class MemberScheduler {
+// @Component
+// public class MemberScheduler {
+
 
 	@Autowired
 	private MemberService memberService;
@@ -30,5 +31,6 @@ public class MemberScheduler {
 		int deleted = memberService.deleteOldWithdrawnMembers();
 		System.out.println("[스케줄러] 완전 삭제된 탈퇴 회원 수: " + deleted);
 	}
++
 
-}
+// }
