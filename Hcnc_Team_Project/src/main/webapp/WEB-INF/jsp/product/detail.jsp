@@ -179,110 +179,44 @@
 		})
 	</script>
 	
-	<!-- 상품 QnA 등록시 처리하기 위함 -->
-	<c:if test="${not empty message}">
-		<script>
-			$(document).ready(function(){
-				
-				if("${messageType}" === "success"){
-					alert("${message}");
-				} else {
-					alert("오류: ${message}");
-				}
-				
-				
-				// QnA 문의하기 버튼 광클 금지
-				var isSubmitting = false;
-				
-				$('#qnaForm').submit(function(e){
-					if (isSubmitting) {
-						e.preventDefault();
-						return false;
-					}
-					
-					isSubmitting = true;
-					$('#qnaSubmitBtn').prop('disabled', true).text('상품 문의 등록중...');
-					
-					return true;
-				});
-				
-			});
-		</script>
-	</c:if>
+<!-- 상품 QnA -->	
+	<script>
+
+	var urlParams = new URLSearchParams(window.location.search);
+
+	var memberId = "user01";
+	var cartId = 1;
+	var productId = urlParams.get('productId');
 	
-	<c:if test="${not empty productDetail && not empty optionInfo}">
-		<script>
-			var productDetail = ${productDetailJson};
-			var optionInfo = ${optionInfoJson};
-			
-			var basePrice = productDetail[0].PRODUCT_PRICE; 
-			
-			console.log(productDetail);
-			console.log(optionInfo);
-			
-			//숫자에 천 단위 콤마 추가 함수
-			function addCommas(num){
-				return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			}
-			
-			// 옵션별로 그룹핑하는 함수
-			function groupOptionByName(data){
-				var grouped = {};
-				
-				for(var i=0; i < data.length; i++){
-					var item = data[i];
-					if (!grouped[item.OPTION_NAME]){
-						grouped[item.OPTION_NAME] = [];
-					}
-					grouped[item.OPTION_NAME].push(item);
-				}
-				
-				return grouped;
-			}
-			
-			// 셀렉트 박스 생성 함수
-			function createSelectBoxes(groupedOptions){
-				var optionContainer = $("#optionContainer");
-				
-				
-			}
-		</script>
-	</c:if>
 	
-	<script type="text/javascript" language="javascript" defer="defer">
-		var urlParams = new URLSearchParams(window.location.search);
-	
-		var memberId = "user01";
-		var cartId = 1;
-		var productId = urlParams.get('productId');
-	
-		$(function(){
-			
-			// 페이지 로드시 모달html 정의.
-			var modalHTML =
-				'<div id="qnaModal" class="qna-modal" style="display: none;">' +
-	            '<div class="qna-modal-content">' +
-	              '<span class="qna-close">&times;</span>' +
-	              '<h2>상품 문의하기</h2>' +
-	              '<form id="qnaForm" action="/insertQnA.do" method="post">' +
-	                '<div class="form-group">' +
-	                  '<input type="text" id="qnaProdut_'+ productId +'" name="productId" value="'+ productId +'" placeholder="상품" required hidden>' +
-	                '</div>' +
-	                '<div class="form-group">' +
-	                  '<input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required>' +
-	                '</div>' +
-	                '<div class="form-group">' +
-	                  '<input type="text" id="'+ memberId +'" name="memberId" value="'+ memberId +'" placeholder="작성자" required hidden>' +
-	                '</div>' +
-	                '<div class="form-group">' +
-	                  '<textarea id="qnaContent" name="qnaContent" placeholder="내용" required></textarea>' +
-	                '</div>' +
-	                '<div class="form-button">' +
-	                	'<button type="submit" id="qnaSubmitBtn">문의하기</button>' +
-	                '</div>'
-	              '</form>' +
-	            '</div>' +  
-	          '</div>'; 
+	$(function(){
+		
+		// 상품 문의하기 모달html 정의.
+		var modalHTML =
+			'<div id="qnaModal" class="qna-modal" style="display: none;">' +
+            '<div class="qna-modal-content">' +
+              '<span class="qna-close">&times;</span>' +
+              '<h2>상품 문의하기</h2>' +
+              '<form id="qnaForm" action="/insertQnA.do" method="post">' +
+                '<div class="form-group">' +
+                  '<input type="text" id="qnaProdut_'+ productId +'" name="productId" value="'+ productId +'" placeholder="상품" required hidden>' +
+                '</div>' +
+                '<div class="form-group">' +
+                  '<input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required>' +
+                '</div>' +
+                '<div class="form-group">' +
+                  '<input type="text" id="'+ memberId +'" name="memberId" value="'+ memberId +'" placeholder="작성자" required hidden>' +
+                '</div>' +
+                '<div class="form-group">' +
+                  '<textarea id="qnaContent" name="qnaContent" placeholder="내용" required></textarea>' +
+                '</div>' +
+                '<div class="form-button">' +
+                	'<button type="submit" id="qnaSubmitBtn">문의하기</button>' +
+                '</div>'
+              '</form>' +
+            '</div>' +  
+          '</div>'; 
+          
 	     $('body').append(modalHTML);
 	     
 	     // 모달 닫기 이벤트들
@@ -293,38 +227,260 @@
 	     $('.btn-cancel').click(function(){
 	    	 $('#qnaModal').hide();
 	     })
+	     
+	     
+	  	// 상품 문의 상세 모달 HTML 정의
+	     var qnaDetailModalHTML =
+	         '<div id="qnaDetailModal" class="qna-modal" style="display: none;">' +
+	         '<div class="qna-modal-content">' +
+	           '<span class="qna-detail-close">&times;</span>' +
+	           '<h2>상품 문의 상세</h2>' +
+	           '<div class="qna-detail-content">' +
+	             '<div class="form-group">' +
+	               '<label>제목:</label>' +
+	               '<div id="qnaDetailTitle" class="detail-text"></div>' +
+	             '</div>' +
+	             '<div class="form-group">' +
+	               '<label>작성자:</label>' +
+	               '<div id="qnaDetailWriter" class="detail-text"></div>' +
+	             '</div>' +
+	             '<div class="form-group">' +
+	               '<label>작성일:</label>' +
+	               '<div id="qnaDetailDate" class="detail-text"></div>' +
+	             '</div>' +
+	             '<div class="form-group">' +
+	               '<label>내용:</label>' +
+	               '<div id="qnaDetailContent" class="detail-content"></div>' +
+	             '</div>' +
+	             '<div class="form-button" id="qnaDetailButtons">' +
+	               '<button type="button" id="qnaEditBtn" style="display: none;">수정</button>' +
+	               '<button type="button" id="qnaDeleteBtn" style="display: none;">삭제</button>' +
+	               '<button type="button" id="qnaDetailCloseBtn">닫기</button>' +
+	             '</div>' +
+	           '</div>' +
+	         '</div>' +  
+	       '</div>';
 
+	     // 모달을 body에 추가
+	     $('body').append(qnaDetailModalHTML);
+	
+		});
+	
+	
+		// QnA 문의하기 버튼 광클 금지
+		var isSubmitting = false;
+		
+		$('#qnaForm').submit(function(e){
+			if (isSubmitting) {
+				e.preventDefault();
+				return false;
+			}
+			
+			isSubmitting = true;
+			$('#qnaSubmitBtn').prop('disabled', true).text('상품 문의 등록중...');
+			
+			return true;
 		});
 		
+		
+		// QnA 상세보기 함수 : TODO
+		function qnaDetail(qnaId) {
+		    console.log("QNA 상세보기 클릭됨, ID:", qnaId);
+		    
+		    // AJAX로 QnA 상세 정보 가져오기
+		    $.ajax({
+		        url: '/getQnADetail.do',
+		        type: 'GET',
+		        data: { qnaId: qnaId },
+		        success: function(response) {
+		            // 모달에 데이터 채우기
+		            $('#qnaDetailTitle').text(response.qnaTitle);
+		            $('#qnaDetailWriter').text(response.memberId);
+		            $('#qnaDetailDate').text(response.regDate);
+		            $('#qnaDetailContent').text(response.qnaContent);
+		            
+		            // 현재 로그인한 사용자와 작성자가 같은지 확인
+		            if (response.memberId === memberId) {
+		                $('#qnaEditBtn').show();
+		                $('#qnaDeleteBtn').show();
+		                
+		                // 수정/삭제 버튼에 이벤트 추가 (기존 이벤트 제거 후 새로 추가)
+		                $('#qnaEditBtn').off('click').on('click', function() {
+		                    editQnA(qnaId, response);
+		                });
+		                
+		                $('#qnaDeleteBtn').off('click').on('click', function() {
+		                    deleteQnA(qnaId);
+		                });
+		            } else {
+		                $('#qnaEditBtn').hide();
+		                $('#qnaDeleteBtn').hide();
+		            }
+		            
+		            // 모달 표시
+		            $('#qnaDetailModal').show();
+		        },
+		        error: function() {
+		            alert('QnA 상세 정보를 불러오는데 실패했습니다.');
+		        }
+		    });
+		}
+		
+		
+	</script>
+	
+<!-- 상품 QnA 등록시 처리하기 위함 -->
+	<c:if test="${not empty message}">
+		<script>
+			$(document).ready(function(){
+				
+				if("${messageType}" === "success"){
+					alert("${message}");
+				} else {
+					alert("오류: ${message}");
+				}
+			});
+		</script>
+	</c:if>
+	
+<!-- 상품 옵션 처리  -->
+	<c:if test="${not empty productDetail || not empty optionInfo}">
+		<script>	
+		
+			// 서버에서 전달받은 상품 정보와 옵션 정보를 JavaScript 변수로 저장
+			var productDetail = ${productDetailJson};
+			var optionInfo = ${optionInfoJson};
+			
+			// 기본 가격 설정 (할인가가 있으면 할인가, 없으면 정가)
+			var basePrice = productDetail[0].SAILED_PRICE ? productDetail[0].SAILED_PRICE : productDetail[0].PRODUCT_PRICE;
+			
+			console.log("상품 정보:", productDetail);
+			console.log("옵션 정보:", optionInfo);
+			
+			$(document).ready(function() {
+				// 1단계: 어떤 옵션명들이 있는지 찾기
+				var options = [];
+				for (var i = 0; i < optionInfo.length; i++) {
+				    var optionName = optionInfo[i].OPTION_NAME;
+				    
+				    // 중복 체크해서 없으면 추가
+				    var duplicate = false;
+				    for (var j = 0; j < options.length; j++) {
+				        if (options[j] == optionName) {
+				            duplicate = true;
+				            break;
+				        }
+				    }
+				    if (!duplicate) {
+				        options.push(optionName);
+				    }
+				}
+	
+				console.log("발견된 옵션명들:", options);
+	
+				// 2단계: HTML 생성
+				var optionContainer = '';
+				for(var i = 0; i < options.length; i++){
+				    optionContainer += '<div>';
+				    optionContainer += '<span>' + options[i] + ': </span>';
+				    optionContainer += '<select id="'+ optionInfo[i].OPTION_ID +'_select" onchange="optionSelect(this)")>';
+				    optionContainer += '<option value="non-select">옵션을 선택해주세요.</option>';
+				    
+				    // 해당 옵션명의 값들만 추가
+				    for(var j = 0; j < optionInfo.length; j++){
+				        if(options[i] == optionInfo[j].OPTION_NAME){
+				        	var optionName = options[i];
+				            var optionValue = optionInfo[j].OPTION_VALUE;
+				            var additionalPrice = optionInfo[j].ADDITIONAL_PRICE;
+				            var displayText = optionValue;
+				            
+				            if(additionalPrice > 0){
+				                displayText += ' (+' + additionalPrice + '원)';
+				            }
+				            
+				            optionContainer += '<option value="['+ optionName +'] ' + optionValue + '" data-price="' + additionalPrice + '">';
+				            optionContainer += displayText + '</option>';
+				        }
+				    }
+				    
+				    optionContainer += '</select>';
+				    optionContainer += '</div>';
+				}
+	
+				// 3단계: HTML 삽입
+				$("#options-td").html(optionContainer);
+			});
+			
+			const optionSelect = (element) => {
+			    // 선택된 옵션 요소 가져오기
+			    var selectedOption = element.options[element.selectedIndex]; // selectElement → element
+			    
+			    // data-price 값 가져오기
+			    var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0; // 숫자 변환 추가
+			    
+			    var quantity = parseInt($('#quantity').val()) || 1;
+			    
+			    // 현재 가격 가져오기
+			    var salaryPrice = getSalaryPrice();
+			    var newPrice = salaryPrice + optionPrice // currentPrice → totalPrice, optoinPrice → optionPrice
+			    
+			    
+			    $("#quantity").val(1);
+			    updateTotalPrice(newPrice); // 화면 업데이트
+			    
+			    basePrice = newPrice;
+			}
+
+			// 판매 가격 가져오기
+			function getSalaryPrice() {
+			    return parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
+			}
+	
+			// 총 가격 업데이트
+			function updateTotalPrice(newPrice) {
+			    var element = document.getElementById("totalPrice");
+			    element.setAttribute('data-price', newPrice);
+			    element.innerText = newPrice.toLocaleString() + "원";
+			}
+		</script>
+	</c:if>
+	
+<!-- 상품 정보 파트 -->
+	<script type="text/javascript" language="javascript" defer="defer">
+		var urlParams = new URLSearchParams(window.location.search);
+	
+		var memberId = "user01";
+		var cartId = 1;
+		var productId = urlParams.get('productId');
+	
+
 		// 수량 버튼 (새로운 옵션 시스템과 통합)
 		function countDown() {
-			var $quantityInput = $('#quantity');
-			var currentValue = parseInt($quantityInput.val());
-			if (currentValue > 1) {
-				$quantityInput.val(currentValue - 1);
+			var quantity = parseInt($('#quantity').val()) || 1;
+			if (quantity > 1) {
+				$('#quantity').val(quantity - 1);
 				
 				updateCnt();
 			}
 		}
 
 		function countUp() {
-			var $quantityInput = $('#quantity');
-			var currentValue = parseInt($quantityInput.val());
-			$quantityInput.val(currentValue + 1);
+			var quantity = parseInt($('#quantity').val()) || 1;
+			$('#quantity').val(quantity + 1);
+			
 			updateCnt();
 		}
 
 		function updateCnt() {
 			var quantity = parseInt($('#quantity').val()) || 1;
+			var newPrice = basePrice * quantity;
 			
 			if (quantity <= 1){
 				$('#quantity').val(1);
 			}
 			
-			// 새로운 옵션 시스템이 있으면 그것을 사용, 없으면 기존 방식
-			if (typeof updateSelectedCombination === 'function') {
-				updateSelectedCombination();
-			}
+			updateTotalPrice(newPrice);
+			
 		}
     
 		function selectOption() {
@@ -333,85 +489,72 @@
 		}
     
 		function pushCart() {
-			// 새로운 옵션 시스템에서 선택된 옵션 가져오기
-			var $selects = $('.option-select');
-			var selectedOptions = [];
-			var hasAllOptions = true;
-			
-			$selects.each(function() {
-				var $select = $(this);
-				if ($select.val()) {
-					var optionData = JSON.parse($select.val());
-					selectedOptions.push(optionData);
-				} else {
-					hasAllOptions = false;
-				}
-			});
-			
-			// 모든 옵션이 선택되었는지 확인
-			if (!hasAllOptions || selectedOptions.length === 0) {
-				alert("옵션을 선택해주세요.");
-				return;
-			}
-			
-			// 옵션을 문단별로 나누어 문자열로 변환
-			var optionLines = [];
-			for (var i = 0; i < selectedOptions.length; i++) {
-				var option = selectedOptions[i];
-				var text = '[' + option.OPTION_NAME + '] ' + option.OPTION_VALUE;
-				if (option.ADDITIONAL_PRICE > 0) {
-					text += ' (+' + option.ADDITIONAL_PRICE.toLocaleString() + '원)';
-				} else if (option.ADDITIONAL_PRICE < 0) {
-					text += ' (' + option.ADDITIONAL_PRICE.toLocaleString() + '원)';
-				}
-				optionLines.push(text);
-			}
-			var optionString = optionLines.join('\n'); // 줄바꿈으로 구분
-			
-			// 가격 계산
-			var totalAdditionalPrice = 0;
-			for (var i = 0; i < selectedOptions.length; i++) {
-				totalAdditionalPrice += selectedOptions[i].ADDITIONAL_PRICE;
-			}
-			
-			var basePrice;
-			if ($("#saled-price").text() != null && $("#saled-price").text() != '') {
-				basePrice = Number($("#saled-price").text().replace(/[^0-9]/g, ''));
-			} else {
-				basePrice = Number($("#product-price").text().replace(/[^0-9]/g, ''));
-			}
-			
-			var unitPrice = basePrice + totalAdditionalPrice;
-			var quantity = Number($("#quantity").val());
-			var subTotal = unitPrice * quantity;
-			
-			var param = {
-				memberId: memberId,
-				cartId: cartId,
-				productId: productId,
-				option: optionString, // 문단 나누어진 옵션 문자열
-				price: unitPrice,
-				quantity: quantity,
-				subTotal: subTotal
-			};
-			
-			$.ajax({
-				url: "/insertCartItem.do",
-				type: "post",
-				data: param,
-				dataType: "json",
-				success: function(res) {
-					var result = res.insertResult;
-					if (result == 1) {
-						confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? null : null;
-					} else if (result == 2) {
-						confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? null : null;
+			var option = '';
+			var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
+			var quantity = parseInt($('#quantity').val()) || 1;
+			var subTotal = parseInt(document.getElementById("totalPrice").getAttribute('data-price')) || 0;
+			  
+		    // 모든 옵션 셀렉트박스 확인
+		    var selectedOptions = [];
+		    var hasOption = true;
+		    for(var i = 0; i < optionInfo.length; i++){
+		        var selectId = optionInfo[i].OPTION_ID + '_select';
+		        var selectElement = document.getElementById(selectId);
+		        
+		        if(selectElement && selectElement.value !== '') {
+		        	
+		        	if(selectElement.value == 'non-select'){
+		        		hasOption = false;
+		        	}
+		        	
+		            var selectedOption = selectElement.options[selectElement.selectedIndex];
+		            var optionData = {
+		                optionId: optionInfo[i].OPTION_ID,
+		                optionName: optionInfo[i].OPTION_NAME,
+		                value: selectElement.value,
+		                displayText: selectedOption.text,
+		                price: selectedOption.getAttribute('data-price')
+		            };
+		            
+		            selectedOptions.push(optionData);
+		            console.log("옵션:", optionData.optionName + " = " + optionData.value + " (+" + optionData.price + "원)");
+		            
+		            option += optionData.value;
+		        }
+		    }
+		    
+		    if(hasOption){
+		    
+				var param = {
+					memberId: memberId,
+					cartId: cartId,
+					productId: productId,
+					option: option, 
+					price: price,
+					quantity: quantity,
+					subTotal: subTotal
+				};
+				
+				$.ajax({
+					url: "/insertCartItem.do",
+					type: "post",
+					data: param,
+					dataType: "json",
+					success: function(res) {
+						var result = res.insertResult;
+						if (result == 1) {
+							confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? null : null;
+						} else if (result == 2) {
+							confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? null : null;
+						}
+					},
+					error: function() {
+						alert("장바구니 담기 중 오류가 발생했습니다.");
 					}
-				},
-				error: function() {
-					alert("장바구니 담기 중 오류가 발생했습니다.");
-				}
-			});
+				});
+		    } else {
+		    	alert("모든 옵션을 선택해주세요.");
+		    }
 		}
 
 		function formModalShow() {
@@ -440,10 +583,10 @@
 							<tr>
 								<td>판매가</td>
 								<c:if test="${productDetail[0].SAILED_PRICE != null}">
-									<td id="saled-price"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+									<td id="saled-price" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
 								</c:if>
 								<c:if test="${productDetail[0].SAILED_PRICE == null}">
-									<td id="saled-price"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+									<td id="saled-price" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
 								</c:if>
 							</tr>
 							<tr>
@@ -458,10 +601,10 @@
 								<td>무게</td>
 								<td id="product-weight">${productDetail[0].PRODUCT_WEIGHT}</td>
 							</tr>
-							<c:if test="${productDetail[0].OPTION_NAME != null}">
+							<c:if test="${optionInfo[0] != null}">
 								<tr id="product-option">
 									<td>옵션</td>
-									<td id="optionContainer">
+									<td id="options-td">
 										<!-- 여기에 옵션 셀렉트 박스가 동적으로 생성됩니다 -->
 									</td>
 								</tr>
@@ -473,10 +616,10 @@
 							<tr>
 								<td>총 가격</td>
 								<c:if test="${productDetail[0].SAILED_PRICE != null}">
-								    <td id="totalPrice" class="total-price-amount"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+								    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
 								</c:if>
 								<c:if test="${productDetail[0].SAILED_PRICE == null}">
-								    <td id="totalPrice" class="total-price-amount"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+								    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
 								</c:if>
 							</tr>
 							<tr>
@@ -593,7 +736,7 @@
 								<c:forEach items="${productQnAList}" var="qna" varStatus="status">
 									<tr>
 										<td>${status.count}</td>
-										<td>${qna.QNA_TITLE}</td>
+										<td onclick="qnaDetail(${qna.PRODUCT_QNA_ID})" style="cursor: pointer;">${qna.QNA_TITLE}</td>
 										<td>${qna.MEMBER_ID}</td>
 										<td>${qna.INPUT_DT}</td>
 									</tr>
