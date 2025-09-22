@@ -25,13 +25,13 @@
 	<select id="selectUserInfoByUser" resultType="java.util.Map">
 		SELECT  MEMBER_ID,
         USER_NAME,
-        PASSWORD,
         LOGIN_TYPE,
         EMAIL_ADDR,
         PHONE_NUMBER,
         BIRTH,
         GENDER,
-        GRADE_CODE
+        GRADE_CODE,
+        STATUS
 		FROM MEMBERS
 		WHERE MEMBER_ID = #{id}
 	</select>
@@ -101,6 +101,11 @@
         'user'
     );
 	</insert>
+	<update id="updateLastLoginByUser" parameterType="java.util.Map">
+        UPDATE MEMBERS
+        SET LAST_LOGIN_DT = NOW()
+        WHERE MEMBER_ID = #{id} 
+    </update>
     <update id="updatePasswordByUser" parameterType="java.util.Map">
         UPDATE MEMBERS
         SET PASSWORD = #{password}
@@ -124,7 +129,13 @@
             <if test="birth != null and birth != ''">
             BIRTH = #{birth},
             </if>
+            
         </set>
         WHERE MEMBER_ID = #{id}
+    </update>
+    <update id="updateWithDrawByUser" parameterType="java.util.Map">
+     UPDATE MEMBERS
+        SET STATUS = 'N'
+        WHERE MEMBER_ID = #{id} 
     </update>
 </mapper>

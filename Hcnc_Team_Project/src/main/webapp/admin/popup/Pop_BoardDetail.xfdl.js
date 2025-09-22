@@ -21,12 +21,17 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_detail", this);
-            obj._setContents("<ColumnInfo><Column id=\"POST_ID\" type=\"STRING\" size=\"256\"/><Column id=\"POST_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"POST_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"BOARD_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"STRING\" size=\"256\"/><Column id=\"VIEW_CNT\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"POST_ID\" type=\"STRING\" size=\"256\"/><Column id=\"POST_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"POST_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"BOARD_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"STRING\" size=\"256\"/><Column id=\"VIEW_CNT\" type=\"STRING\" size=\"256\"/><Column id=\"BOARD_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_postId", this);
             obj._setContents("<ColumnInfo><Column id=\"POST_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_update", this);
+            obj._setContents("<ColumnInfo><Column id=\"POST_ID\" type=\"STRING\" size=\"256\"/><Column id=\"POST_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"POST_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -134,13 +139,20 @@
             obj.set_cursor("pointer");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
+
+            obj = new Edit("edt_post_title","126","125","167","23",null,null,null,null,null,null,this);
+            obj.set_taborder("14");
+            obj.set_font("normal 11pt/normal \"Noto Sans KR\"");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",800,700,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-
+            obj = new BindItem("item0","edt_post_title","value","ds_detail","POST_TITLE");
+            this.addChild(obj.name, obj);
+            obj.bind();
             
             // TriggerItem Information
 
@@ -167,17 +179,20 @@
                 alert("게시글 정보가 없습니다.");
                 this.close();
             }
+        	this.edt_post_title.set_visible(false);
+        	this.currentMode = "view";
         };
 
         // 게시글 상세 데이터 조회
         this.selectPostDetailByAdmin = function(postId)
         {
-            var sSvcID = "selectPostDetailByAdmin";
-            var sURL = "svc::selectPostDetailByAdmin.do";
-            var sInDs = "ds_postId=ds_postId";
-            var sOutDs = "ds_detail=ds_detail";
-            var sParam = "";
-            var sCallBack = "fnCallback";
+        	// 캐시 방지용 타임스탬프 추가
+            var sSvcID      = "selectPostDetailByAdmin";
+            var sURL        =  "svc::selectPostDetailByAdmin.do?time=" + new Date().getTime();
+            var sInDs       = "ds_postId=ds_postId";
+            var sOutDs      = "ds_detail=ds_detail";
+            var sParam      = "";
+            var sCallBack   = "fnCallback";
 
             this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
         };
@@ -195,6 +210,10 @@
                 case "selectPostDetailByAdmin":
                     this.displayPostDetail();
                     break;
+
+        		case "updatePost":
+        			this.selectPostDetailByAdmin();
+        			break;
             }
         };
 
@@ -211,76 +230,122 @@
             // 화면에 기본 정보 표시
             var postTitle = this.ds_detail.getColumn(0, "POST_TITLE");
             var userName = this.ds_detail.getColumn(0, "USER_NAME");
-            var boardName = this.ds_detail.getColumn(0, "BOARD_NAME");
+            var boardId = this.ds_detail.getColumn(0, "BOARD_ID");
             var inputDt = this.ds_detail.getColumn(0, "INPUT_DT");
             var postContent = this.ds_detail.getColumn(0, "POST_CONTENT");
 
         	// 각 스태틱에 텍스트를 지정해줌
             this.sta_post_title_value.set_text(postTitle);
+
+        	//게시판 번호에 따른 이름 설정
+        	var boardName;
+        	if(boardId==1){
+        	  boardName='공지사항'
+        	}else if(boardId==3){
+        	  boardName='FAQ'
+        	}
             this.sta_board_value.set_text(boardName);
             this.sta_author_value.set_text(userName);
             this.sta_date_value.set_text(this.formatDate(inputDt));
 
-            // WebBrowser에 HTML 내용 표시
-            var sUrl = "http://localhost:8080/contentViewer.do";
-            this.web_content.set_url(sUrl);
+        	if(this.currentMode =="edit"){
+        		var sUrl = "http://localhost:8080/ckedit.do";
+                this.web_content.set_url(sUrl);
 
-            var nTimerID = this.setTimer(1, 300);
+        		this.sta_post_title_value.set_visible(false);
+                this.edt_post_title.set_visible(true);
+
+                // 편집 모드에서는 수정/취소 버튼 표시
+                this.btn_modify.set_text("저장");
+                this.btn_close.set_text("취소");
+
+                var nTimerID = this.setTimer(2, 500); // 편집 모드용 타이머
+        	} else{
+        		var sUrl = "http://localhost:8080/contentViewer.do";
+        		this.web_content.set_url(sUrl);
+
+        		this.sta_post_title_value.set_visible(true);
+                this.edt_post_title.set_visible(false);
+
+        		this.btn_modify.set_text("수정");
+        		this.btn_close.set_text("닫기");
+
+        		var nTimerId = this.setTimer(1,300);
+        	}
+
             this.contentToShow = postContent;
         };
 
-        this.Pop_BoardDetail_ontimer = function(obj,e)
+        this.Pop_BoardDetail_ontimer = function(obj,e) //http://localhost:8080/contentViewer.do"
         {
             if(e.timerid == 1) {
                 this.killTimer(1);
-
-                // HTML 컨텐츠 설정
                 this.web_content.callMethod("setContent",this.contentToShow);
-            }
+            }else if(e.timerid == 2){
+        		this.killTimer(2);
+        		this.web_content.callMethod("setEditorContent",this.contentToShow); //http://localhost:8080/ckeditor.do
+        	}
         };
-
-
 
         // 수정 버튼 클릭
         this.btn_modify_onclick = function(obj,e)
         {
-            var postId = this.ds_detail.getColumn(0, "POST_ID");
-            var postTitle = this.ds_detail.getColumn(0, "POST_TITLE");
-            var postContent = this.ds_detail.getColumn(0, "POST_CONTENT");
-            var boardId = this.ds_detail.getColumn(0, "BOARD_ID");
-            var memberId = this.ds_detail.getColumn(0, "MEMBER_ID");
-            alert(postId);
-
+        	var postId = this.ds_detail.getColumn(0, "POST_ID");
 
             if(!postId) {
-                alert("수정할 게시글 정보가 없습니다.");
+                alert("게시글 정보가 없습니다.");
                 return;
             }
-
-        		var popW = 800;
-                var popH = 700;
-                var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-        		objChildFrame.init("popModify", 0, 0, popW, popH, null, null, "popup::Pop_BoardUpdate.xfdl"); // init
-        		objChildFrame.paramPostId = this.parent.paramPostId;
-        		objChildFrame.set_titletext("게시글 수정");
-                objChildFrame.set_dragmovetype("all");
-        		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_modifyCallback"); // 모달 띄어주기
+        	if(this.currentMode=="view"){
+        		this.currentMode = "edit";
+                this.displayPostDetail(); // 화면 다시 그리기
+        	} else{
+        	this.savePost();
+        	}
         };
 
-        // 수정 팝업 콜백
-        this.fn_modifyCallback = function(sPopupId, sResult)
+        this.savePost = function()
         {
-            if(sResult == "success") {
-                // 수정 성공 시 상세 정보 다시 조회
-                var postId = this.ds_detail.getColumn(0, "POST_ID");
-                this.selectPostDetailByAdmin(postId);
+            try {
+                // 에디터에서 내용 가져오기
+                var editedContent = this.web_content.callMethod("getEditorContent","");
 
-                // 부모 창에도 알림 (목록 새로고침)
-                if(this.opener && this.opener.fn_search) {
-                    this.opener.fn_search();
+        		//컨텐츠 영역 빈값인지 체크
+                if(!editedContent) {
+                    alert("내용을 입력해주세요.");
+                    return;
                 }
+
+
+                // 업데이트용 데이터셋 설정 (기존 데이터 복사 후 내용만 변경)
+                this.ds_update.clearData();
+                this.ds_update.addRow();
+                this.ds_update.copyRow(0, this.ds_detail, 0);
+                this.ds_update.setColumn(0, "POST_CONTENT", editedContent);
+
+                // 캐시 방지용 타임스탬프 추가
+        		var timestamp = new Date().getTime();
+
+                // 서버로 업데이트 요청
+                var sSvcID = "updatePost";
+                var sURL = "svc::updatePostByAdmin.do?time=" + new Date().getTime();
+                var sInDs = "ds_update=ds_update";
+                var sOutDs = "";
+                var sParam = "";
+                var sCallBack = "fnCallback";
+
+                this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+
+            } catch(e) {
+                alert("저장 중 오류가 발생했습니다: " + e.message);
             }
+
+        	//저장후 에디트모드 변경
+        	this.currentMode="view"
         };
+
+
+
 
         // 닫기 버튼 클릭
         this.btn_close_onclick = function(obj,e)
