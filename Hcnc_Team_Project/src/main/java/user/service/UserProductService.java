@@ -19,4 +19,11 @@ public class UserProductService {
 		// TODO Auto-generated method stub
 		return userProductMapper.selectProductByUser(param);
 	}
+
+	public List<Map<String, Object>> selectMNProductListByUser() {
+		// TODO Auto-generated method stub
+		return userProductMapper.selectMNProductListByUser();//메인에서 NEW BEST불러가는용 임시
+	}
+	
+	
 }
