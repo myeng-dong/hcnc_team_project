@@ -30,21 +30,21 @@
             AND wi.MAIN_CATE_ID = #{category}
         </if>
         <if test="priceRange != null and priceRange != ''">
-            <choose>
-                <when test="priceRange == '0-1000'">
-                    AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &lt;= 1000
-                </when>
-                <when test="priceRange == '1000-3000'">
-                    AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 1001 AND 3000
-                </when>
-                <when test="priceRange == '3000-5000'">
-                    AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 3001 AND 5000
-                </when>
-                <when test="priceRange == '5000-'">
-                    AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &gt; 5000
-                </when>
-            </choose>
-        </if>
+		    <choose>
+		        <when test="priceRange == '0-1000'">
+		            AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &lt;= 1000
+		        </when>
+		        <when test="priceRange == '1000-3000'">
+		            AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 1000 AND 3000
+		        </when>
+		        <when test="priceRange == '3000-5000'">
+		            AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 3000 AND 5000
+		        </when>
+		        <when test="priceRange == '5000-'">
+		            AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &gt; 5000
+		        </when>
+		    </choose>
+		</if>
         <if test="status != null and status != ''">
             <choose>
                 <when test="status == 'sale'">

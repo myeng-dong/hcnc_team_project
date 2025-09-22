@@ -216,68 +216,67 @@
     
     // 위시리스트 렌더링 (하트 포함)
     var renderWishlist = function(wishlist) {
-        var html = '';
-        
-        if(!wishlist || wishlist.length === 0) {
-            html = '<div class="empty-wishlist-filter">';
-            html += '<div class="empty-icon">💔</div>';
-            html += '<div class="empty-title">위시리스트가 비어있습니다</div>';
-            html += '<div class="empty-subtitle">마음에 드는 상품의 하트를 눌러보세요</div>';
-            html += '</div>';
-        } else {
-            for(var i = 0; i < wishlist.length; i++){
-                var item = wishlist[i];
-                html += '<div class="wishlist-item" data-category="' + item.MAIN_CATE_ID + '">';
-                
-                // 이미지와 하트 버튼
-                html += '<div class="item-image">';
-                html += '<img src="' + (item.IMAGE_URL || '/images/no-image.jpg') + '" alt="' + item.PRODUCT_NAME + '">';
-                html += '<button class="wish-heart heart-filled" data-product-id="' + item.PRODUCT_ID + '" onclick="toggleWishlist(' + item.PRODUCT_ID + ', this)">';
-                html += '<span class="heart-icon">❤️</span>';
-                html += '</button>';
-                html += '</div>';
-                
-                // 상품 정보
-                html += '<div class="item-info">';
-                html += '<div class="item-details">';
-                html += '<div class="item-name">' + item.PRODUCT_NAME + '</div>';
-                html += '<div class="item-category">' + (item.MAIN_CATE_NM || '기타') + '</div>';
-                html += '</div>';
-                
-                // 가격
-                html += '<div class="item-price">';
-                if(item.SALED_PRICE && item.SALED_PRICE > 0 && item.SALED_PRICE < item.PRODUCT_PRICE) {
-                    html += '<span class="current-price">₩' + item.SALED_PRICE.toLocaleString() + '</span>';
-                    html += '<br><span class="original-price">₩' + item.PRODUCT_PRICE.toLocaleString() + '</span>';
-                    var discount = Math.round(((item.PRODUCT_PRICE - item.SALED_PRICE) / item.PRODUCT_PRICE) * 100);
-                    html += ' <span class="discount">-' + discount + '%</span>';
-                } else {
-                    html += '<span class="current-price">₩' + item.PRODUCT_PRICE.toLocaleString() + '</span>';
-                }
-                html += '</div>';
-                
-                // 상태
-                html += '<div class="item-status">';
-                if(item.IS_VISIBLE === 'Y') {
-                    html += '판매중';
-                } else {
-                    html += '품절';
-                }
-                html += '</div>';
-                
-                // 액션 버튼
-                html += '<div class="item-actions">';
-                html += '<button class="btn-cart" onclick="addToCart(' + item.PRODUCT_ID + ')">장바구니</button>';
-                html += '<button class="btn-detail" onclick="viewDetail(' + item.PRODUCT_ID + ')">상세보기</button>';
-                html += '</div>';
-                
-                html += '</div>'; // item-info 끝
-                html += '</div>'; // wishlist-item 끝
-            }
-        }
-        
-        $("#wishlistGrid").html(html);
-    };
+	    var html = '';
+	    
+	    if(!wishlist || wishlist.length === 0) {
+	        html = '<div class="empty-wishlist-filter">';
+	        html += '<div class="empty-icon">💔</div>';
+	        html += '<div class="empty-title">위시리스트가 비어있습니다</div>';
+	        html += '<div class="empty-subtitle">마음에 드는 상품의 하트를 눌러보세요</div>';
+	        html += '</div>';
+	    } else {
+	        for(var i = 0; i < wishlist.length; i++){
+	            var item = wishlist[i];
+	            html += '<div class="wishlist-item" data-category="' + item.MAIN_CATE_ID + '">';
+	            
+	            // 이미지와 하트 버튼 - 이미지 경로 수정
+	            html += '<div class="item-image">';
+	            // 기본 이미지를 data URL로 변경하거나 실제 존재하는 이미지 경로로 수정
+	            var imageUrl = item.IMAGE_URL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
+	            html += '<img src="' + imageUrl + '" alt="' + item.PRODUCT_NAME + '" style="width:100%; height:100%; object-fit:cover;">';
+	            html += '<button class="wish-heart heart-filled" data-product-id="' + item.PRODUCT_ID + '" onclick="toggleWishlist(' + item.PRODUCT_ID + ', this)">';
+	            html += '<span class="heart-icon">❤️</span>';
+	            html += '</button>';
+	            html += '</div>';
+	            
+	            // 나머지 코드는 그대로...
+	            html += '<div class="item-info">';
+	            html += '<div class="item-details">';
+	            html += '<div class="item-name">' + item.PRODUCT_NAME + '</div>';
+	            html += '<div class="item-category">' + (item.MAIN_CATE_NM || '기타') + '</div>';
+	            html += '</div>';
+	            
+	            html += '<div class="item-price">';
+	            if(item.SALED_PRICE && item.SALED_PRICE > 0 && item.SALED_PRICE < item.PRODUCT_PRICE) {
+	                html += '<span class="current-price">₩' + item.SALED_PRICE.toLocaleString() + '</span>';
+	                html += '<br><span class="original-price">₩' + item.PRODUCT_PRICE.toLocaleString() + '</span>';
+	                var discount = Math.round(((item.PRODUCT_PRICE - item.SALED_PRICE) / item.PRODUCT_PRICE) * 100);
+	                html += ' <span class="discount">-' + discount + '%</span>';
+	            } else {
+	                html += '<span class="current-price">₩' + item.PRODUCT_PRICE.toLocaleString() + '</span>';
+	            }
+	            html += '</div>';
+	            
+	            html += '<div class="item-status">';
+	            if(item.IS_VISIBLE === 'Y') {
+	                html += '판매중';
+	            } else {
+	                html += '품절';
+	            }
+	            html += '</div>';
+	            
+	            html += '<div class="item-actions">';
+	            html += '<button class="btn-cart" onclick="addToCart(' + item.PRODUCT_ID + ')">장바구니</button>';
+	            html += '<button class="btn-detail" onclick="viewDetail(' + item.PRODUCT_ID + ')">상세보기</button>';
+	            html += '</div>';
+	            
+	            html += '</div>'; // item-info 끝
+	            html += '</div>'; // wishlist-item 끝
+	        }
+	    }
+	    
+	    $("#wishlistGrid").html(html);
+	};
     
     // 상품 카드 렌더링 함수 (상품 목록 페이지용)
     var renderProductCard = function(product) {
@@ -302,34 +301,155 @@
         return html;
     };
     
-    // 기존 함수들...
+    // 위시리스트 조회
     var selectWishlist = function() {
-        var param = {
-            memberId: memberId,
-            category: currentCategory,
-            sortType: $("#sortFilter").val() || 'newest',
-            priceRange: $("#priceRangeFilter").val() || '',
-            status: $("#statusFilter").val() || ''
-        };
-        
-        $.ajax({
-            url: "/selectWishlistByUser.do",
-            type: "post",
-            data: param,
-            dataType: "json",
-            success: function(res){
-                if(res.success) {
-                    renderWishlist(res.wishlist);
-                } else {
-                    showToast(res.message || "위시리스트 조회 실패", "error");
-                }
-            },
-            error: function(err){
-                showToast("위시리스트 조회 통신 실패", "error");
-            }
-        });
-    };
+	    var param = {
+	        memberId: memberId,
+	        category: currentCategory,
+	        sortType: $("#sortFilter").val() || 'newest',
+	        priceRange: $("#priceRangeFilter").val() || '',
+	        status: $("#statusFilter").val() || ''
+	    };
+	    
+	    // 로딩 표시
+	    $("#wishlistGrid").html('<div class="empty-wishlist-filter">' +
+	        '<div class="empty-icon">⏳</div>' +
+	        '<div class="empty-title">로딩 중...</div>' +
+	        '<div class="empty-subtitle">위시리스트를 불러오고 있습니다</div>' +
+	        '</div>');
+	    
+	    $.ajax({
+	        url: "/selectWishlistByUser.do",
+	        type: "post",
+	        data: param,
+	        dataType: "json",
+	        success: function(res){
+	            if(res.success) {
+	                // 클라이언트에서 추가 필터링 적용
+	                var filteredList = applyClientFilters(res.wishlist, param);
+	                renderWishlist(filteredList);
+	            } else {
+	                showToast(res.message || "위시리스트 조회 실패", "error");
+	                renderWishlist([]);
+	            }
+	        },
+	        error: function(err){
+	            showToast("위시리스트 조회 통신 실패", "error");
+	            renderWishlist([]);
+	        }
+	    });
+	};
     
+	// 클라이언트 필터링 함수
+	var applyClientFilters = function(wishlist, filters) {
+    
+    if (!wishlist || wishlist.length === 0) {
+        return [];
+    }
+    
+    var filtered = wishlist.slice(); // 배열 복사
+    
+    // 카테고리 필터링
+    if (filters.category && filters.category !== '') {
+        filtered = filtered.filter(function(item) {
+            return item.MAIN_CATE_ID == filters.category;
+        });
+    }
+    
+    // 가격대 필터링
+    if (filters.priceRange && filters.priceRange !== '') {
+        filtered = filtered.filter(function(item) {
+            var price = item.SALED_PRICE && item.SALED_PRICE > 0 ? item.SALED_PRICE : item.PRODUCT_PRICE;
+            var result = applyPriceFilter(price, filters.priceRange);
+            return result;
+        });
+    }
+    
+    // 상태 필터링
+    if (filters.status && filters.status !== '') {
+        filtered = filtered.filter(function(item) {
+            return applyStatusFilter(item, filters.status);
+        });
+    }
+    
+    // 정렬 적용
+    filtered = applySorting(filtered, filters.sortType);
+    
+    return filtered;
+};
+
+	// 가격 필터 적용
+	var applyPriceFilter = function(price, range) {
+	    switch(range) {
+	        case '0-1000':
+	            return price <= 1000;  // 0원~1000원
+	        case '1000-3000':
+	            return price >= 1000 && price <= 3000;  // 1000원~3000원 (겹침 허용)
+	        case '3000-5000':
+	            return price >= 3000 && price <= 5000;  // 3000원~5000원 (겹침 허용)
+	        case '5000-':
+	            return price > 5000;  // 5001원 이상
+	        default:
+	            return true;
+	    }
+	};
+
+	// 상태 필터 적용
+	var applyStatusFilter = function(item, status) {
+	    switch(status) {
+	        case 'sale':
+	            // 할인 중: 세일 가격이 있고 원가보다 낮은 경우
+	            return item.SALED_PRICE && item.SALED_PRICE > 0 && item.SALED_PRICE < item.PRODUCT_PRICE;
+	        case 'soldout':
+	            // 품절: IS_VISIBLE이 'N'인 경우
+	            return item.IS_VISIBLE === 'N';
+	        case 'new':
+	            // 신상품: 일단 모든 상품을 신상품으로 처리 (나중에 수정 가능)
+	            return true;
+	        default:
+	            return true;
+	    }
+	};
+
+	// 정렬 적용
+	var applySorting = function(list, sortType) {
+	    switch(sortType) {
+	        case 'newest':
+	            // 최신순 (ID 역순으로 정렬)
+	            return list.sort(function(a, b) {
+	                return b.PRODUCT_ID - a.PRODUCT_ID;
+	            });
+	        case 'price-low':
+	            return list.sort(function(a, b) {
+	                var priceA = a.SALED_PRICE && a.SALED_PRICE > 0 ? a.SALED_PRICE : a.PRODUCT_PRICE;
+	                var priceB = b.SALED_PRICE && b.SALED_PRICE > 0 ? b.SALED_PRICE : b.PRODUCT_PRICE;
+	                return priceA - priceB;
+	            });
+	        case 'price-high':
+	            return list.sort(function(a, b) {
+	                var priceA = a.SALED_PRICE && a.SALED_PRICE > 0 ? a.SALED_PRICE : a.PRODUCT_PRICE;
+	                var priceB = b.SALED_PRICE && b.SALED_PRICE > 0 ? b.SALED_PRICE : b.PRODUCT_PRICE;
+	                return priceB - priceA;
+	            });
+	        case 'discount':
+	            return list.sort(function(a, b) {
+	                var discountA = getDiscountRate(a);
+	                var discountB = getDiscountRate(b);
+	                return discountB - discountA;
+	            });
+	        default:
+	            return list;
+	    }
+	};
+
+	// 할인율 계산
+	var getDiscountRate = function(item) {
+	    if (item.SALED_PRICE && item.SALED_PRICE > 0 && item.SALED_PRICE < item.PRODUCT_PRICE) {
+	        return Math.round(((item.PRODUCT_PRICE - item.SALED_PRICE) / item.PRODUCT_PRICE) * 100);
+	    }
+	    return 0;
+	};
+	
     var filterByCategory = function(category) {
         currentCategory = category;
         $(".tab-btn").removeClass("active");
@@ -409,10 +529,17 @@
             dataType: "json",
             success: function(res){
                 if(res.success && res.categoryCount) {
+                    var totalCount = 0; // 전체 개수 계산을 위한 변수
+                    
+                    // 각 카테고리별 개수 업데이트
                     for(var category in res.categoryCount) {
                         var count = res.categoryCount[category];
                         $('[data-category="' + category + '"] .tab-count').text(count);
+                        totalCount += count; // 전체 개수에 더하기
                     }
+                    
+                    // 전체 카테고리 개수 업데이트 (data-category가 빈 문자열인 버튼)
+                    $('[data-category=""] .tab-count').text(totalCount);
                 }
             },
             error: function(err){

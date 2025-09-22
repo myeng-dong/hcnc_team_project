@@ -75,13 +75,22 @@
     				    html += '</div>';
     				    html += '</td>';
     				    html += '<td class="col-total"><span id="'+ uniqueList[i].CART_ITEM_ID +'-total">' + uniqueList[i].SUB_TOTAL.toLocaleString() + '</span><span>원</span></td>';
-    				    html += '<td class="col-actions"><i class="bi bi-x-lg" onclick="deleteProduct(' + uniqueList[i].CART_ITEM_ID + ')"></i> <i class="bi bi-suit-heart"></i></td>';
+    				    
+    				    // 위시리스트 상태에 따른 하트 아이콘 설정
+    				    var heartIcon = '';
+    				    if(uniqueList[i].IS_WISHLIST == 'Y'){
+    				        heartIcon = '<i class="bi bi-suit-heart-fill wishlist-heart" style="color: red; cursor: pointer;" onclick="toggleWishlist(' + uniqueList[i].CART_ITEM_ID + ', ' + uniqueList[i].PRODUCT_ID + ')"></i>';
+    				    } else {
+    				        heartIcon = '<i class="bi bi-suit-heart wishlist-heart" style="cursor: pointer;" onclick="toggleWishlist(' + uniqueList[i].CART_ITEM_ID + ', ' + uniqueList[i].PRODUCT_ID + ')"></i>';
+    				    }
+    				    
+    				    html += '<td class="col-actions"><i class="bi bi-x-lg" style="cursor: pointer;" onclick="deleteProduct(' + uniqueList[i].CART_ITEM_ID + ')"></i> ' + heartIcon + '</td>';
     				    html += '</tr>';
     				}
 
     				$("#cart-body").html(html);
     				
-    				// ⭐⭐⭐ 각 상품별 옵션 조합 생성 ⭐⭐⭐
+    				// 각 상품별 옵션 조합 생성
     	            for(var i = 0; i < uniqueList.length; i++){
     	                generateProductOptions(uniqueList[i].CART_ITEM_ID, uniqueList[i].PRODUCT_ID, uniqueList[i].PRODUCT_OPTION, list);
     	            }
@@ -496,6 +505,87 @@
 		        }
 		    });
 		}
+
+        // 위시리스트 토글 기능
+        const toggleWishlist = (cart_item_id, product_id) => {
+            var isCurrentlyInWishlist = false;
+            
+            // 현재 하트 상태 확인
+            $("#cart-body tr").each(function() {
+                var $row = $(this);
+                var $heart = $row.find('.wishlist-heart');
+                
+                // 해당 행인지 확인 (체크박스 id로 판단)
+                if ($row.find('input[type="checkbox"]').attr('id') === cart_item_id + '-checkbox') {
+                    isCurrentlyInWishlist = $heart.hasClass('bi-suit-heart-fill');
+                    return false; // break
+                }
+            });
+            
+            // 확인 메시지 표시
+            var message = isCurrentlyInWishlist ? 
+                '이 상품의 모든 옵션이 위시리스트에서 제거됩니다. 계속하시겠습니까?' : 
+                '이 상품의 모든 옵션이 위시리스트에 추가됩니다. 계속하시겠습니까?';
+            
+            if (!confirm(message)) {
+                return;
+            }
+            
+            var param = {
+                memberId: memberId,
+                productId: product_id,
+                cartItemId: cart_item_id,
+                action: isCurrentlyInWishlist ? 'remove' : 'add'
+            };
+            
+            $.ajax({
+                url: "/toggleWishlist.do",
+                type: "post",
+                data: param,
+                dataType: "json",
+                success: function(res) {
+                    if (res.success) {
+                        // 같은 상품의 모든 옵션 하트 아이콘 업데이트
+                        $("#cart-body tr").each(function() {
+                            var $row = $(this);
+                            var $heart = $row.find('.wishlist-heart');
+                            var rowProductId = null;
+                            
+                            // onclick 속성에서 product_id 추출
+                            var onclickAttr = $heart.attr('onclick');
+                            if (onclickAttr) {
+                                var matches = onclickAttr.match(/toggleWishlist\(\d+,\s*(\d+)\)/);
+                                if (matches) {
+                                    rowProductId = parseInt(matches[1]);
+                                }
+                            }
+                            
+                            // 같은 상품 ID인 경우 하트 상태 업데이트
+                            if (rowProductId === product_id) {
+                                if (res.isInWishlist) {
+                                    // 위시리스트에 추가됨 - 색칠된 하트로 변경
+                                    $heart.removeClass('bi-suit-heart').addClass('bi-suit-heart-fill');
+                                    $heart.css('color', 'red');
+                                } else {
+                                    // 위시리스트에서 제거됨 - 빈 하트로 변경
+                                    $heart.removeClass('bi-suit-heart-fill').addClass('bi-suit-heart');
+                                    $heart.css('color', '');
+                                }
+                            }
+                        });
+                        
+                        var resultMessage = res.isInWishlist ? '위시리스트에 추가되었습니다.' : '위시리스트에서 제거되었습니다.';
+                        alert(resultMessage);
+                        
+                    } else {
+                        alert('위시리스트 처리에 실패했습니다: ' + res.message);
+                    }
+                },
+                error: function(err) {
+                    alert('위시리스트 처리 통신 실패');
+                }
+            });
+        }
     </script>
 
   <div class="container cart">
