@@ -99,7 +99,6 @@
         this.Pop_ProductDetail_onkeyup = function(obj,e)
         {
         	 if (e.keycode == 27) {  // 27 = Esc 키
-
                 this.close(); //닫음
             }
         };

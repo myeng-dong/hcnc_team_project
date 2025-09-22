@@ -255,6 +255,9 @@
         		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
             }
         };
+        this.fn_popupCallback = function(){
+        	this.fnselectOneOnOneByAdmin();
+        };
 
 
 
