@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,25 +50,6 @@ public class UserProductController {
 	}
 	///////////////////////////////////////////////////////////////
 	
-	/*
-	 * @RequestMapping(value="/selectProductByUser.do") public ModelAndView
-	 * selectProductByUser(@RequestParam Map<String, Object> param) {
-	 * 
-	 * ModelAndView mav = new ModelAndView("jsonView");
-	 * 
-	 * System.out.println(param);
-	 * 
-	 * List<HashMap<String, Object>> productDetail =
-	 * userProductService.selectProductByUser(param);
-	 * 
-	 * List<HashMap<String, Object>> productOptionInfo =
-	 * userProductService.slectOptionInfoByUser(param);
-	 * 
-	 * mav.addObject("product", productDetail); mav.addObject("productOptions",
-	 * productOptionInfo);
-	 * 
-	 * return mav; }
-	 */
 	@RequestMapping(value="/insertCartItem.do")
 	public ModelAndView insertCartItemByUser(@RequestParam Map<String, Object> param) {
 		
@@ -92,23 +75,47 @@ public class UserProductController {
 		int insertQnA = userProductService.insertQnAByUser(param);
 		
 		redirectAttributes.addFlashAttribute("message", "등록이 완료되었습니다.");
-		redirectAttributes.addFlashAttribute("messageType", "success");
+		redirectAttributes.addFlashAttribute("messageType", "insertSuccess");
 		
 		mav.setViewName("redirect:/productDetailView.do?productId=" + productId);
 		
 		return mav;
 	}
 	
-	/*
-	 * @RequestMapping(value="/selectProductQnAList.do") public ModelAndView
-	 * selectProductQnAListByUser(@RequestParam Map<String, Object> param) {
-	 * ModelAndView mav = new ModelAndView("jsonView");
-	 * 
-	 * List<HashMap<String, Object>> productQnAList =
-	 * userProductService.selectProductQnAListByUser(param);
-	 * 
-	 * mav.addObject("qnaList", productQnAList);
-	 * 
-	 * return mav; }
-	 */
+	@RequestMapping(value="/selectQnADetail.do")
+	public ModelAndView selectQnADetailByUser(@RequestParam Map<String, Object> param) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		System.out.println(param);
+		
+		HashMap<String, Object> qnaDetail = userProductService.selectQnADetailByUser(param);
+		
+		mav.addObject("qnaDetail", qnaDetail);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/updateProductQnA.do")
+	public ModelAndView updateProductQnAByUser(@RequestParam Map<String, Object> param) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		System.out.println(param);
+		
+		userProductService.updateProductQnAByUser(param);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/deleteProductQnA.do")
+	public ModelAndView deleteQnAByUser(@RequestParam Map<String, Object> param) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		System.out.println(param);
+		
+		userProductService.deleteQnAByUser(param);
+				
+		return mav;
+		
+	}
+	
 }

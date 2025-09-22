@@ -34,14 +34,34 @@
 	
 	
 	<select id="selectProductQnAListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT PRODUCT_QNA_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, DATE_FORMAT(UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT
+		SELECT PRODUCT_QNA_ID, MEMBER_ID, QNA_TITLE, QNA_STATUS, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, DATE_FORMAT(UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT
 			FROM PRODUCT_QNA
 		  WHERE 1=1
 		  	AND PRODUCT_ID = #{productId}
+	</select>
+	
+	<select id="selectQnADetailByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT PRODUCT_QNA_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, DATE_FORMAT(UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT
+			FROM PRODUCT_QNA
+		  WHERE 1=1
+		  	AND PRODUCT_QNA_ID = #{qnaId}
 	</select>
 	
 	<insert id="insertQnAByUser" parameterType="java.util.Map">
 		INSERT INTO PRODUCT_QNA (PRODUCT_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT)
 			VALUES ( #{productId}, #{memberId}, #{qnaTitle}, #{qnaContent} )
 	</insert>
+	
+	<update id="updateProductQnAByUser" parameterType="java.util.Map">
+		UPDATE PRODUCT_QNA
+			SET QNA_TITLE = #{title}, QNA_CONTENT = #{content}
+			WHERE 1=1
+				AND PRODUCT_QNA_ID = #{qnaId}
+	</update>
+	
+	<delete id="deleteQnAByUser" parameterType="java.util.Map">
+		DELETE FROM PRODUCT_QNA
+			WHERE 1=1
+				AND PRODUCT_QNA_ID = #{qnaId};
+	</delete>
 </mapper>
