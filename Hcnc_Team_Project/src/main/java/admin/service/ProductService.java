@@ -51,4 +51,45 @@ public class ProductService {
 	public List<Map<String, Object>> selectSubCategoryComboByAdmin(int mainCateId) {
 		return productMapper.selectSubCategoryComboByAdmin(mainCateId);
 	}
+	
+	
+	
+	
+	
+	// ---- 카테고리 ----
+	public List<Map<String,Object>> selectMainCategoryByAdmin() {
+	    return productMapper.selectMainCategoryByAdmin();
+	}
+	public List<Map<String,Object>> selectSubCategoryByAdmin() {
+	    return productMapper.selectSubCategoryByAdmin();
+	}
+	public void insertCategoryByAdmin(Map<String,Object> p) {
+	    productMapper.insertCategoryByAdmin(p);
+	}
+	public void updateCategoryByAdmin(Map<String,Object> p) {
+	    productMapper.updateCategoryByAdmin(p);
+	}
+	public void deleteCategoryByAdmin(Map<String,Object> p) {
+	    productMapper.deleteCategoryByAdmin(p);
+	}
+
+
+	
+	// ------ 옵션 -------
+
+    public List<Map<String,Object>> selectOptionByAdmin(Map<String,Object> p) {
+        return productMapper.selectOptionByAdmin(p);
+    }
+
+    public void updateOptionVisibleByAdmin(Map<String,Object> p) {
+        productMapper.updateOptionVisibleByAdmin(p);
+    }
+
+	public void updateProductVisibleByAdmin(Map<String, Object> p) {
+		productMapper.updateProductVisibleByAdmin(p);
+	}
+
+
+	
+	
 }

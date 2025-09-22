@@ -1,0 +1,337 @@
+@charset "UTF-8";
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 30px 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Pagination Buttons */
+.pagination a {
+  color: #333;
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Active Page */
+.pagination a.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Hover */
+.pagination a:hover {
+  background: #555;
+  color: #fff;
+  border-color: #555;
+}
+
+/* Prev / Next arrows */
+.pagination a.prev,
+.pagination a.next {
+  font-weight: bold;
+}
+
+/*상품쪽 list*/
+.prd_area .prdList{flex-wrap:wrap;}
+
+.prd_area .prdItem {
+  width:100%;	
+  position: relative;
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.prd_area .prdList.new_list .prdItem{width:23%;}
+
+/* 썸네일 */
+.prd_area .prdItem .thumbnail {
+  position: relative;
+  width:100%;
+  padding-top:100%;
+  background:#ccc;
+  overflow:hidden;
+}
+.prd_area .prdItem .thumbnail img {
+  position: absolute;	
+  width: 100%;
+  top:0;
+  left:0;
+  height: auto;
+  display: block;
+}
+.prd_area .prdItem .thumbnail .soldout {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: none; /* 재고 없을 때 block */
+}
+
+/* 상품 설명 */
+.prd_area .prdItem .description {
+  margin-top: 15px;
+}
+.prd_area .prdItem .description .reviews {
+  font-size: 14px;
+  color: rgba(0,0,0,0.7);
+  margin-bottom: 5px;
+}
+.prd_area .prdItem .description .name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+}
+
+/* 가격 영역 */
+.prd_area .prdItem .priceArea {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.prd_area .prdItem .priceArea .salePercent {
+  color: #ff141f;
+  font-size: 18px;
+  font-weight: 600;
+}
+.prd_area .prdItem .priceArea .priceSale {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+.prd_area .prdItem .priceArea .originPrice {
+  font-size: 14px;
+  color: rgba(0,0,0,0.5);
+  text-decoration: line-through;
+}
+
+/* 아이콘/버튼 */
+.prd_area .prdItem .icons img {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+}
+.prd_area .prdItem .actions button {
+  background: none;
+  border: 0;
+  font-size: 20px;
+  margin-left: 8px;
+  cursor: pointer;
+  color: #333;
+}
+
+
+/*일반게시판 list*/
+.notice-area .notice-top {
+     padding: 25px 0;
+     border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+ }
+  .notice-top li:first-child { flex: 0 0 80px; text-align: center; }
+ .notice-top li:nth-child(2) { flex: 1; text-align: left; padding-left: 20px; }
+ .notice-top li:nth-child(3) { flex: 0 0 120px; text-align: center; }
+ .notice-top li:nth-child(4) { flex: 0 0 140px; text-align: center; }
+ 
+ .noticeItem {
+     border-bottom: 1px solid #f5f5f5;
+     transition: all 0.3s ease;
+     position: relative;
+     overflow: hidden;
+ }
+ 
+ .noticeItem::before {
+     content: '';
+     position: absolute;
+     left: 0;
+     top: 0;
+     width: 0;
+     height: 100%;
+     background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), transparent);
+     transition: width 0.3s ease;
+ }
+ 
+ .noticeItem:hover::before {
+     width: 100%;
+ }
+ 
+ .noticeItem:hover {
+     background: rgba(102, 126, 234, 0.02);
+     transform: translateX(5px);
+ }
+ 
+ .noticeItem:last-child {
+     border-bottom: none;
+ }
+ 
+ .noticeItem a {
+     display: block;
+     text-decoration: none;
+     color: inherit;
+     position: relative;
+     z-index: 1;
+ }
+ 
+ .noticeItem ul {
+     display: flex;
+     align-items: center;
+     padding: 25px 30px;
+     margin: 0;
+ }
+ 
+ .noticeItem li {
+     font-size: 1rem;
+     color: #333;
+ }
+ 
+ .noticeItem li:first-child { 
+     flex: 0 0 80px; 
+     text-align: center; 
+     font-weight: 600;
+     color: #667eea;
+ }
+ 
+ .noticeItem li:nth-child(2) { 
+     flex: 1; 
+     text-align: left; 
+     padding-left: 20px;
+     font-weight: 500;
+     color: #333;
+ }
+ 
+ .noticeItem li:nth-child(3) { 
+     flex: 0 0 120px; 
+     text-align: center;
+     color: #666;
+ }
+ 
+ .noticeItem li:nth-child(4) { 
+     flex: 0 0 120px; 
+     text-align: center;
+     color: #999;
+     font-size: 0.95rem;
+ }
+ 
+ /* 공지사항 아이콘 */
+ .notice-icon {
+     display: inline-block;
+     background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+     color: white;
+     padding: 4px 8px;
+     border-radius: 12px;
+     font-size: 0.8rem;
+     font-weight: 600;
+     margin-right: 10px;
+ }
+ 
+ .notice-icon.important {
+     background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+     animation: pulse 2s infinite;
+ }
+
+/*faq게시판*/
+.faq-area {
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.faq-item {
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.faq-item.open {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.faq-head {
+  margin: 0;
+}
+
+.faq-toggle {
+  width: 100%;
+  background: #fff;
+  border: none;
+  padding: 15px 20px;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-icon {
+  font-size: 18px;
+  transition: transform 0.3s;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-panel {
+  background: #f5f5f5;
+  padding: 15px 20px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/*갤러리게시판 list - 이벤트*/
+.eventItem {
+  width: calc(33.333% - 14px);
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.eventItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+.eventItem dl {
+  margin: 0;
+}
+.eventItem dt img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+.eventItem dd {
+  padding: 12px;
+}
+.eventItem dd p:first-child {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: #222;
+}
+.eventItem dd p:last-child {
+  font-size: 13px;
+  color: #777;
+}
