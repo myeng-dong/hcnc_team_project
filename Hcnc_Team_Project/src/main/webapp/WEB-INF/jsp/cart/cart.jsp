@@ -347,26 +347,27 @@
         
         // 삭제
         const deleteProduct = (cart_item_id) => {
-        	
-        	var param = {
-        			cartItemId : cart_item_id
-        		, cartId : cartId
-        	};
-        	
-        	$.ajax({
-        		url: "/deleteProduct.do"
-        		, type: "post"
-        		, data: param
-        		, dataType: "json"
-        		, success: function(){
-        			alert("삭제 되었습니다.");
-        			
-        			window.location.reload();
-        		}
-        		, error: function(){
-        			alert("삭제 통신 실패");
-        		}
-        	});
+        	if(confirm("삭제하시겠습니까?")){
+	        	var param = {
+	        			cartItemId : cart_item_id
+	        		, cartId : cartId
+	        	};
+	        	
+	        	$.ajax({
+	        		url: "/deleteProduct.do"
+	        		, type: "post"
+	        		, data: param
+	        		, dataType: "json"
+	        		, success: function(){
+	        			
+	        				window.location.reload();
+	     
+	        		}
+	        		, error: function(){
+	        			alert("삭제 통신 실패");
+	        		}
+	        	});
+        	}
         }
 
         // 전체 선택
