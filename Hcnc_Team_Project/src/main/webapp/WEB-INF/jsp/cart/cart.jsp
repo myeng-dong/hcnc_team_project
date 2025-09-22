@@ -56,7 +56,7 @@
     				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ uniqueList[i].CART_ITEM_ID +'-checkbox" checked onchange="updateChkBox(' + uniqueList[i].CART_ITEM_ID + ',\'' + uniqueList[i].PRODUCT_OPTION +'\')"></td>';
     				    }
     				    html += '<td class="col-img"><img src="sample.jpg" width="50"></td>';
-    				    html += '<td class="col-name">' + uniqueList[i].PRODUCT_NAME + '</td>';
+    				    html += '<td class="col-name"><span>' + uniqueList[i].PRODUCT_NAME + '</span></td>';
     				    if(uniqueList[i].PRODUCT_OPTION != null){
     				    	html += '<td class="col-option" id="option-cell-' + uniqueList[i].CART_ITEM_ID + '">';
     		                html += '<select class="option-select" id="'+ uniqueList[i].CART_ITEM_ID +'-option" onchange="updateOption(' + uniqueList[i].CART_ITEM_ID + ')">';

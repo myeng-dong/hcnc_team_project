@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user.mapper.UserWishMapper">
+	<!-- 사용자별 위시리스트 조회 -->
+    <select id="selectWishlistByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT 
+            wi.WISH_ITEM_ID,
+            w.WISH_ID,
+            w.MEMBER_ID,
+            wi.MAIN_CATE_ID,
+            wi.PRODUCT_ID,
+            p.PRODUCT_NAME,
+            p.PRODUCT_CODE,
+            p.PRODUCT_CONTENT,
+            p.PRODUCT_PRICE,
+            p.SALED_PRICE,
+            p.VIEW_CNT,
+            p.IS_VISIBLE,
+            mc.MAIN_CATE_NM,
+            pi.IMAGE_URL,
+            pi.ALT_TEXT,
+            pi.IS_MAIN
+        FROM WISH_ITEMS wi
+        INNER JOIN WISH w ON wi.WISH_ID = w.WISH_ID
+        INNER JOIN PRODUCTS p ON wi.PRODUCT_ID = p.PRODUCT_ID
+        INNER JOIN MAIN_CATEGORIES mc ON wi.MAIN_CATE_ID = mc.MAIN_CATE_ID
+        LEFT JOIN PRODUCT_IMG pi ON p.PRODUCT_ID = pi.PRODUCT_ID AND pi.IS_MAIN = 'Y'
+        WHERE w.MEMBER_ID = #{memberId}
+        <if test="category != null and category != ''">
+            AND wi.MAIN_CATE_ID = #{category}
+        </if>
+        <if test="priceRange != null and priceRange != ''">
+            <choose>
+                <when test="priceRange == '0-1000'">
+                    AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &lt;= 1000
+                </when>
+                <when test="priceRange == '1000-3000'">
+                    AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 1001 AND 3000
+                </when>
+                <when test="priceRange == '3000-5000'">
+                    AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 3001 AND 5000
+                </when>
+                <when test="priceRange == '5000-'">
+                    AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &gt; 5000
+                </when>
+            </choose>
+        </if>
+        <if test="status != null and status != ''">
+            <choose>
+                <when test="status == 'sale'">
+                    AND p.SALED_PRICE IS NOT NULL AND p.SALED_PRICE &lt; p.PRODUCT_PRICE
+                </when>
+                <when test="status == 'soldout'">
+                    AND p.IS_VISIBLE = 'N'
+                </when>
+                <when test="status == 'new'">
+                    AND p.INPUT_DT &gt;= DATE_SUB(NOW(), INTERVAL 30 DAY)
+                </when>
+            </choose>
+        </if>
+        <choose>
+            <when test="sortType == 'price-low'">
+                ORDER BY COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) ASC
+            </when>
+            <when test="sortType == 'price-high'">
+                ORDER BY COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) DESC
+            </when>
+            <when test="sortType == 'discount'">
+                ORDER BY 
+                    CASE 
+                        WHEN p.SALED_PRICE IS NOT NULL AND p.SALED_PRICE &lt; p.PRODUCT_PRICE 
+                        THEN ((p.PRODUCT_PRICE - p.SALED_PRICE) / p.PRODUCT_PRICE) * 100 
+                        ELSE 0 
+                    END DESC
+            </when>
+            <when test="sortType == 'popular'">
+                ORDER BY p.VIEW_CNT DESC
+            </when>
+            <otherwise>
+                ORDER BY wi.WISH_ITEM_ID DESC
+            </otherwise>
+        </choose>
+    </select>
+    
+    <!-- 카테고리별 위시리스트 개수 조회 -->
+    <select id="getCategoryCount" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT 
+            wi.MAIN_CATE_ID as category,
+            COUNT(*) as count,
+            mc.MAIN_CATE_NM as categoryName
+        FROM WISH_ITEMS wi
+        INNER JOIN WISH w ON wi.WISH_ID = w.WISH_ID
+        INNER JOIN MAIN_CATEGORIES mc ON wi.MAIN_CATE_ID = mc.MAIN_CATE_ID
+        WHERE w.MEMBER_ID = #{memberId}
+        GROUP BY wi.MAIN_CATE_ID, mc.MAIN_CATE_NM
+        ORDER BY wi.MAIN_CATE_ID
+    </select>
+
+    <!-- 장바구니 추가 -->
+    <insert id="addToCart" parameterType="java.util.HashMap">
+        INSERT INTO CART (
+            MEMBER_ID,
+            PRODUCT_ID,
+            QUANTITY,
+            REG_DATE
+        ) VALUES (
+            #{memberId},
+            #{productId},
+            #{quantity},
+            NOW()
+        )
+    </insert>
+</mapper>

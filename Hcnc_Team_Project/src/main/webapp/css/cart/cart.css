@@ -94,6 +94,23 @@
 	  accent-color: #DC0630;
 	  cursor: pointer;
 	}
+	
+		.cart-container .option-select {
+	  font-weight: bold;
+	  font-size: 13px;
+	  color: #333333;
+	  border: 1px solid #ececec;
+	  border-radius: 4px;
+	  padding: 6px 8px;
+	  background: #fff;
+	  min-width: 120px;
+	}
+	
+	.cart-container .option-select option {
+	  font-weight: bold !important;
+	  font-size: 13px !important;
+	  color: #333333 !important;
+	}
 
 	/* 수량 */
 	.cart-container .qty-box {
