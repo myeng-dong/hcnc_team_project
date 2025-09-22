@@ -215,16 +215,14 @@
                 "", "ds_subCate=ds_subCate", "", "fn_callback", true);
         };
 
-        /***************************************************
-        * 공통 콜백
-        ***************************************************/
+
         /***************************************************
         * 공통 콜백
         ***************************************************/
         this.fn_callback = function(svcID, errCode, errMsg)
         {
             if (errCode < 0) {
-                alert("에러: " + errMsg);
+                alert("실행을 실패 했습니다" );
                 return;
             }
 
@@ -269,7 +267,7 @@
                 if (this.ds_mainCate.rowcount > 0 && this.ds_subCate.rowcount > 0) {
                     this.fn_makeTree();
 
-                    // ✅ 작업별 알림 + 선택 처리
+                    // 작업별 알림 + 선택 처리
                     if (this._lastAction == "insertMain") {
                         alert("대분류가 추가되었습니다.");
                         var newId = this.ds_mainCate.getColumn(this.ds_mainCate.rowcount-1,"MAIN_CATE_ID");

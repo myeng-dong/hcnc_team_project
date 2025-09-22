@@ -210,43 +210,47 @@ public class ProductController {
     
     
     
- // ----------------- 상품관리 -----------------  
-    // 상품 등록 (상품/옵션/재고)
-    @RequestMapping("/insertProductByAdmin.do")
-    public NexacroResult insertProductByAdmin(
-            @ParamDataSet(name="ds_product") List<Map<String,Object>> dsProduct,
-            @ParamDataSet(name="ds_option", required=false) List<Map<String,Object>> dsOption,
-            @ParamDataSet(name="ds_inventory", required=false) List<Map<String,Object>> dsInventory) {
+	// ----------------- 상품관리 -----------------  
+	// 상품 등록 (상품/옵션/재고)
+	@RequestMapping("/insertProductByAdmin.do")
+	public NexacroResult insertProductByAdmin(
+	        @ParamDataSet(name="ds_product") List<Map<String,Object>> dsProduct,
+	        @ParamDataSet(name="ds_selOptions", required=false) List<Map<String,Object>> dsSelOptions,
+	        @ParamDataSet(name="ds_inventory", required=false) List<Map<String,Object>> dsInventory) {
 
-        NexacroResult rs = new NexacroResult();
+	    NexacroResult rs = new NexacroResult();
 
-        // 1) 상품 저장
-        Map<String,Object> p = dsProduct.get(0);
-        productService.insertProduct(p); // useGeneratedKeys → p에 PRODUCT_ID 세팅됨
-        Long productId = (Long) p.get("PRODUCT_ID");
+	    // 1) 상품 저장
+	    if (dsProduct == null || dsProduct.isEmpty()) {
+	        throw new IllegalArgumentException("상품 정보가 누락되었습니다.");
+	    }
+	    Map<String,Object> p = dsProduct.get(0);
+	    productService.insertProduct(p); // useGeneratedKeys → p에 PRODUCT_ID 세팅됨
+	    Long productId = (Long) p.get("PRODUCT_ID");
 
-        // 2) 옵션 저장
-        if (dsOption != null) {
-            for (Map<String,Object> opt : dsOption) {
-                opt.put("PRODUCT_ID", productId);
-                productService.insertOption(opt);
-            }
-        }
+	    // 2) 옵션 저장 (팝업에서 선택한 옵션들)
+	    if (dsSelOptions != null) {
+	        for (Map<String,Object> opt : dsSelOptions) {
+	            opt.put("PRODUCT_ID", productId);
+	            productService.insertOption(opt);
+	        }
+	    }
 
-        // 3) 재고 저장
-        if (dsInventory != null) {
-            for (Map<String,Object> inv : dsInventory) {
-                inv.put("PRODUCT_ID", productId);
-                productService.insertInventory(inv);
-            }
-        }
+	    // 3) 재고 저장
+	    if (dsInventory != null) {
+	        for (Map<String,Object> inv : dsInventory) {
+	            inv.put("PRODUCT_ID", productId);
+	            productService.insertInventory(inv);
+	        }
+	    }
 
-        // 4) 반환
-        Map<String,Object> out = new HashMap<>();
-        out.put("PRODUCT_ID", productId);
-        rs.addDataSet("ds_out_product", Collections.singletonList(out));
-        return rs;
-    }
+	    // 4) 반환 (등록된 PRODUCT_ID 넘겨줌)
+	    Map<String,Object> out = new HashMap<>();
+	    out.put("PRODUCT_ID", productId);
+	    rs.addDataSet("ds_out_product", Collections.singletonList(out));
+	    return rs;
+	}
+
 
     // 5) CKEditor 이미지 업로드
     @RequestMapping(value="/uploadImageProductByAdmin.do", method=RequestMethod.POST)

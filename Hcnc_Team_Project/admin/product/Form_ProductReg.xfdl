@@ -3,43 +3,56 @@
   <Form id="Form_ProductReg" width="1280" height="1490" titletext="상품등록" background="#f5f7fa" onload="Form_ProductReg_onload">
     <Layouts>
       <Layout width="1280" height="1490">
-        <Static id="sta_title" text="상품관리 || 상품등록" left="20" top="10" width="400" height="40" font="bold 16pt 'Gulim'" color="#111111"/>
-        <Static id="box_display" left="20" top="60" width="1240" height="80" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
-        <Static id="sta_display" text="표시 설정" left="40" top="88" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
-        <Radio id="rdo_display" left="140" top="66" width="190" height="64" innerdataset="ds_display" codecolumn="code" datacolumn="name" font="normal 11pt 'Gulim'" onitemchanged="rdo_display_onitemchanged"/>
-        <Radio id="rdo_sale" left="470" top="66" width="160" height="64" innerdataset="ds_sale" codecolumn="code" datacolumn="name" font="normal 11pt 'Gulim'"/>
-        <Static id="box_category" left="20" top="150" width="1240" height="70" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc" text=""/>
-        <Static id="sta_category" text="상품분류" left="40" top="173" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
-        <Combo id="cmb_maincate" left="140" top="170" width="200" height="30" innerdataset="ds_cate_main" codecolumn="CODE" datacolumn="NAME" font="normal 11pt 'Gulim'"/>
-        <Combo id="cmb_subcate" left="360" top="170" width="200" height="30" innerdataset="ds_cate_sub" codecolumn="CODE" datacolumn="NAME" font="normal 11pt 'Gulim'"/>
-        <Static id="box_basic" left="20" top="240" width="1240" height="280" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
-        <Static id="sta_basic" text="기본 정보" left="40" top="260" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
-        <Static id="sta_name" text="상품명" left="60" top="300" font="normal 11pt 'Gulim'" width="80" height="32"/>
-        <Edit id="edt_name" left="140" top="295" width="400" height="30" displaynulltext="상품명 입력" borderRadius="6px" font="normal 11pt 'Gulim'"/>
-        <Static id="sta_code" text="상품코드" left="60" top="340" font="normal 11pt 'Gulim'" width="80" height="32"/>
-        <Edit id="edt_code" left="140" top="335" width="400" height="30" enable="false" text="자동생성" borderRadius="6px" font="normal 11pt 'Gulim'"/>
-        <Static id="sta_desc" text="상세설명" left="60" top="380" font="normal 11pt 'Gulim'" width="80" height="32"/>
-        <Static id="sta_keyword" text="검색어" left="60" top="470" font="normal 11pt 'Gulim'" width="80" height="32"/>
-        <Edit id="edt_keyword" left="140" top="465" width="800" height="30" displaynulltext="검색어 입력(, 로 구분)" borderRadius="6px" font="normal 11pt 'Gulim'"/>
-        <Static id="box_saleinfo" left="20" top="550" width="1240" height="100" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc" text=""/>
-        <Static id="sta_saleinfo" text="판매 정보" left="40" top="560" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
-        <Static id="sta_price" text="판매가" left="150" top="588" font="normal 11pt 'Gulim'" width="80" height="32"/>
-        <Edit id="edt_price" left="210" top="595" width="200" height="30" borderRadius="6px" font="normal 11pt 'Gulim'"/>
-        <Static id="sta_supply" text="공급가" left="430" top="598" font="normal 11pt 'Gulim'" width="50" height="24"/>
-        <Edit id="edt_supply" left="490" top="595" width="200" height="30" borderRadius="6px" font="normal 11pt 'Gulim'"/>
-        <Static id="box_option" left="20" top="660" width="1240" height="180" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
-        <Static id="sta_option" text="옵션/재고" left="40" top="680" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
-        <Grid id="grd_option" left="40" top="710" width="1180" height="110" binddataset="ds_option" autofittype="col" borderRadius="6px" border="1px solid #dddddd" font="normal 11pt 'Gulim'"/>
-        <Static id="box_imgmemo" left="20" top="860" width="1240" height="200" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px" shadow="1px 1px 6px #cccccc"/>
-        <Static id="sta_memo" text="메모" left="40" top="930" font="bold 12pt 'Gulim'" color="#222222" width="80" height="32"/>
-        <TextArea id="txt_memo" left="140" top="925" width="800" height="80" borderRadius="6px" font="normal 11pt 'Gulim'"/>
-        <Button id="btn_save" text="저장" left="900" top="1100" width="150" height="40" background="#000000" color="#ffffff" borderRadius="8px" font="bold 12pt 'Gulim'" onclick="btn_save_onclick"/>
-        <Button id="btn_cancel" text="취소" left="1070" top="1100" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" font="bold 12pt 'Gulim'" onclick="btn_cancel_onclick"/>
-        <WebBrowser id="wb_detailDesc" taborder="35" left="139" top="370" width="801" height="81" onusernotify="wb_detailDesc_onusernotify"/>
+        <!-- 타이틀 -->
+        <Static id="sta_title" text="상품관리 || 상품등록" left="20" top="10" width="220" height="40" font="bold 16pt 'Gulim'" color="#111111"/>
+        <!-- 표시 설정 -->
+        <Static id="box_display" left="20" top="60" width="1240" height="80" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_display" text="표시 설정" left="40" top="88" font="bold 12pt 'Gulim'" color="#222222" width="100" height="25"/>
+        <Radio id="rdo_display" left="140" top="66" width="190" height="64" innerdataset="ds_display" codecolumn="code" datacolumn="name"/>
+        <Radio id="rdo_sale" left="470" top="66" width="160" height="64" innerdataset="ds_sale" codecolumn="code" datacolumn="name"/>
+        <!-- 카테고리 -->
+        <Static id="box_category" left="20" top="150" width="1240" height="70" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_category" text="상품분류" left="40" top="173" font="bold 12pt 'Gulim'" color="#222222" width="100" height="25"/>
+        <Combo id="cmb_maincate" left="140" top="170" width="200" height="30" innerdataset="ds_cate_main" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM"/>
+        <Combo id="cmb_subcate" left="360" top="170" width="200" height="30" innerdataset="ds_cate_sub" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM"/>
+        <!-- 기본 정보 -->
+        <Static id="box_basic" left="20" top="240" width="1240" height="280" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_basic" text="기본 정보" left="40" top="260" font="bold 12pt 'Gulim'" color="#222222" width="100" height="25"/>
+        <Static id="sta_name" text="상품명" left="60" top="300" width="100" height="25"/>
+        <Edit id="edt_name" left="140" top="295" width="400" height="30" displaynulltext="상품명 입력"/>
+        <Static id="sta_code" text="상품코드" left="60" top="340" width="100" height="25"/>
+        <Edit id="edt_code" left="140" top="335" width="400" height="30" enable="false" text="자동생성"/>
+        <Static id="sta_desc" text="상세설명" left="60" top="380" width="100" height="25"/>
+        <WebBrowser id="wb_detailDesc" left="140" top="370" width="800" height="80"/>
+        <Static id="sta_keyword" text="검색어" left="60" top="470" width="100" height="25"/>
+        <Edit id="edt_keyword" left="140" top="465" width="800" height="30" displaynulltext="검색어 입력(, 로 구분)"/>
+        <!-- 판매 정보 -->
+        <Static id="box_saleinfo" left="20" top="550" width="1240" height="100" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_saleinfo" text="판매 정보" left="40" top="560" font="bold 12pt 'Gulim'" width="100" height="25"/>
+        <Static id="sta_price" text="판매가" left="150" top="588" width="0" height="0"/>
+        <Edit id="edt_price" left="210" top="595" width="200" height="30"/>
+        <Static id="sta_supply" text="공급가" left="430" top="598" width="0" height="0"/>
+        <Edit id="edt_supply" left="490" top="595" width="200" height="30"/>
+        <!-- 옵션 선택 -->
+        <Static id="box_option" left="20" top="660" width="1240" height="120" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_option" text="옵션" left="40" top="680" font="bold 12pt 'Gulim'" width="100" height="25"/>
+        <Button id="btn_optionSelect" text="옵션 선택" left="150" top="675" width="100" height="30" onclick="btn_optionSelect_onclick"/>
+        <Div id="div_selectedOptions" left="270" top="675" width="950" height="100" background="#ffffff" scrollbars="autoboth" onclick="div_selectedOptions_onclick">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <!-- 메모 -->
+        <Static id="box_imgmemo" left="20" top="800" width="1240" height="200" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_memo" text="메모" left="40" top="930" width="100" height="25"/>
+        <TextArea id="txt_memo" left="140" top="925" width="800" height="80"/>
+        <!-- 버튼 -->
+        <Button id="btn_save" text="저장" left="900" top="1100" width="150" height="40" background="#000000" color="#ffffff" borderRadius="8px" onclick="btn_save_onclick"/>
+        <Button id="btn_cancel" text="취소" left="1070" top="1100" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" onclick="btn_cancel_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
-      <!-- 표시 설정 -->
+      <!-- 표시 여부 -->
       <Dataset id="ds_display">
         <ColumnInfo>
           <Column id="code" type="STRING"/>
@@ -73,26 +86,21 @@
           </Row>
         </Rows>
       </Dataset>
-      <!-- 메인 카테고리 -->
+      <!-- 카테고리 -->
       <Dataset id="ds_cate_main">
         <ColumnInfo>
           <Column id="MAIN_CATE_ID" type="BIGDECIMAL"/>
           <Column id="MAIN_CATE_NM" type="STRING"/>
-          <Column id="SORT_NUMBER" type="INT"/>
-          <Column id="IS_ACTIVE" type="STRING"/>
         </ColumnInfo>
       </Dataset>
-      <!-- 서브 카테고리 -->
       <Dataset id="ds_cate_sub">
         <ColumnInfo>
           <Column id="SUB_CATE_ID" type="BIGDECIMAL"/>
           <Column id="MAIN_CATE_ID" type="BIGDECIMAL"/>
           <Column id="SUB_CATE_NM" type="STRING"/>
-          <Column id="SORT_NUMBER" type="INT"/>
-          <Column id="IS_ACTIVE" type="STRING"/>
         </ColumnInfo>
       </Dataset>
-      <!-- 상품 기본 정보 -->
+      <!-- 상품 기본 -->
       <Dataset id="ds_product">
         <ColumnInfo>
           <Column id="PRODUCT_ID" type="BIGDECIMAL"/>
@@ -107,8 +115,8 @@
           <Column id="MEMO" type="STRING"/>
         </ColumnInfo>
       </Dataset>
-      <!-- 옵션 -->
-      <Dataset id="ds_option">
+      <!-- 선택 옵션 Dataset -->
+      <Dataset id="ds_selOptions">
         <ColumnInfo>
           <Column id="OPTION_ID" type="BIGDECIMAL"/>
           <Column id="PRODUCT_ID" type="BIGDECIMAL"/>
@@ -117,28 +125,15 @@
           <Column id="ADDITIONAL_PRICE" type="INT"/>
         </ColumnInfo>
       </Dataset>
-      <!-- 재고 -->
-      <Dataset id="ds_inventory">
+      <!-- 상품 등록 결과 -->
+      <Dataset id="ds_out_product">
         <ColumnInfo>
-          <Column id="INVENTORY_ID" type="BIGDECIMAL"/>
           <Column id="PRODUCT_ID" type="BIGDECIMAL"/>
-          <Column id="OPTION_ID" type="BIGDECIMAL"/>
-          <Column id="QUANTITY" type="INT"/>
-        </ColumnInfo>
-      </Dataset>
-      <!-- 이미지 -->
-      <Dataset id="ds_product_img">
-        <ColumnInfo>
-          <Column id="IMAGE_ID" type="BIGDECIMAL"/>
-          <Column id="PRODUCT_ID" type="BIGDECIMAL"/>
-          <Column id="IMAGE_URL" type="STRING"/>
-          <Column id="ALT_TEXT" type="STRING"/>
-          <Column id="SORT_NUMBER" type="INT"/>
-          <Column id="IS_MAIN" type="STRING"/>
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[this.Form_ProductReg_onload = function(obj,e)
+    <Script type="xscript5.1"><![CDATA[// CKEditor 적용
+this.Form_ProductReg_onload = function(obj,e)
 {
     var html = "<!DOCTYPE html>" +
                "<html><head>" +
@@ -146,40 +141,24 @@
                "</head><body>" +
                "<textarea id='editor1'></textarea>" +
                "<script>" +
-               " CKEDITOR.replace('editor1', {" +
-               "     height: 350," +
-               "     filebrowserUploadUrl: '/uploadImageProductByAdmin.do'," +
-               "     filebrowserUploadMethod: 'form'" +
-               " });" +
+               " CKEDITOR.replace('editor1', { height: 350, filebrowserUploadUrl: '/uploadImageProductByAdmin.do', filebrowserUploadMethod: 'form' });" +
                "</script>" +
                "</body></html>";
-
     this.wb_detailDesc.set_html(html);
-
     this.fn_loadCategory();
-    this.ds_option.addRow();
 };
 
-// CKEditor 본문 내용 가져오기
-this.fn_getEditorContent = function()
-{
-    var doc = this.wb_detailDesc.getProperty("document");  
-    var content = doc.parentWindow.CKEDITOR.instances['editor1'].getData();
-    return content;
+// CKEditor 본문 가져오기
+this.fn_getEditorContent = function() {
+    var doc = this.wb_detailDesc.getProperty("document");
+    return doc.parentWindow.CKEDITOR.instances['editor1'].getData();
 };
 
 // 카테고리 조회
-this.fn_loadCategory = function()
-{
-    var strSvcId = "selectCategory";
-    var strUrl = "svc::selectCategory.do";
-    var strIn = "";
-    var strOut = "ds_cate_main=ds_cate_main ds_cate_sub=ds_cate_sub";
-    var strArg = "";
-    var callBack = "fn_callback";
-    var bAsync = true;
-    this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
+this.fn_loadCategory = function() {
+    this.transaction("selectCategory", "svc::selectCategory.do", "", "ds_cate_main=ds_cate_main ds_cate_sub=ds_cate_sub", "", "fn_callback", true);
 };
+
 
 // 저장 버튼 클릭
 this.btn_save_onclick = function(obj,e)
@@ -193,79 +172,164 @@ this.btn_save_onclick = function(obj,e)
         return;
     }
 
+    // CKEditor 본문 가져오기
     var desc = this.fn_getEditorContent();
 
+    // ds_product 구성 (단일행)
+    this.ds_product.clearData();
+    var nRow = this.ds_product.addRow();
+    this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
+    this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", desc);
+    this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
+    this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_supply.value);
+    this.ds_product.setColumn(nRow, "KEYWORD", this.edt_keyword.value);
+    this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
+    this.ds_product.setColumn(nRow, "SALE_YN", this.rdo_sale.value);
+    this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
+    this.ds_product.setColumn(nRow, "MEMO", this.txt_memo.value);
+    this.ds_product.setColumn(nRow, "INPUT_ID", "admin"); // 추후 세션 연동 가능
+
+    // 트랜잭션 호출
     var strSvcId = "insertProductByAdmin";
     var strUrl = "svc::insertProductByAdmin.do";
-    var strIn = "ds_option=ds_option";
-    var strOut = "ds_out_product=ds_out_product"; 
-    var strArg = "";
-    strArg += "PRODUCT_NAME=" + this.edt_name.value;
-    strArg += " PRODUCT_DESC=" + desc;
-    strArg += " PRODUCT_PRICE=" + this.edt_price.value;
-    strArg += " COST_PRICE=" + this.edt_supply.value;
-    strArg += " KEYWORD=" + this.edt_keyword.value;
-    strArg += " DISP_YN=" + this.rdo_display.value;
-    strArg += " SALE_YN=" + this.rdo_sale.value;
-    strArg += " MAIN_CATE=" + this.cmb_maincate.value;
-    strArg += " SUB_CATE=" + this.cmb_subcate.value;
-    strArg += " MEMO=" + this.txt_memo.value;
 
+    // IN/OUT Dataset 매핑
+    var strIn  = "ds_product=ds_product ds_selOptions=ds_selOptions ds_inventory=ds_inventory";
+    var strOut = "ds_out_product=ds_out_product";
+
+    var strArg = "";
     var callBack = "fn_callback";
     var bAsync = true;
+
     this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
 };
 
+
 // 취소 버튼
-this.btn_cancel_onclick = function(obj,e)
-{
+this.btn_cancel_onclick = function(obj,e) {
     this.go("product::Form_Product.xfdl");
 };
 
-// 공통 콜백
-this.fn_callback = function(strSvcId, nErrorCode, strErrorMag)
-{
-    if (nErrorCode < 0) {
-        this.alert("오류: " + strErrorMag);
-        return;
-    }
+// 콜백
+this.fn_callback = function(svcID, errCode, errMsg) {
+    if (errCode < 0) { this.alert("오류: " + errMsg); return; }
 
-    switch(strSvcId){
-        case "insertProductByAdmin":
+    switch(svcID){
+		case "insertProductByAdmin":
             var newProductId = this.ds_out_product.getColumn(0, "PRODUCT_ID");
             this.alert("상품등록이 완료되었습니다. 상품번호: " + newProductId);
 
-            // 이미지 매핑 및 대표이미지 지정
+            // 이미지 매핑
             this.fn_updateImageMapping(newProductId);
 
+            // 상품 목록 화면으로 이동
             this.go("product::Form_Product.xfdl");
-            break;
-
-        case "selectCategory":
             break;
 
         case "updateProductImageMappingByAdmin":
             trace("이미지 매핑 및 대표 지정 완료");
             break;
+        case "insertOptionsByAdmin":
+            this.alert("옵션 등록 완료");
+            this.go("product::Form_Product.xfdl");
+            break;
     }
 };
 
-// 업로드된 이미지 PRODUCT_ID 매핑 및 대표 지정
-this.fn_updateImageMapping = function(productId)
-{
-    var strSvcId = "updateProductImageMappingByAdmin";
-    var strUrl = "svc::updateProductImageMappingByAdmin.do";
-    var strIn = "";
-    var strOut = "";
-    var strArg = "";
-    strArg += "PRODUCT_ID=" + productId;
-    strArg += " UPDATE_ID=admin";
-
-    var callBack = "fn_callback";
-    var bAsync = true;
-    this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
+// 이미지 매핑
+this.fn_updateImageMapping = function(productId) {
+    var strArg = "PRODUCT_ID=" + productId + " UPDATE_ID=admin";
+    this.transaction("updateProductImageMappingByAdmin", "svc::updateProductImageMappingByAdmin.do", "", "", strArg, "fn_callback", true);
 };
 
-]]></Script>
+// 옵션 팝업 열기
+this.btn_optionSelect_onclick = function() {
+    var objChild = new ChildFrame();
+    objChild.init("OptionPop", 200, 100, 600, 400, null, null, "Form::Form_ProductOptionSelect.xfdl");
+    objChild.set_titletext("옵션 선택");
+    objChild.showModal(this.getOwnerFrame(), null, this, "fn_optionCallback");
+};
+
+// 팝업 콜백
+this.fn_optionCallback = function(sId, sArg) {
+    if (sId == "OptionPop" && sArg) {
+        var arr = JSON.parse(sArg);
+        this.ds_selOptions.clearData();
+        for (var i=0; i<arr.length; i++) {
+            var nRow = this.ds_selOptions.addRow();
+            this.ds_selOptions.setColumn(nRow, "OPTION_NAME", arr[i].OPTION_NAME);
+            this.ds_selOptions.setColumn(nRow, "OPTION_VALUE", arr[i].OPTION_VALUE);
+            this.ds_selOptions.setColumn(nRow, "ADDITIONAL_PRICE", arr[i].ADDITIONAL_PRICE);
+        }
+        this.fn_drawOptionTags();
+    }
+};
+
+// 선택 옵션 태그 그리기
+this.fn_drawOptionTags = function() {
+    var objDiv = this.div_selectedOptions.form;
+    objDiv.removeAll();
+    var maxWidth = this.div_selectedOptions.getOffsetWidth() - 20;
+    var nLeft = 10, nTop = 8, tagWidth = 120, tagHeight = 30, gap = 10;
+
+    for (var i=0; i<this.ds_selOptions.getRowCount(); i++) {
+        var optName = this.ds_selOptions.getColumn(i, "OPTION_NAME");
+        var objStatic = new Static("stc_opt_" + i, nLeft, nTop, 90, 24);
+        objStatic.set_text(optName);
+        objStatic.set_background("#f0f0f0");
+        objStatic.set_border("1px solid #cccccc");
+        objStatic.set_borderRadius("5px");
+        objStatic.set_textAlign("center");
+        objDiv.addChild(objStatic.name, objStatic);
+        objStatic.show();
+
+        var objBtn = new Button("btn_x_" + i, nLeft+95, nTop, 20, 24);
+        objBtn.set_text("X"); objBtn.set_color("red"); objBtn.optRow = i;
+        objBtn.addEventHandler("onclick", this.fn_removeOption, this);
+        objDiv.addChild(objBtn.name, objBtn); objBtn.show();
+
+        nLeft += tagWidth + gap;
+        if (nLeft + tagWidth > maxWidth) { nLeft = 10; nTop += tagHeight + gap; }
+    }
+};
+
+// 옵션 삭제
+this.fn_removeOption = function(obj,e) {
+    this.ds_selOptions.deleteRow(obj.optRow);
+    this.fn_drawOptionTags();
+};
+
+// 옵션 저장
+this.fn_insertOptions = function(productId) {
+    for (var i=0; i<this.ds_selOptions.getRowCount(); i++) {
+        this.ds_selOptions.setColumn(i, "PRODUCT_ID", productId);
+    }
+    this.transaction("insertOptionsByAdmin", "svc::insertOptionsByAdmin.do", "ds_selOptions=ds_selOptions", "", "", "fn_callback", true);
+};
+
+this.div_selectedOptions_onclick = function(obj:nexacro.Div,e:nexacro.ClickEventInfo)
+{
+	var objChild = new ChildFrame();
+    objChild.init("OptionSelectPop", 200, 100, 800, 600, null, null, "product::Form_ProductOptionSelect.xfdl");
+    objChild.set_titletext("옵션 선택");
+    objChild.showModal(this.getOwnerFrame(), "", this, "fn_optionSelectCallback");
+};
+
+
+// 팝업 닫힌 후 콜백
+this.fn_optionSelectCallback = function(sPopupId, sRtn)
+{
+    if (!sRtn) return;
+
+    var arr = JSON.parse(sRtn);
+
+    for (var i=0; i<arr.length; i++) {
+        var row = this.ds_selOptions.addRow();
+        this.ds_selOptions.setColumn(row, "OPTION_ID", arr[i].OPTION_ID);
+        this.ds_selOptions.setColumn(row, "OPTION_NAME", arr[i].OPTION_NAME);
+        this.ds_selOptions.setColumn(row, "OPTION_VALUE", arr[i].OPTION_VALUE);
+        this.ds_selOptions.setColumn(row, "ADDITIONAL_PRICE", arr[i].ADDITIONAL_PRICE);
+    }
+};]]></Script>
   </Form>
 </FDL>

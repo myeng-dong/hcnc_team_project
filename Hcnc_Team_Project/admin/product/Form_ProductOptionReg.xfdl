@@ -6,7 +6,7 @@
         <!-- 타이틀 -->
         <Static id="sta_title" text="옵션관리 | 등록/수정" left="30" top="20" width="400" height="40" font="bold 16pt/normal 'Arial'" color="#232323"/>
         <!-- 옵션입력 안내 -->
-        <Static id="sta_notice" text="옵션 입력 (옵션명/옵션값, 추가금액)" left="30" top="80" width="600" height="30" font="11pt 'Gulim'" color="#666666"/>
+        <Static id="sta_notice" text="옵션 입력 (옵션코드 자동생성)" left="30" top="80" width="600" height="30" font="11pt 'Gulim'" color="#666666"/>
         <!-- 옵션입력 그리드 -->
         <Grid id="grd_option" left="30" top="120" width="1220" height="550" binddataset="ds_optionReg" autofittype="col" border="1px solid #cccccc" borderRadius="8px">
           <Formats>
@@ -14,14 +14,14 @@
               <Columns>
                 <Column size="50"/>
                 <!-- No -->
-                <Column size="200"/>
+                <Column size="150"/>
+                <!-- 옵션코드 -->
+                <Column size="250"/>
                 <!-- 옵션명 -->
                 <Column size="250"/>
                 <!-- 옵션값 -->
                 <Column size="150"/>
                 <!-- 추가금액 -->
-                <Column size="150"/>
-                <!-- 색상 -->
               </Columns>
               <Rows>
                 <Row size="40" band="head"/>
@@ -29,64 +29,39 @@
               </Rows>
               <Band id="head">
                 <Cell text="No" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
-                <Cell col="1" text="옵션명" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
-                <Cell col="2" text="옵션값" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
-                <Cell col="3" text="추가금액" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
-                <Cell col="4" text="색상" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
+                <Cell col="1" text="옵션코드" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
+                <Cell col="2" text="옵션명" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
+                <Cell col="3" text="옵션값" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
+                <Cell col="4" text="추가금액" textAlign="center" font="bold 11pt 'Arial'" background="#f5f7fa" border="1px solid #e0e0e0"/>
               </Band>
               <Band id="body">
                 <Cell text="expr:currow+1" textAlign="center" background="#ffffff" border="1px solid #e0e0e0"/>
-                <Cell col="1" text="bind:OPTION_NAME" edittype="text" background="#ffffff" border="1px solid #e0e0e0"/>
-                <Cell col="2" text="bind:OPTION_VALUE" edittype="text" background="#ffffff" border="1px solid #e0e0e0"/>
-                <Cell col="3" text="bind:ADDITIONAL_PRICE" edittype="text" background="#ffffff" border="1px solid #e0e0e0"/>
-                <Cell col="4" text="bind:COLOR" displaytype="combocontrol" edittype="combo" background="#ffffff" border="1px solid #e0e0e0" combodataset="ds_color" combocodecol="CODE" combodatacol="NAME"/>
+                <Cell col="1" text="bind:OPTION_ID" edittype="none" background="#eeeeee" textAlign="center" border="1px solid #e0e0e0"/>
+                <!-- 입력불가 -->
+                <Cell col="2" text="bind:OPTION_NAME" edittype="text" background="#ffffff" border="1px solid #e0e0e0"/>
+                <Cell col="3" text="bind:OPTION_VALUE" edittype="text" background="#ffffff" border="1px solid #e0e0e0"/>
+                <Cell col="4" text="bind:ADDITIONAL_PRICE" edittype="text" background="#ffffff" border="1px solid #e0e0e0"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
         <!-- 버튼 영역 -->
-        <Button id="btn_addRow" text="행추가" left="30" top="690" width="100" height="36" background="#1f4a5b" color="#ffffff" font="bold 11pt/normal 'Arial'" borderRadius="6px" cursor="pointer"/>
-        <Button id="btn_delRow" text="행삭제" left="140" top="690" width="100" height="36" background="#bf4a3f" color="#ffffff" font="bold 11pt/normal 'Arial'" borderRadius="6px" cursor="pointer"/>
+        <Button id="btn_addRow" text="행추가" left="30" top="690" width="100" height="36" background="#5cb85c" color="#ffffff" font="bold 11pt/normal 'Arial'" borderRadius="6px" cursor="pointer"/>
+        <Button id="btn_delRow" text="행삭제" left="140" top="690" width="100" height="36" background="#d9534f" color="#ffffff" font="bold 11pt/normal 'Arial'" borderRadius="6px" cursor="pointer"/>
         <Button id="btn_save" text="저장" left="1040" top="690" width="100" height="40" background="#102b6e" color="#ffffff" font="bold 11pt/normal 'Arial'" borderRadius="6px" cursor="pointer"/>
         <Button id="btn_cancel" text="취소" left="1150" top="690" width="100" height="40" background="#bbbbbb" color="#ffffff" font="bold 11pt/normal 'Arial'" borderRadius="6px" cursor="pointer"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[
-this.div_input_edt_optName_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
-{
-	
-};
-]]></Script>
+    <Script type="xscript5.1"><![CDATA[]]></Script>
     <Objects>
       <!-- 옵션입력 Dataset -->
       <Dataset id="ds_optionReg">
         <ColumnInfo>
+          <Column id="OPTION_ID" type="INT" size="256"/>
           <Column id="OPTION_NAME" type="STRING" size="256"/>
           <Column id="OPTION_VALUE" type="STRING" size="256"/>
           <Column id="ADDITIONAL_PRICE" type="INT" size="256"/>
-          <Column id="COLOR" type="STRING" size="50"/>
         </ColumnInfo>
-      </Dataset>
-      <!-- 색상 선택 Dataset -->
-      <Dataset id="ds_color">
-        <ColumnInfo>
-          <Column id="CODE" type="STRING" size="50"/>
-          <Column id="NAME" type="STRING" size="100"/>
-        </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="CODE">black</Col>
-            <Col id="NAME">블랙</Col>
-          </Row>
-          <Row>
-            <Col id="CODE">white</Col>
-            <Col id="NAME">화이트</Col>
-          </Row>
-          <Row>
-            <Col id="CODE">red</Col>
-            <Col id="NAME">레드</Col>
-          </Row>
-        </Rows>
       </Dataset>
     </Objects>
   </Form>
