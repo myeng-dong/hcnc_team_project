@@ -85,7 +85,7 @@ public class UserController {
 
 		mv.addObject("newProducts", newProducts);
 		mv.addObject("recommendProducts", recommendProducts);
-		
+
 		mv.setViewName("main/main");
 	    return mv;
 	}
