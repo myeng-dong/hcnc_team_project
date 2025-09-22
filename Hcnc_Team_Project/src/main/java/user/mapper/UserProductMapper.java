@@ -11,4 +11,8 @@ public interface UserProductMapper {
 
 	List<HashMap<String, Object>> selectProductByUser(Map<String, Object> param);
 
+	List<Map<String, Object>> selectMNProductListByUser();//메인에서 NEW BEST불러가는용 임시
+
+
+
 }
