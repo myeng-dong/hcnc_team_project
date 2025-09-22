@@ -270,7 +270,7 @@ uri="http://www.springframework.org/tags"%>
     const updateWithDrawByUser = () => {
       if (confirm("회원탈퇴하시겠습니까? 해당작업은 돌이킬수없습니다.")) {
         const param = {};
-        ajaxUtil(param, "updateWithDrawByUser", (res) => {
+        ajaxUtil(param, "updateWithDrawByUser.do", (res) => {
           if (rse.status == 200) {
             alert("회원탈퇴되었습니다.");
             location.href = "/login.do";

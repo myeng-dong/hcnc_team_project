@@ -52,4 +52,8 @@ public class UserMemberService {
 	public int updateWithDrawByUser(String id) {
 		return userMemberMapper.updateWithDrawByUser(id);
 	}
+
+	public int updateLastLoginByUser(String id) {
+		return userMemberMapper.updateLastLoginByUser(id);
+	}
 }

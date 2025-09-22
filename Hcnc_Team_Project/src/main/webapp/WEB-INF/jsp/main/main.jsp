@@ -2,7 +2,6 @@
 taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../layout/headerlink.jsp" />
-
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -15,7 +14,6 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <body>
     <div class="container-wrap">
       <jsp:include page="../layout/header.jsp" />
-
       <div class="container main">
         <main class="main_area">
           <section class="main_banner_area">
@@ -38,25 +36,11 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                               );
                             </script>
                             <a href="${banner['LINKED_URL']}" class="full-link">
-                              <div
-                                id="bannerImage1"
-                                class="img-area"
-                                style="
-                                  /* background: url('${banner['IMG_PATH']}')
-                                    center center no-repeat; */
-                                "
-                              ></div>
+                              <div id="bannerImage1" class="img-area"></div>
                             </a>
                           </c:when>
                           <c:otherwise>
-                            <div
-                              id="bannerImage2"
-                              class="img-area"
-                              style="
-                                /* background: url('${banner['IMG_PATH']}') center
-                                  center / cover no-repeat; */
-                              "
-                            ></div>
+                            <div id="bannerImage2" class="img-area"></div>
                           </c:otherwise>
                         </c:choose>
                       </div>

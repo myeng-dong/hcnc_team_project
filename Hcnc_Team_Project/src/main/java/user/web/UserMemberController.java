@@ -162,9 +162,10 @@ public class UserMemberController {
 			}
 			if("O".equals(info.get("PASSWORD"))) {
 				HttpSession session = request.getSession();
+				userMemberService.updateLastLoginByUser(id);
 				Map<String, Object> user = userMemberService.selectUserInfoByUser(id);
 				info.put("userType", "user");
-				session.setAttribute("userInfo", info);
+				session.setAttribute("userInfo", user);
 				mv.addObject("status", 200);
 				mv.addObject("result", info);
 			}
@@ -222,6 +223,7 @@ public class UserMemberController {
             }
             if(count == 1) {
             	HttpSession session = request.getSession();
+            	userMemberService.updateLastLoginByUser(token);
 				Map<String, Object> user = userMemberService.selectUserInfoByUser(token);
 				session.setAttribute("userInfo", user);
 				mv.addObject("status", 200);
@@ -399,7 +401,7 @@ public class UserMemberController {
 		return mv;
 	}
 	
-	@RequestMapping("/updateWithDrawByUser.do")
+	@RequestMapping("/mypage/updateWithDrawByUser.do")
 	public ModelAndView updateWithDrawByUser(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("jsonView");
 		try {

@@ -88,19 +88,25 @@ public class UserMypageController {
             @RequestParam(value="name", required=false) String name,
             @RequestParam(value="email", required=false) String email,
             @RequestParam(value="phone", required=false) String phone,
-            @RequestParam(value="birth", required=false) String birth
+            @RequestParam(value="birth", required=false) String birth,
+			HttpServletRequest request
     ) {
 		ModelAndView mv = new ModelAndView("jsonView");
+		HttpSession session = request.getSession(false);
         try{
-            Map<String,Object> info = new HashMap<String, Object>();
+            Map<String, Object> users = (Map<String, Object>) session.getAttribute("userInfo");
+            Map<String, Object> info = new HashMap();
+			String id = (String) users.get("MEMBER_ID");
             if(password != null && !password.equals("")) {
             	System.out.println(password);
             	info.put("password",PasswordUtil.encryptSHA256(password));
         	}
+			info.put("id",id);
             info.put("name",name);
             info.put("email",email);
             info.put("phone",phone);
             info.put("birth",birth);
+			
             int count = userMemberService.updateMemberByUser(info);
             if(count == 1) {
             	mv.addObject("status",200);
