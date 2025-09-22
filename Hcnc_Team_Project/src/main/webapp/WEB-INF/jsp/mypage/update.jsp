@@ -163,7 +163,6 @@ uri="http://www.springframework.org/tags"%>
         alert("올바르지 않은 휴대폰 번호입니다. 휴대폰번호를 확인해주세요.");
         return;
       }
-      console.log(originPassword);
       if (originPassword != "") {
         if (newPasswordCheck === "") {
           alert("비밀번호확인을 입력해주세요.");
@@ -267,6 +266,24 @@ uri="http://www.springframework.org/tags"%>
           alert("인증에 실패하였습니다. 인증번호를 확인해주세요.");
         }
       });
+    };
+    const updateWithDrawByUser = () => {
+      if (confirm("회원탈퇴하시겠습니까? 해당작업은 돌이킬수없습니다.")) {
+        const param = {};
+        ajaxUtil(param, "updateWithDrawByUser", (res) => {
+          if (rse.status == 200) {
+            alert("회원탈퇴되었습니다.");
+            location.href = "/login.do";
+            history.deleteAll();
+          }
+          if (rse.status == 400) {
+            alert("삭제에 실패하였습니다.");
+          }
+          if (rse.status == 404) {
+            alert("세션정보를 찾을수없습니다. 다시 로그인해주세요");
+          }
+        });
+      }
     };
   </script>
   <style>
@@ -816,7 +833,7 @@ uri="http://www.springframework.org/tags"%>
         </div>
 
         <!-- 보안 섹션 -->
-        <div class="security-section">
+        <div id="security-section" class="security-section">
           <h3 class="section-title">
             <span>🔒</span>
             비밀번호 변경
@@ -858,14 +875,29 @@ uri="http://www.springframework.org/tags"%>
         </div>
 
         <!-- 버튼 섹션 -->
-        <div class="button-section">
-          <button class="btn btn-primary" onclick="updateUser()">
-            변경사항 저장
-          </button>
-          <button class="btn btn-secondary" onclick="goBack()">취소</button>
+        <div class="button-section" style="justify-content: space-between">
+          <div style="font-size: 12px; font-weight: 400"></div>
+          <div>
+            <button class="btn btn-primary" onclick="updateUser()">
+              변경사항 저장
+            </button>
+            <button class="btn btn-secondary" onclick="goBack()">취소</button>
+          </div>
+          <div
+            style="
+              margin-top: auto;
+              font-size: 12px;
+              font-weight: 400;
+              text-decoration: underline;
+            "
+            onclick="updateWithDrawByUser()"
+          >
+            회원탈퇴
+          </div>
         </div>
       </div>
     </div>
+    <script></script>
     <div style="height: 20px"></div>
     <input id="originEmail" type="hidden" />
     <input id="loginType" type="hidden" />

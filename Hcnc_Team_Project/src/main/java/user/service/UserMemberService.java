@@ -48,4 +48,8 @@ public class UserMemberService {
 	public List<Map<String, Object>> selectMypageShippingInfoByUser(String id){
 		return userMemberMapper.selectMypageShippingInfoByUser(id);
 	}
+
+	public int updateWithDrawByUser(String id) {
+		return userMemberMapper.updateWithDrawByUser(id);
+	}
 }
