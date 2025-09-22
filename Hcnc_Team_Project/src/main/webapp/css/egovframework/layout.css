@@ -9,31 +9,24 @@
 }
 
 .container {
-  /* margin-left: calc(50vw - 314px); */
   justify-content: center;
   width: 100%;
 }
 
-.main-menu {
-  background-color: #333;
-  padding: 10px;
-}
-.main-menu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-.main-menu li {
-  margin-right: 20px;
-}
-.main-menu a {
-  color: #fff;
-  text-decoration: none;
-}
-.main-menu a:hover {
-  text-decoration: underline;
-}
+
+header .flex,
+footer .flex{ display: flex; }
+
+footer .flex.ju-center,
+header .flex.ju-center{justify-content: center;}
+footer .flex.ju-between,
+header .flex.ju-between{justify-content: space-between;}
+footer .flex.ju-end,
+header .flex.ju-end{justify-content: flex-end;}
+footer .flex.ai-center,
+header .flex.ai-center{align-items: center;}
+footer .flex.fd-column,
+header .flex.fd-column{flex-direction: column;}
 
 /* HEADER */
 .header_event_area {
@@ -47,40 +40,305 @@
   background: #f8f8f8;
   border-bottom: 1px solid #eaeaea;
 }
-.header_menu_list {
-  justify-content: flex-end;
-  gap: 20px;
-}
+
 .header_main_area {
   background: #fff;
   padding: 15px 0;
   border-bottom: 1px solid #eaeaea;
-  justify-content: space-between;
 }
 .logo a {
-  font-size: 22px;
-  font-weight: bold;
-  color: #222;
-}
-.header_search_area {
-  display: flex;
-  gap: 8px;
-}
-.header_search_area input {
-  border: 1px solid #ddd;
-  padding: 8px 12px;
-  border-radius: 4px;
-  min-width: 240px;
+  display: block; 
+    width: 140px;
+    height: 60px;
+    background-image: url('../../images/egovframework/layout/h1-logo.jpg');
+    background-size: 170% auto;
+    background-position: 42% -13px; 
+    /*지금 로고 임시로 심어둠 -13px부분 조정하면 다른 이미지 다들어있음*/
 }
 
-/* FOOTER */
-.footer_area {
-  background: #222;
-  color: #aaa;
-  font-size: 13px;
-  padding: 40px 0;
+.header_search_area {
+  width: 100%;
+  max-width: 500px; /* 선택적 최대 너비 */
+  margin: 0 auto;
 }
-.footer_info_area {
+
+.header_search_area form {
+  width: 100%;
+  background: #fff;
+  border: 2px solid #ff3366;
+  border-radius: 30px;
+  padding: 0 10px;
+  transition: all 0.3s ease;
+}
+
+.header_search_area form:focus-within {
+  box-shadow:0 0 10px #ccc;
+}
+
+.header_search_area input[type="text"] {
+  flex: 1; /* 가로 공간 꽉 채우기 */
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 30px;
+  outline: none;
+}
+
+.header_search_area input[type="text"]::placeholder {
+  color: #999;
+  transition: color 0.2s ease;
+}
+
+.header_search_area input[type="text"]:focus::placeholder {
+  color: transparent;
+}
+
+.header_search_area .btn_search {
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.header_search_area .btn_search:hover {
+  background: rgba(255, 51, 102, 0.1);
+}
+
+.header_search_area .btn_search i {
+  font-size: 20px;
+  color: #ff3366;
+}
+
+/* GNB */
+.gnb { background:#fff; border-top:1px solid #eee; border-bottom:1px solid #eee; }
+.gnb ul { width:100%; list-style:none; }
+.gnb li{flex:1;}
+.gnb li a { display:block; width:100%; padding:12px 0; text-align:center; font-weight:bold; }
+
+/* 카테고리 바 */
+.category-bar {
+  background: #333;
+  position: relative;
+}
+.category-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.category-bar li {
+  flex: 1;
+}
+.category-bar li a,
+.category-bar li button {
+  display: block;
+  width: 100%;
   text-align: center;
-  line-height: 1.8;
+  padding: 12px 0;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
+
+.category-col li a{text-align:left;}
+
+/* 카테고리 메뉴 */
+.category-menu {
+  display: none; /* 기본 숨김 */
+  position: absolute;
+  top: 44px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 2px solid #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* JS 토글용 클래스 */
+.category-menu.show {
+  display: block;
+}
+
+/* hover-item 호버 시 메뉴 표시 */
+.hover-item:hover ~ .category-menu {
+  display: block;
+}
+
+/* 카테고리 컬럼 */
+.category-col {
+  flex:1;
+  border-left:1px solid #ccc;	
+  padding: 20px 10px;
+}
+
+.category-col:first-child{ border-left:none;}
+.category-col:last-child{ border-right:1px solid #ccc;}
+
+.category-col h5 {
+  font-size: 15px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.category-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.category-col li a {
+  display: block;
+  padding: 3px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+
+/* FOOTER */
+/* Footer 기본 색상 */
+footer.footer {
+  background-color: #000;
+  color: #fff;
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+
+/* 로고 */
+footer .logo-wrap {
+  width: 150px;
+}
+footer .logo-wrap img.logo {
+  width: 100%;
+  height: auto;
+}
+
+/* 소셜 아이콘 */
+footer .social a {
+  margin-left: 10px;
+}
+footer .social img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Footer Nav */
+footer .footer-nav a {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+}
+footer .footer-nav a:hover {
+  text-decoration: underline;
+}
+
+footer .footer-info-detail .footer-info-group p {
+  padding: 3px 0;
+}
+
+
+footer .cs-area {
+  margin-top: 20px;
+}
+footer .cs-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+footer .cs-number {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+footer .cs-time {
+  font-size: 14px;
+}
+footer .cs-btns a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+footer .copyright {
+  font-size: 12px;
+  text-align: center;
+}
+
+
+.popuparea .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  max-width: 500px;
+  background: #fff;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  display: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 8px;
+}
+
+.popuparea .popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: none;
+}
+
+.popuparea .popup-swiper { 
+  width: 100%; 
+  height: 400px;
+}
+
+.popuparea .popup-swiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.popuparea .popup-swiper .img-area {
+  width: 100%;
+  height: 400px;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+.popuparea .popup-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.popuparea .popup-bottom label { 
+  cursor: pointer; 
+}
+
+.popuparea .popup-close {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popuparea .popup-close:hover {
+  background: #555;
+}
+
+

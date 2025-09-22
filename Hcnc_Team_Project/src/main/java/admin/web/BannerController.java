@@ -45,28 +45,26 @@ public class BannerController {
 	        @RequestParam("bFile") List<MultipartFile> bFiles,
 	        @RequestParam("attachedName") List<String> attachedNames,
 	        HttpServletRequest request) throws Exception {
-
 	    NexacroResult result = new NexacroResult();
-
 	    System.out.println(">>> uploadBannerFile 시작");
-
+	    
 	    if (bFiles == null || bFiles.isEmpty()) {
 	        System.out.println(">>> bFiles가 비어있음");
 	        result.setErrorCode(9901);
 	        result.setErrorMsg("파일이 없습니다.");
 	        return result;
 	    }
-
-	    // 저장할 서버 기준 상대경로
-	    String uploadDir = request.getSession().getServletContext().getRealPath("/upload/banner/");
-	    System.out.println(">>> uploadDir: " + uploadDir);
-
+	    
+	    // 실제 프로젝트 경로에 저장하도록 수정
+	    String uploadDir = getProjectUploadPath(request);
 	    File dir = new File(uploadDir);
+	    System.out.println(">>> uploadDir: " + uploadDir);
+	    
 	    if (!dir.exists()) {
 	        System.out.println(">>> 디렉토리 생성: " + uploadDir);
 	        dir.mkdirs();
 	    }
-
+	    
 	    // Dataset에 담을 파일 정보 리스트 생성
 	    List<Map<String, Object>> fileList = new ArrayList<>();
 	    
@@ -75,13 +73,12 @@ public class BannerController {
 	            MultipartFile file = bFiles.get(i);
 	            String saveFileName = attachedNames.get(i);
 	            System.out.println(">>> 저장 파일 이름: " + saveFileName);
-
+	            
 	            File serverFile = new File(dir, saveFileName);
 	            System.out.println(">>> serverFile: " + serverFile.getAbsolutePath());
-
 	            file.transferTo(serverFile);
 	            System.out.println(">>> 파일 저장 완료");
-
+	            
 	            // 상대경로 생성 (웹에서 접근 가능한 경로)
 	            String relativePath = "/upload/banner/" + saveFileName;
 	            
@@ -92,7 +89,7 @@ public class BannerController {
 	            
 	            System.out.println(">>> IMG_PATH: " + relativePath);
 	        }
-
+	        
 	        // Dataset으로 파일 정보 반환
 	        result.addDataSet("ds_file", fileList);
 	        
@@ -106,46 +103,78 @@ public class BannerController {
 	        result.setErrorCode(0);
 	        result.setErrorMsg("업로드 성공");
 	        System.out.println(">>> 업로드 성공, Dataset과 변수 반환");
-
 	    } catch (Exception e) {
 	        System.out.println(">>> 예외 발생: " + e.getMessage());
 	        e.printStackTrace();
 	        result.setErrorCode(9902);
 	        result.setErrorMsg("파일 저장 중 오류 발생");
 	    }
-
+	    
 	    return result;
 	}
 
-    // 배너 등록 (Dataset 기반)
-    @RequestMapping(value="/insertBannerByAdmin.do")
-    public NexacroResult insertBannerByAdmin(
-            @ParamDataSet(name="ds_bwrite", required=false) Map<String, Object> dsBWrite) {
+	private String getProjectUploadPath(HttpServletRequest request) {
+	    String contextPath = request.getServletContext().getRealPath("/");
+	    System.out.println(">>> 현재 contextPath: " + contextPath);
+	    
+	    if (contextPath.contains("tmp0")) {
+	        // 개발환경: 실제 소스 폴더에 저장
+	        String basePath = contextPath.substring(0, contextPath.indexOf(".metadata"));
+	        
+	        // 프로젝트명을 하드코딩하지 않고 동적으로 찾기
+	        File baseDir = new File(basePath);
+	        File[] dirs = baseDir.listFiles(File::isDirectory);
+	        
+	        if (dirs != null) {
+	            for (int i = 0; i < dirs.length; i++) {
+	                File dir = dirs[i];
+	                File webappDir = new File(dir, "src/main/webapp");
+	                if (webappDir.exists()) {
+	                    String projectPath = dir.getAbsolutePath() + "/src/main/webapp/upload/banner/";
+	                    System.out.println(">>> 개발환경 - 실제 프로젝트 경로: " + projectPath);
+	                    return projectPath;
+	                }
+	            }
+	        }
+	        
+	        // 만약 못 찾으면 기존 방식 사용
+	        String projectPath = basePath + "Hcnc_Team_Project/src/main/webapp/upload/banner/";
+	        System.out.println(">>> 개발환경 - 기본 프로젝트 경로: " + projectPath);
+	        return projectPath;
+	    } else {
+	        // 운영환경: 배포된 경로에 저장  
+	        String deployPath = contextPath + "upload/banner/";
+	        System.out.println(">>> 운영환경 - 배포 경로: " + deployPath);
+	        return deployPath;
+	    }
+	}
 
-        NexacroResult result = new NexacroResult();
-
-        try {
-            if (dsBWrite != null) {
-                int insertCount = bannerService.insertBannerByAdmin(dsBWrite);
-                if (insertCount > 0) {
-                    result.setErrorCode(0);
-                    result.setErrorMsg("배너 작성 완료");
-                } else {
-                    result.setErrorCode(-1);
-                    result.setErrorMsg("배너 작성 실패");
-                }
-            } else {
-                result.setErrorCode(-1);
-                result.setErrorMsg("데이터가 없습니다.");
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            result.setErrorCode(-1);
-            result.setErrorMsg("배너 작성 실패");
-        }
-
-        return result;
-    }
+	// 배너 등록 (Dataset 기반)
+	@RequestMapping(value="/insertBannerByAdmin.do")
+	public NexacroResult insertBannerByAdmin(
+	        @ParamDataSet(name="ds_bwrite", required=false) Map<String, Object> dsBWrite) {
+	    NexacroResult result = new NexacroResult();
+	    try {
+	        if (dsBWrite != null) {
+	            int insertCount = bannerService.insertBannerByAdmin(dsBWrite);
+	            if (insertCount > 0) {
+	                result.setErrorCode(0);
+	                result.setErrorMsg("배너 작성 완료");
+	            } else {
+	                result.setErrorCode(-1);
+	                result.setErrorMsg("배너 작성 실패");
+	            }
+	        } else {
+	            result.setErrorCode(-1);
+	            result.setErrorMsg("데이터가 없습니다.");
+	        }
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	        result.setErrorCode(-1);
+	        result.setErrorMsg("배너 작성 실패");
+	    }
+	    return result;
+	}
 
 
 	@RequestMapping(value="/updateBannerByAdmin.do")

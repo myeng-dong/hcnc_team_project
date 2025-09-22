@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="user.mapper.UserMemberMapper">
+<mapper namespace="user.mapper.UserMemberMapper">
+    <select id="selectFindIdByUser" resultType="java.util.Map">
+		SELECT MEMBER_ID, LOGIN_TYPE
+		FROM MEMBERS
+		WHERE EMAIL_ADDR = #{to}
+	</select>
      <select id="selectLoginByUser" resultType="java.util.Map">
 		SELECT MEMBER_ID, "O" as PASSWORD
 		FROM   MEMBERS
@@ -18,10 +22,44 @@
 		FROM MEMBERS
 		WHERE EMAIL_ADDR = #{to}
 	</select>
-    <select id="selectFindIdByUser" resultType="java.util.Map">
-		SELECT MEMBER_ID
+	<select id="selectUserInfoByUser" resultType="java.util.Map">
+		SELECT  MEMBER_ID,
+        USER_NAME,
+        LOGIN_TYPE,
+        EMAIL_ADDR,
+        PHONE_NUMBER,
+        BIRTH,
+        GENDER,
+        GRADE_CODE,
+        STATUS
 		FROM MEMBERS
-		WHERE EMAIL_ADDR = #{to}
+		WHERE MEMBER_ID = #{id}
+	</select>
+	<select id="selectMypageShippingInfoByUser" resultType="java.util.Map">
+		 SELECT
+            O.MEMBER_ID,
+            CASE                                                 
+                WHEN O.USER_NAME
+                IS NULL THEN '비회원'
+                ELSE O.USER_NAME
+              END AS USER_NAME
+            , O.ORDER_COMMENT            
+            , P.PAYMENT_STATUS                            
+            , CASE
+                WHEN S.SHIPMENT_STATUS
+                IS NULL THEN '발송대기'
+                ELSE S.SHIPMENT_STATUS
+              END AS SHIPMENT_STATUS                                 
+       FROM ORDERS O
+       LEFT JOIN PAYMENTS P ON O.ORDER_ID = P.ORDER_ID                               
+       LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID                                  
+       LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER                        
+       LEFT JOIN PROMOTION_LOG PL ON O.ORDER_ID = PL.ORDER_ID                        
+       LEFT JOIN PROMOTIONS PS ON PL.PROMOTION_ID = PS.PROMOTION_ID                  
+       LEFT JOIN COUPONS C ON O.ORDER_ID = C.ORDER_ID                                
+       LEFT JOIN POINTS PT ON O.ORDER_ID = PT.ORDER_ID AND PT.CHANGE_TYPE = '사용'    
+       WHERE 1=1
+         AND O.MEMBER_ID = #{id};
 	</select>
 	<insert id="insertSignUpByUser" parameterType="java.util.Map">
 		INSERT INTO
@@ -63,4 +101,35 @@
         'user'
     );
 	</insert>
+    <update id="updatePasswordByUser" parameterType="java.util.Map">
+        UPDATE MEMBERS
+        SET PASSWORD = #{password}
+        WHERE MEMBER_ID = #{id} 
+    </update>
+    <update id="updateMemberByUser" parameterType="java.util.Map">
+        UPDATE MEMBERS
+        <set>
+            <if test="name != null and name != ''">
+            USER_NAME = #{name},
+            </if>
+            <if test="password != null and password != ''">
+            PASSWORD = #{password},
+            </if>
+            <if test="email != null and email != ''">
+            EMAIL_ADDR = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+            PHONE_NUMBER = #{phone},
+            </if>
+            <if test="birth != null and birth != ''">
+            BIRTH = #{birth},
+            </if>
+        </set>
+        WHERE MEMBER_ID = #{id}
+    </update>
+    <update id="updateWithDrawByUser" parameterType="java.util.Map">
+     UPDATE MEMBERS
+        SET STATUS = 'N'
+        WHERE MEMBER_ID = #{id} 
+    </update>
 </mapper>
