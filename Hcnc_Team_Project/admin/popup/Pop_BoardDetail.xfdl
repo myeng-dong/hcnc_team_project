@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Pop_BoardDetail" width="800" height="700" titletext="게시글 상세보기" background="#F8F9FA" border="1px solid #E0E0E0" borderRadius="10px" onload="Pop_BoardDetail_onload" ontimer="Pop_BoardDetail_ontimer">
+    <Layouts>
+      <Layout height="700" width="800">
+        <!-- 제목 영역 -->
+        <Static id="sta_title" taborder="0" text="게시글 상세보기" left="30" top="30" height="40" font="normal 18pt/normal &quot;Noto Sans KR Medium&quot;" color="#333333"/>
+        <!-- 게시글 정보 영역 -->
+        <Static id="sta_info_bg" taborder="1" left="30" top="80" right="30" height="120" background="#F5F5F5" border="1px solid #E0E0E0" borderRadius="5px"/>
+        <!-- 게시판 구분 -->
+        <Static id="sta_board_label" taborder="2" text="게시판" left="50" top="95" width="80" height="25" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <Static id="sta_board_value" taborder="3" text="공지사항" left="130" top="95" width="150" height="25" font="normal 11pt/normal &quot;Noto Sans KR&quot;" color="#333333"/>
+        <!-- 제목 -->
+        <Static id="sta_post_title_label" taborder="4" text="제목" left="50" top="125" width="80" height="25" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <Static id="sta_post_title_value" taborder="5" text="" left="130" top="125" right="50" height="25" font="normal 11pt/normal &quot;Noto Sans KR&quot;" color="#333333"/>
+        <!-- 작성자 -->
+        <Static id="sta_author_label" taborder="6" text="작성자" left="50" top="155" width="80" height="25" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <Static id="sta_author_value" taborder="7" text="" left="130" top="155" width="150" height="25" font="normal 11pt/normal &quot;Noto Sans KR&quot;" color="#333333"/>
+        <!-- 작성일 -->
+        <Static id="sta_date_label" taborder="8" text="작성일" left="350" top="155" width="80" height="25" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <Static id="sta_date_value" taborder="9" text="" left="430" top="155" right="50" height="25" font="normal 11pt/normal &quot;Noto Sans KR&quot;" color="#333333"/>
+        <!-- 내용 영역 -->
+        <Static id="sta_content_label" taborder="10" text="내용" left="30" top="220" width="80" height="25" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <WebBrowser id="web_content" taborder="11" left="30" top="250" right="30" height="350" border="1px solid #E0E0E0" borderRadius="5px"/>
+        <!-- 버튼 영역 -->
+        <Button id="btn_close" taborder="12" text="닫기" width="100" height="40" bottom="20" right="140" onclick="btn_close_onclick" background="#E5E7EB" color="#555555" border="0px none" borderRadius="5px" cursor="pointer" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Button id="btn_modify" taborder="13" text="수정" width="100" height="40" bottom="20" right="30" onclick="btn_modify_onclick" background="#5C6BC0" color="white" border="0px none" borderRadius="5px" cursor="pointer" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_detail">
+        <ColumnInfo>
+          <Column id="POST_ID" type="STRING" size="256"/>
+          <Column id="POST_TITLE" type="STRING" size="256"/>
+          <Column id="POST_CONTENT" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="BOARD_NAME" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="VIEW_CNT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_postId">
+        <ColumnInfo>
+          <Column id="POST_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[//온로드시
+this.Pop_BoardDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+    // 부모에서 전달받은 POST_ID로 상세 데이터 조회
+   var postId = this.parent.paramPostId;
+   
+   this.ds_postId.setColumn(0,"POST_ID",postId)
+    
+    if(postId) {
+        this.selectPostDetailByAdmin(postId);
+    } else {
+        alert("게시글 정보가 없습니다.");
+        this.close();
+    }
+};
+
+// 게시글 상세 데이터 조회
+this.selectPostDetailByAdmin = function(postId)
+{
+    var sSvcID = "selectPostDetailByAdmin";
+    var sURL = "svc::selectPostDetailByAdmin.do";
+    var sInDs = "ds_postId=ds_postId";
+    var sOutDs = "ds_detail=ds_detail";
+    var sParam = "";
+    var sCallBack = "fnCallback";
+    
+    this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+};
+
+// Transaction 콜백 함수
+this.fnCallback = function(svcID, errorCode, errorMsg)
+{
+    if(errorCode < 0) {
+        alert("오류가 발생했습니다: " + errorMsg);
+        this.close();
+        return;
+    }
+    
+    switch(svcID) {
+        case "selectPostDetailByAdmin":
+            this.displayPostDetail();
+            break;
+    }
+};
+
+
+// 게시글 상세 정보 화면에 표시
+this.displayPostDetail = function()
+{
+    if(this.ds_detail.getRowCount() == 0) {
+        alert("게시글 데이터가 없습니다.");
+        this.close();
+        return;
+    }
+    
+    // 화면에 기본 정보 표시
+    var postTitle = this.ds_detail.getColumn(0, "POST_TITLE");
+    var userName = this.ds_detail.getColumn(0, "USER_NAME");
+    var boardName = this.ds_detail.getColumn(0, "BOARD_NAME");
+    var inputDt = this.ds_detail.getColumn(0, "INPUT_DT");
+    var postContent = this.ds_detail.getColumn(0, "POST_CONTENT");
+	
+	// 각 스태틱에 텍스트를 지정해줌
+    this.sta_post_title_value.set_text(postTitle);
+    this.sta_board_value.set_text(boardName);
+    this.sta_author_value.set_text(userName);
+    this.sta_date_value.set_text(this.formatDate(inputDt));
+    
+    // WebBrowser에 HTML 내용 표시
+    var sUrl = "http://localhost:8080/contentViewer.do";
+    this.web_content.set_url(sUrl);
+    
+    var nTimerID = this.setTimer(1, 300);
+    this.contentToShow = postContent;
+};
+
+this.Pop_BoardDetail_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+    if(e.timerid == 1) {
+        this.killTimer(1);
+
+        // HTML 컨텐츠 설정
+        this.web_content.callMethod("setContent",this.contentToShow);
+    }
+};
+
+
+
+// 수정 버튼 클릭
+this.btn_modify_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    var postId = this.ds_detail.getColumn(0, "POST_ID");
+    var postTitle = this.ds_detail.getColumn(0, "POST_TITLE");
+    var postContent = this.ds_detail.getColumn(0, "POST_CONTENT");
+    var boardId = this.ds_detail.getColumn(0, "BOARD_ID");
+    var memberId = this.ds_detail.getColumn(0, "MEMBER_ID");
+    alert(postId);
+	
+	
+    if(!postId) {
+        alert("수정할 게시글 정보가 없습니다.");
+        return;
+    }
+    
+		var popW = 800;
+        var popH = 700;
+        var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
+		objChildFrame.init("popModify", 0, 0, popW, popH, null, null, "popup::Pop_BoardUpdate.xfdl"); // init
+		objChildFrame.paramPostId = this.parent.paramPostId;
+		objChildFrame.set_titletext("게시글 수정");
+        objChildFrame.set_dragmovetype("all");
+		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_modifyCallback"); // 모달 띄어주기
+};
+
+// 수정 팝업 콜백
+this.fn_modifyCallback = function(sPopupId, sResult)
+{
+    if(sResult == "success") {
+        // 수정 성공 시 상세 정보 다시 조회
+        var postId = this.ds_detail.getColumn(0, "POST_ID");
+        this.selectPostDetailByAdmin(postId);
+        
+        // 부모 창에도 알림 (목록 새로고침)
+        if(this.opener && this.opener.fn_search) {
+            this.opener.fn_search();
+        }
+    }
+};
+
+// 닫기 버튼 클릭
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    this.close();
+};
+
+/************************************************
+ * 유틸리티 함수들
+ ************************************************/
+
+
+
+// 날짜 포맷팅
+this.formatDate = function(dateStr)
+{
+    if(!dateStr) return "";
+    
+    try {
+        // "YYYY-MM-DD HH:mm:ss" 형식을 "YYYY.MM.DD HH:mm" 형식으로 변환
+        var date = dateStr.substring(0, 10).replace(/-/g, '.');
+        var time = dateStr.substring(11, 16);
+        return date + " " + time;
+    } catch(e) {
+        return dateStr;
+    }
+};]]></Script>
+  </Form>
+</FDL>

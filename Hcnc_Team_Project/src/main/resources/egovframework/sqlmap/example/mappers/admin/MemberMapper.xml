@@ -178,7 +178,7 @@
 		</if>
    </select>
    
-   <!-- 관리자 뺴고 오로지 회원만  -->
+   <!-- 관리자 뺴고 오로지 회원 등급만 조회-->
    <select id="selectGradeExceptionAdminList" resultType="java.util.Map">
    	 SELECT 
           GRADE_CODE
@@ -209,7 +209,90 @@
       WHERE M.MEMBER_ID = #{MEMBER_ID}
    </update>
    
-   <!-- 휴면 전환: 1년 이상 미접속 회원을 휴면(R)으로 -->
+   	<!-- 휴면/탈퇴 회원 조회 -->
+	<select id="selectDormantWithdrawnMembers"
+		parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			'0' AS CHK, 
+			M.MEMBER_ID,
+			M.USER_NAME,
+			M.EMAIL_ADDR,
+			M.PHONE_NUMBER,
+			M.PRICE_AMOUNT,
+			M.STATUS,
+			<!-- STATUS_NAME  -->
+		  	CASE
+			  WHEN M.STATUS = 'R' THEN '휴면'
+			  WHEN M.STATUS = 'N' THEN '탈퇴'
+		   	END AS STATUS_NAME,
+			M.INPUT_DT,
+			M.LAST_LOGIN_DT,
+			M.UPDATE_DT,
+			M.DELETE_DT,
+			<!-- DAYS_SINCE_CHANGE : 지금으로 부터 휴면일과, 탈퇴일 계산 -->
+		  	CASE
+			  WHEN M.STATUS = 'R' THEN DATEDIFF(NOW(), M.LAST_LOGIN_DT)
+			  WHEN M.STATUS = 'N' THEN DATEDIFF(NOW(), M.DELETE_DT)
+		    END AS DAYS_SINCE_CHANGE
+		  FROM MEMBERS M
+	     WHERE M.STATUS IN ('R', 'N')
+
+		<!-- 상태 검색 -->
+		<if test="STATUS != null and STATUS != ''">
+			AND M.STATUS = #{STATUS}
+		</if>
+
+		<!-- 이름 검색 -->
+		<if test="USER_NAME != null and USER_NAME != ''">
+			AND M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
+		</if>
+
+		<!-- 이메일 검색 -->
+		<if test="EMAIL_ADDR != null and EMAIL_ADDR != ''">
+			AND M.EMAIL_ADDR LIKE CONCAT('%', #{EMAIL_ADDR}, '%')
+		</if>
+
+		<!-- 가입일 범위 검색 -->
+		<if test="JOIN_START_DATE != null and JOIN_END_DATE != null">
+			AND M.INPUT_DT BETWEEN #{JOIN_START_DATE} AND DATE_ADD(#{JOIN_END_DATE},
+			INTERVAL 1 DAY)
+		</if>
+
+		<!-- 휴면일 범위 검색 (LAST_LOGIN_DT) -->
+		<if test="DORMANT_START_DATE != null and DORMANT_END_DATE != null">
+			AND M.LAST_LOGIN_DT BETWEEN #{DORMANT_START_DATE} AND
+			DATE_ADD(#{DORMANT_END_DATE}, INTERVAL 1 DAY)
+		</if>
+
+		<!-- 탈퇴일 범위 검색 (DELETE_DT) -->
+		<if test="DELETE_START_DATE != null and DELETE_END_DATE != null">
+			AND M.DELETE_DT BETWEEN #{DELETE_START_DATE} AND
+			DATE_ADD(#{DELETE_END_DATE}, INTERVAL 1 DAY)
+		</if>
+		ORDER BY
+		CASE WHEN M.STATUS='R' THEN M.LAST_LOGIN_DT ELSE M.DELETE_DT END DESC
+	</select>
+   
+    <!-- 회원 탈퇴 (상태만 변경, 실제 삭제는 아님) : 넥사크로에서 탈퇴 처리 -->
+    <update id="withdrawMember" parameterType="java.util.Map">
+      UPDATE MEMBERS
+         SET STATUS = 'N',
+           DELETE_DT = NOW(),
+           UPDATE_DT = NOW()
+       WHERE MEMBER_ID = #{MEMBER_ID}
+         AND STATUS != 'N'
+    </update>
+
+    <!-- 실제 테이블에서 삭제 : 스케쥴러에서 돌림 -->
+    <!-- 상태가 탈퇴인 사람 1년 보관후 자동삭제 -->
+    <delete id="deleteOldWithdrawnMembers">
+      DELETE FROM MEMBERS
+       WHERE STATUS = 'N'
+         AND DELETE_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
+    </delete>
+   	
+ 
+   <!-- 휴면 전환: 1년 이상 미접속 회원을 휴면(R)으로 (스케쥴러)-->
    <update id="updateDormantMembers">
     UPDATE MEMBERS
        SET STATUS = 'R',
@@ -217,12 +300,16 @@
      WHERE STATUS = 'Y'
        AND LAST_LOGIN_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
    </update>
-
-   <!-- 탈퇴 회원 완전 삭제: 탈퇴 후 1년 지난 회원을 DB에서 삭제 -->
-   <delete id="deleteOldWithdrawnMembers">
-       DELETE FROM MEMBERS
-        WHERE STATUS = 'N'
-          AND UPDATE_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
-   </delete>
-   
+ 
+   	
+   	<!-- 휴면 회원 복구 (상태를 Y로 변경): 넥사크로에서 휴면 복구-->
+    <update id="reactivateDormantMember" parameterType="java.util.Map">
+     UPDATE MEMBERS
+        SET STATUS = 'Y'
+            ,UPDATE_DT = NOW()
+      WHERE MEMBER_ID = #{MEMBER_ID}
+        AND STATUS = 'R'  
+    </update>
+    
+  
 </mapper>

@@ -32,6 +32,15 @@ public class BoardService {
 		// TODO Auto-generated method stub
 		return boardMapper.selectPostListByAdmin(dsSearch);
 	}
+
+	public int insertPostByAdmin(Map<String, Object> dsPost) {
+		return boardMapper.insertPostByAdmin(dsPost);
+		
+	}
+
+	public Map<String, Object> selectPostDetailByAdmin(Map<String, Object> dsPostId) {
+		return boardMapper.selectPostDetailByAdmin(dsPostId);
+	}
 	
 	
 }
