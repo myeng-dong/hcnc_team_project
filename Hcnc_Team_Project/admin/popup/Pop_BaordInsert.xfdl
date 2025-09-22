@@ -1,86 +1,336 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Pop_BoardInsert" width="800" height="700" titletext="게시글 작성" background="#F8F9FA" border="1px solid #E0E0E0" borderRadius="10px">
+  <Form id="Pop_BoardInsert" width="691" height="628" titletext="게시글 작성" background="#F8F9FA" border="1px solid #E0E0E0" borderRadius="10px" onload="Pop_BoardInsert_onload" ontimer="Pop_BoardInsert_ontimer" onbeforeclose="Pop_BoardInsert_onbeforeclose">
     <Layouts>
-      <Layout height="700" width="800">
-        <Static id="sta_title" taborder="0" text="게시글 작성" left="30" top="30" height="40" font="normal 18pt/normal &quot;Noto Sans KR Medium&quot;" color="#333333"/>
-        <Static id="sta_postTitle" taborder="1" text="제목" left="30" top="90" width="80" height="40" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
-        <Edit id="edt_postTitle" taborder="2" left="110" top="95" right="30" height="30" borderRadius="5px" border="1px solid #CCCCCC"/>
-        <Static id="sta_postContent" taborder="3" text="내용" left="30" top="140" width="80" height="40" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
-        <RichEditor id="richeditor_postContent" taborder="4" left="30" top="185" right="30" height="450" borderRadius="5px" border="1px solid #CCCCCC" fileurl="svc::admin/richeditor/jsp/upload.jsp"/>
-        <Button id="btn_cancel" taborder="5" text="취소" width="100" height="40" bottom="20" right="140" onclick="btn_cancel_onclick" background="#E5E7EB" color="#555555" border="0px none" borderRadius="5px" cursor="pointer" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;"/>
-        <Button id="btn_save" taborder="6" text="작성 완료" width="100" height="40" bottom="20" right="30" onclick="btn_save_onclick" background="#5C6BC0" color="white" border="0px none" borderRadius="5px" cursor="pointer" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;"/>
+      <Layout height="628" width="691">
+        <Static id="sta_title" taborder="0" text="게시글 작성" left="30" top="-5" height="40" font="normal 18pt/normal &quot;Noto Sans KR Medium&quot;" color="#333333" width="0"/>
+        <!-- 게시판 구분 -->
+        <Static id="sta_boardType" taborder="1" text="게시판" left="40" top="20" width="80" height="40" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <Combo id="cmb_boardType" taborder="2" left="100" top="25" width="210" height="30" borderRadius="5px" border="1px solid #CCCCCC" displaynulltext="게시판을 선택하세요" innerdataset="ds_boardType" codecolumn="NAME" datacolumn="NAME" onitemchanged="cmb_boardType_onitemchanged"/>
+        <!-- 제목 -->
+        <Static id="sta_postTitle" taborder="3" text="제목" left="40" top="70" width="80" height="40" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <Edit id="edt_postTitle" taborder="4" left="100" top="75" right="31" height="30" borderRadius="5px" border="1px solid #CCCCCC"/>
+        <!-- 내용 -->
+        <Static id="sta_postContent" taborder="5" text="내용" left="40" top="120" width="80" height="40" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <WebBrowser id="web_postContent" taborder="6" left="40" top="165" right="31" height="385" borderRadius="5px" border="1px solid #CCCCCC" onloadcompleted="web_postContent_onloadcompleted"/>
+        <!-- 버튼 -->
+        <Button id="btn_cancel" taborder="7" text="취소" width="100" height="40" bottom="18" right="141" onclick="btn_cancel_onclick" background="#E5E7EB" color="#555555" border="0px none" borderRadius="5px" cursor="pointer" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Button id="btn_save" taborder="8" text="작성 완료" width="100" height="40" bottom="18" right="31" onclick="btn_save_onclick" background="#5C6BC0" color="white" border="0px none" borderRadius="5px" cursor="pointer" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Static id="sta_user" taborder="9" text="작성자" left="470" top="20" width="80" height="40" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555" onclick="sta_boardType00_onclick"/>
+        <Edit id="edt_user" taborder="10" left="530" top="25" right="32" height="30" borderRadius="5px" border="1px solid #CCCCCC" readonly="true"/>
       </Layout>
     </Layouts>
     <Objects>
       <Dataset id="ds_post">
         <ColumnInfo>
-          <Column id="postTitle" type="STRING" size="256"/>
-          <Column id="postContent" type="STRING" size="256"/>
+          <Column id="POST_TITLE" type="STRING" size="256"/>
+          <Column id="POST_CONTENT" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="BOARD_ID" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
         </Rows>
       </Dataset>
+      <!-- 게시판 구분 데이터셋 -->
+      <Dataset id="ds_boardType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="20"/>
+          <Column id="NAME" type="STRING" size="50"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">NOTICE</Col>
+            <Col id="NAME">공지사항</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">FAQ</Col>
+            <Col id="NAME">FAQ</Col>
+          </Row>
+        </Rows>
+      </Dataset>
     </Objects>
     <Bind>
-      <BindItem id="item0" compid="edt_postTitle" propid="value" datasetid="ds_post" columnid="postTitle"/>
-      <BindItem id="item1" compid="richeditor_postContent" propid="value" datasetid="ds_post" columnid="postContent"/>
+      <BindItem id="item0" compid="edt_postTitle" propid="value" datasetid="ds_post" columnid="POST_TITLE"/>
+      <BindItem id="item1" compid="cmb_boardType" propid="value" datasetid="ds_post" columnid="BOARD_ID"/>
+      <BindItem id="item2" compid="edt_user" propid="value" datasetid="ds_post" columnid="MEMBER_ID"/>
     </Bind>
-    <Script type="xscript5.1"><![CDATA[/**
- * '작성 완료' 버튼 클릭 이벤트
- */
-this.btn_save_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+    <Script type="xscript5.1"><![CDATA[// Form 로드시 실행
+this.Pop_BoardInsert_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-    // 게시글 제목, 내용 유효성 검사
-    var sTitle = this.edt_postTitle.value;
-    if (this.gfn_isNull(sTitle)) {
-        alert("제목을 입력해주세요.");
-        this.edt_postTitle.setFocus();
+    // 데이터셋 초기화
+    this.ds_post.clearData();
+	//데이터셋 로우 추가
+    this.ds_post.addRow();
+    
+    // 전역변수에서 사용자 ID 가져오기
+    this.setMemberId();
+    
+    // 웹브라우저에 에디터URL을 설정
+    var sUrl = "http://localhost:8080/ckedit.do";
+	// 웹브라우저에 URL을 대입
+    this.web_postContent.set_url(sUrl);
+};
+
+
+// 사용자 ID 설정
+this.setMemberId = function()
+{
+    // 전역변수에서 USER_ID 가져오기 (전역변수 이름에 따라 수정)
+    var sUserId = nexacro.getApplication().gds_adminInfo.getColumn(0, "MEMBER_ID"); // 또는 gds_user.getColumn(0, "USER_ID") 등
+    
+	
+    if(sUserId) { //전역변수에서 받아온 내용이 있으면 넣어주고 아니면 예외 trace
+        this.ds_post.setColumn(0, "MEMBER_ID", sUserId);
+        trace("사용자 ID 설정: " + sUserId);
+    } else {
+        trace("사용자 ID를 가져올 수 없습니다.");
+        // 필요시 로그인 페이지로 이동하거나 오류 처리
+    }
+};
+
+// 웹브라우저 로드 완료 후 실행
+this.web_postContent_onloadcompleted = function(obj:nexacro.WebBrowser,e:nexacro.WebLoadCompEventInfo)
+{
+    trace("에디터 로드 완료");
+    this.setTimer(1, 2000);
+};
+
+// 타이머 이벤트
+this.Pop_BoardInsert_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+    if(e.timerid == 1) {
+        this.killTimer(1);
+        trace("에디터 준비 완료");
+        
+        // 초기 메시지 설정
+        this.setEditorContent("<p>내용을 입력해주세요.</p>");
+    }
+};
+
+
+/* 
+	여기서부터 에디터입니다.
+*/
+
+// 에디터 내용 가져오기 (간단한 버전)
+this.getEditorContent = function()
+{
+    try {
+        var sContent = this.web_postContent.callMethod("getEditorContent", "");
+        
+        trace("=== 에디터 내용 디버깅 ===");
+        trace("가져온 내용: " + sContent);
+        trace("내용 타입: " + typeof sContent);
+        
+        if(!sContent || sContent === "undefined" || sContent === "null" || sContent === null) {
+            return "";
+        }
+        
+        return String(sContent);
+        
+    } catch(e) {
+        trace("에디터 내용 가져오기 실패: " + e.message);
+        return "";
+    }
+};
+
+// 에디터 내용 설정
+this.setEditorContent = function(sContent)
+{
+    try {
+        if(!sContent) {
+            sContent = "";
+        }
+        
+        var result = this.web_postContent.callMethod("setEditorContent", sContent);
+        trace("에디터 내용 설정 결과: " + result);
+        
+    } catch(e) {
+        trace("에디터 내용 설정 실패: " + e.message);
+    }
+};
+
+// 에디터 준비 상태 확인
+this.isEditorReady = function()
+{
+    try {
+        var result = this.web_postContent.callMethod("isEditorReady", "");
+        return result === true || result === "true";
+    } catch(e) {
+        trace("에디터 준비 상태 확인 실패: " + e.message);
+        return false;
+    }
+};
+
+
+// 작성 완료 버튼 클릭
+this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    // 유효성 검사
+    if(!this.validateFormData()) {
         return;
     }
     
-    // Rich Editor의 내용을 데이터셋에 설정
-    var sContent = this.richeditor_postContent.getContents();
-    this.ds_post.setColumn(0, "postContent", sContent);
-
-    // 게시글 정보 저장 트랜잭션 호출
-    this.gfn_savePost();
-};
-
-/**
- * 게시글 정보 저장 트랜잭션 함수
- */
-this.gfn_savePost = function() {
-    var sSvcId = "savePost";
-    var sUrl = "svcUrl::board/savePost.do"; // 실제 서버 URL로 변경
-    var sInDs = "ds_post=ds_post:U";
-    var sOutDs = "";
-    var sArg = "";
-    var sCallback = "fn_callback";
+    // 에디터 내용을 데이터셋에 저장
+    var sContent = this.getEditorContent();
+    this.ds_post.setColumn(0, "POST_CONTENT", sContent);
     
-    this.transaction(sSvcId, sUrl, sInDs, sOutDs, sArg, sCallback, false);
+    // 디버그: 데이터셋 내용 확인
+    this.logDatasetContent();
+    
+    // 서버로 데이터 전송
+    this.fnInsertPostByAdmin();
 };
 
-/**
- * 서버 통신 콜백 함수
- */
-this.fn_callback = function(sSvcId, nErrorCode, sErrorMsg)
+// 취소 버튼 클릭
+this.btn_cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-    if (nErrorCode < 0) {
-        alert("게시글 작성 실패: " + sErrorMsg);
-    } else {
-        alert("게시글이 성공적으로 작성되었습니다.");
-        this.close("reload");
+    var sTitle = this.edt_postTitle.value;
+    var sContent = this.getEditorContent();
+    
+    if((sTitle && sTitle.trim() != "") || (sContent && sContent.trim() != "" && sContent != "<p></p>" && sContent != "<p>내용을 입력해주세요.</p>")) {
+        if(!this.confirm("작성 중인 내용이 있습니다. 정말 취소하시겠습니까?")) {
+            return;
+        }
+    }
+    
+    this.close();
+};
+
+// 폼 데이터 유효성 검사
+this.validateFormData = function()
+{
+  
+    var sBoardId = this.ds_post.getColumn(0, "BOARD_ID");
+    if(!sBoardId || sBoardId == "") {
+        alert("게시판을 선택해주세요.");
+        this.cmb_boardType.setFocus();
+        return false;
+    }
+    
+    // 제목 검사
+    var sTitle = this.edt_postTitle.value;
+    if(!sTitle || sTitle.trim() == "") {
+        alert("제목을 입력해주세요.");
+        this.edt_postTitle.setFocus();
+        return false;
+    }
+    
+    if(sTitle.trim().length < 2) {
+        alert("제목은 2글자 이상 입력해주세요.");
+        this.edt_postTitle.setFocus();
+        return false;
+    }
+    
+    if(sTitle.trim().length > 100) {
+        alert("제목은 100글자 이하로 입력해주세요.");
+        this.edt_postTitle.setFocus();
+        return false;
+    }
+    
+    // 내용 검사
+    var sContent = this.getEditorContent();
+    if(!sContent || sContent.trim() == "" || sContent == "<p></p>" || sContent == "<p>내용을 입력해주세요.</p>") {
+        alert("내용을 입력해주세요.");
+        return false;
+    }
+    
+    // HTML 태그 제거 후 텍스트 길이 검사
+    var sTextContent = sContent.replace(/<[^>]*>/g, "").trim();
+    if(sTextContent.length < 10) {
+        alert("내용은 10글자 이상 입력해주세요.");
+        return false;
+    }
+    
+    // 사용자 ID 검사
+    var sMemberId = this.ds_post.getColumn(0, "MEMBER_ID");
+    if(!sMemberId || sMemberId == "") {
+        alert("로그인 정보가 없습니다. 다시 로그인해주세요.");
+        return false;
+    }
+    
+    return true;
+};
+
+// 데이터셋 내용 로그 출력 (디버그용)
+this.logDatasetContent = function()
+{
+    trace("=== 저장할 데이터 ===");
+    trace("게시판 ID: " + this.ds_post.getColumn(0, "BOARD_ID"));
+    trace("제목: " + this.ds_post.getColumn(0, "POST_TITLE"));
+    trace("작성자 ID: " + this.ds_post.getColumn(0, "MEMBER_ID"));
+    trace("내용 길이: " + this.ds_post.getColumn(0, "POST_CONTENT").length + "자");
+    trace("==================");
+};
+
+// 서버에 게시글 저장
+this.fnInsertPostByAdmin = function()
+{
+    var sSvcID    = "insertPostByAdmin";
+    var sURL      = "svc::insertPostByAdmin.do";
+    var sInDs     = "ds_post=ds_post:U"; // Updated 행만 전송
+    var sOutDs    = "";
+    var sParam    = "";
+    var sCallBack = "fnCallback";
+    
+    // 저장 중 메시지 (선택사항)
+    // this.alert("저장 중입니다...");
+    
+    this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+};
+
+// Transaction 콜백 함수
+this.fnCallback = function(svcID, errorCode, errorMsg)
+{
+    if(errorCode < 0) {
+        alert("오류가 발생했습니다: " + errorMsg);
+        return;
+    }
+    
+    switch(svcID) {
+        case "InsertPostByAdmin":
+            alert("게시글이 성공적으로 작성되었습니다.");
+            
+            // 부모 창에 결과 전달 (목록 새로고침)
+            if(this.opener && this.opener.fnRefreshList) {
+                this.opener.fnRefreshList();
+            }
+            
+            this.close("success");
+            break;
     }
 };
 
-/**
- * '취소' 버튼 클릭 이벤트
- */
-this.btn_cancel_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+// 폼 닫기 전 확인
+this.Pop_BoardInsert_onbeforeclose = function(obj:nexacro.Form,e:nexacro.CloseEventInfo)
 {
-    this.close();
-};]]></Script>
+    if(e.reason == "success") {
+        return;
+    }
+    
+    var sTitle = this.edt_postTitle.value;
+    var sContent = this.getEditorContent();
+    
+    if((sTitle && sTitle.trim() != "") || (sContent && sContent.trim() != "" && sContent != "<p></p>" && sContent != "<p>내용을 입력해주세요.</p>")) {
+        if(!this.confirm("작성 중인 내용이 있습니다. 정말 나가시겠습니까?")) {
+            e.set_cancel(true);
+        }
+    }
+};
+
+
+this.cmb_boardType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var val = e.postvalue;
+	
+	  // 게시판 구분 검사
+	if(val == "공지사항"){
+        this.ds_search.setColumn(0, "BOARD_ID", "1");  // 전체는 ALL 같은 값으로 보냄 (쿼리에선 1,3,4로 조회함)
+    } else if(val == "FAQ"){
+        this.ds_search.setColumn(0, "BOARD_ID", "3");    // 공지사항
+    } 
+};
+]]></Script>
   </Form>
 </FDL>

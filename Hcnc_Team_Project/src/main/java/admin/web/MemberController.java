@@ -117,7 +117,7 @@ public class MemberController {
 			}
 
 			// 쿠키 정리 (memberId 쿠키 만료)
-			expireCookie(response, "memberId");
+			expireCookie(response, "ADMIN_ID");
 
 			System.out.println("로그아웃 완료");
 
@@ -226,6 +226,7 @@ public class MemberController {
 	}
 
 	// 회원 목록 상세 보기
+	// By.PJ 09.17
 	@RequestMapping(value = "/selectMemberDetailByAdmin.do")
 	public NexacroResult selectMemberDetail(@ParamVariable(name = "memberId", required = false) String memberId) {
 
@@ -244,46 +245,46 @@ public class MemberController {
 		}
 		return result;
 	};
-	
+
 	// 문자열을 yyyyMMddHHmmss (14자리) 로 맞춰주는 헬퍼
-	//넥사크로에서 캘린더값읆 문자열로 받아오는데 14자리로 고정 
+	// 넥사크로에서 캘린더값읆 문자열로 받아오는데 14자리로 고정
 	private String normalizeDateString(Object obj) {
-	    if (obj == null) return null;
-	    String s = obj.toString();
-	    if (s.length() >= 14) {
-	        return s.substring(0, 14); // yyyyMMddHHmmss
-	    } else if (s.length() == 8) {
-	        return s + "000000";       // yyyyMMdd → yyyyMMdd000000
-	    } else {
-	        return null; // 잘못된 값
-	    }
+		if (obj == null)
+			return null;
+		String s = obj.toString();
+		if (s.length() >= 14) {
+			return s.substring(0, 14); // yyyyMMddHHmmss
+		} else if (s.length() == 8) {
+			return s + "000000"; // yyyyMMdd → yyyyMMdd000000
+		} else {
+			return null; // 잘못된 값
+		}
 	}
 
 	// 회원 정보 수정
+	// By.PJ 09. 17
 	@RequestMapping(value = "/memberUpdateByAdmin.do")
 	public NexacroResult memberUpdate(@ParamDataSet(name = "ds_memberDt", required = false) Map<String, Object> param) {
 
 		NexacroResult result = new NexacroResult();
-		
 
 		try {
-			
+
 			// 날짜 파라미터 변환
-	        param.put("FIRST_LOGIN_DT", normalizeDateString(param.get("FIRST_LOGIN_DT")));
-	        param.put("LAST_LOGIN_DT", normalizeDateString(param.get("LAST_LOGIN_DT")));
-	        param.put("BIRTH", normalizeDateString(param.get("BIRTH")));
+			param.put("FIRST_LOGIN_DT", normalizeDateString(param.get("FIRST_LOGIN_DT")));
+			param.put("LAST_LOGIN_DT", normalizeDateString(param.get("LAST_LOGIN_DT")));
+			param.put("BIRTH", normalizeDateString(param.get("BIRTH")));
 
-			//비밀번호 암호화 및 이미 암호화 되있다면 패스(비밀번호 변경하지 않았을시 암호화한걸 또 암호화 하는 거 방지)
+			// 비밀번호 암호화 및 이미 암호화 되있다면 패스(비밀번호 변경하지 않았을시 암호화한걸 또 암호화 하는 거 방지)
 			if (param.get("PASSWORD") != null && !"".equals(param.get("PASSWORD").toString())) {
-			    String password = String.valueOf(param.get("PASSWORD"));
+				String password = String.valueOf(param.get("PASSWORD"));
 
-			    // 이미 해시된 64자리 hex 문자열이면 암호화 스킵
-			    if (!password.matches("^[0-9a-f]{64}$")) {
-			        String crypto = PasswordUtil.encryptSHA256(password);
-			        param.put("PASSWORD", crypto);
-			    }
+				// 이미 해시된 64자리 hex 문자열이면 암호화 스킵
+				if (!password.matches("^[0-9a-f]{64}$")) {
+					String crypto = PasswordUtil.encryptSHA256(password);
+					param.put("PASSWORD", crypto);
+				}
 			}
-
 
 			// 중복체크
 			int duplicated = memberService.updateDuplicated(param);
@@ -303,6 +304,152 @@ public class MemberController {
 			e.printStackTrace();
 			result.setErrorCode(-1);
 			result.setErrorMsg("회원 수정 중 오류 발생");
+		}
+		return result;
+	}
+
+	// 회원 등급 관리 리스트 조회
+	// By.PJ 09.18
+	@RequestMapping(value = "/selectGradeManageByAdmin.do")
+	public NexacroResult selectGradeManage(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+			// 조회 결과를 list에 담고....
+			List<Map<String, Object>> selectGradeMange = memberService.selectGradeManage(param);
+
+			// 넥사크로에 다시 보낸다!
+			result.addDataSet("ds_gradeList", selectGradeMange);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원조회 중 오류");
+		}
+		return result;
+	};
+
+	// 관리자 뺴고 회원만 등급 조회
+	// BY.PJ 09.18
+	@RequestMapping(value = "/selectGradeExceptionAdminListByAdmin.do")
+	public NexacroResult selectGradeExceptionAdminList() {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+			// 회원등급 전체 조회 (param 필요 없음)
+			List<Map<String, Object>> gradeExAdminList = memberService.selectGradeExceptionAdminList();
+
+			// ds_grade라는 이름으로 넥사크로에 전달
+			result.addDataSet("ds_grade", gradeExAdminList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원등급 조회 실패 >>> " + e.getMessage());
+		}
+		return result;
+	}
+
+	// 회원 등급 변경 행 수정
+	// By.PJ 09.18
+	@RequestMapping(value = "/updateMemberGradeByAdmin.do")
+	public NexacroResult updateMemberGrade(
+			@ParamDataSet(name = "ds_gradeList", required = false) List<Map<String, Object>> memberGradeMangeList) {
+		NexacroResult result = new NexacroResult();
+		int updated = 0;
+
+		try {
+			for (Map<String, Object> updateGrade : memberGradeMangeList) {
+				String rowType = String.valueOf(updateGrade.get("DataSetRowType"));
+
+				if ("2".equals(rowType)) {
+					updated = memberService.updateMemberGrade(updateGrade);
+				}
+
+			}
+
+			// 업데이트 결과 알기 위해서 int 리턴
+			Map<String, Object> dsUpCnt = new HashMap<>();
+
+			dsUpCnt.put("UPDATED", updated);
+
+			result.addDataSet("ds_upCnt", dsUpCnt);
+		} catch (Exception e) {
+			System.out.println("insert error: " + e.getMessage());
+			result.setErrorCode(-1);
+			result.setErrorMsg(e.getMessage());
+		}
+		return result;
+	}
+
+	// 휴면/탈퇴 회원 조회
+	// By. PJ 09.19
+	@RequestMapping(value = "/selectDormantWithdrawnMembersByAdmin.do")
+	public NexacroResult selectDormantWithdrawnMembers(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+			// 휴면/탈퇴 회원 목록 조회
+			List<Map<String, Object>> memberList = memberService.selectDormantWithdrawnMembers(param);
+
+			result.addDataSet("ds_list", memberList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("휴면/탈퇴 회원 조회 중 오류");
+		}
+		return result;
+	}
+
+	// 휴면 회원 복구 (다시 활성화 R -> Y)
+	// By. 09.19 Pj
+	@RequestMapping(value = "/reactivateDormantMemberByAdmin.do")
+	public NexacroResult reactivateDormantMember(
+			@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			int updated = memberService.reactivateDormantMember(param);
+
+			Map<String, Object> dsUpCnt = new HashMap<>();
+			dsUpCnt.put("UPDATED", updated);
+			result.addDataSet("ds_upCnt", dsUpCnt);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("휴면 회원 복구 중 오류");
+		}
+		return result;
+	}
+
+	// 회원 탈퇴 상태 처리 (STATUS를 N으로 변경)
+	// By.09.19 Pj
+	@RequestMapping(value = "/withdrawMemberByAdmin.do")
+	public NexacroResult withdrawMember(
+			@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+			int updated = memberService.withdrawMember(param);
+
+			Map<String, Object> dsUpCnt = new HashMap<>();
+			dsUpCnt.put("UPDATED", updated);
+			result.addDataSet("ds_upCnt", dsUpCnt);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원 탈퇴 처리 중 오류");
 		}
 		return result;
 	}

@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+/* 플렉스 공통 */
+.sub-area .flex { display: flex; }
+.sub-area .flex.ju-center{justify-content: center;}
+.sub-area .flex.ju-between{justify-content: space-between;}
+.sub-area .flex.ju-end{justify-content: flex-end;}
+.sub-area .flex.ai-center{align-items: center;}
+.sub-area .flex.fd-column{flex-direction: column;}
+.sub-area .flex.f-wrap{flex-wrap: wrap;}
+.sub-area .flex.f-nowrap{flex-wrap: nowrap;}
+
+/* breadcrumb */
+.breadcrumb {
+  font-size: 13px;
+  color: #73777f;
+  margin-bottom: 16px;
+  text-align: right;
+}
+.breadcrumb a { color:#73777f; text-decoration:none; }
+.breadcrumb strong { color:#1f1f1f; }
+
