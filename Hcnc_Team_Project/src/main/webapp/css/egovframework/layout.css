@@ -199,13 +199,146 @@ header .flex.fd-column{flex-direction: column;}
 
 
 /* FOOTER */
-.footer_area {
-  background: #222;
-  color: #aaa;
-  font-size: 13px;
-  padding: 40px 0;
+/* Footer 기본 색상 */
+footer.footer {
+  background-color: #000;
+  color: #fff;
+  padding: 40px 20px;
+  font-size: 14px;
 }
-.footer_info_area {
+
+
+/* 로고 */
+footer .logo-wrap {
+  width: 150px;
+}
+footer .logo-wrap img.logo {
+  width: 100%;
+  height: auto;
+}
+
+/* 소셜 아이콘 */
+footer .social a {
+  margin-left: 10px;
+}
+footer .social img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Footer Nav */
+footer .footer-nav a {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+}
+footer .footer-nav a:hover {
+  text-decoration: underline;
+}
+
+footer .footer-info-detail .footer-info-group p {
+  padding: 3px 0;
+}
+
+
+footer .cs-area {
+  margin-top: 20px;
+}
+footer .cs-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+footer .cs-number {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+footer .cs-time {
+  font-size: 14px;
+}
+footer .cs-btns a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+footer .copyright {
+  font-size: 12px;
   text-align: center;
-  line-height: 1.8;
 }
+
+
+.popuparea .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  max-width: 500px;
+  background: #fff;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  display: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 8px;
+}
+
+.popuparea .popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: none;
+}
+
+.popuparea .popup-swiper { 
+  width: 100%; 
+  height: 400px;
+}
+
+.popuparea .popup-swiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.popuparea .popup-swiper .img-area {
+  width: 100%;
+  height: 400px;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+.popuparea .popup-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.popuparea .popup-bottom label { 
+  cursor: pointer; 
+}
+
+.popuparea .popup-close {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popuparea .popup-close:hover {
+  background: #555;
+}
+
+

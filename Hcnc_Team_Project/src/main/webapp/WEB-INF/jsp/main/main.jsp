@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="../layout/headerlink.jsp" />
 
 <!DOCTYPE html>
@@ -14,36 +15,38 @@
 <body>
 <div class="container-wrap">
 	<jsp:include page="../layout/header.jsp" />
-	
+		
     <div class="container main">
         <main class="main_area">
             <section class="main_banner_area">
-                <div class="swiper mainBannerSwiper">
-                    <div class="swiper-wrapper">
-                        <c:forEach var="banner" items="${mainBanners}">
-						    <div class="swiper-slide">
-						        <c:choose>
-						            <c:when test="${not empty banner['IMG_PATH']}">
-						                <a href="${banner['LINKED_URL']}" class="full-link">
-						                    <div class="img-area" style="background:url('${banner['IMG_PATH']}') center center / cover no-repeat;">
-						                        <!-- <p>${banner['BANNER_TITLE']}</p> -->
-						                    </div>
-						                </a>
-						            </c:when>
-						            <c:otherwise>
-						                <a href="#" class="full-link">
-						                    <div class="img-area nodata">
-						                    </div>
-						                </a>
-						            </c:otherwise>
-						        </c:choose>
-						    </div>
-						</c:forEach>
-                    </div>
-                    <div class="main-swiper-pagination"></div>
-                </div>
-            </section>
-
+			    <div class="swiper mainBannerSwiper">
+			        <div class="swiper-wrapper">
+			            <c:choose>
+			                <c:when test="${not empty mainBanners}">
+			                    <c:forEach var="banner" items="${mainBanners}">
+			                        <div class="swiper-slide">
+			                            <c:choose>
+			                                <c:when test="${not empty banner['LINKED_URL']}">
+			                                    <a href="${banner['LINKED_URL']}" class="full-link">
+			                                        <div class="img-area" style="background:url('${banner['IMG_PATH']}') center center / cover no-repeat;"></div>
+			                                    </a>
+			                                </c:when>
+			                                <c:otherwise>
+			                                    <div class="img-area" style="background:url('${banner['IMG_PATH']}') center center / cover no-repeat;"></div>
+			                                </c:otherwise>
+			                            </c:choose>
+			                        </div>
+			                    </c:forEach>
+			                </c:when>
+			                <c:otherwise>
+			                    <div class="swiper-slide">
+			                        <div class="img-area nodata"></div>
+			                    </div>
+			                </c:otherwise>
+			            </c:choose>
+			        </div>
+			        <div class="main-swiper-pagination"></div>
+			    </div>
 			  <script>
 			    var swiper = new Swiper(".mainBannerSwiper", {
 			    	autoplay: {     //자동슬라이드 (false-비활성화)
@@ -57,144 +60,579 @@
 					},
 			    });
 			  </script>
-			<!-- 인기 상품 -->
-			<section class="best_area">
+			</section>
+
+			<section class="main-quick">
+				<div class="inner">
+					<ul class="list flex">
+						<li>
+							<dl class="flex fd-column">
+								<dt class="icon-area"></dt>
+								<dd>필기구</dd>
+							</dl>
+						</li>
+						<li>
+							<dl class="flex fd-column">
+								<dt class="icon-area"></dt>
+								<dd>노트/다이어리</dd>
+							</dl>
+						</li>
+						<li>
+							<dl class="flex fd-column">
+								<dt class="icon-area"></dt>
+								<dd>파일/사무용품</dd>
+							</dl>
+						</li>
+						<li>
+							<dl class="flex fd-column">
+								<dt class="icon-area"></dt>
+								<dd>디자인/데코</dd>
+							</dl>
+						</li>
+						<li>
+							<dl class="flex fd-column">
+								<dt class="icon-area"></dt>
+								<dd>학용품/취미</dd>
+							</dl>
+						</li>
+						<li>
+							<dl class="flex fd-column">
+								<dt class="icon-area"></dt>
+								<dd>화방/제도</dd>
+							</dl>
+						</li>
+						<li>
+							<dl class="flex fd-column">
+								<dt class="icon-area"></dt>
+								<dd>md 두디픽</dd>
+							</dl>
+						</li>
+						<li>
+							<dl class="flex fd-column">
+								<dt class="icon-area"></dt>
+								<dd>신제품</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>			
+			</section>
+			
+			<section class="new_area prd_area">
 			    <div class="inner">
-			        <p class="sub-comment">인기 상품</p>
-			        <div class="best_list flex">
-			            <c:forEach var="item" items="${bestItems}">
-			                <div class="best_card">
-			                    <img src="${item.imgPath}" alt="${item.name}">
-			                    <p class="item_name">${item.name}</p>
-			                    <p class="item_price">${item.price}원</p>
-			                </div>
-			            </c:forEach>
-			            <!-- 예시 -->
-			            <div class="best_card">
-			                <img src="/images/sample_item1.jpg" alt="펜">
-			                <p class="item_name">고급 볼펜</p>
-			                <p class="item_price">3,000원</p>
-			            </div>
-			            <div class="best_card">
-			                <img src="/images/sample_item2.jpg" alt="노트">
-			                <p class="item_name">다이어리 노트</p>
-			                <p class="item_price">12,000원</p>
-			            </div>
-			        </div>
+			        <p class="sub-comment">DOO.D 신상품</p>
+			        <ul class="new_list flex prdList f-wrap ju-between">
+			        	<!-- 시작:상품리스트 변수 -->
+			        	<!-- 조건 : 여긴 max8개까지 출력  -->
+			            <li class="prdItem">
+						  <a href="링크" class="prdLink">
+						  
+						  <div class="thumbnail">
+						    <img src="상품이미지" alt="타이틀">
+						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+						    <span class="soldout">SOLD OUT</span>
+						  </div>
+						
+						  <div class="description">
+						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+						
+						    <p class="name">{상품명변수}</p>
+							<div class="priceArea">
+						      <span class="salePercent">{할인퍼센트}%</span>
+						      <span class="priceSale">{판매되는금액}원</span>
+						      <span class="originPrice">{할인금액}원</span>
+						    </div>
+						    <div class="flex ju-between">
+						   		<div class="icons flex">
+							      <img src="베스트" alt=""/>
+							      <img src="인기상품" alt=""/>
+							    </div>
+							    <div>
+							    	<button type="button"><i class="xi-cart"></i></button>
+							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+							    	<button type="button"><i class="xi-heart"></i></button>
+        							<button type="button"><i class="xi-share-alt"></i></button>
+							    </div>
+						    </div>
+						  </div>
+						  </a>
+						</li>
+			        	<!-- 종료:상품리스트 변수 -->
+			        	<!-- 하단 7개 가상데이터 -->
+			        	<li class="prdItem">
+						  <a href="링크" class="prdLink">
+						  
+						  <div class="thumbnail">
+						    <img src="상품이미지" alt="타이틀">
+						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+						    <span class="soldout">SOLD OUT</span>
+						  </div>
+						
+						  <div class="description">
+						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+						
+						    <p class="name">{상품명변수}</p>
+							<div class="priceArea">
+						      <span class="salePercent">{할인퍼센트}%</span>
+						      <span class="priceSale">{판매되는금액}원</span>
+						      <span class="originPrice">{할인금액}원</span>
+						    </div>
+						    <div class="flex ju-between">
+						   		<div class="icons flex">
+							      <img src="베스트" alt=""/>
+							      <img src="인기상품" alt=""/>
+							    </div>
+							    <div>
+							    	<button type="button"><i class="xi-cart"></i></button>
+							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+							    	<button type="button"><i class="xi-heart"></i></button>
+        							<button type="button"><i class="xi-share-alt"></i></button>
+							    </div>
+						    </div>
+						  </div>
+						  </a>
+						</li>
+			        	<li class="prdItem">
+						  <a href="링크" class="prdLink">
+						  
+						  <div class="thumbnail">
+						    <img src="상품이미지" alt="타이틀">
+						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+						    <span class="soldout">SOLD OUT</span>
+						  </div>
+						
+						  <div class="description">
+						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+						
+						    <p class="name">{상품명변수}</p>
+							<div class="priceArea">
+						      <span class="salePercent">{할인퍼센트}%</span>
+						      <span class="priceSale">{판매되는금액}원</span>
+						      <span class="originPrice">{할인금액}원</span>
+						    </div>
+						    <div class="flex ju-between">
+						   		<div class="icons flex">
+							      <img src="베스트" alt=""/>
+							      <img src="인기상품" alt=""/>
+							    </div>
+							    <div>
+							    	<button type="button"><i class="xi-cart"></i></button>
+							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+							    	<button type="button"><i class="xi-heart"></i></button>
+        							<button type="button"><i class="xi-share-alt"></i></button>
+							    </div>
+						    </div>
+						  </div>
+						  </a>
+						</li>
+			        	<li class="prdItem">
+						  <a href="링크" class="prdLink">
+						  
+						  <div class="thumbnail">
+						    <img src="상품이미지" alt="타이틀">
+						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+						    <span class="soldout">SOLD OUT</span>
+						  </div>
+						
+						  <div class="description">
+						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+						
+						    <p class="name">{상품명변수}</p>
+							<div class="priceArea">
+						      <span class="salePercent">{할인퍼센트}%</span>
+						      <span class="priceSale">{판매되는금액}원</span>
+						      <span class="originPrice">{할인금액}원</span>
+						    </div>
+						    <div class="flex ju-between">
+						   		<div class="icons flex">
+							      <img src="베스트" alt=""/>
+							      <img src="인기상품" alt=""/>
+							    </div>
+							    <div>
+							    	<button type="button"><i class="xi-cart"></i></button>
+							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+							    	<button type="button"><i class="xi-heart"></i></button>
+        							<button type="button"><i class="xi-share-alt"></i></button>
+							    </div>
+						    </div>
+						  </div>
+						  </a>
+						</li>
+			        	<li class="prdItem">
+						  <a href="링크" class="prdLink">
+						  
+						  <div class="thumbnail">
+						    <img src="상품이미지" alt="타이틀">
+						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+						    <span class="soldout">SOLD OUT</span>
+						  </div>
+						
+						  <div class="description">
+						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+						
+						    <p class="name">{상품명변수}</p>
+							<div class="priceArea">
+						      <span class="salePercent">{할인퍼센트}%</span>
+						      <span class="priceSale">{판매되는금액}원</span>
+						      <span class="originPrice">{할인금액}원</span>
+						    </div>
+						    <div class="flex ju-between">
+						   		<div class="icons flex">
+							      <img src="베스트" alt=""/>
+							      <img src="인기상품" alt=""/>
+							    </div>
+							    <div>
+							    	<button type="button"><i class="xi-cart"></i></button>
+							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+							    	<button type="button"><i class="xi-heart"></i></button>
+        							<button type="button"><i class="xi-share-alt"></i></button>
+							    </div>
+						    </div>
+						  </div>
+						  </a>
+						</li>
+			        	<li class="prdItem">
+						  <a href="링크" class="prdLink">
+						  
+						  <div class="thumbnail">
+						    <img src="상품이미지" alt="타이틀">
+						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+						    <span class="soldout">SOLD OUT</span>
+						  </div>
+						
+						  <div class="description">
+						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+						
+						    <p class="name">{상품명변수}</p>
+							<div class="priceArea">
+						      <span class="salePercent">{할인퍼센트}%</span>
+						      <span class="priceSale">{판매되는금액}원</span>
+						      <span class="originPrice">{할인금액}원</span>
+						    </div>
+						    <div class="flex ju-between">
+						   		<div class="icons flex">
+							      <img src="베스트" alt=""/>
+							      <img src="인기상품" alt=""/>
+							    </div>
+							    <div>
+							    	<button type="button"><i class="xi-cart"></i></button>
+							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+							    	<button type="button"><i class="xi-heart"></i></button>
+        							<button type="button"><i class="xi-share-alt"></i></button>
+							    </div>
+						    </div>
+						  </div>
+						  </a>
+						</li>
+			        	<li class="prdItem">
+						  <a href="링크" class="prdLink">
+						  
+						  <div class="thumbnail">
+						    <img src="상품이미지" alt="타이틀">
+						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+						    <span class="soldout">SOLD OUT</span>
+						  </div>
+						
+						  <div class="description">
+						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+						
+						    <p class="name">{상품명변수}</p>
+							<div class="priceArea">
+						      <span class="salePercent">{할인퍼센트}%</span>
+						      <span class="priceSale">{판매되는금액}원</span>
+						      <span class="originPrice">{할인금액}원</span>
+						    </div>
+						    <div class="flex ju-between">
+						   		<div class="icons flex">
+							      <img src="베스트" alt=""/>
+							      <img src="인기상품" alt=""/>
+							    </div>
+							    <div>
+							    	<button type="button"><i class="xi-cart"></i></button>
+							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+							    	<button type="button"><i class="xi-heart"></i></button>
+        							<button type="button"><i class="xi-share-alt"></i></button>
+							    </div>
+						    </div>
+						  </div>
+						  </a>
+						</li>
+			        	<li class="prdItem">
+						  <a href="링크" class="prdLink">
+						  
+						  <div class="thumbnail">
+						    <img src="상품이미지" alt="타이틀">
+						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+						    <span class="soldout">SOLD OUT</span>
+						  </div>
+						
+						  <div class="description">
+						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+						
+						    <p class="name">{상품명변수}</p>
+							<div class="priceArea">
+						      <span class="salePercent">{할인퍼센트}%</span>
+						      <span class="priceSale">{판매되는금액}원</span>
+						      <span class="originPrice">{할인금액}원</span>
+						    </div>
+						    <div class="flex ju-between">
+						   		<div class="icons flex">
+							      <img src="베스트" alt=""/>
+							      <img src="인기상품" alt=""/>
+							    </div>
+							    <div>
+							    	<button type="button"><i class="xi-cart"></i></button>
+							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+							    	<button type="button"><i class="xi-heart"></i></button>
+        							<button type="button"><i class="xi-share-alt"></i></button>
+							    </div>
+						    </div>
+						  </div>
+						  </a>
+						</li>
+
+			        </ul>
+			        <div class="btn-view-more-wrap flex ju-center"> <!-- 신상품리스트바로가기링크 -->
+						<a href="#" class="btn-view-more"><span>신상품 더보기</span></a>
+					</div>
 			    </div>
 			</section>
 			
-			<!-- MD 추천 상품 -->
-			<section class="mdpick_area">
-			    <div class="inner">
-			        <p class="sub-comment">MD 추천 상품</p>
-			        <div class="mdpick_list flex">
-			            <div class="mdpick_card">
-			                <img src="/images/sample_item3.jpg" alt="노트북">
-			                <p class="item_name">고급 노트북</p>
-			                <p class="item_price">25,000원</p>
-			            </div>
-			            <div class="mdpick_card">
-			                <img src="/images/sample_item4.jpg" alt="펜 세트">
-			                <p class="item_name">펜 세트</p>
-			                <p class="item_price">8,000원</p>
-			            </div>
-			        </div>
-			    </div>
+			<section class="shortbanner_area">
+				<div class="inner">
+					<a href="#">
+						<div>welcome to Doo.D
+						회원가입 즉시 적립금 2000원 지급
+						
+					</div>
+					</a>
+				</div>
 			</section>
 			
-			<!-- TOP N 상품 -->
-			<section class="topn_area">
-			    <div class="inner">
-			        <p class="sub-comment">TOP N 상품</p>
-			        <div class="topn_list swiper">
-			            <div class="swiper-wrapper">
-			                <div class="swiper-slide">
-			                    <img src="/images/sample_item5.jpg" alt="스케치북">
-			                    <p class="item_name">스케치북</p>
-			                    <p class="item_price">5,000원</p>
-			                </div>
-			                <div class="swiper-slide">
-			                    <img src="/images/sample_item6.jpg" alt="메모지">
-			                    <p class="item_name">메모지</p>
-			                    <p class="item_price">2,000원</p>
-			                </div>
-			            </div>
-			            <div class="swiper-pagination"></div>
-			        </div>
-			    </div>
+			<section class="best_area prd_area">
+				<div class="inner">
+					<p class="sub-comment">DOO.D 인기상품</p>
+				<!-- 클릭수 기준이던가? 최고 8개+관리자설정 -->
+					<div class="best_list prdlist swiper bestSwiper ">
+				        <div class="swiper-wrapper">
+				        <!-- 시작 : 스와이프반복영역 예시 -->
+			            <div class="swiper-slide">
+							<div class="prdItem">
+							  <a href="링크" class="prdLink">
+							  
+							  <div class="thumbnail">
+							    <img src="상품이미지" alt="타이틀">
+							    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+							    <span class="soldout">SOLD OUT</span>
+							  </div>
+							
+							  <div class="description">
+							    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+							
+							    <p class="name">{상품명변수}</p>
+								<div class="priceArea">
+							      <span class="salePercent">{할인퍼센트}%</span>
+							      <span class="priceSale">{판매되는금액}원</span>
+							      <span class="originPrice">{할인금액}원</span>
+							    </div>
+							    <div class="flex ju-between">
+							   		<div class="icons flex">
+								      <img src="베스트" alt=""/>
+								      <img src="인기상품" alt=""/>
+								    </div>
+								    <div>
+								    	<button type="button"><i class="xi-cart"></i></button>
+								    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+								    	<button type="button"><i class="xi-heart"></i></button>
+	        							<button type="button"><i class="xi-share-alt"></i></button>
+								    </div>
+							    </div>
+							  </div>
+							  </a>
+							</div>								
+                        </div>
+	                    <!-- 종료 : 스와이프반봉영역 예시 -->    
+	                    <div class="swiper-slide">
+							<div class="prdItem">
+							  <a href="링크" class="prdLink">
+							  
+							  <div class="thumbnail">
+							    <img src="상품이미지" alt="타이틀">
+							    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+							    <span class="soldout">SOLD OUT</span>
+							  </div>
+							
+							  <div class="description">
+							    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+							
+							    <p class="name">{상품명변수}</p>
+								<div class="priceArea">
+							      <span class="salePercent">{할인퍼센트}%</span>
+							      <span class="priceSale">{판매되는금액}원</span>
+							      <span class="originPrice">{할인금액}원</span>
+							    </div>
+							    <div class="flex ju-between">
+							   		<div class="icons flex">
+								      <img src="베스트" alt=""/>
+								      <img src="인기상품" alt=""/>
+								    </div>
+								    <div>
+								    	<button type="button"><i class="xi-cart"></i></button>
+								    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+								    	<button type="button"><i class="xi-heart"></i></button>
+	        							<button type="button"><i class="xi-share-alt"></i></button>
+								    </div>
+							    </div>
+							  </div>
+							  </a>
+							</div>								
+                        </div>
+                        <div class="swiper-slide">
+							<div class="prdItem">
+							  <a href="링크" class="prdLink">
+							  
+							  <div class="thumbnail">
+							    <img src="상품이미지" alt="타이틀">
+							    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+							    <span class="soldout">SOLD OUT</span>
+							  </div>
+							
+							  <div class="description">
+							    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+							
+							    <p class="name">{상품명변수}</p>
+								<div class="priceArea">
+							      <span class="salePercent">{할인퍼센트}%</span>
+							      <span class="priceSale">{판매되는금액}원</span>
+							      <span class="originPrice">{할인금액}원</span>
+							    </div>
+							    <div class="flex ju-between">
+							   		<div class="icons flex">
+								      <img src="베스트" alt=""/>
+								      <img src="인기상품" alt=""/>
+								    </div>
+								    <div>
+								    	<button type="button"><i class="xi-cart"></i></button>
+								    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+								    	<button type="button"><i class="xi-heart"></i></button>
+	        							<button type="button"><i class="xi-share-alt"></i></button>
+								    </div>
+							    </div>
+							  </div>
+							  </a>
+							</div>								
+                        </div>
+                        <div class="swiper-slide">
+							<div class="prdItem">
+							  <a href="링크" class="prdLink">
+							  
+							  <div class="thumbnail">
+							    <img src="상품이미지" alt="타이틀">
+							    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+							    <span class="soldout">SOLD OUT</span>
+							  </div>
+							
+							  <div class="description">
+							    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+							
+							    <p class="name">{상품명변수}</p>
+								<div class="priceArea">
+							      <span class="salePercent">{할인퍼센트}%</span>
+							      <span class="priceSale">{판매되는금액}원</span>
+							      <span class="originPrice">{할인금액}원</span>
+							    </div>
+							    <div class="flex ju-between">
+							   		<div class="icons flex">
+								      <img src="베스트" alt=""/>
+								      <img src="인기상품" alt=""/>
+								    </div>
+								    <div>
+								    	<button type="button"><i class="xi-cart"></i></button>
+								    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+								    	<button type="button"><i class="xi-heart"></i></button>
+	        							<button type="button"><i class="xi-share-alt"></i></button>
+								    </div>
+							    </div>
+							  </div>
+							  </a>
+							</div>								
+                        </div>
+                        <div class="swiper-slide">
+							<div class="prdItem">
+							  <a href="링크" class="prdLink">
+							  
+							  <div class="thumbnail">
+							    <img src="상품이미지" alt="타이틀">
+							    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
+							    <span class="soldout">SOLD OUT</span>
+							  </div>
+							
+							  <div class="description">
+							    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
+							
+							    <p class="name">{상품명변수}</p>
+								<div class="priceArea">
+							      <span class="salePercent">{할인퍼센트}%</span>
+							      <span class="priceSale">{판매되는금액}원</span>
+							      <span class="originPrice">{할인금액}원</span>
+							    </div>
+							    <div class="flex ju-between">
+							   		<div class="icons flex">
+								      <img src="베스트" alt=""/>
+								      <img src="인기상품" alt=""/>
+								    </div>
+								    <div>
+								    	<button type="button"><i class="xi-cart"></i></button>
+								    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
+								    	<button type="button"><i class="xi-heart"></i></button>
+	        							<button type="button"><i class="xi-share-alt"></i></button>
+								    </div>
+							    </div>
+							  </div>
+							  </a>
+							</div>								
+                        </div>
+                        
+				        </div>
+				    </div>
+					<div class="btn-view-more-wrap flex ju-center"> <!-- 추천리스트바로가기링크 -->
+						<a href="#" class="btn-view-more"><span>추천상품 더보기</span></a>
+					</div>
+				</div>
+			  <script>
+			  var swiper = new Swiper(".bestSwiper", {
+			    autoplay: {      
+			      delay: 2500,
+			      disableOnInteraction: false,
+			    },
+			    loop: true,
+			    loopAdditionalSlides: 1,
+			    slidesPerView: 4,       
+			    spaceBetween: 20,       // 슬라이드 사이 여백(px)
+			    pagination: {
+			      el: ".best-swiper-pagination",
+			      clickable: true,
+			    },
+			  });
+			</script>
 			</section>
 			
-			<!-- 신규 상품 -->
-			<section class="new_item_area">
-			    <div class="inner">
-			        <p class="sub-comment">신규 상품</p>
-			        <div class="new_item_list flex">
-			            <div class="new_card">
-			                <img src="/images/sample_item7.jpg" alt="연필 세트">
-			                <p class="item_name">연필 세트</p>
-			                <p class="item_price">4,500원</p>
-			            </div>
-			            <div class="new_card">
-			                <img src="/images/sample_item8.jpg" alt="파일 폴더">
-			                <p class="item_name">파일 폴더</p>
-			                <p class="item_price">3,200원</p>
-			            </div>
-			        </div>
-			    </div>
-			</section>
-			
-			<!-- 사용 팁 -->
-			<section class="beauty_tip_area">
-			    <div class="inner">
-			        <p class="sub-comment">사용 팁</p>
-			        <div class="beauty_tip_list flex">
-			            <div class="tip_card">
-			                <img src="/images/sample_tip1.jpg" alt="정리 팁">
-			                <p class="tip_title">효율적인 문구 정리 팁</p>
-			            </div>
-			            <div class="tip_card">
-			                <img src="/images/sample_tip2.jpg" alt="필기 팁">
-			                <p class="tip_title">편안한 필기를 위한 팁</p>
-			            </div>
-			        </div>
-			    </div>
-			</section>
-			
-			<!-- 리뷰 & 이벤트 -->
+			<!-- 이벤트 영역 3개?이미지카드라서-->
 			<section class="review_event_area">
 			    <div class="inner">
-			        <p class="sub-comment">리뷰 & 이벤트</p>
+			        <p class="sub-comment">두디 이벤트</p>
 			        <div class="review_event_list flex">
 			            <div class="event_card">
-			                <p class="event_title">신규 가입자 10% 할인</p>
-			                <p class="event_desc">9월 한정 신규 가입 고객 전용</p>
+			                <p class="event_title">{이벤트게시판타이틀}</p>
+			                <p class="event_desc">{이벤트게시판 디스크립션}</p>
 			            </div>
 			            <div class="event_card">
 			                <p class="event_title">리뷰 작성 이벤트</p>
-			                <p class="event_desc">리뷰 작성 시 포인트 500원 지급</p>
+			                <p class="event_desc">리뷰 작성 시 포인트 500원 지급???</p>
 			            </div>
 			        </div>
 			    </div>
 			</section>
-			
-			<!-- 커뮤니티 -->
-			<section class="community_area">
-			    <div class="inner">
-			        <p class="sub-comment">커뮤니티</p>
-			        <div class="community_list flex">
-			            <div class="community_card">
-			                <p class="commu_title">효율적인 공부법 공유</p>
-			                <p class="commu_writer">by 사용자1</p>
-			            </div>
-			            <div class="community_card">
-			                <p class="commu_title">새 학기 준비물 추천</p>
-			                <p class="commu_writer">by 사용자2</p>
-			            </div>
-			        </div>
-			    </div>
-			</section>
-						
+
 
         </main>
     </div>
