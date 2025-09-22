@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import user.service.UserService;
 import user.service.UserBannerService; // 추가
@@ -14,7 +15,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
 	@Autowired
 	private UserBannerService userBannerService; 
 	
@@ -58,7 +58,6 @@ public class UserController {
 		mv.addObject("mainBanners", mainBanners);
 		mv.addObject("topBanners", topBanners);
 		mv.addObject("popupBanners", popupBanners);
-		
 		mv.setViewName("main/main");
 	    return mv;
 	}
