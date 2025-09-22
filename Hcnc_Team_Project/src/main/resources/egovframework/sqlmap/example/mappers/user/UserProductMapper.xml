@@ -38,6 +38,7 @@
 			FROM PRODUCT_QNA
 		  WHERE 1=1
 		  	AND PRODUCT_ID = #{productId}
+		  ORDER BY INPUT_DT DESC
 	</select>
 	
 	<select id="selectQnADetailByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
