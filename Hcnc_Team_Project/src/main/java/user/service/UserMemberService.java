@@ -1,5 +1,6 @@
 package user.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,21 @@ public class UserMemberService {
 	
 	public Map<String, Object> selectFindIdByUser(String email) {
 		return userMemberMapper.selectFindIdByUser(email);
+	}
+
+	public Map<String, Object> selectUserInfoByUser(String id) {
+		return userMemberMapper.selectUserInfoByUser(id);
+	}
+
+	public int updatePasswordByUser(Map<String, Object> param) {
+		return userMemberMapper.updatePasswordByUser(param);
+	}
+
+	public int updateMemberByUser(Map<String, Object> param) {
+		return userMemberMapper.updateMemberByUser(param);
+	}
+
+	public List<Map<String, Object>> selectMypageShippingInfoByUser(String id){
+		return userMemberMapper.selectMypageShippingInfoByUser(id);
 	}
 }
