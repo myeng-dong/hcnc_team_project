@@ -201,7 +201,7 @@
         // 주문 내역 조회
         this.fnSearchOrders = function() {
             var strSvcID       = "selectOrders";
-            var strURL         = "svc::selectOrderDetailListByAdmin.do";  // Spring Controller 매핑
+            var strURL         = "svc::selectOrderDetailListByAdmin.do?time=" + new Date().getTime();  // Spring Controller 매핑
             var strInDatasets  = "ds_search=ds_search";                   // 검색조건 dataset 전달
             var strOutDatasets = "ds_order=ds_order";
             var strArg         = "";

@@ -171,11 +171,13 @@
 
         //포스트 조회 트랜젝션
         this.fnselectPostListByAdmin = function(){
+        	var timestamp   = new Date().getTime();
+
         	var strSvcID       = "fnselectPostListByAdmin";
-            var strURL         = "svc::selectPostListByAdmin.do";
+            var strURL         = "svc::selectPostListByAdmin.do?time=" + new Date().getTime();
             var strInDatasets  = "ds_search=ds_search";
             var strOutDatasets = "ds_board=ds_board";
-            var strArg         = "";
+            var strArg         = "timestamp=timestamp";
             var strCallback    = "fnCallback";
 
             this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);

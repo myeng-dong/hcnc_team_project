@@ -120,7 +120,7 @@
         //1대1 게시판 조회 트랜젝션
         this.fnselectOneOnOneByAdmin = function(){
         	var strSvcID       = "fnselectOneOnOneByAdmin";
-            var strURL         = "svc::selectOneOnOneByAdmin.do";
+            var strURL         = "svc::selectOneOnOneByAdmin.do?time=" + new Date().getTime();
             var strInDatasets  = "ds_search=ds_search";
             var strOutDatasets = "ds_board=ds_board";
             var strArg         = "";
@@ -133,7 +133,7 @@
         //1대1 게시판 댓글 추가 트랜젝션
         this.fninsertCommentByAdmin = function(){
         	var strSvcID       = "fninsertCommentByAdmin";
-            var strURL         = "svc::insertCommentByAdmin.do";
+            var strURL         = "svc::insertCommentByAdmin.do?time=" + new Date().getTime();
             var strInDatasets  = "ds_comment=ds_comment";
             var strOutDatasets = "";
             var strArg         = "";

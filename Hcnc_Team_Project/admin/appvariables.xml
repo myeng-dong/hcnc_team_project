@@ -131,6 +131,7 @@
           <Col id="MENU_ID">0305</Col>
           <Col id="MENU_NM">배송비 정책 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">order::Form_Order_PostPrice.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">04</Col>
