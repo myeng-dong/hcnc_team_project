@@ -162,8 +162,10 @@ public class UserMemberController {
 			}
 			if("O".equals(info.get("PASSWORD"))) {
 				HttpSession session = request.getSession();
+				userMemberService.updateLastLoginByUser(id);
+				Map<String, Object> user = userMemberService.selectUserInfoByUser(id);
 				info.put("userType", "user");
-				session.setAttribute("userInfo", info);
+				session.setAttribute("userInfo", user);
 				mv.addObject("status", 200);
 				mv.addObject("result", info);
 			}
@@ -206,26 +208,25 @@ public class UserMemberController {
             );
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> tokenInfo = objectMapper.readValue(response.getBody(), Map.class);
-            String token = (String) tokenInfo.get("id_token");
-            int count = userMemberService.selectIdCheckByUser(token.split("\\.")[0]);
+            String tokenOrigin = (String) tokenInfo.get("id_token");
+			String token = tokenOrigin.split("\\.")[0];
+            int count = userMemberService.selectIdCheckByUser(token);
             if(count == 0) {
             	mv.addObject("status", 200);
                 System.out.println(response.getBody());
                 mv.addObject("data", tokenInfo);
                 String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
                 
-                saveSocialAuthToken(uuid,token.split("\\.")[0]);
+                saveSocialAuthToken(uuid,token);
                 mv.setViewName("redirect:/sign.do?uuid="+uuid);
                 return mv;
             }
             if(count == 1) {
             	HttpSession session = request.getSession();
-            	Map<String, Object> info = new HashMap();
-				info.put("MEMBER_ID",token.split("\\.")[0]);
-				info.put("userType", "user");
-				session.setAttribute("userInfo", info);
+            	userMemberService.updateLastLoginByUser(token);
+				Map<String, Object> user = userMemberService.selectUserInfoByUser(token);
+				session.setAttribute("userInfo", user);
 				mv.addObject("status", 200);
-				mv.addObject("result", info);
 				mv.setViewName("redirect:/main.do");
 				return mv;
             }
@@ -399,5 +400,35 @@ public class UserMemberController {
 		}
 		return mv;
 	}
+	
+	@RequestMapping("/mypage/updateWithDrawByUser.do")
+	public ModelAndView updateWithDrawByUser(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("jsonView");
+		try {
+			HttpSession session = request.getSession(false);
+			if(session != null) {
+				Map<String,Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+				String id = (String) userInfo.get("MEMBER_ID");
+				int count = userMemberService.updateWithDrawByUser(id);
+				if(count == 1) {
+					mv.addObject("status",200);
+				} else {
+					mv.addObject("status",400);	
+				}
+			} else {
+				mv.addObject("status",404);
+			}
+						
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return mv;
+	}
+	
+	 @GetMapping("/logoutByUser.do")
+	    public String logout(HttpSession session) {
+	        session.invalidate(); // 세션 삭제
+	        return "redirect:/main.do"; // 로그아웃 후 메인 페이지로 이동
+	    }
 	
 }

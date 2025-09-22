@@ -1,0 +1,843 @@
+@charset "UTF-8";
+	
+	* {
+	    margin: 0;
+	    padding: 0;
+	    box-sizing: border-box;
+	}
+	
+	body {
+	    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+	    background-color: #f5f5f5;
+	    color: #333;
+	    line-height: 1.6;
+	}
+	
+	/* 컨테이너 */
+	.wish-container {
+	    max-width: 1200px;
+	    margin: 0 auto;
+	    padding: 0 20px;
+	}
+	
+	/* 메인 컨텐츠 */
+	.main-content {
+	    margin: 40px 0;
+	    min-height: 600px;
+	}
+	
+	/* 페이지 헤더 */
+	.page-header {
+	    background: linear-gradient(135deg, #DC0630 0%, #b8051f 100%);
+	    color: white;
+	    padding: 60px 40px;
+	    margin-bottom: 40px;
+	    position: relative;
+	    overflow: hidden;
+	}
+	
+	.page-header::before {
+	    content: '';
+	    position: absolute;
+	    top: -50%;
+	    right: -20%;
+	    width: 200px;
+	    height: 200px;
+	    background: rgba(255, 255, 255, 0.1);
+	    border-radius: 50%;
+	}
+	
+	.page-header::after {
+	    content: '';
+	    position: absolute;
+	    bottom: -30%;
+	    left: -10%;
+	    width: 150px;
+	    height: 150px;
+	    background: rgba(255, 255, 255, 0.05);
+	    border-radius: 50%;
+	}
+	
+	.page-title {
+	    font-size: 42px;
+	    font-weight: 700;
+	    margin-bottom: 15px;
+	    text-align: center;
+	    letter-spacing: -1px;
+	    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+	
+	.page-subtitle {
+	    font-size: 18px;
+	    opacity: 0.9;
+	    text-align: center;
+	    font-weight: 300;
+	}
+	
+	/* 위시리스트 통계 */
+	.wishlist-stats {
+	    display: grid;
+	    grid-template-columns: repeat(4, 1fr);
+	    gap: 20px;
+	    background: white;
+	    padding: 40px;
+	    margin-bottom: 40px;
+	    border: 1px solid #e9ecef;
+	    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+	}
+	
+	.stat-item {
+	    text-align: center;
+	    padding: 20px;
+	    border-right: 1px solid #f0f0f0;
+	}
+	
+	.stat-item:last-child {
+	    border-right: none;
+	}
+	
+	.stat-number {
+	    font-size: 32px;
+	    font-weight: 700;
+	    color: #DC0630;
+	    margin-bottom: 8px;
+	    display: block;
+	}
+	
+	.stat-label {
+	    color: #666;
+	    font-size: 14px;
+	    font-weight: 500;
+	    text-transform: uppercase;
+	    letter-spacing: 0.5px;
+	}
+	
+	/* 카테고리 탭 */
+	.category-tabs {
+	    margin-bottom: 40px;
+	    background: white;
+	    border: 1px solid #e9ecef;
+	    padding: 20px;
+	}
+	
+	.tab-list {
+	    display: flex;
+	    gap: 0;
+	    overflow-x: auto;
+	    border-bottom: 2px solid #f8f9fa;
+	    position: relative;
+	}
+	
+	.tab-btn {
+	    padding: 16px 32px;
+	    border: none;
+	    background: transparent;
+	    color: #666;
+	    cursor: pointer;
+	    font-weight: 600;
+	    font-size: 15px;
+	    transition: all 0.3s ease;
+	    white-space: nowrap;
+	    display: flex;
+	    align-items: center;
+	    gap: 8px;
+	    border-bottom: 3px solid transparent;
+	    min-width: 120px;
+	    justify-content: center;
+	}
+	
+	.tab-btn:hover {
+	    color: #DC0630;
+	    background: rgba(220, 6, 48, 0.05);
+	}
+	
+	.tab-btn.active {
+	    color: #DC0630;
+	    border-bottom-color: #DC0630;
+	    background: rgba(220, 6, 48, 0.08);
+	    font-weight: 700;
+	}
+	
+	.tab-count {
+	    background: #f8f9fa;
+	    padding: 4px 8px;
+	    border-radius: 12px;
+	    font-size: 12px;
+	    font-weight: 700;
+	    min-width: 20px;
+	    text-align: center;
+	    color: #666;
+	    border: 1px solid #e9ecef;
+	}
+	
+	.tab-btn.active .tab-count {
+	    background: #DC0630;
+	    color: white;
+	    border-color: #DC0630;
+	}
+	
+	/* 컨트롤 영역 */
+	.controls {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    margin-bottom: 30px;
+	    padding: 24px;
+	    background: white;
+	    border: 1px solid #e9ecef;
+	    border-radius: 12px;
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	    gap: 20px;
+	}
+	
+	.filter-group {
+	    display: flex;
+	    gap: 12px;
+	    align-items: center;
+	    flex-wrap: wrap;
+	}
+	
+	.filter-select {
+	    appearance: none;
+	    -webkit-appearance: none;
+	    -moz-appearance: none;
+	    padding: 12px 16px;
+	    padding-right: 40px;
+	    border: 1.5px solid #e2e8f0;
+	    border-radius: 8px;
+	    background: white;
+	    cursor: pointer;
+	    font-size: 14px;
+	    font-weight: 500;
+	    color: #374151;
+	    min-width: 140px;
+	    transition: all 0.2s ease;
+	    
+	    /* 커스텀 드롭다운 화살표 */
+	    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+	    background-position: right 12px center;
+	    background-repeat: no-repeat;
+	    background-size: 16px;
+	}
+	
+	.filter-select:hover {
+	    border-color: #cbd5e1;
+	    background-color: #f8fafc;
+	}
+	
+	.filter-select:focus {
+	    outline: none;
+	    border-color: #DC0630;
+	    background-color: white;
+	    box-shadow: 0 0 0 3px rgba(220, 6, 48, 0.1);
+	}
+	
+	.filter-select:active {
+	    background-color: #f1f5f9;
+	}
+	
+	.filter-select::-ms-expand {
+	    display: none;
+	}
+	
+	.view-toggle {
+	    display: flex;
+	    gap: 0;
+	    border: 1px solid #ddd;
+	    overflow: hidden;
+	    border-radius: 6px;
+	}
+	
+	.view-btn {
+	    padding: 8px 16px;
+	    border: none;
+	    background: transparent;
+	    cursor: pointer;
+	    font-size: 13px;
+	    font-weight: 600;
+	    transition: all 0.2s ease;
+	    color: #64748b;
+	    border-radius: 6px;
+	    border-right: none;
+	}
+	
+	.view-btn:last-child {
+	    border-right: none;
+	}
+	
+	.view-btn:hover {
+	    color: #475569;
+	    background: rgba(255, 255, 255, 0.7);
+	}
+	
+	.view-btn.active {
+	    background-color: #DC0630;
+	    color: white;
+	}
+	
+	/* 하트 버튼 스타일 */
+	.wish-heart {
+	    position: absolute;
+	    top: 8px;
+	    right: 8px;
+	    background: rgba(255, 255, 255, 0.9);
+	    border: none;
+	    width: 36px;
+	    height: 36px;
+	    border-radius: 50%;
+	    cursor: pointer;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    transition: all 0.3s ease;
+	    font-size: 18px;
+	    z-index: 10;
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	}
+	
+	.wish-heart:hover {
+	    background: white;
+	    transform: scale(1.1);
+	    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	}
+	
+	.wish-heart.heart-filled {
+	    background: rgba(220, 6, 48, 0.1);
+	}
+	
+	.wish-heart.heart-filled:hover {
+	    background: rgba(220, 6, 48, 0.2);
+	}
+	
+	.wish-heart:disabled {
+	    cursor: not-allowed;
+	    opacity: 0.7;
+	}
+	
+	.heart-loading {
+	    animation: pulse 0.8s infinite;
+	}
+	
+	@keyframes pulse {
+	    0%, 100% { opacity: 1; }
+	    50% { opacity: 0.5; }
+	}
+	
+	/* 상품 카드용 하트 (상품 목록 페이지에서 사용) */
+	.product-card {
+	    position: relative;
+	    background: white;
+	    border-radius: 8px;
+	    overflow: hidden;
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	    transition: all 0.3s ease;
+	}
+	
+	.product-card:hover {
+	    transform: translateY(-2px);
+	    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+	}
+	
+	.product-image {
+	    position: relative;
+	    height: 200px;
+	    overflow: hidden;
+	}
+	
+	.product-image img {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	    transition: transform 0.4s ease;
+	}
+	
+	.product-card:hover .product-image img {
+	    transform: scale(1.05);
+	}
+	
+	.product-info {
+	    padding: 16px;
+	}
+	
+	.product-name {
+	    font-size: 14px;
+	    font-weight: 600;
+	    margin-bottom: 8px;
+	    color: #333;
+	}
+	
+	.product-price {
+	    font-size: 16px;
+	    font-weight: 700;
+	    color: #DC0630;
+	}
+		
+	/* 하트 애니메이션 효과 */
+	.wish-heart .heart-icon {
+	    transition: all 0.2s ease;
+	}
+	
+	.wish-heart:active .heart-icon {
+	    transform: scale(1.3);
+	}
+	
+	/* 위시리스트 그리드 */
+	.wishlist-grid {
+	    display: grid;
+	    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	    gap: 30px;
+	    margin-bottom: 60px;
+	}
+	
+	.wishlist-item {
+	    background: white;
+	    border: 1px solid #e9ecef;
+	    overflow: hidden;
+	    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+	    transition: all 0.3s ease;
+	    position: relative;
+	}
+	
+	/* 리스트 뷰에서 하트 위치 조정 */
+	.wishlist-grid.list-view .wish-heart {
+	    position: static !important;
+	    width: 28px !important;
+	    height: 28px !important;
+	    margin-left: 20px !important;
+	    opacity: 0.8 !important;
+	    font-size: 16px !important;
+	    order: 10 !important;
+	    background: rgba(255, 255, 255, 0.9) !important;
+	    transition: all 0.3s ease !important;
+	}
+	
+	.wishlist-grid.list-view .wish-heart.heart-filled {
+	    background: rgba(220, 6, 48, 0.1) !important;
+	    color: #DC0630 !important;
+	}
+	
+	.wishlist-grid.list-view .wish-heart:hover {
+	    opacity: 1 !important;
+	    transform: scale(1.1) !important;
+	}
+	
+	.wishlist-item:hover {
+	    transform: translateY(-2px);
+	    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+	    border-color: #DC0630;
+	}
+	
+	.item-image {
+	    position: relative;
+	    overflow: hidden;
+	    height: 160px;
+	    background: #f8f9fa;
+	}
+	
+	.item-image img {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	    transition: transform 0.4s ease;
+	}
+	
+	.wishlist-item:hover .item-image img {
+	    transform: scale(1.05);
+	}
+	
+	.wish-remove {
+	    position: absolute;
+	    top: 8px;
+	    right: 8px;
+	    background: rgba(0, 0, 0, 0.7);
+	    color: white;
+	    border: none;
+	    width: 28px;
+	    height: 28px;
+	    cursor: pointer;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    transition: all 0.3s ease;
+	    font-size: 12px;
+	    opacity: 0;
+	}
+	
+	.wishlist-item:hover .wish-remove {
+	    opacity: 1;
+	}
+	
+	.wish-remove:hover {
+	    background: #DC0630;
+	    transform: scale(1.1);
+	}
+	
+	.item-info {
+	    padding: 16px;
+	}
+	
+	.item-category {
+	    color: #999;
+	    font-size: 11px;
+	    margin-bottom: 6px;
+	    text-transform: uppercase;
+	    letter-spacing: 0.5px;
+	    font-weight: 600;
+	}
+	
+	.item-name {
+	    font-size: 14px;
+	    font-weight: 600;
+	    margin-bottom: 10px;
+	    color: #333;
+	    line-height: 1.3;
+	    height: 36px;
+	    overflow: hidden;
+	    display: -webkit-box;
+	    -webkit-line-clamp: 2;
+	    -webkit-box-orient: vertical;
+	}
+	
+	.item-price {
+	    display: flex;
+	    align-items: center;
+	    gap: 6px;
+	    margin-bottom: 12px;
+	}
+	
+	.current-price {
+	    font-size: 16px;
+	    font-weight: 700;
+	    color: #DC0630;
+	}
+	
+	.original-price {
+	    font-size: 12px;
+	    color: #999;
+	    text-decoration: line-through;
+	}
+	
+	.discount {
+	    background: #DC0630;
+	    color: white;
+	    padding: 2px 6px;
+	    font-size: 10px;
+	    font-weight: 700;
+	    border-radius: 2px;
+	}
+	
+	.item-actions {
+	    display: flex;
+	    gap: 8px;
+	}
+	
+	.btn-cart {
+	    flex: 1;
+	    padding: 8px;
+	    background: #DC0630;
+	    color: white;
+	    border: none;
+	    cursor: pointer;
+	    font-weight: 600;
+	    font-size: 12px;
+	    transition: all 0.3s ease;
+	}
+	
+	.btn-cart:hover {
+	    background: #b8051f;
+	    transform: translateY(-1px);
+	}
+	
+	.btn-detail {
+	    padding: 8px 12px;
+	    border: 2px solid #DC0630;
+	    color: #DC0630;
+	    background: transparent;
+	    cursor: pointer;
+	    font-weight: 600;
+	    font-size: 12px;
+	    transition: all 0.3s ease;
+	}
+	
+	.btn-detail:hover {
+	    background: #DC0630;
+	    color: white;
+	}
+	
+	/* 빈 상태 */
+	.empty-wishlist-filter {
+	    grid-column: 1 / -1;
+	    text-align: center;
+	    padding: 80px 40px;
+	    background: white;
+	    border: 1px solid #e9ecef;
+	}
+	
+	.empty-icon {
+	    font-size: 80px;
+	    color: #ddd;
+	    margin-bottom: 24px;
+	}
+	
+	.empty-title {
+	    font-size: 24px;
+	    font-weight: 600;
+	    color: #333;
+	    margin-bottom: 12px;
+	}
+	
+	.empty-subtitle {
+	    color: #666;
+	    margin-bottom: 30px;
+	    font-size: 16px;
+	}
+	
+	/* 버튼 */
+	.btn {
+	    padding: 12px 24px;
+	    border: none;
+	    cursor: pointer;
+	    font-weight: 600;
+	    font-size: 14px;
+	    transition: all 0.3s ease;
+	    text-decoration: none;
+	    display: inline-block;
+	}
+	
+	.btn-primary {
+	    background-color: #DC0630;
+	    color: white;
+	}
+	
+	.btn-primary:hover {
+	    background-color: #b8051f;
+	    transform: translateY(-2px);
+	    box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3);
+	}
+	
+	/* 로딩 애니메이션 */
+	.loading {
+	    display: inline-block;
+	    width: 16px;
+	    height: 16px;
+	    border: 2px solid rgba(255,255,255,.3);
+	    border-radius: 50%;
+	    border-top-color: #fff;
+	    animation: spin 1s ease-in-out infinite;
+	}
+	
+	@keyframes spin {
+	    to { transform: rotate(360deg); }
+	}
+	
+	/* 성공 메시지 */
+	.success-message {
+	    position: fixed;
+	    top: 30px;
+	    right: 30px;
+	    background: #28a745;
+	    color: white;
+	    padding: 16px 24px;
+	    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+	    transform: translateX(400px);
+	    transition: transform 0.4s ease;
+	    z-index: 1000;
+	    font-weight: 600;
+	    border-left: 4px solid #1e7e34;
+	}
+	
+	.success-message.show {
+	    transform: translateX(0);
+	}
+	
+	.success-message.toast-success {
+	    background: #28a745;
+	    border-left-color: #1e7e34;
+	}
+		
+	.success-message.toast-error {
+	    background: #dc3545;
+	    border-left-color: #c82333;
+	}
+		
+	.success-message.toast-warning {
+	    background: #ffc107;
+	    color: #212529;
+	    border-left-color: #e0a800;
+	}
+	
+	.success-message.toast-info {
+	    background: #17a2b8;
+	    border-left-color: #138496;
+	}
+	
+	/* 태블릿 반응형 (768px ~ 1024px) */
+	@media (max-width: 1024px) {
+	    .wish-container {
+	        padding: 0 15px;
+	    }
+	    
+	    .page-title {
+	        font-size: 36px;
+	    }
+	    
+	    .wishlist-stats {
+	        grid-template-columns: repeat(2, 1fr);
+	        gap: 15px;
+	        padding: 30px;
+	    }
+	    
+	    .stat-item {
+	        border-right: none;
+	        border-bottom: 1px solid #f0f0f0;
+	    }
+	    
+	    .stat-item:nth-child(2), .stat-item:last-child {
+	        border-bottom: none;
+	    }
+	    
+	    .tab-btn {
+	        padding: 14px 24px;
+	        font-size: 14px;
+	        min-width: 100px;
+	    }
+	    
+	    .controls {
+	        flex-direction: column;
+	        align-items: stretch;
+	        gap: 15px;
+	    }
+	    
+	    .wishlist-grid {
+	        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	        gap: 20px;
+	    }
+	}
+	
+	/* 모바일 반응형 (768px 이하) */
+	@media (max-width: 768px) {
+	    .main-content {
+	        margin: 20px 0;
+	    }
+	    
+	    .page-header {
+	        padding: 40px 20px;
+	        margin-bottom: 20px;
+	    }
+	    
+	    .page-title {
+	        font-size: 28px;
+	    }
+	    
+	    .page-subtitle {
+	        font-size: 16px;
+	    }
+	    
+	    .wishlist-stats {
+	        grid-template-columns: 1fr;
+	        padding: 20px;
+	        gap: 10px;
+	    }
+	    
+	    .stat-item {
+	        border-right: none;
+	        border-bottom: 1px solid #f0f0f0;
+	        padding: 15px;
+	    }
+	    
+	    .stat-item:last-child {
+	        border-bottom: none;
+	    }
+	    
+	    .stat-number {
+	        font-size: 24px;
+	    }
+	    
+	    .category-tabs {
+	        padding: 15px;
+	        margin: 0 -15px 20px;
+	    }
+	    
+	    .tab-list {
+	        overflow-x: auto;
+	        scrollbar-width: none;
+	        -ms-overflow-style: none;
+	    }
+	    
+	    .tab-list::-webkit-scrollbar {
+	        display: none;
+	    }
+	    
+	    .tab-btn {
+	        padding: 12px 20px;
+	        font-size: 13px;
+	        min-width: 90px;
+	    }
+	    
+	    .tab-count {
+	        font-size: 11px;
+	        padding: 2px 6px;
+	    }
+	    
+	    .controls {
+	        padding: 15px;
+	        margin: 0 -15px 20px;
+	    }
+	
+	    
+	    .wishlist-grid {
+	        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	        gap: 15px;
+	        margin: 0 -15px 40px;
+	        padding: 0 15px;
+	    }
+	    
+	    .item-info {
+	        padding: 20px;
+	    }
+	    
+	    .item-name {
+	        font-size: 15px;
+	        height: 40px;
+	    }
+	    
+	    .current-price {
+	        font-size: 16px;
+	    }
+	    
+	    .item-actions {
+	        flex-direction: column;
+	        gap: 8px;
+	    }
+	    
+	    .btn-detail {
+	        padding: 10px 12px;
+	    }
+	    
+	    .success-message {
+	        top: 10px;
+	        right: 10px;
+	        left: 10px;
+	        transform: translateY(-120%);
+	        font-size: 14px;
+	    }
+	    
+	    .success-message.show {
+	        transform: translateY(0);
+	    }
+	}
+	
+	/* 반응형 하트 버튼 */
+	@media (max-width: 768px) {
+	    .wish-heart {
+	        width: 32px;
+	        height: 32px;
+	        font-size: 16px;
+	    }
+	    
+	    .wishlist-grid.list-view .wish-heart {
+	        width: 24px !important;
+	        height: 24px !important;
+	        font-size: 14px !important;
+	    }
+	}
