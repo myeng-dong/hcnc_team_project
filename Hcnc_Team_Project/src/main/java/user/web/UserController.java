@@ -89,4 +89,18 @@ public class UserController {
 		mv.setViewName("main/main");
 	    return mv;
 	}
+	
+	@RequestMapping("/testPay.do")
+	public ModelAndView userTestPay() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("payment/pay-test");
+		return mv;
+	}
+	
+	@RequestMapping("/success.do")
+	public ModelAndView userPayCheckout() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("payment/success");
+		return mv;
+	}
 }

@@ -24,4 +24,8 @@ public interface UserMemberMapper {
 	public int updatePasswordByUser(Map<String, Object> param);
 
 	public int updateMemberByUser(Map<String, Object> param);
+
+	public int updateWithDrawByUser(String id);
+
+	public int updateLastLoginByUser(String id);
 }
