@@ -101,6 +101,11 @@
         'user'
     );
 	</insert>
+	<update id="updateLastLoginByUser" parameterType="java.util.Map">
+        UPDATE MEMBERS
+        SET LAST_LOGIN_DT = NOW()
+        WHERE MEMBER_ID = #{id} 
+    </update>
     <update id="updatePasswordByUser" parameterType="java.util.Map">
         UPDATE MEMBERS
         SET PASSWORD = #{password}
@@ -124,6 +129,7 @@
             <if test="birth != null and birth != ''">
             BIRTH = #{birth},
             </if>
+            
         </set>
         WHERE MEMBER_ID = #{id}
     </update>

@@ -15,11 +15,53 @@
 	
 	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
-					, O.OPTION_NAME, O.OPTION_VALUE
 			FROM PRODUCTS P
-			LEFT OUTER JOIN OPTIONS O
-				ON P.PRODUCT_ID = O.PRODUCT_ID 
-			WHERE P.PRODUCT_ID = #{productId}
+			WHERE 1=1
+				AND P.PRODUCT_ID = #{productId}
 	</select>
 	
+	<select id="slectOptionInfoByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT OPTION_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE
+			FROM OPTIONS
+			WHERE 1=1
+				AND	PRODUCT_ID = #{productId}
+	</select>
+	
+	<insert id="insertCartItemByUser" parameterType="java.util.Map">
+		INSERT INTO CART_ITEMS (CART_ID, PRODUCT_ID, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL)
+			VALUES (#{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} )
+	</insert>
+	
+	
+	<select id="selectProductQnAListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT PRODUCT_QNA_ID, MEMBER_ID, QNA_TITLE, QNA_STATUS, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, DATE_FORMAT(UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT
+			FROM PRODUCT_QNA
+		  WHERE 1=1
+		  	AND PRODUCT_ID = #{productId}
+	</select>
+	
+	<select id="selectQnADetailByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT PRODUCT_QNA_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, DATE_FORMAT(UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT
+			FROM PRODUCT_QNA
+		  WHERE 1=1
+		  	AND PRODUCT_QNA_ID = #{qnaId}
+	</select>
+	
+	<insert id="insertQnAByUser" parameterType="java.util.Map">
+		INSERT INTO PRODUCT_QNA (PRODUCT_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT)
+			VALUES ( #{productId}, #{memberId}, #{qnaTitle}, #{qnaContent} )
+	</insert>
+	
+	<update id="updateProductQnAByUser" parameterType="java.util.Map">
+		UPDATE PRODUCT_QNA
+			SET QNA_TITLE = #{title}, QNA_CONTENT = #{content}
+			WHERE 1=1
+				AND PRODUCT_QNA_ID = #{qnaId}
+	</update>
+	
+	<delete id="deleteQnAByUser" parameterType="java.util.Map">
+		DELETE FROM PRODUCT_QNA
+			WHERE 1=1
+				AND PRODUCT_QNA_ID = #{qnaId};
+	</delete>
 </mapper>
