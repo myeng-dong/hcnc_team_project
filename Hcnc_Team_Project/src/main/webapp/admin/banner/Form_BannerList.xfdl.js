@@ -23,26 +23,24 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Grid("grid_list","40","83",null,"320","40",null,null,null,null,null,this);
+            obj = new Grid("grid_list","40","33",null,null,"40","100",null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_banner");
-
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"48\"/><Column size=\"48\"/><Column size=\"76\"/><Column size=\"127\"/><Column size=\"83\"/><Column size=\"168\"/><Column size=\"189\"/><Column size=\"129\"/><Column size=\"163\"/><Column size=\"80\"/><Column size=\"84\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\"/><Cell col=\"1\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"출력순서\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"타입\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" colspan=\"2\" text=\"제목\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\"/><Cell col=\"6\" text=\"링크\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"작성자\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"출력여부\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"10\" text=\"관리\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" text=\"bind:BANNER_ID\"/><Cell col=\"1\" text=\"expr:currow + 1\"/><Cell col=\"2\" text=\"bind:SORT_NUMBER\"/><Cell col=\"3\" text=\"bind:BANNER_TYPE\"/><Cell col=\"4\" text=\"bind:IMG_PATH\" displaytype=\"imagecontrol\" imagestretch=\"bind:IMG_PATH\"/><Cell col=\"5\" text=\"bind:BANNER_TITLE\"/><Cell col=\"6\" edittype=\"none\" text=\"bind:LINKED_URL\"/><Cell col=\"7\" text=\"bind:INPUT_ID\"/><Cell col=\"8\" edittype=\"none\" text=\"bind:INPUT_DT\"/><Cell col=\"9\" edittype=\"none\" text=\"bind:IS_VISIBLE\"/><Cell col=\"10\" displaytype=\"buttoncontrol\" text=\"관리\"/></Band></Format></Formats>");
-
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_h4_00","40","60","153","20",null,null,null,null,null,null,this);
+            obj = new Static("txt_h4_00","40","10","153","20",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("총       개 | 활성화       개");
             obj.set_font("normal 700 10pt/normal \"Noto Sans KR Medium\"");
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_bannertotal","0","60","70","20",null,null,null,null,null,null,this);
+            obj = new Static("txt_bannertotal","0","10","70","20",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("0");
             obj.set_font("normal 700 10pt/normal \"Noto Sans KR Medium\"");
@@ -50,7 +48,7 @@
             obj.set_textAlign("right");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_bannertotal00","75","60","70","20",null,null,null,null,null,null,this);
+            obj = new Static("txt_bannertotal00","75","10","70","20",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text("0");
             obj.set_font("normal 700 10pt/normal \"Noto Sans KR Medium\"");
@@ -59,7 +57,7 @@
             obj.set_textAlign("right");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_write",null,"423","140","48","40",null,null,null,null,null,this);
+            obj = new Button("btn_write",null,"640","140",null,"40","40",null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("글쓰기");
             obj.set_background("#1017ac");
