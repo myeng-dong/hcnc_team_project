@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Pop_BoardInsert" width="800" height="700" titletext="게시글 작성" background="#F8F9FA" border="1px solid #E0E0E0" borderRadius="10px">
+    <Layouts>
+      <Layout height="700" width="800">
+        <Static id="sta_title" taborder="0" text="게시글 작성" left="30" top="30" height="40" font="normal 18pt/normal &quot;Noto Sans KR Medium&quot;" color="#333333"/>
+        <Static id="sta_postTitle" taborder="1" text="제목" left="30" top="90" width="80" height="40" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <Edit id="edt_postTitle" taborder="2" left="110" top="95" right="30" height="30" borderRadius="5px" border="1px solid #CCCCCC"/>
+        <Static id="sta_postContent" taborder="3" text="내용" left="30" top="140" width="80" height="40" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" color="#555555"/>
+        <RichEditor id="richeditor_postContent" taborder="4" left="30" top="185" right="30" height="450" borderRadius="5px" border="1px solid #CCCCCC" fileurl="svc::admin/richeditor/jsp/upload.jsp"/>
+        <Button id="btn_cancel" taborder="5" text="취소" width="100" height="40" bottom="20" right="140" onclick="btn_cancel_onclick" background="#E5E7EB" color="#555555" border="0px none" borderRadius="5px" cursor="pointer" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Button id="btn_save" taborder="6" text="작성 완료" width="100" height="40" bottom="20" right="30" onclick="btn_save_onclick" background="#5C6BC0" color="white" border="0px none" borderRadius="5px" cursor="pointer" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_post">
+        <ColumnInfo>
+          <Column id="postTitle" type="STRING" size="256"/>
+          <Column id="postContent" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="edt_postTitle" propid="value" datasetid="ds_post" columnid="postTitle"/>
+      <BindItem id="item1" compid="richeditor_postContent" propid="value" datasetid="ds_post" columnid="postContent"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+ * '작성 완료' 버튼 클릭 이벤트
+ */
+this.btn_save_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+{
+    // 게시글 제목, 내용 유효성 검사
+    var sTitle = this.edt_postTitle.value;
+    if (this.gfn_isNull(sTitle)) {
+        alert("제목을 입력해주세요.");
+        this.edt_postTitle.setFocus();
+        return;
+    }
+    
+    // Rich Editor의 내용을 데이터셋에 설정
+    var sContent = this.richeditor_postContent.getContents();
+    this.ds_post.setColumn(0, "postContent", sContent);
+
+    // 게시글 정보 저장 트랜잭션 호출
+    this.gfn_savePost();
+};
+
+/**
+ * 게시글 정보 저장 트랜잭션 함수
+ */
+this.gfn_savePost = function() {
+    var sSvcId = "savePost";
+    var sUrl = "svcUrl::board/savePost.do"; // 실제 서버 URL로 변경
+    var sInDs = "ds_post=ds_post:U";
+    var sOutDs = "";
+    var sArg = "";
+    var sCallback = "fn_callback";
+    
+    this.transaction(sSvcId, sUrl, sInDs, sOutDs, sArg, sCallback, false);
+};
+
+/**
+ * 서버 통신 콜백 함수
+ */
+this.fn_callback = function(sSvcId, nErrorCode, sErrorMsg)
+{
+    if (nErrorCode < 0) {
+        alert("게시글 작성 실패: " + sErrorMsg);
+    } else {
+        alert("게시글이 성공적으로 작성되었습니다.");
+        this.close("reload");
+    }
+};
+
+/**
+ * '취소' 버튼 클릭 이벤트
+ */
+this.btn_cancel_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
+{
+    this.close();
+};]]></Script>
+  </Form>
+</FDL>
