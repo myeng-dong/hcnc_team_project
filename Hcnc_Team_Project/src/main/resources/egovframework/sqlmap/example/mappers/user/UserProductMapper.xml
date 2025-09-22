@@ -27,6 +27,47 @@
 				AND	PRODUCT_ID = #{productId}
 	</select>
 	
+	
+	<!-- 메인에서 [NEW랑 추천] SORT로 관리하는 LIST용 : 나중에 PRODUCT IMG -->
+	<select id="selectMNProductListByUser" resultType="java.util.Map">
+	    SELECT  P.PRODUCT_ID
+	           ,P.PRODUCT_CODE
+	           ,P.PRODUCT_NAME
+	           ,P.PRODUCT_PRICE
+	           ,P.COST_PRICE
+	           ,P.SALED_PRICE
+	           ,P.PRODUCT_CONTENT
+	           ,P.PRODUCT_WEIGHT
+	           ,P.IS_VISIBLE
+	           ,P.SORT_NUMBER
+	           ,COALESCE(GROUP_CONCAT(O.OPTION_NAME, ':', O.OPTION_VALUE SEPARATOR ','), '') AS OPTIONS
+	           ,COALESCE(COUNT(R.REVIEW_ID), 0) AS REVIEW_COUNT
+	           ,COALESCE(AVG(R.STAR_POINT), 0) AS AVG_STAR_POINT
+	    FROM PRODUCTS P
+	    LEFT JOIN OPTIONS O
+	      ON P.PRODUCT_ID = O.PRODUCT_ID
+	    LEFT JOIN REVIEWS R
+	      ON P.PRODUCT_ID = R.PRODUCT_ID
+	     AND R.REVIEW_STATUS = '정상'   <!-- 정상 리뷰만 집계 -->
+	    WHERE P.IS_VISIBLE = 'Y'
+	      <if test="sortNumber != null and sortNumber != ''">
+	        AND P.SORT_NUMBER = #{sortNumber}
+	      </if>
+	    GROUP BY  P.PRODUCT_ID 
+	             ,P.PRODUCT_CODE
+	             ,P.PRODUCT_NAME
+	             ,P.PRODUCT_PRICE
+	             ,P.COST_PRICE
+	             ,P.SALED_PRICE
+	             ,P.PRODUCT_CONTENT
+	             ,P.PRODUCT_WEIGHT
+	             ,P.IS_VISIBLE
+	             ,P.SORT_NUMBER
+	    ORDER BY P.SORT_NUMBER ASC
+	</select>
+	<!-- 메인에서 [NEW랑 추천] SORT로 관리하는 LIST용 -->
+	
+
 	<insert id="insertCartItemByUser" parameterType="java.util.Map">
 		INSERT INTO CART_ITEMS (CART_ID, PRODUCT_ID, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL)
 			VALUES (#{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} )
@@ -64,4 +105,5 @@
 			WHERE 1=1
 				AND PRODUCT_QNA_ID = #{qnaId};
 	</delete>
+
 </mapper>

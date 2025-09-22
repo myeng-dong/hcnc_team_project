@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Pop_ProductDetail" width="400" height="300" titletext="New Form" onload="Pop_ProductDetail_onload">
+  <Form id="Pop_ProductDetail" width="400" height="300" titletext="New Form" onload="Pop_ProductDetail_onload" onkeyup="Pop_ProductDetail_onkeyup">
     <Layouts>
       <Layout height="300" mobileorientation="landscape" width="400">
-        <Grid id="grid_list" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="ds_item" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
+        <Grid id="grid_list" taborder="0" left="0" top="0" right="0" bottom="1" binddataset="ds_item" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -31,6 +31,7 @@
             </Format>
           </Formats>
         </Grid>
+        <Static id="안내" taborder="1" text="ESC키를 누르면 닫힙니다." left="273" top="275" width="120" height="14" font="normal 8pt/normal &quot;Noto Sans KR&quot;" color="red"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[
@@ -44,7 +45,7 @@ this.Pop_ProductDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInf
 this.fnSearchOrderItem = function(){
 
 	var strSvcID       = "selectOrderItem";
-    var strURL         = "svc::selectOrderItemByAdmin.do";
+    var strURL         = "svc::selectOrderItemByAdmin.do?time=" + new Date().getTime();
     var strInDatasets  = "ds_search=ds_search";
     var strOutDatasets = "ds_item=ds_item";
     var strArg         = "";
@@ -64,7 +65,16 @@ this.fnCallback = function(svcID, errCode, errMsg) {
             trace("조회 완료");
             break;
     }
-};]]></Script>
+};
+
+this.Pop_ProductDetail_onkeyup = function(obj:nexacro.Form,e:nexacro.KeyEventInfo)
+{
+	 if (e.keycode == 27) {  // 27 = Esc 키
+      
+        this.close(); //닫음
+    }
+};
+]]></Script>
     <Objects>
       <Dataset id="ds_item">
         <ColumnInfo>

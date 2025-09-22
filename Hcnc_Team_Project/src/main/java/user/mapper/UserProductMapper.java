@@ -25,4 +25,8 @@ public interface UserProductMapper {
 
 	int deleteQnAByUser(Map<String, Object> param);
 
+	List<Map<String, Object>> selectMNProductListByUser();//메인에서 NEW BEST불러가는용 임시
+
+
+
 }
