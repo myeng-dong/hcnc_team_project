@@ -348,7 +348,7 @@
 
         // 취소 버튼 클릭
         this.btn_cancel_onclick = function(obj,e) {
-            nexacro.WorkFrame.set_formurl("banner::Form_BannerList.xfdl");
+            this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
         };
         // 파일 선택 버튼 클릭
         this.btn_selectFile_onclick = function(obj, e) {
@@ -535,11 +535,13 @@
             switch(svc) {
                 case "insertBanner":
                     alert("배너 등록 완료");
-                    nexacro.WorkFrame.set_formurl("banner::Form_BannerList.xfdl");
+
+                    this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
                     break;
                 case "updateBanner":
                     alert("배너 수정 완료");
-                    nexacro.WorkFrame.set_formurl("banner::Form_BannerList.xfdl");
+                    this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
+
                     break;
             }
         };

@@ -20,7 +20,6 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import admin.service.MemberService;
 import admin.util.PasswordUtil;
 
-
 @Controller
 public class MemberController {
 
@@ -118,7 +117,7 @@ public class MemberController {
 			}
 
 			// 쿠키 정리 (memberId 쿠키 만료)
-			expireCookie(response, "memberId");
+			expireCookie(response, "ADMIN_ID");
 
 			System.out.println("로그아웃 완료");
 
@@ -332,7 +331,7 @@ public class MemberController {
 		return result;
 	};
 
-	// 관리자 뺴고 회원만 등급 조회 
+	// 관리자 뺴고 회원만 등급 조회
 	// BY.PJ 09.18
 	@RequestMapping(value = "/selectGradeExceptionAdminListByAdmin.do")
 	public NexacroResult selectGradeExceptionAdminList() {
@@ -355,7 +354,7 @@ public class MemberController {
 	}
 
 	// 회원 등급 변경 행 수정
-	//By.PJ 09.18
+	// By.PJ 09.18
 	@RequestMapping(value = "/updateMemberGradeByAdmin.do")
 	public NexacroResult updateMemberGrade(
 			@ParamDataSet(name = "ds_gradeList", required = false) List<Map<String, Object>> memberGradeMangeList) {
@@ -385,7 +384,74 @@ public class MemberController {
 		}
 		return result;
 	}
-	
-	//탈퇴회원 및 휴면 회원 
+
+	// 휴면/탈퇴 회원 조회
+	// By. PJ 09.19
+	@RequestMapping(value = "/selectDormantWithdrawnMembersByAdmin.do")
+	public NexacroResult selectDormantWithdrawnMembers(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+			// 휴면/탈퇴 회원 목록 조회
+			List<Map<String, Object>> memberList = memberService.selectDormantWithdrawnMembers(param);
+
+			result.addDataSet("ds_list", memberList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("휴면/탈퇴 회원 조회 중 오류");
+		}
+		return result;
+	}
+
+	// 휴면 회원 복구 (다시 활성화 R -> Y)
+	// By. 09.19 Pj
+	@RequestMapping(value = "/reactivateDormantMemberByAdmin.do")
+	public NexacroResult reactivateDormantMember(
+			@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			int updated = memberService.reactivateDormantMember(param);
+
+			Map<String, Object> dsUpCnt = new HashMap<>();
+			dsUpCnt.put("UPDATED", updated);
+			result.addDataSet("ds_upCnt", dsUpCnt);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("휴면 회원 복구 중 오류");
+		}
+		return result;
+	}
+
+	// 회원 탈퇴 상태 처리 (STATUS를 N으로 변경)
+	// By.09.19 Pj
+	@RequestMapping(value = "/withdrawMemberByAdmin.do")
+	public NexacroResult withdrawMember(
+			@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+			int updated = memberService.withdrawMember(param);
+
+			Map<String, Object> dsUpCnt = new HashMap<>();
+			dsUpCnt.put("UPDATED", updated);
+			result.addDataSet("ds_upCnt", dsUpCnt);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원 탈퇴 처리 중 오류");
+		}
+		return result;
+	}
 
 }

@@ -41,10 +41,19 @@ public interface MemberMapper {
 	//관리자 제외한 등급 조회 
 	List<Map<String, Object>> selectGradeExceptionAdminList();
 	
-	//휴면처리 
+	// 휴면/탈퇴 회원 조회
+	List<Map<String, Object>> selectDormantWithdrawnMembers(Map<String, Object> param);
+
+	//휴면처리(스케쥴러) : 자동 
 	int updateDormantMembers();
 	
-	//탈퇴처리
+	//탈퇴처리(스케쥴러): 자동
 	int deleteOldWithdrawnMembers();
+	
+	// 휴면 회원 복구 : 넥사크로 수동
+	int reactivateDormantMember(Map<String,Object> param);
+	
+	//회원 삭제 상태만  : 넥사크로 수동
+	int withdrawMember(Map<String, Object> param);
 
 }
