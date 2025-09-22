@@ -173,175 +173,11 @@
 		  const tabTrigger = new bootstrap.Tab(triggerEl)
 	
 		  triggerEl.addEventListener('click', event => {
-		    event.preventDefault()
-		    tabTrigger.show()
+		    event.preventDefault();
+		    tabTrigger.show();
 		  })
 		})
 	</script>
-	
-<!-- 상품 QnA -->	
-	<script>
-
-	var urlParams = new URLSearchParams(window.location.search);
-
-	var memberId = "user01";
-	var cartId = 1;
-	var productId = urlParams.get('productId');
-	
-	
-	$(function(){
-		
-		// 상품 문의하기 모달html 정의.
-		var modalHTML =
-			'<div id="qnaModal" class="qna-modal" style="display: none;">' +
-            '<div class="qna-modal-content">' +
-              '<span class="qna-close">&times;</span>' +
-              '<h2>상품 문의하기</h2>' +
-              '<form id="qnaForm" action="/insertQnA.do" method="post">' +
-                '<div class="form-group">' +
-                  '<input type="text" id="qnaProdut_'+ productId +'" name="productId" value="'+ productId +'" placeholder="상품" required hidden>' +
-                '</div>' +
-                '<div class="form-group">' +
-                  '<input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required>' +
-                '</div>' +
-                '<div class="form-group">' +
-                  '<input type="text" id="'+ memberId +'" name="memberId" value="'+ memberId +'" placeholder="작성자" required hidden>' +
-                '</div>' +
-                '<div class="form-group">' +
-                  '<textarea id="qnaContent" name="qnaContent" placeholder="내용" required></textarea>' +
-                '</div>' +
-                '<div class="form-button">' +
-                	'<button type="submit" id="qnaSubmitBtn">문의하기</button>' +
-                '</div>'
-              '</form>' +
-            '</div>' +  
-          '</div>'; 
-          
-	     $('body').append(modalHTML);
-	     
-	     // 모달 닫기 이벤트들
-	     $('.qna-close').click(function(){
-	    	 $('#qnaModal').hide();
-	     });
-	     
-	     $('.btn-cancel').click(function(){
-	    	 $('#qnaModal').hide();
-	     })
-	     
-	     
-	  	// 상품 문의 상세 모달 HTML 정의
-	     var qnaDetailModalHTML =
-	         '<div id="qnaDetailModal" class="qna-modal" style="display: none;">' +
-	         '<div class="qna-modal-content">' +
-	           '<span class="qna-detail-close">&times;</span>' +
-	           '<h2>상품 문의 상세</h2>' +
-	           '<div class="qna-detail-content">' +
-	             '<div class="form-group">' +
-	               '<label>제목:</label>' +
-	               '<div id="qnaDetailTitle" class="detail-text"></div>' +
-	             '</div>' +
-	             '<div class="form-group">' +
-	               '<label>작성자:</label>' +
-	               '<div id="qnaDetailWriter" class="detail-text"></div>' +
-	             '</div>' +
-	             '<div class="form-group">' +
-	               '<label>작성일:</label>' +
-	               '<div id="qnaDetailDate" class="detail-text"></div>' +
-	             '</div>' +
-	             '<div class="form-group">' +
-	               '<label>내용:</label>' +
-	               '<div id="qnaDetailContent" class="detail-content"></div>' +
-	             '</div>' +
-	             '<div class="form-button" id="qnaDetailButtons">' +
-	               '<button type="button" id="qnaEditBtn" style="display: none;">수정</button>' +
-	               '<button type="button" id="qnaDeleteBtn" style="display: none;">삭제</button>' +
-	               '<button type="button" id="qnaDetailCloseBtn">닫기</button>' +
-	             '</div>' +
-	           '</div>' +
-	         '</div>' +  
-	       '</div>';
-
-	     // 모달을 body에 추가
-	     $('body').append(qnaDetailModalHTML);
-	
-		});
-	
-	
-		// QnA 문의하기 버튼 광클 금지
-		var isSubmitting = false;
-		
-		$('#qnaForm').submit(function(e){
-			if (isSubmitting) {
-				e.preventDefault();
-				return false;
-			}
-			
-			isSubmitting = true;
-			$('#qnaSubmitBtn').prop('disabled', true).text('상품 문의 등록중...');
-			
-			return true;
-		});
-		
-		
-		// QnA 상세보기 함수 : TODO
-		function qnaDetail(qnaId) {
-		    console.log("QNA 상세보기 클릭됨, ID:", qnaId);
-		    
-		    // AJAX로 QnA 상세 정보 가져오기
-		    $.ajax({
-		        url: '/getQnADetail.do',
-		        type: 'GET',
-		        data: { qnaId: qnaId },
-		        success: function(response) {
-		            // 모달에 데이터 채우기
-		            $('#qnaDetailTitle').text(response.qnaTitle);
-		            $('#qnaDetailWriter').text(response.memberId);
-		            $('#qnaDetailDate').text(response.regDate);
-		            $('#qnaDetailContent').text(response.qnaContent);
-		            
-		            // 현재 로그인한 사용자와 작성자가 같은지 확인
-		            if (response.memberId === memberId) {
-		                $('#qnaEditBtn').show();
-		                $('#qnaDeleteBtn').show();
-		                
-		                // 수정/삭제 버튼에 이벤트 추가 (기존 이벤트 제거 후 새로 추가)
-		                $('#qnaEditBtn').off('click').on('click', function() {
-		                    editQnA(qnaId, response);
-		                });
-		                
-		                $('#qnaDeleteBtn').off('click').on('click', function() {
-		                    deleteQnA(qnaId);
-		                });
-		            } else {
-		                $('#qnaEditBtn').hide();
-		                $('#qnaDeleteBtn').hide();
-		            }
-		            
-		            // 모달 표시
-		            $('#qnaDetailModal').show();
-		        },
-		        error: function() {
-		            alert('QnA 상세 정보를 불러오는데 실패했습니다.');
-		        }
-		    });
-		}
-		
-		
-	</script>
-	
-<!-- 상품 QnA 등록시 처리하기 위함 -->
-	<c:if test="${not empty message}">
-		<script>
-			$(document).ready(function(){
-				
-				if("${messageType}" === "success"){
-					alert("${message}");
-				} else {
-					alert("오류: ${message}");
-				}
-			});
-		</script>
-	</c:if>
 	
 <!-- 상품 옵션 처리  -->
 	<c:if test="${not empty productDetail || not empty optionInfo}">
@@ -556,10 +392,6 @@
 		    	alert("모든 옵션을 선택해주세요.");
 		    }
 		}
-
-		function formModalShow() {
-			$('#qnaModal').show();
-		}
 	</script>
 </head>
 
@@ -643,8 +475,8 @@
     		<nav>
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
 					<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
-					<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span>5</span></button>
-					<button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span>2</span></button>
+					<button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span>5</span></button>
+					<button class="nav-link" id="nav-qna-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span>2</span></button>
 				</div>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
@@ -715,35 +547,7 @@
 					</div>	
 				</div>
 				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
-					<div style="margin: 50px 0px 20px 10px;">
-						<p style="font-weight: bold;">상품 Q&A</p>
-						<p>상품에 대한 문의사항을 남겨주세요.</p>
-					</div>
-					<div class="review-btn-area" style="display: flex; justify-content: right;">
-						<button type="button" onclick="formModalShow()">상품 문의하기</button>
-					</div>
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col" width="10%">NO</th>
-								<th scope="col" width="60%">TITLE</th>
-								<th scope="col" width="15%">WRITER</th>
-								<th scope="col" width="15%">DATE</th>
-							</tr>
-						</thead>
-						<tbody id="productQnAList">
-							<c:if test="${not empty productQnAList}">
-								<c:forEach items="${productQnAList}" var="qna" varStatus="status">
-									<tr>
-										<td>${status.count}</td>
-										<td onclick="qnaDetail(${qna.PRODUCT_QNA_ID})" style="cursor: pointer;">${qna.QNA_TITLE}</td>
-										<td>${qna.MEMBER_ID}</td>
-										<td>${qna.INPUT_DT}</td>
-									</tr>
-								</c:forEach>
-							</c:if>
-						</tbody>
-					</table>
+					<%@ include file="tabs/productQnA.jsp" %>
 				</div>
 			</div>
     	</div>

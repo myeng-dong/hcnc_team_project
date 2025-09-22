@@ -50,4 +50,19 @@ public class UserProductService {
 		// TODO Auto-generated method stub
 		return userProductMapper.selectProductQnAListByUser(productId);
 	}
+
+	public HashMap<String, Object> selectQnADetailByUser(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return userProductMapper.selectQnADetailByUser(param);
+	}
+
+	public int updateProductQnAByUser(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return userProductMapper.updateProductQnAByUser(param);
+	}
+
+	public int deleteQnAByUser(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return userProductMapper.deleteQnAByUser(param);
+	}
 }
