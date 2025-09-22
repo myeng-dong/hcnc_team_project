@@ -230,6 +230,9 @@ this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
     }
 };
+this.fn_popupCallback = function(){
+	this.fnselectOneOnOneByAdmin();
+};
 
 
 

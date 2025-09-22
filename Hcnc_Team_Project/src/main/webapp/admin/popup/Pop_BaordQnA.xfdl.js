@@ -76,6 +76,13 @@
             obj.set_taborder("5");
             obj.set_textAlign("right");
             this.addChild(obj.name, obj);
+
+            obj = new Static("안내","360","316","120","14",null,null,null,null,null,null,this);
+            obj.set_taborder("6");
+            obj.set_text("ESC키를 누르면 닫힙니다.");
+            obj.set_font("normal 8pt/normal \"Noto Sans KR\"");
+            obj.set_color("red");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",500,350,this,function(p){});
@@ -186,12 +193,20 @@
 
         };
 
+        this.Pop_BoardQnA_onkeyup = function(obj,e)
+        {
+        	 if (e.keycode == 27) {  // 27 = Esc 키
+                this.close(); //닫음
+            }
+        };
+
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Pop_BoardQnA_onload,this);
+            this.addEventHandler("onkeyup",this.Pop_BoardQnA_onkeyup,this);
             this.txt_reply.addEventHandler("onkeyup",this.txt_reply_onkeyup,this);
             this.btn_reply.addEventHandler("onclick",this.btn_reply_onclick,this);
         };
