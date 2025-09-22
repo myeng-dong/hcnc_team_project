@@ -182,7 +182,6 @@
 <!-- 상품 옵션 처리  -->
 	<c:if test="${not empty productDetail || not empty optionInfo}">
 		<script>	
-		
 			// 서버에서 전달받은 상품 정보와 옵션 정보를 JavaScript 변수로 저장
 			var productDetail = ${productDetailJson};
 			var optionInfo = ${optionInfoJson};
@@ -393,6 +392,28 @@
 		    }
 		}
 	</script>
+	
+	<script>
+		$(function(){
+			loadAllData();
+		});
+		
+		// 비동기 처리
+		function loadAllData(){
+			$.when(
+			    loadProductDetail(), 
+			    loadReviewList(),
+			    loadQnAList()
+			).done(function(result1, result2, result3) {
+			    console.log('모든 데이터 로드 완료');
+/* 			    hideLoadingSpinner(); // 로딩 숨기기 */
+			}).fail(function(error) {
+			    console.log('데이터 로드 실패:', error);
+/* 			    hideLoadingSpinner(); */
+			    alert('페이지를 불러오는데 실패했습니다.');
+			});
+		}
+	</script>
 </head>
 
 <body>
@@ -475,76 +496,16 @@
     		<nav>
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
 					<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
-					<button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span>5</span></button>
-					<button class="nav-link" id="nav-qna-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span>2</span></button>
+					<button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
+					<button class="nav-link" id="nav-qna-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
 				</div>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
-				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">...</div>
+				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+					<%@ include file="tabs/description.jsp" %>
+				</div>
 				<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-					<div class="review-area" style="display: flex;">
-						<div class="review-left-area" style="width:20%;">
-							ddd
-						</div>
-						<div class="review-right-area" style="width:70%;">
-							<div class="review-filter" style="display: flex; justify-content: space-between">
-								<div class="review-filter-left">
-									<ul class="filter-menu" style="display: flex; gap: 10px; list-style: none; padding: 0; margin: 0;">
-										<li>
-											<span>리뷰순</span>
-										</li>
-										<li>
-											<span>최신순</span>
-										</li>
-										<li>
-											<span>포토리뷰만 보기</span>
-										</li>
-									</ul>
-								</div>
-								<div class="review-filter-right">
-									<div class="dropdown-center">
-										<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-											<span>별점전체보기</span>
-											<span>(100)</span>
-										</button>
-										<ul class="dropdown-menu">
-											<li><a class="dropdown-item" href="#">Action</a></li>
-											<li><a class="dropdown-item" href="#">Action two</a></li>
-											<li><a class="dropdown-item" href="#">Action three</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="review-content-list">
-								<ul class="reviews" style="padding: 0;">
-									<li class="review" style="padding: 20px 0; border-top: 1px solid grey; border-bottom: 1px solid grey;">
-										<div class="top-info">
-											<span>별점표시 </span>
-											<span> | 작성일자 </span>
-											<span> | 작성자 </span>
-										</div>
-										<div class="body-info">
-											<div class="review-title">
-												<span style="font-weight: bold;">리뷰제목</span>
-											</div>
-											<div class="review-imgs" style="display: flex;">
-												<img class="product-image" src="https://placehold.co/70x70" alt="Product Image">
-												<img class="product-image" src="https://placehold.co/70x70" alt="Product Image">
-												<img class="product-image" src="https://placehold.co/70x70" alt="Product Image">
-												<img class="product-image" src="https://placehold.co/70x70" alt="Product Image">
-											</div>
-											<div class="review-content">
-												<p>리뷰내용</p>
-											</div>
-											<div class="bottom-info">
-												<span>펼쳐보기</span>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>	
+					<%@ include file="tabs/review.jsp" %>
 				</div>
 				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
 					<%@ include file="tabs/productQnA.jsp" %>
