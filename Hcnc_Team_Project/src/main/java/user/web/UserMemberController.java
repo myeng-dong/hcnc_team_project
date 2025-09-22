@@ -403,7 +403,7 @@ public class UserMemberController {
 	public ModelAndView updateWithDrawByUser(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("jsonView");
 		try {
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
 			if(session != null) {
 				Map<String,Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
 				String id = (String) userInfo.get("MEMBER_ID");
@@ -422,5 +422,11 @@ public class UserMemberController {
 		}
 		return mv;
 	}
+	
+	 @GetMapping("/logoutByUser.do")
+	    public String logout(HttpSession session) {
+	        session.invalidate(); // 세션 삭제
+	        return "redirect:/main.do"; // 로그아웃 후 메인 페이지로 이동
+	    }
 	
 }

@@ -21,13 +21,14 @@ import user.service.UserMemberService;
 
 
 @Controller
+@RequestMapping("/mypage")
 public class UserMypageController {
     @Autowired
 	private UserMemberService userMemberService;
 	@Autowired
 	private UserMailService mailService;
 
-    @RequestMapping(value="/mypage.do",method = RequestMethod.GET)
+    @RequestMapping(value="/home.do",method = RequestMethod.GET)
 	public ModelAndView myPage (HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -56,7 +57,7 @@ public class UserMypageController {
 		return mv;
 	}
     
-    @RequestMapping(value="/profile/update.do",method = RequestMethod.GET)
+    @RequestMapping(value="/update.do",method = RequestMethod.GET)
 	public ModelAndView memberUpdatePage(HttpServletRequest request) {
     	ModelAndView mv = new ModelAndView();
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -81,7 +82,7 @@ public class UserMypageController {
     	return mv;
     }
     
-    @RequestMapping("/profile/updateMemberByUser.do")
+    @RequestMapping("/updateMemberByUser.do")
 	public ModelAndView updateMemberByUser(
             @RequestParam(value="password",required=false) String password,
             @RequestParam(value="name", required=false) String name,

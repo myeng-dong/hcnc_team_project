@@ -204,7 +204,7 @@ uri="http://www.springframework.org/tags"%>
         console.log(res);
         if (res.status == 200) {
           alert("회원정보가 변경되었습니다.");
-          location.href = "/profile/update.do";
+          location.href = "/mypage/update.do";
         }
       });
     };

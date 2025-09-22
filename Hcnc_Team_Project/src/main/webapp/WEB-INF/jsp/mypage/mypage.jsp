@@ -424,7 +424,7 @@ uri="http://www.springframework.org/tags"%>
             <button
               class="edit-profile-btn"
               type="button"
-              onclick="location.href='/profile/update.do'"
+              onclick="location.href='/mypage/update.do'"
             >
               프로필 수정
             </button>
