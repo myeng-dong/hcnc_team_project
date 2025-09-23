@@ -138,7 +138,7 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 						
 						    <p class="name">${newlist['PRODUCT_NAME']}</p>
 							<div class="priceArea">
-						      <span class="salePercent">${할인퍼센트}%</span>
+						      <span class="salePercent"></span>
 						      <%-- 어.. 이것도 soldout이면 soldout이어야하네 --%>
 						      <span class="priceSale">${newlist['PRODUCT_PRICE']}원</span>
 						      <span class="originPrice">${newlist['SALED_PRICE']}원</span>
@@ -197,7 +197,7 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 						
 						    <p class="name">${recomendlist['PRODUCT_NAME']}</p>
 							<div class="priceArea">
-						      <span class="salePercent">${할인퍼센트}%</span>
+						      <span class="salePercent">{할인퍼센트}%</span>
 						      <%-- 어.. 이것도 soldout이면 soldout이어야하네 --%>
 						      <span class="priceSale">${recomendlist['PRODUCT_PRICE']}원</span>
 						      <span class="originPrice">${recomendlist['SALED_PRICE']}원</span>
