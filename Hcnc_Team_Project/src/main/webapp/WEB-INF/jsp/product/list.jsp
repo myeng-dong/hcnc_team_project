@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<jsp:include page="../layout/headerlink.jsp" />
 
 <!DOCTYPE html>
-<jsp:include page="../layout/headerlink.jsp" />
 
 <html lang="ko">
 <head>
