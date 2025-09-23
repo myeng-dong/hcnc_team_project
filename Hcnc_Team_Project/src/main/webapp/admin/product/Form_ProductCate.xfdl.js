@@ -208,10 +208,10 @@
         ***************************************************/
         this.Form_ProductCate_onload = function(obj,e)
         {
-            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do",
+            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
                 "", "ds_mainCate=ds_mainCate", "", "fn_callback", true);
 
-            this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do",
+            this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do?time=" + new Date().getTime(),
                 "", "ds_subCate=ds_subCate", "", "fn_callback", true);
         };
 
@@ -258,7 +258,7 @@
 
             // 메인 조회 끝나면 → 서브 조회
             else if (svcID=="selectMainCategoryByAdmin") {
-                this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do",
+                this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do?time=" + new Date().getTime(),
                     "", "ds_subCate=ds_subCate", "", "fn_callback", true);
             }
 
@@ -336,7 +336,7 @@
         ***************************************************/
         this.fn_reloadTree = function()
         {
-            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do",
+            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
                 "", "ds_mainCate=ds_mainCate", "", "fn_callback", true);
         };
 
@@ -574,7 +574,7 @@
             if (type=="main") this.ds_in.setColumn(nRow,"MAIN_CATE_ID",cateId);
             else this.ds_in.setColumn(nRow,"SUB_CATE_ID",cateId);
 
-            this.transaction("deleteCategoryByAdmin","svc::deleteCategoryByAdmin.do",
+            this.transaction("deleteCategoryByAdmin","svc::deleteCategoryByAdmin.do?time=" + new Date().getTime(),
                 "ds_in=ds_in","","","fn_callback",true);
 
 
@@ -618,7 +618,7 @@
                 this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
                 this.ds_in.setColumn(nRow,"INPUT_ID","admin");
 
-                this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do",
+                this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do?time=" + new Date().getTime(),
                     "ds_in=ds_in","","","fn_callback",true);
             }
             // 수정
@@ -644,7 +644,7 @@
                 this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
                 this.ds_in.setColumn(nRow,"UPDATE_ID","admin");
 
-                this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do",
+                this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do?time=" + new Date().getTime(),
                     "ds_in=ds_in","","","fn_callback",true);
             }
             // this._insertMode 는 콜백에서 초기화
