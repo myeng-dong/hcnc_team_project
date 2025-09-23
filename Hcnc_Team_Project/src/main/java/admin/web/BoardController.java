@@ -134,6 +134,40 @@ public class BoardController {
 		 }
 		return result;
 	}
+
+	@RequestMapping(value="/updatePostByAdmin.do")
+	public NexacroResult updatePostByAdmin(
+			@ParamDataSet(name="ds_update", required = false) Map<String,Object> dsUpdate) {
+		
+		NexacroResult result = new NexacroResult();
+		 try {  
+			 
+			 
+			 if(dsUpdate == null || dsUpdate.isEmpty()) { //무결성 체크 받아온 데이터가 있는지
+				  throw new IllegalArgumentException("수정할 데이터가 없습니다.");
+			 }
+			 //무결성 체크 받아온 제목이 있는지
+			 if(dsUpdate.get("POST_TITLE") == null || dsUpdate.get("POST_TITLE").toString().trim().isEmpty()) {
+				  throw new IllegalArgumentException("제목은 필수입니다.");
+			 } 
+			 //무결성 체크 받아온 내용이 있는지
+			 if(dsUpdate.get("POST_CONTENT") == null || dsUpdate.get("POST_CONTENT").toString().trim().isEmpty()) {
+				  throw new IllegalArgumentException("내용은 필수입니다.");
+			 }
+			 
+			 //게시글 수정 서비스
+		     boardService.updatePostByAdmin(dsUpdate);
+		       
+		        
+		 }catch (Exception e) {
+		        result.setErrorCode(-1);
+		        result.setErrorMsg("게시글 수정 중에 오류가 발생하였습니다.: " + e.getMessage());
+		        e.printStackTrace();
+		 }
+		return result;
+	}
+	
+	
 	
 
 }

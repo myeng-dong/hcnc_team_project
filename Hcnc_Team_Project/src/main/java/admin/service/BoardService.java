@@ -41,6 +41,10 @@ public class BoardService {
 	public Map<String, Object> selectPostDetailByAdmin(Map<String, Object> dsPostId) {
 		return boardMapper.selectPostDetailByAdmin(dsPostId);
 	}
+
+	public void updatePostByAdmin(Map<String, Object> dsUpdate) {
+		boardMapper.updatePostByAdmin(dsUpdate);
+	}
 	
 	
 }

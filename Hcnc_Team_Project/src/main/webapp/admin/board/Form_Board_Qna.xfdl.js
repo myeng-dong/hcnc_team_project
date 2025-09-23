@@ -255,6 +255,9 @@
         		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
             }
         };
+        this.fn_popupCallback = function(){
+        	this.fnselectOneOnOneByAdmin();
+        };
 
 
 
@@ -263,7 +266,7 @@
         //1대1 게시판 조회 트랜젝션
         this.fnselectOneOnOneByAdmin = function(){
         	var strSvcID       = "fnselectOneOnOneByAdmin";
-            var strURL         = "svc::selectOneOnOneByAdmin.do";
+            var strURL         = "svc::selectOneOnOneByAdmin.do?time=" + new Date().getTime();
             var strInDatasets  = "ds_search=ds_search";
             var strOutDatasets = "ds_board=ds_board";
             var strArg         = "";

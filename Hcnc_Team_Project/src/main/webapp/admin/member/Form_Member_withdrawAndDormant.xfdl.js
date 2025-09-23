@@ -195,7 +195,7 @@
 
             obj = new Button("withdraw_btn","516","684","129","33",null,null,null,null,null,null,this);
             obj.set_taborder("23");
-            obj.set_text("삭제");
+            obj.set_text("탈퇴처리");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
             obj.set_color("white");
@@ -285,6 +285,19 @@
         	this.reload();
         };
 
+        //체크박스 체크하기
+        this.grid_list_oncellclick = function(obj,e)
+        {
+        	if(e.cell == 0){
+        		if(this.ds_list.getColumn(this.ds_list.rowposition,"CHK") == 0){
+        			this.ds_list.setColumn(this.ds_list.rowposition,"CHK", "0");
+        			return;
+        		}else{
+        			this.ds_list.setColumn(this.ds_list.rowposition,"CHK", "1");
+        			return;
+        		}
+        	}
+        };
 
         //휴면, 탈퇴 회원  리스트 조회
         this.fn_selectDormantWithdrawnMembers = function(){
@@ -304,11 +317,23 @@
         this.withdraw_btn_onclick = function(obj,e)
         {
 
+        	var checkBox = 0;
+        	for(var i = 0; i < this.ds_list.getRowCount(); i++){
+        		if(this.ds_list.getColumn(i, "CHK") == "1"){
+        			checkBox++;
+        		}
+        	}
+
+        	if(checkBox == "0"){
+        		this.alert("체크박스를 선택하세요")
+        		return;
+        	}
+
         	// 트랜잭션 호출
         	var strSvcID = "withdrawMember"
         	var setURL = "svc::/withdrawMemberByAdmin.do";
         	var strInDatasets = "ds_list=ds_list";
-        	var strOutDatasets = "";
+        	var strOutDatasets = "ds_delCnt=ds_delCnt";
         	var strArg = "";
         	var callBack = "fn_callBack";
         	var inAsync = true;
@@ -319,12 +344,24 @@
         //휴면 복구 버튼
         this.Button01_00_onclick = function(obj,e)
         {
+        	var checkBox = 0;
+        	for(var i = 0; i < this.ds_list.getRowCount(); i++){
+        		if(this.ds_list.getColumn(i, "CHK") == "1"){
+        			checkBox++;
+        		}
+        	}
+
+        	if(checkBox == "0"){
+        		this.alert("체크박스를 선택하세요")
+        		return;
+        	}
+
 
             // 트랜잭션 호출
         	var strSvcID = "reactivateDormantMember"
         	var setURL = "svc::/reactivateDormantMemberByAdmin.do";
         	var strInDatasets = "ds_list=ds_list";
-        	var strOutDatasets = "";
+        	var strOutDatasets = "ds_upCnt=ds_upCnt ";
         	var strArg = "";
         	var callBack = "fn_callBack";
         	var inAsync = true;
@@ -345,32 +382,26 @@
         		console.log(this.ds_list.saveXML());
         		break;
         	case "withdrawMember" :
-        		alert("회원이 탈퇴 처리되었습니다.");
-        		this.fn_selectDormantWithdrawnMembers();
+        		if(this.ds_delCnt.getColumn(0,"DELETED") > 0){
+        			this.alert("회원이 탈퇴 처리되었습니다.")
+        			this.fn_selectDormantWithdrawnMembers();
+        		}else{
+        			this.alert("이미 탈퇴 처리되거나 휴면 복귀한 회원입니다.")
+        		}
+
         		break;
         	case "reactivateDormantMember" :
-        		alert("휴면 회원이 복구되었습니다.");
-        		this.fn_selectDormantWithdrawnMembers();
+        		if(this.ds_upCnt.getColumn(0,"UPDATED") > 0){
+        			alert("휴면 회원이 복구되었습니다.");
+        			this.fn_selectDormantWithdrawnMembers();
+        		}else{
+        			this.alert("이미 탈퇴 처리되거나 휴면 복귀한 회원입니다.")
+        		}
         		break;
-
         	}
-
         }
 
-        //체크박스 체크하기
-        this.grid_list_oncellclick = function(obj,e)
-        {
-        	if(e.cell == 0){
 
-        		if(this.ds_list.getColumn(this.ds_list.rowposition,"CHK") == 0){
-        			this.ds_list.setColumn(this.ds_list.rowposition,"CHK", "0");
-        			return;
-        		}else{
-        			this.ds_list.setColumn(this.ds_list.rowposition,"CHK", "1");
-        			return;
-        		}
-        	}
-        };
 
         });
         
