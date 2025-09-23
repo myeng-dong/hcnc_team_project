@@ -278,16 +278,16 @@
 	<select id="selectOptionByAdmin" parameterType="java.util.Map"
 		resultType="java.util.Map" flushCache="true">
 		SELECT
-		o.OPTION_ID,
-		o.OPTION_NAME,
-		o.OPTION_VALUE,
-		p.PRODUCT_NAME,
-		o.ADDITIONAL_PRICE,
-		o.IS_VISIBLE,
-		o.INPUT_DT
-		FROM OPTIONS o
-		JOIN PRODUCTS p ON o.PRODUCT_ID = p.PRODUCT_ID
-		WHERE 1=1
+				o.OPTION_ID,
+				o.OPTION_NAME,
+				o.OPTION_VALUE,
+				p.PRODUCT_NAME,
+				o.ADDITIONAL_PRICE,
+				o.IS_VISIBLE,
+				o.INPUT_DT
+		  FROM OPTIONS o
+		  LEFT JOIN PRODUCTS p ON o.PRODUCT_ID = p.PRODUCT_ID
+		 WHERE 1=1
 		<!-- 검색어 처리 -->
 		<if
 			test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">

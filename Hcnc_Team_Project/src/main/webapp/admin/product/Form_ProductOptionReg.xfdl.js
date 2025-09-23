@@ -19,7 +19,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_optionReg", this);
-            obj._setContents("<ColumnInfo><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -126,9 +126,9 @@
             }
             else {
                 // 신규 등록 모드
-
+        		var app = nexacro.getApplication();
                 var nRow = this.ds_optionReg.addRow();
-                this.ds_optionReg.setColumn(nRow, "INPUT_ID", this.loginUserId);
+                this.ds_optionReg.setColumn(nRow, "INPUT_ID", app.loginUserId);
 
                 this.btn_addRow.set_visible(true);
                 this.btn_delRow.set_visible(true);
@@ -162,7 +162,7 @@
 
         this.btn_delRow_onclick = function(obj,e)
         {
-        	var nRow = this.ds_optionReg.currentrow();
+        	var nRow = this.ds_optionReg.rowposition;
         	if(nRow < 0) {
         		this.alert("삭제할 행을 선택하세요.");
         		return;
@@ -175,9 +175,38 @@
         this.btn_save_onclick = function(obj,e)
         {
 
+            var nRow = this.ds_optionReg.currentRow;
+
+            // ===== 필수값 체크 =====
+            var optionName  = this.ds_optionReg.getColumn(nRow, "OPTION_NAME");
+            var optionValue = this.ds_optionReg.getColumn(nRow, "OPTION_VALUE");
+
+            if (!optionName || optionName.trim() == "") {
+                this.alert("옵션명을 입력하세요.");
+                return;
+            }
+            if (!optionValue || optionValue.trim() == "") {
+                this.alert("옵션 세부값을 입력하세요.");
+                return;
+            }
+
+            // ===== 추가금액 처리 (빈칸이면 0, 숫자가 아니어도 0) =====
+            var addPrice = this.ds_optionReg.getColumn(nRow, "ADDITIONAL_PRICE");
+            if (addPrice == null || addPrice.toString().trim() == "" || isNaN(addPrice)) {
+                this.ds_optionReg.setColumn(nRow, "ADDITIONAL_PRICE", 0);
+            }
+
+            // ===== 등록자/수정자 세팅 =====
+            var app = nexacro.getApplication();
+            if (this.ds_optionReg.getColumn(nRow, "OPTION_ID")) {
+                // 수정 모드
+                this.ds_optionReg.setColumn(nRow, "UPDATE_ID", app.loginUserId);
+            } else {
+                // 등록 모드
+                this.ds_optionReg.setColumn(nRow, "INPUT_ID", app.loginUserId);
+            }
 
             if(!this.confirm("저장하시겠습니까?")) return;
-
             this.transaction(
                 "saveOptionByAdmin",
                 "svc::saveOptionByAdmin.do?time=" + new Date().getTime(),

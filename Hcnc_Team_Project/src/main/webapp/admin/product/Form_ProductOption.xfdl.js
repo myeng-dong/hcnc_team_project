@@ -174,9 +174,13 @@
         {
 
             var oArgs = this.getOwnerFrame().arguments;
+
             if (oArgs && oArgs.REFRESH == "Y") {
-        		        this.fn_search();
+        			this.fn_search();
+        			return;
         		}
+
+        	this.fn_search();
         }
 
 

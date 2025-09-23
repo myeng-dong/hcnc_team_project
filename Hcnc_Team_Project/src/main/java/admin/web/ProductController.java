@@ -219,10 +219,7 @@ public class ProductController {
     	try {
     		
     		String loginId = (String) request.getSession().getAttribute("loginId");
-    		
-    		
-    		
-    		
+
     		for (Map<String, Object> option : optionList) {
     		    Object optionId = option.get("OPTION_ID");
 
