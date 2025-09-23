@@ -2,13 +2,18 @@ package user.web;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.Data;
 import user.service.UserCartService;
 
 @Controller
@@ -57,7 +62,7 @@ public class UserCartController {
 		return mav;
 	}
 	
-	// 상품 체크박스 수정
+	// 상품 체크박스 수정 + 전체 체크박스 컨트롤
 	@RequestMapping(value="/updateChkBox.do")
 	public ModelAndView updateChkBox(@RequestParam HashMap<String, Object> param){
 		ModelAndView mav = new ModelAndView("jsonView");
@@ -69,6 +74,7 @@ public class UserCartController {
 		HashMap<String, Object> cartTotalPrice = userCartService.selectedTotalPriceByUser(param);
 		
 		mav.addObject("cartTotalPrice", cartTotalPrice);
+		
 		
 		return mav;
 	}
@@ -85,24 +91,86 @@ public class UserCartController {
 		return mav;
 	}
 	
-	// 체크박스 선택한 상품만 주문하기
-	@RequestMapping(value="/orderSelected.do")
-	public ModelAndView orderSelected(@RequestParam HashMap<String, Object> param) {
-		ModelAndView mav = new ModelAndView();
-		
-		System.out.println(param);
-		
-		return mav;
+	/*
+	 * // 체크박스 선택한 상품만 주문하기
+	 * 
+	 * @RequestMapping(value="/orderSelected.do") public ModelAndView
+	 * orderSelected(@RequestParam HashMap<String, Object> param) { ModelAndView mav
+	 * = new ModelAndView();
+	 * 
+	 * System.out.println(param);
+	 * 
+	 * return mav; }
+	 */
+
+	// 장바구니 옵션 변경
+	@RequestMapping(value="/updateOption.do")
+	public ModelAndView updateOption(@RequestParam HashMap<String, Object> param) {
+	    ModelAndView mav = new ModelAndView("jsonView");
+	    
+	    try {
+	        HashMap<String, Object> result = userCartService.updateOptionByUser(param);
+	        
+	        // Service에서 받은 결과를 그대로 전달
+	        mav.addObject("success", result.get("success"));
+	        if((Boolean)result.get("success")) {
+	            mav.addObject("newPrice", result.get("newPrice"));
+	            mav.addObject("cartTotalPrice", result.get("cartTotalPrice"));
+	        } else {
+	            mav.addObject("message", result.get("message"));
+	            mav.addObject("errorCode", result.get("errorCode"));
+	        }
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        mav.addObject("success", false);
+	        mav.addObject("message", "옵션 변경 중 오류 발생");
+	    }
+	    
+	    return mav;
 	}
 	
-	// 선택 상품 삭제
-	@RequestMapping(value="/deleteSelectedProducts.do")
-	public ModelAndView deleteSelectedProducts(@RequestParam HashMap<String, Object> param) {
-		ModelAndView mav = new ModelAndView("");
-		
-		System.out.println(param);
-		
-		return mav;
+	// 위시리스트 토글 (추가/제거)
+	@RequestMapping(value="/toggleWishlist.do")
+	public ModelAndView toggleWishlist(@RequestParam HashMap<String, Object> param) {
+	    ModelAndView mav = new ModelAndView("jsonView");
+	    
+	    System.out.println("위시리스트 토글 파라미터: " + param);
+	    
+	    try {
+	        HashMap<String, Object> result = userCartService.toggleWishlist(param);
+	        
+	        mav.addObject("success", result.get("success"));
+	        mav.addObject("isInWishlist", result.get("isInWishlist"));
+	        mav.addObject("message", result.get("message"));
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        mav.addObject("success", false);
+	        mav.addObject("message", "위시리스트 처리 중 오류가 발생했습니다.");
+	    }
+	    
+	    return mav;
+	}
+
+	// 위시리스트 상태 확인
+	@RequestMapping(value="/checkWishlistStatus.do")
+	public ModelAndView checkWishlistStatus(@RequestParam HashMap<String, Object> param) {
+	    ModelAndView mav = new ModelAndView("jsonView");
+	    
+	    try {
+	        boolean isInWishlist = userCartService.checkWishlistStatus(param);
+	        
+	        mav.addObject("success", true);
+	        mav.addObject("isInWishlist", isInWishlist);
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        mav.addObject("success", false);
+	        mav.addObject("message", "위시리스트 상태 확인 중 오류가 발생했습니다.");
+	    }
+	    
+	    return mav;
 	}
 	
 }

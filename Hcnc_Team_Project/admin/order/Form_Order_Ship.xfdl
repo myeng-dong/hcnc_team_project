@@ -5,21 +5,21 @@
       <Layout height="720" width="1280">
         <!-- 검색 영역 -->
         <!-- 결제 내역 그리드 -->
-        <Div id="search_area" taborder="1" left="40" top="0" height="190" background="#ffffff" borderRadius="10px" text="" right="40">
+        <Div id="search_area" taborder="1" left="40" top="0" height="60" background="#ffffff" borderRadius="10px" text="" right="40">
           <Layouts>
             <Layout>
-              <Static id="stc_name" taborder="2" text="주문자" left="32" top="50" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Edit id="Edit00" taborder="3" left="128" top="54" width="125" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
-              <Button id="Button00" taborder="4" text="⌕" left="235" top="54" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick"/>
-              <Static id="stc_ship" taborder="0" text="배송 상태" left="30" top="8" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Static id="stc_name" taborder="2" text="주문자" left="542" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Edit id="Edit00" taborder="3" left="598" top="13" width="125" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
+              <Button id="Button00" taborder="4" text="⌕" left="705" top="13" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick" border="0px none"/>
+              <Static id="stc_ship" taborder="0" text="배송 상태" left="30" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
               <Radio id="rad_ship" taborder="1" left="130" top="4" width="357" height="45" innerdataset="ds_orderStat" codecolumn="CODE" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onitemchanged="search_area_rad_ship_onitemchanged" index="0" text="전체" value="전체"/>
-              <Static id="stc_name00" taborder="5" text="연락처" left="32" top="96" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Edit id="Edit00_00" taborder="7" left="128" top="100" width="262" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
-              <Button id="Button00_00" taborder="6" text="⌕" left="375" top="100" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick"/>
+              <Static id="stc_name00" taborder="5" text="연락처" left="847" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Edit id="Edit00_00" taborder="7" left="903" top="13" width="262" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
+              <Button id="Button00_00" taborder="6" text="⌕" top="13" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick" border="0px none" right="30"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="0" left="40" top="255" right="40" bottom="40" binddataset="ds_ship" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
+        <Grid id="grid_list" taborder="0" left="40" top="118" right="40" bottom="40" binddataset="ds_ship" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -62,7 +62,7 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_save" taborder="2" text="저장" left="1140" top="208" width="100" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer"/>
+        <Button id="btn_save" taborder="2" text="저장" top="70" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" right="40" width="100"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[this.Form_Order_Ship_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
@@ -75,7 +75,7 @@
 // 배송 조회
 this.fnSearchShip = function() {
     var strSvcID       = "selectShip";
-    var strURL         = "svc::selectShipListByAdmin.do";
+    var strURL         = "svc::selectShipListByAdmin.do?time=" + new Date().getTime();
     var strInDatasets  = "ds_search=ds_search";
     var strOutDatasets = "ds_ship=ds_ship";
     var strArg         = "";
@@ -87,7 +87,7 @@ this.fnSearchShip = function() {
 // 저장 
 this.fnSaveSelectedShip = function() {
     var strSvcID       = "saveSelectedShip";
-    var strURL         = "svc::updateShipListByAdmin.do";
+    var strURL         = "svc::updateShipListByAdmin.do?time=" + new Date().getTime();
     var strInDatasets  = "ds_selected=ds_selected";
     var strOutDatasets = "";
     var strArg         = "";
