@@ -99,7 +99,8 @@
 		#게시글 상세조회
 		SELECT 
 		       P.POST_TITLE                                                -- 게시글 제목
-		     , P.POST_ID
+		     , P.POST_ID                                                   -- 게시글 ID
+		     , B.BOARD_ID                                                  -- 보드 ID
 		     , P.POST_CONTENT                                              -- 게시글 내용
 		     , B.BOARD_NAME                                                -- 보드이름
 		     , P.INPUT_DT                                                  -- 작성일
@@ -112,5 +113,18 @@
 		   AND P.POST_ID = #{POST_ID}
 		</if>
 	</select>
+	
+	<update id="updatePostByAdmin" parameterType="map">
+		#게시글 수정
+		
+		<if test="POST_ID != null and POST_ID != ''">
+		 UPDATE POSTS
+		    SET 
+		       POST_TITLE   = #{POST_TITLE}
+		      , POST_CONTENT = #{POST_CONTENT}
+		  WHERE 1=1
+		    AND POST_ID=#{POST_ID}
+		</if>
+	</update>
 	
 </mapper>

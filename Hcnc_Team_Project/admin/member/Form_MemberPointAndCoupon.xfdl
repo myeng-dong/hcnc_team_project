@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_MemberPointAndCoupon" width="1280" height="720" titletext="New Form" background="lightBlue" onload="Form_MemberPointAndCoupon_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="point_search_box" taborder="0" left="20" top="17" width="1240" height="233" background="white" text="" borderRadius="8px"/>
+        <Static id="grade_search_box00" taborder="1" left="20" top="260" width="1240" height="450" background="white" text="" borderRadius="8px" onclick="grade_search_box00_onclick"/>
+        <Static id="Static00_00" taborder="2" text="아이디" left="40" top="37" width="52" bottom="656" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Edit id="member_name" taborder="3" left="100" top="33" width="1093" height="35" onchanged="member_name_onchanged"/>
+        <Static id="Static00_00_00" taborder="4" text="이름" left="40" top="87" width="52" bottom="606" font="bold 14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Edit id="user_name" taborder="5" left="100" top="85" width="1093" height="35" onchanged="grade_emil_onchanged"/>
+        <Static id="Static00_00_00_00" taborder="6" text="전화번호" left="40" top="147" width="52" bottom="546" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static00_00_00_00_onclick"/>
+        <Edit id="phone_number" taborder="7" left="100" top="143" width="1093" height="35"/>
+        <Grid id="pointAndCoupon" taborder="8" left="36" top="269" height="431" background="#FFFFFF" border="0px none" borderRadius="10px" right="24" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick">&gt;
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="194"/><Column size="136"/><Column size="178"/><Column size="132"/><Column size="97"/><Column size="162"/><Column size="103"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="전화번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="포인트 잔액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="포인트 상세" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="보유 쿠폰 수" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="쿠폰 상세" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:PHONE_NUMBER" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="4" edittype="normal" text="bind:POINT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="buttoncontrol" edittype="button" text="상세보기" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="6" text="bind:COUPON_CNT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="7" displaytype="buttoncontrol" edittype="button" text="상세보기" font="12px/normal &quot;LG Smart UI Bold&quot;"/></Band></Format></Formats></Grid>
+        <Button id="select_btn" taborder="9" text="조회하기" left="530" top="197" width="100" height="40" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="select_btn_onclick"/>
+        <Button id="cancel_btn" taborder="10" text="초기화" left="648" top="197" width="92" height="40" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="cancel_btn_onclick"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="member_name" propid="value" datasetid="ds_search" columnid="MEMBER_ID"/>
+      <BindItem id="item1" compid="user_name" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
+      <BindItem id="item2" compid="phone_number" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
+      <BindItem id="item3" compid="pointAndCoupon" propid="binddataset" datasetid="ds_user" columnid=""/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[this.Form_MemberPointAndCoupon_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_selectPointAndCoupon();
+};
+
+
+//회원 포인트 쿠폰 관리 리스트 조회
+this.fn_selectPointAndCoupon= function(){
+	
+	var strSvcID = "selectPointAndCouponList"
+	var setURL = "svc::/selectPointAndCouponListByAdmin.do";
+	var strInDatasets = "ds_search=ds_search";
+	var strOutDatasets = "ds_list=ds_list";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+
+// 공통 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+	
+	if(errorCode == -1){
+		this.alert(errorMSG)
+	}
+	
+	switch(svcID){
+	case "selectPointAndCouponList" : 
+		console.log(this.ds_list.saveXML());
+		break;
+	
+	}
+	
+}
+
+//검색하기 
+this.select_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_selectPointAndCoupon();
+};
+
+//초기화 하기
+this.cancel_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+
+//상세 버튼 클릭시 각각의 상세페이지로 이동 
+//5 포인트 상세 , 7 쿠폰상세 
+this.pointAndCoupon_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 5){
+		var memberId = this.ds_list.getColumn(e.row,"MEMBER_ID")
+		
+		//부모페이지 자식페이지 값 전달하기 arguments 
+		this.getOwnerFrame().arguments = {"MEMBER_ID" : memberId}
+		
+		this.getOwnerFrame().set_formurl("member::Form_MemberPointDetail.xfdl");
+	}else if(e.cell == 7){
+		var memberId = this.ds_list.getColumn(e.row,"MEMBER_ID")
+		
+		//부모페이지 자식페이지 값 전달하기 arguments 
+		this.getOwnerFrame().arguments = {"MEMBER_ID" : memberId}
+		
+		this.getOwnerFrame().set_formurl("member::Form_MemberCouponDetail.xfdl");
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="POINT" type="STRING" size="256"/>
+          <Column id="COUPON_CNT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>
