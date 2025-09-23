@@ -276,7 +276,7 @@
 	<!-- 옵션 관리 -->
 	<!-- 옵션 조회,검색 -->
 	<select id="selectOptionByAdmin" parameterType="java.util.Map"
-		resultType="java.util.Map">
+		resultType="java.util.Map" flushCache="true">
 		SELECT
 		o.OPTION_ID,
 		o.OPTION_NAME,
@@ -319,7 +319,7 @@
 	</update>
 
 	<!-- 옵션 단건 조회 -->
-	<select id="selectOptionOneByAdmin" parameterType="long" resultType="map">
+	<select id="selectOptionOneByAdmin" parameterType="long" resultType="map" flushCache="true" >
     SELECT OPTION_ID
          , OPTION_NAME
          , OPTION_VALUE
@@ -331,11 +331,11 @@
          , UPDATE_DT
       FROM OPTIONS
      WHERE OPTION_ID = #{OPTION_ID}
-</select>
+	</select>
 
 
 
-		<!-- 옵션 등록 -->
+	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="java.util.Map">
 		INSERT INTO OPTIONS
 			(OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)

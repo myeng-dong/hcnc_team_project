@@ -8,7 +8,7 @@
         <!-- 옵션입력 안내 -->
         <Static id="sta_notice" text="옵션 입력 (옵션코드 자동생성)" left="30" top="80" width="600" height="30" font="11pt 'Gulim'" color="#666666"/>
         <!-- 옵션입력 그리드 -->
-        <Grid id="grd_option" left="30" top="120" width="1220" height="550" binddataset="ds_optionReg" autofittype="col" border="1px solid #cccccc" borderRadius="8px">
+        <Grid id="grd_option" left="30" top="120" width="1220" height="550" binddataset="ds_optionReg" autofittype="col" border="1px solid #cccccc" borderRadius="8px" oncellposchanged="grd_option_oncellposchanged">
           <Formats>
             <Format id="default">
               <Columns>
@@ -46,10 +46,12 @@
         <Button id="btn_cancel" text="취소" left="1150" top="690" width="100" height="40" background="#bbbbbb" color="#ffffff" font="bold 11pt/normal 'Arial'" borderRadius="6px" cursor="pointer" onclick="btn_cancel_onclick"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[this.Form_ProductOptionReg_onload = function(obj,e)
+    <Script type="xscript5.1"><![CDATA[
+include "common::common.xjs";
+
+this.Form_ProductOptionReg_onload = function(obj,e)
 {
-	//초기화(이전 데이터 잔상 방지)
-	this.ds_optionReg.clearData();
+
 	
     var app = nexacro.getApplication();
     var oArgs = this.getOwnerFrame().arguments;
@@ -58,7 +60,7 @@
         // 단건조회 호출
         this.transaction(
             "selectOptionOneByAdmin",
-            "svc::selectOptionOneByAdmin.do",
+            "svc::selectOptionOneByAdmin.do?time=" + new Date().getTime(),
             "",
             "ds_optionReg=ds_optionReg",
             "OPTION_ID=" + oArgs.OPTION_ID,
@@ -120,11 +122,13 @@ this.btn_delRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 // 저장 (등록/수정)
 this.btn_save_onclick = function(obj,e)
 {
+
+
     if(!this.confirm("저장하시겠습니까?")) return;
 
     this.transaction(
         "saveOptionByAdmin",
-        "svc::saveOptionByAdmin.do",
+        "svc::saveOptionByAdmin.do?time=" + new Date().getTime(),
         "ds_optionReg=ds_optionReg:U",  // 등록: Inserted(2), 수정: Updated(4)
         "",
         "",
@@ -159,21 +163,6 @@ this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
 
 		}
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

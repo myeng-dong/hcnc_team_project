@@ -96,11 +96,14 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_ProductOptionReg.xfdl","common::common.xjs");
         this.registerScript("Form_ProductOptionReg.xfdl", function() {
+
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
+
         this.Form_ProductOptionReg_onload = function(obj,e)
         {
-        	//초기화(이전 데이터 잔상 방지)
-        	this.ds_optionReg.clearData();
+
 
             var app = nexacro.getApplication();
             var oArgs = this.getOwnerFrame().arguments;
@@ -109,7 +112,7 @@
                 // 단건조회 호출
                 this.transaction(
                     "selectOptionOneByAdmin",
-                    "svc::selectOptionOneByAdmin.do",
+                    "svc::selectOptionOneByAdmin.do?time=" + new Date().getTime(),
                     "",
                     "ds_optionReg=ds_optionReg",
                     "OPTION_ID=" + oArgs.OPTION_ID,
@@ -171,11 +174,13 @@
         // 저장 (등록/수정)
         this.btn_save_onclick = function(obj,e)
         {
+
+
             if(!this.confirm("저장하시겠습니까?")) return;
 
             this.transaction(
                 "saveOptionByAdmin",
-                "svc::saveOptionByAdmin.do",
+                "svc::saveOptionByAdmin.do?time=" + new Date().getTime(),
                 "ds_optionReg=ds_optionReg:U",  // 등록: Inserted(2), 수정: Updated(4)
                 "",
                 "",
@@ -214,21 +219,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         });
         
         // Regist UI Components Event
@@ -236,6 +226,7 @@
         {
             this.addEventHandler("onload",this.Form_ProductOptionReg_onload,this);
             this.sta_title.addEventHandler("onclick",this.sta_title_onclick,this);
+            this.grd_option.addEventHandler("oncellposchanged",this.grd_option_oncellposchanged,this);
             this.btn_addRow.addEventHandler("onclick",this.btn_addRow_onclick,this);
             this.btn_delRow.addEventHandler("onclick",this.btn_delRow_onclick,this);
             this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);

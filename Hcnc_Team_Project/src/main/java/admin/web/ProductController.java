@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
-import com.nexacro17.xapi.data.DataSet;
 
 import admin.service.ProductService;
 

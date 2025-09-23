@@ -6,7 +6,7 @@
 		"svc::/"+url+"?time="+new Date().getTime(),    // 컨트롤러 URL
         inDs,         // inDatasets: 조건 묶음
         outDs,       // outDatasets: 결과 그리드 바인딩
-        strVal,                                    // args는 사용하지 않음 (전부 Dataset으로 처리)
+        strVal,                                    
         "fn_callback",                         // 콜백 함수명
         true                                   // 비동기
     );

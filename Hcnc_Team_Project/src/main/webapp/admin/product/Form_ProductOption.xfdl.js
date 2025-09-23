@@ -165,16 +165,21 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_ProductOption.xfdl","common::common.xjs");
         this.registerScript("Form_ProductOption.xfdl", function() {
+
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
+
         this.Form_ProductOption_onload = function(obj,e)
         {
+
             var oArgs = this.getOwnerFrame().arguments;
             if (oArgs && oArgs.REFRESH == "Y") {
-                this.fn_search();
-            }
+        		        this.fn_search();
+        		}
+        }
 
-        	this.fn_search();
-        };
+
 
 
 
@@ -216,17 +221,15 @@
             // 1) 조회조건 Dataset 구성
             this.fn_makeSearchCond();
             // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
-            this.transaction(
-                "selectOptionByAdmin",            // 서비스 ID (콜백 분기용)
-        /*		"svc::/selectOptionByAdmin.do",    // 컨트롤러 URL*/
-        		"svc::/selectOptionByAdmin.do?time=" + new Date().getTime(),    // 컨트롤러 URL
 
-                "ds_searchCond=ds_searchCond",         // inDatasets: 조건 묶음
-                "ds_out_opList=ds_out_opList",       // outDatasets: 결과 그리드 바인딩
-                "",                                    // args는 사용하지 않음 (전부 Dataset으로 처리)
-                "fn_callback",                         // 콜백 함수명
-                true                                   // 비동기
-            );
+        	this.gfn_transction(
+            "selectOptionByAdmin",
+            "selectOptionByAdmin.do?time=" + new Date().getTime(), // 캐시 방지용 파라미터 추가
+            "ds_searchCond=ds_searchCond",
+            "ds_out_opList=ds_out_opList",
+            ""
+        	);
+
         };
 
 
@@ -242,6 +245,7 @@
 
             switch(strSvcID){
         	case "selectOptionByAdmin":
+
         		var ea = this.ds_out_opList.getRowCount();
 
         		this.stc_total_value.set_text(ea);
@@ -433,8 +437,6 @@
             // 선택된 행 데이터 가져오기
             var nRow = e.row;
             if (nRow < 0) return;
-
-        	this.alert(nRow);
 
             var optionId   = this.ds_out_opList.getColumn(nRow, "OPTION_ID");
             var optionName = this.ds_out_opList.getColumn(nRow, "OPTION_NAME");
