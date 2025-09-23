@@ -10,7 +10,7 @@
 	      <li><a href="/newProList.do">신상품</a></li>
 	      <li><a href="/recommendProList.do">추천상품</a></li>
 	      <li><a href="/hotProList.do">인기상품</a></li>
-	      <li><a href="/event.do">이벤트</a></li>
+	      <!-- li><a href="/event.do">이벤트</a></li-->
 	      <li><a href="/noticeList.do">게시판</a></li>
 	    </ul>
 	  </div>
