@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.UserProductMapper">
+	<resultMap id="ProductDescriptionResult" type="hashmap">
+	    <result property="PRODUCT_ID" column="PRODUCT_ID" jdbcType="BIGINT"/>
+	    <result property="DETAIL_DESCRIPTION" column="DETAIL_DESCRIPTION" jdbcType="CLOB" javaType="String"/>
+	</resultMap>
+
 	<!-- 상품 조회 -->
 	<!--
 	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
@@ -79,6 +84,7 @@
 			FROM PRODUCT_QNA
 		  WHERE 1=1
 		  	AND PRODUCT_ID = #{productId}
+		  ORDER BY INPUT_DT DESC
 	</select>
 	
 	<select id="selectQnADetailByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
@@ -87,6 +93,22 @@
 		  WHERE 1=1
 		  	AND PRODUCT_QNA_ID = #{qnaId}
 	</select>
+	
+	<select id="selectProductDescriptionByUser" parameterType="hashmap" resultMap="ProductDescriptionResult">
+	    SELECT 
+	        PRODUCT_ID,
+	        DETAIL_DESCRIPTION
+	    FROM PRODUCTS 
+	    WHERE PRODUCT_ID = #{productId}
+	</select>
+	
+	<!-- <select id="selectProductDescriptionByUser" parameterType="hashmap" resultMap="ProductDescriptionResult">
+	    SELECT 
+	        POST_ID AS PRODUCT_ID,
+	        POST_CONTENT DETAIL_DESCRIPTION
+	    FROM POSTS 
+	    WHERE POST_ID = 42
+	</select> -->
 	
 	<insert id="insertQnAByUser" parameterType="java.util.Map">
 		INSERT INTO PRODUCT_QNA (PRODUCT_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT)
@@ -105,5 +127,10 @@
 			WHERE 1=1
 				AND PRODUCT_QNA_ID = #{qnaId};
 	</delete>
+
+	
+	
+
+
 
 </mapper>

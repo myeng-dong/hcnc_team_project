@@ -29,13 +29,10 @@ public class UserProductController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		List<HashMap<String, Object>> productQnAList = userProductService.selectProductQnAListByUser(productId);
-		
 		List<HashMap<String, Object>> productDetail = userProductService.selectProductByUser(productId);
 		
 		List<HashMap<String, Object>> productOptionInfo = userProductService.slectOptionInfoByUser(productId);
 		
-		mav.addObject("productQnAList", productQnAList);
 		mav.addObject("productDetail", productDetail);
 		mav.addObject("optionInfo", productOptionInfo);
 		
@@ -62,6 +59,17 @@ public class UserProductController {
 		mav.addObject("insertResult", insertCartItem);
 		
 		System.out.println(insertCartItem);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="/selectProductQnAList.do")
+	public ModelAndView selectProductQnAListByUser(@RequestParam Map<String, Object> param) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		List<HashMap<String, Object>> qnaList = userProductService.selectProductQnAListByUser(param);
+		
+		mav.addObject("qnaList", qnaList);
 		
 		return mav;
 	}
@@ -116,6 +124,21 @@ public class UserProductController {
 				
 		return mav;
 		
+	}
+	
+	@RequestMapping(value="/selectProductDescription.do")
+	public ModelAndView selectProductDescriptionByUser(@RequestParam Map<String, Object> param) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		System.out.println("description 조회 : " + param);
+		
+		HashMap<String, Object> description = userProductService.selectProductDescriptionByUser(param);
+		if(description != null) {
+			mav.addObject("description", description);
+		} else {
+			mav.addObject("description", "데이터 없습니다.");
+		}
+		return mav;
 	}
 	
 }
