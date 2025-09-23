@@ -38,6 +38,7 @@ public class UserController {
 		System.out.println("총 배너 개수 확인용: " + bannerList.size());
 		System.out.println("총프로덕트확인용: " + productList.size());
 		System.out.println("총프로덕트확인용: " + hotProducts.size());
+
 		
 		// 배너 타입별로 분리
 		List<Map<String,Object>> mainBanners = new ArrayList<>();

@@ -26,6 +26,7 @@
 	<!-- 메인에서 [NEW랑 추천] SORT로 관리하는 LIST용 -->
 	<!-- 근데 별도의 상태박스가 있어야할거같긴함 사유 new인동시에 추천일수있어서? 일단 나중에물어보기 -->
 	<!-- 나중에 PRODUCT IMG랑 할인가 재고여부 같이 조인필요함 -->
+	<!-- 메인에서 [NEW랑 추천] SORT로 관리하는 LIST용 : 나중에 PRODUCT IMG -->
 	<select id="selectMNProductListByUser" resultType="java.util.Map">
 	    SELECT  P.PRODUCT_ID
 	           ,P.PRODUCT_CODE
@@ -82,5 +83,6 @@
 	    WHERE IS_VISIBLE = 'Y'
 	    ORDER BY VIEW_CNT DESC, PRODUCT_ID DESC
 	</select>
+
 	
 </mapper>

@@ -16,5 +16,4 @@ public interface UserProductMapper {
 	List<Map<String, Object>> selectHotProductListByUser();//메인에서 HOT불러가는용 임시
 
 
-
 }
