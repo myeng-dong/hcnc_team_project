@@ -27,7 +27,7 @@
         <Button id="Button00_00" taborder="21" text="초기화" left="650" top="301" height="31" right="530" font="12px/normal &quot;Noto Sans KR Black&quot;" background=" #9ca3af" borderRadius="4px" onclick="Button00_00_onclick"/>
         <Grid id="grid_list" taborder="22" left="30" top="359" height="303" background="#FFFFFF" border="0px none" borderRadius="10px" right="60" autofittype="col" binddataset="ds_list" oncellclick="grid_list_oncellclick">&gt;
           <Formats><Format id="default"><Columns><Column size="49"/><Column size="52"/><Column size="103"/><Column size="175"/><Column size="178"/><Column size="137"/><Column size="135"/><Column size="118"/><Column size="139"/><Column size="106"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell/><Cell col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="이메일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="전화번호 " textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="상태 " textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="구매액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="가입일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="휴면일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="탈퇴일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK"/><Cell col="1" text="expr:currow + 1"/><Cell col="2" text="bind:USER_NAME" textAlign="center"/><Cell col="3" text="bind:EMAIL_ADDR" textAlign="center"/><Cell col="4" text="bind:PHONE_NUMBER" textAlign="center"/><Cell col="5" text="bind:STATUS_NAME" textAlign="center"/><Cell col="6" edittype="normal" text="bind:PRICE_AMOUNT" textAlign="center"/><Cell col="7" text="bind:INPUT_DT" textAlign="center"/><Cell col="8" text="bind:LAST_LOGIN_DT"/><Cell col="9" text="bind:DELETE_DT"/></Band></Format></Formats></Grid>
-        <Button id="withdraw_btn" taborder="23" text="삭제" left="516" top="684" width="129" height="33" background="#2563eb" borderRadius="4px" color="white" font="12px &quot;Noto Sans KR Black&quot;" onclick="withdraw_btn_onclick"/>
+        <Button id="withdraw_btn" taborder="23" text="탈퇴처리" left="516" top="684" width="129" height="33" background="#2563eb" borderRadius="4px" color="white" font="12px &quot;Noto Sans KR Black&quot;" onclick="withdraw_btn_onclick"/>
         <Button id="domant_btn" taborder="24" text="휴면복구" left="670" top="684" width="129" height="33" background=" #9ca3af" borderRadius="4px" font="12px &quot;Noto Sans KR Black&quot;" onclick="Button01_00_onclick" color="white"/>
       </Layout>
     </Layouts>
@@ -49,6 +49,19 @@ this.Button00_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.reload();
 };
 
+//체크박스 체크하기
+this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 0){
+		if(this.ds_list.getColumn(this.ds_list.rowposition,"CHK") == 0){
+			this.ds_list.setColumn(this.ds_list.rowposition,"CHK", "0");
+			return;
+		}else{
+			this.ds_list.setColumn(this.ds_list.rowposition,"CHK", "1");
+			return;
+		}
+	}
+};
 
 //휴면, 탈퇴 회원  리스트 조회
 this.fn_selectDormantWithdrawnMembers = function(){
@@ -68,11 +81,23 @@ this.fn_selectDormantWithdrawnMembers = function(){
 this.withdraw_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	
+	var checkBox = 0; 
+	for(var i = 0; i < this.ds_list.getRowCount(); i++){
+		if(this.ds_list.getColumn(i, "CHK") == "1"){
+			checkBox++;
+		}
+	}
+	
+	if(checkBox == "0"){
+		this.alert("체크박스를 선택하세요")
+		return;
+	}
+	
 	// 트랜잭션 호출
 	var strSvcID = "withdrawMember"
 	var setURL = "svc::/withdrawMemberByAdmin.do";
 	var strInDatasets = "ds_list=ds_list";
-	var strOutDatasets = "";
+	var strOutDatasets = "ds_delCnt=ds_delCnt";
 	var strArg = "";
 	var callBack = "fn_callBack";
 	var inAsync = true;
@@ -83,12 +108,24 @@ this.withdraw_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo
 //휴면 복구 버튼
 this.Button01_00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
+	var checkBox = 0; 
+	for(var i = 0; i < this.ds_list.getRowCount(); i++){
+		if(this.ds_list.getColumn(i, "CHK") == "1"){
+			checkBox++;
+		}
+	}
+	
+	if(checkBox == "0"){
+		this.alert("체크박스를 선택하세요")
+		return;
+	}
+	
 	
     // 트랜잭션 호출
 	var strSvcID = "reactivateDormantMember"
 	var setURL = "svc::/reactivateDormantMemberByAdmin.do";
 	var strInDatasets = "ds_list=ds_list";
-	var strOutDatasets = "";
+	var strOutDatasets = "ds_upCnt=ds_upCnt ";
 	var strArg = "";
 	var callBack = "fn_callBack";
 	var inAsync = true;
@@ -105,36 +142,30 @@ this.fn_callBack = function(svcID, errorCode, errorMSG){
 	}
 	
 	switch(svcID){
-	case "selectDormantWithdrawnMembers" : 
+	case "selectDormantWithdrawnMembers" :
 		console.log(this.ds_list.saveXML());
 		break;
 	case "withdrawMember" :
-		alert("회원이 탈퇴 처리되었습니다.");
-		this.fn_selectDormantWithdrawnMembers();
+		if(this.ds_delCnt.getColumn(0,"DELETED") > 0){
+			this.alert("회원이 탈퇴 처리되었습니다.")
+			this.fn_selectDormantWithdrawnMembers();
+		}else{
+			this.alert("이미 탈퇴 처리되거나 휴면 복귀한 회원입니다.")
+		}
+	
 		break;
 	case "reactivateDormantMember" :
-		alert("휴면 회원이 복구되었습니다.");
-		this.fn_selectDormantWithdrawnMembers(); 
+		if(this.ds_upCnt.getColumn(0,"UPDATED") > 0){
+			alert("휴면 회원이 복구되었습니다.");
+			this.fn_selectDormantWithdrawnMembers(); 
+		}else{
+			this.alert("이미 탈퇴 처리되거나 휴면 복귀한 회원입니다.")
+		}
 		break;
-		
 	}
-	
 }
 
-//체크박스 체크하기
-this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
-	if(e.cell == 0){
-	
-		if(this.ds_list.getColumn(this.ds_list.rowposition,"CHK") == 0){
-			this.ds_list.setColumn(this.ds_list.rowposition,"CHK", "0");
-			return;
-		}else{
-			this.ds_list.setColumn(this.ds_list.rowposition,"CHK", "1");
-			return;
-		}
-	}
-};
+
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>

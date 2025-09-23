@@ -86,7 +86,9 @@
     <select id="getCategoryCount" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         SELECT 
             wi.MAIN_CATE_ID as category,
+
             COUNT(0) as count,
+
             mc.MAIN_CATE_NM as categoryName
         FROM WISH_ITEMS wi
         INNER JOIN WISH w ON wi.WISH_ID = w.WISH_ID
@@ -95,6 +97,7 @@
         GROUP BY wi.MAIN_CATE_ID, mc.MAIN_CATE_NM
         ORDER BY wi.MAIN_CATE_ID
     </select>
+
     
     <!-- 장바구니 아이템 존재 확인 -->
 	<select id="checkCartItem" parameterType="java.util.HashMap" resultType="java.util.HashMap">
@@ -163,4 +166,5 @@
 	    AND ci.PRODUCT_ID = #{productId}
 	    AND ci.IS_CHECKED = 'Y'
 	</update>
+
 </mapper>

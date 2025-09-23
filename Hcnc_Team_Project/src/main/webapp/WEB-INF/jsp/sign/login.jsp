@@ -158,8 +158,6 @@ uri="http://www.springframework.org/tags"%>
       padding-bottom: 15px;
       cursor: pointer;
     }
-    .tab-login {
-    }
     .tab-unknown {
       background-color: #f7f7f7;
       border-left: 1px solid #d9d9d9;

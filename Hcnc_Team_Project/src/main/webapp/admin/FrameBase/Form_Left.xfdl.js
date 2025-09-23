@@ -119,30 +119,39 @@
             }
         };
 
-
-
-
         // 메뉴 실행
         this.fnOpenMenu = function(sMenuId)
         {
             var objApp = nexacro.getApplication();
-            var nFRow  = this.ds_left.findRow("MENU_ID", sMenuId);
+
+            var nFRow = this.ds_left.findRow("MENU_ID", sMenuId);
             if (nFRow < 0) return;
 
             var sMenuPath = this.ds_left.getColumn(nFRow, "MENU_PATH");
-            var sMenuNm   = this.ds_left.getColumn(nFRow, "MENU_NM"); // ✅ 메뉴명 가져오기
+            var sMenuNm = this.ds_left.getColumn(nFRow, "MENU_NM");
 
             if (!sMenuPath || sMenuPath == "[Undefined]") {
                 trace("메뉴 경로가 정의되지 않음: " + sMenuId);
                 return;
             }
 
-            // 바뀐 구조 반영 (VFrameSet01 안에 TitleFrame + WorkFrame)
+            // 부모 메뉴명 찾기
+            var sParentMenuNm = "";
+            if (sMenuId.length == 4) {
+                // 4자리 메뉴인 경우 부모(2자리) 찾기
+                var sParentMenuId = sMenuId.substring(0, 2);
+                var nParentRow = this.ds_left.findRow("MENU_ID", sParentMenuId);
+                if (nParentRow >= 0) {
+                    sParentMenuNm = this.ds_left.getColumn(nParentRow, "MENU_NM");
+                }
+            }
+
+            // WorkFrame에 폼 로드
             objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl(sMenuPath);
 
-            // TitleFrame의 fn_setTitle 호출 (메뉴명 전달)
+            // TitleFrame에 메뉴명과 부모 메뉴명 전달
             if (objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame.form.fn_setTitle) {
-                objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame.form.fn_setTitle(sMenuNm);
+                objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame.form.fn_setTitle(sMenuNm, sParentMenuNm);
             }
         };
 

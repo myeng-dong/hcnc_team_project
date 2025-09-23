@@ -21,17 +21,17 @@
 
             
             // UI Components Initialize
-            obj = new Static("sta_h3","41","35","940","40",null,null,null,null,null,null,this);
+            obj = new Static("sta_h3","40","10","940","40",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("h3 title area");
-            obj.set_font("normal 700 20pt/normal \"normal/normal\",\"LG Smart UI Bold\",\"Pretendard Black\"");
+            obj.set_font("normal 20pt/normal \"Noto Sans KR Black\"");
             obj.set_color("black");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_location","40","0","990","40",null,null,null,null,null,null,this);
+            obj = new Static("sta_location","38","42","990","40",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("⌂>회원>회원관리");
-            obj.set_font("normal 10pt/normal \"normal/normal\",\"LG Smart UI Bold\"");
+            obj.set_font("normal 9pt/normal \"Noto Sans KR DemiLight\"");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -54,14 +54,24 @@
         
         // User Script
         this.registerScript("Form_AdminTitle.xfdl", function() {
-        // 메뉴명을 받아서 타이틀 Static에 반영
-        this.fn_setTitle = function(sMenuNm)
+        this.fn_setTitle = function(sMenuNm, sParentMenuNm)
         {
             if (!sMenuNm) sMenuNm = "";
-            this.sta_h3.set_text(sMenuNm);   // 상단 타이틀
-            this.sta_location.set_text("⌂ ▸ " + sMenuNm); // 간단한 breadcrumb
-        };
+            if (!sParentMenuNm) sParentMenuNm = "";
 
+            this.sta_h3.set_text(sMenuNm);   // 상단 타이틀
+
+            // Breadcrumb 구성
+            var sBreadcrumb = "";
+            if (sParentMenuNm != "") {
+                sBreadcrumb += " ▸ " + sParentMenuNm;
+            }
+            if (sMenuNm != "") {
+                sBreadcrumb += " ▸ " + sMenuNm;
+            }
+
+            this.sta_location.set_text(sBreadcrumb);
+        };
         });
         
         // Regist UI Components Event

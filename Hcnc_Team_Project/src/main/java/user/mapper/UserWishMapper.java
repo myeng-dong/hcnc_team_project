@@ -8,6 +8,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("UserWishMapper")
 public interface UserWishMapper {
 
+
 	// 위시리스트 조회
 	List<HashMap<String, Object>> selectWishlistByUser(HashMap<String, Object> param);
 
@@ -25,4 +26,5 @@ public interface UserWishMapper {
 	
 	// 장바구니 수량 업데이트
 	int updateCartQuantity(HashMap<String, Object> param);
+
 }
