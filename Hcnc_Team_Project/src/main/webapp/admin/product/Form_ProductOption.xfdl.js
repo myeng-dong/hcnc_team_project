@@ -69,7 +69,7 @@
             obj.set_text(" ]건");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_show","630","221","92","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_show","810","221","92","35",null,null,null,null,null,null,this);
             obj.set_text("선택 진열");
             obj.set_color("#FFFFFF");
             obj.set_background("#f09d37");
@@ -77,7 +77,7 @@
             obj.set_font("bold 11pt/normal \"Arial\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_hide","740","221","92","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_hide","920","221","92","35",null,null,null,null,null,null,this);
             obj.set_text("진열 취소");
             obj.set_color("#FFFFFF");
             obj.set_background("#18b391");
@@ -136,6 +136,16 @@
             obj.set_value("PRODUCT_NAME");
             obj.set_index("1");
             this.addChild(obj.name, obj);
+
+            obj = new Static("sta_listTitle00","413","201","215","61",null,null,null,null,null,null,this);
+            obj.set_text("옵션 더블클릭시 수정가능");
+            obj.set_font("11pt/normal \"Arial\"");
+            obj.set_taborder("12");
+            obj.set_color("#383838");
+            obj.set_border("0px none,0px none,5px solid #ffa70f,0px solid #ffa70f");
+            obj.set_textAlign("center");
+            obj.set_verticalAlign("bottom");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,800,this,function(p){});
@@ -158,8 +168,14 @@
         this.registerScript("Form_ProductOption.xfdl", function() {
         this.Form_ProductOption_onload = function(obj,e)
         {
+            var oArgs = this.getOwnerFrame().arguments;
+            if (oArgs && oArgs.REFRESH == "Y") {
+                this.fn_search();
+            }
+
         	this.fn_search();
         };
+
 
 
         /***** (유틸) Dataset 컬럼 세팅 공통 함수 *****/
@@ -172,11 +188,12 @@
 
 
 
+
         /***** 조회조건 Dataset 구성 *****/
         this.fn_makeSearchCond = function() {
             // 1) 초기화 및 한 줄 추가
             this.ds_searchCond.clearData();
-            this.ds_searchCond.addRow();
+        	this.ds_searchCond.addRow();
 
             // 2) 콤보/에딧 값을 ds_searchCond에 넣기
             this._setCond(this.ds_searchCond, "SEARCH_TYPE",     this.cmb_searchType.value);                   // 검색분류
@@ -186,7 +203,7 @@
 
 
 
-        //조회버튼
+        //조회버튼(검색)
         this.btn_view_onclick = function(obj,e)
         {
         	this.fn_search();
@@ -198,11 +215,12 @@
         this.fn_search = function() {
             // 1) 조회조건 Dataset 구성
             this.fn_makeSearchCond();
-
             // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
             this.transaction(
                 "selectOptionByAdmin",            // 서비스 ID (콜백 분기용)
-                "svc::selectOptionByAdmin.do",    // 컨트롤러 URL
+        /*		"svc::/selectOptionByAdmin.do",    // 컨트롤러 URL*/
+        		"svc::/selectOptionByAdmin.do?time=" + new Date().getTime(),    // 컨트롤러 URL
+
                 "ds_searchCond=ds_searchCond",         // inDatasets: 조건 묶음
                 "ds_out_opList=ds_out_opList",       // outDatasets: 결과 그리드 바인딩
                 "",                                    // args는 사용하지 않음 (전부 Dataset으로 처리)
@@ -216,9 +234,9 @@
 
 
         //콜백
-        this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+        this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg){
             if (nErrorCode < 0) {
-                this.alert("오류: "+strErrorMag);
+                this.alert("오류: "+strErrorMsg);
         		return;
             }
 
@@ -243,21 +261,14 @@
 
 
         //옵션등록(페이지이동)
+        // 옵션등록 버튼 클릭 시 (무조건 신규 등록)
         this.btn_reg_onclick = function(obj,e)
         {
-
-        	this.go("product::Form_ProductOptionReg.xfdl");
+        	this.fn_openOptionForm("INSERT"); // 등록 모드
         };
 
 
-
-
-
-
-
-
-
-
+        //체크박스 chk 로 선택된 옵션(진열상태 요청 ,선택된 값만 반전 토글버튼 )
         this.btn_toggle_onclick = function(obj, e)
         {
             var selRows = [];
@@ -429,20 +440,45 @@
             var addPrice   = this.ds_out_opList.getColumn(nRow, "ADDITIONAL_PRICE");
 
             // 확인 메시지
-            if (confirm("해당 옵션 정보를 수정하시겠습니까?")) {
-                var sArgs = "OPTION_ID=" + optionId
-                          + " OPTION_NAME=" + optionName
-                          + " OPTION_VALUE=" + optionVal
-                          + " ADDITIONAL_PRICE=" + addPrice;
+            if (this.confirm("해당 옵션 정보를 수정하시겠습니까?")) {
+               this.fn_openOptionForm("UPDATE", {
+        			"OPTION_ID"        : optionId,
+                    "OPTION_NAME"      : optionName,
+                    "OPTION_VALUE"     : optionVal,
+                    "ADDITIONAL_PRICE" : addPrice
 
-                // 새창 열기
-                var objChild = new ChildFrame();
-                objChild.init("OptionRegPop", 200, 100, 900, 600, null, null, "Form::Form_ProductOptionReg.xfdl");
-                objChild.set_titletext("옵션 등록/수정");
-                objChild.showModal(this.getOwnerFrame(), sArgs, this, "fn_callback");
-            }
+        			});
+        		}
         };
 
+
+
+        /**
+         * 옵션 등록/수정 폼 열기
+         * @param {string} mode - "INSERT" or "UPDATE"
+         * @param {object} args - 옵션 데이터 (수정일 경우)
+         */
+        this.fn_openOptionForm = function(mode, args)
+        {
+            var app = nexacro.getApplication();
+            var workFrame = app.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
+
+            // 전달값 만들기 // Object Merge 동작 args객체에 들어있는 모든 key-value 쌍 하나씩 꺼내서 oArgs에 복사
+            var oArgs = { MODE: mode };
+            if (args) {
+                for (var k in args) {
+                    oArgs[k] = args[k];
+                }
+            }
+
+            trace("fn_openOptionForm 전달 >>> " + JSON.stringify(oArgs));
+
+            // arguments 세팅
+            workFrame.arguments = oArgs;
+
+            // 등록/수정 화면 열기
+            workFrame.set_formurl("product::Form_ProductOptionReg.xfdl");
+        };
 
         });
         
@@ -458,6 +494,7 @@
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
             this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
+            this.sta_listTitle00.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.ds_out_opList.addEventHandler("oncolumnchanged",this.ds_out_opList_oncolumnchanged,this);
             this.ds_in.addEventHandler("oncolumnchanged",this.ds_out_opList_oncolumnchanged,this);
         };

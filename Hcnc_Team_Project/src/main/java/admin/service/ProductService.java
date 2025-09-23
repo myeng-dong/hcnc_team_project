@@ -24,9 +24,7 @@ public class ProductService {
         productMapper.insertProduct(p);
     }
 
-    public void insertOption(Map<String,Object> p) {
-        productMapper.insertOption(p);
-    }
+
 
     public void insertInventory(Map<String,Object> p) {
         productMapper.insertInventory(p);
@@ -87,6 +85,18 @@ public class ProductService {
 
 	public void updateProductVisibleByAdmin(Map<String, Object> p) {
 		productMapper.updateProductVisibleByAdmin(p);
+	}
+	
+    public void insertOption(Map<String,Object> p) {
+        productMapper.insertOption(p);
+    }
+    
+	public void updateOption(Map<String, Object> option) {
+		productMapper.updateOption(option);
+	}
+
+	public Map<String, Object> selectOptionOneByAdmin(Long optionId) {
+		return productMapper.selectOptionOneByAdmin(optionId);
 	}
 
 
