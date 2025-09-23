@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
-<!DOCTYPE html>
 <jsp:include page="../layout/headerlink.jsp" />
 
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -15,6 +14,7 @@
 <div class="container-wrap">
 	<jsp:include page="../layout/header.jsp" />
     <div class="container noticedetail">
+      <div class="inner">
     	<div class="breadcrumb">
 	      <a href="/">홈</a>
 	      <span>›</span>
@@ -66,6 +66,7 @@
 				</div>
 	        </div>
     	</div>
+      </div>	
     <jsp:include page="../layout/footer.jsp" />
 </div>
 

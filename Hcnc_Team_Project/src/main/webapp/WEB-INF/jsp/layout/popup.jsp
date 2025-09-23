@@ -11,22 +11,22 @@
   <div class="popup-overlay" id="popupOverlay"></div>
 
   <div class="popup" id="mainPopup">
-    <div class="popup-swiper swiper">
+    <div class="popupSwiper swiper">
       <div class="swiper-wrapper">
         <!-- 모든 배너를 슬라이드로 추가 -->
-        <c:forEach var="banner" items="${popupBanners}">
+        <c:forEach var="pBanner" items="${popupBanners}">
           <div class="swiper-slide">
             <c:choose>
-              <c:when test="${not empty banner.LINKED_URL}">
-                <a href="${banner.LINKED_URL}" target="_blank" style="display: block; width: 100%; height: 100%;">
+              <c:when test="${not empty pBanner['LINKED_URL']}">
+                <a href="${pBanner['LINKED_URL']}" target="_blank" style="display: block; width: 100%; height: 100%;">
                   <div class="img-area">
-                  	<img src="${banner.IMG_PATH}" alt="${banner.IMG_TITLE}">
+                  	<img src="${pBanner['IMG_PATH']}" alt="${pBanner['IMG_TITLE']}">
                   </div>
                 </a>
               </c:when>
               <c:otherwise>
                 <div class="img-area">
-                  	<img src="${banner.IMG_PATH}" alt="${banner.IMG_TITLE}">
+                  	<img src="${pBanner['IMG_PATH']}" alt="${pBanner['IMG_TITLE']}">
                   </div>
               </c:otherwise>
             </c:choose>
@@ -83,12 +83,12 @@
 }
 
 /* 팝업 전용 슬라이더 */
-.popup-swiper { 
+.popupSwiper { 
   width: 100%; 
   height: 400px;
 }
 
-.popup-swiper .swiper-slide {
+.popupSwiper .swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,11 +96,11 @@
   border-top-right-radius: 8px;
 }
 
-.popup-swiper .img-area {
+.popupSwiper .img-area {
   width: 100%;
 }
 
-.popup-swiper .img-area img {
+.popupSwiper .img-area img {
   width: 100%;
 }
 
@@ -145,21 +145,20 @@ document.addEventListener('DOMContentLoaded', function() {
       overlay.style.display = "block";
       
       // Swiper 초기화
-      new Swiper(popup.querySelector(".popup-swiper"), {
-        loop: true, // 여러 슬라이드가 있으므로 loop 활성화
-        pagination: { 
-          el: popup.querySelector('.popup-swiper-pagination'), 
-          clickable: true 
-        },
-        navigation: {
-          nextEl: popup.querySelector('.popup-swiper-button-next'),
-          prevEl: popup.querySelector('.popup-swiper-button-prev')
-        },
-        autoplay: {
-          delay: 5000, // 5초마다 자동 슬라이드
-          disableOnInteraction: false,
-        }
-      });
+      var swiper = new Swiper(".popupSwiper", {
+	    autoplay: {      
+	      delay: 2500,
+	      disableOnInteraction: false,
+	    },
+	    loop: true,
+	    loopAdditionalSlides: 1,
+	    slidesPerView: 1,       
+	    spaceBetween: 20,       // 슬라이드 사이 여백(px)
+	    pagination: {
+	      el: ".popup-swiper-pagination",
+	      clickable: true,
+	    },
+	  });
     }
   }
 
