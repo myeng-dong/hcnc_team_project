@@ -26,6 +26,7 @@ public class UserProductService {
 	}
 
 
+
 	public List<Map<String, Object>> selectHotProductListByUser() {
 		// TODO Auto-generated method stub
 		return userProductMapper.selectHotProductListByUser();
