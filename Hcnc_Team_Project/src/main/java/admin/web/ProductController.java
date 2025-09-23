@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+import com.nexacro17.xapi.data.DataSet;
 
 import admin.service.ProductService;
 
@@ -190,6 +191,29 @@ public class ProductController {
     
     
     
+    //옵션 저장
+    @RequestMapping("/saveOptionByAdmin.do")
+    public NexacroResult saveOptionByAdmin(
+    		@ParamDataSet(name = "ds_optionReg") List<Map<String, Object>> optionList) {
+    	
+    	NexacroResult result = new NexacroResult();
+    	
+    	try {
+			for(Map<String, Object> option : optionList) {
+				int rowType = (int)option.get("rowType"); // Nexacro dataset rowType
+				
+				if(rowType == DataSet.ROW_TYPE_INSERTED) {
+					productService.insertOption(option);
+				}
+				else if(rowType == DataSet.ROW_TYPE_UPDATED) {
+					productService.updateOption(option);
+				}
+				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
     
     
     

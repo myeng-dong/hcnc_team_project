@@ -150,15 +150,7 @@
 		#{COST_PRICE}, #{IS_VISIBLE}, NOW(), #{INPUT_ID})
 	</insert>
 
-	<!-- 옵션 등록 -->
-	<insert id="insertOption" parameterType="java.util.Map"
-		useGeneratedKeys="true" keyProperty="OPTION_ID">
-		INSERT INTO options
-		(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
-		VALUES
-		(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(),
-		#{INPUT_ID})
-	</insert>
+
 
 	<!-- 재고 등록 -->
 	<insert id="insertInventory" parameterType="java.util.Map"
@@ -317,7 +309,7 @@
 		ORDER BY o.OPTION_ID
 	</select>
 
-
+	<!-- 옵션 진열여부 -->
 	<update id="updateOptionVisibleByAdmin"
 		parameterType="java.util.Map">
 		UPDATE OPTIONS
@@ -326,8 +318,16 @@
 		WHERE OPTION_ID = #{OPTION_ID}
 	</update>
 
-
-
+	
+		<!-- 옵션 등록 -->
+	<insert id="insertOption" parameterType="java.util.Map"
+		useGeneratedKeys="true" keyProperty="OPTION_ID">
+		INSERT INTO OPTIONS
+			(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, IS_VISIBLE, INPUT_DT, INPUT_ID)
+		VALUES
+			(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE},'Y', NOW(),
+			#{INPUT_ID})
+	</insert>
 
 
 

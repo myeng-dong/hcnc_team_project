@@ -158,8 +158,12 @@
         this.registerScript("Form_ProductOption.xfdl", function() {
         this.Form_ProductOption_onload = function(obj,e)
         {
-        	this.fn_search();
+            var oArgs = this.getOwnerFrame().arguments;
+            if (oArgs && oArgs.REFRESH == "Y") {
+                this.fn_search();
+            }
         };
+
 
 
         /***** (유틸) Dataset 컬럼 세팅 공통 함수 *****/
@@ -186,7 +190,7 @@
 
 
 
-        //조회버튼
+        //조회버튼(검색)
         this.btn_view_onclick = function(obj,e)
         {
         	this.fn_search();
@@ -216,9 +220,9 @@
 
 
         //콜백
-        this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+        this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg){
             if (nErrorCode < 0) {
-                this.alert("오류: "+strErrorMag);
+                this.alert("오류: "+strErrorMsg);
         		return;
             }
 
@@ -243,21 +247,14 @@
 
 
         //옵션등록(페이지이동)
+        // 옵션등록 버튼 클릭 시 (무조건 신규 등록)
         this.btn_reg_onclick = function(obj,e)
         {
-
-        	this.go("product::Form_ProductOptionReg.xfdl");
+        	this.fn_openOptionForm("INSERT"); // 등록 모드
         };
 
 
-
-
-
-
-
-
-
-
+        //체크박스 chk 로 선택된 옵션(진열상태 요청 ,선택된 값만 반전 토글버튼 )
         this.btn_toggle_onclick = function(obj, e)
         {
             var selRows = [];
@@ -429,20 +426,45 @@
             var addPrice   = this.ds_out_opList.getColumn(nRow, "ADDITIONAL_PRICE");
 
             // 확인 메시지
-            if (confirm("해당 옵션 정보를 수정하시겠습니까?")) {
-                var sArgs = "OPTION_ID=" + optionId
-                          + " OPTION_NAME=" + optionName
-                          + " OPTION_VALUE=" + optionVal
-                          + " ADDITIONAL_PRICE=" + addPrice;
+            if (this.confirm("해당 옵션 정보를 수정하시겠습니까?")) {
+               this.fn_openOptionForm("UPDATE", {
+        			"OPTION_ID"        : optionId,
+                    "OPTION_NAME"      : optionName,
+                    "OPTION_VALUE"     : optionVal,
+                    "ADDITIONAL_PRICE" : addPrice
 
-                // 새창 열기
-                var objChild = new ChildFrame();
-                objChild.init("OptionRegPop", 200, 100, 900, 600, null, null, "Form::Form_ProductOptionReg.xfdl");
-                objChild.set_titletext("옵션 등록/수정");
-                objChild.showModal(this.getOwnerFrame(), sArgs, this, "fn_callback");
-            }
+        			});
+        		}
         };
 
+
+
+        /**
+         * 옵션 등록/수정 폼 열기
+         * @param {string} mode - "INSERT" or "UPDATE"
+         * @param {object} args - 옵션 데이터 (수정일 경우)
+         */
+        this.fn_openOptionForm = function(mode, args)
+        {
+            var app = nexacro.getApplication();
+            var workFrame = app.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
+
+            // 전달값 만들기 // Object Merge 동작 args객체에 들어있는 모든 key-value 쌍 하나씩 꺼내서 oArgs에 복사
+            var oArgs = { MODE: mode };
+            if (args) {
+                for (var k in args) {
+                    oArgs[k] = args[k];
+                }
+            }
+
+            trace("fn_openOptionForm 전달 >>> " + JSON.stringify(oArgs));
+
+            // arguments 세팅
+            workFrame.arguments = oArgs;
+
+            // 등록/수정 화면 열기
+            workFrame.set_formurl("product::Form_ProductOptionReg.xfdl");
+        };
 
         });
         
