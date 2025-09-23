@@ -59,12 +59,12 @@
         <Static id="stc_total_prefix" text="총 [ " left="168" top="221" height="20" width="20"/>
         <Static id="stc_total_value" text="" left="200" top="221" textDecoration="underline" height="20" width="20"/>
         <Static id="stc_total_suffix" text=" ]건" left="222" top="221" height="20" width="20"/>
-        <Button id="btn_show" text="선택 진열" left="630" top="221" width="92" height="35" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_show_onclick"/>
-        <Button id="btn_hide" text="진열 취소" left="740" top="221" width="92" height="35" color="#FFFFFF" background="#18b391" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_hide_onclick"/>
+        <Button id="btn_show" text="선택 진열" left="810" top="221" width="92" height="35" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_show_onclick"/>
+        <Button id="btn_hide" text="진열 취소" left="920" top="221" width="92" height="35" color="#FFFFFF" background="#18b391" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_hide_onclick"/>
         <Button id="btn_reg" text="옵션등록" left="1060" top="221" width="120" height="35" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="0" onclick="btn_reg_onclick" cursor="pointer"/>
         <Static id="sta_listTitle" text="옵션 목록" left="50" height="61" top="201" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="1" color="#232323"/>
         <Static id="sta_prodType" text="옵션검색" left="40" height="40" top="102" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="4" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Button id="btn_view" text="조회" left="690" top="105" width="72" height="34" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="5" onclick="btn_view_onclick" cursor="pointer"/>
+        <Button id="btn_view" text="조회" left="690" top="105" width="72" height="34" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="5" cursor="pointer" onclick="btn_view_onclick"/>
         <Combo id="cmb_searchType" left="179" top="105" width="150" height="35" text="상품명" taborder="6" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME">
           <Dataset id="innerdataset">
             <ColumnInfo>
@@ -91,6 +91,7 @@
             </Rows>
           </Dataset>
         </Combo>
+        <Static id="sta_listTitle00" text="옵션 더블클릭시 수정가능" left="413" height="61" top="201" font="11pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="215" taborder="12" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -134,6 +135,8 @@
     if (oArgs && oArgs.REFRESH == "Y") {
         this.fn_search();
     }
+	
+	this.fn_search();
 };
 
 
@@ -148,11 +151,12 @@ this._setCond = function(ds, col, val) {
 
 
 
+
 /***** 조회조건 Dataset 구성 *****/
 this.fn_makeSearchCond = function() {
     // 1) 초기화 및 한 줄 추가
     this.ds_searchCond.clearData();
-    this.ds_searchCond.addRow();
+	this.ds_searchCond.addRow();
 	
     // 2) 콤보/에딧 값을 ds_searchCond에 넣기
     this._setCond(this.ds_searchCond, "SEARCH_TYPE",     this.cmb_searchType.value);                   // 검색분류
@@ -174,11 +178,12 @@ this.btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 this.fn_search = function() {
     // 1) 조회조건 Dataset 구성
     this.fn_makeSearchCond();
-	
     // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
     this.transaction(
         "selectOptionByAdmin",            // 서비스 ID (콜백 분기용)
-        "svc::selectOptionByAdmin.do",    // 컨트롤러 URL
+/*		"svc::/selectOptionByAdmin.do",    // 컨트롤러 URL*/
+		"svc::/selectOptionByAdmin.do?time=" + new Date().getTime(),    // 컨트롤러 URL
+		
         "ds_searchCond=ds_searchCond",         // inDatasets: 조건 묶음
         "ds_out_opList=ds_out_opList",       // outDatasets: 결과 그리드 바인딩
         "",                                    // args는 사용하지 않음 (전부 Dataset으로 처리)

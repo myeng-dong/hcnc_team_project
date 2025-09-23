@@ -69,7 +69,7 @@
             obj.set_text(" ]건");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_show","630","221","92","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_show","810","221","92","35",null,null,null,null,null,null,this);
             obj.set_text("선택 진열");
             obj.set_color("#FFFFFF");
             obj.set_background("#f09d37");
@@ -77,7 +77,7 @@
             obj.set_font("bold 11pt/normal \"Arial\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_hide","740","221","92","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_hide","920","221","92","35",null,null,null,null,null,null,this);
             obj.set_text("진열 취소");
             obj.set_color("#FFFFFF");
             obj.set_background("#18b391");
@@ -136,6 +136,16 @@
             obj.set_value("PRODUCT_NAME");
             obj.set_index("1");
             this.addChild(obj.name, obj);
+
+            obj = new Static("sta_listTitle00","413","201","215","61",null,null,null,null,null,null,this);
+            obj.set_text("옵션 더블클릭시 수정가능");
+            obj.set_font("11pt/normal \"Arial\"");
+            obj.set_taborder("12");
+            obj.set_color("#383838");
+            obj.set_border("0px none,0px none,5px solid #ffa70f,0px solid #ffa70f");
+            obj.set_textAlign("center");
+            obj.set_verticalAlign("bottom");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,800,this,function(p){});
@@ -162,6 +172,8 @@
             if (oArgs && oArgs.REFRESH == "Y") {
                 this.fn_search();
             }
+
+        	this.fn_search();
         };
 
 
@@ -176,11 +188,12 @@
 
 
 
+
         /***** 조회조건 Dataset 구성 *****/
         this.fn_makeSearchCond = function() {
             // 1) 초기화 및 한 줄 추가
             this.ds_searchCond.clearData();
-            this.ds_searchCond.addRow();
+        	this.ds_searchCond.addRow();
 
             // 2) 콤보/에딧 값을 ds_searchCond에 넣기
             this._setCond(this.ds_searchCond, "SEARCH_TYPE",     this.cmb_searchType.value);                   // 검색분류
@@ -202,11 +215,12 @@
         this.fn_search = function() {
             // 1) 조회조건 Dataset 구성
             this.fn_makeSearchCond();
-
             // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
             this.transaction(
                 "selectOptionByAdmin",            // 서비스 ID (콜백 분기용)
-                "svc::selectOptionByAdmin.do",    // 컨트롤러 URL
+        /*		"svc::/selectOptionByAdmin.do",    // 컨트롤러 URL*/
+        		"svc::/selectOptionByAdmin.do?time=" + new Date().getTime(),    // 컨트롤러 URL
+
                 "ds_searchCond=ds_searchCond",         // inDatasets: 조건 묶음
                 "ds_out_opList=ds_out_opList",       // outDatasets: 결과 그리드 바인딩
                 "",                                    // args는 사용하지 않음 (전부 Dataset으로 처리)
@@ -480,6 +494,7 @@
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
             this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
+            this.sta_listTitle00.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.ds_out_opList.addEventHandler("oncolumnchanged",this.ds_out_opList_oncolumnchanged,this);
             this.ds_in.addEventHandler("oncolumnchanged",this.ds_out_opList_oncolumnchanged,this);
         };

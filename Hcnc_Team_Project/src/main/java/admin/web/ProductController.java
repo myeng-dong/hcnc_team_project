@@ -190,30 +190,67 @@ public class ProductController {
     
     
     
+	 
+	 
+	// 옵션 단건 조회(옵션 저장시 타입 노멀값으로 가져오기위해)
+	 @RequestMapping("/selectOptionOneByAdmin.do")
+	 public NexacroResult selectOptionOneByAdmin(
+	         @ParamVariable(name="OPTION_ID") Long optionId) {
+
+	     NexacroResult result = new NexacroResult();
+	     Map<String,Object> option = productService.selectOptionOneByAdmin(optionId);
+	     if(option != null) {
+	         result.addDataSet("ds_optionReg", Collections.singletonList(option));
+	     }
+	     return result;
+	 }
+
+	 
+	 
+	 
     
-    //옵션 저장
+    // 옵션 저장
     @RequestMapping("/saveOptionByAdmin.do")
     public NexacroResult saveOptionByAdmin(
-    		@ParamDataSet(name = "ds_optionReg") List<Map<String, Object>> optionList) {
+    		@ParamDataSet(name = "ds_optionReg") List<Map<String, Object>> optionList,
+    		HttpServletRequest request) {
     	
     	NexacroResult result = new NexacroResult();
     	
     	try {
-			for(Map<String, Object> option : optionList) {
-				int rowType = (int)option.get("rowType"); // Nexacro dataset rowType
-				
-				if(rowType == DataSet.ROW_TYPE_INSERTED) {
-					productService.insertOption(option);
-				}
-				else if(rowType == DataSet.ROW_TYPE_UPDATED) {
-					productService.updateOption(option);
-				}
-				
-			}
+    		
+    		String loginId = (String) request.getSession().getAttribute("loginId");
+    		
+    		
+    		
+    		
+    		for (Map<String, Object> option : optionList) {
+    		    Object optionId = option.get("OPTION_ID");
+
+    		    if (optionId != null && !"".equals(optionId.toString())) {
+    		        // PK 있으면 update
+    		        option.put("UPDATE_ID", loginId);
+    		        productService.updateOption(option);
+    		    } else {
+    		        // PK 없으면 insert
+    		        option.put("INPUT_ID", loginId);
+    		        productService.insertOption(option);
+    		    }
+    		}
+
+			
+			result.setErrorCode(0);
+			result.setErrorMsg("옵션 저장 성공");
+			
 		} catch (Exception e) {
-			// TODO: handle exception
+			result.setErrorCode(-1);
+			result.setErrorMsg("옵션 저장 실패" + e.getMessage());
+			
 		}
+    	
+    	return result;
     }
+    
     
     
     

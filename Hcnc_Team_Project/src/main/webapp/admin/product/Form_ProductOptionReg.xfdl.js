@@ -19,7 +19,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_optionReg", this);
-            obj._setContents("<ColumnInfo><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -100,35 +100,36 @@
         this.Form_ProductOptionReg_onload = function(obj,e)
         {
             var app = nexacro.getApplication();
-            var oArgs = null;
-
-            try {
-                oArgs = app.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments;
-            } catch(ex) {}
-
-            trace("받은 oArgs >>> " + JSON.stringify(oArgs));
-
-            this.ds_optionReg.clearData();
-            var nRow = this.ds_optionReg.addRow();
+            var oArgs = this.getOwnerFrame().arguments;
 
             if (oArgs && oArgs.MODE == "UPDATE") {
-                // 수정 모드
-                this.ds_optionReg.setColumn(nRow, "OPTION_ID", oArgs.OPTION_ID);
-                this.ds_optionReg.setColumn(nRow, "OPTION_NAME", oArgs.OPTION_NAME);
-                this.ds_optionReg.setColumn(nRow, "OPTION_VALUE", oArgs.OPTION_VALUE);
-                this.ds_optionReg.setColumn(nRow, "ADDITIONAL_PRICE", oArgs.ADDITIONAL_PRICE);
+                // 단건조회 호출
+                this.transaction(
+                    "selectOptionOneByAdmin",
+                    "svc::selectOptionOneByAdmin.do",
+                    "",
+                    "ds_optionReg=ds_optionReg",
+                    "OPTION_ID=" + oArgs.OPTION_ID,
+                    "fn_callback",
+                    true
+                );
 
                 this.btn_addRow.set_visible(false);
                 this.btn_delRow.set_visible(false);
-        		this.sta_title.set_text("옵션 [ 수정 ] 모드");
+                this.sta_title.set_text("옵션 [ 수정 ] 모드");
             }
             else {
-                // 등록 모드
+                // 신규 등록 모드
+                this.ds_optionReg.clearData();
+                var nRow = this.ds_optionReg.addRow();
+                this.ds_optionReg.setColumn(nRow, "INPUT_ID", this.loginUserId);
+
                 this.btn_addRow.set_visible(true);
                 this.btn_delRow.set_visible(true);
-        		this.sta_title.set_text("옵션 [ 등록 ]모드");
+                this.sta_title.set_text("옵션 [ 등록 ] 모드");
             }
         };
+
 
 
 
@@ -167,69 +168,29 @@
         // 저장 (등록/수정)
         this.btn_save_onclick = function(obj,e)
         {
-        	if(!this.confirm("저장하시겠습니까?")) return;
+            if(!this.confirm("저장하시겠습니까?")) return;
 
-        	this.transaction(
-        		"saveOptionByAdmin",
-        		"svc::saveOptionByAdmin.do",
-        		"ds_optionReg=ds_optionReg",
-        		"",
-        		"",
-        		"fn_callback",
-        		true
-        	);
-
-
-        //------------------------------------------------------------------------------
-
-
-        // 	var app = nexacro.Application();
-        // 	var oArgs = app.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments;
-        //
-        // 	// 수정모드
-        // 	if (oArgs && oArgs.MODE = "UPDATE")
-        // 	{
-        // 			if (!this.confirm("옵션을 수정하시겠습니까?")) return;
-        //
-        // 			this.transaction(
-        // 				"updateOptionByAdmin",
-        // 				"svc::updateOptionByAdmin.do",
-        // 				"ds_optionReg=ds_optionReg",
-        // 				"",
-        // 				"",
-        // 				"fn_callback",
-        // 				ture
-        // 		);
-        // 	}
-        // 	else	// 등록 모드
-        // 	{
-        // 		if(!this.confirm("신규 옵션을 등록하시겠습니까?")) return;
-        //
-        // 		this.transaction(
-        // 			"insertOptionByAdmin",
-        // 			"svc::insertOptionByAdmin.do",
-        // 			"ds_optionReg=ds_optionReg",
-        // 			"",
-        // 			"",
-        // 			"fn_callback",
-        // 			true
-        // 		);
-        // 	}
-
-        // ------------------------------------------------------------🔝 등록 수정 따로 처리할때
-
-
-
-
-
-
-
-         };
+            this.transaction(
+                "saveOptionByAdmin",
+                "svc::saveOptionByAdmin.do",
+                "ds_optionReg=ds_optionReg:U",  // 등록: Inserted(2), 수정: Updated(4)
+                "",
+                "",
+                "fn_callback",
+                true
+            );
+        };
 
 
         //콜백함수
         this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
         {
+
+
+        	trace("=== fn_callback ===");
+            trace("ServiceID=" + strSvcID + ", ErrorCode=" + nErrorCode + ", ErrorMsg=" + strErrorMsg);
+
+
         	if (nErrorCode < 0)
         	{
         		this.alert("에러" + strErrorMsg);
@@ -242,15 +203,7 @@
         			this.btn_cancel_onclick();
         			break;
 
-        	//---------- 따로 할때
-        // 		case "insertOptionByAdmin":
-        // 			this.alert("옵션이 등록되었습니다.");
-        // 			this.btn_cancel_onclick(); // 목록 화면으로 이동
-        // 			break;
-        // 		case "updateOptionByAdmin":
-        // 			this.alert("옵션이 수정되었습니다.");
-        // 			this.btn_cancel_onclick();
-        // 			break;
+
 
         		}
         };

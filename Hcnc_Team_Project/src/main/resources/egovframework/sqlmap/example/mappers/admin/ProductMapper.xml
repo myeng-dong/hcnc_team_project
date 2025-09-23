@@ -102,7 +102,7 @@
 	<select id="selectMainCategoryComboByAdmin"
 		resultType="java.util.Map">
 		SELECT MAIN_CATE_ID
-		, MAIN_CATE_NM
+			, MAIN_CATE_NM
 		FROM MAIN_CATEGORIES
 		ORDER BY MAIN_CATE_NM
 	</select>
@@ -318,16 +318,49 @@
 		WHERE OPTION_ID = #{OPTION_ID}
 	</update>
 
-	
+	<!-- 옵션 단건 조회 -->
+	<select id="selectOptionOneByAdmin" parameterType="long" resultType="map">
+    SELECT OPTION_ID
+         , OPTION_NAME
+         , OPTION_VALUE
+         , ADDITIONAL_PRICE
+         , IS_VISIBLE
+         , INPUT_ID
+         , INPUT_DT
+         , UPDATE_ID
+         , UPDATE_DT
+      FROM OPTIONS
+     WHERE OPTION_ID = #{OPTION_ID}
+</select>
+
+
+
 		<!-- 옵션 등록 -->
-	<insert id="insertOption" parameterType="java.util.Map"
-		useGeneratedKeys="true" keyProperty="OPTION_ID">
+	<insert id="insertOption" parameterType="java.util.Map">
 		INSERT INTO OPTIONS
-			(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, IS_VISIBLE, INPUT_DT, INPUT_ID)
+			(OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
 		VALUES
-			(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE},'Y', NOW(),
-			#{INPUT_ID})
+			(#{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID})
 	</insert>
+
+
+
+
+	<!-- 옵션 수정 -->
+	<update id="updateOption" parameterType="java.util.Map">
+		UPDATE OPTIONS
+		   SET OPTION_NAME = #{OPTION_NAME}
+			  ,OPTION_VALUE = #{OPTION_VALUE}
+			  ,ADDITIONAL_PRICE = #{ADDITIONAL_PRICE}
+			  ,UPDATE_DT = NOW()
+			  ,UPDATE_ID = #{UPDATE_ID}
+		 WHERE OPTION_ID = #{OPTION_ID}
+	</update>
+
+
+
+
+
 
 
 
