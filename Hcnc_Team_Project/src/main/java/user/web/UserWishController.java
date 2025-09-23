@@ -131,6 +131,19 @@ public class UserWishController {
         System.out.println("장바구니 추가 파라미터: " + param);
         
         try {
+            // 필수 파라미터 체크
+            if (param.get("productId") == null || param.get("memberId") == null) {
+                mav.addObject("success", false);
+                mav.addObject("message", "필수 파라미터가 누락되었습니다.");
+                return mav;
+            }
+            
+            // quantity가 없으면 기본값 1로 설정
+            if (param.get("quantity") == null) {
+                param.put("quantity", 1);
+            }
+            
+            // 서비스에서 처리 (중복 체크 포함)
             int result = userWishService.addToCart(param);
             
             if(result > 0) {
@@ -149,6 +162,5 @@ public class UserWishController {
         
         return mav;
     }
-	
 	
 }

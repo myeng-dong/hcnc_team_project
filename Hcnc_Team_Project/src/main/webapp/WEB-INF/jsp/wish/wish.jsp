@@ -6,116 +6,145 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/wish/wish.css'/>" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <style>
-.wishlist-grid.list-view {
-    display: block !important;
-    grid-template-columns: none !important;
-}
+	.wishlist-grid.list-view {
+	    display: block !important;
+	    grid-template-columns: none !important;
+	}
+	
+	.wishlist-grid.list-view .wishlist-item {
+	    display: flex !important;
+	    align-items: center !important;
+	    height: 80px !important;
+	    padding: 16px 20px !important;
+	    margin-bottom: 1px !important;
+	    border-radius: 0 !important;
+	    border-bottom: 1px solid #f0f0f0 !important;
+	    background: white !important;
+	}
+	
+	.wishlist-grid.list-view .wishlist-item:hover {
+	    background: #f8f9fa !important;
+	    transform: none !important;
+	    box-shadow: none !important;
+	}
+	
+	.wishlist-grid.list-view .item-image {
+	    width: 60px !important;
+	    height: 60px !important;
+	    flex-shrink: 0 !important;
+	    margin-right: 16px !important;
+	    border-radius: 6px !important;
+	}
+	
+	.wishlist-grid.list-view .wish-remove {
+	    position: static !important;
+	    width: 28px !important;
+	    height: 28px !important;
+	    margin-left: 20px !important;
+	    opacity: 0.6 !important;
+	    font-size: 14px !important;
+	    order: 10 !important;
+	    background: rgba(220, 6, 48, 0.1) !important;
+	    color: #DC0630 !important;
+	    border-radius: 50% !important;
+	    display: flex !important;
+	    align-items: center !important;
+	    justify-content: center !important;
+	    transition: all 0.3s ease !important;
+	}
+	
+	.wishlist-grid.list-view .item-info {
+	    display: flex !important;
+	    align-items: center !important;
+	    flex: 1 !important;
+	    padding: 0 !important;
+	    gap: 20px !important;
+	    flex-direction: row !important;
+	}
+	
+	.wishlist-grid.list-view .item-details {
+	    flex: 1 !important;
+	    min-width: 200px !important;
+	}
+	
+	.wishlist-grid.list-view .item-name {
+	    font-size: 15px !important;
+	    font-weight: 600 !important;
+	    margin: 0 0 4px 0 !important;
+	    height: auto !important;
+	    color: #333 !important;
+	}
+	
+	.wishlist-grid.list-view .item-category {
+	    font-size: 11px !important;
+	    color: #888 !important;
+	    margin: 0 !important;
+	    text-transform: uppercase !important;
+	}
 
-.wishlist-grid.list-view .wishlist-item {
-    display: flex !important;
-    align-items: center !important;
-    height: 80px !important;
-    padding: 16px 20px !important;
-    margin-bottom: 1px !important;
-    border-radius: 0 !important;
-    border-bottom: 1px solid #f0f0f0 !important;
-    background: white !important;
-}
-
-.wishlist-grid.list-view .wishlist-item:hover {
-    background: #f8f9fa !important;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-.wishlist-grid.list-view .item-image {
-    width: 60px !important;
-    height: 60px !important;
-    flex-shrink: 0 !important;
-    margin-right: 16px !important;
-    border-radius: 6px !important;
-}
-
-.wishlist-grid.list-view .wish-remove {
-    position: static !important;
-    width: 28px !important;
-    height: 28px !important;
-    margin-left: 20px !important;
-    opacity: 0.6 !important;
-    font-size: 14px !important;
-    order: 10 !important;
-    background: rgba(220, 6, 48, 0.1) !important;
-    color: #DC0630 !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: all 0.3s ease !important;
-}
-
-.wishlist-grid.list-view .item-info {
-    display: flex !important;
-    align-items: center !important;
-    flex: 1 !important;
-    padding: 0 !important;
-    gap: 20px !important;
-    flex-direction: row !important;
-}
-
-.wishlist-grid.list-view .item-details {
-    flex: 1 !important;
-    min-width: 200px !important;
-}
-
-.wishlist-grid.list-view .item-name {
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    margin: 0 0 4px 0 !important;
-    height: auto !important;
-    color: #333 !important;
-}
-
-.wishlist-grid.list-view .item-category {
-    font-size: 11px !important;
-    color: #888 !important;
-    margin: 0 !important;
-    text-transform: uppercase !important;
-}
-
-.wishlist-grid.list-view .item-price {
-    min-width: 100px !important;
-    margin: 0 !important;
-    text-align: right !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-end !important;
-}
-
-.wishlist-grid.list-view .current-price {
-    font-size: 15px !important;
-    font-weight: 700 !important;
-}
-
-.wishlist-grid.list-view .item-status {
-    min-width: 80px !important;
-    text-align: center !important;
-    color: #666 !important;
-    font-size: 12px !important;
-}
-
-.wishlist-grid.list-view .item-actions {
-    min-width: 200px !important;
-    gap: 8px !important;
-    margin: 0 !important;
-    display: flex !important;
-}
-
-.wishlist-grid.list-view .btn-cart,
-.wishlist-grid.list-view .btn-detail {
-    padding: 6px 12px !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-}
+	.wishlist-grid.list-view .item-price {
+	    min-width: 140px !important;
+	    margin: 0 !important;
+	    text-align: right !important;
+	    display: flex !important;
+	    flex-direction: column !important;
+	    align-items: flex-end !important;
+	    justify-content: center !important;
+	    gap: 4px !important;
+	    line-height: 1.2 !important;
+	}
+	
+	.wishlist-grid.list-view .current-price {
+	    font-size: 15px !important;
+	    font-weight: 700 !important;
+	    color: #DC0630 !important;
+	    display: block !important;
+	}
+	
+	.wishlist-grid.list-view .discount {
+	    background: #DC0630 !important;
+	    color: white !important;
+	    padding: 1px 4px !important;
+	    font-size: 9px !important;
+	    font-weight: 700 !important;
+	    border-radius: 2px !important;
+	    white-space: nowrap !important;
+	}
+	
+	.wishlist-grid.list-view .price-detail {
+	    display: flex !important;
+	    align-items: center !important;
+	    gap: 6px !important;
+	    justify-content: flex-end !important;
+	}
+	
+	.wishlist-grid.list-view .original-price {
+		margin-right: 3px !important;
+	    font-size: 11px !important;
+	    color: #999 !important;
+	    text-decoration: line-through !important;
+	}
+	
+	.wishlist-grid.list-view .item-status {
+	    min-width: 80px !important;
+	    text-align: center !important;
+	    color: #666 !important;
+	    font-size: 12px !important;
+	}
+	
+	.wishlist-grid.list-view .item-actions {
+	    min-width: 200px !important;
+	    gap: 8px !important;
+	    margin: 0 !important;
+	    display: flex !important;
+	}
+	
+	.wishlist-grid.list-view .btn-cart,
+	.wishlist-grid.list-view .btn-detail {
+	    padding: 6px 12px !important;
+	    font-size: 12px !important;
+	    font-weight: 500 !important;
+	}
 </style>
 <jsp:include page="../layout/header.jsp" />
 <jsp:include page="../layout/menu.jsp" />
@@ -323,9 +352,11 @@
                 html += '<div class="item-price">';
                 if(item.SALED_PRICE && item.SALED_PRICE > 0 && item.SALED_PRICE < item.PRODUCT_PRICE) {
                     html += '<span class="current-price">₩' + item.SALED_PRICE.toLocaleString() + '</span>';
-                    html += '<br><span class="original-price">₩' + item.PRODUCT_PRICE.toLocaleString() + '</span>';
+                    html += '<div class="price-detail">';
+                    html += '<span class="original-price">₩' + item.PRODUCT_PRICE.toLocaleString() + '</span>';
                     var discount = Math.round(((item.PRODUCT_PRICE - item.SALED_PRICE) / item.PRODUCT_PRICE) * 100);
-                    html += ' <span class="discount">-' + discount + '%</span>';
+                    html += '<span class="discount">-' + discount + '%</span>';
+                    html += '</div>';
                 } else {
                     html += '<span class="current-price">₩' + item.PRODUCT_PRICE.toLocaleString() + '</span>';
                 }
