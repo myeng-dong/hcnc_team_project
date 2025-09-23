@@ -32,6 +32,7 @@ public class UserController {
 		
 		//배너+상품
 		List<Map<String,Object>> bannerList = userBannerService.selectBannerListByUser();
+		List<Map<String,Object>> productList = userProductService.selectMNProductListByUser();
 		
 		System.out.println("총 배너 개수 확인용: " + bannerList.size());
 		
