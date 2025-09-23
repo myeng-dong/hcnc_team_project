@@ -55,5 +55,15 @@ public interface MemberMapper {
 	
 	//회원 삭제 상태만  : 넥사크로 수동
 	int withdrawMember(Map<String, Object> param);
+	
+	//회원 쿠폰, 포인트 조회
+	List<Map<String, Object>> selectPointAndCouponList(Map<String, Object> param);
+	
+	//포인트 상세조회 중 사용 유형들 조회
+	List<Map<String, Object>> selectMemberChageTypeList();
+	
+	List<Map<String, Object>> selectPointDetailList(Map<String, Object> param);
+
+	List<Map<String, Object>> selectCouponDetailList(Map<String, Object> param);
 
 }

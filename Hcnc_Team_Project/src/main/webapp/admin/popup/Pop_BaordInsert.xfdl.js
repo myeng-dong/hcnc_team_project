@@ -357,7 +357,7 @@
         this.fnInsertPostByAdmin = function()
         {
             var sSvcID    = "insertPostByAdmin";
-            var sURL      = "svc::insertPostByAdmin.do";
+            var sURL      = "svc::insertPostByAdmin.do?time=" + new Date().getTime();
             var sInDs     = "ds_post=ds_post:U"; // Updated 행만 전송
             var sOutDs    = "";
             var sParam    = "";

@@ -16,7 +16,7 @@ this.Form_Order_Main_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 // 주문 내역 조회
 this.fnSearchOrders = function() {
     var strSvcID       = "selectOrders";
-    var strURL         = "svc::selectOrderDetailListByAdmin.do";  // Spring Controller 매핑
+    var strURL         = "svc::selectOrderDetailListByAdmin.do?time=" + new Date().getTime();  // Spring Controller 매핑
     var strInDatasets  = "";
     var strOutDatasets = "ds_order=ds_order"; 
     var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)

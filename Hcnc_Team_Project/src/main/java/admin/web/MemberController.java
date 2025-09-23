@@ -440,16 +440,96 @@ public class MemberController {
 		NexacroResult result = new NexacroResult();
 
 		try {
-			int updated = memberService.withdrawMember(param);
+			int deleted = memberService.withdrawMember(param);
 
-			Map<String, Object> dsUpCnt = new HashMap<>();
-			dsUpCnt.put("UPDATED", updated);
-			result.addDataSet("ds_upCnt", dsUpCnt);
+			Map<String, Object> dsDelCnt = new HashMap<>();
+			dsDelCnt.put("DELETED", deleted);
+			result.addDataSet("ds_delCnt", dsDelCnt);
 
 		} catch (Exception e) {
 			System.out.println(e);
 			result.setErrorCode(-1);
 			result.setErrorMsg("회원 탈퇴 처리 중 오류");
+		}
+		return result;
+	}
+
+	// 회원 포인트, 쿠폰 리스트 조회
+	// By. PJ 09.22
+	@RequestMapping(value = "/selectPointAndCouponListByAdmin.do")
+	public NexacroResult selectPointAndCouponList(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			List<Map<String, Object>> pointAndCouponList = memberService.selectPointAndCouponList(param);
+
+			result.addDataSet("ds_list", pointAndCouponList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("쿠폰 및 포인트 조회 중  오류");
+		}
+		return result;
+	}
+
+	// 포인트 사용 유형 리스트 조회
+	// By.PJ 09.22
+	@RequestMapping(value = "/selectMemberChageTypeListByAdmin.do")
+	public NexacroResult selectMemberChageTypeList() {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+			// 회원등급 전체 조회 (param 필요 없음)
+			List<Map<String, Object>> selectChageTypeList = memberService.selectMemberChageTypeList();
+
+			// ds_grade라는 이름으로 넥사크로에 전달
+			result.addDataSet("ds_type", selectChageTypeList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원등급 조회 실패 >>> " + e.getMessage());
+		}
+		return result;
+	}
+
+	// 해당 회원의 포인트 상세 조회
+	// By.PJ 09.22
+	@RequestMapping(value = "/selectPointDetailListByAdmin.do")
+	public NexacroResult selectPointDetailList(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+		try {
+			List<Map<String, Object>> pointDetailList = memberService.selectPointDetailList(param);
+			result.addDataSet("ds_list", pointDetailList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setErrorCode(-1);
+			result.setErrorMsg("포인트 상세조회 중 오류 발생");
+		}
+		return result;
+	}
+	
+	//해당 회원의 쿠폰 상세 조회
+	// By.PJ 09.22
+	@RequestMapping(value = "/selectCouponDetailListByAdmin.do")
+	public NexacroResult selectCouponDetailList(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+		try {
+			List<Map<String, Object>> couponDetailList = memberService.selectCouponDetailList(param);
+			result.addDataSet("ds_list", couponDetailList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setErrorCode(-1);
+			result.setErrorMsg("포인트 상세조회 중 오류 발생");
 		}
 		return result;
 	}

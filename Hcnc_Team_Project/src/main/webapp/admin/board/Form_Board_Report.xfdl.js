@@ -155,7 +155,7 @@
         };
         
         // User Script
-        this.registerScript("Form_Board_Notice.xfdl", function() {
+        this.registerScript("Form_Board_Report.xfdl", function() {
         //페이지 온로드시
         this.Form_Board_Notice_onload = function(obj,e)
         {
@@ -275,7 +275,7 @@
             this.txt_th00_00_00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
             this.Calendar00_00_00.addEventHandler("onchanged",this.search_area_Calendar00_00_00_onchanged,this);
         };
-        this.loadIncludeScript("Form_Board_Notice.xfdl");
+        this.loadIncludeScript("Form_Board_Report.xfdl");
         this.loadPreloadList();
         
         // Remove Reference

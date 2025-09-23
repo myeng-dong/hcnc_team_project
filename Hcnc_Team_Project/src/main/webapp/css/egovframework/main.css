@@ -10,14 +10,15 @@ main .flex.ai-center{align-items: center;}
 main .flex.fd-column{flex-direction: column;}
 main .flex.f-wrap{flex-wrap: wrap;}
 
-main a{}
+main a{text-decolation:none;}
+main section{padding:60px 0;}
 
 /* 메인 배너 */
 .main_banner_area .swiper {
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
-   posoition:relative;
+  posoition:relative;
 }
 
 /* 배경 이미지 영역 - 비율 유지 */
@@ -50,6 +51,7 @@ main a{}
 }
 
 .prd_area .prdList.new_list .prdItem{width:23%;}
+.prd_area .prdList.recommend_list .prdItem{width:32%;}
 .prd_area .prdList.best_list .swiper-slide{width:23%;}
 
 /* 썸네일 */

@@ -17,12 +17,20 @@ public interface UserProductMapper {
 
 	int insertQnAByUser(Map<String, Object> param);
 	
-	List<HashMap<String, Object>> selectProductQnAListByUser(Long productId);
+	List<HashMap<String, Object>> selectProductQnAListByUser(Map<String, Object> param);
 
 	HashMap<String, Object> selectQnADetailByUser(Map<String, Object> param);
 
 	int updateProductQnAByUser(Map<String, Object> param);
 
 	int deleteQnAByUser(Map<String, Object> param);
+
+
+	HashMap<String, Object> selectProductDescriptionByUser(Map<String, Object> param);
+
+	List<Map<String, Object>> selectMNProductListByUser();//메인에서 NEW BEST불러가는용 임시
+
+
+
 
 }
