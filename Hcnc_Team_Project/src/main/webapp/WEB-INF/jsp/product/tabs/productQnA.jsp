@@ -19,16 +19,7 @@
 			</tr>
 		</thead>
 		<tbody id="productQnAList">
-			<c:if test="${not empty productQnAList}">
-				<c:forEach items="${productQnAList}" var="qna" varStatus="status">
-					<tr>
-						<td>${status.count}</td>
-						<td onclick="QnaTab.qnaDetail(${qna.PRODUCT_QNA_ID})" style="cursor: pointer;">${qna.QNA_TITLE}</td>
-						<td>${qna.MEMBER_ID}</td>
-						<td>${qna.INPUT_DT}</td>
-					</tr>
-				</c:forEach>
-			</c:if>
+			
 		</tbody>
 	</table>
 </div>
@@ -102,7 +93,6 @@
 			
 			// 상세 모달 열기 (수정/삭제용)
 			qnaDetail: function(qnaId){
-			    console.log("QNA 상세보기 클릭됨, ID:", qnaId);
 			    
 			    // AJAX로 QnA 상세 정보 가져오기
 			    $.ajax({
@@ -302,5 +292,44 @@
 		
 		return true;
 	});
+	
+	function loadQnAList(){
+		return $.ajax({
+			url: "/selectProductQnAList.do"
+			, type: "post"
+			, data: { productId : productId }
+			, dataType: "json"
+			, success: function(res){
+				var qnaList = res.qnaList;
+				updateQnAList(qnaList);
+				updateQnAListCnt(qnaList.length);
+			}
+	        , error: function(xhr, status, error) {
+	            console.log('QnA 리스트 로드 실패:', error);
+	        }
+		});
+	}
+	
+	function updateQnAList(qnaList){
+		console.log(qnaList);
+		
+		var list = '<tr><td colspan="4">해당 상품의 문의 내역이 없습니다.</td></tr>'
+		if(qnaList.length > 0){
+			for(var i=0; i < qnaList.length; i++){
+				list = 
+					'<tr>' +
+						'<td>' + (i + 1) + '</td>' +
+						'<td onclick="QnaTab.qnaDetail('+ qnaList[i].PRODUCT_QNA_ID +')" style="cursor: pointer;">' + qnaList[i].QNA_TITLE + '</td>' +
+						'<td>' + qnaList[i].MEMBER_ID + '</td>' +
+						'<td>' + qnaList[i].INPUT_DT + '</td>' +
+					'</tr>'		
+			}
+		}	
+		$("#productQnAList").html(list);
+	}
+	
+	function updateQnAListCnt(qnaListCnt){
+		$("#productQnACnt").text('(' + qnaListCnt + ')');
+	}
 	
 </script>

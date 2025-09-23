@@ -19,4 +19,5 @@
 	    WHERE B.BOARD_CODE = #{boardCode}
 	    ORDER BY P.INPUT_DT DESC
     </select>
+
 </mapper>

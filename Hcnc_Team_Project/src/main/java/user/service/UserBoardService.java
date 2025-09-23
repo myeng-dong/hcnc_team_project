@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import user.mapper.UserBoardMapper;
 
 
@@ -17,5 +16,8 @@ public class UserBoardService {
     public List<Map<String, Object>> getBoardPosts(String boardCode) {
         return userBoardMapper.selectBoardListByUser(boardCode);
     }
+
+
+
 
 }

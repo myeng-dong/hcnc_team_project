@@ -9,6 +9,5 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface UserBoardMapper {
 
 	List<Map<String, Object>> selectBoardListByUser(String boardCode);
-	
 
 }

@@ -46,9 +46,9 @@ public class UserProductService {
 		return userProductMapper.insertQnAByUser(param);
 	}
 	
-	public List<HashMap<String, Object>> selectProductQnAListByUser(Long productId) {
+	public List<HashMap<String, Object>> selectProductQnAListByUser(Map<String, Object> param) {
 		// TODO Auto-generated method stub
-		return userProductMapper.selectProductQnAListByUser(productId);
+		return userProductMapper.selectProductQnAListByUser(param);
 	}
 
 	public HashMap<String, Object> selectQnADetailByUser(Map<String, Object> param) {
@@ -66,6 +66,12 @@ public class UserProductService {
 		return userProductMapper.deleteQnAByUser(param);
 	}
 
+
+	public HashMap<String, Object> selectProductDescriptionByUser(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return userProductMapper.selectProductDescriptionByUser(param);
+	}
+
 	public List<Map<String, Object>> selectMNProductListByUser() {
 		// TODO Auto-generated method stub
 		return userProductMapper.selectMNProductListByUser();//메인에서 NEW BEST불러가는용 임시
@@ -78,4 +84,5 @@ public class UserProductService {
 
 	
 	
+
 }
