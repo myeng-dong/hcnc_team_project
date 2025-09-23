@@ -557,6 +557,7 @@
         selectWishlist();
     };
     
+    // 장바구니 추가
     var addToCart = function(productId) {
         var param = {
             productId: productId,
@@ -579,9 +580,15 @@
                 button.disabled = false;
                 
                 if(res.success) {
-                    showToast("상품이 장바구니에 추가되었습니다!", "success");
+                    if(res.isExisting) {
+                        // 이미 장바구니에 있던 상품
+                        showToast("이미 장바구니에 담긴 상품입니다. 수량이 증가되었습니다.", "info");
+                    } else {
+                        // 새로 추가된 상품
+                        showToast("상품이 장바구니에 추가되었습니다!", "success");
+                    }
                 } else {
-                    showToast("장바구니 추가에 실패했습니다.", "error");
+                    showToast(res.message || "장바구니 추가에 실패했습니다.", "error");
                 }
             },
             error: function(err){

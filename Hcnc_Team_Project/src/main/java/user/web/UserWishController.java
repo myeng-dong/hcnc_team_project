@@ -143,12 +143,23 @@ public class UserWishController {
                 param.put("quantity", 1);
             }
             
+            // 이미 장바구니에 있는지 먼저 확인
+            HashMap<String, Object> existingItem = userWishService.checkCartItem(param);
+            
             // 서비스에서 처리 (중복 체크 포함)
             int result = userWishService.addToCart(param);
             
             if(result > 0) {
                 mav.addObject("success", true);
-                mav.addObject("message", "상품이 장바구니에 추가되었습니다.");
+                if (existingItem != null) {
+                    // 이미 있던 상품의 수량이 증가된 경우
+                    mav.addObject("message", "이미 장바구니에 담긴 상품입니다. 수량이 증가되었습니다.");
+                    mav.addObject("isExisting", true);
+                } else {
+                    // 새로 추가된 경우
+                    mav.addObject("message", "상품이 장바구니에 추가되었습니다.");
+                    mav.addObject("isExisting", false);
+                }
             } else {
                 mav.addObject("success", false);
                 mav.addObject("message", "장바구니 추가에 실패했습니다.");
@@ -162,5 +173,4 @@ public class UserWishController {
         
         return mav;
     }
-	
 }

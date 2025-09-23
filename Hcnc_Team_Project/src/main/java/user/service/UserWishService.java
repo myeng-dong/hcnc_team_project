@@ -30,21 +30,40 @@ public class UserWishService {
     @Transactional
     public int addToCart(HashMap<String, Object> param) {
         try {
-            // 1. 이미 장바구니에 있는지 확인
+            // 1. 먼저 사용자 장바구니 생성 (없으면)
+            userWishMapper.createUserCart(param);
+            
+            // 2. 이미 장바구니에 있는지 확인
             HashMap<String, Object> existingItem = userWishMapper.checkCartItem(param);
             
             if (existingItem != null) {
-                // 2. 이미 있으면 수량 증가
+                // 3. 이미 있으면 수량 증가
                 Object existingQtyObj = existingItem.get("QUANTITY");
-                int existingQty = existingQtyObj != null ? ((Number) existingQtyObj).intValue() : 0;
-                int addQty = param.get("quantity") != null ? ((Number) param.get("quantity")).intValue() : 1;
+                int existingQty = 0;
+                if (existingQtyObj != null) {
+                    if (existingQtyObj instanceof Number) {
+                        existingQty = ((Number) existingQtyObj).intValue();
+                    } else if (existingQtyObj instanceof String) {
+                        existingQty = Integer.parseInt((String) existingQtyObj);
+                    }
+                }
+                
+                Object addQtyObj = param.get("quantity");
+                int addQty = 1;
+                if (addQtyObj != null) {
+                    if (addQtyObj instanceof Number) {
+                        addQty = ((Number) addQtyObj).intValue();
+                    } else if (addQtyObj instanceof String) {
+                        addQty = Integer.parseInt((String) addQtyObj);
+                    }
+                }
                 
                 // 기존 수량 + 추가 수량
                 param.put("quantity", existingQty + addQty);
                 return userWishMapper.updateCartQuantity(param);
                 
             } else {
-                // 3. 없으면 새로 추가
+                // 4. 없으면 새로 추가
                 return userWishMapper.addToCart(param);
             }
             
@@ -65,5 +84,4 @@ public class UserWishService {
     public int updateCartQuantity(HashMap<String, Object> param) {
         return userWishMapper.updateCartQuantity(param);
     }
-    
 }

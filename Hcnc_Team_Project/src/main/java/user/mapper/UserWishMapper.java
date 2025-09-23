@@ -17,6 +17,9 @@ public interface UserWishMapper {
 	// 장바구니 아이템 중복 확인
 	HashMap<String, Object> checkCartItem(HashMap<String, Object> param);
 	
+	// 사용자 장바구니 생성
+	int createUserCart(HashMap<String, Object> param);
+	
 	// 장바구니 추가
 	int addToCart(HashMap<String, Object> param);
 	

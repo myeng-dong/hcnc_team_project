@@ -158,8 +158,7 @@
 	    INNER JOIN CARTS c ON ci.CART_ID = c.CART_ID
 	    INNER JOIN PRODUCTS p ON ci.PRODUCT_ID = p.PRODUCT_ID
 	    SET ci.QUANTITY = #{quantity},
-	        ci.SUB_TOTAL = COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) * #{quantity},
-	        ci.UPDATE_DT = NOW()
+	        ci.SUB_TOTAL = COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) * #{quantity}
 	    WHERE c.MEMBER_ID = #{memberId} 
 	    AND ci.PRODUCT_ID = #{productId}
 	    AND ci.IS_CHECKED = 'Y'
