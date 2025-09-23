@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_ProductOptionSelect" width="800" height="600" titletext="옵션 선택" background="#f7f9fc">
+    <Layouts>
+      <Layout width="800" height="600">
+        <Static id="sta_title" text="옵션 선택" left="20" top="20" width="300" height="30" font="bold 14pt 'Gulim'" color="#222222"/>
+        <!-- 옵션 목록 -->
+        <Grid id="grd_option" left="20" top="60" width="760" height="440" binddataset="ds_options" autofittype="col" selecttype="multirow" border="1px solid #cccccc" borderRadius="6px" font="normal 11pt 'Gulim'">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="ID"/>
+                <Cell col="1" text="옵션명"/>
+                <Cell col="2" text="옵션값"/>
+                <Cell col="3" text="추가금액"/>
+                <Cell col="4" text="노출여부"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:OPTION_ID"/>
+                <Cell col="1" text="bind:OPTION_NAME"/>
+                <Cell col="2" text="bind:OPTION_VALUE"/>
+                <Cell col="3" text="bind:ADDITIONAL_PRICE"/>
+                <Cell col="4" text="bind:IS_VISIBLE"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <!-- 버튼 -->
+        <Button id="btn_ok" text="확인" left="560" top="520" width="100" height="35" background="#2d7dfa" color="#ffffff" borderRadius="6px" onclick="btn_ok_onclick"/>
+        <Button id="btn_close" text="닫기" left="680" top="520" width="100" height="35" background="#555555" color="#ffffff" borderRadius="6px" onclick="btn_close_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_options">
+        <ColumnInfo>
+          <Column id="OPTION_ID" type="BIGDECIMAL"/>
+          <Column id="OPTION_NAME" type="STRING"/>
+          <Column id="OPTION_VALUE" type="STRING"/>
+          <Column id="ADDITIONAL_PRICE" type="INT"/>
+          <Column id="IS_VISIBLE" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[// onload 시 옵션 목록 조회
+this.Form_ProductOptionSelect_onload = function(obj,e)
+{
+    var strSvcId = "selectOptionByAdmin";
+    var strUrl   = "svc::selectOptionByAdmin.do";
+    var strIn    = "";
+    var strOut   = "ds_options=ds_out_opList";
+    var strArg   = "";
+    var callBack = "fn_callback";
+    var bAsync   = true;
+
+    this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
+};
+
+// 확인 버튼 → 선택한 옵션들 부모폼으로 전달
+this.btn_ok_onclick = function(obj,e)
+{
+    var arr = [];
+
+    for (var i=0; i<this.ds_options.getRowCount(); i++) {
+        if (this.grd_option.isSelectedRow(i)) {
+            arr.push({
+                OPTION_ID: this.ds_options.getColumn(i, "OPTION_ID"),
+                OPTION_NAME: this.ds_options.getColumn(i, "OPTION_NAME"),
+                OPTION_VALUE: this.ds_options.getColumn(i, "OPTION_VALUE"),
+                ADDITIONAL_PRICE: this.ds_options.getColumn(i, "ADDITIONAL_PRICE")
+            });
+        }
+    }
+
+    // 부모에 JSON 문자열 전달
+    this.close(JSON.stringify(arr));
+};
+
+// 닫기 버튼
+this.btn_close_onclick = function(obj,e)
+{
+    this.close("");
+};
+
+// 공통 콜백
+this.fn_callback = function(svcID,errCode,errMsg)
+{
+    if (errCode < 0) {
+        alert("에러: " + errMsg);
+        return;
+    }
+};
+]]></Script>
+  </Form>
+</FDL>
