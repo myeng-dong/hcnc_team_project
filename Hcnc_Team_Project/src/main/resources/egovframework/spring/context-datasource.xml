@@ -11,9 +11,11 @@
         <property name="url" value="jdbc:log4jdbc:mysql://192.168.10.37:2205/hcnc_Team_06" />
         <property name="username" value="hcncTeam_06"/>
         <property name="password" value="P@ssw0rd06"/>
+
     </bean> 
 
     
+
      
     <!-- ㄻ로컬 주소  -->
  <!--
@@ -22,6 +24,17 @@
         <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/hcnc_06" />
         <property name="username" value="root"/>
         <property name="password" value="1234"/>
+    </bean>
+-->
+
+
+    <!-- 김은엽 로컬 주소  -->
+<!-- 
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+        <property name="url" value="jdbc:log4jdbc:mysql://localhost:3306/hcnc_team_06" />
+        <property name="username" value="root"/>
+        <property name="password" value="mariadb"/>
     </bean>
 -->
     

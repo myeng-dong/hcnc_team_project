@@ -162,9 +162,10 @@ public class UserMemberController {
 			}
 			if("O".equals(info.get("PASSWORD"))) {
 				HttpSession session = request.getSession();
+				userMemberService.updateLastLoginByUser(id);
 				Map<String, Object> user = userMemberService.selectUserInfoByUser(id);
 				info.put("userType", "user");
-				session.setAttribute("userInfo", info);
+				session.setAttribute("userInfo", user);
 				mv.addObject("status", 200);
 				mv.addObject("result", info);
 			}
@@ -222,6 +223,7 @@ public class UserMemberController {
             }
             if(count == 1) {
             	HttpSession session = request.getSession();
+            	userMemberService.updateLastLoginByUser(token);
 				Map<String, Object> user = userMemberService.selectUserInfoByUser(token);
 				session.setAttribute("userInfo", user);
 				mv.addObject("status", 200);
@@ -399,11 +401,11 @@ public class UserMemberController {
 		return mv;
 	}
 	
-	@RequestMapping("/updateWithDrawByUser.do")
+	@RequestMapping("/mypage/updateWithDrawByUser.do")
 	public ModelAndView updateWithDrawByUser(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("jsonView");
 		try {
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(false);
 			if(session != null) {
 				Map<String,Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
 				String id = (String) userInfo.get("MEMBER_ID");
@@ -422,5 +424,11 @@ public class UserMemberController {
 		}
 		return mv;
 	}
+	
+	 @GetMapping("/logoutByUser.do")
+	    public String logout(HttpSession session) {
+	        session.invalidate(); // 세션 삭제
+	        return "redirect:/main.do"; // 로그아웃 후 메인 페이지로 이동
+	    }
 	
 }

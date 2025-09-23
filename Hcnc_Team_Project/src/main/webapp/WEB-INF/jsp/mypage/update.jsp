@@ -204,7 +204,7 @@ uri="http://www.springframework.org/tags"%>
         console.log(res);
         if (res.status == 200) {
           alert("회원정보가 변경되었습니다.");
-          location.href = "/profile/update.do";
+          location.href = "/mypage/update.do";
         }
       });
     };
@@ -270,7 +270,7 @@ uri="http://www.springframework.org/tags"%>
     const updateWithDrawByUser = () => {
       if (confirm("회원탈퇴하시겠습니까? 해당작업은 돌이킬수없습니다.")) {
         const param = {};
-        ajaxUtil(param, "updateWithDrawByUser", (res) => {
+        ajaxUtil(param, "updateWithDrawByUser.do", (res) => {
           if (rse.status == 200) {
             alert("회원탈퇴되었습니다.");
             location.href = "/login.do";

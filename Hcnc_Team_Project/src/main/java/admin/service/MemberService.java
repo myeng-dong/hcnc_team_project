@@ -118,5 +118,27 @@ public class MemberService {
 		}
 		return delCnt;
 	}
+	
+	//회원 크폰, 포인트 조회
+	public List<Map<String, Object>> selectPointAndCouponList(Map<String, Object> param) {
+		
+		return memberMapper.selectPointAndCouponList(param);
+	}
+
+	public List<Map<String, Object>> selectMemberChageTypeList() {
+		
+		return memberMapper.selectMemberChageTypeList();
+	}
+
+	public List<Map<String, Object>> selectPointDetailList(Map<String, Object> param) {
+		
+		return memberMapper.selectPointDetailList(param);
+	}
+
+	public List<Map<String, Object>> selectCouponDetailList(Map<String, Object> param) {
+		// TODO Auto-generated method stub
+		return  memberMapper.selectCouponDetailList(param);
+	}
+   
 
 }
