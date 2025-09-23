@@ -434,6 +434,8 @@
             var nRow = e.row;
             if (nRow < 0) return;
 
+        	this.alert(nRow);
+
             var optionId   = this.ds_out_opList.getColumn(nRow, "OPTION_ID");
             var optionName = this.ds_out_opList.getColumn(nRow, "OPTION_NAME");
             var optionVal  = this.ds_out_opList.getColumn(nRow, "OPTION_VALUE");
@@ -462,6 +464,10 @@
         {
             var app = nexacro.getApplication();
             var workFrame = app.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
+
+
+        	// 이전 arguments 지우고 새로 세팅
+        	workFrame.arguments = null;
 
             // 전달값 만들기 // Object Merge 동작 args객체에 들어있는 모든 key-value 쌍 하나씩 꺼내서 oArgs에 복사
             var oArgs = { MODE: mode };

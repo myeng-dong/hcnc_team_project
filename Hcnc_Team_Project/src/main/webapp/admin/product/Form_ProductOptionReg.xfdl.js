@@ -99,6 +99,9 @@
         this.registerScript("Form_ProductOptionReg.xfdl", function() {
         this.Form_ProductOptionReg_onload = function(obj,e)
         {
+        	//초기화(이전 데이터 잔상 방지)
+        	this.ds_optionReg.clearData();
+
             var app = nexacro.getApplication();
             var oArgs = this.getOwnerFrame().arguments;
 
@@ -120,7 +123,7 @@
             }
             else {
                 // 신규 등록 모드
-                this.ds_optionReg.clearData();
+
                 var nRow = this.ds_optionReg.addRow();
                 this.ds_optionReg.setColumn(nRow, "INPUT_ID", this.loginUserId);
 
