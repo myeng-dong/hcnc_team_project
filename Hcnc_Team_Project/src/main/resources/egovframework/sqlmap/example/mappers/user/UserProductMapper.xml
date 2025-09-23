@@ -61,6 +61,14 @@
 	    WHERE PRODUCT_ID = #{productId}
 	</select>
 	
+	<!-- <select id="selectProductDescriptionByUser" parameterType="hashmap" resultMap="ProductDescriptionResult">
+	    SELECT 
+	        POST_ID AS PRODUCT_ID,
+	        POST_CONTENT DETAIL_DESCRIPTION
+	    FROM POSTS 
+	    WHERE POST_ID = 42
+	</select> -->
+	
 	<insert id="insertQnAByUser" parameterType="java.util.Map">
 		INSERT INTO PRODUCT_QNA (PRODUCT_ID, MEMBER_ID, QNA_TITLE, QNA_CONTENT)
 			VALUES ( #{productId}, #{memberId}, #{qnaTitle}, #{qnaContent} )

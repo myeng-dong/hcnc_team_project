@@ -2,8 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.UserReviewMapper">
 	<select id="selectReviewListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT REVIEW_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, STAR_POINT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT
+		SELECT REVIEW_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, STAR_POINT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, 
+			(SELECT AVG(STAR_POINT) FROM REVIEWS WHERE 1=1 AND PRODUCT_ID = #{productId}) AS AVG_STAR_POINT
 			FROM REVIEWS
+			WHERE 1=1
+				AND PRODUCT_ID = #{productId}
+			<if test="byReview">
+				ORDER BY STAR_POINT DESC
+			</if>
+			<if test="byInputDT">
+				ORDER BY INPUT_DT DESC
+			</if>
+	</select>
+	
+	<select id="selectReviewCntByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT COUNT(REVIEW_ID) AS REVIEW_CNT 
+			FROM REVIEWS 
 			WHERE PRODUCT_ID = #{productId}
+	</select>
+	
+	<select id="selectReviewListPagedByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT REVIEW_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, STAR_POINT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, 
+			(SELECT AVG(STAR_POINT) FROM REVIEWS WHERE PRODUCT_ID = #{productId}) AS AVG_STAR_POINT
+			FROM REVIEWS
+			WHERE 1=1
+				AND PRODUCT_ID = #{productId}
+			<choose>
+		        <when test="byReview != null and byReview == true">
+		            ORDER BY STAR_POINT DESC, INPUT_DT DESC
+		        </when>
+		        <when test="byInputDT != null and byInputDT == true">
+		            ORDER BY INPUT_DT DESC
+		        </when>
+		        <otherwise>
+		            ORDER BY INPUT_DT DESC
+		        </otherwise>
+		    </choose>
+			LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 </mapper>

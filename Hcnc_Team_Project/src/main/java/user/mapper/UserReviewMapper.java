@@ -11,4 +11,8 @@ public interface UserReviewMapper {
 
 	List<HashMap<String, Object>> selectReviewListByUser(Map<String, Object> param);
 
+	HashMap<String, Object> selectReviewCntByUser(Map<String, Object> param);
+
+	List<HashMap<String, Object>> selectReviewListPagedByUser(Map<String, Object> queryParam);
+
 }

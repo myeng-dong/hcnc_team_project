@@ -24,9 +24,57 @@ public class UserReviewController {
 		
 		System.out.println("리뷰 리스트 : " + param);
 		
+		// 해당 상품 전체 리뷰 조회
 		List<HashMap<String, Object>> reviews = userReviewService.selectReviewListByUser(param);
 		
+		// 해당 상품 리뷰 전체 수 조회
+		HashMap<String, Object> reviewCnt = userReviewService.selectReviewCntByUser(param);
+		
 		mav.addObject("reviews", reviews);
+		mav.addObject("reviewCnt", reviewCnt);
+		
+		return mav;
+	}
+	
+	@RequestMapping("/selectReviewListPaged.do")
+	public ModelAndView selectReviewListPagedByUser(@RequestParam Map<String, Object> param) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		System.out.println(param);
+		
+		try {
+		    // 파라미터 해부
+		    int productId = Integer.parseInt(param.get("productId").toString());
+		    int page = Integer.parseInt(param.getOrDefault("page", "1").toString());
+		    int pageSize = Integer.parseInt(param.getOrDefault("pageSize", "10").toString());
+		    
+		    // OFFSET 계산
+		    int offset = (page - 1) * pageSize;
+		    
+		    // boolean 파라미터 안전하게 변환
+		    boolean byReview = "true".equals(String.valueOf(param.get("byReview")));
+		    boolean byInputDT = "true".equals(String.valueOf(param.get("byInputDT")));
+		    
+		    // 쿼리 파라미터 설정
+		    Map<String, Object> queryParam = new HashMap<>();
+		    queryParam.put("productId", productId);
+		    queryParam.put("pageSize", pageSize);
+		    queryParam.put("offset", offset);
+		    queryParam.put("byReview", byReview); 
+		    queryParam.put("byInputDT", byInputDT);
+	        
+	        // 리뷰 리스트 조회 (LIMIT/OFFSET 으로 페이징처리)
+	        List<HashMap<String, Object>> reviews = userReviewService.selectReviewListPagedByUser(queryParam);
+		
+    		// 해당 상품 리뷰 전체 수 조회
+    		HashMap<String, Object> reviewCnt = userReviewService.selectReviewCntByUser(param);
+    		
+    		mav.addObject("reviewCnt", reviewCnt);
+    		mav.addObject("reviews", reviews);
+
+		} catch(Exception e) {
+			mav.addObject("error", "리뷰 조회 중 오류발생");
+		}
 		
 		return mav;
 	}

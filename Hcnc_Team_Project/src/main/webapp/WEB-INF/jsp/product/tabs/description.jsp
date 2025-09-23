@@ -20,7 +20,7 @@
 					var description = res.description.DETAIL_DESCRIPTION
 					
 					if(description != null){
-						updateDescription(description);
+						setContent(description);
 					}
 				}
 		        ,error: function(xhr, status, error) {
@@ -29,8 +29,11 @@
 			});
 	}
 	
-	function updateDescription(description){
-		console.log(description);
-		$("#descriptionDiv").text(description);
-	}
+	// ckediter > selectPost.jsp 발췌
+	function setContent(description) {
+    	
+		$("#descriptionDiv").html(description);
+        
+        
+    }
 </script>

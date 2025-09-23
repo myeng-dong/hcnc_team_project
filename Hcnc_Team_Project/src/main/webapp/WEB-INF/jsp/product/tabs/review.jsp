@@ -3,17 +3,23 @@
 
 <div class="review-area" style="display: flex;">
 	<div class="review-left-area" style="width:20%;">
-		ddd
+		<div>
+			<span id="avg-point-text"></span>
+			<div id="avg-star">
+				
+			</div>
+		</div>
+		
 	</div>
 	<div class="review-right-area" style="width:70%;">
 		<div class="review-filter" style="display: flex; justify-content: space-between">
 			<div class="review-filter-left">
 				<ul class="filter-menu" style="display: flex; gap: 10px; list-style: none; padding: 0; margin: 0;">
 					<li>
-						<span>리뷰순</span>
+						<span onclick="orderbyReview()" style="cursor: pointer;">리뷰순</span>
 					</li>
 					<li>
-						<span>최신순</span>
+						<span onclick="orderbyInputDT()" style="cursor: pointer;">최신순</span>
 					</li>
 					<li>
 						<span>포토리뷰만 보기</span>
@@ -36,32 +42,14 @@
 		</div>
 		<div class="review-content-list">
 			<ul class="reviews" style="padding: 0;">
-				<li class="review" style="padding: 20px 0; border-top: 1px solid grey; border-bottom: 1px solid grey;">
-					<div class="top-info">
-						<span>별점표시 </span>
-						<span> | 작성일자 </span>
-						<span> | 작성자 </span>
-					</div>
-					<div class="body-info">
-						<div class="review-title">
-							<span style="font-weight: bold;">리뷰제목</span>
-						</div>
-						<div class="review-imgs" style="display: flex;">
-							<img class="product-image" src="https://placehold.co/70x70" alt="Product Image">
-							<img class="product-image" src="https://placehold.co/70x70" alt="Product Image">
-							<img class="product-image" src="https://placehold.co/70x70" alt="Product Image">
-							<img class="product-image" src="https://placehold.co/70x70" alt="Product Image">
-						</div>
-						<div class="review-content">
-						
-						</div>
-						<div class="bottom-info">
-							<span>펼쳐보기</span>
-						</div>
-					</div>
-				</li>
+				
 			</ul>
 		</div>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+			  
+			</ul>
+		</nav>
 	</div>
 </div>
 
@@ -71,16 +59,41 @@
 	var memberId = "user01";
 	var productId = urlParams.get('productId');
 	
-	function loadReviewList(){
+	var currentPage = 1;
+	var maxPage = 0;
+	
+	var byReview = true;
+	var byInputDT = true;
+	
+	function formatRating(rating) {
+	    if (rating == null || isNaN(rating)) return '0.0';
+	    return parseFloat(rating).toFixed(1);
+	}
+	
+	function loadReviewList(page, byReview, byInputDT){
+	    var pageSize = 10;
+	    
+	    var param = {
+	    		productId : productId
+	    		, page : page
+	    		, pageSize : pageSize
+	    		, byReview : byReview
+	    		, byInputDT : byInputDT
+	    };
+		
 		return $.ajax({
-			url: "/selectReviewList.do"
+			url: "/selectReviewListPaged.do"
 				, type: "post"
-				, data: { productId : productId }
+				, data: param
 				, dataType: "json"
 				, success: function(res){
 					var reviews = res.reviews;
+					var reviewCnt = res.reviewCnt.REVIEW_CNT;
 					updateReviewList(reviews);
-		            updateReviewCount(reviews.length);
+		            updateReviewCount(reviewCnt);
+		            updateReviewAVG(reviews[0].AVG_STAR_POINT);
+		            
+		            currentPage = page;
 				}
 		        ,error: function(xhr, status, error) {
 		            console.log('리뷰 리스트 로드 실패:', error);
@@ -89,12 +102,6 @@
 	}
 	
 	function updateReviewList(reviews){
-		console.log(reviews);
-		
-		function formatRating(rating) {
-		    if (rating == null || isNaN(rating)) return '0.0';
-		    return parseFloat(rating).toFixed(1);
-		}
 		
 		var list = '';
 		if(reviews.length > 0){
@@ -123,8 +130,50 @@
 		$(".reviews").html(list);
 	}
 	
+	function updateReviewAVG(starPoint){
+		$("#avg-point-text").text(formatRating(starPoint) + '점');
+	}
+	
 	function updateReviewCount(reviewCnt){
-		console.log(reviewCnt);
+		
 		$("#productReviewCnt").text('('+ reviewCnt + ')');
+		
+		var pageCnt = Math.ceil(reviewCnt / 10);
+		maxPage = pageCnt;
+		
+		var pageList = 
+			'<li class="page-item" onclick="prePage()">' +
+				'<a class="page-link" href="#" aria-label="Previous">' +
+					'<span aria-hidden="true">&lt;</span>' +
+				'</a>' +
+			'</li>';
+		for(var i=0; i < pageCnt; i++){
+			pageList += '<li class="page-item"><a class="page-link" href="#" onclick="loadReviewList('+ (i + 1) +', '+ byReview +', '+ byInputDT +')">' + (i + 1) + '</a></li>';
+		}
+		pageList += '<li class="page-item" onclick="nextPage()">';
+		pageList += '<a class="page-link" href="#" aria-label="Next">';
+		pageList += '<span aria-hidden="true">&gt;</span>';
+		pageList += '</a></li>';
+		
+	  	$(".pagination").html(pageList);
+		
+	}
+	
+	function prePage(){
+		currentPage > 1 ? loadReviewList(currentPage - 1, byReview, byInputDT) : null;
+	}
+	
+	function nextPage(){
+		currentPage < maxPage  ? loadReviewList(currentPage + 1, byReview, byInputDT) : null;
+	}
+	
+	function orderbyReview(){
+		byReview = !byReview;
+		loadReviewList(currentPage, byReview, byInputDT);
+	}
+	
+	function orderbyInputDT(){
+		byInputDT = !byInputDT;
+		loadReviewList(currentPage, byReview, byInputDT);
 	}
 </script>
