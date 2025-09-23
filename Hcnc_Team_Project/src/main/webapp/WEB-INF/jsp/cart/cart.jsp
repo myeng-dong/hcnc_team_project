@@ -52,6 +52,7 @@
     				    html += '<tr>';
     				    if(uniqueList[i].IS_CHECKED == 'N'){
     				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ uniqueList[i].CART_ITEM_ID +'-checkbox" onchange="updateChkBox(' + uniqueList[i].CART_ITEM_ID + ',\'' + uniqueList[i].PRODUCT_OPTION +'\')"></td>';
+
     				    } else {
     				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ uniqueList[i].CART_ITEM_ID +'-checkbox" checked onchange="updateChkBox(' + uniqueList[i].CART_ITEM_ID + ',\'' + uniqueList[i].PRODUCT_OPTION +'\')"></td>';
     				    }
@@ -83,6 +84,7 @@
     				    } else {
     				        heartIcon = '<i class="bi bi-suit-heart wishlist-heart" style="cursor: pointer;" onclick="toggleWishlist(' + uniqueList[i].CART_ITEM_ID + ', ' + uniqueList[i].PRODUCT_ID + ')"></i>';
     				    }
+
     				    
     				    html += '<td class="col-actions"><i class="bi bi-x-lg" style="cursor: pointer;" onclick="deleteProduct(' + uniqueList[i].CART_ITEM_ID + ')"></i> ' + heartIcon + '</td>';
     				    html += '</tr>';
@@ -347,26 +349,28 @@
         
         // 삭제
         const deleteProduct = (cart_item_id) => {
-        	
-        	var param = {
-        			cartItemId : cart_item_id
-        		, cartId : cartId
-        	};
-        	
-        	$.ajax({
-        		url: "/deleteProduct.do"
-        		, type: "post"
-        		, data: param
-        		, dataType: "json"
-        		, success: function(){
-        			alert("삭제 되었습니다.");
-        			
-        			window.location.reload();
-        		}
-        		, error: function(){
-        			alert("삭제 통신 실패");
-        		}
-        	});
+
+        	if(confirm("삭제하시겠습니까?")){
+	        	var param = {
+	        			cartItemId : cart_item_id
+	        		, cartId : cartId
+	        	};
+	        	
+	        	$.ajax({
+	        		url: "/deleteProduct.do"
+	        		, type: "post"
+	        		, data: param
+	        		, dataType: "json"
+	        		, success: function(){
+	        			
+	        				window.location.reload();
+	     
+	        		}
+	        		, error: function(){
+	        			alert("삭제 통신 실패");
+	        		}
+	        	});
+        	}
         }
 
         // 전체 선택
@@ -382,6 +386,139 @@
         	
         	$(".allCheck").prop("checked", total > 0 && total === checked);
         });
+
+
+        // 전체 선택 상품 디비 저장
+        const updateAllCheck = () => {
+        	
+        	var isCheck = $("#headCheck").prop("checked");
+
+        	
+        	if(isCheck){
+        		is_checked = 'Y';
+        		   		
+        	} else {
+        		is_checked = 'N';
+        		
+        	}
+        	
+        	var param = {
+        			cartId : cartId
+        			, isChecked : is_checked
+
+        	};
+        	
+        	$.ajax({
+        		url: "/updateChkBox.do"
+        		, type: "post"
+        		, data: param
+        		, dataType: "json"
+        		, success: function(res){
+        			if(res.cartTotalPrice != null){
+        				$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
+        			} else {
+        				$("#sum-products").text("0원");
+        			}
+        		}
+        		, error: function(){
+        			
+        		}
+        	});
+        }
+
+
+        // 전체 선택
+        $(document).on("change", ".allCheck", function(){
+        	const checked = $(this).prop("checked");
+        	$(".check").prop("checked", checked)
+
+        });
+
+        
+        // 선택 상품 삭제
+		const deleteSelected = () => {
+			var selectedItems = true;
+			var param = {
+				cartId : cartId
+				, selectedItems : selectedItems
+			};
+			$.ajax({
+				url: "/deleteProduct.do"
+				, type: "post"
+				, data: param
+				, dataType: "json"
+				, success: function(){
+					alert("삭제 되었습니다.");
+			        			
+        			window.location.reload();
+				}
+				, error: function(){
+        			alert("개별 삭제 통신 실패");
+				}
+			});
+		}
+		
+		const deleteCart = () => {
+			var param = {
+				cartId : cartId
+			};
+			$.ajax({
+				url: "/deleteProduct.do"
+				, type: "post"
+				, data: param
+				, dataType: "json"
+				, success: function(){
+					alert("삭제 되었습니다.");
+        			
+        			window.location.reload();
+				}
+				, error: function(){
+        			alert("전체 삭제 통신 실패");
+				}
+			});
+		}
+
+		// 옵션 변경 ajax (서버통신)
+		const updateOption = (cart_item_id) => {
+		    var selectElement = $("#" + cart_item_id + "-option");
+		    var selectedOptionText = selectElement.val();
+		    var price = Number( $("#" + cart_item_id + "-price").text().replace(/[^\d.-]/g, '') );
+		    var quantity = Number( $("#" + cart_item_id + "-quantity").val() );
+		    var additionalPrice = parseInt(selectElement.find('option:selected').data('additional-price')) || 0;
+		    var originalOption = selectElement.find('option:first').val();
+		    
+		    var param = {
+		        cartItemId: cart_item_id,
+		        cartId: cartId,
+		        option: selectedOptionText,
+		        subTotal: (price + additionalPrice) * quantity
+		    };
+		    
+		    $.ajax({
+		        url: "/updateOption.do"
+		        , type: "post"
+		        , data: param
+		        , dataType: "json"
+		        , success: function(res){
+		            if(res.success){
+		                alert("옵션이 변경되었습니다.");
+		                
+		                window.location.reload();
+		            } else {
+		                if(res.errorCode === 'DUPLICATE') {
+		                    alert("이미 동일한 옵션이 장바구니에 있습니다.");
+		                } else {
+		                    alert("옵션 변경에 실패했습니다: " + res.message);
+		                }
+		                selectElement.val(originalOption);
+		            }
+		        }
+		        , error: function(err){
+		            alert("옵션 변경 통신 실패");
+		            selectElement.val(originalOption);
+		        }
+		    });
+		}
 
 
         // 전체 선택 상품 디비 저장
@@ -506,6 +643,7 @@
 		        }
 		    });
 		}
+
 
         // 위시리스트 토글 기능
         const toggleWishlist = (cart_item_id, product_id) => {
