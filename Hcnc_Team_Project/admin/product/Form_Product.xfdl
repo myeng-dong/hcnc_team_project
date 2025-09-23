@@ -332,7 +332,7 @@ this.fn_search = function() {
     // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
     this.transaction(
         "selectProductListByAdmin",            // 서비스 ID (콜백 분기용)
-        "svc::selectProductListByAdmin.do",    // 컨트롤러 URL
+        "svc::selectProductListByAdmin.do?time=" + new Date().getTime(),    // 컨트롤러 URL
         "ds_searchCond=ds_searchCond",         // inDatasets: 조건 묶음
         "ds_out_proList=ds_out_proList",       // outDatasets: 결과 그리드 바인딩
         "",                                    // args는 사용하지 않음 (전부 Dataset으로 처리)

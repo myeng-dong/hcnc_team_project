@@ -32,6 +32,8 @@ public interface ProductMapper {
 	List<Map<String, Object>> selectOptionByAdmin(Map<String, Object> p);
 	void updateOptionVisibleByAdmin(Map<String,Object> p);
 	void updateProductVisibleByAdmin(Map<String, Object> p);
+	void updateOption(Map<String, Object> option);
+	Map<String, Object> selectOptionOneByAdmin(Long optionId);
 
 
 
