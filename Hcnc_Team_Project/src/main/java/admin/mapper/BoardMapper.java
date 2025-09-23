@@ -30,5 +30,21 @@ public interface BoardMapper {
 	// 게시글 수정
 	void updatePostByAdmin(Map<String, Object> dsUpdate);
 
+	// 신고 유형 조회
+	List<Map<String, Object>> selectReportTypeByAdmin();
+
+	// 신고 리스트 조회
+	List<Map<String, Object>> selectReportByAdmin(Map<String, Object> dsSearch);
+
+	// 신고 상태 변경
+	void updateReportByAdmin(Map<String, Object> row);
+
+	// 댓글 신고 상세 조회
+	List<Map<String, Object>> selectcommentReportByAdmin(Map<String, Object> dsSearch);
+	
+	// 리뷰 신고 상세 조회
+	List<Map<String, Object>> selectReviewReportByAdmin(Map<String, Object> dsSearch);
+
+
 	
 }
