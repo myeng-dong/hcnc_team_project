@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
-<!DOCTYPE html>
 <jsp:include page="../layout/headerlink.jsp" />
 
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +15,7 @@
 <div class="container-wrap">
 	<jsp:include page="../layout/header.jsp" />
     <div class="container faqlist">
+      <div class="inner">
     	<div class="breadcrumb">
 	      <a href="/">홈</a>
 	      <span>›</span>
@@ -24,6 +24,15 @@
 	    <div class="sub-area">
 	        <div class="sub-title-area">
 	        	<h3>[ FAQ ]</h3>
+	        	
+	        	<!-- 이름만 탭이고 게시판 이동으로 쓸거임 변수 없이 일단 강제 사유 : 미사용 게시판있음-->
+	        	<div class="tab-area"> 
+	        		<div class="tab-list flex">
+	        			<div class="tab-cont"><a href="/noticeList.do">공지사항</a></div>
+	        			<div class="tab-cont on "><a href="/faqList.do">FAQ</a></div>
+	        			<div class="tab-cont "><a href="/eventList.do">이벤트</a></div>
+	        		</div>
+	        	</div>
 	        </div>
 	        <div class="sub-content-area">
         	
@@ -47,7 +56,8 @@
 				</div>	
         	</div>
         </div>
-    	</div>
+      </div>
+    </div>	
     <jsp:include page="../layout/footer.jsp" />
 </div>
 <script>

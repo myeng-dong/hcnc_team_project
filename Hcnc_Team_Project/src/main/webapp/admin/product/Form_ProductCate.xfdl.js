@@ -208,23 +208,21 @@
         ***************************************************/
         this.Form_ProductCate_onload = function(obj,e)
         {
-            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do",
+            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
                 "", "ds_mainCate=ds_mainCate", "", "fn_callback", true);
 
-            this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do",
+            this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do?time=" + new Date().getTime(),
                 "", "ds_subCate=ds_subCate", "", "fn_callback", true);
         };
 
-        /***************************************************
-        * 공통 콜백
-        ***************************************************/
+
         /***************************************************
         * 공통 콜백
         ***************************************************/
         this.fn_callback = function(svcID, errCode, errMsg)
         {
             if (errCode < 0) {
-                alert("에러: " + errMsg);
+                alert("실행을 실패 했습니다" );
                 return;
             }
 
@@ -260,7 +258,7 @@
 
             // 메인 조회 끝나면 → 서브 조회
             else if (svcID=="selectMainCategoryByAdmin") {
-                this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do",
+                this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do?time=" + new Date().getTime(),
                     "", "ds_subCate=ds_subCate", "", "fn_callback", true);
             }
 
@@ -269,7 +267,7 @@
                 if (this.ds_mainCate.rowcount > 0 && this.ds_subCate.rowcount > 0) {
                     this.fn_makeTree();
 
-                    // ✅ 작업별 알림 + 선택 처리
+                    // 작업별 알림 + 선택 처리
                     if (this._lastAction == "insertMain") {
                         alert("대분류가 추가되었습니다.");
                         var newId = this.ds_mainCate.getColumn(this.ds_mainCate.rowcount-1,"MAIN_CATE_ID");
@@ -338,7 +336,7 @@
         ***************************************************/
         this.fn_reloadTree = function()
         {
-            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do",
+            this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
                 "", "ds_mainCate=ds_mainCate", "", "fn_callback", true);
         };
 
@@ -576,7 +574,7 @@
             if (type=="main") this.ds_in.setColumn(nRow,"MAIN_CATE_ID",cateId);
             else this.ds_in.setColumn(nRow,"SUB_CATE_ID",cateId);
 
-            this.transaction("deleteCategoryByAdmin","svc::deleteCategoryByAdmin.do",
+            this.transaction("deleteCategoryByAdmin","svc::deleteCategoryByAdmin.do?time=" + new Date().getTime(),
                 "ds_in=ds_in","","","fn_callback",true);
 
 
@@ -620,7 +618,7 @@
                 this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
                 this.ds_in.setColumn(nRow,"INPUT_ID","admin");
 
-                this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do",
+                this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do?time=" + new Date().getTime(),
                     "ds_in=ds_in","","","fn_callback",true);
             }
             // 수정
@@ -646,7 +644,7 @@
                 this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
                 this.ds_in.setColumn(nRow,"UPDATE_ID","admin");
 
-                this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do",
+                this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do?time=" + new Date().getTime(),
                     "ds_in=ds_in","","","fn_callback",true);
             }
             // this._insertMode 는 콜백에서 초기화

@@ -22,6 +22,7 @@ main section{padding:60px 0;}
 }
 
 /* 배경 이미지 영역 - 비율 유지 */
+main section.main_banner_area{padding:0;}
 .main_banner_area .img-area {
   width: 100%;
   padding-top:36.25%; 
@@ -53,6 +54,7 @@ main section{padding:60px 0;}
 .prd_area .prdList.new_list .prdItem{width:23%;}
 .prd_area .prdList.recommend_list .prdItem{width:32%;}
 .prd_area .prdList.best_list .swiper-slide{width:23%;}
+.prd_area .prdList.hot_list .swiper-slide{width:23%;}
 
 /* 썸네일 */
 .prd_area .prdItem .thumbnail {

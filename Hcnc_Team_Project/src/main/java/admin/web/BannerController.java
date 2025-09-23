@@ -40,6 +40,7 @@ public class BannerController {
 		return result;
 	}
 	
+	//배너 파일 
 	@RequestMapping(value = "/uploadBannerFile.do", method = RequestMethod.POST)
 	public NexacroResult uploadBannerFile(
 	        @RequestParam("bFile") List<MultipartFile> bFiles,
@@ -137,7 +138,7 @@ public class BannerController {
 	            }
 	        }
 	        
-	        // 만약 못 찾으면 기존 방식 사용
+	        // 만약 못 찾으면 일단 내폴더기준
 	        String projectPath = basePath + "Hcnc_Team_Project/src/main/webapp/upload/banner/";
 	        System.out.println(">>> 개발환경 - 기본 프로젝트 경로: " + projectPath);
 	        return projectPath;
@@ -175,7 +176,6 @@ public class BannerController {
 	    }
 	    return result;
 	}
-
 
 	@RequestMapping(value="/updateBannerByAdmin.do")
 	public NexacroResult updateBannerByAdmin(@ParamDataSet(name="ds_bwrite", required=false) Map<String, Object> dsBUpdate,HttpSession session) {
