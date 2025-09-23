@@ -47,6 +47,18 @@ public class OrderService {
 	public List<Map<String, Object>> selectOrderItemByAdmin(Map<String, Object> dsSearch) {
 		return orderMapper.selectOrderItemByAdmin(dsSearch);
 	}
+
+	public List<Map<String, Object>> selectPostCarrierByAdmin(Map<String, Object> dsSearch) {
+		return orderMapper.selectPostCarrierByAdmin(dsSearch);
+	}
+
+	public List<Map<String, Object>> selectPostCateByAdmin() {
+		return orderMapper.selectPostCateByAdmin();
+	}
+
+	public void updatePostPriceListByAdmin(Map<String, Object> row) {
+		orderMapper.updatePostPriceListByAdmin(row);
+	}
 	
 
 	

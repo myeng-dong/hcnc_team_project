@@ -27,5 +27,8 @@ public interface BoardMapper {
 	// 게시글 상세 조회 
 	Map<String, Object> selectPostDetailByAdmin(Map<String, Object> dsPostId);
 
+	// 게시글 수정
+	void updatePostByAdmin(Map<String, Object> dsUpdate);
+
 	
 }
