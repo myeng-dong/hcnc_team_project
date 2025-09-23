@@ -9,6 +9,7 @@
         <Static id="txt_bannertotal" taborder="2" text="0" left="0" top="10" width="70" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" textAlign="right"/>
         <Static id="txt_bannertotal00" taborder="3" text="0" left="75" top="10" width="70" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" cursor="copy" textAlign="right"/>
         <Button id="btn_write" taborder="4" text="글쓰기" top="640" background="#1017ac" color="#ffffff" borderRadius="5px" border="0px none" right="40" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_write_onclick" bottom="40"/>
+        <Button id="btn_delete" taborder="5" text="선택지우기" top="640" background="#d92d06" color="#ffffff" borderRadius="5px" border="0px none" right="1100" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_write_onclick" bottom="40"/>
       </Layout>
     </Layouts>
     <Bind>
@@ -26,6 +27,18 @@ this.btn_write_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
 };
 
+//cell클릭시 argument기억
+this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 10){
+		var BannerId = this.ds_banner.getColumn(e.row,"BANNER_ID")
+		
+		//부모페이지 자식페이지 값 전달하기 arguments 
+		this.getOwnerFrame().arguments = {"BANNER_ID" : BannerId}
+		
+		this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
+	}
+};
 
 // 배너조회
 this.fnSearchBanner = function() {

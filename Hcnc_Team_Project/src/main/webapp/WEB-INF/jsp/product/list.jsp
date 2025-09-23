@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<jsp:include page="../layout/headerlink.jsp" />
 
 <!DOCTYPE html>
-<jsp:include page="../layout/headerlink.jsp" />
 
 <html lang="ko">
 <head>
@@ -22,7 +22,7 @@
 	    </div>
 	    <div class="sub-area">
 	        <div class="sub-title-area">
-	        	<h3>[ 타이틀뿌리는스타일 ]</h3>
+	        	<h3>[ 인기상품 ]</h3>
 	        </div>
 	        <div class="sub-content-area">
         	<div class="sub-category-area">

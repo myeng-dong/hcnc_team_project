@@ -23,6 +23,7 @@
 	#{COMPONENTS_LIBRARY}
 	<!-- ENVIRONMENT_LIBRARY : application environment path (path of Environment.xml.js) -->
 	#{ENVIRONMENT_LIBRARY}
+	<link type="text/css" rel="stylesheet" href="http://127.0.0.1:8080/css/custom.css">
 	
 	<title></title>
 </head>

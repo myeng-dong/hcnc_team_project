@@ -654,83 +654,14 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
                             리뷰 {리뷰갯수변수} |
                             <i class="xi-star"></i>{평점변수}
                           </div>
-
-                          <p class="name">{상품명변수}</p>
-                          <div class="priceArea">
-                            <span class="salePercent">{할인퍼센트}%</span>
-                            <span class="priceSale">{판매되는금액}원</span>
-                            <span class="originPrice">{할인금액}원</span>
-                          </div>
-                          <div class="flex ju-between">
-                            <div class="icons flex">
-                              <img src="베스트" alt="" />
-                              <img src="인기상품" alt="" />
-                            </div>
-                            <div>
-                              <button type="button">
-                                <i class="xi-cart"></i>
-                              </button>
-                              <!-- 변수처리 위시픽이면 채워진하트아이콘 -->
-                              <button type="button">
-                                <i class="xi-heart"></i>
-                              </button>
-                              <button type="button">
-                                <i class="xi-share-alt"></i>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="btn-view-more-wrap flex ju-center">
-                <!-- 추천리스트바로가기링크 -->
-                <a href="#" class="btn-view-more"
-                  ><span>추천상품 더보기</span></a
-                >
-              </div>
-            </div>
-            <script>
-              var swiper = new Swiper(".bestSwiper", {
-                autoplay: {
-                  delay: 2500,
-                  disableOnInteraction: false,
-                },
-                loop: true,
-                loopAdditionalSlides: 1,
-                slidesPerView: 4,
-                spaceBetween: 20, // 슬라이드 사이 여백(px)
-                pagination: {
-                  el: ".best-swiper-pagination",
-                  clickable: true,
-                },
-              });
-            </script>
-          </section>
-
-          <!-- 이벤트 영역 3개?이미지카드라서-->
-          <section class="review_event_area">
-            <div class="inner">
-              <p class="sub-comment">두디 이벤트</p>
-              <div class="review_event_list flex">
-                <div class="event_card">
-                  <p class="event_title">{이벤트게시판타이틀}</p>
-                  <p class="event_desc">{이벤트게시판 디스크립션}</p>
-                </div>
-                <div class="event_card">
-                  <p class="event_title">리뷰 작성 이벤트</p>
-                  <p class="event_desc">리뷰 작성 시 포인트 500원 지급???</p>
-                </div>
-              </div>
-            </div>
-          </section>
-        </main>
-      </div>
-
-      <jsp:include page="../layout/popup.jsp" />
-      <jsp:include page="../layout/footer.jsp" />
+                </main>
     </div>
-  </body>
+    
+	<jsp:include page="../layout/popup.jsp" />
+	<jsp:include page="../layout/footer.jsp" />
+</div>
+	<script>
+	  AOS.init();
+	</script>
+</body>
 </html>
