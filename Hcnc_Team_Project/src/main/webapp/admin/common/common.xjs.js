@@ -22,12 +22,7 @@
 
         }
 
-        this.gfn_transction2 = function(){
 
-        	this.alert("!@@@!@!@!@!@!@");
-
-
-        }
         });
     
         this.loadIncludeScript(path);
