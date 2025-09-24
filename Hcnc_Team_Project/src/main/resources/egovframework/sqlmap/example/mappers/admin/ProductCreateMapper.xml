@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admin.mapper.ProductCreateMapper">
+  <resultMap id="categoryResultMap" type="map">
+    <id column="MAIN_CATE_ID" property="mainCateId"/>
+    <result column="MAIN_CATE_NM" property="mainCateNm"/>
+    <result column="SORT_NUMBER" property="sortNumber"/>
+    <result column="IS_ACTIVE" property="isActive"/>
+
+    <collection property="subCategories" ofType="map" javaType="ArrayList">
+      <id column="SUB_CATE_ID" property="subCateId"/>
+      <result column="SUB_CATE_NM" property="subCateNm"/>
+      <result column="SUB_SORT_NUMBER" property="sortNumber"/>
+      <result column="SUB_IS_ACTIVE" property="isActive"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectProductCategoryListByAdmin" resultMap="categoryResultMap">
+    SELECT
+      M.MAIN_CATE_ID,
+      M.MAIN_CATE_NM,
+      M.SORT_NUMBER,
+      M.IS_ACTIVE,
+      S.MAIN_CATE_ID AS SUB_MAIN_CATE_ID,
+      S.SUB_CATE_ID,
+      S.SUB_CATE_NM,
+      S.SORT_NUMBER AS SUB_SORT_NUMBER,
+      S.IS_ACTIVE AS SUB_IS_ACTIVE
+    FROM
+      MAIN_CATEGORIES M
+      LEFT JOIN SUB_CATEGORIES S ON M.MAIN_CATE_ID = S.MAIN_CATE_ID
+    WHERE 
+      M.IS_ACTIVE = 'Y'
+      AND
+      S.IS_ACTIVE = 'Y'
+    ORDER BY
+      M.SORT_NUMBER ASC,
+      S.SORT_NUMBER ASC
+  </select>
+</mapper>

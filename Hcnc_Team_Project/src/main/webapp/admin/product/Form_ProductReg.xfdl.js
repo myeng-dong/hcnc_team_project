@@ -59,105 +59,133 @@
             obj.set_color("#111111");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_display","20","60","1240","80",null,null,null,null,null,null,this);
+            obj = new Static("box_display","20","60","1240","40",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
-            obj.set_border("1px solid #e0e0e0");
-            obj.set_borderRadius("10px");
+            obj.set_border("1px solid #e0e0e0,1px solid #e0e0e0,");
+            obj.set_borderRadius("0px");
+            obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_display","40","88","100","25",null,null,null,null,null,null,this);
-            obj.set_text("표시 설정");
-            obj.set_font("bold 12pt \'Gulim\'");
+            obj = new Static("box_display00","20","98","1240","40",null,null,null,null,null,null,this);
+            obj.set_background("#ffffff");
+            obj.set_border("1px solid #e0e0e0,1px solid #e0e0e0");
+            obj.set_borderRadius("0px");
+            obj.set_text("");
+            obj.set_taborder("34");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("box_display00_00","20","137","1240","40",null,null,null,null,null,null,this);
+            obj.set_background("#ffffff");
+            obj.set_border("1px solid #e0e0e0,1px solid #e0e0e0");
+            obj.set_borderRadius("0px");
+            obj.set_text("");
+            obj.set_taborder("36");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_01","20","137","120","40",null,null,null,null,null,null,this);
+            obj.set_text("판매상태");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
             obj.set_color("#222222");
+            obj.set_taborder("37");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("rdo_display","140","66","190","64",null,null,null,null,null,null,this);
+            obj = new Radio("rdo_display","156","87","195","64",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_display");
             obj.set_codecolumn("code");
             obj.set_datacolumn("name");
+            obj.set_direction("vertical");
+            obj.set_text("진열함");
+            obj.set_value("Y");
+            obj.set_index("0");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("rdo_sale","470","66","160","64",null,null,null,null,null,null,this);
+            obj = new Radio("rdo_sale","156","125","195","64",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_sale");
             obj.set_codecolumn("code");
             obj.set_datacolumn("name");
+            obj.set_direction("vertical");
+            obj.set_text("판매함");
+            obj.set_value("Y");
+            obj.set_index("0");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_category","20","150","1240","70",null,null,null,null,null,null,this);
+            obj = new Static("box_category","20","190","1240","70",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_category","40","173","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_category","40","213","100","25",null,null,null,null,null,null,this);
             obj.set_text("상품분류");
             obj.set_font("bold 12pt \'Gulim\'");
             obj.set_color("#222222");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("cmb_maincate","140","170","200","30",null,null,null,null,null,null,this);
+            obj = new Combo("cmb_maincate","140","210","200","30",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_cate_main");
             obj.set_codecolumn("MAIN_CATE_ID");
             obj.set_datacolumn("MAIN_CATE_NM");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("cmb_subcate","360","170","200","30",null,null,null,null,null,null,this);
+            obj = new Combo("cmb_subcate","360","210","200","30",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_cate_sub");
             obj.set_codecolumn("SUB_CATE_ID");
             obj.set_datacolumn("SUB_CATE_NM");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_basic","20","240","1240","280",null,null,null,null,null,null,this);
+            obj = new Static("box_basic","20","270","1240","280",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_basic","40","260","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_basic","40","290","100","25",null,null,null,null,null,null,this);
             obj.set_text("기본 정보");
             obj.set_font("bold 12pt \'Gulim\'");
             obj.set_color("#222222");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_name","60","300","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_name","60","330","100","25",null,null,null,null,null,null,this);
             obj.set_text("상품명");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_name","140","295","400","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_name","140","325","400","30",null,null,null,null,null,null,this);
             obj.set_displaynulltext("상품명 입력");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_code","60","340","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_code","60","370","100","25",null,null,null,null,null,null,this);
             obj.set_text("상품코드");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_code","140","335","400","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_code","140","365","400","30",null,null,null,null,null,null,this);
             obj.set_enable("false");
             obj.set_text("자동생성");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_desc","60","380","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_desc","60","410","100","25",null,null,null,null,null,null,this);
             obj.set_text("상세설명");
             this.addChild(obj.name, obj);
 
-            obj = new WebBrowser("wb_detailDesc","140","370","800","80",null,null,null,null,null,null,this);
+            obj = new WebBrowser("wb_detailDesc","140","400","800","80",null,null,null,null,null,null,this);
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_keyword","60","470","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_keyword","60","500","100","25",null,null,null,null,null,null,this);
             obj.set_text("검색어");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_keyword","140","465","800","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_keyword","140","495","800","30",null,null,null,null,null,null,this);
             obj.set_displaynulltext("검색어 입력(, 로 구분)");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_saleinfo","20","550","1240","100",null,null,null,null,null,null,this);
+            obj = new Static("box_saleinfo","20","560","1240","100",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_saleinfo","40","560","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_saleinfo","40","570","100","25",null,null,null,null,null,null,this);
             obj.set_text("판매 정보");
             obj.set_font("bold 12pt \'Gulim\'");
             this.addChild(obj.name, obj);
@@ -166,32 +194,32 @@
             obj.set_text("판매가");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_price","210","595","200","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_price","210","605","200","30",null,null,null,null,null,null,this);
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_supply","430","598","0","0",null,null,null,null,null,null,this);
             obj.set_text("공급가");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_supply","490","595","200","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_supply","490","605","200","30",null,null,null,null,null,null,this);
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_option","20","660","1240","120",null,null,null,null,null,null,this);
+            obj = new Static("box_option","20","670","1240","120",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_option","40","680","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_option","40","690","100","25",null,null,null,null,null,null,this);
             obj.set_text("옵션");
             obj.set_font("bold 12pt \'Gulim\'");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_optionSelect","150","675","100","30",null,null,null,null,null,null,this);
+            obj = new Button("btn_optionSelect","150","685","100","30",null,null,null,null,null,null,this);
             obj.set_text("옵션 선택");
             this.addChild(obj.name, obj);
 
-            obj = new Div("div_selectedOptions","270","675","950","100",null,null,null,null,null,null,this);
+            obj = new Div("div_selectedOptions","270","685","950","100",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.getSetter("scrollbars").set("autoboth");
             this.addChild(obj.name, obj);
@@ -202,11 +230,11 @@
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_memo","40","930","100","25",null,null,null,null,null,null,this);
+            obj = new Static("sta_memo","40","830","100","25",null,null,null,null,null,null,this);
             obj.set_text("메모");
             this.addChild(obj.name, obj);
 
-            obj = new TextArea("txt_memo","140","925","800","80",null,null,null,null,null,null,this);
+            obj = new TextArea("txt_memo","140","825","800","80",null,null,null,null,null,null,this);
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_save","900","1100","150","40",null,null,null,null,null,null,this);
@@ -221,6 +249,23 @@
             obj.set_background("#444444");
             obj.set_color("#ffffff");
             obj.set_borderRadius("8px");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00","20","98","120","40",null,null,null,null,null,null,this);
+            obj.set_text("진열상태");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("35");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_00","20","60","120","38",null,null,null,null,null,null,this);
+            obj.set_text("표시 설정");
+            obj.set_font("normal 700 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("36");
+            obj.set_textAlign("center");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -244,6 +289,7 @@
         // CKEditor 적용
         this.Form_ProductReg_onload = function(obj,e)
         {
+        	this.fn_loadCategory();
             var html = "<!DOCTYPE html>" +
                        "<html><head>" +
                        "<script src='https://cdn.ckeditor.com/4.22.1/full/ckeditor.js'></script>" +
@@ -254,18 +300,13 @@
                        "</script>" +
                        "</body></html>";
             this.wb_detailDesc.set_html(html);
-            this.fn_loadCategory();
+
         };
 
         // CKEditor 본문 가져오기
         this.fn_getEditorContent = function() {
             var doc = this.wb_detailDesc.getProperty("document");
             return doc.parentWindow.CKEDITOR.instances['editor1'].getData();
-        };
-
-        // 카테고리 조회
-        this.fn_loadCategory = function() {
-            this.transaction("selectCategory", "svc::selectCategory.do", "", "ds_cate_main=ds_cate_main ds_cate_sub=ds_cate_sub", "", "fn_callback", true);
         };
 
 
@@ -324,6 +365,8 @@
             if (errCode < 0) { this.alert("오류: " + errMsg); return; }
 
             switch(svcID){
+        		case "selectCategory":
+        			break;
         		case "insertProductByAdmin":
                     var newProductId = this.ds_out_product.getColumn(0, "PRODUCT_ID");
                     this.alert("상품등록이 완료되었습니다. 상품번호: " + newProductId);
@@ -343,6 +386,11 @@
                     this.go("product::Form_Product.xfdl");
                     break;
             }
+        };
+
+        // 카테고리 조회
+        this.fn_loadCategory = function() {
+            this.transaction("selectCategory", "svc::selectProductCategoryListByAdmin.do", "", "ds_cate_main=ds_cate_main ds_cate_sub=ds_cate_sub", "", "fn_callback", true);
         };
 
         // 이미지 매핑
@@ -446,6 +494,7 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_ProductReg_onload,this);
+            this.rdo_display.addEventHandler("onitemchanged",this.rdo_display_onitemchanged,this);
             this.btn_optionSelect.addEventHandler("onclick",this.btn_optionSelect_onclick,this);
             this.div_selectedOptions.addEventHandler("onclick",this.div_selectedOptions_onclick,this);
             this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);

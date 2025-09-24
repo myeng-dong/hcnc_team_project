@@ -6,49 +6,53 @@
         <!-- 타이틀 -->
         <Static id="sta_title" text="상품관리 || 상품등록" left="20" top="10" width="220" height="40" font="bold 16pt 'Gulim'" color="#111111"/>
         <!-- 표시 설정 -->
-        <Static id="box_display" left="20" top="60" width="1240" height="80" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
-        <Static id="sta_display" text="표시 설정" left="40" top="88" font="bold 12pt 'Gulim'" color="#222222" width="100" height="25"/>
-        <Radio id="rdo_display" left="140" top="66" width="190" height="64" innerdataset="ds_display" codecolumn="code" datacolumn="name"/>
-        <Radio id="rdo_sale" left="470" top="66" width="160" height="64" innerdataset="ds_sale" codecolumn="code" datacolumn="name"/>
+        <Static id="box_display" left="20" top="60" width="1240" height="40" background="#ffffff" border="1px solid #e0e0e0,1px solid #e0e0e0," borderRadius="0px" text=""/>
+        <Static id="box_display00" left="20" top="98" width="1240" height="40" background="#ffffff" border="1px solid #e0e0e0,1px solid #e0e0e0" borderRadius="0px" text="" taborder="34"/>
+        <Static id="box_display00_00" left="20" top="137" width="1240" height="40" background="#ffffff" border="1px solid #e0e0e0,1px solid #e0e0e0" borderRadius="0px" text="" taborder="36"/>
+        <Static id="sta_display00_01" text="판매상태" left="20" top="137" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="37" textAlign="center" background="#FAFAFB"/>
+        <Radio id="rdo_display" left="156" top="87" width="195" height="64" innerdataset="ds_display" codecolumn="code" datacolumn="name" onitemchanged="rdo_display_onitemchanged" direction="vertical" index="0" text="진열함" value="Y"/>
+        <Radio id="rdo_sale" left="156" top="125" width="195" height="64" innerdataset="ds_sale" codecolumn="code" datacolumn="name" direction="vertical" index="0" text="판매함" value="Y"/>
         <!-- 카테고리 -->
-        <Static id="box_category" left="20" top="150" width="1240" height="70" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
-        <Static id="sta_category" text="상품분류" left="40" top="173" font="bold 12pt 'Gulim'" color="#222222" width="100" height="25"/>
-        <Combo id="cmb_maincate" left="140" top="170" width="200" height="30" innerdataset="ds_cate_main" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM"/>
-        <Combo id="cmb_subcate" left="360" top="170" width="200" height="30" innerdataset="ds_cate_sub" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM"/>
+        <Static id="box_category" left="20" top="190" width="1240" height="70" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_category" text="상품분류" left="40" top="213" font="bold 12pt 'Gulim'" color="#222222" width="100" height="25"/>
+        <Combo id="cmb_maincate" left="140" top="210" width="200" height="30" innerdataset="ds_cate_main" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM"/>
+        <Combo id="cmb_subcate" left="360" top="210" width="200" height="30" innerdataset="ds_cate_sub" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM"/>
         <!-- 기본 정보 -->
-        <Static id="box_basic" left="20" top="240" width="1240" height="280" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
-        <Static id="sta_basic" text="기본 정보" left="40" top="260" font="bold 12pt 'Gulim'" color="#222222" width="100" height="25"/>
-        <Static id="sta_name" text="상품명" left="60" top="300" width="100" height="25"/>
-        <Edit id="edt_name" left="140" top="295" width="400" height="30" displaynulltext="상품명 입력"/>
-        <Static id="sta_code" text="상품코드" left="60" top="340" width="100" height="25"/>
-        <Edit id="edt_code" left="140" top="335" width="400" height="30" enable="false" text="자동생성"/>
-        <Static id="sta_desc" text="상세설명" left="60" top="380" width="100" height="25"/>
-        <WebBrowser id="wb_detailDesc" left="140" top="370" width="800" height="80"/>
-        <Static id="sta_keyword" text="검색어" left="60" top="470" width="100" height="25"/>
-        <Edit id="edt_keyword" left="140" top="465" width="800" height="30" displaynulltext="검색어 입력(, 로 구분)"/>
+        <Static id="box_basic" left="20" top="270" width="1240" height="280" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_basic" text="기본 정보" left="40" top="290" font="bold 12pt 'Gulim'" color="#222222" width="100" height="25"/>
+        <Static id="sta_name" text="상품명" left="60" top="330" width="100" height="25"/>
+        <Edit id="edt_name" left="140" top="325" width="400" height="30" displaynulltext="상품명 입력"/>
+        <Static id="sta_code" text="상품코드" left="60" top="370" width="100" height="25"/>
+        <Edit id="edt_code" left="140" top="365" width="400" height="30" enable="false" text="자동생성"/>
+        <Static id="sta_desc" text="상세설명" left="60" top="410" width="100" height="25"/>
+        <WebBrowser id="wb_detailDesc" left="140" top="400" width="800" height="80"/>
+        <Static id="sta_keyword" text="검색어" left="60" top="500" width="100" height="25"/>
+        <Edit id="edt_keyword" left="140" top="495" width="800" height="30" displaynulltext="검색어 입력(, 로 구분)"/>
         <!-- 판매 정보 -->
-        <Static id="box_saleinfo" left="20" top="550" width="1240" height="100" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
-        <Static id="sta_saleinfo" text="판매 정보" left="40" top="560" font="bold 12pt 'Gulim'" width="100" height="25"/>
+        <Static id="box_saleinfo" left="20" top="560" width="1240" height="100" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_saleinfo" text="판매 정보" left="40" top="570" font="bold 12pt 'Gulim'" width="100" height="25"/>
         <Static id="sta_price" text="판매가" left="150" top="588" width="0" height="0"/>
-        <Edit id="edt_price" left="210" top="595" width="200" height="30"/>
+        <Edit id="edt_price" left="210" top="605" width="200" height="30"/>
         <Static id="sta_supply" text="공급가" left="430" top="598" width="0" height="0"/>
-        <Edit id="edt_supply" left="490" top="595" width="200" height="30"/>
+        <Edit id="edt_supply" left="490" top="605" width="200" height="30"/>
         <!-- 옵션 선택 -->
-        <Static id="box_option" left="20" top="660" width="1240" height="120" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
-        <Static id="sta_option" text="옵션" left="40" top="680" font="bold 12pt 'Gulim'" width="100" height="25"/>
-        <Button id="btn_optionSelect" text="옵션 선택" left="150" top="675" width="100" height="30" onclick="btn_optionSelect_onclick"/>
-        <Div id="div_selectedOptions" left="270" top="675" width="950" height="100" background="#ffffff" scrollbars="autoboth" onclick="div_selectedOptions_onclick">
+        <Static id="box_option" left="20" top="670" width="1240" height="120" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
+        <Static id="sta_option" text="옵션" left="40" top="690" font="bold 12pt 'Gulim'" width="100" height="25"/>
+        <Button id="btn_optionSelect" text="옵션 선택" left="150" top="685" width="100" height="30" onclick="btn_optionSelect_onclick"/>
+        <Div id="div_selectedOptions" left="270" top="685" width="950" height="100" background="#ffffff" scrollbars="autoboth" onclick="div_selectedOptions_onclick">
           <Layouts>
             <Layout/>
           </Layouts>
         </Div>
         <!-- 메모 -->
         <Static id="box_imgmemo" left="20" top="800" width="1240" height="200" background="#ffffff" border="1px solid #e0e0e0" borderRadius="10px"/>
-        <Static id="sta_memo" text="메모" left="40" top="930" width="100" height="25"/>
-        <TextArea id="txt_memo" left="140" top="925" width="800" height="80"/>
+        <Static id="sta_memo" text="메모" left="40" top="830" width="100" height="25"/>
+        <TextArea id="txt_memo" left="140" top="825" width="800" height="80"/>
         <!-- 버튼 -->
         <Button id="btn_save" text="저장" left="900" top="1100" width="150" height="40" background="#000000" color="#ffffff" borderRadius="8px" onclick="btn_save_onclick"/>
         <Button id="btn_cancel" text="취소" left="1070" top="1100" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" onclick="btn_cancel_onclick"/>
+        <Static id="sta_display00" text="진열상태" left="20" top="98" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="35" textAlign="center" background="#FAFAFB"/>
+        <Static id="sta_display00_00" text="표시 설정" left="20" top="60" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="38" taborder="36" textAlign="center"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -135,6 +139,7 @@
     <Script type="xscript5.1"><![CDATA[// CKEditor 적용
 this.Form_ProductReg_onload = function(obj,e)
 {
+	this.fn_loadCategory();
     var html = "<!DOCTYPE html>" +
                "<html><head>" +
                "<script src='https://cdn.ckeditor.com/4.22.1/full/ckeditor.js'></script>" +
@@ -145,18 +150,13 @@ this.Form_ProductReg_onload = function(obj,e)
                "</script>" +
                "</body></html>";
     this.wb_detailDesc.set_html(html);
-    this.fn_loadCategory();
+    
 };
 
 // CKEditor 본문 가져오기
 this.fn_getEditorContent = function() {
     var doc = this.wb_detailDesc.getProperty("document");
     return doc.parentWindow.CKEDITOR.instances['editor1'].getData();
-};
-
-// 카테고리 조회
-this.fn_loadCategory = function() {
-    this.transaction("selectCategory", "svc::selectCategory.do", "", "ds_cate_main=ds_cate_main ds_cate_sub=ds_cate_sub", "", "fn_callback", true);
 };
 
 
@@ -213,8 +213,10 @@ this.btn_cancel_onclick = function(obj,e) {
 // 콜백
 this.fn_callback = function(svcID, errCode, errMsg) {
     if (errCode < 0) { this.alert("오류: " + errMsg); return; }
-
+	
     switch(svcID){
+		case "selectCategory":
+			break;
 		case "insertProductByAdmin":
             var newProductId = this.ds_out_product.getColumn(0, "PRODUCT_ID");
             this.alert("상품등록이 완료되었습니다. 상품번호: " + newProductId);
@@ -234,6 +236,11 @@ this.fn_callback = function(svcID, errCode, errMsg) {
             this.go("product::Form_Product.xfdl");
             break;
     }
+};
+
+// 카테고리 조회
+this.fn_loadCategory = function() {
+    this.transaction("selectCategory", "svc::selectProductCategoryListByAdmin.do", "", "ds_cate_main=ds_cate_main ds_cate_sub=ds_cate_sub", "", "fn_callback", true);
 };
 
 // 이미지 매핑
