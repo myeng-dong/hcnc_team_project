@@ -6,7 +6,6 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/wish/wish.css'/>" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <style>
-
 	.wishlist-grid.list-view {
 	    display: block !important;
 	    grid-template-columns: none !important;
@@ -146,25 +145,21 @@
 	    font-size: 12px !important;
 	    font-weight: 500 !important;
 	}
-=======
 </style>
 <jsp:include page="../layout/header.jsp" />
 <jsp:include page="../layout/menu.jsp" />
 
 <script>
     var memberId = "user01";
-
     var categories = []; // 카테고리 데이터를 저장할 전역 변수
 
     // 페이지 로드
     $(function(){
         loadCategories(); // 카테고리 먼저 로드
-
     });
   
     var currentCategory = '';
     
-
     // 카테고리 로드 함수 (추가)
     var loadCategories = function() {
         $.ajax({
@@ -238,7 +233,6 @@
         return '기타';
     };
     
-
     // 하트 토글 함수
     var toggleWishlist = function(productId, heartElement) {
         var param = {
@@ -322,7 +316,6 @@
         });
     };
     
-
     // 위시리스트 렌더링 (카테고리 이름 동적 표시로 수정)
     var renderWishlist = function(wishlist) {
         var html = '';
@@ -378,7 +371,7 @@
                 html += '</div>';
                 
                 html += '<div class="item-actions">';
-                html += '<button class="btn-cart" onclick="addToCart(' + item.PRODUCT_ID + ')">장바구니</button>';
+                /* html += '<button class="btn-cart" onclick="addToCart(' + item.PRODUCT_ID + ')">장바구니</button>'; */
                 html += '<button class="btn-detail" onclick="viewDetail(' + item.PRODUCT_ID + ')">상세보기</button>';
                 html += '</div>';
                 
@@ -389,7 +382,6 @@
         
         $("#wishlistGrid").html(html);
     };
-
     
     // 상품 카드 렌더링 함수 (상품 목록 페이지용)
     var renderProductCard = function(product) {
@@ -416,7 +408,6 @@
     
     // 위시리스트 조회
     var selectWishlist = function() {
-
         var param = {
             memberId: memberId,
             category: currentCategory,
@@ -559,7 +550,6 @@
         return 0;
     };
     
-
     var filterByCategory = function(category) {
         currentCategory = category;
         $(".tab-btn").removeClass("active");
@@ -567,9 +557,7 @@
         selectWishlist();
     };
     
-
     // 장바구니 추가
-
     var addToCart = function(productId) {
         var param = {
             productId: productId,
@@ -592,7 +580,6 @@
                 button.disabled = false;
                 
                 if(res.success) {
-
                     if(res.isExisting) {
                         // 이미 장바구니에 있던 상품
                         showToast("이미 장바구니에 담긴 상품입니다. 수량이 증가되었습니다.", "info");
@@ -602,7 +589,6 @@
                     }
                 } else {
                     showToast(res.message || "장바구니 추가에 실패했습니다.", "error");
-
                 }
             },
             error: function(err){
@@ -650,20 +636,16 @@
             dataType: "json",
             success: function(res){
                 if(res.success && res.categoryCount) {
-
                     var totalCount = 0;
-
                     
                     // 각 카테고리별 개수 업데이트
                     for(var category in res.categoryCount) {
                         var count = res.categoryCount[category];
                         $('[data-category="' + category + '"] .tab-count').text(count);
-
                         totalCount += count;
                     }
                     
                     // 전체 카테고리 개수 업데이트
-
                     $('[data-category=""] .tab-count').text(totalCount);
                 }
             },
@@ -692,7 +674,6 @@
         }, 3000);
     };
 </script>
-
 
 <div class="container">
     <div class="wish-container">
@@ -753,7 +734,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <jsp:include page="../layout/footer.jsp" />

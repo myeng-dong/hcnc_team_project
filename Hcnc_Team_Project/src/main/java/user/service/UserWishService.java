@@ -18,6 +18,7 @@ public class UserWishService {
 	@Autowired
 	private UserWishMapper userWishMapper;
 
+	
 	// 위시리스트 조회
 
     public List<HashMap<String, Object>> selectWishlistByUser(HashMap<String, Object> param) {
@@ -31,6 +32,7 @@ public class UserWishService {
         return userWishMapper.getCategoryCount(param);
     }
     
+
 
     // 장바구니 추가 (증복체크포함)
     @Transactional
@@ -83,6 +85,7 @@ public class UserWishService {
     // 장바구니 아이템 존재 확인
     public HashMap<String, Object> checkCartItem(HashMap<String, Object> param) {
         return userWishMapper.checkCartItem(param);
+
     }
     
     // 장바구니 수량 업데이트

@@ -178,7 +178,4 @@ public class UserWishController {
         return mav;
     }
 
-	
-	
-
 }

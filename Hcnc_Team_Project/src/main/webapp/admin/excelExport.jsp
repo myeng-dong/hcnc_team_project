@@ -206,7 +206,19 @@
             return;
         }
         String tk = java.util.UUID.randomUUID().toString();
-        request.getSession(true).setAttribute(KEY_PREFIX + tk, xml);
+        
+/*         request.getSession(false).setAttribute(KEY_PREFIX + tk, xml);
+        out.print("{\"ok\":true,\"token\":\"" + tk + "\"}");
+        return; */
+        
+        //수정: 로그인 세션만 사용 (새 세션 생성 금지)
+        HttpSession sessionU = request.getSession(false); // 원래: true
+        if (sessionU == null) {
+            out.print("{\"ok\":false,\"message\":\"login session not found\"}");
+            return;
+        }
+
+        sessionU.setAttribute(KEY_PREFIX + tk, xml);
         out.print("{\"ok\":true,\"token\":\"" + tk + "\"}");
         return;
     }
@@ -227,6 +239,7 @@
             out.print("session not found");
             return;
         }
+        
         String xmlFromSession = (String) sess.getAttribute(KEY_PREFIX + token);
         if (xmlFromSession == null || xmlFromSession.trim().isEmpty()) {
             response.setContentType("text/plain; charset=UTF-8");
@@ -255,8 +268,8 @@
         response.setHeader("Content-Transfer-Encoding", "binary");
 
         /* 충돌방지 추가 */
-        out.clear();
-        out = pageContext.pushBody();
+/*         out.clear();
+        out = pageContext.pushBody(); */
         
         
         
