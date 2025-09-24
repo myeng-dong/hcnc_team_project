@@ -1,27 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.mapper.BoardMapper">
-	<select id="selectBoardCodeByAdmin" resultType="java.util.Map">
-	SELECT 
-		 BOARD_CODE
-		,BOARD_NAME
-	FROM BOARDS;
+	
+	
+	<select id="selectOneOnOneByAdmin" parameterType="map" resultType="map">
+		# 1대1 게시판 조회
+		
+		SELECT 
+			   P.POST_ID                                       -- 포스트 ID
+			 , P.BOARD_ID                                      -- 보드 ID
+			 , P.MEMBER_ID                                     -- 맴버 ID
+			 , P.POST_TYPE                                     -- 게시 유형
+			 , P.POST_STATUS                                   -- 게시글 상태
+			 , P.POST_TITLE                                    -- 게시글 제목
+			 , P.POST_CONTENT                                  -- 게시글 내용
+			 , DATE_FORMAT(P.INPUT_DT, '%Y-%m-%d') AS INPUT_DT -- 작성일
+			 , M.USER_NAME                                     -- 작성자
+	      FROM POSTS P                                         -- 게시글테이블
+		  LEFT JOIN MEMBERS M ON P.MEMBER_ID = M.MEMBER_ID     -- 멤버테이블
+	   	 WHERE 1=1
+		   AND BOARD_ID = 5
+		<if test="START_DATE != null and START_DATE != ''">                             -- 조건1.넥사에서 받을 START_DATE
+		   AND P.INPUT_DT <![CDATA[ >= ]]> STR_TO_DATE(#{START_DATE}, '%Y%m%d%H%i%s')
+		</if>
+		<if test="END_DATE != null and END_DATE != ''">                                -- 조건2.넥사에서 받을 END_DATE
+		   AND P.INPUT_DT <![CDATA[ <= ]]> STR_TO_DATE(#{END_DATE}, '%Y%m%d%H%i%s')
+		</if>
+		<if test="USER_NAME !=null and USER_NAME !=''">                                -- 조건3.넥사에서 받을 USER_NAME
+		   AND M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
+		</if>  
+		<if test="POST_STATUS !=null and POST_STATUS !='' and POST_STATUS !='전체'">     -- 조건4.넥사에서 받을 POST_STATUS
+		   AND P.POST_STATUS = #{POST_STATUS} 
+		</if>
+		<if test="POST_ID !=null and POST_ID !=''">     -- 조건5.넥사에서 받을 POST_ID
+		   AND P.POST_ID = #{POST_ID} 
+		</if>
 	</select>
 	
-	<!-- 공지사항만 조회 -->
-	<select id="selectBoardByAdmin" resultType="java.util.Map">
-	SELECT 
-		  P.SORT_NUMBER
-		 ,B.BOARD_NAME
-		 ,P.POST_TITLE
-		 ,P.MEMBER_ID
-		 ,P.INPUT_DT
-	 FROM
-	  	  POSTS P
-  	  INNER JOIN
-  	  	BOARDS B ON P.BOARD_ID = B.BOARD_ID
-  	  WHERE 
-		B.BOARD_ID = 1;	
+	<update id="updatePostStatusByAdmin" parameterType="map">
+		# 답변 완료시 실행될 업데이트문
+		
+		<if test="POST_ID != null and POST_ID != ''">
+			UPDATE POSTS
+			   SET POST_STATUS = '처리완료'
+			 WHERE 1=1       
+		       AND POST_ID = #{POST_ID}		
+		</if>
+	</update>
+	
+	<insert id="insertCommentByAdmin" parameterType="map">
+		# 어드민에서 댓글달기
+		
+		INSERT INTO COMMENTS
+		(POST_ID, MEMBER_ID, COMMENT)
+		VALUES
+		(#{POST_ID},#{MEMBER_ID},#{COMMENT_CONTENT})
+	</insert>
+	
+	<select id="selectPostListByAdmin" parameterType="map" resultType="map" >
+		#게시글 조회 쿼리
+		
+		SELECT   
+			   P.POST_ID                                       -- 포스트 ID
+			 , P.BOARD_ID                                      -- 보드 ID
+			 , B.BOARD_NAME                                    -- 보드 이름
+			 , P.MEMBER_ID                                     -- 맴버 ID
+			 , P.POST_TYPE                                     -- 게시 유형
+			 , P.POST_STATUS                                   -- 게시글 상태
+			 , P.POST_TITLE                                    -- 게시글 제목
+			 , P.POST_CONTENT                                  -- 게시글 내용
+			 , DATE_FORMAT(P.INPUT_DT, '%Y-%m-%d') AS INPUT_DT -- 작성일
+			 , M.USER_NAME                                     -- 작성자
+	      FROM POSTS P                                         -- 게시글테이블
+	      LEFT JOIN MEMBERS M ON P.MEMBER_ID = M.MEMBER_ID        -- 멤버테이블
+	      LEFT JOIN BOARDS B ON P.BOARD_ID = B.BOARD_ID           -- 보드테이블
+	     WHERE 1=1
+	   	 <if test="BOARD_ID == null or BOARD_ID == '' or BOARD_ID == 'ALL'">
+		   AND P.BOARD_ID IN (1, 3, 4)
+		</if>
+		<if test="BOARD_ID != null and BOARD_ID != '' and BOARD_ID != 'ALL'">
+	       AND P.BOARD_ID = #{BOARD_ID}
+	    </if>
+	    <if test="USER_NAME != null and USER_NAME != ''">
+		   AND M.USER_NAME LIKE CONCAT ('%', #{USER_NAME}, '%')
+		</if>
 	</select>
+	
+	
+	<insert id="insertPostByAdmin" parameterType="map">
+		#보드 작성 쿼리
+    	INSERT INTO POSTS 
+    	  (BOARD_ID, MEMBER_ID, POST_TITLE, POST_CONTENT)
+    	VALUES
+    	  (#{BOARD_ID}, #{MEMBER_ID}, #{POST_TITLE}, #{POST_CONTENT})
+	</insert>
+	
+	<select id="selectPostDetailByAdmin" parameterType="map" resultType="map">
+		#게시글 상세조회
+		SELECT 
+		       P.POST_TITLE                                                -- 게시글 제목
+		     , P.POST_ID                                                   -- 게시글 ID
+		     , B.BOARD_ID                                                  -- 보드 ID
+		     , P.POST_CONTENT                                              -- 게시글 내용
+		     , B.BOARD_NAME                                                -- 보드이름
+		     , P.INPUT_DT                                                  -- 작성일
+		     , M.USER_NAME                                                 -- 작성자
+		  FROM POSTS P                                            -- 게시글테이블
+		  LEFT JOIN BOARDS B ON P.BOARD_ID = B.BOARD_ID           -- 보드테이블
+		  LEFT JOIN MEMBERS M ON P.MEMBER_ID = M.MEMBER_ID        -- 멤버테이블
+		 WHERE 1=1
+		<if test="POST_ID != null and POST_ID != ''">
+		   AND P.POST_ID = #{POST_ID}
+		</if>
+	</select>
+	
+	<update id="updatePostByAdmin" parameterType="map">
+		#게시글 수정
+		
+		<if test="POST_ID != null and POST_ID != ''">
+		 UPDATE POSTS
+		    SET 
+		       POST_TITLE   = #{POST_TITLE}
+		      , POST_CONTENT = #{POST_CONTENT}
+		  WHERE 1=1
+		    AND POST_ID=#{POST_ID}
+		</if>
+	</update>
 	
 </mapper>

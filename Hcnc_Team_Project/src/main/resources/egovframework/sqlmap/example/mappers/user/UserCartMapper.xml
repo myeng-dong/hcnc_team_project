@@ -1,42 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.UserCartMapper">
+
 	<!-- 장바구니 리스트 조회 -->
 	<select id="selectCartListByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT
-			  P.PRODUCT_ID
-			, P.PRODUCT_NAME
-			, CI.PRODUCT_OPTION
-			, CI.PRICE
-			, CI.QUANTITY
-			, CI.SUB_TOTAL
-			, CI.IS_CHECKED
-			, CI.CART_ITEM_ID
-		FROM CARTS C
-		INNER JOIN CART_ITEMS CI
+			   P.PRODUCT_ID
+			 , P.PRODUCT_NAME
+			 , CI.PRODUCT_OPTION
+			 , CI.PRICE
+			 , CI.QUANTITY
+			 , CI.SUB_TOTAL
+			 , CI.IS_CHECKED
+			 , CI.CART_ITEM_ID
+			 , O.OPTION_NAME
+			 , O.OPTION_VALUE
+			 , O.ADDITIONAL_PRICE
+			 , CASE WHEN EXISTS (
+			 		SELECT 1 
+			 		FROM WISH W2 
+			 		INNER JOIN WISH_ITEMS WI2 ON W2.WISH_ID = WI2.WISH_ID 
+			 		WHERE W2.MEMBER_ID = #{memberId} 
+			 		AND WI2.PRODUCT_ID = P.PRODUCT_ID
+			   ) THEN 'Y' ELSE 'N' END AS IS_WISHLIST
+		  FROM CARTS C
+		 INNER JOIN CART_ITEMS CI
 			ON C.CART_ID = CI.CART_ID
-		INNER JOIN PRODUCTS P
+		 INNER JOIN PRODUCTS P
 			ON CI.PRODUCT_ID = P.PRODUCT_ID
-		WHERE C.MEMBER_ID = #{memberId}
+		 LEFT JOIN OPTIONS O
+		 	ON CI.PRODUCT_ID = O.PRODUCT_ID
+		 WHERE C.MEMBER_ID = #{memberId}
+		 ORDER BY CI.INPUT_DT DESC
 	</select>
 	
 	<!-- 수량 변경 디비 저장 -->
 	<update id="updateQuantity" parameterType="java.util.HashMap">
 		UPDATE CART_ITEMS CI
-			INNER JOIN CARTS C
-				ON CI.CART_ID = C.CART_ID
-			SET CI.QUANTITY = #{quantity}
-				, CI.SUB_TOTAL = #{price} * #{quantity}
-			WHERE CI.CART_ID = #{cartId}
-				AND CI.CART_ITEM_ID = #{cartItemId}
-				AND CI.PRODUCT_OPTION = #{option}
+		 INNER JOIN CARTS C
+			ON CI.CART_ID = C.CART_ID
+		   SET CI.QUANTITY = #{quantity}
+			 , CI.SUB_TOTAL = #{subTotal}
+		 WHERE CI.CART_ID = #{cartId}
+		   AND CI.CART_ITEM_ID = #{cartItemId}
+		   AND CI.PRODUCT_OPTION = #{option}
 	</update>
 	
 	<!-- 상품 체크박스 수정  -->
 	<update id="updateChkBox" parameterType="java.util.HashMap">
 		UPDATE CART_ITEMS
-			SET IS_CHECKED = #{isChecked}
-			WHERE CART_ID = #{cartId}
+		   SET IS_CHECKED = #{isChecked}
+		 WHERE CART_ID = #{cartId}
 			<if test="cartItemId != null">
 				AND CART_ITEM_ID = #{cartItemId}
 			</if>
@@ -48,7 +62,7 @@
 	<!-- 상품 삭제 -->
 	<delete id="deleteProduct" parameterType="java.util.HashMap">
 		DELETE FROM CART_ITEMS
-			WHERE CART_ID = #{cartId}
+		 WHERE CART_ID = #{cartId}
 			<if test="cartItemId != null">	
 				AND CART_ITEM_ID = #{cartItemId}
 			</if>
@@ -63,9 +77,78 @@
 	<!-- 체크박스 선택한 상품만 주문하기 -->
 	<select id="selectedTotalPriceByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT CART_ID, SUM(SUB_TOTAL) AS SUM_SUB
-			FROM CART_ITEMS
+		  FROM CART_ITEMS
+		 WHERE CART_ID = #{cartId}
+		   AND IS_CHECKED = 'Y'
+		 GROUP BY CART_ID
+	</select>
+	
+	<!-- 옵션 변경 -->
+	<update id="updateOptionByUser" parameterType="java.util.HashMap">
+		UPDATE CART_ITEMS
+			SET PRODUCT_OPTION = #{option}
 			WHERE CART_ID = #{cartId}
-				AND IS_CHECKED = 'Y'
-			GROUP BY CART_ID
+				AND CART_ITEM_ID = #{cartItemId}
+	</update>
+	
+	<update id="updateCartItemPriceByUser" parameterType="java.util.HashMap">
+		UPDATE CART_ITEMS
+			SET SUB_TOTAL = #{subTotal}
+			WHERE CART_ITEM_ID = #{cartItemId}
+	</update>
+	
+	<!-- 위시리스트 상품 조회 -->
+	<select id="selectWishlistItem" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT 
+			W.MEMBER_ID,
+			W.WISH_ID,
+			WI.WISH_ITEM_ID,
+			WI.PRODUCT_ID,
+			P.PRODUCT_NAME
+		FROM WISH W
+		INNER JOIN WISH_ITEMS WI ON W.WISH_ID = WI.WISH_ID
+		LEFT JOIN PRODUCTS P ON WI.PRODUCT_ID = P.PRODUCT_ID
+		WHERE W.MEMBER_ID = #{memberId}
+		AND WI.PRODUCT_ID = #{productId}
+	</select>
+	
+	<!-- 위시리스트에서 상품 제거 -->
+	<delete id="deleteFromWishlist" parameterType="java.util.HashMap">
+		DELETE WI 
+		FROM WISH_ITEMS WI
+		INNER JOIN WISH W ON WI.WISH_ID = W.WISH_ID
+		WHERE W.MEMBER_ID = #{memberId} 
+		AND WI.PRODUCT_ID = #{productId}
+	</delete>
+	
+	<!-- 위시리스트에 상품 추가 -->
+	<insert id="insertToWishlist" parameterType="java.util.HashMap">
+		INSERT INTO WISH_ITEMS (
+			WISH_ID,
+			PRODUCT_ID,
+			MAIN_CATE_ID
+		) 
+		SELECT 
+			W.WISH_ID,
+			P.PRODUCT_ID,
+			SC.MAIN_CATE_ID
+		FROM WISH W
+		CROSS JOIN PRODUCTS P
+		INNER JOIN SUB_CATEGORIES SC ON P.SUB_CATE_ID = SC.SUB_CATE_ID
+		WHERE W.MEMBER_ID = #{memberId}
+		AND P.PRODUCT_ID = #{productId}
+	</insert>
+	
+	<!-- WISH 테이블에 회원 위시리스트 생성 -->
+	<insert id="insertWish" parameterType="java.util.HashMap">
+		INSERT INTO WISH (MEMBER_ID) 
+		VALUES (#{memberId})
+	</insert>
+	
+	<!-- 회원별 WISH 조회 -->
+	<select id="selectWishByMemberId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT WISH_ID, MEMBER_ID
+		FROM WISH
+		WHERE MEMBER_ID = #{memberId}
 	</select>
 </mapper>

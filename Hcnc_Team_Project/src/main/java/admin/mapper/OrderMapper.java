@@ -28,8 +28,16 @@ public interface OrderMapper {
 	void insertShipListByAdmin(Map<String, Object> row);
 
 	// 주문 상품 조회 
-	List<Map<String, Object>> selectOrderItemByAdmin(Map<String, Object> dsSearch); 
+	List<Map<String, Object>> selectOrderItemByAdmin(Map<String, Object> dsSearch);
 
+	// 배송비 조회
+	List<Map<String, Object>> selectPostCarrierByAdmin(Map<String, Object> dsSearch);
+
+	// 택배사 조회쿼리
+	List<Map<String, Object>> selectPostCateByAdmin();
+
+	// 택배비 업데이트
+	void updatePostPriceListByAdmin(Map<String, Object> row); 
 	
 
 }

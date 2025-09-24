@@ -1550,12 +1550,11 @@
             								{
             									"enabled" :
             									{
-            										"font" : nexacro.FontObject("normal 10pt/normal \"Noto Sans KR Medium\""),
+            										"font" : nexacro.FontObject("12px \"Gulim\""),
             										"color" : nexacro.ColorObject("#666666")
             									},
             									"disabled" :
             									{
-            										"font" : nexacro.FontObject("normal 10pt/normal \"Noto Sans KR Medium\""),
             										"color" : nexacro.ColorObject("#999999")
             									}
             								}

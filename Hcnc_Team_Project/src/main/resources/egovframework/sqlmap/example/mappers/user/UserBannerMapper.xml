@@ -5,8 +5,9 @@
 		SELECT *
 		FROM BANNERS
 		WHERE 1=1
+			AND IS_VISIBLE = 1
 		<if test="bannerType != null and bannerType != ''">
-	        AND BANNER_TYPE = #{BANNER_TYPE}
-	    </if>
+		    AND BANNER_TYPE = #{bannerType}
+		</if>
 	</select>
 </mapper>

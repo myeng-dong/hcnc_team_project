@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+import com.nexacro17.xapi.data.DataSet;
 
 import admin.service.ProductService;
 
@@ -89,42 +90,228 @@ public class ProductController {
         return result;
     }
 
-    // 상품 등록 (상품/옵션/재고)
-    @RequestMapping("/insertProductByAdmin.do")
-    public NexacroResult insertProductByAdmin(
-            @ParamDataSet(name="ds_product") List<Map<String,Object>> dsProduct,
-            @ParamDataSet(name="ds_option", required=false) List<Map<String,Object>> dsOption,
-            @ParamDataSet(name="ds_inventory", required=false) List<Map<String,Object>> dsInventory) {
+    
+ // ----------------- 카테고리 관리 -----------------
 
-        NexacroResult rs = new NexacroResult();
+	 // 대분류 조회
+	 @RequestMapping("/selectMainCategoryByAdmin.do")
+	 public NexacroResult selectMainCategoryByAdmin() {
+	     NexacroResult result = new NexacroResult();
+	     result.addDataSet("ds_mainCate", productService.selectMainCategoryByAdmin());
+	     return result;
+	 }
+	
+	 // 중분류 조회
+	 @RequestMapping("/selectSubCategoryByAdmin.do")
+	 public NexacroResult selectSubCategoryByAdmin() {
+	     NexacroResult result = new NexacroResult();
+	     result.addDataSet("ds_subCate", productService.selectSubCategoryByAdmin());
+	     return result;
+	 }
+	
+	 // 추가
+	 @RequestMapping("/insertCategoryByAdmin.do")
+	 public NexacroResult insertCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+	     productService.insertCategoryByAdmin(param);
+	     return new NexacroResult();
+	 }
+	
+	 // 수정
+	 @RequestMapping("/updateCategoryByAdmin.do")
+	 public NexacroResult updateCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+	     productService.updateCategoryByAdmin(param);
+	     return new NexacroResult();
+	 }
+	
+	 // 삭제
+	 @RequestMapping("/deleteCategoryByAdmin.do")
+	 public NexacroResult deleteCategoryByAdmin(@ParamDataSet(name="ds_in") Map<String,Object> param) {
+	     productService.deleteCategoryByAdmin(param);
+	     return new NexacroResult();
+ }
 
-        // 1) 상품 저장
-        Map<String,Object> p = dsProduct.get(0);
-        productService.insertProduct(p); // useGeneratedKeys → p에 PRODUCT_ID 세팅됨
-        Long productId = (Long) p.get("PRODUCT_ID");
+	 
+	 
+	 
+	 
+	// 상품 진열상태 변경
+	 @RequestMapping("/updateProductVisibleByAdmin.do")
+	 public NexacroResult updateProductVisibleByAdmin(
+	         @ParamDataSet(name="ds_in") List<Map<String,Object>> dsIn) {
 
-        // 2) 옵션 저장
-        if (dsOption != null) {
-            for (Map<String,Object> opt : dsOption) {
-                opt.put("PRODUCT_ID", productId);
-                productService.insertOption(opt);
-            }
-        }
+	     for (Map<String,Object> row : dsIn) {
+	         productService.updateProductVisibleByAdmin(row);
+	     }
+	     return new NexacroResult();
+	 }
 
-        // 3) 재고 저장
-        if (dsInventory != null) {
-            for (Map<String,Object> inv : dsInventory) {
-                inv.put("PRODUCT_ID", productId);
-                productService.insertInventory(inv);
-            }
-        }
+	 
+	 
+	 
+	 
+	 
 
-        // 4) 반환
-        Map<String,Object> out = new HashMap<>();
-        out.put("PRODUCT_ID", productId);
-        rs.addDataSet("ds_out_product", Collections.singletonList(out));
-        return rs;
+    
+    
+ // ----------------- 옵션 관리 -----------------
+    
+	 //옵션 목록 리스트 조회,검색
+	 @RequestMapping("/selectOptionByAdmin.do")
+	 public NexacroResult selectOptionByAdmin(
+			 @ParamDataSet(name = "ds_searchCond", required = false) Map<String, Object> cond) {
+		 NexacroResult result = new NexacroResult();
+		 
+		 // null 방지
+		 if (cond == null) cond = new HashMap<>();
+		 
+		 result.addDataSet("ds_out_opList", productService.selectOptionByAdmin(cond));
+		 return result;
+	 }
+	    
+	    
+	    
+    
+   
+	// 옵션 진열상태 변경 (선택된 행들 일괄 처리)
+	 @RequestMapping("/updateOptionVisibleByAdmin.do")
+	 public NexacroResult updateOptionVisibleByAdmin(
+	         @ParamDataSet(name="ds_in") List<Map<String,Object>> dsIn) {
+
+	     for (Map<String,Object> row : dsIn) {
+	    	 
+	         // row 예시: {OPTION_ID=5, IS_VISIBLE="N"}
+	         productService.updateOptionVisibleByAdmin(row);
+	     }
+
+	     return new NexacroResult(); // 성공 여부만 반환
+	 }
+
+    
+    
+    
+    
+	 
+	 
+	// 옵션 단건 조회(옵션 저장시 타입 노멀값으로 가져오기위해)
+	 @RequestMapping("/selectOptionOneByAdmin.do")
+	 public NexacroResult selectOptionOneByAdmin(
+	         @ParamVariable(name="OPTION_ID") Long optionId) {
+
+	     NexacroResult result = new NexacroResult();
+	     Map<String,Object> option = productService.selectOptionOneByAdmin(optionId);
+	     if(option != null) {
+	         result.addDataSet("ds_optionReg", Collections.singletonList(option));
+	     }
+	     return result;
+	 }
+
+	 
+	 
+	 
+    
+    // 옵션 저장
+    @RequestMapping("/saveOptionByAdmin.do")
+    public NexacroResult saveOptionByAdmin(
+    		@ParamDataSet(name = "ds_optionReg") List<Map<String, Object>> optionList,
+    		HttpServletRequest request) {
+    	
+    	NexacroResult result = new NexacroResult();
+    	
+    	try {
+    		
+    		String loginId = (String) request.getSession().getAttribute("loginId");
+    		
+    		
+    		
+    		
+    		for (Map<String, Object> option : optionList) {
+    		    Object optionId = option.get("OPTION_ID");
+
+    		    if (optionId != null && !"".equals(optionId.toString())) {
+    		        // PK 있으면 update
+    		        option.put("UPDATE_ID", loginId);
+    		        productService.updateOption(option);
+    		    } else {
+    		        // PK 없으면 insert
+    		        option.put("INPUT_ID", loginId);
+    		        productService.insertOption(option);
+    		    }
+    		}
+
+			
+			result.setErrorCode(0);
+			result.setErrorMsg("옵션 저장 성공");
+			
+		} catch (Exception e) {
+			result.setErrorCode(-1);
+			result.setErrorMsg("옵션 저장 실패" + e.getMessage());
+			
+		}
+    	
+    	return result;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+	// ----------------- 상품관리 -----------------  
+	// 상품 등록 (상품/옵션/재고)
+	@RequestMapping("/insertProductByAdmin.do")
+	public NexacroResult insertProductByAdmin(
+	        @ParamDataSet(name="ds_product") List<Map<String,Object>> dsProduct,
+	        @ParamDataSet(name="ds_selOptions", required=false) List<Map<String,Object>> dsSelOptions,
+	        @ParamDataSet(name="ds_inventory", required=false) List<Map<String,Object>> dsInventory) {
+
+	    NexacroResult rs = new NexacroResult();
+
+	    // 1) 상품 저장
+	    if (dsProduct == null || dsProduct.isEmpty()) {
+	        throw new IllegalArgumentException("상품 정보가 누락되었습니다.");
+	    }
+	    Map<String,Object> p = dsProduct.get(0);
+	    productService.insertProduct(p); // useGeneratedKeys → p에 PRODUCT_ID 세팅됨
+	    Long productId = (Long) p.get("PRODUCT_ID");
+
+	    // 2) 옵션 저장 (팝업에서 선택한 옵션들)
+	    if (dsSelOptions != null) {
+	        for (Map<String,Object> opt : dsSelOptions) {
+	            opt.put("PRODUCT_ID", productId);
+	            productService.insertOption(opt);
+	        }
+	    }
+
+	    // 3) 재고 저장
+	    if (dsInventory != null) {
+	        for (Map<String,Object> inv : dsInventory) {
+	            inv.put("PRODUCT_ID", productId);
+	            productService.insertInventory(inv);
+	        }
+	    }
+
+	    // 4) 반환 (등록된 PRODUCT_ID 넘겨줌)
+	    Map<String,Object> out = new HashMap<>();
+	    out.put("PRODUCT_ID", productId);
+	    rs.addDataSet("ds_out_product", Collections.singletonList(out));
+	    return rs;
+	}
+
 
     // 5) CKEditor 이미지 업로드
     @RequestMapping(value="/uploadImageProductByAdmin.do", method=RequestMethod.POST)

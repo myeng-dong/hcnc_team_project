@@ -31,16 +31,19 @@
           <Col id="MENU_ID">0102</Col>
           <Col id="MENU_NM">회원 등급 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">member::Form_MemberGrade.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0103</Col>
           <Col id="MENU_NM">탈퇴 및 휴면 회원 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">member::Form_Member_withdrawAndDormant.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0104</Col>
           <Col id="MENU_NM">포인트/쿠폰 지급관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">member::Form_MemberPointAndCoupon.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0105</Col>
@@ -78,11 +81,13 @@
           <Col id="MENU_ID">0203</Col>
           <Col id="MENU_NM">카테고리 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">product::Form_ProductCate.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0204</Col>
           <Col id="MENU_NM">옵션 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">product::Form_ProductOption.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0205</Col>
@@ -127,6 +132,7 @@
           <Col id="MENU_ID">0305</Col>
           <Col id="MENU_NM">배송비 정책 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">order::Form_Order_PostPrice.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">04</Col>
@@ -176,6 +182,7 @@
           <Col id="MENU_ID">0504</Col>
           <Col id="MENU_NM">리뷰/댓글 신고 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">board::Form_Board_Report.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0505</Col>

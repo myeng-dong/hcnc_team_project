@@ -61,19 +61,32 @@
 	<select id="selectPaymentListByAdmin" parameterType="map" resultType="map">
 	    # 결제내역 조회
 	    
-		SELECT PAYMENT_ID                -- 결제 ID
-			 , '0' AS CHK                -- 넥사 체크박스 설정을 위한 CHK
-		     , ORDER_ID                  -- 주문 ID
-		     , PAYMENT_METHOD            -- 결제 방법
-		     , PAYMENT_AMOUNT            -- 결제 금액
-		     , PAYMENT_STATUS            -- 결제 상태
-		     , PAYMENT_DT                -- 결제 일자
-		     , UPDATE_DT                 -- 수정 일자
-		  FROM PAYMENTS
+		SELECT P.PAYMENT_ID                                          -- 결제 ID
+			 , '0' AS CHK                                            -- 넥사 체크박스 설정을 위한 CHK
+		     , P.ORDER_ID                                            -- 주문 ID
+		     , P.PAYMENT_METHOD                                      -- 결제 방법
+		     , P.PAYMENT_AMOUNT                                      -- 결제 금액
+		     , P.PAYMENT_STATUS                                      -- 결제 상태
+		     , DATE_FORMAT(P.PAYMENT_DT, '%Y-%m-%d') AS PAYMENT_DT   -- 결제 일자
+		     , P.UPDATE_DT                                           -- 수정 일자
+		     , O.USER_NAME                                           -- 주문자
+		     , O.PHONE_NUMBER                                        -- 연락처
+		  FROM PAYMENTS P                                -- 결제테이블
+		  LEFT JOIN ORDERS O ON P.ORDER_ID = O.ORDER_ID  -- 주문테이블
 		 WHERE 1=1
 	    <if test="PAYMENT_STATUS != null and PAYMENT_STATUS != '' and PAYMENT_STATUS != '전체'">
-	       AND PAYMENT_STATUS = #{PAYMENT_STATUS}
+	       AND P.PAYMENT_STATUS = #{PAYMENT_STATUS}
 	    </if>
+	    <if test="PAYMENT_METHOD != null and PAYMENT_METHOD != '' and PAYMENT_METHOD != '전체'">
+	       AND P.PAYMENT_METHOD = #{PAYMENT_METHOD}
+	    </if>
+	    <if test="USER_NAME != null and USER_NAME !=''">
+	       AND O.USER_NAME LIKE CONCAT ('%', #{USER_NAME},'%')
+	    </if>
+	    <if test="PHONE_NUMBER != null and PHONE_NUMBER !=''">
+	       AND O.PHONE_NUMBER LIKE CONCAT ('%', #{PHONE_NUMBER},'%')
+	    </if>
+	    
 	</select>
 
 
@@ -99,7 +112,7 @@
 	           AS ADDRESS  
 	         , IFNULL(S.SHIPMENT_ID, '') AS SHIPMENT_ID         -- 배송 ID (NULL이면 공백)
 	         , '0' AS CHK                                       -- 넥사 체크박스 설정용
-	         , S.COUIER_NAME                                    -- 택배 회사
+	         , C.COURIER_NAME                                   -- 택배 회사
 	         , S.TRACKING_NUMBER                                -- 송장 번호
 	         , CASE 
 	             WHEN S.SHIPMENT_STATUS
@@ -119,17 +132,12 @@
 				       ELSE ''
 				  END
 				) AS PRODUCT_SHORT                              -- 넥사크로 그리드에 표출될 내용(ex>딸기 1개 외 3건)
-	         , GROUP_CONCAT(
-	         	CONCAT(
-	         	 I.PRODUCT_NAME, ' ',
-	         	 IFNULL(I.PRODUCT_OPTION,''), '*',
-	         	 I.QUANTITY, '개')
-             	SEPARATOR '\r\n') AS PRODUCT_SUMMARY              -- 주문한 아이템 내역
              , COUNT(DISTINCT I.ORDER_ITEM_ID) AS ITEM_COUNT    -- 주문한 아이템 갯수(제품의 총 CNT가 아니라 주문된 아이템의 종류의 갯수)
 	    FROM ORDERS O
 	    LEFT JOIN SHIPS S ON O.ORDER_ID = S.ORDER_ID                  -- 배송테이블
 	    LEFT JOIN MEMBERS M ON O.PHONE_NUMBER = M.PHONE_NUMBER        -- 멤버테이블
 	    LEFT JOIN ORDER_ITEMS I ON O.ORDER_ID = I.ORDER_ID            -- 주문상품 테이블
+	    LEFT JOIN COURIER C ON S.COURIER_ID = C.COURIER_ID            -- 택배사 테이블
 	    WHERE 1=1
 	    <if test="ORDER_ID != null and ORDER_ID != ''">
 	    AND O.ORDER_ID = #{ORDER_ID}
@@ -169,7 +177,9 @@
 		(#{ORDER_ID}, #{COUIER_NAME}, #{TRACKING_NUMBER} , #{SHIPMENT_STATUS}, NOW())
 	</insert>
 	
+	
 	<select id="selectOrderItemByAdmin" parameterType="map" resultType="map">
+	#오더 아이디묶음 아이템
 		SELECT ORDER_ID                  -- 주문 ID
 			 , PRODUCT_ID                -- 제품 ID
 		     , PRODUCT_NAME              -- 제품 이름
@@ -183,5 +193,45 @@
 	       AND ORDER_ID = #{ORDER_ID}
 	    </if>
 	</select>
+	
+	<select id="selectPostCarrierByAdmin" parameterType="map" resultType="map">
+	#배송비 측정용 조회
+		SELECT '0' AS CHK                      -- 넥사 체크박스용
+			 , COURIER_ID                      -- 택배사ID
+			 , COURIER_NAME                    -- 택배사
+			 , SHIP_COST                       -- 택배비
+			 , FREE_SHIPPING_PRICE             -- 무배조건
+			 , ADDITIONAL_TYPE                 -- 추가사유
+			 , ADDITIONAL_PRICE                -- 추가금액
+		  FROM COURIER                         -- 택배사테이블
+		 WHERE 1=1
+		 <if test="COURIER_NAME != null and COURIER_NAME != '' and COURIER_NAME != '전체'">
+		   AND COURIER_NAME = #{COURIER_NAME}
+		 </if>
+		 
+	</select>
+	
+	<select id="selectPostCateByAdmin" parameterType="map" resultType="map">
+	#택배사 셀렉트박스용
+		SELECT 0 AS COURIER_ID
+		    , '전체' AS COURIER_NAME
+		UNION ALL
+		SELECT
+				COURIER_ID
+		     ,  COURIER_NAME
+		  FROM COURIER
+		 WHERE 1=1
+	</select>
+	
+	<update id="updatePostPriceListByAdmin" parameterType="map">
+	# 결제 상태 업데이트
+	     
+		 UPDATE COURIER                                       -- 결제테이블
+            SET SHIP_COST           = #{SHIP_COST}            -- 결제 상황 업데이트
+              , FREE_SHIPPING_PRICE = #{FREE_SHIPPING_PRICE}  -- 무배최소금액
+              , ADDITIONAL_TYPE     = #{ADDITIONAL_TYPE}      -- 추가사유
+              , ADDITIONAL_PRICE    = #{ADDITIONAL_PRICE}     -- 추가금
+          WHERE COURIER_ID          = #{COURIER_ID}	          -- 결제ID로 조회
+	</update>
 	
 </mapper>

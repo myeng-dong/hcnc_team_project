@@ -192,7 +192,7 @@
         {
             // 초기 조회
             this.fnSearchOrders();
-        	 var today = this.gfnGetToday();
+        	var today = this.gfnGetToday();
             this.ds_search.setColumn(0, "START_DATE", today);
             this.search_area.form.Calendar00_01.set_value(today);
 
@@ -201,7 +201,7 @@
         // 주문 내역 조회
         this.fnSearchOrders = function() {
             var strSvcID       = "selectOrders";
-            var strURL         = "svc::selectOrderDetailListByAdmin.do";  // Spring Controller 매핑
+            var strURL         = "svc::selectOrderDetailListByAdmin.do?time=" + new Date().getTime();  // Spring Controller 매핑
             var strInDatasets  = "ds_search=ds_search";                   // 검색조건 dataset 전달
             var strOutDatasets = "ds_order=ds_order";
             var strArg         = "";
@@ -234,13 +234,13 @@
         // 조회 버튼 (조건 적용 후 조회 실행)
         this.search_area_btn_select_onclick = function(obj, e)
         {
-            this.fnSearchOrders();
+            this.fnSearchOrders(); // 조회 트랜젝션
         };
+
 
         // 초기화 버튼
         this.search_area_btn_reset_onclick = function(obj, e)
         {
-
         	this.reload();   // 폼 전체 리로드
         };
 
@@ -249,23 +249,22 @@
         // 배송 상태 라디오 onitemchanged
         this.search_area_rad_ship_onitemchanged = function(obj, e)
         {
-            // ds_search에 반영
-            this.ds_search.setColumn(0, "SHIPMENT_STATUS", e.postvalue);
-            this.fnSearchOrders();
+            this.ds_search.setColumn(0, "SHIPMENT_STATUS", e.postvalue);  // 라디오박스값을 ds_search에 넣음
+            this.fnSearchOrders();  // 조회 트랜젝션
         };
 
         // 결제 상태 라디오 onitemchanged (추가)
         this.search_area_rad_pay_onitemchanged = function(obj, e)
         {
-            this.ds_search.setColumn(0, "PAYMENT_STATUS", e.postvalue);
-            this.fnSearchOrders();
+            this.ds_search.setColumn(0, "PAYMENT_STATUS", e.postvalue); // 라디오박스값을 ds_search에 넣음
+            this.fnSearchOrders(); // 조회 트랜젝션
         };
 
+        //엔터키 눌렀을시
         this.search_area_Edit00_onkeyup = function(obj, e)
         {
             if (e.keycode == 13) {  // 13 = Enter 키
-                // 조회 버튼 클릭 이벤트와 동일 동작 실행
-                this.fnSearchOrders();
+                this.fnSearchOrders(); // 조회 트랜젝션
             }
         };
 

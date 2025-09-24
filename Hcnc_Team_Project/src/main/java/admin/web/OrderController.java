@@ -91,10 +91,6 @@ public class OrderController {
         	 for (Map<String, Object> row : dsSelected) {
         	        Object shipmentId = row.get("SHIPMENT_ID");
         	        
-        	        System.out.println("---------------------------------------------------");
-        	        System.out.println(shipmentId);
-        	        System.out.println("---------------------------------------------------");
-        	        
         	        if (shipmentId == null || "".equals(shipmentId.toString())) { // 배송ID가 없으면 데이터가 없으므로
         	            // INSERT 실행
         	        	orderService.insertShipListByAdmin(row);
@@ -111,7 +107,8 @@ public class OrderController {
         }
         return result;
     }
-
+    
+    // 주문 상품 조회
     @RequestMapping(value="/selectOrderItemByAdmin.do")
   	public NexacroResult selectOrderItemByAdmin( 
   			@ParamDataSet(name="ds_search", required=false) Map<String, Object> dsSearch) {
@@ -123,4 +120,35 @@ public class OrderController {
 
   		return result;
   	}
+    
+    // 택배사별 택배비 조회
+    @RequestMapping(value="/selectPostCarrierByAdmin.do")
+  	public NexacroResult selectPostCarrierByAdmin( 
+  			@ParamDataSet(name="ds_search", required=false) Map<String, Object> dsSearch) {
+  		NexacroResult result = new NexacroResult();
+  		
+  		List<Map<String, Object>> postList = orderService.selectPostCarrierByAdmin(dsSearch);
+  		List<Map<String, Object>> cateList = orderService.selectPostCateByAdmin();
+  		
+  		result.addDataSet("ds_post", postList);
+  		result.addDataSet("ds_cate", cateList);
+  		
+  		return result;
+  	}
+    
+    // 택배비 수정
+    @RequestMapping(value="/updatePostPriceListByAdmin.do")
+    public NexacroResult updatePostPriceListByAdmin(
+            @ParamDataSet(name="ds_selected", required=false) List<Map<String, Object>> dsSelected) {
+
+        NexacroResult result = new NexacroResult();
+
+        if (dsSelected != null) {
+            for (Map<String,Object> row : dsSelected) {
+            	orderService.updatePostPriceListByAdmin(row);
+            }
+        }
+
+        return result;
+    }
 }
