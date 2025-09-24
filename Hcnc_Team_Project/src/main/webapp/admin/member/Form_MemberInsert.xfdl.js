@@ -237,7 +237,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberInsert.xfdl","common::common.xjs");
         this.registerScript("Form_MemberInsert.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         //취소 버튼
         this.insert_box_close_btn_onclick = function(obj,e)
         {

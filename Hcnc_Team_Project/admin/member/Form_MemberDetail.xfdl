@@ -177,7 +177,8 @@
         </Rows>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[this.memberId=""; //전역변수 선언
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+this.memberId=""; //전역변수 선언
 this.Form_MemberDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	// 부모 Frame에서 arguments 꺼내오기

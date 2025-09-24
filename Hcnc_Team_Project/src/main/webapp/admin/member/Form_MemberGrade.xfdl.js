@@ -183,7 +183,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberGrade.xfdl","common::common.xjs");
         this.registerScript("Form_MemberGrade.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_MemberGrade_onload = function(obj,e)
         {
         	this.fn_gradeSearch();

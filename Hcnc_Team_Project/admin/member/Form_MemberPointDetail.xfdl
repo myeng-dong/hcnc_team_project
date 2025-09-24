@@ -32,11 +32,11 @@
         <Rows>
           <Row>
             <Col id="LABEL">사용</Col>
-            <Col id="CHANGE_TYPE"></Col>
+            <Col id="CHANGE_TYPE"/>
           </Row>
           <Row>
             <Col id="LABEL">적립</Col>
-            <Col id="CHANGE_TYPE"></Col>
+            <Col id="CHANGE_TYPE"/>
           </Row>
         </Rows>
       </Dataset>
@@ -74,7 +74,8 @@
         </Rows>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[this.memberId=""; 
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+this.memberId=""; 
 this.Form_MemberPointDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.fn_pointType();

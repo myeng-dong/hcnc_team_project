@@ -266,8 +266,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_Member_withdrawAndDormant.xfdl","common::common.xjs");
         this.registerScript("Form_Member_withdrawAndDormant.xfdl", function() {
-
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_Member_withdrawAndDormant_onload = function(obj,e)
         {
         	this.fn_selectDormantWithdrawnMembers();

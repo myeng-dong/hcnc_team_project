@@ -497,7 +497,7 @@ public class MemberController {
 	}
 
 
-	// 해당 회원의 포인트 상세 조회
+	// 해당 회원의 포인트 상세 조회(ds_search에 MEMBER_ID담아서 보내주기 )
 	// By.PJ 09.22
 	@RequestMapping(value = "/selectPointDetailListByAdmin.do")
 	public NexacroResult selectPointDetailList(
@@ -564,7 +564,8 @@ public class MemberController {
 		return result;
 	}
 	
-	//쿠폰 지급
+	//쿠폰 지급(관리자가 강제 insert 엮을게 필요함)
+	//By.PJ 09.23
 	@RequestMapping(value="/insertCouponByAdmin.do")
 	public NexacroResult insertCoupon(@ParamDataSet(name="ds_insert", required=false)  Map<String, Object> param){
 		                         
@@ -585,7 +586,29 @@ public class MemberController {
 			result.setErrorMsg("catch 오류 >>>");
 		}
 		return result;
-		
+	}
+	
+
+	// 블랙이 된 회원 리스트 조회
+	// By. PJ 09.24
+	@RequestMapping(value = "/selectBlackListByAdmin.do")
+	public NexacroResult selectBlackListByAdmin(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			List<Map<String, Object>> selectBlackList = memberService.selectBlackListByAdmin(param);
+
+			result.addDataSet("ds_list", selectBlackList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("쿠폰 및 포인트 조회 중  오류");
+		}
+		return result;
 	}
 
 }

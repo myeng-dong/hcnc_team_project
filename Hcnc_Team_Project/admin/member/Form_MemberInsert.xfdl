@@ -44,7 +44,8 @@
       <BindItem id="item3" compid="insert_box.form.Combo00" propid="value" datasetid="ds_member" columnid="GRADE_CODE"/>
       <BindItem id="item4" compid="insert_box.form.type_radio" propid="value" datasetid="ds_member" columnid="MEMBER_TYPE"/>
     </Bind>
-    <Script type="xscript5.1"><![CDATA[//취소 버튼
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+//취소 버튼
 this.insert_box_close_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.getOwnerFrame().set_formurl("member::Form_MemberList.xfdl");
