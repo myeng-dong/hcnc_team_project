@@ -2,6 +2,7 @@ package admin.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -152,8 +153,22 @@ public class MemberService {
 	
 	//쿠폰 지급
 	public int insertCoupon(Map<String, Object> param) {
+
+		 // UUID 기반 쿠폰 코드 생성
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        // 앞 16자리만 사용 (대문자로 변환하면 가독성 ↑)
+        String couponCode = uuid.substring(0, 16).toUpperCase();
+
+        // param에 세팅
+        param.put("COUPON_CODE", couponCode);
+
+        return memberMapper.insertCoupon(param);
+	}
+	
+	//블랙리스트 조회
+	public List<Map<String, Object>> selectBlackListByAdmin(Map<String, Object> param) {
 		
-		return memberMapper.insertCoupon(param);
+		return memberMapper.selectBlackListByAdmin(param);
 	}
    
 

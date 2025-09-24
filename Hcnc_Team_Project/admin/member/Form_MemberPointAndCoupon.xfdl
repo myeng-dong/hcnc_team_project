@@ -23,7 +23,8 @@
       <BindItem id="item2" compid="phone_number" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
       <BindItem id="item3" compid="pointAndCoupon" propid="binddataset" datasetid="ds_user" columnid=""/>
     </Bind>
-    <Script type="xscript5.1"><![CDATA[this.Form_MemberPointAndCoupon_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+this.Form_MemberPointAndCoupon_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.fn_selectPointAndCoupon();
 };

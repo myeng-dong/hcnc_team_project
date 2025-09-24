@@ -202,7 +202,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberList.xfdl","common::common.xjs");
         this.registerScript("Form_MemberList.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_MemberList_onload = function(obj,e)
         {
         	this.fn_search();

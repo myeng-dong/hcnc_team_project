@@ -363,7 +363,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberDetail.xfdl","common::common.xjs");
         this.registerScript("Form_MemberDetail.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.memberId=""; //전역변수 선언
         this.Form_MemberDetail_onload = function(obj,e)
         {

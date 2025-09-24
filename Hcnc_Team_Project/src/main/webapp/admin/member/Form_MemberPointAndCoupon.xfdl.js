@@ -130,7 +130,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberPointAndCoupon.xfdl","common::common.xjs");
         this.registerScript("Form_MemberPointAndCoupon.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_MemberPointAndCoupon_onload = function(obj,e)
         {
         	this.fn_selectPointAndCoupon();

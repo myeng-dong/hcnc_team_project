@@ -95,7 +95,8 @@
         </Rows>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[this.Form_MemberList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+this.Form_MemberList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.fn_search();
 	this.fn_gradeSearch();

@@ -135,8 +135,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_Login.xfdl","common::common.xjs");
         this.registerScript("Form_Login.xfdl", function() {
-
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_Login_onload = function(obj,e)
         {
         	// controller에 httpsession

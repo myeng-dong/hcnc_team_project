@@ -1,8 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberBlackList" width="1280" height="720" titletext="New Form">
+  <Form id="Form_MemberBlackList" width="1280" height="720" titletext="New Form" background="lightBlue" onload="Form_MemberBlackList_onload">
     <Layouts>
-      <Layout height="720" width="1280"/>
+      <Layout height="720" width="1280">
+        <Static id="black_search_box" taborder="0" left="20" top="17" width="1240" height="210" background="white" text="" borderRadius="8px"/>
+        <Static id="grade_search_box00" taborder="1" left="20" top="237" width="1240" height="470" background="white" text="" borderRadius="8px" onclick="grade_search_box00_onclick"/>
+        <Static id="Static00_00" taborder="2" text="아이디" left="37" top="100" width="46" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
+        <Static id="Static00_00_00" taborder="3" text="이름" left="44" top="37" width="32" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
+        <Static id="Static00_00_00_00" taborder="4" text="전화번호" left="700" top="37" width="60" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
+        <Static id="Static00_00_00_00_00" taborder="5" text="이메일" left="706" top="100" width="48" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center" onclick="Static00_00_00_00_00_onclick"/>
+        <Edit id="Edit00" taborder="6" left="86" top="38" width="504" height="29"/>
+        <Edit id="Edit00_00" taborder="7" left="87" top="100" width="506" height="28"/>
+        <Button id="search_btn" taborder="8" text="검색하기" left="540" top="188" width="98" height="30" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="search_btn_onclick"/>
+        <Button id="Button01" taborder="9" text="초기화" left="660" top="188" width="104" height="30" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
+        <Edit id="Edit02" taborder="10" left="784" top="96" width="432" height="29"/>
+        <Grid id="black_list" taborder="11" left="50" top="260" height="440" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_list">&gt;
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="165"/><Column size="136"/><Column size="157"/><Column size="119"/><Column size="203"/><Column size="238"/><Column size="120"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="이메일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="전화번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="블랙처리일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="가입일" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/><Cell col="7" text="관리" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/></Band><Band id="body"><Cell text="expr:currow + 1"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="3" text="bind:EMAIL_ADDR" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="4" text="bind:PHONE_NUMBER" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/><Cell col="5" text="bind:UPDATE_DT" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="6" text="bind:INPUT_DT" displaytype="normal" edittype="none" combocodecol="GRADE_CODE" combodatacol="GRADE_NAME" combodataset="ds_grade" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/><Cell col="7" displaytype="buttoncontrol" edittype="button" text="상세보기"/></Band></Format></Formats></Grid>
+        <MaskEdit id="MaskEdit00" taborder="12" left="784" top="36" width="432" height="32" onchanged="MaskEdit00_onchanged" format="###-####-####" limitbymask="none" type="string"/>
+      </Layout>
     </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Form_MemberBlackList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_selectBlackList();
+};
+
+
+//블랙 리스트 조회
+this.fn_selectBlackList= function(){
+	
+	var strSvcID = "selectBlackList"
+	var setURL = "svc::/selectBlackListByAdmin.do";
+	var strInDatasets = "ds_search=ds_search";
+	var strOutDatasets = "ds_list=ds_list";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+
+// 공통 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+	
+	if(errorCode == -1){
+		this.alert(errorMSG)
+	}
+	
+	switch(svcID){
+	case "selectBlackList" : 
+		console.log(this.ds_list.saveXML());
+		break;
+	
+	}
+	
+}
+
+//검색하기
+this.search_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_selectBlackList();
+};
+
+//초기화
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="black_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+      <BindItem id="item1" compid="Edit00" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
+      <BindItem id="item2" compid="Edit00_00" propid="value" datasetid="ds_search" columnid="MEMBER_ID"/>
+      <BindItem id="item4" compid="Edit02" propid="value" datasetid="ds_search" columnid="EMAIL_ADDR"/>
+      <BindItem id="item3" compid="MaskEdit00" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="EMAIL_ADDR" type="STRING" size="256"/>
+          <Column id="UPDATE_DT" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="EMAIL_ADDR" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
   </Form>
 </FDL>
