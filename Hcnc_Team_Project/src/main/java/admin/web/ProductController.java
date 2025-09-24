@@ -251,26 +251,6 @@ public class ProductController {
     	return result;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 	// ----------------- 상품관리 -----------------  
 	// 상품 등록 (상품/옵션/재고)
 	@RequestMapping("/insertProductByAdmin.do")
