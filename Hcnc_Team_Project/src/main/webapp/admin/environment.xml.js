@@ -31,7 +31,11 @@ if (nexacro.Environment)
         nexacro._addService("banner", "form", "./banner/", "session", null, "", "0", "0");
         nexacro._addService("dash", "form", "./dash/", "session", null, "", "0", "0");
         nexacro._addService("popup", "form", "./popup/", "session", null, "", "0", "0");
+
+        nexacro._addService("common", "js", "./common/", "session", null, "", "0", "0");
+
         nexacro._addService("css", "file", "./css/", "session", null, "", "0", "0");
+
     	nexacro._component_uri = (nexacro._arg_compurl ? nexacro._arg_compurl : "./nexacro17lib/component/");
     	nexacro._theme_uri = "./_resource_/_theme_/";
     	// load components
