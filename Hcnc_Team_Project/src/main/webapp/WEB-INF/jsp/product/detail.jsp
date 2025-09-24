@@ -82,7 +82,7 @@
 		}
 
 		#product-image:hover {
-			transform: scale(1.01);
+			/* transform: scale(1.01); */
 			border-color: #DC0630;
 		}
 
@@ -313,7 +313,7 @@
 		#add-to-cart:hover {
 			background-color: #b8052a !important;
 			border-color: #b8052a !important;
-			transform: translateY(-2px);
+			/* transform: translateY(-2px); */
 			box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3);
 		}
 
@@ -326,7 +326,7 @@
 		#buy-now:hover {
 			background-color: #DC0630 !important;
 			color: #ffffff !important;
-			transform: translateY(-2px);
+			/* transform: translateY(-2px); */
 			box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3);
 		}
 
@@ -335,9 +335,12 @@
 			display: flex;
 			justify-content: space-between;
 			gap: 4%;
-			margin-top: 25px;
 			padding-top: 20px;
 			border-top: 1px solid #f1f3f4;
+		}
+		
+		.button-container button {
+			height: 60px;
 		}
 
 		/* 탭 네비게이션 */
