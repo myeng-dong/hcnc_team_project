@@ -8,7 +8,7 @@
         <!-- 옵션입력 안내 -->
         <Static id="sta_notice" text="옵션 입력 (옵션코드 자동생성)" left="30" top="80" width="600" height="30" font="11pt 'Gulim'" color="#666666"/>
         <!-- 옵션입력 그리드 -->
-        <Grid id="grd_option" left="30" top="120" width="1220" height="550" binddataset="ds_optionReg" autofittype="col" border="1px solid #cccccc" borderRadius="8px">
+        <Grid id="grd_option" left="30" top="120" width="1220" height="550" binddataset="ds_optionReg" autofittype="col" border="1px solid #cccccc" borderRadius="8px" oncellposchanged="grd_option_oncellposchanged">
           <Formats>
             <Format id="default">
               <Columns>
@@ -46,8 +46,13 @@
         <Button id="btn_cancel" text="취소" left="1150" top="690" width="100" height="40" background="#bbbbbb" color="#ffffff" font="bold 11pt/normal 'Arial'" borderRadius="6px" cursor="pointer" onclick="btn_cancel_onclick"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[this.Form_ProductOptionReg_onload = function(obj,e)
+    <Script type="xscript5.1"><![CDATA[
+include "common::common.xjs";
+
+this.Form_ProductOptionReg_onload = function(obj,e)
 {
+
+	
     var app = nexacro.getApplication();
     var oArgs = this.getOwnerFrame().arguments;
 
@@ -55,7 +60,7 @@
         // 단건조회 호출
         this.transaction(
             "selectOptionOneByAdmin",
-            "svc::selectOptionOneByAdmin.do",
+            "svc::selectOptionOneByAdmin.do?time=" + new Date().getTime(),
             "",
             "ds_optionReg=ds_optionReg",
             "OPTION_ID=" + oArgs.OPTION_ID,
@@ -69,9 +74,15 @@
     }
     else {
         // 신규 등록 모드
-        this.ds_optionReg.clearData();
+		var app = nexacro.getApplication();
         var nRow = this.ds_optionReg.addRow();
-        this.ds_optionReg.setColumn(nRow, "INPUT_ID", this.loginUserId);
+        this.ds_optionReg.setColumn(nRow, "INPUT_ID", app.loginUserId);
+
+		// 상품 화면에서 넘어온 PRODUCT_ID가 있다면 세팅
+		if (this.getOwnerFrame().arguments && this.getOwnerFrame().arguments.PRODUCT_ID) {
+			this.ds_optionReg.setColumn(nRow, "PRODUCT_ID", this.getOwnerFrame().arguments.PRODUCT_ID);
+		}
+
 
         this.btn_addRow.set_visible(true);
         this.btn_delRow.set_visible(true);
@@ -105,7 +116,7 @@ this.btn_addRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 
 this.btn_delRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	var nRow = this.ds_optionReg.currentrow();
+	var nRow = this.ds_optionReg.rowposition;
 	if(nRow < 0) {
 		this.alert("삭제할 행을 선택하세요.");
 		return;
@@ -117,11 +128,42 @@ this.btn_delRow_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 // 저장 (등록/수정)
 this.btn_save_onclick = function(obj,e)
 {
-    if(!this.confirm("저장하시겠습니까?")) return;
 
+    var nRow = this.ds_optionReg.currentRow;
+
+    // ===== 필수값 체크 =====
+    var optionName  = this.ds_optionReg.getColumn(nRow, "OPTION_NAME");
+    var optionValue = this.ds_optionReg.getColumn(nRow, "OPTION_VALUE");
+
+    if (!optionName || optionName.trim() == "") {
+        this.alert("옵션명을 입력하세요.");
+        return;
+    }
+    if (!optionValue || optionValue.trim() == "") {
+        this.alert("옵션 세부값을 입력하세요.");
+        return;
+    }
+
+    // ===== 추가금액 처리 (빈칸이면 0, 숫자가 아니어도 0) =====
+    var addPrice = this.ds_optionReg.getColumn(nRow, "ADDITIONAL_PRICE");
+    if (addPrice == null || addPrice.toString().trim() == "" || isNaN(addPrice)) {
+        this.ds_optionReg.setColumn(nRow, "ADDITIONAL_PRICE", 0);
+    }
+
+    // ===== 등록자/수정자 세팅 =====
+    var app = nexacro.getApplication();
+    if (this.ds_optionReg.getColumn(nRow, "OPTION_ID")) {
+        // 수정 모드
+        this.ds_optionReg.setColumn(nRow, "UPDATE_ID", app.loginUserId);
+    } else {
+        // 등록 모드
+        this.ds_optionReg.setColumn(nRow, "INPUT_ID", app.loginUserId);
+    }
+	
+    if(!this.confirm("저장하시겠습니까?")) return;
     this.transaction(
         "saveOptionByAdmin",
-        "svc::saveOptionByAdmin.do",
+        "svc::saveOptionByAdmin.do?time=" + new Date().getTime(),
         "ds_optionReg=ds_optionReg:U",  // 등록: Inserted(2), 수정: Updated(4)
         "",
         "",
@@ -159,21 +201,6 @@ this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ]]></Script>
     <Objects>
       <!-- 옵션입력 Dataset -->
@@ -186,9 +213,6 @@ this.fn_callback = function (strSvcID, nErrorCode, strErrorMsg)
           <Column id="INPUT_ID" type="STRING" size="256"/>
           <Column id="UPDATE_ID" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row/>
-        </Rows>
       </Dataset>
     </Objects>
   </Form>

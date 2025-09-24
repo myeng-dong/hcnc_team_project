@@ -114,13 +114,13 @@
             obj.set_cursor("pointer");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("stc_ship00","375","8","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("stc_ship00","415","8","80","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("8");
             obj.set_text("결제 방법");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Radio("rad_payMeth","455","5","167","45",null,null,null,null,null,null,this.search_area.form);
+            obj = new Radio("rad_payMeth","495","5","167","45",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("9");
             obj.set_innerdataset("ds_payMethod");
             obj.set_codecolumn("NAME");
