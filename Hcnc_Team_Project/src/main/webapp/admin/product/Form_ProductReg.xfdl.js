@@ -324,6 +324,9 @@
             if (errCode < 0) { this.alert("오류: " + errMsg); return; }
 
             switch(svcID){
+        		case "selectCategory":
+
+        			break;
         		case "insertProductByAdmin":
                     var newProductId = this.ds_out_product.getColumn(0, "PRODUCT_ID");
                     this.alert("상품등록이 완료되었습니다. 상품번호: " + newProductId);
