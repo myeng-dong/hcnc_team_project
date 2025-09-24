@@ -342,41 +342,50 @@
     </select>
     
     <!-- 포인트 유형 조회  -->
-    <select id="selectMemberChageTypeList" resultType="java.util.Map" >
+    <select id="selectMemberChageTypeList" parameterType="java.util.Map" resultType="java.util.Map" >
      	SELECT DISTINCT CHANGE_TYPE
      	  FROM POINTS
+         WHERE 1=1
+         <if test="MEMBER_ID != null and MEMBER_ID != ''">
+  		   AND MEMBER_ID = #{MEMBER_ID}
+         </if>
          ORDER BY CHANGE_TYPE
     </select>
     
     <!-- 포인트 상세 조회 -->
-    <select  id="selectPointDetailList"  parameterType="java.util.Map" resultType="java.util.Map">
-       SELECT 
-    		P.CHANGE_TYPE
-    		,P.POINT
-    		,P.DESCRIPTION
-    		,P.INPUT_DT
-    		,O.ORDER_NUMBER
-    	FROM POINTS P 
-       INNER JOIN ORDERS O
-       	  ON P.ORDER_ID = O.ORDER_ID
-       WHERE P.MEMBER_ID = #{MEMBER_ID}
-       <if test="CHANGE_TYPE != null and CHANGE_TYPE != ''">
-       	 	AND P.CHANGE_TYPE = #{CHANGE_TYPE}
-       </if>
-       <if test="SDATE != null and EDATE != null ">
-       	    AND P.INPUT_DT BETWEEN #{SDATE} AND DATE_ADD(#{EDATE}, INTERVAL 1 DAY)
-       </if>
-       <if test="ORDER_NUMBER != null and ORDER_NUMBER != ''">
-			AND O.ORDER_NUMBER = #{ORDER_NUMBER}       
-       </if>
-    </select>
+	 <select id="selectPointDetailList" parameterType="java.util.Map" resultType="java.util.Map">
+	   SELECT
+	       P.MEMBER_ID
+	       ,P.CHANGE_TYPE
+	       ,P.POINT
+	       ,P.DESCRIPTION
+	       ,P.INPUT_DT
+	       ,COALESCE(O.ORDER_NUMBER, '관리자 직접 처리') AS ORDER_NUMBER
+	   FROM POINTS P 
+	   LEFT JOIN ORDERS O
+	     ON P.ORDER_ID = O.ORDER_ID
+	   WHERE P.MEMBER_ID = #{MEMBER_ID}
+	   <if test="CHANGE_TYPE != null and CHANGE_TYPE != ''">
+	        AND P.CHANGE_TYPE = #{CHANGE_TYPE}
+	   </if>
+	   <if test="SDATE != null and EDATE != null ">
+	        AND P.INPUT_DT BETWEEN #{SDATE} AND DATE_ADD(#{EDATE}, INTERVAL 1 DAY)
+	   </if>
+	   <if test="ORDER_NUMBER != null and ORDER_NUMBER != ''">
+	       AND O.ORDER_NUMBER LIKE CONCAT('%',#{ORDER_NUMBER},'%')     
+	   </if>
+	   ORDER BY P.INPUT_DT DESC
+	</select>
     
     <!-- 쿠폰 상세 조회 -->
     <select id="selectCouponDetailList" resultType="java.util.Map" parameterType="java.util.Map">
     	SELECT 
     		C.COUPON_CODE
     		,C.COUPON_TYPE
-    		,C.DISCOUNT_TYPE
+    		,CASE 
+    		  WHEN C.DISCOUNT_TYPE = 'R' THEN '%'
+    		  WHEN C.DISCOUNT_TYPE = 'G' THEN '₩'
+    		END AS DISCOUNT_UNIT
     		,C.DISCOUNT_VALUE
     		,C.MIN_ORDER_PRICE
     		,C.ISSUED_DT
@@ -404,6 +413,46 @@
        ORDER BY C.ISSUED_DT DESC
     </select>
     
+    <!-- 포안트 적립 및 차감 -->
+	<insert id="insertPoint" parameterType="java.util.Map">
+	    INSERT INTO POINTS(
+	        MEMBER_ID,
+	        CHANGE_TYPE,
+	        POINT,
+	        DESCRIPTION,
+	        INPUT_DT
+	    )VALUES(
+	        #{MEMBER_ID},
+	        #{CHANGE_TYPE},
+	        CASE 
+	            WHEN #{CHANGE_TYPE} = '사용' THEN -ABS(#{POINT})
+	            ELSE ABS(#{POINT})
+	        END,
+	        #{DESCRIPTION},
+	        NOW()
+	    )
+	</insert>
+	
+	<!-- 쿠폰 지급 -->
+	<insert id="insertCoupon" parameterType="java.util.Map">
+		INSERT INTO COUPONS(
+			MEMBER_ID
+			,COUPON_CODE
+			,DISCOUNT_TYPE
+			,DISCOUNT_VALUE
+			,MIN_ORDER_PRICE
+			,EXPIRY_DT
+			,COUPON_TYPE
+		)VALUES(
+			#{MEMBER_ID}
+			,#{COUPON_CODE}
+			,#{DISCOUNT_TYPE}
+			,#{DISCOUNT_VALUE}
+			,#{MIN_ORDER_PRICE}
+			,#{EXPIRY_DT}
+			,#{COUPON_TYPE}
+		)
+	</insert>
     
     
   

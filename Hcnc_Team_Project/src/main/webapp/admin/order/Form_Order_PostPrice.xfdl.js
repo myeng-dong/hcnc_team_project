@@ -56,7 +56,8 @@
             obj.set_codecolumn("COURIER_NAME");
             obj.set_datacolumn("COURIER_NAME");
             obj.set_text("");
-            obj.set_index("-1");
+            obj.set_value("");
+            obj.set_index("0");
             this.search_area.addChild(obj.name, obj);
 
             obj = new Grid("grid_list","40","110",null,null,"40","40",null,null,null,null,this);
@@ -66,7 +67,7 @@
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"40\"/><Column size=\"90\"/><Column size=\"90\"/><Column size=\"115\"/><Column size=\"53\"/><Column size=\"115\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"택배사\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"택배비\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"무료배송\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"추가사유\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"5\" text=\"추가금\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" edittype=\"checkbox\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" text=\"bind:CHK\"/><Cell col=\"1\" text=\"bind:COURIER_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:SHIP_COST\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"3\" text=\"bind:FREE_SHIPPING_PRICE\" textAlign=\"right\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"4\" text=\"bind:ADDITIONAL_TYPE\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"5\" text=\"bind:ADDITIONAL_PRICE\" textAlign=\"right\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"40\"/><Column size=\"90\"/><Column size=\"90\"/><Column size=\"115\"/><Column size=\"53\"/><Column size=\"115\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"택배사\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"택배비\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"무료배송\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"추가사유\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"5\" text=\"추가금\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" edittype=\"checkbox\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" text=\"bind:CHK\"/><Cell col=\"1\" text=\"bind:COURIER_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:SHIP_COST\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"3\" text=\"bind:FREE_SHIPPING_PRICE\" textAlign=\"right\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"4\" text=\"bind:ADDITIONAL_TYPE\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"5\" text=\"bind:ADDITIONAL_PRICE\" textAlign=\"right\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_save",null,"70","100","30","40",null,null,null,null,null,this);
@@ -171,24 +172,6 @@
             this.fnSaveSelectedPostPrice();
         };
 
-
-        this.search_area_Edit00_00_onkeyup = function(obj,e)
-        {
-
-        	if (e.keycode == 13) {  // 13 = Enter 키
-                // 조회 버튼 클릭 이벤트와 동일 동작 실행
-                this.fnSearchPostPrice();
-            }
-        };
-
-        // 콤보박스 선택시
-        this.search_area_Combo00_onitemchanged = function(obj,e)
-        {
-        	var post = e.postvalue;
-        	this.ds_search.setColumn(0,"COURIER_NAME",post)
-        	this.fnSearchPostPrice();
-        };
-
         //체크박스 전체선택 , 전체해제
         this.grid_list_onheadclick = function(obj, e)
         {
@@ -208,6 +191,26 @@
                 }
             }
         };
+
+
+        // 이름칸에서 엔터 눌렀을때
+        this.search_area_Edit00_00_onkeyup = function(obj,e)
+        {
+
+        	if (e.keycode == 13) {  // 13 = Enter 키
+                // 조회 버튼 클릭 이벤트와 동일 동작 실행
+                this.fnSearchPostPrice();
+            }
+        };
+
+        // 콤보박스 선택시
+        this.search_area_Combo00_onitemchanged = function(obj,e)
+        {
+        	var post = e.postvalue;
+        	this.ds_search.setColumn(0,"COURIER_NAME",post)
+        	this.fnSearchPostPrice();
+        };
+
 
 
         });

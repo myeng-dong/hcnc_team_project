@@ -315,6 +315,7 @@
         
         // User Script
         this.registerScript("Form_BannerWrite.xfdl", function() {
+        this.memberId=""; //작성자 불러가야함
         // 오늘 날짜 계산
         var objDate = new nexacro.Date();
         var mm = (objDate.getMonth() + 1).toString().padLeft(2, "0");
@@ -324,6 +325,9 @@
 
         this.Form_BannerWrite_onload = function(obj, e) {
             trace("배너 추가페이지 >>>");
+
+            var bannerId = this.getOwnerFrame.arguments["BANNER_ID"];
+        	this.fnUpdateBanner(bannerId);
 
             // 기본값은 insert id값 있으면 update되도록 설정
             this.mode = "insert";

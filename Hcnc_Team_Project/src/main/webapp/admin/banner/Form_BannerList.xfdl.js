@@ -66,6 +66,16 @@
             obj.set_border("0px none");
             obj.set_font("normal bold 10pt/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
+
+            obj = new Button("btn_delete",null,"640","140",null,"1100","40",null,null,null,null,this);
+            obj.set_taborder("5");
+            obj.set_text("선택지우기");
+            obj.set_background("#d92d06");
+            obj.set_color("#ffffff");
+            obj.set_borderRadius("5px");
+            obj.set_border("0px none");
+            obj.set_font("normal bold 10pt/normal \"Noto Sans KR Medium\"");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
@@ -99,6 +109,18 @@
         	this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
         };
 
+        //cell클릭시 argument기억
+        this.grid_list_oncellclick = function(obj,e)
+        {
+        	if(e.cell == 10){
+        		var BannerId = this.ds_banner.getColumn(e.row,"BANNER_ID")
+
+        		//부모페이지 자식페이지 값 전달하기 arguments
+        		this.getOwnerFrame().arguments = {"BANNER_ID" : BannerId}
+
+        		this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
+        	}
+        };
 
         // 배너조회
         this.fnSearchBanner = function() {
@@ -136,6 +158,7 @@
             this.txt_bannertotal.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
             this.txt_bannertotal00.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
             this.btn_write.addEventHandler("onclick",this.btn_write_onclick,this);
+            this.btn_delete.addEventHandler("onclick",this.btn_write_onclick,this);
         };
         this.loadIncludeScript("Form_BannerList.xfdl");
         this.loadPreloadList();

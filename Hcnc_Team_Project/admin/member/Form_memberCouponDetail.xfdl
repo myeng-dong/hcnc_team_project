@@ -6,7 +6,7 @@
         <Static id="point_detail_box" taborder="0" left="20" top="17" width="1240" height="213" background="white" text="" borderRadius="8px"/>
         <Static id="grade_search_box00" taborder="1" left="20" top="240" width="1240" height="470" background="white" text="" borderRadius="8px" onclick="grade_search_box00_onclick"/>
         <Grid id="pointAndCoupon" taborder="2" left="35" top="250" height="411" background="#FFFFFF" border="0px none" borderRadius="10px" right="35" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick">&gt;
-          <Formats><Format id="default"><Columns><Column size="52"/><Column size="126"/><Column size="100"/><Column size="83"/><Column size="91"/><Column size="107"/><Column size="152"/><Column size="146"/><Column size="73"/><Column size="152"/><Column size="141"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="쿠폰코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="쿠폰종류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="할인방식" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="할인값" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="최소주문금액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="발급일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="만료일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="사용여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="사용일자" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="주문번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:COUPON_CODE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="2" text="bind:COUPON_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:DISCOUNT_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="4" edittype="normal" text="bind:DISCOUNT_VALUE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="normal" edittype="none" font="12px/normal &quot;LG Smart UI Bold&quot;" text="bind:MIN_ORDER_PRICE" textAlign="center"/><Cell col="6" text="bind:ISSUED_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="7" text="bind:EXPIRY_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="8" text="bind:IS_USED" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="9" text="bind:USED_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="10" text="bind:ORDER_NUMBER" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/></Band></Format></Formats></Grid>
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="126"/><Column size="100"/><Column size="83"/><Column size="91"/><Column size="107"/><Column size="152"/><Column size="146"/><Column size="73"/><Column size="152"/><Column size="132"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="쿠폰코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="쿠폰종류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="할인방식" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="할인값" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="최소주문금액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="발급일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="만료일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="사용여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="사용일자" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="주문번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:COUPON_CODE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="2" text="bind:COUPON_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:DISCOUNT_UNIT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="4" edittype="normal" text="bind:DISCOUNT_VALUE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="normal" edittype="none" font="12px/normal &quot;LG Smart UI Bold&quot;" text="bind:MIN_ORDER_PRICE" textAlign="center"/><Cell col="6" text="bind:ISSUED_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="7" text="bind:EXPIRY_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="8" text="bind:IS_USED" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="9" text="bind:USED_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="10" text="bind:ORDER_NUMBER" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/></Band></Format></Formats></Grid>
         <Static id="Static00_00" taborder="3" text="사용 여부" left="43" top="30" width="66" bottom="663" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
         <Static id="Static00_00_00" taborder="4" text="쿠폰 종류" left="43" top="67" width="66" bottom="626" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
         <Static id="Static00_00_00_00" taborder="5" text="발급일자" left="43" top="110" width="66" bottom="583" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
@@ -19,9 +19,10 @@
         <Calendar id="Calendar02" taborder="12" left="120" top="155" width="408" height="30"/>
         <Static id="Static00_01" taborder="13" text="~" left="526" top="160" textAlign="center" right="726" font="bold 12px/normal &quot;Gulim&quot;" bottom="536"/>
         <Calendar id="Calendar03" taborder="14" left="551" top="157" width="469" height="30"/>
-        <Button id="back_btn" taborder="15" text="뒤로가기" left="592" top="667" width="108" height="27" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="back_btn_onclick"/>
+        <Button id="back_btn" taborder="15" text="뒤로가기" left="556" top="666" width="104" height="28" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="back_btn_onclick"/>
         <Button id="Button00" taborder="16" text="조회하기" left="450" top="197" width="78" height="24" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button00_onclick"/>
         <Button id="Button01" taborder="17" text="초기화" left="542" top="198" width="78" height="22" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
+        <Button id="Button02" taborder="18" text="쿠폰 지급" left="680" top="666" width="98" height="28" borderRadius="4px" color="black" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button02_onclick"/>
       </Layout>
     </Layouts>
     <Bind>
@@ -38,7 +39,7 @@
         <ColumnInfo>
           <Column id="COUPON_CODE" type="STRING" size="256"/>
           <Column id="COUPON_TYPE" type="STRING" size="256"/>
-          <Column id="DISCOUNT_TYPE" type="STRING" size="256"/>
+          <Column id="DISCOUNT_UNIT" type="STRING" size="256"/>
           <Column id="DISCOUNT_VALUE" type="STRING" size="256"/>
           <Column id="MIN_ORDER_PRICE" type="STRING" size="256"/>
           <Column id="ISSUED_DT" type="STRING" size="256"/>
@@ -85,13 +86,13 @@
     <Script type="xscript5.1"><![CDATA[this.memberId=""; 
 this.Form_memberCouponDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	 
-  // 부모 Frame에서 arguments 꺼내오기
-  var ownerFrame = this.getOwnerFrame();
-  var memberId = ownerFrame.arguments["MEMBER_ID"];
-  
-  this.ds_search.setColumn(0, "MEMBER_ID", memberId);
-  this.fn_selectPointDetailList();
+	
+	// 부모 Frame에서 arguments 꺼내오기
+	var ownerFrame = this.getOwnerFrame();
+	var memberId = ownerFrame.arguments["MEMBER_ID"];
+	
+	this.ds_search.setColumn(0, "MEMBER_ID", memberId);
+	this.fn_selectPointDetailList();
 };
 
 
@@ -120,7 +121,7 @@ this.fn_callBack = function(svcID, errorCode, errorMSG){
 	case "selectCouponDetail" : 
 		console.log(this.ds_list.saveXML());
 		break;
-	
+		
 	}
 	
 }
@@ -140,7 +141,40 @@ this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 //초기화
 this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-   this.reload();
+	this.reload();
+};
+
+
+//쿠폰 지급 눌렀을 때 팝업창 띄우기 
+this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	
+	var memberId = this.ds_search.getColumn(0, "MEMBER_ID");
+    
+    var surl = "member::Form_MemberCouponInsert.xfdl";
+    var param = { MEMBER_ID: memberId };
+    
+    // 디버깅용 로그 추가
+    trace("팝업 호출 시 전달할 MEMBER_ID: " + memberId);
+    
+    var popup = new nexacro.ChildFrame();
+    popup.init("updatePop", 0, 0, 800, 700, null, null, surl);
+    popup.set_dragmovetype("all");
+    popup.set_showtitlebar(true);
+    popup.set_titletext("쿠폰 지급");
+    
+    // 두 번째 인자로 param을 전달
+    popup.showModal(this.getOwnerFrame(), param, this, "fn_popCallback");
+};
+
+
+//팝업 콜백
+this.fn_popCallback = function(svcID, strVal){
+	switch(svcID){
+	case "updatePop":
+		this.fn_selectPointDetailList();
+		break;
+	}
 };
 ]]></Script>
   </Form>

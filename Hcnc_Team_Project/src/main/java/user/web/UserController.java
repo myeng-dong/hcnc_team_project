@@ -5,7 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import user.service.UserService;
 import user.service.UserBannerService;
@@ -24,17 +23,18 @@ public class UserController {
 	@RequestMapping("/main.do")
 	public ModelAndView userMain() { 
 		ModelAndView mv = new ModelAndView();
+		//카테고리는 전역에서 
 		
 		// Grade 데이터
 		List<Map<String,Object>> gradeList = userService.selectGradeListByUser();
 		System.out.println(gradeList);
 		mv.addObject("gradeList", gradeList);
 		
+		//배너+상품
 		List<Map<String,Object>> bannerList = userBannerService.selectBannerListByUser();
 		List<Map<String,Object>> productList = userProductService.selectMNProductListByUser();
 		
 		System.out.println("총 배너 개수 확인용: " + bannerList.size());
-		System.out.println("총프로덕트확인용: " + productList.size());
 		
 		// 배너 타입별로 분리
 		List<Map<String,Object>> mainBanners = new ArrayList<>();
@@ -82,10 +82,7 @@ public class UserController {
 		mv.addObject("mainBanners", mainBanners);
 		mv.addObject("topBanners", topBanners);
 		mv.addObject("popupBanners", popupBanners);
-
-		mv.addObject("newProducts", newProducts);
-		mv.addObject("recommendProducts", recommendProducts);
-
+		
 		mv.setViewName("main/main");
 	    return mv;
 	}

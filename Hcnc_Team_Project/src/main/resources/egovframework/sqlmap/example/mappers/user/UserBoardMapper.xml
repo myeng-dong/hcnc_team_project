@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user.mapper.UserBoardMapper">
+	<select id="selectBoardListByUser" parameterType="String" resultType="java.util.Map">
+        SELECT P.POST_ID
+		     , P.BOARD_ID
+		     , P.MEMBER_ID
+		     , P.POST_TITLE
+             , P.POST_CONTENT
+		     , P.VIEW_CNT
+		     , P.SORT_NUMBER
+		     , P.POST_STATUS
+		     , P.INPUT_DT
+		     , P.UPDATE_DT
+        	 , B.BOARD_NAME
+        	 , B.BOARD_CODE
+	    FROM POSTS P
+	    JOIN BOARDS B ON P.BOARD_ID = B.BOARD_ID
+	    WHERE B.BOARD_CODE = #{boardCode}
+	    ORDER BY P.INPUT_DT DESC
+    </select>
+
+</mapper>
