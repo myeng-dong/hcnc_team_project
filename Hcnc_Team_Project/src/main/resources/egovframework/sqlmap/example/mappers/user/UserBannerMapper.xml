@@ -9,5 +9,6 @@
 		<if test="bannerType != null and bannerType != ''">
 		    AND BANNER_TYPE = #{bannerType}
 		</if>
+		ORDER BY INPUT_DATE DESC
 	</select>
 </mapper>
