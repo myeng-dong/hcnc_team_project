@@ -86,7 +86,9 @@
     <select id="getCategoryCount" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         SELECT 
             wi.MAIN_CATE_ID as category,
-            COUNT(*) as count,
+
+            COUNT(0) as count,
+
             mc.MAIN_CATE_NM as categoryName
         FROM WISH_ITEMS wi
         INNER JOIN WISH w ON wi.WISH_ID = w.WISH_ID
@@ -96,18 +98,73 @@
         ORDER BY wi.MAIN_CATE_ID
     </select>
 
-    <!-- 장바구니 추가 -->
-    <insert id="addToCart" parameterType="java.util.HashMap">
-        INSERT INTO CART (
-            MEMBER_ID,
-            PRODUCT_ID,
-            QUANTITY,
-            REG_DATE
-        ) VALUES (
-            #{memberId},
-            #{productId},
-            #{quantity},
-            NOW()
-        )
-    </insert>
+    
+    <!-- 장바구니 아이템 존재 확인 -->
+	<select id="checkCartItem" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    SELECT 
+	        ci.CART_ID,
+	        c.MEMBER_ID,
+	        ci.PRODUCT_ID,
+	        ci.QUANTITY,
+	        ci.PRICE,
+	        ci.SUB_TOTAL
+	    FROM CART_ITEMS ci
+	    INNER JOIN CARTS c ON ci.CART_ID = c.CART_ID
+	    WHERE c.MEMBER_ID = #{memberId} 
+	    AND ci.PRODUCT_ID = #{productId}
+	    AND ci.IS_CHECKED = 'Y'
+	    LIMIT 1
+	</select>
+	
+	<!-- 사용자 장바구니 생성 (없으면) -->
+	<insert id="createUserCart" parameterType="java.util.HashMap">
+	    INSERT IGNORE INTO CARTS (
+	        MEMBER_ID,
+	        TOTAL_PRICE,
+	        INPUT_DT,
+	        UPDATE_DT
+	    ) VALUES (
+	        #{memberId},
+	        0,
+	        NOW(),
+	        NOW()
+	    )
+	</insert>
+	
+	<!-- 장바구니 담기 -->
+	<insert id="addToCart" parameterType="java.util.HashMap">
+	    INSERT INTO CART_ITEMS (
+	        CART_ID,
+	        PRODUCT_ID,
+	        QUANTITY,
+	        PRICE,
+	        SUB_TOTAL,
+	        INPUT_DT,
+	        IS_CHECKED
+	    ) 
+	    SELECT 
+	        c.CART_ID,
+	        #{productId},
+	        COALESCE(#{quantity}, 1),
+	        COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE),
+	        COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) * COALESCE(#{quantity}, 1),
+	        NOW(),
+	        'Y'
+	    FROM CARTS c, PRODUCTS p 
+	    WHERE c.MEMBER_ID = #{memberId} 
+	    AND p.PRODUCT_ID = #{productId}
+	</insert>
+	
+	<!-- 장바구니 수량 업데이트 -->
+	<update id="updateCartQuantity" parameterType="java.util.HashMap">
+	    UPDATE CART_ITEMS ci
+	    INNER JOIN CARTS c ON ci.CART_ID = c.CART_ID
+	    INNER JOIN PRODUCTS p ON ci.PRODUCT_ID = p.PRODUCT_ID
+	    SET ci.QUANTITY = #{quantity},
+	        ci.SUB_TOTAL = COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) * #{quantity}
+	    WHERE c.MEMBER_ID = #{memberId} 
+	    AND ci.PRODUCT_ID = #{productId}
+	    AND ci.IS_CHECKED = 'Y'
+	</update>
+
 </mapper>
