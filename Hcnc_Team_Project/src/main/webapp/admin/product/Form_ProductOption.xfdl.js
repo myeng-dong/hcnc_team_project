@@ -35,18 +35,18 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("Div00_00","24","84",null,"76","26",null,null,null,null,null,this);
+            obj = new Div("Div00_00","49","84","1230","76",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px 10px 10px 10px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_search","315","21","331","35",null,null,null,null,null,null,this.Div00_00.form);
+            obj = new Edit("edt_search","311","21",null,"35","588",null,null,null,null,null,this.Div00_00.form);
             obj.set_taborder("0");
             this.Div00_00.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","24","200",null,"570","26",null,null,null,null,null,this);
+            obj = new Grid("grid_list","49","200","1230","570",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
@@ -56,20 +56,20 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"78\"/><Column size=\"49\"/><Column size=\"100\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"69\"/><Column size=\"223\"/></Columns><Rows><Row size=\"62\" band=\"head\"/><Row size=\"48\" band=\"head\"/><Row size=\"24\" band=\"head\"/><Row size=\"36\"/></Rows><Band id=\"head\"><Cell colspan=\"9\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" text=\"전체\" verticalAlign=\"bottom\"/><Cell row=\"1\" col=\"1\" rowspan=\"2\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"2\" rowspan=\"2\" text=\"옵션코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"3\" rowspan=\"2\" text=\"옵션명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"4\" rowspan=\"2\" text=\"옵션 세부사항\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"5\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"관련 상품명\"/><Cell row=\"1\" col=\"6\" rowspan=\"2\" text=\"옵션가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"7\" rowspan=\"2\" text=\"진열상태\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"8\" rowspan=\"2\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" background=\"#ffffff\" textAlign=\"center\" edittype=\"checkbox\" text=\"bind:chk\"/><Cell col=\"1\" text=\"expr:currow + 1\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"2\" background=\"#ffffff\" text=\"bind:OPTION_ID\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"3\" background=\"#ffffff\" text=\"bind:OPTION_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"4\" edittype=\"none\" background=\"#ffffff\" text=\"bind:OPTION_VALUE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"5\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"6\" edittype=\"none\" background=\"#ffffff\" text=\"bind:ADDITIONAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"7\" edittype=\"none\" background=\"#ffffff\" text=\"bind:IS_VISIBLE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"8\" edittype=\"none\" background=\"#ffffff\" text=\"bind:INPUT_DT\" font=\"12px/normal &quot;Gulim&quot;\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_total_prefix","168","221","20","20",null,null,null,null,null,null,this);
+            obj = new Static("stc_total_prefix","190","221","20","20",null,null,null,null,null,null,this);
             obj.set_text("총 [ ");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_total_value","200","221","20","20",null,null,null,null,null,null,this);
+            obj = new Static("stc_total_value","219","221","20","20",null,null,null,null,null,null,this);
             obj.set_text("");
             obj.set_textDecoration("underline");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_total_suffix","222","221","20","20",null,null,null,null,null,null,this);
+            obj = new Static("stc_total_suffix","234","221","20","20",null,null,null,null,null,null,this);
             obj.set_text(" ]건");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_show","810","221","92","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_show","828","221","92","35",null,null,null,null,null,null,this);
             obj.set_text("선택 진열");
             obj.set_color("#FFFFFF");
             obj.set_background("#f09d37");
@@ -77,7 +77,7 @@
             obj.set_font("bold 11pt/normal \"Arial\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_hide","920","221","92","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_hide","950","221","92","35",null,null,null,null,null,null,this);
             obj.set_text("진열 취소");
             obj.set_color("#FFFFFF");
             obj.set_background("#18b391");
@@ -85,7 +85,7 @@
             obj.set_font("bold 11pt/normal \"Arial\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_reg","1060","221","120","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_reg","1100","221","120","35",null,null,null,null,null,null,this);
             obj.set_text("옵션등록");
             obj.set_color("#FFFFFF");
             obj.set_background("#102b6e");
@@ -96,14 +96,14 @@
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_listTitle","50","201","80","61",null,null,null,null,null,null,this);
+            obj = new Static("sta_listTitle","70","201","80","61",null,null,null,null,null,null,this);
             obj.set_text("옵션 목록");
             obj.set_font("bold 13pt/normal \"Arial\"");
             obj.set_taborder("1");
             obj.set_color("#232323");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_prodType","40","102","140","40",null,null,null,null,null,null,this);
+            obj = new Static("sta_prodType","70","102","90","40",null,null,null,null,null,null,this);
             obj.set_text("옵션검색");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
@@ -113,7 +113,7 @@
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_view","690","105","72","34",null,null,null,null,null,null,this);
+            obj = new Button("btn_view","724","105","72","34",null,null,null,null,null,null,this);
             obj.set_text("조회");
             obj.set_color("#ffffff");
             obj.set_background("#102b6e");
@@ -137,7 +137,7 @@
             obj.set_index("1");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_listTitle00","413","201","215","61",null,null,null,null,null,null,this);
+            obj = new Static("sta_listTitle00","520","201","215","61",null,null,null,null,null,null,this);
             obj.set_text("옵션 더블클릭시 수정가능");
             obj.set_font("11pt/normal \"Arial\"");
             obj.set_taborder("12");
@@ -176,9 +176,9 @@
             var oArgs = this.getOwnerFrame().arguments;
 
             if (oArgs && oArgs.REFRESH == "Y") {
-        			this.fn_search();
-        			return;
-        		}
+        		this.fn_search();
+        		return;
+        	}
 
         	this.fn_search();
         }
@@ -227,11 +227,11 @@
             // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
 
         	this.gfn_transction(
-            "selectOptionByAdmin",
-            "selectOptionByAdmin.do?time=" + new Date().getTime(), // 캐시 방지용 파라미터 추가
-            "ds_searchCond=ds_searchCond",
-            "ds_out_opList=ds_out_opList",
-            ""
+        		"selectOptionByAdmin",
+        		"selectOptionByAdmin.do?time=" + new Date().getTime(), // 캐시 방지용 파라미터 추가
+        		"ds_searchCond=ds_searchCond",
+        		"ds_out_opList=ds_out_opList",
+        		""
         	);
 
         };
@@ -340,9 +340,9 @@
 
 
         /**
-         * 옵션 진열상태 변경 공통 함수
-         * @param {string} newState - "Y" = 진열, "N" = 숨김
-         */
+        * 옵션 진열상태 변경 공통 함수
+        * @param {string} newState - "Y" = 진열, "N" = 숨김
+        */
         this.fn_updateVisible = function(newState)
         {
             var selRows = [];
@@ -434,8 +434,8 @@
 
 
         /***************************************************
-         * 옵션목록 더블클릭 → 등록/수정 폼으로 이동
-         ***************************************************/
+        * 옵션목록 더블클릭 → 등록/수정 폼으로 이동
+        ***************************************************/
         this.grid_list_oncelldblclick = function(obj,e)
         {
             // 선택된 행 데이터 가져오기
@@ -449,23 +449,23 @@
 
             // 확인 메시지
             if (this.confirm("해당 옵션 정보를 수정하시겠습니까?")) {
-               this.fn_openOptionForm("UPDATE", {
-        			"OPTION_ID"        : optionId,
-                    "OPTION_NAME"      : optionName,
-                    "OPTION_VALUE"     : optionVal,
-                    "ADDITIONAL_PRICE" : addPrice
+        		this.fn_openOptionForm("UPDATE", {
+        				"OPTION_ID"        : optionId,
+        				"OPTION_NAME"      : optionName,
+        				"OPTION_VALUE"     : optionVal,
+        				"ADDITIONAL_PRICE" : addPrice
 
         			});
-        		}
+        	}
         };
 
 
 
         /**
-         * 옵션 등록/수정 폼 열기
-         * @param {string} mode - "INSERT" or "UPDATE"
-         * @param {object} args - 옵션 데이터 (수정일 경우)
-         */
+        * 옵션 등록/수정 폼 열기
+        * @param {string} mode - "INSERT" or "UPDATE"
+        * @param {object} args - 옵션 데이터 (수정일 경우)
+        */
         this.fn_openOptionForm = function(mode, args)
         {
             var app = nexacro.getApplication();

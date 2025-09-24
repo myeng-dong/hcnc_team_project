@@ -99,6 +99,10 @@ public class ProductService {
 		return productMapper.selectOptionOneByAdmin(optionId);
 	}
 
+	public List<Map<String, Object>> selectProductListOptionByAdmin(Map<String, Object> cond) {
+		return productMapper.selectProductListOptionByAdmin(cond);
+	}
+
 
 	
 	

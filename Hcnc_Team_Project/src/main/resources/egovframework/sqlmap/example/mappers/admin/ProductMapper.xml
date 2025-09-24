@@ -5,6 +5,7 @@
 
 <mapper namespace="admin.mapper.ProductMapper">
 
+	<!-- ___________상품관리___________ -->
 	<!-- 상품 목록 조회 - 파라미터: Map (ds_searchCond) - 빈값/전체값은 Controller에서 대부분 제거 
 		→ 여기선 값이 있을 때만 WHERE 추가 -->
 	<select id="selectProductListByAdmin"
@@ -137,7 +138,7 @@
 
 
 
-	<!-- 상품등록 -->
+	<!-- ___________상품등록___________ -->
 
 	<!-- 상품 등록 : PRODUCT_CONTENT 로 통일 -->
 	<insert id="insertProduct" parameterType="java.util.Map"
@@ -197,7 +198,7 @@
 
 
 
-	<!-- 카테고리 관리 -->
+	<!-- ___________카테고리 관리___________ -->
 	<!-- 대분류 -->
 	<select id="selectMainCategoryByAdmin"
 		resultType="java.util.Map">
@@ -273,7 +274,7 @@
 
 
 
-	<!-- 옵션 관리 -->
+	<!-- ___________옵션 관리___________ -->
 	<!-- 옵션 조회,검색 -->
 	<select id="selectOptionByAdmin" parameterType="java.util.Map"
 		resultType="java.util.Map" flushCache="true">
@@ -333,8 +334,6 @@
      WHERE OPTION_ID = #{OPTION_ID}
 	</select>
 
-
-
 	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="java.util.Map">
 		INSERT INTO OPTIONS
@@ -342,8 +341,6 @@
 		VALUES
 			(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID})
 	</insert>
-
-
 
 
 	<!-- 옵션 수정 -->
@@ -359,8 +356,16 @@
 	</update>
 
 
-
-
+	<!-- 옵션 등록시 필요한 상품 조회 -->
+	<select id="selectProductListOptionByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT PRODUCT_ID, PRODUCT_NAME
+		  FROM PRODUCTS
+		 WHERE 1=1
+		 <if test="SEARCH_TEXT != null and SEARCH_TEXT != ''">
+		 	AND PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+		 </if>
+		 ORDER BY PRODUCT_NAME
+	</select>
 
 
 
