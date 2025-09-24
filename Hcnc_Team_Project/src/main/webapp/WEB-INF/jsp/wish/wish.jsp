@@ -371,7 +371,7 @@
                 html += '</div>';
                 
                 html += '<div class="item-actions">';
-                html += '<button class="btn-cart" onclick="addToCart(' + item.PRODUCT_ID + ')">장바구니</button>';
+                /* html += '<button class="btn-cart" onclick="addToCart(' + item.PRODUCT_ID + ')">장바구니</button>'; */
                 html += '<button class="btn-detail" onclick="viewDetail(' + item.PRODUCT_ID + ')">상세보기</button>';
                 html += '</div>';
                 

@@ -2,8 +2,8 @@
 
 <jsp:include page="../layout/headertop.jsp" />
 <%-- <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/cart.css'/>" /> --%>
-<jsp:include page="../layout/header.jsp" />
-<jsp:include page="../layout/menu.jsp" />
+<%-- <jsp:include page="../layout/header.jsp" />
+<jsp:include page="../layout/menu.jsp" /> --%>
   
  <script>
     	// 페이지 로드
