@@ -14,7 +14,7 @@
             this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
-                this._setFormPosition(1280,720);
+                this._setFormPosition(1080,720);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
@@ -23,7 +23,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Grid("grid_list","40","33",null,null,"40","100",null,null,null,null,this);
+            obj = new Grid("grid_list","40","33",null,null,"40","120",null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
@@ -57,7 +57,7 @@
             obj.set_textAlign("right");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_write",null,"640","140",null,"40","40",null,null,null,null,this);
+            obj = new Button("btn_write",null,null,"140","40","40","40",null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("글쓰기");
             obj.set_background("#1017ac");
@@ -78,7 +78,7 @@
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",1280,720,this,function(p){});
+            obj = new Layout("default","",1080,720,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information

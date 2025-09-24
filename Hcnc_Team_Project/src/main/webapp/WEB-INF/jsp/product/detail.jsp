@@ -20,7 +20,83 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
-	<style>
+		<style>
+		body {
+			font-family: 'Noto Sans KR', Arial, sans-serif;
+			line-height: 1.6;
+			color: #333;
+			background-color: #ffffff;
+		}
+
+		/* 상품 컨테이너 */
+		.product-container {
+			background: #ffffff;
+			border-radius: 8px;
+			box-shadow: 0 2px 8px rgba(220, 6, 48, 0.05);
+			padding: 50px;
+			margin-bottom: 40px;
+			border: 1px solid rgba(220, 6, 48, 0.08);
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 50px;
+			align-items: start;
+		}
+
+		/* 이미지 컨테이너 */
+		.product-image-container {
+			width: 100%;
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-start;
+		}
+
+		/* 상품 정보 컨테이너 */
+		.product-info {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			min-height: 500px;
+		}
+
+		/* 상품 정보 상단 영역 */
+		.product-details {
+			flex-grow: 1;
+		}
+
+		/* 버튼 영역 */
+		.product-actions {
+			margin-top: auto;
+			padding-top: 20px;
+		}
+
+		/* 상품 이미지 */
+		#product-image {
+			width: 100%;
+			height: 500px;
+			object-fit: cover;
+			border-radius: 8px;
+			border: 1px solid rgba(220, 6, 48, 0.2);
+			box-shadow: 0 2px 8px rgba(220, 6, 48, 0.1);
+			transition: transform 0.3s ease;
+		}
+
+		#product-image:hover {
+			transform: scale(1.01);
+			border-color: #DC0630;
+		}
+
+		/* 상품 제목 */
+		.product-title h1 {
+			color: #DC0630;
+			font-size: 28px;
+			font-weight: 600;
+			margin-bottom: 20px;
+			padding-bottom: 15px;
+			border-bottom: 2px solid rgba(220, 6, 48, 0.3);
+			line-height: 1.3;
+		}
+
 		/* QnA모달 CSS */
 		.qna-modal {
 			position: fixed;
@@ -29,7 +105,7 @@
 			top: 0;
 			width: 100%;
 			height: 100%;
-			background-color: rgba(0,0,0,0.5)
+			background-color: rgba(0, 0, 0, 0.3);
 		}
 		
 		.qna-modal-content {
@@ -37,62 +113,91 @@
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			background: white;
+			background: #ffffff;
 			padding: 30px;
 			border-radius: 8px;
 			min-width: 500px;
 			max-width: 800px;
 			width: 90%;
-			box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			border: 1px solid rgba(220, 6, 48, 0.2);
 		}
 		
 		.qna-close {
 			position: absolute;
-			top: 10px;
-			right: 15px;
-			font-size: 28px;
+			top: 15px;
+			right: 20px;
+			font-size: 24px;
 			cursor: pointer;
+			color: #DC0630;
+			font-weight: 500;
+		}
+
+		.qna-close:hover {
+			color: #a00428;
 		}
 		
 		.form-group {
-			margin-bottom: 15px;
+			margin-bottom: 20px;
 		}
 		
 		.form-group input, .form-group textarea {
 			width: 100%;
-			padding: 10px;
-			border: 1px solid #ddd;
+			padding: 12px 15px;
+			border: 1px solid #e9ecef;
 			border-radius: 4px;
+			font-size: 14px;
+			transition: all 0.3s ease;
+			background-color: #ffffff;
+		}
+
+		.form-group input:focus, .form-group textarea:focus {
+			outline: none;
+			border-color: #DC0630;
+			box-shadow: 0 0 0 2px rgba(220, 6, 48, 0.1);
 		}
 		
 		.form-group textarea {
 			min-height: 300px;
 			max-height: 300px;
+			resize: vertical;
 		}
 		
 		.form-button {
 			display: flex;
 			justify-content: flex-end;
+			gap: 10px;
 		}
 
-		/* 상품 옵션 관련 스타일 */
+		/* 상품 옵션 관련 */
 		.product-info table {
 			width: 100%;
 			border-collapse: collapse;
 			margin-bottom: 20px;
+			border-radius: 4px;
+			overflow: hidden;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+			background-color: #ffffff;
 		}
 		
 		.product-info table td {
-			padding: 12px 15px;
-			border: 1px solid #ddd;
-			vertical-align: top;
+			padding: 15px 20px;
+			border: 1px solid #f1f3f4;
+			vertical-align: middle;
+			font-size: 15px;
 		}
 		
 		.product-info table td:first-child {
-			background-color: #f8f9fa;
-			font-weight: bold;
-			width: 120px;
-			color: #555;
+			background-color: #DC0630;
+			color: white;
+			font-weight: 500;
+			width: 100px;
+			text-align: center;
+			font-size: 14px;
+		}
+
+		.product-info table td:last-child {
+			background-color: #ffffff;
 		}
 		
 		.option-group {
@@ -102,67 +207,296 @@
 		.option-label {
 			display: block;
 			margin-bottom: 8px;
-			font-weight: bold;
-			color: #555;
+			font-weight: 600;
+			color: #DC0630;
 			font-size: 14px;
 		}
 		
 		.option-select {
 			width: 100%;
-			padding: 10px;
+			padding: 10px 15px;
 			font-size: 14px;
-			border: 1px solid #ddd;
+			border: 1px solid #e9ecef;
 			border-radius: 4px;
-			background-color: white;
+			background-color: #ffffff;
 			cursor: pointer;
-			transition: border-color 0.3s;
+			transition: all 0.3s ease;
 			margin-bottom: 10px;
 		}
 		
 		.option-select:focus {
 			outline: none;
-			border-color: #3498db;
+			border-color: #DC0630;
+			box-shadow: 0 0 0 2px rgba(220, 6, 48, 0.1);
 		}
 		
 		.option-select:hover {
-			border-color: #bbb;
+			border-color: #DC0630;
 		}
 		
 		.option-combination {
-			margin: 10px 0;
+			margin: 15px 0;
 			padding: 15px;
-			background-color: #f8f9fa;
+			background-color: #ffffff;
 			border-radius: 4px;
-			border: 1px solid #ddd;
+			border: 1px solid rgba(220, 6, 48, 0.2);
 			font-size: 14px;
-			line-height: 1.5;
+			line-height: 1.6;
 		}
 		
 		.total-price-amount {
-			font-size: 16px;
-			font-weight: bold;
-			color: #e74c3c;
+			font-size: 22px;
+			font-weight: 700;
+			color: #DC0630;
 		}
 		
+		/* 버튼 */
 		.product-info button {
-			padding: 8px 12px;
-			margin: 0 5px;
-			border: 1px solid #ddd;
-			background-color: #f8f9fa;
+			padding: 10px 16px;
+			margin: 0 4px;
+			border: 1px solid #DC0630;
+			background-color: #ffffff;
+			color: #DC0630;
 			cursor: pointer;
 			border-radius: 4px;
+			font-weight: 500;
+			transition: all 0.3s ease;
+			font-size: 14px;
 		}
 		
 		.product-info button:hover {
-			background-color: #e9ecef;
+			background-color: #DC0630;
+			color: #ffffff;
+		}
+
+		.product-info button:active {
+			transform: translateY(1px);
 		}
 		
 		.product-info input[type="number"] {
-			width: 60px;
-			padding: 8px;
+			width: 90px;
+			padding: 10px 12px;
 			text-align: center;
-			border: 1px solid #ddd;
+			border: 1px solid #e9ecef;
 			border-radius: 4px;
+			font-weight: 500;
+			color: #333;
+			font-size: 14px;
+		}
+
+		.product-info input[type="number"]:focus {
+			outline: none;
+			border-color: #DC0630;
+			box-shadow: 0 0 0 2px rgba(220, 6, 48, 0.1);
+		}
+
+		/* 메인 액션 버튼들 */
+		#add-to-cart, #buy-now {
+			width: 48%;
+			padding: 15px 20px !important;
+			font-size: 16px !important;
+			font-weight: 600 !important;
+			border-radius: 6px !important;
+			margin: 0 !important;
+			text-transform: none;
+			letter-spacing: 0.3px;
+			transition: all 0.3s ease;
+			cursor: pointer;
+		}
+
+		#add-to-cart {
+			background-color: #DC0630 !important;
+			border: 1px solid #DC0630 !important;
+			color: #ffffff !important;
+		}
+
+		#add-to-cart:hover {
+			background-color: #b8052a !important;
+			border-color: #b8052a !important;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3);
+		}
+
+		#buy-now {
+			background-color: #ffffff !important;
+			color: #DC0630 !important;
+			border: 1px solid #DC0630 !important;
+		}
+
+		#buy-now:hover {
+			background-color: #DC0630 !important;
+			color: #ffffff !important;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3);
+		}
+
+		/* 버튼 컨테이너 */
+		.button-container {
+			display: flex;
+			justify-content: space-between;
+			gap: 4%;
+			margin-top: 25px;
+			padding-top: 20px;
+			border-top: 1px solid #f1f3f4;
+		}
+
+		/* 탭 네비게이션 */
+		.nav-tabs {
+			border-bottom: 1px solid rgba(220, 6, 48, 0.3);
+			margin-bottom: 30px;
+			background-color: #ffffff;
+			position: sticky;
+			top: 0;
+			z-index: 100;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+
+		.nav-tabs .nav-link {
+			color: #666;
+			font-weight: 500;
+			padding: 12px 20px;
+			border: 1px solid #e9ecef;
+			border-radius: 4px 4px 0 0;
+			margin-right: 2px;
+			transition: all 0.3s ease;
+			background-color: #ffffff;
+		}
+
+		.nav-tabs .nav-link:hover {
+			color: #DC0630;
+			background-color: rgba(220, 6, 48, 0.03);
+			border-color: rgba(220, 6, 48, 0.2);
+		}
+
+		.nav-tabs .nav-link.active {
+			color: #ffffff !important;
+			background-color: #DC0630 !important;
+			border: 1px solid #DC0630 !important;
+		}
+
+		/* 탭 네비게이션을 포함하는 섹션 */
+		.tab-navigation-section {
+			position: sticky;
+			top: 0;
+			z-index: 100;
+			background-color: #ffffff;
+			padding-top: 10px;
+			margin-bottom: 0;
+		}
+
+		/* 탭 콘텐츠 */
+		.tab-content {
+			background: #ffffff;
+			padding: 30px;
+			border-radius: 4px;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+			border: 1px solid rgba(220, 6, 48, 0.1);
+			margin-top: 0;
+		}
+
+		/* 카운트 뱃지 */
+		#productReviewCnt, #productQnACnt {
+			background: #DC0630;
+			color: white;
+			padding: 2px 6px;
+			border-radius: 8px;
+			font-size: 11px;
+			margin-left: 6px;
+			font-weight: 500;
+		}
+
+		/* 반응형 */
+		@media (max-width: 1024px) {
+			.product-container {
+				grid-template-columns: 1fr !important;
+				gap: 25px !important;
+				padding: 25px !important;
+			}
+
+			.product-image-container {
+				justify-self: center;
+			}
+
+			#product-image {
+				max-width: 450px;
+				height: 450px;
+			}
+
+			.product-info {
+				min-height: auto;
+			}
+
+			.tab-navigation-section {
+				padding-top: 5px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.product-container {
+				padding: 20px !important;
+				gap: 20px !important;
+			}
+
+			#product-image {
+				max-width: 100%;
+				height: 350px;
+			}
+
+			.product-title h1 {
+				font-size: 24px;
+			}
+
+			.product-info table td {
+				padding: 12px 15px;
+				font-size: 14px;
+			}
+
+			.product-info table td:first-child {
+				width: 80px;
+				font-size: 12px;
+			}
+
+			.button-container {
+				flex-direction: column;
+				gap: 10px;
+			}
+
+			#add-to-cart, #buy-now {
+				width: 100% !important;
+			}
+
+			.nav-tabs .nav-link {
+				padding: 10px 15px;
+				font-size: 14px;
+			}
+
+			.tab-navigation-section {
+				padding-top: 5px;
+			}
+		}
+
+		.inner {
+			background: #ffffff;
+			border-radius: 4px;
+			margin-bottom: 20px;
+		}
+
+		.form-group label {
+			color: #DC0630;
+			font-weight: 500;
+			margin-bottom: 6px;
+			display: block;
+		}
+
+		/* 제품 코드 */
+		#product-code {
+			font-family: 'Courier New', monospace;
+			font-weight: 500;
+			color: #DC0630;
+			background: rgba(220, 6, 48, 0.03);
+			padding: 6px 10px;
+			border-radius: 4px;
+			display: inline-block;
 		}
 	</style> 
 	
@@ -216,9 +550,9 @@
 				// 2단계: HTML 생성
 				var optionContainer = '';
 				for(var i = 0; i < options.length; i++){
-				    optionContainer += '<div>';
-				    optionContainer += '<span>' + options[i] + ': </span>';
-				    optionContainer += '<select id="'+ optionInfo[i].OPTION_ID +'_select" onchange="optionSelect(this)")>';
+				    optionContainer += '<div class="option-group">';
+				    optionContainer += '<span class="option-label">' + options[i] + ': </span>';
+				    optionContainer += '<select class="option-select" id="'+ optionInfo[i].OPTION_ID +'_select" onchange="optionSelect(this)")>';
 				    optionContainer += '<option value="non-select">옵션을 선택해주세요.</option>';
 				    
 				    // 해당 옵션명의 값들만 추가
@@ -419,75 +753,79 @@
 <body>
     <div class="container">
     	<div class="inner">
-			<div class="product-container" style="display: flex; gap: 20px;">
-				<div>
+			<div class="product-container" style="display: flex; gap: 50px;">
+				<div class="product-image-container">
 					<img id="product-image" src="https://placehold.co/400x400" alt="Product Image">
 				</div>
 				<div class="product-info">
-					<div class="product-title">
-						<h1 id="product-name">${productDetail[0].PRODUCT_NAME}</h1>
-					</div>
-					<table>
-						<tbody>
-							<tr>
-								<td>소비자가</td>
-								<td id="product-price"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-							</tr>
-							<tr>
-								<td>판매가</td>
-								<c:if test="${productDetail[0].SAILED_PRICE != null}">
-									<td id="saled-price" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+					<div class="product-details">
+						<div class="product-title">
+							<h1 id="product-name">${productDetail[0].PRODUCT_NAME}</h1>
+						</div>
+						<table>
+							<tbody>
+								<tr>
+									<td>소비자가</td>
+									<td id="product-price"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+								</tr>
+								<tr>
+									<td>판매가</td>
+									<c:if test="${productDetail[0].SAILED_PRICE != null}">
+										<td id="saled-price" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+									</c:if>
+									<c:if test="${productDetail[0].SAILED_PRICE == null}">
+										<td id="saled-price" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+									</c:if>
+								</tr>
+								<tr>
+									<td>상품코드</td>
+									<td id="product-code">${productDetail[0].PRODUCT_CODE}</td>
+								</tr>
+								<tr>
+									<td>상품설명</td>
+									<td id="product-description">${productDetail[0].PRODUCT_CONTENT}</td>
+								</tr>
+								<tr>
+									<td>무게</td>
+									<td id="product-weight">${productDetail[0].PRODUCT_WEIGHT}</td>
+								</tr>
+								<c:if test="${optionInfo[0] != null}">
+									<tr id="product-option">
+										<td>옵션</td>
+										<td id="options-td">
+											<!-- 여기에 옵션 셀렉트 박스가 동적으로 생성됩니다 -->
+										</td>
+									</tr>
 								</c:if>
-								<c:if test="${productDetail[0].SAILED_PRICE == null}">
-									<td id="saled-price" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-								</c:if>
-							</tr>
-							<tr>
-								<td>상품코드</td>
-								<td id="product-code">${productDetail[0].PRODUCT_CODE}</td>
-							</tr>
-							<tr>
-								<td>상품설명</td>
-								<td id="product-description">${productDetail[0].PRODUCT_CONTENT}</td>
-							</tr>
-							<tr>
-								<td>무게</td>
-								<td id="product-weight">${productDetail[0].PRODUCT_WEIGHT}</td>
-							</tr>
-							<c:if test="${optionInfo[0] != null}">
-								<tr id="product-option">
-									<td>옵션</td>
-									<td id="options-td">
-										<!-- 여기에 옵션 셀렉트 박스가 동적으로 생성됩니다 -->
+								<tr id="selected-option-display" style="display: none;">
+									<td>선택된 옵션</td>
+									<td id="selectedCombination">옵션을 선택해주세요.</td>
+								</tr>
+								<tr>
+									<td>총 가격</td>
+									<c:if test="${productDetail[0].SAILED_PRICE != null}">
+									    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+									</c:if>
+									<c:if test="${productDetail[0].SAILED_PRICE == null}">
+									    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+									</c:if>
+								</tr>
+								<tr>
+									<td>수량</td>
+									<td>
+										<button onclick="countDown()">-</button>
+										<input type="number" name="quantity" id="quantity" value="1" min="1" onchange="updateCnt()">
+										<button onclick="countUp()">+</button>
 									</td>
 								</tr>
-							</c:if>
-							<tr id="selected-option-display" style="display: none;">
-								<td>선택된 옵션</td>
-								<td id="selectedCombination">옵션을 선택해주세요.</td>
-							</tr>
-							<tr>
-								<td>총 가격</td>
-								<c:if test="${productDetail[0].SAILED_PRICE != null}">
-								    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
-								</c:if>
-								<c:if test="${productDetail[0].SAILED_PRICE == null}">
-								    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-								</c:if>
-							</tr>
-							<tr>
-								<td>수량</td>
-								<td>
-									<button onclick="countDown()">-</button>
-									<input type="number" name="quantity" id="quantity" value="1" min="1" onchange="updateCnt()">
-									<button onclick="countUp()">+</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<div>
-						<button id="add-to-cart" onclick="pushCart()">장바구니 담기</button>
-						<button id="buy-now">바로구매</button>
+							</tbody>
+						</table>
+					</div>
+					<div class="product-actions">
+						<div class="button-container">
+							<button id="add-to-cart" onclick="pushCart()">장바구니 담기</button>
+							<button id="buy-now">바로구매</button>
+						</div>
 					</div>
 				</div>
 			</div>

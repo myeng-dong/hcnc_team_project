@@ -124,20 +124,36 @@ public class MemberService {
 		
 		return memberMapper.selectPointAndCouponList(param);
 	}
-
-	public List<Map<String, Object>> selectMemberChageTypeList() {
+	
+	//포인트 사용유형 리스트 조회
+	public List<Map<String, Object>> selectMemberChageTypeList(Map<String, Object> param) {
 		
-		return memberMapper.selectMemberChageTypeList();
+		return memberMapper.selectMemberChageTypeList(param);
 	}
-
+	
+	//회원 포인트 상세보기 리스트 
 	public List<Map<String, Object>> selectPointDetailList(Map<String, Object> param) {
 		
 		return memberMapper.selectPointDetailList(param);
 	}
-
+	
+	//회원 쿠폰 상세보기 리스트
 	public List<Map<String, Object>> selectCouponDetailList(Map<String, Object> param) {
-		// TODO Auto-generated method stub
+		
 		return  memberMapper.selectCouponDetailList(param);
+	}
+	
+	//포인트 적립 및 차감
+	public int insertPoint(Map<String, Object> point) {
+		
+		return memberMapper.insertPoint(point);
+		
+	}
+	
+	//쿠폰 지급
+	public int insertCoupon(Map<String, Object> param) {
+		
+		return memberMapper.insertCoupon(param);
 	}
    
 

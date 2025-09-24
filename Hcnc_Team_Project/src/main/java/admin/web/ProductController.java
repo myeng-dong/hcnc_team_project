@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
-import com.nexacro17.xapi.data.DataSet;
 
 import admin.service.ProductService;
 
@@ -220,10 +219,7 @@ public class ProductController {
     	try {
     		
     		String loginId = (String) request.getSession().getAttribute("loginId");
-    		
-    		
-    		
-    		
+
     		for (Map<String, Object> option : optionList) {
     		    Object optionId = option.get("OPTION_ID");
 
