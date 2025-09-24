@@ -31,7 +31,7 @@
         <Button id="domant_btn" taborder="24" text="휴면복구" left="670" top="684" width="129" height="33" background=" #9ca3af" borderRadius="4px" font="12px &quot;Noto Sans KR Black&quot;" onclick="Button01_00_onclick" color="white"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
 this.Form_Member_withdrawAndDormant_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.fn_selectDormantWithdrawnMembers();

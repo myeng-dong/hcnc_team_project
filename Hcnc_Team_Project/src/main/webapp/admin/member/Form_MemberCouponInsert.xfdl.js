@@ -19,7 +19,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_insert", this);
-            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"MIN_ORDER_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"EXPIRY_DT\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_TYPE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"MIN_ORDER_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"EXPIRY_DT\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_CODE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -47,9 +47,9 @@
             obj.set_font("20px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static01","436","110","98","32",null,null,null,null,null,null,this);
+            obj = new Static("Static01","436","110","63","32",null,null,null,null,null,null,this);
             obj.set_taborder("2");
-            obj.set_text("쿠폰 번호");
+            obj.set_text("쿠폰 이름");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
@@ -129,7 +129,7 @@
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item0","Edit00","value","ds_insert","COUPON_CODE");
+            obj = new BindItem("item0","Edit00","value","ds_insert","COUPON_NAME");
             this.addChild(obj.name, obj);
             obj.bind();
 
@@ -163,7 +163,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberCouponInsert.xfdl","common::common.xjs");
         this.registerScript("Form_MemberCouponInsert.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_MemberCouponInsert_onload = function(obj,e)
         {
         	// 부모 폼으로부터 전달된 파라미터에 직접 접근

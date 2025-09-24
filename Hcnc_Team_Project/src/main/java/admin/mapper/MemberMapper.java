@@ -73,5 +73,8 @@ public interface MemberMapper {
 	
 	//쿠폰 지급
 	int insertCoupon(Map<String, Object> param);
+	
+	//블랙리스트 조회
+	List<Map<String, Object>> selectBlackListByAdmin(Map<String, Object> param);
 
 }

@@ -38,7 +38,7 @@
         </ColumnInfo>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
 this.Form_Login_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	// controller에 httpsession

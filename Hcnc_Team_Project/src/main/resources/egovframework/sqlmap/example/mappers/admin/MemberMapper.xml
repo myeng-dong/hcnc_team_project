@@ -381,6 +381,7 @@
     <select id="selectCouponDetailList" resultType="java.util.Map" parameterType="java.util.Map">
     	SELECT 
     		C.COUPON_CODE
+    		,C.COUPON_NAME
     		,C.COUPON_TYPE
     		,CASE 
     		  WHEN C.DISCOUNT_TYPE = 'R' THEN '%'
@@ -438,6 +439,7 @@
 		INSERT INTO COUPONS(
 			MEMBER_ID
 			,COUPON_CODE
+			,COUPON_NAME
 			,DISCOUNT_TYPE
 			,DISCOUNT_VALUE
 			,MIN_ORDER_PRICE
@@ -446,6 +448,7 @@
 		)VALUES(
 			#{MEMBER_ID}
 			,#{COUPON_CODE}
+			,#{COUPON_NAME}
 			,#{DISCOUNT_TYPE}
 			,#{DISCOUNT_VALUE}
 			,#{MIN_ORDER_PRICE}
@@ -453,7 +456,33 @@
 			,#{COUPON_TYPE}
 		)
 	</insert>
-    
+	
+	<!-- 블랙리스트 조회-->
+	<select id="selectBlackListByAdmin" resultType="java.util.Map">
+    SELECT 
+		MEMBER_ID
+		,USER_NAME
+		,EMAIL_ADDR
+		,PHONE_NUMBER
+		,UPDATE_DT
+		,INPUT_DT
+	 FROM MEMBERS
+	WHERE STATUS = 'B' 
+	<if test="MEMBER_ID != '' and MEMBER_ID != null">
+		AND MEMBER_ID LIKE CONCAT('%',#{MEMBER_ID},'%')
+	</if>
+	<if test="USER_NAME != '' and USER_NAME != null">
+		AND USER_NAME LIKE CONTCAT('%',#{USER_NAME},'%') 
+	</if>
+	<if test="PHONE_NUMBER != '' and PHONE_NUMBER != null">
+		AND PHONE_NUMBER LIKE CONCAT('%',#{PHONE_NUMBER},'%') 
+	</if>
+	<if test="EMAIL_ADDR != '' and EMAIL_ADDR != null">
+		AND EMAIL_ADDR LIKE CONCAT('%',#{EMAIL_ADDR},'%')
+	</if>
+	ORDER BY UPDATE_DT DESC;
+	</select>
+
     
   
 </mapper>

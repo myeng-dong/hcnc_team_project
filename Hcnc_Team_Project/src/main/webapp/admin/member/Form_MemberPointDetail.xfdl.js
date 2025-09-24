@@ -193,7 +193,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberPointDetail.xfdl","common::common.xjs");
         this.registerScript("Form_MemberPointDetail.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.memberId="";
         this.Form_MemberPointDetail_onload = function(obj,e)
         {
