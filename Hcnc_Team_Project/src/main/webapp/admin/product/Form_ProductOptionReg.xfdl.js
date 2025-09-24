@@ -188,11 +188,17 @@
 
                 this.ds_selectedProd.clearData();
                 var nRow = this.ds_selectedProd.addRow();
-                this.ds_selectedProd.setColumn(nRow, "PRODUCT_ID", obj.PRODUCT_ID);
+                this.ds_selectedProd.setColumn(nRow, "PRODUCT_ID", obj.PRODUCT_ID.hi);
                 this.ds_selectedProd.setColumn(nRow, "PRODUCT_NAME", obj.PRODUCT_NAME);
 
 
                 // 옵션 Dataset에도 바로 PRODUCT_ID 세팅
+                for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
+                    this.ds_optionReg.setColumn(i, "PRODUCT_ID", obj.PRODUCT_ID);
+                }
+
+
+        		        // ★ 기존 옵션행 모두 PRODUCT_ID 세팅
                 for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
                     this.ds_optionReg.setColumn(i, "PRODUCT_ID", obj.PRODUCT_ID);
                 }
@@ -215,6 +221,13 @@
             this.ds_optionReg.setColumn(nRow, "ADDITIONAL_PRICE", 0);
 
 
+        	    // ★ 상품이 이미 선택되어 있다면 PRODUCT_ID 바로 세팅
+            if (this.ds_selectedProd.getRowCount() > 0) {
+                var prodId = this.ds_selectedProd.getColumn(0, "PRODUCT_ID");
+                this.ds_optionReg.setColumn(nRow, "PRODUCT_ID", prodId);
+            }
+
+
         };
 
         // 행삭제
@@ -232,27 +245,20 @@
         // 저장
         this.btn_save_onclick = function()
         {
-            // 상품 선택 여부 체크
             if (this.ds_selectedProd.getRowCount() == 0) {
                 this.alert("상품을 먼저 선택하세요.");
                 return;
             }
             var prodId = this.ds_selectedProd.getColumn(0, "PRODUCT_ID");
-
             var app = nexacro.getApplication();
 
-
-        	//각 행에 PRODUCT_ID 세팅
-        	for(var i=0; i<this.ds_optionReg.getRowCount(); i++){
-        		this.ds_optionReg.setColumn(i, "PRODUCT_ID", prodId)
-        	}
-
-            // 전체 행 Validation
             for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
+                // ★ PRODUCT_ID 강제 세팅
+                this.ds_optionReg.setColumn(i, "PRODUCT_ID", prodId);
+
+                // Validation
                 var name  = this.ds_optionReg.getColumn(i, "OPTION_NAME");
                 var val   = this.ds_optionReg.getColumn(i, "OPTION_VALUE");
-                var price = this.ds_optionReg.getColumn(i, "ADDITIONAL_PRICE");
-
                 if (!name || name.trim() == "") {
                     this.alert("옵션명을 입력하세요. (행 " + (i+1) + ")");
                     return;
@@ -261,12 +267,13 @@
                     this.alert("옵션값을 입력하세요. (행 " + (i+1) + ")");
                     return;
                 }
+
+                var price = this.ds_optionReg.getColumn(i, "ADDITIONAL_PRICE");
                 if (price == null || price.toString().trim() == "" || isNaN(price)) {
                     this.ds_optionReg.setColumn(i, "ADDITIONAL_PRICE", 0);
                 }
 
-                // 상품ID, 등록자/수정자 세팅
-                this.ds_optionReg.setColumn(i, "PRODUCT_ID", prodId);
+                // 등록/수정자 세팅
                 if (this.ds_optionReg.getColumn(i, "OPTION_ID")) {
                     this.ds_optionReg.setColumn(i, "UPDATE_ID", app.loginUserId);
                 } else {
@@ -286,6 +293,7 @@
                 true
             );
         };
+
 
 
         // 취소
