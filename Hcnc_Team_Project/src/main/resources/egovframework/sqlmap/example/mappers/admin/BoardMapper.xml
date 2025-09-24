@@ -134,12 +134,12 @@
 			 , R.REPORT_ID
 			 , R.REPORT_CONTENT
 			 , R.TARGET_TYPE	  -- 신고 대상 유형
-			 , R.REPORTER       -- 신고자 
-			 , R.COMMENT_ID     -- 코멘트 아이디
-			 , R.REVIEW_ID      -- 리뷰 아이디
-			 , R.BOARD_WRITER   -- 게시글 작성자
-			 , R.REPORT_TYPE    -- 신고 유형
-			 , R.REPORT_STATUS  -- 신고 상태
+			 , R.REPORTER          -- 신고자 
+			 , R.COMMENT_ID       -- 코멘트 아이디
+			 , R.REVIEW_ID        -- 리뷰 아이디
+			 , R.BOARD_WRITER     -- 게시글 작성자
+			 , R.REPORT_TYPE      -- 신고 유형
+			 , R.REPORT_STATUS    -- 신고 상태
 			 , M.USER_NAME
 		  FROM REPORT R                     -- 신고 테이블
      LEFT JOIN MEMBERS M ON M.MEMBER_ID = R.BOARD_WRITER
