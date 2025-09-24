@@ -596,7 +596,7 @@
 	    <div class="breadcrumb">
 	        <div class="container">
 	            <div class="breadcrumb-content">
-	                <a href="#">홈</a> > 
+	                <a href="/">홈</a> >
 	                <span class="breadcrumb-current">장바구니</span>
 	            </div>
 	        </div>
@@ -630,7 +630,7 @@
 	
 		<div class="cart-footer">
 			<div class="footer-btn">
-			        <button class="cart-btn" id="btnContinue" onclick="window.location.href='/productDetailView.do'">계속 쇼핑하기</button>
+			        <button class="cart-btn" id="btnContinue" onclick="history.back()">계속 쇼핑하기</button>
 			        <button class="btn-outline" id="btnDeleteSelected" onclick="deleteSelected()">
 			        	<i class="bi bi-bag-x"></i>
 			        	선택상품 삭제하기</button>
