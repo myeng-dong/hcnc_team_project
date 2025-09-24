@@ -78,6 +78,12 @@ this.Form_ProductOptionReg_onload = function(obj,e)
         var nRow = this.ds_optionReg.addRow();
         this.ds_optionReg.setColumn(nRow, "INPUT_ID", app.loginUserId);
 
+		// 상품 화면에서 넘어온 PRODUCT_ID가 있다면 세팅
+		if (this.getOwnerFrame().arguments && this.getOwnerFrame().arguments.PRODUCT_ID) {
+			this.ds_optionReg.setColumn(nRow, "PRODUCT_ID", this.getOwnerFrame().arguments.PRODUCT_ID);
+		}
+
+
         this.btn_addRow.set_visible(true);
         this.btn_delRow.set_visible(true);
         this.sta_title.set_text("옵션 [ 등록 ] 모드");

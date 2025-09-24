@@ -338,9 +338,9 @@
 	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="java.util.Map">
 		INSERT INTO OPTIONS
-			(OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
+			(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
 		VALUES
-			(#{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID})
+			(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID})
 	</insert>
 
 
@@ -349,7 +349,8 @@
 	<!-- 옵션 수정 -->
 	<update id="updateOption" parameterType="java.util.Map">
 		UPDATE OPTIONS
-		   SET OPTION_NAME = #{OPTION_NAME}
+		   SET PRODUCT_ID = #{PRODUCT_ID}
+		   	  ,OPTION_NAME = #{OPTION_NAME}
 			  ,OPTION_VALUE = #{OPTION_VALUE}
 			  ,ADDITIONAL_PRICE = #{ADDITIONAL_PRICE}
 			  ,UPDATE_DT = NOW()
