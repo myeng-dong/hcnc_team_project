@@ -6,6 +6,204 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/wish/wish.css'/>" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <style>
+	.wishlist-item {
+	    position: relative;
+	    background: white;
+	    border-radius: 12px;
+	    overflow: hidden;
+	    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+	    transition: all 0.3s ease;
+	    display: flex;
+	    flex-direction: column;
+	    height: 100%;
+	}
+	
+	.wishlist-item:hover {
+	    transform: translateY(-4px);
+	    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+	}
+	
+	.item-image {
+	    position: relative;
+	    width: 100%;
+	    height: 200px;
+	    overflow: hidden;
+	}
+	
+	.item-image img {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	    transition: transform 0.3s ease;
+	}
+	
+	.wishlist-item:hover .item-image img {
+	    transform: scale(1.05);
+	}
+	
+	.item-info {
+	    padding: 16px;
+	    display: flex;
+	    flex-direction: column;
+	    flex: 1;
+	    gap: 12px;
+	}
+	
+	.item-details {
+	    flex: 1;
+	}
+	
+	.item-name {
+	    font-size: 16px;
+	    font-weight: 600;
+	    color: #333;
+	    margin-bottom: 4px;
+	    line-height: 1.4;
+	    display: -webkit-box;
+	    -webkit-line-clamp: 2;
+	    -webkit-box-orient: vertical;
+	    overflow: hidden;
+	}
+	
+	.item-category {
+	    font-size: 11px;
+	    color: #888;
+	    text-transform: uppercase;
+	    font-weight: 500;
+	    letter-spacing: 0.5px;
+	}
+	
+	.item-price {
+	    margin: 8px 0;
+	}
+	
+	.current-price {
+	    font-size: 18px;
+	    font-weight: 700;
+	    color: #DC0630;
+	    display: block;
+	}
+	
+	.price-detail {
+	    display: flex;
+	    align-items: center;
+	    gap: 8px;
+	    margin-top: 4px;
+	}
+	
+	.original-price {
+	    font-size: 13px;
+	    color: #999;
+	    text-decoration: line-through;
+	}
+	
+	.discount {
+	    background: #DC0630;
+	    color: white;
+	    padding: 2px 6px;
+	    font-size: 10px;
+	    font-weight: 700;
+	    border-radius: 4px;
+	    white-space: nowrap;
+	}
+	
+	/* 하단 영역 재배치 */
+	.item-bottom {
+	    display: flex;
+	    align-items: center;
+	    justify-content: space-between;
+	    padding-top: 12px;
+	    border-top: 1px solid #f0f0f0;
+	    gap: 12px;
+	}
+	
+	.item-status {
+	    display: flex;
+	    align-items: center;
+	    gap: 6px;
+	    font-size: 12px;
+	    font-weight: 500;
+	    padding: 4px 8px;
+	    border-radius: 6px;
+	    white-space: nowrap;
+	}
+	
+	.item-status.available {
+	    background: rgba(34, 197, 94, 0.1);
+	    color: #22C55E;
+	}
+	
+	.item-status.soldout {
+	    background: rgba(239, 68, 68, 0.1);
+	    color: #EF4444;
+	}
+	
+	.item-status::before {
+	    content: '';
+	    width: 6px;
+	    height: 6px;
+	    border-radius: 50%;
+	    background: currentColor;
+	}
+	
+	.item-actions {
+	    display: flex;
+	    justify-content: right;
+	    gap: 8px;
+	}
+	
+	.btn-detail {
+		width: 100px;
+	    background: linear-gradient(135deg, #DC0630 0%, #B8052A 100%);
+	    color: white;
+	    border: none;
+	    padding: 10px 18px;
+	    border-radius: 8px;
+	    font-size: 13px;
+	    font-weight: 600;
+	    cursor: pointer;
+	    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	    white-space: nowrap;
+	    position: relative;
+	    overflow: hidden;
+	    box-shadow: 0 2px 8px rgba(220, 6, 48, 0.2);
+	    min-width: 80px;
+	    text-align: center;
+	}
+	
+	/* .btn-detail::before {
+	    content: '';
+	    position: absolute;
+	    top: 0;
+	    left: -100%;
+	    width: 100%;
+	    height: 100%;
+	    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+	    transition: left 0.5s;
+	} */
+	
+	/* 버튼 유리창느낌으로다가 */
+	/* .btn-detail:hover::before {
+	    left: 100%;
+	} */
+	
+	.btn-detail:hover {
+	    background: linear-gradient(135deg, #B8052A 0%, #A0041F 100%);
+	    transform: translateY(-2px);
+	    box-shadow: 0 6px 20px rgba(220, 6, 48, 0.4);
+	}
+	
+	.btn-detail:active {
+	    transform: translateY(0);
+	    box-shadow: 0 2px 8px rgba(220, 6, 48, 0.3);
+	}
+	
+	.btn-detail:focus {
+	    outline: none;
+	    box-shadow: 0 0 0 3px rgba(220, 6, 48, 0.2);
+	}
+	
+	/* 리스트 뷰 스타일 개선 */
 	.wishlist-grid.list-view {
 	    display: block !important;
 	    grid-template-columns: none !important;
@@ -13,9 +211,10 @@
 	
 	.wishlist-grid.list-view .wishlist-item {
 	    display: flex !important;
+	    flex-direction: row !important;
 	    align-items: center !important;
-	    height: 80px !important;
-	    padding: 16px 20px !important;
+	    height: 100px !important;
+	    padding: 20px !important;
 	    margin-bottom: 1px !important;
 	    border-radius: 0 !important;
 	    border-bottom: 1px solid #f0f0f0 !important;
@@ -29,20 +228,21 @@
 	}
 	
 	.wishlist-grid.list-view .item-image {
-	    width: 60px !important;
-	    height: 60px !important;
+	    width: 80px !important;
+	    height: 80px !important;
 	    flex-shrink: 0 !important;
-	    margin-right: 16px !important;
-	    border-radius: 6px !important;
+	    margin-right: 20px !important;
+	    border-radius: 8px !important;
+	    overflow: hidden !important;
 	}
 	
 	.wishlist-grid.list-view .wish-remove {
 	    position: static !important;
-	    width: 28px !important;
-	    height: 28px !important;
+	    width: 32px !important;
+	    height: 32px !important;
 	    margin-left: 20px !important;
-	    opacity: 0.6 !important;
-	    font-size: 14px !important;
+	    opacity: 0.7 !important;
+	    font-size: 16px !important;
 	    order: 10 !important;
 	    background: rgba(220, 6, 48, 0.1) !important;
 	    color: #DC0630 !important;
@@ -58,7 +258,7 @@
 	    align-items: center !important;
 	    flex: 1 !important;
 	    padding: 0 !important;
-	    gap: 20px !important;
+	    gap: 24px !important;
 	    flex-direction: row !important;
 	}
 	
@@ -68,34 +268,35 @@
 	}
 	
 	.wishlist-grid.list-view .item-name {
-	    font-size: 15px !important;
+	    font-size: 16px !important;
 	    font-weight: 600 !important;
-	    margin: 0 0 4px 0 !important;
+	    margin: 0 0 6px 0 !important;
 	    height: auto !important;
 	    color: #333 !important;
+	    -webkit-line-clamp: 1 !important;
 	}
 	
 	.wishlist-grid.list-view .item-category {
-	    font-size: 11px !important;
+	    font-size: 12px !important;
 	    color: #888 !important;
 	    margin: 0 !important;
 	    text-transform: uppercase !important;
 	}
-
+	
 	.wishlist-grid.list-view .item-price {
-	    min-width: 140px !important;
+	    min-width: 160px !important;
 	    margin: 0 !important;
 	    text-align: right !important;
 	    display: flex !important;
 	    flex-direction: column !important;
 	    align-items: flex-end !important;
 	    justify-content: center !important;
-	    gap: 4px !important;
+	    gap: 6px !important;
 	    line-height: 1.2 !important;
 	}
 	
 	.wishlist-grid.list-view .current-price {
-	    font-size: 15px !important;
+	    font-size: 16px !important;
 	    font-weight: 700 !important;
 	    color: #DC0630 !important;
 	    display: block !important;
@@ -104,47 +305,106 @@
 	.wishlist-grid.list-view .discount {
 	    background: #DC0630 !important;
 	    color: white !important;
-	    padding: 1px 4px !important;
-	    font-size: 9px !important;
+	    padding: 2px 6px !important;
+	    font-size: 10px !important;
 	    font-weight: 700 !important;
-	    border-radius: 2px !important;
+	    border-radius: 3px !important;
 	    white-space: nowrap !important;
 	}
 	
 	.wishlist-grid.list-view .price-detail {
 	    display: flex !important;
 	    align-items: center !important;
-	    gap: 6px !important;
+	    gap: 8px !important;
 	    justify-content: flex-end !important;
 	}
 	
 	.wishlist-grid.list-view .original-price {
-		margin-right: 3px !important;
-	    font-size: 11px !important;
+	    margin-right: 4px !important;
+	    font-size: 12px !important;
 	    color: #999 !important;
 	    text-decoration: line-through !important;
 	}
 	
-	.wishlist-grid.list-view .item-status {
-	    min-width: 80px !important;
-	    text-align: center !important;
-	    color: #666 !important;
-	    font-size: 12px !important;
+	.wishlist-grid.list-view .item-bottom {
+	    display: flex !important;
+	    align-items: center !important;
+	    gap: 16px !important;
+	    padding: 0 !important;
+	    border: none !important;
+	    flex-shrink: 0 !important;
 	}
 	
+	.wishlist-grid.list-view .item-status {
+	    min-width: 80px !important;
+	    justify-content: center !important;
+	    font-size: 12px !important;
+	    padding: 6px 12px !important;
+	    border-radius: 6px !important;
+	    font-weight: 600 !important;
+	}
+	
+	.wishlist-grid.list-view .item-actions {
+	    display: flex !important;
+	    gap: 8px !important;
+	    margin: 0 !important;
+	}
+	
+	.wishlist-grid.list-view .btn-detail {
+	    padding: 8px 16px !important;
+	    font-size: 12px !important;
+	    font-weight: 600 !important;
+	    border-radius: 6px !important;
+	    min-width: 70px !important;
+	    box-shadow: 0 2px 6px rgba(220, 6, 48, 0.2) !important;
+	}
+	
+	.wishlist-grid.list-view .btn-detail:hover {
+	    transform: translateY(-1px) !important;
+	    box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3) !important;
+	}
+	
+	/* 반응형 디자인 */
+	@media (max-width: 768px) {
+	    .wishlist-grid.list-view .item-info {
+	        gap: 12px !important;
+	    }
+	    
+	    .wishlist-grid.list-view .item-details {
+	        min-width: 150px !important;
+	    }
+	    
+	    .wishlist-grid.list-view .item-price {
+	        min-width: 120px !important;
+	    }
+	    
+	    .wishlist-grid.list-view .item-status {
+	        min-width: 60px !important;
+	        padding: 4px 8px !important;
+	        font-size: 11px !important;
+	    }
+	    
+	    .wishlist-grid.list-view .btn-detail {
+	        padding: 6px 12px !important;
+	        font-size: 12px !important;
+	    }
+	}
+	
+/* 	장바구니담기버튼 활성화하면 풀면 됨.
 	.wishlist-grid.list-view .item-actions {
 	    min-width: 200px !important;
 	    gap: 8px !important;
 	    margin: 0 !important;
 	    display: flex !important;
-	}
+	} 
 	
 	.wishlist-grid.list-view .btn-cart,
 	.wishlist-grid.list-view .btn-detail {
 	    padding: 6px 12px !important;
 	    font-size: 12px !important;
 	    font-weight: 500 !important;
-	}
+	    border-radius: 3px;
+	} */
 </style>
 <jsp:include page="../layout/header.jsp" />
 <jsp:include page="../layout/menu.jsp" />
