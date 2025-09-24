@@ -119,6 +119,7 @@
 			
 			<section class="new_area prd_area">
 			    <div class="inner">
+
 			        <p class="sub-comment"  data-aos="fade-up">DOO.D 신상품</p>
 			        <div class="newSwiper"  data-aos="fade-up"  data-aos-delay="300">
 			        	<div class="new_list flex prdList f-wrap ju-between swiper-wrapper">
@@ -188,6 +189,7 @@
 						  });
 						</script>
 			        </div>
+
 			        <div class="btn-view-more-wrap flex ju-center"> <!-- 신상품리스트바로가기링크 -->
 						<a href="#" class="btn-view-more"><span>신상품 더보기</span></a>
 					</div>
@@ -273,7 +275,7 @@
 			    </div>
 			</section>
 
-			
+
 			<section class="shortbanner_area">
 				<div class="inner">
 					<a href="#">

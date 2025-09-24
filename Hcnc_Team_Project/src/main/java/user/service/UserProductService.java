@@ -72,6 +72,7 @@ public class UserProductService {
 		return userProductMapper.selectProductDescriptionByUser(param);
 	}
 
+
 	public List<Map<String, Object>> selectMNProductListByUser() {
 		// TODO Auto-generated method stub
 		return userProductMapper.selectMNProductListByUser();//메인에서 NEW BEST불러가는용 임시
@@ -83,6 +84,4 @@ public class UserProductService {
 	}
 
 	
-	
-
 }

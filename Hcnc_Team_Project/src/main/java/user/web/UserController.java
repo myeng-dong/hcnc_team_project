@@ -83,6 +83,8 @@ public class UserController {
 		mv.addObject("mainBanners", mainBanners);
 		mv.addObject("topBanners", topBanners);
 		mv.addObject("popupBanners", popupBanners);
+		mv.addObject("newProducts", newProducts);
+		mv.addObject("recommendProducts", recommendProducts);
 		
 		mv.addObject("newProducts", newProducts);
 		mv.addObject("recommendProducts", recommendProducts);
