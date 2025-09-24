@@ -164,8 +164,14 @@
   transition: width 0.3s ease;
 }
 
+
+/*faq게시판*/
+.faq-area {
+  
+
 .noticeItem:hover::before {
   width: 100%;
+
 }
 
 .noticeItem:hover {

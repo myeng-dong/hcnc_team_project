@@ -8,7 +8,7 @@
           <Layouts>
             <Layout>
               <Static id="stc_ship" taborder="0" text="택배사" left="30" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Combo id="Combo00" taborder="1" text="" left="94" top="13" width="160" height="32" innerdataset="ds_cate" codecolumn="COURIER_NAME" datacolumn="COURIER_NAME" onitemchanged="search_area_Combo00_onitemchanged" index="-1"/>
+              <Combo id="Combo00" taborder="1" text="" left="94" top="13" width="160" height="32" innerdataset="ds_cate" codecolumn="COURIER_NAME" datacolumn="COURIER_NAME" onitemchanged="search_area_Combo00_onitemchanged" index="0" value=""/>
             </Layout>
           </Layouts>
         </Div>
@@ -39,7 +39,7 @@
               <Band id="body">
                 <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" text="bind:CHK"/>
                 <Cell col="1" text="bind:COURIER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="2" text="bind:SHIP_COST" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="2" text="bind:SHIP_COST" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
                 <Cell col="3" text="bind:FREE_SHIPPING_PRICE" textAlign="right" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
                 <Cell col="4" text="bind:ADDITIONAL_TYPE" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
                 <Cell col="5" text="bind:ADDITIONAL_PRICE" textAlign="right" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
@@ -123,24 +123,6 @@ this.search_area_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickE
     this.fnSaveSelectedPostPrice();
 };
 
-
-this.search_area_Edit00_00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
-{
-	
-	if (e.keycode == 13) {  // 13 = Enter 키
-        // 조회 버튼 클릭 이벤트와 동일 동작 실행
-        this.fnSearchPostPrice();
-    }
-};
-
-// 콤보박스 선택시
-this.search_area_Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
-{
-	var post = e.postvalue;
-	this.ds_search.setColumn(0,"COURIER_NAME",post)
-	this.fnSearchPostPrice();
-};
-
 //체크박스 전체선택 , 전체해제
 this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEventInfo)
 {
@@ -160,6 +142,26 @@ this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEvent
         }
     }
 };
+
+
+// 이름칸에서 엔터 눌렀을때
+this.search_area_Edit00_00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	
+	if (e.keycode == 13) {  // 13 = Enter 키
+        // 조회 버튼 클릭 이벤트와 동일 동작 실행
+        this.fnSearchPostPrice();
+    }
+};
+
+// 콤보박스 선택시
+this.search_area_Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var post = e.postvalue;
+	this.ds_search.setColumn(0,"COURIER_NAME",post)
+	this.fnSearchPostPrice();
+};
+
 
 ]]></Script>
     <Objects>

@@ -53,12 +53,16 @@
     <Service prefixid="board" type="form" url="./board/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="promo" type="form" url="./promo/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="member" type="form" url="./member/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
-    <Service prefixid="product" type="form" url="./product/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="stat" type="form" url="./stat/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="setting" type="form" url="./setting/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="banner" type="form" url="./banner/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="dash" type="form" url="./dash/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
     <Service prefixid="popup" type="form" url="./popup/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+
+    <Service prefixid="common" type="js" url="./common/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+
+    <Service prefixid="css" type="file" url="./css/" version="0" cachelevel="session" include_subdir="false" communicationversion="0"/>
+
   </Services>
   <Protocols/>
   <DeviceAdaptors/>
