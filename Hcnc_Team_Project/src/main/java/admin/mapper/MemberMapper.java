@@ -60,10 +60,18 @@ public interface MemberMapper {
 	List<Map<String, Object>> selectPointAndCouponList(Map<String, Object> param);
 	
 	//포인트 상세조회 중 사용 유형들 조회
-	List<Map<String, Object>> selectMemberChageTypeList();
+	List<Map<String, Object>> selectMemberChageTypeList(Map<String, Object> param);
 	
+	//포인트 상세보기 리스트
 	List<Map<String, Object>> selectPointDetailList(Map<String, Object> param);
-
+	
+	//쿠폰 상세보기 리스트
 	List<Map<String, Object>> selectCouponDetailList(Map<String, Object> param);
+
+	//포인트 적립 및 차감
+	int insertPoint(Map<String, Object> point);
+	
+	//쿠폰 지급
+	int insertCoupon(Map<String, Object> param);
 
 }

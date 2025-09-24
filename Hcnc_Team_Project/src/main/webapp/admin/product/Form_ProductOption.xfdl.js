@@ -165,16 +165,25 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_ProductOption.xfdl","common::common.xjs");
         this.registerScript("Form_ProductOption.xfdl", function() {
+
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
+
         this.Form_ProductOption_onload = function(obj,e)
         {
+
             var oArgs = this.getOwnerFrame().arguments;
+
             if (oArgs && oArgs.REFRESH == "Y") {
-                this.fn_search();
-            }
+        			this.fn_search();
+        			return;
+        		}
 
         	this.fn_search();
-        };
+        }
+
+
 
 
 
@@ -216,17 +225,15 @@
             // 1) 조회조건 Dataset 구성
             this.fn_makeSearchCond();
             // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
-            this.transaction(
-                "selectOptionByAdmin",            // 서비스 ID (콜백 분기용)
-        /*		"svc::/selectOptionByAdmin.do",    // 컨트롤러 URL*/
-        		"svc::/selectOptionByAdmin.do?time=" + new Date().getTime(),    // 컨트롤러 URL
 
-                "ds_searchCond=ds_searchCond",         // inDatasets: 조건 묶음
-                "ds_out_opList=ds_out_opList",       // outDatasets: 결과 그리드 바인딩
-                "",                                    // args는 사용하지 않음 (전부 Dataset으로 처리)
-                "fn_callback",                         // 콜백 함수명
-                true                                   // 비동기
-            );
+        	this.gfn_transction(
+            "selectOptionByAdmin",
+            "selectOptionByAdmin.do?time=" + new Date().getTime(), // 캐시 방지용 파라미터 추가
+            "ds_searchCond=ds_searchCond",
+            "ds_out_opList=ds_out_opList",
+            ""
+        	);
+
         };
 
 
@@ -242,6 +249,7 @@
 
             switch(strSvcID){
         	case "selectOptionByAdmin":
+
         		var ea = this.ds_out_opList.getRowCount();
 
         		this.stc_total_value.set_text(ea);
@@ -462,6 +470,10 @@
         {
             var app = nexacro.getApplication();
             var workFrame = app.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
+
+
+        	// 이전 arguments 지우고 새로 세팅
+        	workFrame.arguments = null;
 
             // 전달값 만들기 // Object Merge 동작 args객체에 들어있는 모든 key-value 쌍 하나씩 꺼내서 oArgs에 복사
             var oArgs = { MODE: mode };
