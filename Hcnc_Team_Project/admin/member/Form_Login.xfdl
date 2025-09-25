@@ -136,7 +136,7 @@ this.loginSet = function () {
 	// 전역데이터셋 저장( copydata() )
 	glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
 	
-	
+
 	//직접 탑 프레임에 접근해서 상단에 멤버 id 띄우기(중요!) 
 	if (glbAd.gds_adminInfo.rowcount > 0) {
 		var memberId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");

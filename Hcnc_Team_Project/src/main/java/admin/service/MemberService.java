@@ -170,6 +170,23 @@ public class MemberService {
 		
 		return memberMapper.selectBlackListByAdmin(param);
 	}
-   
+	
+	//블랙리스트 상세조회(광고없음)
+	public List<Map<String, Object>> selectBlackDetailListByAdmin(String memberId) {
+		
+		return  memberMapper.selectBlackDetailListByAdmin(memberId);
+	}
+	
+	//블랙리스트 신고취소
+	public int updateMemberBlackStatusListByAdmin(Map<String, Object> row) {
+		
+		return  memberMapper.updateMemberBlackStatusListByAdmin(row);
+	}
+	
+	
+
+
+	
+
 
 }

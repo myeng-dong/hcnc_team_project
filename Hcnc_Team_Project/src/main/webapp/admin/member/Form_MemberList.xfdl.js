@@ -38,7 +38,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Grid("member_list","20","360",null,"350","40",null,null,null,null,null,this);
+            obj = new Grid("member_list","15","360",null,"350","35",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
