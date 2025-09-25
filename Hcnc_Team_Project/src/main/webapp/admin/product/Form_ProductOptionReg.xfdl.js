@@ -19,6 +19,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_optionReg", this);
+            obj.set_useclientlayout("true");
             obj._setContents("<ColumnInfo><Column id=\"OPTION_ID\" type=\"INT\"/><Column id=\"PRODUCT_ID\" type=\"INT\"/><Column id=\"OPTION_NAME\" type=\"STRING\"/><Column id=\"OPTION_VALUE\" type=\"STRING\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\"/><Column id=\"INPUT_ID\" type=\"STRING\"/><Column id=\"UPDATE_ID\" type=\"STRING\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
@@ -131,6 +132,7 @@
             this.ds_optionReg.clearData();
             this.ds_selectedProd.clearData();
 
+
             var oArgs = this.getOwnerFrame().arguments;
             if (oArgs && oArgs.MODE == "UPDATE") {
                 // 수정 모드
@@ -143,6 +145,9 @@
                     "fn_callback",
                     true
                 );
+
+
+
                 this.btn_addRow.set_visible(false);
                 this.btn_delRow.set_visible(false);
         		this.sta_prodLabel.set_visible(false);
@@ -157,6 +162,24 @@
                 this.sta_title.set_text("옵션 [ 등록 ] 모드");
             }
         };
+
+
+
+        // 사용자 ID 반환 함수
+        this.getUserId = function()
+        {
+            var app = nexacro.getApplication();
+            var sUserId = app.gds_adminInfo.getColumn(0, "MEMBER_ID");
+
+            if (sUserId && sUserId != "undefined") {
+                trace("현재 로그인 사용자 ID: " + sUserId);
+                return sUserId;
+            } else {
+                trace("⚠ 사용자 ID를 가져올 수 없습니다. gds_adminInfo 상태 확인 필요");
+                return null;
+            }
+        };
+
 
 
         // 상품검색 버튼 클릭 → 팝업 열기
@@ -258,6 +281,7 @@
 
 
             var app = nexacro.getApplication();
+        	var sUserId = this.getUserId();
 
             for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
                 // ★ PRODUCT_ID 강제 세팅
@@ -282,11 +306,23 @@
 
                 // 등록/수정자 세팅
                 if (this.ds_optionReg.getColumn(i, "OPTION_ID")) {
-                    this.ds_optionReg.setColumn(i, "UPDATE_ID", app.loginUserId);
+                    this.ds_optionReg.setColumn(i, "UPDATE_ID", sUserId);
                 } else {
-                    this.ds_optionReg.setColumn(i, "INPUT_ID", app.loginUserId);
+                    this.ds_optionReg.setColumn(i, "INPUT_ID", sUserId);
                 }
             }
+        	trace("저장 시 가져온 UserId = " + sUserId);
+
+        	for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
+            trace("저장 전 체크 >> row=" + i
+                 + " PRODUCT_ID=" + this.ds_optionReg.getColumn(i,"PRODUCT_ID")
+                 + " INPUT_ID="   + this.ds_optionReg.getColumn(i,"INPUT_ID")
+                 + " UPDATE_ID="  + this.ds_optionReg.getColumn(i,"UPDATE_ID"));
+        	}
+
+
+
+
 
             if (!this.confirm("저장하시겠습니까?")) return;
 
@@ -327,6 +363,10 @@
             if (svcID == "saveOptionByAdmin") {
                 this.alert("저장이 완료되었습니다.");
                 this.btn_cancel_onclick();
+            }
+
+        	if (svcID == "selectOptionOneByAdmin") {
+                console.log(this.ds_optionReg.saveXML());
             }
         };
 

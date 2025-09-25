@@ -212,18 +212,16 @@ public class ProductController {
 
 		try {
 
-			String loginId = (String) request.getSession().getAttribute("loginId");
+			//String loginId = (String) request.getSession().getAttribute("loginId");
 
 			for (Map<String, Object> option : optionList) {
 				Object optionId = option.get("OPTION_ID");
 
 				if (optionId != null && !"".equals(optionId.toString())) {
 					// PK 있으면 update
-					option.put("UPDATE_ID", loginId);
 					productService.updateOption(option);
 				} else {
 					// PK 없으면 insert
-					option.put("INPUT_ID", loginId);
 					productService.insertOption(option);
 				}
 			}

@@ -320,7 +320,7 @@
 	</update>
 
 	<!-- 옵션 단건 조회 -->
-	<select id="selectOptionOneByAdmin" parameterType="long" resultType="map" flushCache="true" >
+	<select id="selectOptionOneByAdmin" parameterType="long" resultType="java.util.Map" flushCache="true" >
     SELECT PRODUCT_ID
     	 , OPTION_ID
          , OPTION_NAME
@@ -338,9 +338,9 @@
 	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="java.util.Map">
 		INSERT INTO OPTIONS
-			(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
+			(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID, UPDATE_DT, UPDATE_ID)
 		VALUES
-			(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID})
+			(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID}, NOW(), #{INPUT_ID})
 	</insert>
 
 
