@@ -10,7 +10,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="1" top="200" height="570" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_out_opList" onheadclick="grid_list_onheadclick" oncelldblclick="grid_list_oncelldblclick" left="49" width="1230">
+        <Grid id="grid_list" taborder="1" top="200" height="550" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_out_opList" onheadclick="grid_list_onheadclick" oncelldblclick="grid_list_oncelldblclick" left="49" width="1230" font="bold 10pt/normal &quot;맑은 고딕&quot;">
           <Formats>
             <Format id="default">
               <Columns>
@@ -19,7 +19,7 @@
                 <Column size="100"/>
                 <Column size="151"/>
                 <Column size="151"/>
-                <Column size="151"/>
+                <Column size="225"/>
                 <Column size="151"/>
                 <Column size="69"/>
                 <Column size="223"/>
@@ -51,20 +51,20 @@
                 <Cell col="5" edittype="none" background="#ffffff" text="bind:PRODUCT_NAME" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
                 <Cell col="6" edittype="none" background="#ffffff" text="bind:ADDITIONAL_PRICE" font="12px/normal &quot;Gulim&quot;"/>
                 <Cell col="7" edittype="none" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
-                <Cell col="8" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;"/>
+                <Cell col="8" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;" displaytype="date"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Static id="stc_total_prefix" text="총 [ " top="221" height="20" left="190" width="20"/>
-        <Static id="stc_total_value" text="" top="221" textDecoration="underline" height="20" left="219" width="20"/>
-        <Static id="stc_total_suffix" text=" ]건" top="221" height="20" left="234" width="20"/>
-        <Button id="btn_show" text="선택 진열" top="221" height="35" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_show_onclick" width="92" left="828"/>
-        <Button id="btn_hide" text="진열 취소" top="221" height="35" color="#FFFFFF" background="#18b391" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_hide_onclick" width="92" left="950"/>
-        <Button id="btn_reg" text="옵션등록" top="221" height="35" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="0" onclick="btn_reg_onclick" cursor="pointer" width="120" left="1100"/>
-        <Static id="sta_listTitle" text="옵션 목록" height="61" top="201" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" taborder="1" color="#232323" left="70" width="80"/>
-        <Static id="sta_prodType" text="옵션검색" height="40" top="102" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="4" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" left="70" width="90"/>
-        <Button id="btn_view" text="조회" top="105" height="34" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="5" cursor="pointer" onclick="btn_view_onclick" width="72" left="724"/>
+        <Static id="stc_total_prefix" text="총 [ " top="221" height="20" left="190" width="29" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
+        <Static id="stc_total_value" text="" top="221" textDecoration="underline" height="20" left="219" width="20" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
+        <Static id="stc_total_suffix" text=" ]건" top="221" height="20" left="234" width="36" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
+        <Button id="btn_show" text="선택 진열" top="221" height="35" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="btn_show_onclick" width="92" left="828"/>
+        <Button id="btn_hide" text="진열 취소" top="221" height="35" color="#FFFFFF" background="#18b391" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="btn_hide_onclick" width="92" left="950"/>
+        <Button id="btn_reg" text="옵션등록" top="221" height="35" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" taborder="0" onclick="btn_reg_onclick" cursor="pointer" width="120" left="1100"/>
+        <Static id="sta_listTitle" text="옵션 목록" height="61" top="201" font="bold 14pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="1" color="#232323" left="64" width="86"/>
+        <Static id="sta_prodType" text="옵션검색" height="40" top="102" onclick="sta_prodType_onclick" font="bold 16px/normal &quot;맑은 고딕&quot;" padding="0px 0px 0px 10px" taborder="4" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" left="62" width="90"/>
+        <Button id="btn_view" text="조회" top="105" height="34" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" taborder="5" cursor="pointer" onclick="btn_view_onclick" width="72" left="724"/>
         <Combo id="cmb_searchType" top="105" height="35" text="상품명" taborder="6" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME" width="150" left="179">
           <Dataset id="innerdataset">
             <ColumnInfo>
@@ -91,7 +91,7 @@
             </Rows>
           </Dataset>
         </Combo>
-        <Static id="sta_listTitle00" text="옵션 더블클릭시 수정가능" height="61" top="201" font="11pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" taborder="12" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" left="520" width="215"/>
+        <Static id="sta_listTitle00" text="옵션 더블클릭시 수정가능" height="61" top="201" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="12" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" left="520" width="215"/>
       </Layout>
     </Layouts>
     <Objects>

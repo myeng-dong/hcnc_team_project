@@ -28,21 +28,24 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("sta_title","30","20","400","40",null,null,null,null,null,null,this);
+            obj = new Static("sta_title","30","0","400","40",null,null,null,null,null,null,this);
             obj.set_text("옵션 등록/수정");
-            obj.set_font("bold 16pt \'Arial\'");
+            obj.set_font("bold 16pt/normal \"맑은 고딕\"");
             obj.set_color("#232323");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_prodLabel","30","80","100","30",null,null,null,null,null,null,this);
-            obj.set_text("선택된 상품 :");
-            obj.set_font("bold 11pt \'Gulim\'");
+            obj = new Static("sta_prodLabel","30","60","100","35",null,null,null,null,null,null,this);
+            obj.set_text("선택된 상품 :  ");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             obj.set_color("#222222");
             obj.set_textAlign("right");
+            obj.set_background("#ffffff");
+            obj.set_border("1px solid #102b6e");
+            obj.set_borderRadius("6px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_selectedProd","140","80","500","30",null,null,null,null,null,null,this);
-            obj.set_text("상품을 선택하세요.");
+            obj = new Static("sta_selectedProd","140","60","500","35",null,null,null,null,null,null,this);
+            obj.set_text("상품을 검색하여 선택하세요.");
             obj.set_font("bold 11pt \'Arial\'");
             obj.set_color("#888888");
             obj.set_background("#f5f5f5");
@@ -52,7 +55,7 @@
             obj.set_textAlign("left");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_searchProd","660","75","120","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_searchProd","660","60","120","35",null,null,null,null,null,null,this);
             obj.set_text("상품검색 🔍");
             obj.set_background("#ffffff");
             obj.set_color("#102b6e");
@@ -62,27 +65,27 @@
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grd_option","30","130","1220","500",null,null,null,null,null,null,this);
+            obj = new Grid("grd_option","30","130","1220","480",null,null,null,null,null,null,this);
             obj.set_binddataset("ds_optionReg");
             obj.set_autofittype("col");
-            obj.set_border("1px solid #cccccc");
+            obj.set_border("1px solid #ffffff");
             obj.set_borderRadius("8px");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"50\"/><Column size=\"200\"/><Column size=\"200\"/><Column size=\"150\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"36\"/></Rows><Band id=\"head\"><Cell text=\"No\"/><Cell col=\"1\" text=\"옵션명\"/><Cell col=\"2\" text=\"옵션값\"/><Cell col=\"3\" text=\"추가금액\"/></Band><Band id=\"body\"><Cell text=\"expr:currow+1\" textAlign=\"center\"/><Cell col=\"1\" text=\"bind:OPTION_NAME\" edittype=\"text\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:OPTION_VALUE\" edittype=\"text\" textAlign=\"center\"/><Cell col=\"3\" text=\"bind:ADDITIONAL_PRICE\" edittype=\"text\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"50\"/><Column size=\"200\"/><Column size=\"200\"/><Column size=\"150\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"36\"/></Rows><Band id=\"head\"><Cell text=\"No\" background=\"#ffffff\" font=\"bold 10pt/normal &quot;맑은 고딕&quot;\" border=\"1px solid #ffffff\"/><Cell col=\"1\" text=\"옵션명\" background=\"#ffffff\" font=\"bold 10pt/normal &quot;맑은 고딕&quot;\" border=\"1px solid #ffffff\"/><Cell col=\"2\" text=\"옵션값\" background=\"#ffffff\" font=\"bold 10pt/normal &quot;맑은 고딕&quot;\" border=\"1px solid #ffffff\"/><Cell col=\"3\" text=\"추가금액\" background=\"#ffffff\" font=\"bold 10pt/normal &quot;맑은 고딕&quot;\" border=\"1px solid #ffffff\"/></Band><Band id=\"body\"><Cell text=\"expr:currow+1\" textAlign=\"center\"/><Cell col=\"1\" text=\"bind:OPTION_NAME\" edittype=\"text\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:OPTION_VALUE\" edittype=\"text\" textAlign=\"center\"/><Cell col=\"3\" text=\"bind:ADDITIONAL_PRICE\" edittype=\"text\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_addRow","30","660","100","36",null,null,null,null,null,null,this);
             obj.set_text("행추가");
-            obj.set_background("#5cb85c");
+            obj.set_background("#053a5b");
             obj.set_color("#ffffff");
-            obj.set_font("bold 11pt \'Arial\'");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             obj.set_borderRadius("6px");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_delRow","140","660","100","36",null,null,null,null,null,null,this);
             obj.set_text("행삭제");
-            obj.set_background("#cc4700");
+            obj.set_background("#7f0e0e");
             obj.set_color("#ffffff");
-            obj.set_font("bold 11pt \'Arial\'");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             obj.set_borderRadius("6px");
             this.addChild(obj.name, obj);
 
@@ -90,7 +93,7 @@
             obj.set_text("저장");
             obj.set_background("#102b6e");
             obj.set_color("#ffffff");
-            obj.set_font("bold 11pt \'Arial\'");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             obj.set_borderRadius("6px");
             this.addChild(obj.name, obj);
 
@@ -98,7 +101,7 @@
             obj.set_text("취소");
             obj.set_background("#bbbbbb");
             obj.set_color("#ffffff");
-            obj.set_font("bold 11pt \'Arial\'");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             obj.set_borderRadius("6px");
             this.addChild(obj.name, obj);
             // Layout Functions
@@ -159,13 +162,12 @@
         // 상품검색 버튼 클릭 → 팝업 열기
         this.btn_searchProd_onclick = function(obj, e)
         {
-
         	var childFrame = new ChildFrame();
         	childFrame.init("ProductSearch",
-        					(this.width / 2) - 300,
-        					(this.height / 2) - 200,
-        					600,400,
-        					null, null, "product::Form_ProductSearch.xfdl");
+        		(this.width / 2) - 300,
+        		(this.height / 2) - 200,
+        		600,400,
+        		null, null, "product::Form_ProductSearch.xfdl");
 
         	childFrame.set_showtitlebar(true);
         	childFrame.set_showstatusbar(false);
@@ -198,7 +200,7 @@
                 }
 
 
-        		        // ★ 기존 옵션행 모두 PRODUCT_ID 세팅
+        		// ★ 기존 옵션행 모두 PRODUCT_ID 세팅
                 for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
                     this.ds_optionReg.setColumn(i, "PRODUCT_ID", obj.PRODUCT_ID);
                 }
@@ -221,7 +223,7 @@
             this.ds_optionReg.setColumn(nRow, "ADDITIONAL_PRICE", 0);
 
 
-        	    // ★ 상품이 이미 선택되어 있다면 PRODUCT_ID 바로 세팅
+        	// ★ 상품이 이미 선택되어 있다면 PRODUCT_ID 바로 세팅
             if (this.ds_selectedProd.getRowCount() > 0) {
                 var prodId = this.ds_selectedProd.getColumn(0, "PRODUCT_ID");
                 this.ds_optionReg.setColumn(nRow, "PRODUCT_ID", prodId);
@@ -245,11 +247,16 @@
         // 저장
         this.btn_save_onclick = function()
         {
-            if (this.ds_selectedProd.getRowCount() == 0) {
+        	var oArgs = this.getOwnerFrame().arguments;
+            if ( (oArgs && oArgs.MODE) !== "UPDATE" && this.ds_selectedProd.getRowCount() == 0) {
                 this.alert("상품을 먼저 선택하세요.");
                 return;
             }
-            var prodId = this.ds_selectedProd.getColumn(0, "PRODUCT_ID");
+            var prodId = this.ds_selectedProd.getRowCount() > 0
+        			   ? this.ds_selectedProd.getColumn(0, "PRODUCT_ID")
+        			   : this.ds_optionReg.getColumn(0, "PRODUCT_ID"); //수정모드 대비
+
+
             var app = nexacro.getApplication();
 
             for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {

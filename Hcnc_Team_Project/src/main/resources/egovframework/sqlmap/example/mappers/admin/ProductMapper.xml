@@ -321,7 +321,8 @@
 
 	<!-- 옵션 단건 조회 -->
 	<select id="selectOptionOneByAdmin" parameterType="long" resultType="map" flushCache="true" >
-    SELECT OPTION_ID
+    SELECT PRODUCT_ID
+    	 , OPTION_ID
          , OPTION_NAME
          , OPTION_VALUE
          , ADDITIONAL_PRICE

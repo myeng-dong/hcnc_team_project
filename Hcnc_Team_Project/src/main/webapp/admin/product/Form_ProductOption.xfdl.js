@@ -46,27 +46,31 @@
             obj.set_taborder("0");
             this.Div00_00.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","49","200","1230","570",null,null,null,null,null,null,this);
+            obj = new Grid("grid_list","49","200","1230","550",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_out_opList");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"78\"/><Column size=\"49\"/><Column size=\"100\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"69\"/><Column size=\"223\"/></Columns><Rows><Row size=\"62\" band=\"head\"/><Row size=\"48\" band=\"head\"/><Row size=\"24\" band=\"head\"/><Row size=\"36\"/></Rows><Band id=\"head\"><Cell colspan=\"9\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" text=\"전체\" verticalAlign=\"bottom\"/><Cell row=\"1\" col=\"1\" rowspan=\"2\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"2\" rowspan=\"2\" text=\"옵션코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"3\" rowspan=\"2\" text=\"옵션명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"4\" rowspan=\"2\" text=\"옵션 세부사항\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"5\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"관련 상품명\"/><Cell row=\"1\" col=\"6\" rowspan=\"2\" text=\"옵션가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"7\" rowspan=\"2\" text=\"진열상태\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"8\" rowspan=\"2\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" background=\"#ffffff\" textAlign=\"center\" edittype=\"checkbox\" text=\"bind:chk\"/><Cell col=\"1\" text=\"expr:currow + 1\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"2\" background=\"#ffffff\" text=\"bind:OPTION_ID\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"3\" background=\"#ffffff\" text=\"bind:OPTION_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"4\" edittype=\"none\" background=\"#ffffff\" text=\"bind:OPTION_VALUE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"5\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"6\" edittype=\"none\" background=\"#ffffff\" text=\"bind:ADDITIONAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"7\" edittype=\"none\" background=\"#ffffff\" text=\"bind:IS_VISIBLE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"8\" edittype=\"none\" background=\"#ffffff\" text=\"bind:INPUT_DT\" font=\"12px/normal &quot;Gulim&quot;\"/></Band></Format></Formats>");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"78\"/><Column size=\"49\"/><Column size=\"100\"/><Column size=\"151\"/><Column size=\"151\"/><Column size=\"225\"/><Column size=\"151\"/><Column size=\"69\"/><Column size=\"223\"/></Columns><Rows><Row size=\"62\" band=\"head\"/><Row size=\"48\" band=\"head\"/><Row size=\"24\" band=\"head\"/><Row size=\"36\"/></Rows><Band id=\"head\"><Cell colspan=\"9\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" text=\"전체\" verticalAlign=\"bottom\"/><Cell row=\"1\" col=\"1\" rowspan=\"2\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"2\" rowspan=\"2\" text=\"옵션코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"3\" rowspan=\"2\" text=\"옵션명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"4\" rowspan=\"2\" text=\"옵션 세부사항\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"5\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"관련 상품명\"/><Cell row=\"1\" col=\"6\" rowspan=\"2\" text=\"옵션가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"7\" rowspan=\"2\" text=\"진열상태\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"8\" rowspan=\"2\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" background=\"#ffffff\" textAlign=\"center\" edittype=\"checkbox\" text=\"bind:chk\"/><Cell col=\"1\" text=\"expr:currow + 1\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"2\" background=\"#ffffff\" text=\"bind:OPTION_ID\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"3\" background=\"#ffffff\" text=\"bind:OPTION_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"4\" edittype=\"none\" background=\"#ffffff\" text=\"bind:OPTION_VALUE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"5\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"6\" edittype=\"none\" background=\"#ffffff\" text=\"bind:ADDITIONAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"7\" edittype=\"none\" background=\"#ffffff\" text=\"bind:IS_VISIBLE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"8\" edittype=\"none\" background=\"#ffffff\" text=\"bind:INPUT_DT\" font=\"12px/normal &quot;Gulim&quot;\" displaytype=\"date\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_total_prefix","190","221","20","20",null,null,null,null,null,null,this);
+            obj = new Static("stc_total_prefix","190","221","29","20",null,null,null,null,null,null,this);
             obj.set_text("총 [ ");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             this.addChild(obj.name, obj);
 
             obj = new Static("stc_total_value","219","221","20","20",null,null,null,null,null,null,this);
             obj.set_text("");
             obj.set_textDecoration("underline");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_total_suffix","234","221","20","20",null,null,null,null,null,null,this);
+            obj = new Static("stc_total_suffix","234","221","36","20",null,null,null,null,null,null,this);
             obj.set_text(" ]건");
+            obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_show","828","221","92","35",null,null,null,null,null,null,this);
@@ -74,7 +78,7 @@
             obj.set_color("#FFFFFF");
             obj.set_background("#f09d37");
             obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
+            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_hide","950","221","92","35",null,null,null,null,null,null,this);
@@ -82,7 +86,7 @@
             obj.set_color("#FFFFFF");
             obj.set_background("#18b391");
             obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
+            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_reg","1100","221","120","35",null,null,null,null,null,null,this);
@@ -90,22 +94,21 @@
             obj.set_color("#FFFFFF");
             obj.set_background("#102b6e");
             obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
-            obj.set_border("1px solid #CCCCCC");
+            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
             obj.set_taborder("0");
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_listTitle","70","201","80","61",null,null,null,null,null,null,this);
+            obj = new Static("sta_listTitle","64","201","86","61",null,null,null,null,null,null,this);
             obj.set_text("옵션 목록");
-            obj.set_font("bold 13pt/normal \"Arial\"");
+            obj.set_font("bold 14pt/normal \"맑은 고딕\"");
             obj.set_taborder("1");
             obj.set_color("#232323");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_prodType","70","102","90","40",null,null,null,null,null,null,this);
+            obj = new Static("sta_prodType","62","102","90","40",null,null,null,null,null,null,this);
             obj.set_text("옵션검색");
-            obj.set_font("normal 700 13px/normal \"Gulim\"");
+            obj.set_font("bold 16px/normal \"맑은 고딕\"");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_taborder("4");
             obj.set_background("transparent");
@@ -118,8 +121,7 @@
             obj.set_color("#ffffff");
             obj.set_background("#102b6e");
             obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
-            obj.set_border("1px solid #CCCCCC");
+            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
             obj.set_taborder("5");
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
@@ -139,7 +141,7 @@
 
             obj = new Static("sta_listTitle00","520","201","215","61",null,null,null,null,null,null,this);
             obj.set_text("옵션 더블클릭시 수정가능");
-            obj.set_font("11pt/normal \"Arial\"");
+            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
             obj.set_taborder("12");
             obj.set_color("#383838");
             obj.set_border("0px none,0px none,5px solid #ffa70f,0px solid #ffa70f");

@@ -4,13 +4,13 @@
     <Layouts>
       <Layout width="1280" height="800">
         <!-- 타이틀 -->
-        <Static id="sta_title" text="옵션 등록/수정" left="30" top="20" width="400" height="40" font="bold 16pt 'Arial'" color="#232323"/>
+        <Static id="sta_title" text="옵션 등록/수정" left="30" top="0" width="400" height="40" font="bold 16pt/normal &quot;맑은 고딕&quot;" color="#232323"/>
         <!-- 선택된 상품 -->
-        <Static id="sta_prodLabel" text="선택된 상품 :" left="30" top="80" width="100" height="30" font="bold 11pt 'Gulim'" color="#222222" textAlign="right"/>
-        <Static id="sta_selectedProd" text="상품을 선택하세요." left="140" top="80" width="500" height="30" font="bold 11pt 'Arial'" color="#888888" background="#f5f5f5" border="1px solid #cccccc" padding="0px 10px" borderRadius="6px" textAlign="left"/>
-        <Button id="btn_searchProd" text="상품검색 🔍" left="660" top="75" width="120" height="35" background="#ffffff" color="#102b6e" font="bold 10pt 'Arial'" borderRadius="6px" border="1px solid #102b6e" cursor="pointer" onclick="btn_searchProd_onclick"/>
+        <Static id="sta_prodLabel" text="선택된 상품 :  " left="30" top="60" width="100" height="35" font="bold 10pt/normal &quot;맑은 고딕&quot;" color="#222222" textAlign="right" background="#ffffff" border="1px solid #102b6e" borderRadius="6px"/>
+        <Static id="sta_selectedProd" text="상품을 검색하여 선택하세요." left="140" top="60" width="500" height="35" font="bold 11pt 'Arial'" color="#888888" background="#f5f5f5" border="1px solid #cccccc" padding="0px 10px" borderRadius="6px" textAlign="left"/>
+        <Button id="btn_searchProd" text="상품검색 🔍" left="660" top="60" width="120" height="35" background="#ffffff" color="#102b6e" font="bold 10pt 'Arial'" borderRadius="6px" border="1px solid #102b6e" cursor="pointer" onclick="btn_searchProd_onclick"/>
         <!-- 옵션 Grid -->
-        <Grid id="grd_option" left="30" top="130" width="1220" height="500" binddataset="ds_optionReg" autofittype="col" border="1px solid #cccccc" borderRadius="8px">
+        <Grid id="grd_option" left="30" top="130" width="1220" height="480" binddataset="ds_optionReg" autofittype="col" border="1px solid #ffffff" borderRadius="8px">
           <Formats>
             <Format id="default">
               <Columns>
@@ -24,10 +24,10 @@
                 <Row size="36"/>
               </Rows>
               <Band id="head">
-                <Cell text="No"/>
-                <Cell col="1" text="옵션명"/>
-                <Cell col="2" text="옵션값"/>
-                <Cell col="3" text="추가금액"/>
+                <Cell text="No" background="#ffffff" font="bold 10pt/normal &quot;맑은 고딕&quot;" border="1px solid #ffffff"/>
+                <Cell col="1" text="옵션명" background="#ffffff" font="bold 10pt/normal &quot;맑은 고딕&quot;" border="1px solid #ffffff"/>
+                <Cell col="2" text="옵션값" background="#ffffff" font="bold 10pt/normal &quot;맑은 고딕&quot;" border="1px solid #ffffff"/>
+                <Cell col="3" text="추가금액" background="#ffffff" font="bold 10pt/normal &quot;맑은 고딕&quot;" border="1px solid #ffffff"/>
               </Band>
               <Band id="body">
                 <Cell text="expr:currow+1" textAlign="center"/>
@@ -39,10 +39,10 @@
           </Formats>
         </Grid>
         <!-- 버튼 -->
-        <Button id="btn_addRow" text="행추가" left="30" top="660" width="100" height="36" background="#5cb85c" color="#ffffff" font="bold 11pt 'Arial'" borderRadius="6px" onclick="btn_addRow_onclick"/>
-        <Button id="btn_delRow" text="행삭제" left="140" top="660" width="100" height="36" background="#cc4700" color="#ffffff" font="bold 11pt 'Arial'" borderRadius="6px" onclick="btn_delRow_onclick"/>
-        <Button id="btn_save" text="저장" left="1040" top="660" width="100" height="40" background="#102b6e" color="#ffffff" font="bold 11pt 'Arial'" borderRadius="6px" onclick="btn_save_onclick"/>
-        <Button id="btn_cancel" text="취소" left="1150" top="660" width="100" height="40" background="#bbbbbb" color="#ffffff" font="bold 11pt 'Arial'" borderRadius="6px" onclick="btn_cancel_onclick"/>
+        <Button id="btn_addRow" text="행추가" left="30" top="660" width="100" height="36" background="#053a5b" color="#ffffff" font="bold 10pt/normal &quot;맑은 고딕&quot;" borderRadius="6px" onclick="btn_addRow_onclick"/>
+        <Button id="btn_delRow" text="행삭제" left="140" top="660" width="100" height="36" background="#7f0e0e" color="#ffffff" font="bold 10pt/normal &quot;맑은 고딕&quot;" borderRadius="6px" onclick="btn_delRow_onclick"/>
+        <Button id="btn_save" text="저장" left="1040" top="660" width="100" height="40" background="#102b6e" color="#ffffff" font="bold 10pt/normal &quot;맑은 고딕&quot;" borderRadius="6px" onclick="btn_save_onclick"/>
+        <Button id="btn_cancel" text="취소" left="1150" top="660" width="100" height="40" background="#bbbbbb" color="#ffffff" font="bold 10pt/normal &quot;맑은 고딕&quot;" borderRadius="6px" onclick="btn_cancel_onclick"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
@@ -51,7 +51,7 @@ this.Form_ProductOptionReg_onload = function(obj,e)
 {
     this.ds_optionReg.clearData();
     this.ds_selectedProd.clearData();
-
+	
     var oArgs = this.getOwnerFrame().arguments;
     if (oArgs && oArgs.MODE == "UPDATE") {
         // 수정 모드
@@ -83,14 +83,13 @@ this.Form_ProductOptionReg_onload = function(obj,e)
 // 상품검색 버튼 클릭 → 팝업 열기
 this.btn_searchProd_onclick = function(obj, e)
 {
-
 	var childFrame = new ChildFrame();
 	childFrame.init("ProductSearch",
-					(this.width / 2) - 300,
-					(this.height / 2) - 200,
-					600,400,
-					null, null, "product::Form_ProductSearch.xfdl");
-					
+		(this.width / 2) - 300,
+		(this.height / 2) - 200,
+		600,400,
+		null, null, "product::Form_ProductSearch.xfdl");
+	
 	childFrame.set_showtitlebar(true);
 	childFrame.set_showstatusbar(false);
 	childFrame.set_resizable(false);
@@ -109,20 +108,20 @@ this.popupCallback = function(sPopupId, rtn)
 {
     if (sPopupId == "ProductSearch" && rtn) {
         var obj = JSON.parse(rtn);
-
+		
         this.ds_selectedProd.clearData();
         var nRow = this.ds_selectedProd.addRow();
         this.ds_selectedProd.setColumn(nRow, "PRODUCT_ID", obj.PRODUCT_ID.hi);
         this.ds_selectedProd.setColumn(nRow, "PRODUCT_NAME", obj.PRODUCT_NAME);
-
-
+		
+		
         // 옵션 Dataset에도 바로 PRODUCT_ID 세팅
         for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
             this.ds_optionReg.setColumn(i, "PRODUCT_ID", obj.PRODUCT_ID);
         }
-
-
-		        // ★ 기존 옵션행 모두 PRODUCT_ID 세팅
+		
+		
+		// ★ 기존 옵션행 모두 PRODUCT_ID 세팅
         for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
             this.ds_optionReg.setColumn(i, "PRODUCT_ID", obj.PRODUCT_ID);
         }
@@ -145,7 +144,7 @@ this.btn_addRow_onclick = function()
     this.ds_optionReg.setColumn(nRow, "ADDITIONAL_PRICE", 0);
 	
 	
-	    // ★ 상품이 이미 선택되어 있다면 PRODUCT_ID 바로 세팅
+	// ★ 상품이 이미 선택되어 있다면 PRODUCT_ID 바로 세팅
     if (this.ds_selectedProd.getRowCount() > 0) {
         var prodId = this.ds_selectedProd.getColumn(0, "PRODUCT_ID");
         this.ds_optionReg.setColumn(nRow, "PRODUCT_ID", prodId);
@@ -168,18 +167,23 @@ this.btn_delRow_onclick = function()
 
 // 저장
 this.btn_save_onclick = function()
-{
-    if (this.ds_selectedProd.getRowCount() == 0) {
+{	
+	var oArgs = this.getOwnerFrame().arguments;
+    if ( (oArgs && oArgs.MODE) !== "UPDATE" && this.ds_selectedProd.getRowCount() == 0) {
         this.alert("상품을 먼저 선택하세요.");
         return;
     }
-    var prodId = this.ds_selectedProd.getColumn(0, "PRODUCT_ID");
+    var prodId = this.ds_selectedProd.getRowCount() > 0
+			   ? this.ds_selectedProd.getColumn(0, "PRODUCT_ID")
+			   : this.ds_optionReg.getColumn(0, "PRODUCT_ID"); //수정모드 대비
+	
+	
     var app = nexacro.getApplication();
-
+	
     for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
         // ★ PRODUCT_ID 강제 세팅
         this.ds_optionReg.setColumn(i, "PRODUCT_ID", prodId);
-
+		
         // Validation
         var name  = this.ds_optionReg.getColumn(i, "OPTION_NAME");
         var val   = this.ds_optionReg.getColumn(i, "OPTION_VALUE");
@@ -191,12 +195,12 @@ this.btn_save_onclick = function()
             this.alert("옵션값을 입력하세요. (행 " + (i+1) + ")");
             return;
         }
-
+		
         var price = this.ds_optionReg.getColumn(i, "ADDITIONAL_PRICE");
         if (price == null || price.toString().trim() == "" || isNaN(price)) {
             this.ds_optionReg.setColumn(i, "ADDITIONAL_PRICE", 0);
         }
-
+		
         // 등록/수정자 세팅
         if (this.ds_optionReg.getColumn(i, "OPTION_ID")) {
             this.ds_optionReg.setColumn(i, "UPDATE_ID", app.loginUserId);
@@ -204,7 +208,7 @@ this.btn_save_onclick = function()
             this.ds_optionReg.setColumn(i, "INPUT_ID", app.loginUserId);
         }
     }
-
+	
     if (!this.confirm("저장하시겠습니까?")) return;
 	
     this.transaction(
@@ -235,12 +239,12 @@ this.fn_callback = function(svcID, errCode, errMsg)
 {
     trace("=== fn_callback ===");
     trace("ServiceID=" + svcID + ", ErrorCode=" + errCode + ", ErrorMsg=" + errMsg);
-
+	
     if (errCode < 0) {
         this.alert("에러: " + errMsg);
         return;
     }
-
+	
     if (svcID == "saveOptionByAdmin") {
         this.alert("저장이 완료되었습니다.");
         this.btn_cancel_onclick();
