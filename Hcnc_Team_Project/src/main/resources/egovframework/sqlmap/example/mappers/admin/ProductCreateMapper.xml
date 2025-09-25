@@ -40,4 +40,38 @@
       M.SORT_NUMBER ASC,
       S.SORT_NUMBER ASC
   </select>
+  <insert id="insertProductCreateByAdmin">
+  	INSERT INTO
+    PRODUCTS (
+        SUB_CATE_ID,
+        PRODUCT_NAME, 
+        PRODUCT_CODE, 
+        PRODUCT_CONTENT, 
+        PRODUCT_PRICE, 
+        COST_PRICE, 
+        PRODUCT_WEIGHT, 
+        IS_VISIBLE, 
+        INPUT_DT, 
+        INPUT_ID, 
+        SORT_NUMBER, 
+        DETAIL_DESCRIPTION, 
+        PRODUCT_TYPE 
+    )
+VALUES
+(
+        #{subCateId},
+        #{productName},
+        #{productCode},
+        #{productContent},
+        #{productPrice},
+        #{costPrice},
+        #{productWeight},
+        #{isVisible},
+        current_timestamp(),
+        #{adminId},
+        0,
+        #{ckContent},
+        'nomal'
+    )
+  </insert>
 </mapper>
