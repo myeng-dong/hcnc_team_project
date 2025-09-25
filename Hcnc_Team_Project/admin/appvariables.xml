@@ -87,7 +87,7 @@
         </Row>
         <Row>
           <Col id="MENU_ID">0206</Col>
-          <Col id="MENU_NM">상품 상태 변경</Col>
+          <Col id="MENU_NM">상품 진열순서 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
         </Row>
         <Row>
