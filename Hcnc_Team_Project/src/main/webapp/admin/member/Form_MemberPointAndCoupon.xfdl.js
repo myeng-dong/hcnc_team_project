@@ -35,45 +35,38 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("grade_search_box00","20","260","1240","450",null,null,null,null,null,null,this);
-            obj.set_taborder("1");
-            obj.set_background("white");
-            obj.set_text("");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
             obj = new Static("Static00_00","40","37","52",null,null,"656",null,null,null,null,this);
-            obj.set_taborder("2");
+            obj.set_taborder("1");
             obj.set_text("아이디");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
             obj = new Edit("member_name","100","33","1093","35",null,null,null,null,null,null,this);
-            obj.set_taborder("3");
+            obj.set_taborder("2");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00_00_00","40","87","52",null,null,"606",null,null,null,null,this);
-            obj.set_taborder("4");
+            obj.set_taborder("3");
             obj.set_text("이름");
             obj.set_font("bold 14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
             obj = new Edit("user_name","100","85","1093","35",null,null,null,null,null,null,this);
-            obj.set_taborder("5");
+            obj.set_taborder("4");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00_00_00_00","40","147","52",null,null,"546",null,null,null,null,this);
-            obj.set_taborder("6");
+            obj.set_taborder("5");
             obj.set_text("전화번호");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
             obj = new Edit("phone_number","100","143","1093","35",null,null,null,null,null,null,this);
-            obj.set_taborder("7");
+            obj.set_taborder("6");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("pointAndCoupon","36","269",null,"431","24",null,null,null,null,null,this);
-            obj.set_taborder("8");
+            obj = new Grid("pointAndCoupon","20","265",null,"431","20",null,null,null,null,null,this);
+            obj.set_taborder("7");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
@@ -83,7 +76,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("select_btn","530","197","100","40",null,null,null,null,null,null,this);
-            obj.set_taborder("9");
+            obj.set_taborder("8");
             obj.set_text("조회하기");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -92,7 +85,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("cancel_btn","648","197","92","40",null,null,null,null,null,null,this);
-            obj.set_taborder("10");
+            obj.set_taborder("9");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
@@ -209,7 +202,6 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_MemberPointAndCoupon_onload,this);
-            this.grade_search_box00.addEventHandler("onclick",this.grade_search_box00_onclick,this);
             this.member_name.addEventHandler("onchanged",this.member_name_onchanged,this);
             this.user_name.addEventHandler("onchanged",this.grade_emil_onchanged,this);
             this.Static00_00_00_00.addEventHandler("onclick",this.Static00_00_00_00_onclick,this);

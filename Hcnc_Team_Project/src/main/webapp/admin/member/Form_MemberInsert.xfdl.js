@@ -337,6 +337,7 @@
 
         }
 
+
         });
         
         // Regist UI Components Event
@@ -346,6 +347,7 @@
             this.insert_box.form.Static01.addEventHandler("onclick",this.insert_box_Static01_onclick,this);
             this.insert_box.form.insert_name.addEventHandler("onchanged",this.insert_box_insert_name_onchanged,this);
             this.insert_box.form.close_btn.addEventHandler("onclick",this.insert_box_close_btn_onclick,this);
+            this.insert_box.form.type_radio.addEventHandler("onitemchanged",this.insert_box_type_radio_onitemchanged,this);
             this.insert_box.form.insert_btn.addEventHandler("onclick",this.insert_box_insert_btn_onclick,this);
         };
         this.loadIncludeScript("Form_MemberInsert.xfdl");

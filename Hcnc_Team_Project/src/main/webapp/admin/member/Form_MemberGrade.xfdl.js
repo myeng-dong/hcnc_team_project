@@ -117,15 +117,8 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("grade_search_box00","20","333","1240","337",null,null,null,null,null,null,this);
+            obj = new Grid("grid_list","20","329",null,"311","20",null,null,null,null,null,this);
             obj.set_taborder("13");
-            obj.set_background("white");
-            obj.set_text("");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
-            obj = new Grid("grid_list","45","350",null,"303","45",null,null,null,null,null,this);
-            obj.set_taborder("14");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
@@ -135,7 +128,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("update_grade","591","680","82","35",null,null,null,null,null,null,this);
-            obj.set_taborder("15");
+            obj.set_taborder("14");
             obj.set_text("등급 변경");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -225,7 +218,7 @@
         this.inse_onclick = function(obj,e)
         {
 
-        	// 변경된 행만 추려서 업데이트
+        	// 그리드 안의 변경된 셀만(행 추가 삭제와 비슷)
         	var strSvcID = "updateMemberGrade";
         	var setURL = "svc::/updateMemberGradeByAdmin.do";
         	var strInDatasets = "ds_gradeList=ds_gradeList:u"; // 수정된 데이터만 서버로 보냄

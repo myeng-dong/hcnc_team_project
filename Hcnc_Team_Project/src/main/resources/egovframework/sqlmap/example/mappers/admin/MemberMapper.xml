@@ -460,29 +460,57 @@
 	<!-- 블랙리스트 조회-->
 	<select id="selectBlackListByAdmin" resultType="java.util.Map">
     SELECT 
-		MEMBER_ID
-		,USER_NAME
-		,EMAIL_ADDR
-		,PHONE_NUMBER
-		,UPDATE_DT
-		,INPUT_DT
-	 FROM MEMBERS
-	WHERE STATUS = 'B' 
+		M.MEMBER_ID
+		,M.USER_NAME
+		,M.EMAIL_ADDR
+		,M.PHONE_NUMBER
+		,G.GRADE_NAME
+		,M.UPDATE_DT
+		,M.INPUT_DT
+	 FROM MEMBERS M
+	 JOIN GRADES G
+	   ON M.GRADE_CODE = G.GRADE_CODE 
+ 	WHERE STATUS = 'B'   
 	<if test="MEMBER_ID != '' and MEMBER_ID != null">
 		AND MEMBER_ID LIKE CONCAT('%',#{MEMBER_ID},'%')
 	</if>
 	<if test="USER_NAME != '' and USER_NAME != null">
-		AND USER_NAME LIKE CONTCAT('%',#{USER_NAME},'%') 
+		AND USER_NAME LIKE CONCAT('%',#{USER_NAME},'%') 
 	</if>
 	<if test="PHONE_NUMBER != '' and PHONE_NUMBER != null">
 		AND PHONE_NUMBER LIKE CONCAT('%',#{PHONE_NUMBER},'%') 
 	</if>
-	<if test="EMAIL_ADDR != '' and EMAIL_ADDR != null">
-		AND EMAIL_ADDR LIKE CONCAT('%',#{EMAIL_ADDR},'%')
+	<if test="START_INPUT_DT != null and END_INPUT_DT != null">
+		AND INPUT_DT BETWEEN #{START_INPUT_DT} AND DATE_ADD(#{END_INPUT_DT}, INTERVAL 1 DAY)
 	</if>
-	ORDER BY UPDATE_DT DESC;
+	  ORDER BY UPDATE_DT DESC;
 	</select>
-
-    
-  
+	
+	<!-- 블랙 상세보기  -->
+	<select id="selectBlackDetailListByAdmin" parameterType="String" resultType="java.util.Map">
+	 	SELECT 
+			M.MEMBER_ID
+			,R.REPORT_ID
+			,R.REPORT_TYPE
+			,R.REPORT_CONTENT
+			,R.REPORT_STATUS
+			<!-- 신고일자 -->
+			,R.INPUT_DT	
+		FROM REPORT R 
+		<!-- BOARD_WRITER에 멤버 아이디 넣기 -->
+		JOIN MEMBERS M ON R.BOARD_WRITER = M.MEMBER_ID 
+		<!-- memberId를 BOARD_WRITER에 담기 -->  
+       WHERE R.BOARD_WRITER = #{memberId}
+       ORDER BY R.INPUT_DT DESC            
+	</select>
+	
+	<!-- 블랙 회원 신고취소 처리 -->
+	<update id="updateMemberBlackStatusListByAdmin" parameterType="java.util.Map"> 
+      UPDATE REPORT
+         SET REPORT_STATUS = #{REPORT_STATUS},      
+             STATUS_DT = NOW()                      
+       WHERE REPORT_ID = #{REPORT_ID}              
+   </update>
+	
+	
 </mapper>

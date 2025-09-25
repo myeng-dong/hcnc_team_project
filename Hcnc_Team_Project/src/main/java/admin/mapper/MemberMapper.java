@@ -76,5 +76,16 @@ public interface MemberMapper {
 	
 	//블랙리스트 조회
 	List<Map<String, Object>> selectBlackListByAdmin(Map<String, Object> param);
+	
+	//블랙리스트 상세조회(신고내역)
+	List<Map<String, Object>> selectBlackDetailListByAdmin(String memberId);
+	
+	//블랙리스트 신고 취소
+	int updateMemberBlackStatusListByAdmin(Map<String, Object> row);
+	
+	
+	
+	
+
 
 }

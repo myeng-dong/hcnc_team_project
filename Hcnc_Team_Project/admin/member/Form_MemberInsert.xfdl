@@ -26,7 +26,7 @@
               <Calendar id="Calendar01" taborder="17" left="83" top="338" width="183" height="29"/>
               <Button id="close_btn" taborder="18" text="취소" left="573" top="600" width="95" height="31" background=" #9ca3af" borderRadius="4px" color="#fff" font="13px/normal &quot;Noto Sans KR Black&quot;" onclick="insert_box_close_btn_onclick"/>
               <Radio id="gender_radio" taborder="19" left="80" top="398" width="119" height="34" innerdataset="ds_gender" codecolumn="GENDER" datacolumn="CODE" font="12px &quot;Noto Sans KR Black&quot;" direction="vertical"/>
-              <Radio id="type_radio" taborder="20" left="83" top="527" width="116" height="28" innerdataset="ds_type" codecolumn="MEMBER_TYPE" datacolumn="CODE" font="12px/normal &quot;Noto Sans KR Black&quot;" direction="vertical"/>
+              <Radio id="type_radio" taborder="20" left="83" top="527" width="116" height="28" innerdataset="ds_type" codecolumn="MEMBER_TYPE" datacolumn="CODE" font="12px/normal &quot;Noto Sans KR Black&quot;" direction="vertical" onitemchanged="insert_box_type_radio_onitemchanged"/>
               <Button id="insert_btn" taborder="21" text="등록하기" left="469" top="600" width="90" height="31" background="#2563eb" borderRadius="4px" color="#fff" font="13px/normal &quot;Noto Sans KR Black&quot;" onclick="insert_box_insert_btn_onclick"/>
             </Layout>
           </Layouts>
@@ -141,6 +141,7 @@ this.fn_callBack = function(svcID, errorCode, errorMSG){
 	}
 	
 }
+
 ]]></Script>
     <Objects>
       <Dataset id="ds_gender">

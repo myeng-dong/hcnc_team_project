@@ -16,10 +16,9 @@
         <Static id="Static01" taborder="10" text="~" left="632" top="228" width="17" height="24" font="bold 12px &quot;Noto Sans KR Black&quot;"/>
         <Button id="search_btn" taborder="11" text="검색" left="523" top="275" width="97" height="30" background="#2563eb" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" borderRadius="4px" onclick="Button00_onclick"/>
         <Button id="reset_btn" taborder="12" text="초기화" left="649" top="275" width="97" height="30" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button00_00_onclick"/>
-        <Static id="grade_search_box00" taborder="13" left="20" top="333" width="1240" height="337" background="white" text="" borderRadius="8px"/>
-        <Grid id="grid_list" taborder="14" left="45" top="350" height="303" background="#FFFFFF" border="0px none" borderRadius="10px" right="45" autofittype="col" binddataset="ds_gradeList">&gt;
+        <Grid id="grid_list" taborder="13" left="20" top="329" height="311" background="#FFFFFF" border="0px none" borderRadius="10px" right="20" autofittype="col" binddataset="ds_gradeList">&gt;
           <Formats><Format id="default"><Columns><Column size="52"/><Column size="165"/><Column size="136"/><Column size="164"/><Column size="150"/><Column size="145"/><Column size="237"/><Column size="144"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="이메일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="전화번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="구매액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="가입일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="등급변경" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/></Band><Band id="body"><Cell text="expr:currow + 1"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center"/><Cell col="2" text="bind:USER_NAME" textAlign="center"/><Cell col="3" text="bind:EMAIL_ADDR" textAlign="center"/><Cell col="4" text="bind:PHONE_NUMBER" textAlign="center"/><Cell col="5" edittype="normal" text="bind:PRICE_AMOUNT" textAlign="center"/><Cell col="6" text="bind:INPUT_DT" textAlign="center"/><Cell col="7" text="bind:GRADE_CODE" displaytype="combocontrol" edittype="combo" combocodecol="GRADE_CODE" combodatacol="GRADE_NAME" combodataset="ds_grade"/></Band></Format></Formats></Grid>
-        <Button id="update_grade" taborder="15" text="등급 변경" left="591" top="680" width="82" height="35" onclick="inse_onclick" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Button id="update_grade" taborder="14" text="등급 변경" left="591" top="680" width="82" height="35" onclick="inse_onclick" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -116,7 +115,7 @@ this.fn_gradeSearch = function(){
 this.inse_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	
-	// 변경된 행만 추려서 업데이트
+	// 그리드 안의 변경된 셀만(행 추가 삭제와 비슷)
 	var strSvcID = "updateMemberGrade";
 	var setURL = "svc::/updateMemberGradeByAdmin.do";
 	var strInDatasets = "ds_gradeList=ds_gradeList:u"; // 수정된 데이터만 서버로 보냄
