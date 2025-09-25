@@ -113,6 +113,7 @@
 	         , IFNULL(S.SHIPMENT_ID, '') AS SHIPMENT_ID         -- 배송 ID (NULL이면 공백)
 	         , '0' AS CHK                                       -- 넥사 체크박스 설정용
 	         , C.COURIER_NAME                                   -- 택배 회사
+	         , C.COURIER_ID
 	         , S.TRACKING_NUMBER                                -- 송장 번호
 	         , CASE 
 	             WHEN S.SHIPMENT_STATUS
@@ -172,9 +173,9 @@
 		# 배송 인서트문
 		
 		INSERT INTO SHIPS                                    
-		(ORDER_ID, COUIER_NAME, TRACKING_NUMBER, SHIPMENT_STATUS, UPDATE_DT)
+		(ORDER_ID, COURIER_ID, TRACKING_NUMBER, SHIPMENT_STATUS, UPDATE_DT)
 		VALUES
-		(#{ORDER_ID}, #{COUIER_NAME}, #{TRACKING_NUMBER} , #{SHIPMENT_STATUS}, NOW())
+		(#{ORDER_ID}, #{COURIER_ID}, #{TRACKING_NUMBER} , #{SHIPMENT_STATUS}, NOW())
 	</insert>
 	
 	
@@ -232,6 +233,19 @@
               , ADDITIONAL_TYPE     = #{ADDITIONAL_TYPE}      -- 추가사유
               , ADDITIONAL_PRICE    = #{ADDITIONAL_PRICE}     -- 추가금
           WHERE COURIER_ID          = #{COURIER_ID}	          -- 결제ID로 조회
+	</update>
+	
+	<update id="updateOrderCommentByAdmin" parameterType="map">
+	    # 배송 상태 업데이트 OR 인서트시 실행될 쿼리문
+	    
+	    UPDATE ORDERS 
+	       SET ORDER_COMMENT = CASE
+	                            WHEN #{SHIPMENT_STATUS} = '발송완료' 
+	                            THEN '배송중'
+	                            ELSE '결제완료'
+	                           END
+	         , UPDATE_DT = NOW()
+	     WHERE ORDER_ID  = #{ORDER_ID}
 	</update>
 	
 </mapper>
