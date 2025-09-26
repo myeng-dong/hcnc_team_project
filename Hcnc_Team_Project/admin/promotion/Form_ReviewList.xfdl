@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_ReviewList" width="1080" height="630" titletext="New Form" background="#F4F7FE" onload="Form_ReviewList_onload">
+    <Layouts>
+      <Layout height="630" width="1080">
+        <Grid id="grid_list" taborder="0" left="40" top="160" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_review_list" bottom="40" oncellclick="grid_list_oncellclick">&gt;
+          <Formats><Format id="default"><Columns><Column size="48"/><Column size="103"/><Column size="169"/><Column size="140"/><Column size="91"/><Column size="160"/><Column size="110"/><Column size="111"/><Column size="68"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="상품코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="상품명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="회원ID" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="별점" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff"/><Cell col="5" text="리뷰작성일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="포인트지급여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="지급일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="리뷰상세" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1"/><Cell col="1" text="bind:PRODUCT_CODE"/><Cell col="2" text="bind:PRODUCT_NAME"/><Cell col="3" text="bind:MEMBER_ID"/><Cell col="4" text="bind:STAR_POINT"/><Cell col="5" edittype="none" text="bind:INPUT_DT"/><Cell col="6" text="bind:POINT_ISSUED"/><Cell col="7" edittype="none" text="bind:ISSUED_DT"/><Cell col="8" displaytype="buttoncontrol" text="관리"/></Band></Format></Formats></Grid>
+        <Div id="search_area" taborder="1" left="40" top="20" height="130" background="#ffffff" borderRadius="10px" right="40">
+          <Layouts>
+            <Layout>
+              <Static id="search_tit" taborder="0" text="검색분류" left="20" top="3" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Static id="Static00" taborder="1" left="82" top="15" width="2" height="20" background="#cccccc" text=""/>
+              <Radio id="radio_issued" taborder="2" left="96" top="49" width="304" height="30" innerdataset="ds_issued" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="" value="">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">all</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">발급</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">0</Col>
+                      <Col id="datacolumn">미발급</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="Static00_00" taborder="3" left="83" top="54" width="2" height="20" background="#cccccc" text=""/>
+              <Static id="search_tit00" taborder="4" text="지급유무" left="21" top="42" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Combo id="review_info" taborder="5" text="상품코드" left="96" top="14" width="114" height="25" value="상품코드" index="0" innerdataset="ds_search_combo" codecolumn="SEARCH_TYPE" datacolumn="SEARCH_TYPE"/>
+              <Edit id="edit_search" taborder="6" left="220" top="14" width="161" height="25"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_reset" taborder="2" text="초기화" left="559" top="105" height="30" borderRadius="5px" background="#8e8e8e" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" width="100" onclick="search_area_btn_reset_onclick"/>
+        <Button id="btn_select" taborder="3" text="조회" left="440" top="105" height="30" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" onclick="search_area_btn_select_onclick" width="100"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.Form_ReviewList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnSearchReview();
+	trace("리뷰이벤트 출력여부 확인용>>>");
+};
+
+this.grid_list_oncellclick = function(obj, e) {
+    if(e.cell == 8){ // 리뷰 열 클릭
+        var row = e.row;
+        var popup = new nexacro.ChildFrame();
+        var surl = "promotion::Form_ReviewDetail.xfdl";
+        popup.init("openPop", 300, 100, 800, 700, null, null, surl);
+        popup.set_dragmovetype("all");
+        popup.set_showtitlebar(true);
+        
+        // 선택 리뷰 정보 전달 - REVIEW_ID를 문자열로 변환
+        popup.arguments = {
+            REVIEW_ID: String(this.ds_review_list.getColumn(row,"REVIEW_ID")),
+            MEMBER_ID: this.ds_review_list.getColumn(row,"MEMBER_ID"),
+            ORDER_ID: String(this.ds_review_list.getColumn(row,"ORDER_ID")),
+            PRODUCT_NAME: this.ds_review_list.getColumn(row,"PRODUCT_NAME"),
+            REVIEW_TITLE: this.ds_review_list.getColumn(row,"REVIEW_TITLE"),
+            REVIEW_CONTENT: this.ds_review_list.getColumn(row,"REVIEW_CONTENT")
+        };
+        popup.showModal(this.getOwnerFrame(), null, this, "fn_popCallback", true);
+    }
+};
+
+// 리뷰리스트
+this.fnSearchReview = function() {
+    var strSvcID       = "selectReview";
+    var strURL         = "svc::selectProductReviewListByAdmin.do";
+    var strInDatasets  = "";
+    var strOutDatasets = "ds_review_list=ds_review_list"; 
+    var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
+    var strCallback    = "fnCallback";
+
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+};
+
+// 공통 콜백
+this.fnCallback = function(svc, err, errMsg) {
+    if (err < 0) {
+        this.alert("에러 발생: " + errMsg);
+		
+        return;
+    }
+    switch(svc){
+		case "selectReview"  :
+
+		return;
+		
+	}
+};
+
+// 팝업공통 콜백
+this.fn_popCallback = function(svcID, strVal){
+	switch(svcID){
+		case "openReviewPop":
+			if(strVal){ 
+				this._selectedReview = strVal;
+				trace("팝업에서 선택된 리뷰: " + JSON.stringify(this._selectedReview));
+				// Dataset 준비
+				this.fn_prepareAddPointDataset();
+				// 서버 전송
+				this.fn_callAddPointTransaction();
+			}
+		break;
+	}
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+      <BindItem id="item1" compid="search_area.form.edit_search" propid="value" datasetid="ds_search" columnid="SEARCH_TEXT"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_review_list">
+        <ColumnInfo>
+          <Column id="REVIEW_ID" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="PRODUCT_ID" type="STRING" size="256"/>
+          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
+          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
+          <Column id="REVIEW_TITLE" type="STRING" size="256"/>
+          <Column id="REVIEW_CONTENT" type="STRING" size="256"/>
+          <Column id="STAR_POINT" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="REVIEW_STATUS" type="STRING" size="256"/>
+          <Column id="POINT_ISSUED" type="STRING" size="256"/>
+          <Column id="ORDER_ID" type="STRING" size="256"/>
+          <Column id="ISSUED_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search_combo">
+        <ColumnInfo>
+          <Column id="SEARCH_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="SEARCH_TYPE">상품코드</Col>
+          </Row>
+          <Row>
+            <Col id="SEARCH_TYPE">상품명</Col>
+          </Row>
+          <Row>
+            <Col id="SEARCH_TYPE">아이디</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_issued">
+        <ColumnInfo>
+          <Column id="ISSUED_CODE" type="STRING" size="256"/>
+          <Column id="ISSUED_STATUE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ISSUED_CODE">지급</Col>
+            <Col id="ISSUED_STATUE">Y</Col>
+          </Row>
+          <Row>
+            <Col id="ISSUED_STATUE">N</Col>
+            <Col id="ISSUED_CODE">미지급</Col>
+          </Row>
+          <Row>
+            <Col id="ISSUED_CODE">전체</Col>
+            <Col id="ISSUED_STATUE"></Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

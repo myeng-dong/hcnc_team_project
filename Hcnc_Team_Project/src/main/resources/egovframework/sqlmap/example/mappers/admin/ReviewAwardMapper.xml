@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.mapper.ReviewAwardMapper">
+
+    <!-- 리뷰 리스트 조회 -->
+    <select id="selectProductReviewListByAdmin" resultType="java.util.Map" parameterType="java.util.Map">
+	    SELECT
+	          r.REVIEW_ID
+	        , r.MEMBER_ID
+	        , r.PRODUCT_ID
+	        , p.PRODUCT_CODE AS PRODUCT_CODE
+	        , p.PRODUCT_NAME AS PRODUCT_NAME
+	        , r.REVIEW_TITLE
+	        , r.REVIEW_CONTENT
+	        , r.STAR_POINT
+	        , r.INPUT_DT
+	        , r.REVIEW_STATUS
+	        , o.ORDER_ID
+	        , CASE WHEN pt.POINT_ID IS NOT NULL THEN 'Y' ELSE 'N' END AS POINT_ISSUED
+	        , pt.INPUT_DT AS ISSUED_DT
+	    FROM REVIEWS r
+	    JOIN ORDERS o
+	        ON r.MEMBER_ID = o.MEMBER_ID
+	    LEFT JOIN PRODUCTS p
+	        ON r.PRODUCT_ID = p.PRODUCT_ID
+	    LEFT JOIN POINTS pt
+	        ON r.MEMBER_ID = pt.MEMBER_ID
+	        AND pt.DESCRIPTION = CONCAT('[리뷰 이벤트 500포인트 지급]:', r.REVIEW_ID)
+	    WHERE r.PRODUCT_ID IS NOT NULL
+	        <if test="SEARCH_TYPE == '상품코드'">
+	            AND p.PRODUCT_CODE LIKE CONCAT('%', #{searchValue}, '%')
+	        </if>
+	        <if test="SEARCH_TYPE == '상품명'">
+	            AND p.PRODUCT_NAME LIKE CONCAT('%', #{searchValue}, '%')
+	        </if>
+	        <if test="SEARCH_TYPE == '아이디'">
+	            AND r.MEMBER_ID LIKE CONCAT('%', #{searchValue}, '%')
+	        </if>
+	        <if test="pointYn != null and pointYn != '' and pointYn != 'ALL'">
+	            <choose>
+	                <when test="pointYn == 'Y'">
+	                    AND pt.POINT_ID IS NOT NULL
+	                </when>
+	                <when test="pointYn == 'N'">
+	                    AND pt.POINT_ID IS NULL
+	                </when>
+	            </choose>
+	        </if>
+	    ORDER BY r.INPUT_DT DESC
+	</select>
+
+
+    <insert id="insertAutoReviewRewardPointsByAdmin">
+	    INSERT INTO POINTS (
+		      MEMBER_ID      -- 회원 ID
+		    , CHANGE_TYPE    -- 적립/차감 타입
+		    , POINT          -- 지급 포인트
+		    , DESCRIPTION    -- 설명
+		    , ORDER_ID       -- 주문 ID
+		)
+		SELECT
+		      r.MEMBER_ID
+		    , '적립'  -- 포인트 적립 타입
+		    , 500     -- 지급 포인트
+		    , CONCAT('[리뷰 이벤트 500포인트 지급]', o.ORDER_ID, ':', r.REVIEW_ID)  -- 설명
+		    , o.ORDER_ID
+		FROM REVIEWS r
+		JOIN ORDERS o
+		    ON r.MEMBER_ID = o.MEMBER_ID
+		LEFT JOIN POINTS p
+		    ON p.MEMBER_ID = r.MEMBER_ID
+		   AND p.ORDER_ID = o.ORDER_ID
+		   AND p.DESCRIPTION LIKE CONCAT('[리뷰 이벤트 500포인트 지급]', o.ORDER_ID, '%')  -- 이미 지급된 포인트 확인
+		WHERE r.REVIEW_STATUS = 'Y'               -- 승인된 리뷰만
+		  AND CHAR_LENGTH(r.REVIEW_CONTENT) >= 100 -- 리뷰 길이 100자 이상
+		  AND r.STAR_POINT >= 4                   -- 별점 4점 이상
+		  AND r.INPUT_DT BETWEEN o.ORDER_DT AND DATE_ADD(o.ORDER_DT, INTERVAL 3 DAY) -- 주문 후 3일 이내 작성
+		  AND p.POINT_ID IS NULL                  -- 아직 포인트 미지급인 경우만
+		ORDER BY r.INPUT_DT DESC;                  -- 최신 리뷰 우선
+
+	</insert>
+
+
+    <!-- 수동 지급 -->
+    <insert id="insertReviewRewardPointsByAdmin">
+	    INSERT INTO POINTS(
+	         MEMBER_ID
+	        ,CHANGE_TYPE
+	        ,POINT
+	        ,DESCRIPTION
+	        ,ORDER_ID
+	    ) VALUES (
+	        #{MEMBER_ID},
+	        #{CHANGE_TYPE},
+	        #{POINT},
+	        #{DESCRIPTION},
+	        #{ORDER_ID}
+	    )
+	</insert>
+
+</mapper>
