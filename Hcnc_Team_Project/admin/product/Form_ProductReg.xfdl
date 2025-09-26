@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductReg" width="1280" height="1580" titletext="상품등록" background="#f5f7fa" onload="Form_ProductReg_onload" ontimer="ProductReg_ontimer">
+  <Form id="Form_ProductReg" width="1280" height="2070" titletext="상품등록" background="#f5f7fa" onload="Form_ProductReg_onload" ontimer="ProductReg_ontimer">
     <Layouts>
-      <Layout width="1280" height="1580">
+      <Layout width="1280" height="2070">
         <!-- 타이틀 -->
         <Static id="sta_title" text="상품관리 || 상품등록" left="20" top="10" width="220" height="40" font="bold 16pt 'Gulim'" color="#111111"/>
         <!-- 표시 설정 -->
@@ -29,8 +29,8 @@
         <!-- 옵션 선택 -->
         <!-- 메모 -->
         <!-- 버튼 -->
-        <Button id="btn_save" text="저장" left="935" top="1520" width="150" height="40" background="#000000" color="#ffffff" borderRadius="8px" onclick="btn_save_onclick"/>
-        <Button id="btn_cancel" text="취소" left="1105" top="1520" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" onclick="btn_cancel_onclick"/>
+        <Button id="btn_save" text="저장" left="935" top="1680" width="150" height="40" background="#000000" color="#ffffff" borderRadius="8px" onclick="btn_save_onclick"/>
+        <Button id="btn_cancel" text="취소" left="1105" top="1680" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" onclick="btn_cancel_onclick"/>
         <Static id="sta_display00" text="진열상태" left="20" top="98" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="35" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_00" text="표시 설정" left="20" top="60" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="38" taborder="36" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <Edit id="edt_content" left="150" top="450" width="850" height="80" text="자동생성" taborder="32" displaynulltext="상품 단순설명"/>
@@ -52,6 +52,40 @@
         <Static id="box_saleinfo00" left="20" top="710" width="1240" height="550" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="38"/>
         <Static id="sta_display00_00_00_00_00_00" text="상품 게시글" left="20" top="710" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="39" taborder="39" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <WebBrowser id="web_postContent" taborder="40" left="20" top="750" width="1240" height="510" onloadcompleted="web_postContent_onloadcompleted"/>
+        <Static id="box_saleinfo01" left="20" top="1260" width="1240" height="350" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="41"/>
+        <Static id="sta_display00_02_00_00_00" text="이미지등록" left="20" top="1320" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="290" taborder="45" textAlign="center" background="#FAFAFB"/>
+        <Static id="sta_display00_00_00_00_00_00_00" text="이미지 정보" left="20" top="1261" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="59" taborder="45" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px" onclick="sta_display00_00_00_00_00_00_00_onclick"/>
+        <Button id="btn_selectFile" taborder="44" text="파일찾기" top="1268" height="44" background="#135dae" border="0px none" borderRadius="5px" color="#ffffff" font="normal 10pt/normal &quot;Noto Sans KR Black&quot;" onclick="btn_selectFile_onclick" right="30" width="140"/>
+        <ImageViewer id="ImageViewer00" taborder="45" text="ImageViewer00" left="240" top="1356" width="219" height="214" image="url('http://192.168.0.150:5000/dood/image.jpg')"/>
+        <ImageViewer id="ImageViewer00_00" taborder="46" text="ImageViewer00" left="474" top="1356" width="219" height="214"/>
+        <ImageViewer id="ImageViewer00_00_00" taborder="47" text="ImageViewer00" left="708" top="1356" width="219" height="214"/>
+        <ImageViewer id="ImageViewer00_00_00_00" taborder="48" text="ImageViewer00" left="942" top="1356" width="219" height="214"/>
+        <Static id="DropStatic" taborder="2" text="Drop Files Here" left="26" top="1700" width="482" height="150" visible="true" background="aliceblue" color="dodgerblue" font="normal 30pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle"/>
+        <Button id="Button00" taborder="0" text="open" left="26" top="1640" width="120" height="50" onclick="Button00_onclick"/>
+        <Grid id="Grid00" taborder="1" left="26" top="1700" width="482" height="150" binddataset="Dataset00" ondragenter="Grid00_ondragenter" ondragleave="Grid00_ondragleave" ondrop="Grid00_ondrop">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="380"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="name"/>
+                <Cell col="1" text="size"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:name"/>
+                <Cell col="1" text="bind:size" textAlign="right"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="Button01" taborder="3" text="upload" left="160" top="1640" width="120" height="50" onclick="Button01_onclick"/>
+        <TextArea id="TextArea00" taborder="4" left="528" top="1730" width="482" height="120"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -342,25 +376,49 @@
           <Column id="SORT_NUMBER" type="STRING" size="256"/>
           <Column id="DETAIL_DESCRIPTION" type="STRING" size="256"/>
           <Column id="PRODUCT_TYPE" type="STRING" size="256"/>
+          <Column id="PRODUCT_ID" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
         </Rows>
       </Dataset>
       <Dataset id="createStatus"/>
+      <FileDialog id="productImage" onclose="FileDialog00_onclose"/>
+      <Dataset id="ds_image">
+        <ColumnInfo>
+          <Column id="FILE_NAME" type="STRING" size="256"/>
+          <Column id="FILE_URL" type="STRING" size="256"/>
+          <Column id="FILE_ID" type="STRING" size="256"/>
+          <Column id="FiLE_SIZE" type="STRING" size="256"/>
+          <Column id="FILE_PATH" type="STRING" size="256"/>
+          <Column id="FILE_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileUpTransfer id="productImageTransfer"/>
+      <Dataset id="Dataset00"/>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[// CKEditor 적용
+    <Script type="xscript5.1"><![CDATA[var mode = "create";
 this.Form_ProductReg_onload = function(obj,e)
 {
 	this.categories.request("SEARCH", "GET", "http://localhost:8080/selectProductCategoryListByAdmin.do");  
     this.setMemberId();
 	var sUrl = "http://localhost:8080/ckedit.do;";
-	this.web_postContent.set_url(sUrl);
+	// this.web_postContent.set_url(sUrl);
+	// 모드 처리 param
 };
-
+this.FileUpTransfer00_onsuccess = function(){
+	this.alert("전송성공!!");
+}
 // 저장 버튼 클릭
 this.btn_save_onclick = function(obj,e)
 {
+	var objFileUp = new nexacro.FileUpTransfer("FileUpTransfer00", this);  
+	this.addChild( "FileUpTransfer00", objFileUp );
+	objFileUp.set_url( "http://localhost:8080/insertProductCreateByAdmin.do");
+	objFileUp.setEventHandler( "onsuccess", this.FileUpTransfer00_onsuccess, this);
+	objFileUp.addFile( "file00", objVFile00 );
+
+	return;
 	function emptyCheck(value,errorMsg) {
 		if(value == null || value == ""){
 			this.alert(errorMsg);
@@ -378,7 +436,7 @@ this.btn_save_onclick = function(obj,e)
 	
 
     // CKEditor 본문 가져오기
-    var desc = this.fn_getEditorContent();
+    var desc = this.getEditorContent();
 
     // ds_product 구성 (단일행)
     this.ds_product.clearData();
@@ -393,7 +451,7 @@ this.btn_save_onclick = function(obj,e)
 	this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
 	this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
 	this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
-	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", "");
+	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
     this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
 
 
@@ -411,12 +469,128 @@ this.btn_save_onclick = function(obj,e)
 
     this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
 };
-
-
+function sendDataWithFile()
+{
+    var objFileUpTransfer = new FileUpTransfer();
+    
+    // 각 컬럼 값을 개별 파라미터로 추가
+    objFileUpTransfer.addPostData("userId", this.Dataset00.getColumn(0, "USER_ID"));
+    objFileUpTransfer.addPostData("userName", this.Dataset00.getColumn(0, "USER_NAME"));
+    objFileUpTransfer.addPostData("userEmail", this.Dataset00.getColumn(0, "USER_EMAIL"));
+    objFileUpTransfer.addPostData("department", this.Dataset00.getColumn(0, "DEPARTMENT"));
+    objFileUpTransfer.addPostData("regDate", this.Dataset00.getColumn(0, "REG_DATE"));
+    
+    // 추가 파라미터 (파일과 관련된 메타데이터)
+    objFileUpTransfer.addPostData("uploadType", "document");
+    objFileUpTransfer.addPostData("category", "user_file");
+    
+    objFileUpTransfer.setUploadUrl("http://localhost:8080/uploadWithParams");
+    objFileUpTransfer.upload();
+}
 // 취소 버튼
 this.btn_cancel_onclick = function(obj,e) {
     this.go("product::Form_Product.xfdl");
 };
+
+// 이미지등록버튼
+this.btn_selectFile_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.productImage.open('nexacro17', 1);
+};
+
+// 이미지 선택 후처리
+this.productImage_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	var files = e.virtualfiles[0];
+	trace(JSON.stringify(files));
+	trace("e.path= " + e.path);
+	var nRow = this.ds_image.addRow();
+	this.ds_image.setColumn(nRow,"FILE_NAME",files.filename);
+	this.ds_image.setColumn(nRow,"FILE_PATH",files.fullpath);
+	files.addEventHandler("onsuccess", this.VirtualFile00_onsuccess,this);
+	files.open(null,1);
+	trace("files.fullpath= " + files.fullpath);
+	this.ImageViewer00.set_image(files.fullpath);
+	return;
+	
+	var files = e.virtualfiles[0];
+    if (files && files.length > 0) {
+        var nexafile = files[files.length - 1];
+        trace("선택파일: " + nexafile.filename);
+
+        // 이미지 파일 확장자 검증
+        var ext = nexafile.filename.split('.').pop().toLowerCase();
+        var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        if (allowedExtensions.indexOf(ext) === -1) {
+            alert("이미지 파일만 업로드 가능합니다. (jpg, jpeg, png, gif)");
+            return;
+        }
+
+        // 업로드 상태 설정
+        // this.isUploading = true;
+        // this.uploadCompleted = false;
+
+        var currentRow = 0;
+        if (currentMode === "insert") {
+            // 신규 등록: 기존 Dataset 초기화 후 새 행 추가
+            for (var i = this.ds_bwrite.rowcount - 1; i >= 0; i--) {
+                this.ds_bwrite.deleteRow(i);
+            }
+            currentRow = this.ds_bwrite.addRow();
+        } else {
+            // 수정: 기존 행 유지, 이미지 정보만 업데이트
+            currentRow = 0;
+            trace("Update 모드 - 기존 데이터 유지");
+        }
+
+        // 파일 정보 설정
+        this.ds_bwrite.setColumn(currentRow, "IMG_ORIGIN_NAME", nexafile.filename);
+        
+        var attachedName = this.radio_banner_type.value + "_" + nexafile.name + "_" + TODAYNUM + "." + ext;
+        this.ds_bwrite.setColumn(currentRow, "IMG_ATTACHED_NAME", attachedName);
+        
+        // 수정 모드일 때 백업된 데이터 복원
+        if (currentMode === "update" && backupData.BANNER_ID) {
+            this.ds_bwrite.setColumn(currentRow, "BANNER_ID", backupData.BANNER_ID);
+            this.ds_bwrite.setColumn(currentRow, "INPUT_DT", backupData.INPUT_DT);
+            this.ds_bwrite.setColumn(currentRow, "INPUT_ID", backupData.INPUT_ID);
+            this.ds_bwrite.setColumn(currentRow, "SORT_NUMBER", backupData.SORT_NUMBER);
+            this.ds_bwrite.setColumn(currentRow, "BANNER_TYPE", backupData.BANNER_TYPE);
+            this.ds_bwrite.setColumn(currentRow, "BANNER_TITLE", backupData.BANNER_TITLE);
+            this.ds_bwrite.setColumn(currentRow, "IS_VISIBLE", backupData.IS_VISIBLE);
+            this.ds_bwrite.setColumn(currentRow, "LINKED_URL", backupData.LINKED_URL);
+            trace("Update 모드 - 기존 데이터 복원 완료");
+        }
+        
+        // 모드 재설정
+        this.currentMode = currentMode;
+        this.mode = currentMode;
+
+        this.file_name.set_value(nexafile.filename);
+
+        // FileUpTransfer 설정
+        this.FileUpTransfer.clearFileList();
+        this.FileUpTransfer.addFile("bFile", nexafile);
+        this.FileUpTransfer.setPostData("attachedName", attachedName);
+        
+        this.FileUpTransfer.url = "svc::uploadBannerFile.do";
+        
+        trace("파일 업로드 시작 - URL: " + this.FileUpTransfer.url);
+        trace("attachedName: " + attachedName);
+        trace("현재 모드: " + (this.currentMode || this.mode));  // 안전하게 모드 확인
+        
+        this.FileUpTransfer.upload();
+        
+    } else {
+        this.file_name.set_value("선택된 파일이 없습니다.");
+        trace("선택된 파일이 없습니다.");
+    }
+};
+this.VirtualFile00_onsuccess = function (obj:nexacro.VirtualFile,  e:nexacro.VirtualFileEventInfo) {
+	trace("VirtualFile00_onsuccess 성공!!");
+	trace("e.binarydata= " + e.binarydata);
+	trace("e.textdata= " + e.textdata);
+}
 
 // 콜백
 this.fn_callback = function(svcID, errCode, errMsg) {
@@ -466,6 +640,7 @@ this.cmb_maincate_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
     target.setColumn(rowIndex, "subCateNm", res.subCateNm);
 	}, this); 
 };
+
 
 ////////// CK EDITOR ///////////
 
@@ -552,7 +727,109 @@ this.isEditorReady = function()
         return false;
     }
 };
+//
+this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.productImage.open('nexacro17', FileDialog.MULTILOAD);
+};
 
+this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	this.addFileList(e.virtualfiles);
+};
+
+this.addFileList = function(filelist)
+{
+	for (var i = 0, len = filelist.length, vFile; i < len; i++)
+	{
+		vFile = filelist[i];
+		vFile.addEventHandler("onsuccess", this.FileList_onsuccess, this);
+		vFile.addEventHandler("onerror", this.FileList_onerror , this);
+		
+		vFile.open(null, 1);
+	}
+}
+
+this.FileList_onsuccess = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	switch (e.reason)
+	{
+		case 1:
+			obj.getFileSize();
+			trace("obj.binarydata= ", obj.binarydata);
+			break;
+		case 9:
+			var nRowIdx = this.Dataset00.addRow();
+			this.Dataset00.setColumn(nRowIdx, 0, obj.filename);
+			this.Dataset00.setColumn(nRowIdx, 1, this.cutFileSize(e.filesize));
+			this.productImageTransfer.addFile("file", obj);
+			break;
+	}
+}
+
+this.FileList_onerror = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileErrorEventInfo)
+{
+	trace("errortype: "+e.errortype);
+	trace("errormsg: "+e.errormsg);
+	trace("statuscode: "+e.statuscode);
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications#Example_Showing_file(s)_size
+this.cutFileSize = function(filesize)
+{
+	var sOutput = filesize + " bytes";
+	for (var aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], nMultiple = 0, nApprox = filesize / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) 
+	{
+		sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
+	}
+	return sOutput;
+};
+
+this.Grid00_ondragenter = function(obj:nexacro.Grid,e:nexacro.DragEventInfo)
+{
+	if(e.datatype == "file")
+	{
+		this.Grid00.set_opacity(0.5);
+	}
+};
+
+this.Grid00_ondragleave = function(obj:nexacro.Grid,e:nexacro.DragEventInfo)
+{
+	this.Grid00.set_opacity(1);
+};
+
+this.Grid00_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
+{
+	this.Grid00.set_opacity(1);
+	if(e.datatype == "file")
+	{
+		this.addFileList(e.filelist);
+	}
+};
+
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.TextArea00.set_value("");
+	this.productImageTransfer.setPostData("bd_key","hi");
+	this.productImageTransfer.upload('http://localhost:8080/insertProductCreateByAdmin.do');
+};
+
+this.FileUpTransfer00_onprogress = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferProgressEventInfo)
+{
+	
+};
+
+this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferEventinfo)
+{	
+	trace(e.code);
+	trace(e.message);
+};
+
+this.FileUpTransfer00_onerror = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferErrorEventInfo)
+{
+	trace(e.errormsg);
+	trace(e.statuscode);
+};
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="cmb_maincate" propid="value" datasetid="ds_cate_main" columnid="mainCateId"/>

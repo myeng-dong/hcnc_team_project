@@ -24,12 +24,15 @@ import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.ProductCreateService;
+import admin.util.UploadFile;
 
 @Controller
 public class ProductCreateController {
 	
 	@Autowired
 	ProductCreateService productCreateService;
+	@Autowired
+	UploadFile uploadFile;
 	
 	@RequestMapping(value="/selectProductCategoryListByAdmin.do", produces = "application/json; charset=utf-8")
     public ResponseEntity<String> getCategories() throws Exception {
@@ -40,6 +43,20 @@ public class ProductCreateController {
         
         return ResponseEntity.ok(jsonString);
     }
+	
+	@RequestMapping(value="/insertProductCreateByAdmin.do")
+	public  ResponseEntity<String> insertProductCreateByAdmin(
+			 @RequestParam("file") MultipartFile file,
+	         @RequestParam("bd_key") String bdKey
+			){
+		try {
+			uploadFile.uploadToFile(file);	
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return ResponseEntity.ok("ok");
+	}
 	/*
 	 * @RequestMapping("/selectProductCategoryListByAdmin.do") public NexacroResult
 	 * selectProductCategoryListByAdmin() { NexacroResult result = new
