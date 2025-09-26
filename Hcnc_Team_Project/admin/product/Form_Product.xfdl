@@ -3,25 +3,24 @@
   <Form id="Form_Product" width="1280" height="800" titletext="상품관리" background="#eff7ff" onload="Form_Product_onload" ontimer="Form_Product_ontimer">
     <Layouts>
       <Layout width="1280" height="800">
-        <Div id="Div00" taborder="5" text="" left="24" top="20" height="50" background="#ffffff" borderRadius="10px 10px 10px 10px" right="1166">
+        <Div id="Div00" taborder="4" text="" top="10" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" width="90" left="24">
           <Layouts>
             <Layout/>
           </Layouts>
         </Div>
-        <Static id="stc_total" taborder="4" text="" left="34" top="20" width="71" height="50" font="bold 14px/normal &quot;Gulim&quot;,&quot;Arial Black&quot;" borderRadius="0px 10px 10px 0px"/>
-        <Div id="Div00_00" taborder="7" text="" left="24" top="99" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30">
+        <Div id="Div00_00" taborder="6" text="" left="24" top="65" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30">
           <Layouts>
             <Layout>
               <Edit id="edt_search" taborder="0" left="309" top="5" width="317" height="30"/>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="Div00_00_00" taborder="0" text="" left="24" top="156" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30" color="#215825"/>
-        <Div id="Div00_00_00_00" taborder="2" text="" left="24" top="213" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30"/>
-        <Div id="Div00_00_00_00_00" taborder="9" text="" left="24" top="270" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30">
+        <Div id="Div00_00_00" taborder="0" text="" left="24" top="120" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30" color="#215825"/>
+        <Div id="Div00_00_00_00" taborder="2" text="" left="24" top="175" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30"/>
+        <Div id="Div00_00_00_00_00" taborder="8" text="" left="24" top="230" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30">
           <Layouts>
             <Layout>
-              <Radio id="Radio00" taborder="0" left="140" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" index="0" text="전체" value="all">
+              <Radio id="Radio00" taborder="0" left="155" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" index="0" text="전체" value="all">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="codecolumn" size="256"/>
@@ -69,36 +68,37 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="8" left="24" top="349" height="416" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList">
+        <Grid id="grid_list" taborder="7" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" onkeydown="grid_list_onkeydown" onkillfocus="grid_list_onkillfocus" oncellclick="grid_list_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="26"/>
-                <Column size="32"/>
-                <Column size="63"/>
-                <Column size="92"/>
-                <Column size="158"/>
+                <Column size="28"/>
+                <Column size="61"/>
+                <Column size="107"/>
+                <Column size="173"/>
                 <Column size="63"/>
                 <Column size="63"/>
                 <Column size="63"/>
                 <Column size="70"/>
-                <Column size="84"/>
-                <Column size="84"/>
-                <Column size="84"/>
-                <Column size="84"/>
-                <Column size="120"/>
+                <Column size="82"/>
+                <Column size="82"/>
+                <Column size="82"/>
+                <Column size="82"/>
+                <Column size="117"/>
                 <Column size="41"/>
-                <Column size="41"/>
-                <Column size="67"/>
+                <Column size="63"/>
+                <Column size="38"/>
+                <Column size="37"/>
               </Columns>
               <Rows>
-                <Row size="80" band="head"/>
+                <Row size="66" band="head"/>
                 <Row size="48" band="head"/>
                 <Row size="24" band="head"/>
                 <Row size="40"/>
               </Rows>
               <Band id="head">
-                <Cell colspan="17" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell colspan="18" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" rowspan="2" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol" edittype="checkbox" text="전체"/>
                 <Cell row="1" col="1" rowspan="2" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="2" rowspan="2" text="상품코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
@@ -112,8 +112,8 @@
                 <Cell row="1" col="11" colspan="2" text="옵션" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="13" rowspan="2" text="등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="14" rowspan="2" text="진열" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
-                <Cell row="1" col="15" rowspan="2" text="재고" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
-                <Cell row="1" col="16" rowspan="2" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell row="1" col="15" rowspan="2" colspan="2" text="재고" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell row="1" col="17" rowspan="2" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="2" col="9" text="대분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="2" col="10" text="중분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="2" col="11" text="옵션" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
@@ -133,23 +133,24 @@
                 <Cell col="10" edittype="none" background="#ffffff" text="bind:SUB_CATE_NM" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
                 <Cell col="11" background="#ffffff" text="bind:OPTION_NAME" font="12px/normal &quot;Gulim&quot;" textAlign="center" edittype="none"/>
                 <Cell col="12" edittype="none" background="#ffffff" text="bind:OPTION_VALUE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
-                <Cell col="13" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
+                <Cell col="13" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;" textAlign="center" displaytype="date"/>
                 <Cell col="14" edittype="none" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
-                <Cell col="15" edittype="none" background="#ffffff" text="bind:QUANTITY" font="12px/normal &quot;Gulim&quot;"/>
-                <Cell col="16" edittype="none" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
+                <Cell col="15" edittype="mask" background="#ffffff" text="bind:QUANTITY" font="12px/normal &quot;Gulim&quot;" textAlign="center" displaytype="mask"/>
+                <Cell col="16" edittype="none" text="수정" font="12px/normal &quot;Gulim&quot;" displaytype="buttoncontrol" background="transparent" cssclass="productCellBtnEdit"/>
+                <Cell col="17" edittype="none" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_reg" text="상품등록" left="935" top="370" width="100" height="35" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="1" onclick="btn_reg_onclick" cursor="pointer"/>
-        <Button id="btn_excel" text="엑셀다운로드" left="1065" top="370" width="150" height="35" color="#2e7d32" background="url('imagerc::excel_logo.png') no-repeat left center /38px #ffffff" border="1px solid #CCCCCC" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" padding="0px 0px 0px 25px" taborder="3" onclick="btn_excel_onclick" cursor="pointer"/>
-        <Static id="sta_listTitle" text="목록" left="50" height="61" top="360" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="6" color="#232323"/>
-        <Static id="sta_prodType" text="검색분류" left="40" height="40" top="99" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="10" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Static id="sta_category" text="상품분류" left="40" height="40" top="156" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="11" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Static id="sta_regDate" text="상품등록일" left="40" height="40" top="213" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="12" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Static id="sta_sale" text="진열상태" left="40" height="40" top="270" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="13" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Button id="btn_view" text="조회" left="698" top="102" width="72" height="34" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="14" onclick="btn_view_onclick" cursor="pointer"/>
-        <Combo id="cmb_searchType" left="179" top="104" width="150" height="30" text="상품명" taborder="15" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME">
+        <Button id="btn_reg" text="상품등록" top="70" width="100" height="30" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="1" onclick="btn_reg_onclick" cursor="pointer" right="50"/>
+        <Button id="btn_excel" text="엑셀다운로드" top="306" width="150" height="30" color="#2e7d32" background="url('imagerc::excel_logo.png') no-repeat left center /38px #ffffff" border="1px solid #CCCCCC" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" padding="0px 0px 0px 25px" taborder="3" onclick="btn_excel_onclick" cursor="pointer" left="180"/>
+        <Static id="sta_listTitle" text="목록" left="50" height="61" top="296" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="5" color="#232323"/>
+        <Static id="sta_prodType" text="검색분류" left="40" height="40" top="65" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="9" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_category" text="상품분류" left="40" height="40" top="120" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="10" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_regDate" text="상품등록일" left="40" height="40" top="175" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="11" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_sale" text="진열상태" left="40" height="40" top="230" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="12" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Button id="btn_view" text="조회" top="70" width="72" height="30" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="13" onclick="btn_view_onclick" cursor="pointer" left="698"/>
+        <Combo id="cmb_searchType" left="179" top="70" width="150" height="30" text="상품명" taborder="14" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME">
           <Dataset id="innerdataset">
             <ColumnInfo>
               <Column id="codecolumn" size="256"/>
@@ -167,13 +168,15 @@
             </Rows>
           </Dataset>
         </Combo>
-        <Combo id="cmb_cate1" left="179" top="161" width="150" height="30" text="" taborder="16" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_mainCate" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM" index="-1" value="" displayrowcount="20" onitemchanged="cmb_cate1_onitemchanged"/>
-        <Calendar id="cal_start" left="179" top="218" height="30" width="149" taborder="17" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Combo id="cmb_cate2" left="349" top="161" width="150" height="30" text="- 중분류 선택 -" taborder="18" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_subCate" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM" displayrowcount="20"/>
-        <Calendar id="cal_end" left="349" top="218" height="30" width="150" taborder="19" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Static id="sta_dash" text="~" left="334" top="216" height="35" width="20" taborder="20" font="normal bold 10pt/normal &quot;Arial&quot;"/>
-        <Button id="btn_show" text="선택 진열" left="630" top="370" width="92" height="35" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_show_onclick" taborder="21"/>
-        <Button id="btn_hide" text="진열 취소" left="740" top="370" width="92" height="35" color="#FFFFFF" background="#18b391" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_hide_onclick" taborder="22"/>
+        <Combo id="cmb_cate1" left="179" top="125" width="150" height="30" text="" taborder="15" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_mainCate" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM" index="-1" value="" displayrowcount="20" onitemchanged="cmb_cate1_onitemchanged"/>
+        <Calendar id="cal_start" left="179" top="180" height="30" width="149" taborder="16" font="normal 800 10pt/normal &quot;Arial&quot;"/>
+        <Combo id="cmb_cate2" left="349" top="125" width="150" height="30" text="- 중분류 선택 -" taborder="17" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_subCate" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM" displayrowcount="20"/>
+        <Calendar id="cal_end" left="349" top="180" height="30" width="150" taborder="18" font="normal 800 10pt/normal &quot;Arial&quot;"/>
+        <Static id="sta_dash" text="~" left="334" top="178" height="35" width="20" taborder="19" font="normal bold 10pt/normal &quot;Arial&quot;"/>
+        <Button id="btn_show" text="선택 진열" top="306" width="92" height="30" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_show_onclick" taborder="20" left="418"/>
+        <Button id="btn_hide" text="진열 취소" top="306" width="92" height="30" color="#FFFFFF" background="#ce5525" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_hide_onclick" taborder="21" left="534"/>
+        <Static id="sta_listTitle00" text="재고/변경가능" height="61" top="290" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="22" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" width="113" right="68"/>
+        <Static id="stc_total" taborder="23" text="" left="39" top="15" width="61" height="30" font="12px/normal &quot;Gulim&quot;,&quot;Arial Black&quot;" borderRadius="0px 10px 10px 0px"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -192,7 +195,7 @@
           <Row/>
         </Rows>
       </Dataset>
-      <Dataset id="ds_out_proList" useclientlayout="true">
+      <Dataset id="ds_out_proList" useclientlayout="true" oncolumnchanged="ds_out_proList_oncolumnchanged">
         <ColumnInfo>
           <Column id="chk" type="INT" size="256"/>
           <Column id="PRODUCT_CODE" type="STRING" size="256"/>
@@ -208,10 +211,11 @@
           <Column id="OPTION_VALUE" type="STRING" size="256"/>
           <Column id="IS_VISIBLE" type="STRING" size="256"/>
           <Column id="QUANTITY" type="INT" size="256"/>
-          <Column id="SOLD_OUT" type="STRING" size="256"/>
+          <Column id="INV_OPTION_ID" type="INT" size="256"/>
           <Column id="INPUT_DT" type="DATETIME" size="256"/>
           <Column id="UPDATE_DT" type="DATETIME" size="256"/>
           <Column id="PRODUCT_ID" type="INT" size="256"/>
+          <Column id="OPTION_ID" type="INT" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -235,8 +239,18 @@
           <Column id="IS_VISIBLE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="ds_qu">
+        <ColumnInfo>
+          <Column id="PRODUCT_ID" type="BIGDECIMAL" size="256"/>
+          <Column id="OPTION_ID" type="BIGDECIMAL" size="256"/>
+          <Column id="QUANTITY" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[this.Form_Product_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+
+
+this.Form_Product_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.setTimer(1, 10); //10ms 후 실행
 };
@@ -345,37 +359,7 @@ this.fn_search = function() {
 
  
  
-  //콜백
-this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
-    if (nErrorCode < 0) {
-        this.alert("오류: "+strErrorMag);
-		return;
-    }
-
-    switch(strSvcID){
-        case "selectProductListByAdmin":
-            var ea = this.ds_out_proList.getRowCount();
-            this.stc_total.set_text("총 "+ea+"건");
-			
-            break;
-        case "selectMainCategoryComboByAdmin":
-            this.ds_mainCate.insertRow(0);
-            this.ds_mainCate.setColumn(0,"MAIN_CATE_ID","");
-            this.ds_mainCate.setColumn(0,"MAIN_CATE_NM","- 전체 -");
-            break;
-        case "selectSubCategoryComboByAdmin":
-            this.ds_subCate.insertRow(0);
-            this.ds_subCate.setColumn(0,"SUB_CATE_ID","");
-            this.ds_subCate.setColumn(0,"SUB_CATE_NM","- 전체 -");
-            break;
-			
-		case "updateProductVisibleByAdmin" :
-			alert("상품 진열상태가 변경되었습니다.");
-			this.fn_search();
-			break;
-			
-    }
-};
+ 
  
  
  
@@ -458,12 +442,84 @@ this.btn_show_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 
 
 
+
+// 재고 이전값 저장
+this.grid_list_oncellclick = function (obj, e) {
+    if (e.col == 16) {   // 15번 컬럼이 재고(QUANTITY) 16번은 버튼
+       var row = e.row;
+	   this._updateQuantityByButton(row);
+    }
+};
+
+
+
+
+// Dataset 값 변경시 (재고변경감지)
+this.ds_out_proList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "QUANTITIY"){
+		this._updateQuantityByButton (e.row);
+	}
+};
+
+
+//재고 수량 저장 공통함수
+this._updateQuantityByButton = function (row) {
+    var oldVal = this.ds_out_proList.getColumn(row, "QUANTITY"); // 현재 값
+    var productId = this.ds_out_proList.getColumn(row, "PRODUCT_ID");
+	var productName = this.ds_out_proList.getColumn(row, "PRODUCT_NAME");
+    var optionId  = this.ds_out_proList.getColumn(row, "OPTION_ID");
+	var optionName = this.ds_out_proList.getColumn(row, "OPTION_NAME");
+	var optionValue = this.ds_out_proList.getColumn(row, "OPTION_VALUE");
+
+
+    if (!this.confirm("상품:" + productName + "옵션:"+ optionName+"/"+optionValue+"의 재고를 " + oldVal + "개로 저장하시겠습니까?")) {
+        return;
+    }
+
+    this.ds_qu.clearData();
+    var r = this.ds_qu.addRow();
+    this.ds_qu.setColumn(r, "PRODUCT_ID", productId);
+    this.ds_qu.setColumn(r, "OPTION_ID", optionId);
+    this.ds_qu.setColumn(r, "QUANTITY", oldVal);
+
+    this.transaction(
+        "updateInventory",
+        "svc::updateInventory.do?time=" + new Date().getTime(),  
+        "ds_qu=ds_qu",
+        "",
+        "",
+        "fn_callback",
+        true
+    );
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 //상품등록(페이지이동)
 this.btn_reg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	
 	this.go("product::Form_ProductReg.xfdl");
 };
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  
@@ -509,7 +565,7 @@ this._ensureFileDownload = function () {
 
 /****************************************************
  * ② Grid + Dataset → XML 문자열 생성 함수
- *  - 너가 이전에 쓰던 헤더/바디 XML 포맷을 그대로 생성.
+ *  - 이전에 쓰던 헤더/바디 XML 포맷을 그대로 생성.
  *  - Grid 멀티헤더(행/열 병합) 정보를 모두 수집해서 <Header> 구성
  *  - Body는 화면에 보이는 값(grid.getCellText) 기준으로 <Body> 구성
  ****************************************************/
@@ -639,6 +695,47 @@ this.btn_excel_onclick = function (obj, e) {
     // 5) xmlData를 x-www-form-urlencoded 본문으로 전송
     xhr.send("xmlData=" + encodeURIComponent(xmlStr));
 };
+
+
+ //콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+    if (nErrorCode < 0) {
+        this.alert("오류: "+strErrorMag);
+		return;
+    }
+
+    switch(strSvcID){
+        case "selectProductListByAdmin":
+            var ea = this.ds_out_proList.getRowCount();
+            this.stc_total.set_text("총 "+ea+"건");
+			
+            break;
+        case "selectMainCategoryComboByAdmin":
+            this.ds_mainCate.insertRow(0);
+            this.ds_mainCate.setColumn(0,"MAIN_CATE_ID","");
+            this.ds_mainCate.setColumn(0,"MAIN_CATE_NM","- 전체 -");
+            break;
+        case "selectSubCategoryComboByAdmin":
+            this.ds_subCate.insertRow(0);
+            this.ds_subCate.setColumn(0,"SUB_CATE_ID","");
+            this.ds_subCate.setColumn(0,"SUB_CATE_NM","- 전체 -");
+            break;
+			
+		case "updateProductVisibleByAdmin" :
+			alert("상품 진열상태가 변경되었습니다.");
+			this.fn_search();
+			break;
+			
+		case "updateInventory":
+			this.alert("재고 변경이 완료되었습니다.")
+			this.fn_search();
+			break;	
+			
+			
+    }
+};
+
+
 
 
 ]]></Script>

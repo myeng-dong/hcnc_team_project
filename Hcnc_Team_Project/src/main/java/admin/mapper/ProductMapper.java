@@ -16,7 +16,7 @@ public interface ProductMapper {
     void setMainImage(Map<String,Object> p);
 	List<Map<String, Object>> selectMainCategoryComboByAdmin();
 	List<Map<String, Object>> selectSubCategoryComboByAdmin(int mainCateId);
-	
+	void updateInventory(Map<String, Object> p);
 	
 	
 	// ---- 카테고리 ----
@@ -35,6 +35,7 @@ public interface ProductMapper {
 	void updateOption(Map<String, Object> option);
 	Map<String, Object> selectOptionOneByAdmin(Long optionId);
 	List<Map<String, Object>> selectProductListOptionByAdmin(Map<String, Object> cond);
+
 
 
 

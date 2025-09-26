@@ -103,6 +103,11 @@ public class ProductService {
 		return productMapper.selectProductListOptionByAdmin(cond);
 	}
 
+	public void updateInventory(Map<String, Object> p) {
+		 productMapper.updateInventory(p);
+		
+	}
+
 
 	
 	
