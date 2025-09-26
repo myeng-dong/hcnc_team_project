@@ -19,7 +19,6 @@ public class UserGlobalAdvice {
     public List<Map<String, Object>> getCategoryList() {
 
         List<Map<String, Object>> mainCategories = userCategoryService.selectMainCategoryListByUser();
-        System.out.println("메인 카테고리 개수: " + mainCategories.size());
         
         for (Map<String, Object> main : mainCategories) {
         	int mainCateId = ((Number) main.get("MAIN_CATE_ID")).intValue();
@@ -29,7 +28,6 @@ public class UserGlobalAdvice {
                 subCategories = new ArrayList<>();
             }
             main.put("subCategories", subCategories);
-            System.out.println("메인ID " + mainCateId + " -> 서브개수: " + subCategories.size());
         }
   
         return mainCategories;
