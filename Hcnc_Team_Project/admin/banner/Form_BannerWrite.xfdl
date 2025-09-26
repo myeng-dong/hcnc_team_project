@@ -63,6 +63,10 @@
                 <Col id="codecolumn">top</Col>
                 <Col id="datacolumn">탑배너</Col>
               </Row>
+              <Row>
+                <Col id="codecolumn">popup</Col>
+                <Col id="datacolumn">팝업배너</Col>
+              </Row>
             </Rows>
           </Dataset>
         </Radio>
@@ -123,13 +127,25 @@ this.currentMode = ""; // 모드를 별도 변수로 관리
 this.Form_BannerWrite_onload = function(obj, e) {
     trace("배너 추가페이지 >>>");
 	
-    var memberId = this.getOwnerFrame.arguments["MEMBER_ID"];
-	this.memberId = memberId; // 멤버 ID 저장
+    var memberId = "";
+    if (nexacro.getApplication().gds_adminInfo && nexacro.getApplication().gds_adminInfo.rowcount > 0) {
+        memberId = nexacro.getApplication().gds_adminInfo.getColumn(0, "MEMBER_ID");
+        trace("전역에서 MEMBER_ID 가져옴: " + memberId);
+    } else if (this.gds_adminInfo && this.gds_adminInfo.rowcount > 0) {
+        memberId = this.gds_adminInfo.getColumn(0, "MEMBER_ID");
+        trace("로컬 gds_member에서 MEMBER_ID 가져옴: " + memberId);
+    } else {
+        // 대안으로 arguments에서 가져오기
+        memberId = this.getOwnerFrame.arguments["MEMBER_ID"];
+        trace("arguments에서 MEMBER_ID 가져옴: " + memberId);
+    }
     
-    // Dataset에서 모드 판별 (더 안전한 방법)
+	this.memberId = memberId; 
+    trace("최종 설정된 memberId: " + this.memberId);
+    
     var hasBannerId = false;
     if (this.ds_bwrite.rowcount > 0) {
-        var bannerId = this.ds_bwrite.getColumn(0, "BANNER_ID");
+        var bannerId = this.getOwnerFrame.arguments["BANNER_ID"];
         if (bannerId && bannerId != "" && bannerId != null) {
             hasBannerId = true;
         }
@@ -151,26 +167,17 @@ this.Form_BannerWrite_onload = function(obj, e) {
         this.radio_banner_type.set_value(this.ds_bwrite.getColumn(0, "BANNER_TYPE"));
         this.radio_view_type.set_value(this.ds_bwrite.getColumn(0, "IS_VISIBLE"));
         this.edit_link.set_text(this.ds_bwrite.getColumn(0, "LINKED_URL"));
-        
-        // 수정 모드에서는 이미 이미지가 있으므로 업로드 완료 상태로 설정
+		this.input_dt.set_text(this.ds_bwrite.getColumn(0, "INPUT_DT"));
+		this.input_id.set_text(this.ds_bwrite.getColumn(0, "INPUT_ID"));
         this.uploadCompleted = true;
-        
-        // 원본 파일명 표시
         this.file_name.set_value(this.ds_bwrite.getColumn(0, "IMG_ORIGIN_NAME"));
-        
-        // 등록일 표시
         this.txt_date_td.set_text(this.ds_bwrite.getColumn(0, "INPUT_DT"));
         
     } else {
-        // 신규 등록 모드
         trace("Insert 모드");
-        
-        // Dataset이 비어있으면 새 행 추가
         if (this.ds_bwrite.rowcount === 0) {
             this.ds_bwrite.addRow();
         }
-        
-        // 오늘 날짜로 텍스트 세팅
         this.txt_date_td.set_text(TODAY);
         this.uploadCompleted = false;
     }
@@ -511,7 +518,7 @@ this.fnCallback = function(svc, err, errMsg) {
     }
 };]]></Script>
     <Bind>
-      <BindItem id="item0" compid="txt_inputid" propid="text" datasetid="gds_menu" columnid="MEMBER_ID"/>
+      <BindItem id="item0" compid="txt_inputid" propid="text" datasetid="ds_bwrite" columnid="INPUT_ID"/>
       <BindItem id="item1" compid="file_name" propid="value" datasetid="ds_file" columnid="IMG_ORIGIN_NAME"/>
       <BindItem id="item2" compid="check_top" propid="enable" datasetid="ds_view_top" columnid=""/>
       <BindItem id="item3" compid="check_top" propid="truevalue" datasetid="ds_view_top" columnid="1"/>
