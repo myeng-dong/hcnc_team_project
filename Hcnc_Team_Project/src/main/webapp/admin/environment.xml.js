@@ -24,7 +24,7 @@ if (nexacro.Environment)
         nexacro._addService("svc", "JSP", "http://localhost:8080/", "session", null, "", "0", "0");
         nexacro._addService("order", "form", "./order/", "session", null, "", "0", "0");
         nexacro._addService("board", "form", "./board/", "session", null, "", "0", "0");
-        nexacro._addService("promo", "form", "./promo/", "session", null, "", "0", "0");
+        nexacro._addService("promotion", "form", "./promotion/", "session", null, "", "0", "0");
         nexacro._addService("member", "form", "./member/", "session", null, "", "0", "0");
         nexacro._addService("stat", "form", "./stat/", "session", null, "", "0", "0");
         nexacro._addService("setting", "form", "./setting/", "session", null, "", "0", "0");
