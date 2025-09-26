@@ -59,6 +59,10 @@ public class OrderService {
 	public void updatePostPriceListByAdmin(Map<String, Object> row) {
 		orderMapper.updatePostPriceListByAdmin(row);
 	}
+
+	public void updateOrderCommentByAdmin(Map<String, Object> row) {
+		orderMapper.updateOrderCommentByAdmin(row);
+	}
 	
 
 	

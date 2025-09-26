@@ -68,7 +68,15 @@ if (nexacro.Environment)
         		{"id":"FileDownload", "classname":"nexacro.FileDownload", "type":"JavaScript"},
         		{"id":"FileUpload", "classname":"nexacro.FileUpload", "type":"JavaScript"},
         		{"id":"FileDialog", "classname":"nexacro.FileDialog", "type":"JavaScript"},
-        		{"id":"FileUpTransfer", "classname":"nexacro.FileUpTransfer", "type":"JavaScript"}
+        		{"id":"FileUpTransfer", "classname":"nexacro.FileUpTransfer", "type":"JavaScript"},
+        		{"id":"BasicChart", "classname":"nexacro.BasicChart", "type":"JavaScript"},
+        		{"id":"PyramidChart", "classname":"nexacro.PyramidChart", "type":"JavaScript"},
+        		{"id":"FloatChart", "classname":"nexacro.FloatChart", "type":"JavaScript"},
+        		{"id":"RoseChart", "classname":"nexacro.RoseChart", "type":"JavaScript"},
+        		{"id":"RadarChart", "classname":"nexacro.RadarChart", "type":"JavaScript"},
+        		{"id":"GaugeChart", "classname":"nexacro.GaugeChart", "type":"JavaScript"},
+        		{"id":"PieChart", "classname":"nexacro.PieChart", "type":"JavaScript"},
+        		{"id":"BubbleChart", "classname":"nexacro.BubbleChart", "type":"JavaScript"}
         ];
     	nexacro._addClasses(registerclass);
     };

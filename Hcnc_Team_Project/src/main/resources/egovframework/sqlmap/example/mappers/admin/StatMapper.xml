@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.mapper.StatMapper">
+
+	<select id="selectStatByAdmin" parameterType="map" resultType="map">
+	    <choose>
+	        <!-- 일별 통계 -->
+	        <when test="SEARCH_TYPE == '일별'">
+	            SELECT 
+	                DATE_FORMAT(ORDER_DT, '%Y-%m-%d') as CHART_LABEL,
+	                SUM(FINAL_AMOUNT) as TOTAL_AMOUNT,
+	                COUNT(*) as ORDER_COUNT,
+	                'daily' as CHART_TYPE
+	            FROM ORDERS
+	            GROUP BY DATE_FORMAT(ORDER_DT, '%Y-%m-%d')
+	            ORDER BY CHART_LABEL
+	        </when>
+	        
+	        <!-- 월별 통계 -->
+	        <when test="SEARCH_TYPE == '월별'">
+	            SELECT 
+	                DATE_FORMAT(ORDER_DT, '%Y-%m') as CHART_LABEL,
+	                SUM(FINAL_AMOUNT) as TOTAL_AMOUNT,
+	                COUNT(*) as ORDER_COUNT,
+	                'monthly' as CHART_TYPE
+	            FROM ORDERS
+	            GROUP BY DATE_FORMAT(ORDER_DT, '%Y-%m')
+	            ORDER BY CHART_LABEL
+	        </when>
+	        
+	        <!-- 결제방법별 통계 -->
+	        <when test="SEARCH_TYPE == '결제수단별'">
+	            SELECT 
+	                PAYMENT_METHOD as CHART_LABEL,
+	                SUM(FINAL_AMOUNT) as TOTAL_AMOUNT,
+	                COUNT(*) as ORDER_COUNT,
+	                'payment' as CHART_TYPE
+	            FROM ORDERS
+	            GROUP BY PAYMENT_METHOD
+	            ORDER BY TOTAL_AMOUNT DESC
+	        </when>
+	    </choose>
+	</select>
+</mapper>
