@@ -143,7 +143,7 @@
           <Col id="MENU_ID">0401</Col>
           <Col id="MENU_NM">프로모션 관리</Col>
           <Col id="MENU_LEVEL">1</Col>
-          <Col id="MENU_PATH">promo::Form_PromoList.xfdl</Col>
+          <Col id="MENU_PATH">promotion::Form_PromotionList.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0402</Col>
