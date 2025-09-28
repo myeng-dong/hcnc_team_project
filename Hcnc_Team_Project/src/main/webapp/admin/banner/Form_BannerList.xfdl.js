@@ -169,6 +169,16 @@
         	this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
         };
 
+        // 전체 선택/해제
+        this.chkAll_onclick = function(obj,e)
+        {
+            var isChecked = obj.value;
+
+            for(var i = 0; i < this.dsPromotionList.getRowCount(); i++) {
+                this.dsPromotionList.setColumn(i, "chk", isChecked);
+            }
+        };
+
         //cell클릭시 argument기억
         this.grid_list_oncellclick = function(obj,e)
         {
