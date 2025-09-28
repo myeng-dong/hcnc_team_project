@@ -146,11 +146,12 @@ public class MemberController {
 
 		try {
 
-			// 조회 결과를 list에 담고....
-			List<Map<String, Object>> selectList = memberService.selectMemberList(param);
-
-			// 넥사크로에 다시 보낸다!
-			result.addDataSet("ds_list", selectList);
+			// 1. 먼저 전체 회원 등급 자동 업데이트 실행
+	        memberService.updateAllMemberGradeAuto();
+	        
+	        // 2.회원 목록 조회(등급도 자동)
+	        List<Map<String, Object>> selectList = memberService.selectMemberList(param);
+	        result.addDataSet("ds_list", selectList);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -168,7 +169,11 @@ public class MemberController {
 		NexacroResult result = new NexacroResult();
 
 		try {
-			// 회원등급 전체 조회 (param 필요 없음)
+			
+			//회원등급 자동 업뎃
+			 memberService.updateAllMemberGradeAuto();
+			
+			 // 회원등급 전체 조회 (param 필요 없음)
 			List<Map<String, Object>> gradeList = memberService.selectMemberGradeList();
 
 			// ds_grade라는 이름으로 넥사크로에 전달
@@ -659,5 +664,27 @@ public class MemberController {
 	        result.setErrorMsg("신고 상태 변경 중 오류");
 	    }
 	    return result;
+	}
+	
+	// 회원 가입 이력을 위한 회원 조회
+	// By. PJ 09.26
+	@RequestMapping(value = "/selectMemberRegHistoryListByAdmin.do")
+	public NexacroResult selectMemberRegHistoryListByAdmin(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			List<Map<String, Object>> selectMemberRegList = memberService.selectMemberRegHistoryListByAdmin(param);
+
+			result.addDataSet("ds_list", selectMemberRegList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원 가입 이력 조회중  오류");
+		}
+		return result;
 	}
 }

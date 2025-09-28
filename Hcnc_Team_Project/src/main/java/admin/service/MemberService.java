@@ -72,6 +72,11 @@ public class MemberService {
 
 	}
 
+	//전체 회원 등급 자동 업데이트
+	public int updateAllMemberGradeAuto() {
+	    return memberMapper.updateAllMemberGradeAuto();
+	}
+
 	// 관리자 제외 등급 조회
 	public List<Map<String, Object>> selectGradeExceptionAdminList() {
 
@@ -183,9 +188,11 @@ public class MemberService {
 		return  memberMapper.updateMemberBlackStatusListByAdmin(row);
 	}
 	
-	
-
-
+	//회원가입 이력 조회를 위한 회원 조회
+	public List<Map<String, Object>> selectMemberRegHistoryListByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.selectMemberRegHistoryListByAdmin(param);
+	}
 	
 
 
