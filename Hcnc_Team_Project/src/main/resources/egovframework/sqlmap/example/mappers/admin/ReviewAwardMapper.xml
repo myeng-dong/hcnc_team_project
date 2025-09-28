@@ -36,16 +36,16 @@
 	        <if test="SEARCH_TYPE == '아이디'">
 	            AND r.MEMBER_ID LIKE CONCAT('%', #{searchValue}, '%')
 	        </if>
-	        <if test="pointYn != null and pointYn != '' and pointYn != 'ALL'">
-	            <choose>
-	                <when test="pointYn == 'Y'">
-	                    AND pt.POINT_ID IS NOT NULL
-	                </when>
-	                <when test="pointYn == 'N'">
-	                    AND pt.POINT_ID IS NULL
-	                </when>
-	            </choose>
-	        </if>
+	        <if test="pointYn != null and pointYn != '' and pointYn != 'all'">
+			    <choose>
+			        <when test="pointYn == '1'"> 
+			            AND pt.POINT_ID IS NOT NULL
+			        </when>
+			        <when test="pointYn == '0'">
+			            AND pt.POINT_ID IS NULL
+			        </when>
+			    </choose>
+			</if>
 	    ORDER BY r.INPUT_DT DESC
 	</select>
 
@@ -75,6 +75,7 @@
 		  AND CHAR_LENGTH(r.REVIEW_CONTENT) >= 100 -- 리뷰 길이 100자 이상
 		  AND r.STAR_POINT >= 4                   -- 별점 4점 이상
 		  AND r.INPUT_DT BETWEEN o.ORDER_DT AND DATE_ADD(o.ORDER_DT, INTERVAL 3 DAY) -- 주문 후 3일 이내 작성
+		  AND r.INPUT_DT >= DATE_SUB(NOW(), INTERVAL 3 DAY)
 		  AND p.POINT_ID IS NULL                  -- 아직 포인트 미지급인 경우만
 		ORDER BY r.INPUT_DT DESC;                  -- 최신 리뷰 우선
 

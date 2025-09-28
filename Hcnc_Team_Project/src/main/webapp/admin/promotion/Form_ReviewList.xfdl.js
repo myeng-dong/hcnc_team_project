@@ -29,7 +29,7 @@
 
 
             obj = new Dataset("ds_issued", this);
-            obj._setContents("<ColumnInfo><Column id=\"ISSUED_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"ISSUED_STATUE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"ISSUED_CODE\">지급</Col><Col id=\"ISSUED_STATUE\">Y</Col></Row><Row><Col id=\"ISSUED_STATUE\">N</Col><Col id=\"ISSUED_CODE\">미지급</Col></Row><Row><Col id=\"ISSUED_CODE\">전체</Col><Col id=\"ISSUED_STATUE\"/></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"datacolumn\" type=\"STRING\" size=\"256\"/><Column id=\"codecolumn\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"datacolumn\">지급</Col><Col id=\"codecolumn\">1</Col></Row><Row><Col id=\"codecolumn\">0</Col><Col id=\"datacolumn\">미지급</Col></Row><Row><Col id=\"datacolumn\">전체</Col><Col id=\"codecolumn\">all</Col></Row></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -112,7 +112,7 @@
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_select","440","105","100","30",null,null,null,null,null,null,this);
+            obj = new Button("btn_search","440","105","100","30",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text("조회");
             obj.set_borderRadius("5px");
@@ -153,12 +153,23 @@
         	trace("리뷰이벤트 출력여부 확인용>>>");
         };
 
+        this.btn_search_onclick = function(obj,e)
+        {
+        	this.fnSearchReview();
+        };
+
+        this.btn_reset_onclick = function(obj,e)
+        {
+        	this.reload();
+        };
+
+
         this.grid_list_oncellclick = function(obj, e) {
             if(e.cell == 8){ // 리뷰 열 클릭
                 var row = e.row;
                 var popup = new nexacro.ChildFrame();
                 var surl = "promotion::Form_ReviewDetail.xfdl";
-                popup.init("openPop", 300, 100, 800, 700, null, null, surl);
+                popup.init("openReviewPop", 300, 100, 800, 700, null, null, surl);
                 popup.set_dragmovetype("all");
                 popup.set_showtitlebar(true);
 
@@ -181,9 +192,25 @@
             var strURL         = "svc::selectProductReviewListByAdmin.do";
             var strInDatasets  = "";
             var strOutDatasets = "ds_review_list=ds_review_list";
-            var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
-            var strCallback    = "fnCallback";
 
+            // 검색 조건
+            var searchType = this.search_area.form.review_info.value;  // 콤보박스 선택값
+            var searchValue = this.search_area.form.edit_search.value; // 입력값
+            var pointYn = this.search_area.form.radio_issued.value;    // 지급유무 라디오 값
+
+            var strArg = "";
+            if(searchValue && searchValue != "") {
+                strArg += "SEARCH_TYPE=" + nexacro.wrapQuote(searchType);
+                strArg += " searchValue=" + nexacro.wrapQuote(searchValue);
+            }
+            if(pointYn && pointYn != "" && pointYn != "all") {
+                if(strArg != "") strArg += " ";
+                strArg += "pointYn=" + nexacro.wrapQuote(pointYn);
+            }
+
+            trace("검색 조건: " + strArg);
+
+            var strCallback    = "fnCallback";
             this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
         };
 
@@ -195,28 +222,41 @@
                 return;
             }
             switch(svc){
-        		case "selectReview"  :
+        		case "selectReview":
+                    trace("총 행 수: " + this.ds_review_list.rowcount);
 
-        		return;
+                    // 처음 몇 행의 POINT_ISSUED 값 확인
+                    for(var i = 0; i < Math.min(5, this.ds_review_list.rowcount); i++) {
+                        var pointIssued = this.ds_review_list.getColumn(i, "POINT_ISSUED");
+                        trace("행 " + i + " POINT_ISSUED: [" + pointIssued + "] (타입: " + typeof pointIssued + ") (길이: " + String(pointIssued).length + ")");
+                    }
+
+                    // 컬럼 존재 여부 확인
+                    var colExists = false;
+                    for(var j = 0; j < this.ds_review_list.colcount; j++) {
+                        var colName = this.ds_review_list.getColID(j);
+                        if(colName == "POINT_ISSUED") {
+                            colExists = true;
+                            break;
+                        }
+                    }
+                return;
 
         	}
         };
 
         // 팝업공통 콜백
         this.fn_popCallback = function(svcID, strVal){
-        	switch(svcID){
-        		case "openReviewPop":
-        			if(strVal){
-        				this._selectedReview = strVal;
-        				trace("팝업에서 선택된 리뷰: " + JSON.stringify(this._selectedReview));
-        				// Dataset 준비
-        				this.fn_prepareAddPointDataset();
-        				// 서버 전송
-        				this.fn_callAddPointTransaction();
-        			}
-        		break;
-        	}
+            switch(svcID){
+                case "openReviewPop":
+                    if(strVal == "REFRESH_NEEDED"){
+                        trace("포인트 지급 완료, 리스트 새로고침");
+                        this.fnSearchReview(); // 리스트 새로고침
+                    }
+                break;
+            }
         };
+
         });
         
         // Regist UI Components Event
@@ -226,8 +266,8 @@
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
             this.search_area.form.search_tit.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
             this.search_area.form.search_tit00.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
-            this.btn_reset.addEventHandler("onclick",this.search_area_btn_reset_onclick,this);
-            this.btn_select.addEventHandler("onclick",this.search_area_btn_select_onclick,this);
+            this.btn_reset.addEventHandler("onclick",this.btn_reset_onclick,this);
+            this.btn_search.addEventHandler("onclick",this.btn_search_onclick,this);
         };
         this.loadIncludeScript("Form_ReviewList.xfdl");
         this.loadPreloadList();

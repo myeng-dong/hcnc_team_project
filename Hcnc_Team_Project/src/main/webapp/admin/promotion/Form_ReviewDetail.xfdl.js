@@ -243,24 +243,23 @@
         this.registerScript("Form_ReviewDetail.xfdl", function() {
         this.Form_ReviewDetail_onload = function(obj,e)
         {
-        	trace("팝업 Form onload, arguments: " + JSON.stringify(this.parent.arguments));
+            trace("팝업 Form onload, arguments: " + JSON.stringify(this.parent.arguments));
 
-            // 부모에서 전달한 리뷰 정보를 _selectedReview로 초기화
+            // 부모에서 전달한 리뷰 정보 초기화
             if(this.parent.arguments){
-                this._selectedReview = this.parent.arguments;
-                trace("초기 선택 리뷰: " + JSON.stringify(this._selectedReview));
+                this.selectedReview = this.parent.arguments;
+                trace("초기 선택 리뷰: " + JSON.stringify(this.selectedReview));
 
-                // BindItem 등으로 UI 초기화 가능
-                this.sta_txt00.set_text(this._selectedReview.REVIEW_ID);
-                this.sta_txt00_00.set_text(this._selectedReview.PRODUCT_NAME);
-                this.sta_txt00_00_01.set_text(this._selectedReview.MEMBER_ID);
-                this.sta_txt00_00_01_00.set_text(this._selectedReview.REVIEW_TITLE);
-                this.txtarea_content.set_value(this._selectedReview.REVIEW_CONTENT);
+                // UI 초기화
+                this.sta_txt00.set_text(this.selectedReview.REVIEW_ID);
+                this.sta_txt00_00.set_text(this.selectedReview.PRODUCT_NAME);
+                this.sta_txt00_00_01.set_text(this.selectedReview.MEMBER_ID);
+                this.sta_txt00_00_01_00.set_text(this.selectedReview.REVIEW_TITLE);
+                this.txtarea_content.set_value(this.selectedReview.REVIEW_CONTENT);
             }
         };
 
-
-        // 상세 Form 열기
+        // 상세 Form 열기 (사용하지 않는 함수지만 일관성을 위해 수정)
         this.fn_openReviewDetail = function() {
             var sId = "ReviewDetailFrame";
             var sFormUrl = "Form_ReviewDetail.xfdl";
@@ -271,8 +270,8 @@
             oChild.showModal(this.getOwnerFrame(), function(obj, e){
                 // 상세 Form 종료 시 선택 리뷰 전달 받음
                 if(e.returnvalue){
-                    this._selectedReview = e.returnvalue;
-                    trace("선택 리뷰 전달받음: " + JSON.stringify(this._selectedReview));
+                    this.selectedReview = e.returnvalue;  // 변수명 통일
+                    trace("선택 리뷰 전달받음: " + JSON.stringify(this.selectedReview));
                 }
             }, this);
         };
@@ -286,9 +285,9 @@
         // 포인트 지급 버튼 클릭
         this.btn_addpoint_onclick = function(obj, e) {
             trace("btn_addpoint_onclick 호출");
-            trace("현재 _selectedReview 상태: " + JSON.stringify(this._selectedReview));
+            trace("현재 selectedReview 상태: " + JSON.stringify(this.selectedReview));
 
-            if(!this._selectedReview){
+            if(!this.selectedReview){
                 this.alert("리뷰를 선택하세요.");
                 trace("선택 리뷰 없음, 포인트 지급 중지");
                 return;
@@ -320,22 +319,26 @@
             this.ds_addpoint.clearData();
             trace("Dataset 초기화 완료");
 
-            if(!this._selectedReview){
+            if(!this.selectedReview){
                 this.alert("리뷰를 선택하세요.");
                 trace("선택 리뷰 없음, Dataset에 데이터 추가 중지");
                 return;
             }
 
             var row = this.ds_addpoint.addRow();
-            this.ds_addpoint.setColumn(row, "MEMBER_ID", this._selectedReview.MEMBER_ID);
+            this.ds_addpoint.setColumn(row, "MEMBER_ID", this.selectedReview.MEMBER_ID);
             this.ds_addpoint.setColumn(row, "CHANGE_TYPE", "적립");
             this.ds_addpoint.setColumn(row, "POINT", 500);
-            this.ds_addpoint.setColumn(row, "DESCRIPTION", "[리뷰 이벤트 수동 지급]" + this._selectedReview.REVIEW_ID + this._selectedReview.MEMBER_ID);
-            this.ds_addpoint.setColumn(row, "ORDER_ID", this._selectedReview.ORDER_ID);
+            this.ds_addpoint.setColumn(row, "DESCRIPTION", "[리뷰 이벤트 수동 지급]:" + this.selectedReview.REVIEW_ID);
+            this.ds_addpoint.setColumn(row, "ORDER_ID", this.selectedReview.ORDER_ID);
 
-            trace("Dataset에 데이터 담김: " +
-                  this.ds_addpoint.getColumn(row, "MEMBER_ID") + ", " +
-                  this.ds_addpoint.getColumn(row, "ORDER_ID"));
+            // 디버깅 로그 추가
+            trace("Dataset 설정 완료:");
+            trace("MEMBER_ID: " + this.ds_addpoint.getColumn(row, "MEMBER_ID"));
+            trace("CHANGE_TYPE: " + this.ds_addpoint.getColumn(row, "CHANGE_TYPE"));
+            trace("POINT: " + this.ds_addpoint.getColumn(row, "POINT"));
+            trace("DESCRIPTION: " + this.ds_addpoint.getColumn(row, "DESCRIPTION"));
+            trace("ORDER_ID: " + this.ds_addpoint.getColumn(row, "ORDER_ID"));
         };
 
         // 서버 전송
@@ -343,15 +346,14 @@
             trace("fn_callAddPointTransaction 호출");
 
             if(this.ds_addpoint.getRowCount() <= 0){
-                this.alert("Dataset에 포인트 정보가 없습니다.");
-                trace("Dataset empty, transaction 중지");
+                this.alert("리뷰정보가 없습니다.");
                 return;
             }
 
             var strSvcID = "insertReviewRewardPointsByAdmin";
-            var setURL = "svc::/insertReviewRewardPointsByAdmin.do";
+            var setURL = "svc::insertReviewRewardPointsByAdmin.do";
             var strInDatasets = "ds_addpoint=ds_addpoint";
-            var strOutDatasets = "ds_addpoint=ds_addpoint";
+            var strOutDatasets = "";  // INSERT 작업이므로 outDatasets 제거
             var strArg = "";
             var callBack = "fn_callBack";
             var inAsync = true;
@@ -372,10 +374,11 @@
             switch(svcID){
                 case "insertReviewRewardPointsByAdmin":
                     this.alert("포인트 지급 완료");
+                    // 팝업 닫으면서 메인 리스트에 새로고침 신호 전달
+                    this.close("REFRESH_NEEDED");
                     break;
             }
         };
-
         });
         
         // Regist UI Components Event

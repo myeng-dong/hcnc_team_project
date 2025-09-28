@@ -1,28 +1,167 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_PromoList" width="1280" height="850" titletext="New Form" background="#F4F7FE">
+  <Form id="Form_PromoList" width="1280" height="640" titletext="New Form" background="#F4F7FE" onload="Form_PromoList_onload">
     <Layouts>
-      <Layout height="850" width="1280">
-        <Grid id="grid_list" taborder="0" left="40" top="213" height="320" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col">&gt;
-          <Formats><Format id="default"><Columns><Column size="48"/><Column size="215"/><Column size="157"/><Column size="127"/><Column size="170"/><Column size="106"/><Column size="123"/><Column size="105"/><Column size="116"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="프로모션 이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="쿠폰명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="회원" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="주문번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="할인금액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="로그 등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="생성일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="수정일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1"/><Cell col="1"/><Cell col="2"/><Cell col="3" edittype="normal"/><Cell col="4"/><Cell col="5" edittype="normal"/><Cell col="6" edittype="normal"/><Cell col="7" edittype="normal"/><Cell col="8" edittype="normal"/></Band></Format></Formats></Grid>
-        <Div id="search_area" taborder="1" left="40" top="43" height="158" background="#ffffff" borderRadius="10px" right="40">
+      <Layout height="640" width="1280">
+        <Grid id="grid_list" taborder="0" left="40" top="213" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" bottom="90" binddataset="ds_promo_list">&gt;
+          <Formats><Format id="default"><Columns><Column size="48"/><Column size="48"/><Column size="201"/><Column size="99"/><Column size="117"/><Column size="144"/><Column size="138"/><Column size="91"/><Column size="92"/><Column size="84"/><Column size="84"/><Column size="55"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" edittype="checkbox" displaytype="checkboxcontrol"/><Cell col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="프로모션 이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="타겟" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="타입" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="시작일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="종료일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="지급방식" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="활성화여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="작성일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="최근수정일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="11" text="설정" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell edittype="checkbox" displaytype="checkboxcontrol"/><Cell col="1" text="expr:currow + 1"/><Cell col="2" text="bind:PROMOTION_NAME"/><Cell col="3" text="bind:TARGET_VALUE"/><Cell col="4" text="bind:PROMOTION_TYPE"/><Cell col="5" edittype="normal" text="bind:ISSUED_DT"/><Cell col="6" text="bind:EXPIRY_DT"/><Cell col="7" text="bind:AUTO_ISSUED"/><Cell col="8" edittype="normal" text="bind:IS_ACTIVE"/><Cell col="9" text="bind:INPUT_DT"/><Cell col="10" edittype="normal" text="bind:UPDATE_DT"/><Cell col="11" edittype="button" displaytype="buttoncontrol" text="관리"/></Band></Format></Formats></Grid>
+        <Div id="search_area" taborder="1" left="40" top="30" height="170" background="#ffffff" borderRadius="10px" right="40" text="">
           <Layouts>
             <Layout>
-              <Static id="search_tit" taborder="0" text="진행상태" left="30" top="19" width="120" height="41" font="normal 700 12pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
-              <Radio id="Radio00" taborder="1" left="160" top="27" width="130" height="30"/>
+              <Static id="search_tit" taborder="0" text="프로모션명" left="20" top="3" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Static id="Static00" taborder="1" left="93" top="15" width="2" height="20" background="#cccccc" text=""/>
+              <Static id="Static00_00" taborder="2" left="93" top="52" width="2" height="20" background="#cccccc" text=""/>
+              <Static id="search_tit00" taborder="3" text="타입" left="20" top="42" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Edit id="edit_search" taborder="4" left="110" top="14" width="260" height="25"/>
+              <Combo id="Combo00" taborder="5" text="Combo00" left="110" top="52" width="260" height="25"/>
+              <Static id="search_tit00_00" taborder="6" text="진행상태" left="20" top="81" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Static id="Static00_00_00" taborder="7" left="93" top="89" width="2" height="20" background="#cccccc" text=""/>
+              <Radio id="Radio00" taborder="8" left="110" top="90" width="380" height="20"/>
             </Layout>
           </Layouts>
         </Div>
+        <Button id="btn_reset" taborder="2" text="초기화" left="639" top="155" height="30" borderRadius="5px" background="#8e8e8e" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" width="100" onclick="search_area_btn_reset_onclick"/>
+        <Button id="btn_select" taborder="3" text="조회" left="520" top="155" height="30" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" onclick="search_area_btn_select_onclick" width="100"/>
+        <Button id="btn_write" taborder="4" text="등록" height="30" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" width="100" right="40" bottom="40" onclick="btn_write_onclick"/>
       </Layout>
     </Layouts>
     <Bind>
       <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+      <BindItem id="item1" compid="search_area.form.edit_search" propid="value" datasetid="ds_search" columnid="SEARCH_TEXT"/>
     </Bind>
-    <Script type="xscript5.1"><![CDATA[
-this.search_area_search_txt01_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+    <Script type="xscript5.1"><![CDATA[this.Form_PromoList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	
+	trace("진행중인 프로모션 리스트 확인용>>>>");
 };
+
+this.btn_write_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.getOwnerFrame().set_formurl("promotion::Form_PromotionWrite.xfdl");
+};
+
+this.grid_list_oncellclick = function(obj, e) {
+    if(e.cell == 11){ // 리뷰 열 클릭
+        var promotionId = this.ds_promo_list.getColumn(e.row,"PROMOTION_ID")
+		this.getOwnerFrame().arguments = {"PROMOTION_ID" : promotionId}
+		this.getOwnerFrame().set_formurl("promotion::Form_PromotionView.xfdl");
+    }
+};
+
+// 프로모션리스트
+this.fnSearchReview = function() {
+    var strSvcID       = "selectPromoListByAdmin";
+    var strURL         = "svc::selectPromoListByAdmin.do";
+    var strInDatasets  = "";
+    var strOutDatasets = "ds_list=ds_list"; 
+    var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
+    var strCallback    = "fnCallback";
+
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+};
+
+// 공통 콜백
+this.fnCallback = function(svc, err, errMsg) {
+    if (err < 0) {
+        this.alert("에러 발생: " + errMsg);
+		
+        return;
+    }
+    switch(svc){
+		case "selectPromoListByAdmin"  :
+
+		return;
+		
+	}
+};
+
+
+
+// 조회용 하단에 잠시 넣어
+this.fnInitCommonCode = function()
+{
+    // 할인유형 콤보박스 설정
+    this.cboDiscountType.set_codecolumn("CODE");
+    this.cboDiscountType.set_datacolumn("CODE_NAME");
+    this.cboDiscountType.set_innerdataset(this.dsDiscountType);
+    
+    this.dsDiscountType.addRow();
+    this.dsDiscountType.setColumn(0, "CODE", "R");
+    this.dsDiscountType.setColumn(0, "CODE_NAME", "할인율(%)");
+    this.dsDiscountType.addRow();
+    this.dsDiscountType.setColumn(1, "CODE", "A");
+    this.dsDiscountType.setColumn(1, "CODE_NAME", "할인금액(원)");
+    
+    // 적용대상유형 콤보박스 설정
+    this.cboTargetType.set_codecolumn("CODE");
+    this.cboTargetType.set_datacolumn("CODE_NAME");
+    this.cboTargetType.set_innerdataset(this.dsTargetType);
+    
+    this.dsTargetType.addRow();
+    this.dsTargetType.setColumn(0, "CODE", "PRODUCT");
+    this.dsTargetType.setColumn(0, "CODE_NAME", "상품");
+    this.dsTargetType.addRow();
+    this.dsTargetType.setColumn(1, "CODE", "CATEGORY");
+    this.dsTargetType.setColumn(1, "CODE_NAME", "카테고리");
+    this.dsTargetType.addRow();
+    this.dsTargetType.setColumn(2, "CODE", "MEMBER_GRADE");
+    this.dsTargetType.setColumn(2, "CODE_NAME", "회원등급");
+    
+    // 활성화여부 콤보박스 설정
+    this.cboIsActive.set_codecolumn("CODE");
+    this.cboIsActive.set_datacolumn("CODE_NAME");
+    this.cboIsActive.set_innerdataset(this.dsActiveYN);
+    
+    this.dsActiveYN.addRow();
+    this.dsActiveYN.setColumn(0, "CODE", "Y");
+    this.dsActiveYN.setColumn(0, "CODE_NAME", "활성");
+    this.dsActiveYN.addRow();
+    this.dsActiveYN.setColumn(1, "CODE", "N");
+    this.dsActiveYN.setColumn(1, "CODE_NAME", "비활성");
+};
+
+this.fn_gradeSearch = function(){
+	
+	var strSvcID = "selectMemberGradeList"
+	var setURL = "svc::selectMemberGradeListByAdmin.do";
+	var strInDatasets = "";
+	var strOutDatasets = "ds_grade=ds_grade";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
 ]]></Script>
+    <Objects>
+      <Dataset id="ds_promo_list">
+        <ColumnInfo>
+          <ConstColumn id="PROMOTION_ID" type="STRING" size="30"/>
+          <ConstColumn id="PROMOTION_NAME" type="STRING" size="30"/>
+          <ConstColumn id="PROMOTION_TYPE" type="STRING" size="30"/>
+          <ConstColumn id="DESCRIPTION" type="STRING" size="30"/>
+          <ConstColumn id="START_DT" type="STRING" size="30"/>
+          <ConstColumn id="END_DT" type="STRING" size="30"/>
+          <ConstColumn id="IS_ACTIVE" type="STRING" size="30"/>
+          <ConstColumn id="INPUT_DT" type="STRING" size="30"/>
+          <ConstColumn id="UPDATE_DT" type="STRING" size="30"/>
+          <ConstColumn id="INPUT_ID" type="STRING" size="30"/>
+          <ConstColumn id="UPDATE_ID" type="STRING" size="30"/>
+          <ConstColumn id="AUTO_ISSUED" type="STRING" size="30"/>
+          <ConstColumn id="P_COUPON_CODE" type="STRING" size="30"/>
+          <ConstColumn id="ISSUED_DT" type="STRING" size="30"/>
+          <ConstColumn id="EXPIRY_DT" type="STRING" size="30"/>
+          <ConstColumn id="IS_USED" type="STRING" size="30"/>
+          <ConstColumn id="DISCOUNT_ID" type="STRING" size="30"/>
+          <ConstColumn id="DISCOUNT_TYPE" type="STRING" size="30"/>
+          <ConstColumn id="DISCOUNT_VALUE" type="STRING" size="30"/>
+          <ConstColumn id="MIN_ORDER_PRICE" type="STRING" size="30"/>
+          <ConstColumn id="TARGET_ID" type="STRING" size="30"/>
+          <ConstColumn id="TARGET_TYPE" type="STRING" size="30"/>
+          <ConstColumn id="TARGET_VALUE" type="STRING" size="30"/>
+          <ConstColumn id="TARGET_AMOUNT" type="STRING" size="30"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
   </Form>
 </FDL>
