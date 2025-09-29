@@ -2,6 +2,7 @@ package admin.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,11 @@ public class MemberService {
 	public int updateMemberGrade(Map<String, Object> updateGrade) {
 		return memberMapper.updateMemberGrade(updateGrade);
 
+	}
+
+	//전체 회원 등급 자동 업데이트
+	public int updateAllMemberGradeAuto() {
+	    return memberMapper.updateAllMemberGradeAuto();
 	}
 
 	// 관리자 제외 등급 조회
@@ -152,9 +158,42 @@ public class MemberService {
 	
 	//쿠폰 지급
 	public int insertCoupon(Map<String, Object> param) {
-		
-		return memberMapper.insertCoupon(param);
+
+		 // UUID 기반 쿠폰 코드 생성
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        // 앞 16자리만 사용 (대문자로 변환하면 가독성 ↑)
+        String couponCode = uuid.substring(0, 16).toUpperCase();
+
+        // param에 세팅
+        param.put("COUPON_CODE", couponCode);
+
+        return memberMapper.insertCoupon(param);
 	}
-   
+	
+	//블랙리스트 조회
+	public List<Map<String, Object>> selectBlackListByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.selectBlackListByAdmin(param);
+	}
+	
+	//블랙리스트 상세조회(광고없음)
+	public List<Map<String, Object>> selectBlackDetailListByAdmin(String memberId) {
+		
+		return  memberMapper.selectBlackDetailListByAdmin(memberId);
+	}
+	
+	//블랙리스트 신고취소
+	public int updateMemberBlackStatusListByAdmin(Map<String, Object> row) {
+		
+		return  memberMapper.updateMemberBlackStatusListByAdmin(row);
+	}
+	
+	//회원가입 이력 조회를 위한 회원 조회
+	public List<Map<String, Object>> selectMemberRegHistoryListByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.selectMemberRegHistoryListByAdmin(param);
+	}
+	
+
 
 }

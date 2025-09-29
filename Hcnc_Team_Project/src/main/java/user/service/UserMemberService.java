@@ -6,12 +6,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import user.mapper.UserCouponMapper;
 import user.mapper.UserMemberMapper;
 
 @Service
 public class UserMemberService {
 	@Autowired
 	private UserMemberMapper userMemberMapper;
+	
+	@Autowired
+	private UserCouponService userCouponService;
 	
 	public int selectIdCheckByUser(String id) {
 		return userMemberMapper.selectIdCheckByUser(id);
@@ -22,7 +26,16 @@ public class UserMemberService {
 	}
 
 	public int insertSignUpByUser(Map<String, Object> sign) {
-		return userMemberMapper.insertSignUpByUser(sign);
+		int result = userMemberMapper.insertSignUpByUser(sign);
+		if (result > 0) {
+	        String memberId = (String) sign.get("id"); //회원가입시 아이디훔침
+	        try {
+	            userCouponService.insertSignUpCoupon(memberId);  //신규회원 쿠폰 발급용으로 추가함
+	        } catch(Exception e) {
+	        	System.out.println("신규회원 쿠폰 발급 실패: " + e.getMessage()); // 실패해도 회원가입은 유지최대한 들건들이기
+	        }
+	    }
+	    return result;
 	}
 
 	public Map<String, Object> selectLoginByUser(Map<String, Object> login) {

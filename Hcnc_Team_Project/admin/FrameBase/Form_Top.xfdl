@@ -2,12 +2,12 @@
 <FDL version="2.1">
   <Form id="Form_Top" width="1280" height="50" titletext="Form_Top" background="white" onload="Form_Top_onload">
     <Layouts>
-      <Layout width="1280" height="50" screenid="Desktop_screen">
+      <Layout width="1280" height="50" screenid="Desktop_screen" stepcount="0">
         <Static id="Static00" taborder="1" text="님 환영합니다" top="5" width="100" height="43" font="normal 12pt/normal &quot;Pretendard SemiBold&quot;" right="90" onclick="Static00_onclick"/>
-        <ImageViewer id="h1_logo" taborder="0" text="logo" left="5" top="3" width="190" height="45" image="url('imagerc::h1_logo.png')" onclick="h1_logo_onclick"/>
+        <ImageViewer id="h1_logo" taborder="0" left="5" top="3" width="190" height="45" image="url('imagerc::h1_logo.png')" onclick="h1_logo_onclick"/>
         <Button id="btn_logout" taborder="2" text="로그아웃" top="11" height="31" right="10" width="80" onclick="btn_logout_onclick" font="normal 10pt/normal &quot;Pretendard SemiBold&quot;" background="transition" border="0px none" color="firebrick"/>
         <Div id="div_grayline" taborder="3" left="0" height="1" bottom="0" background="#cccccc" right="0"/>
-        <Static id="admin_id" taborder="4" left="990" top="16" width="98" height="18" border="1px solid black"/>
+        <Static id="admin_id" taborder="4" left="1020" top="14" height="23" background="lightgray" textAlign="center" color="black" font="bold 14px/normal &quot;Noto Sans KR Black&quot;" borderRadius="12px" right="190"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[this.isWait = false; // 전역변수 선언! 

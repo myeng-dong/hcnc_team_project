@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.mapper.StatMapper">
+
+	<select id="selectStatByAdmin" parameterType="map" resultType="map">
+	#통계를 위한 그래프 오더에서 긁어와서 일별, 월별, 결제수단별로 묶어줌
+	    <choose>
+	        
+	        <when test="SEARCH_TYPE == '일별'">
+		    SELECT 
+		        DATE_FORMAT(ORDER_DT, '%Y-%m-%d') as CHART_LABEL,
+		        SUM(FINAL_AMOUNT) as TOTAL_AMOUNT,
+		        COUNT(*) as ORDER_COUNT,
+		        '일별' as CHART_TYPE
+		    FROM ORDERS
+		    WHERE 1=1
+		    <choose>
+		        <when test="SEARCH_DATA != null and SEARCH_DATA != ''">
+		            <!-- 선택된 날짜 기준으로 일주일 범위 -->
+		           AND DATE_FORMAT(ORDER_DT, '%Y-%m-%d') BETWEEN 
+				        DATE_FORMAT(DATE_SUB(#{SEARCH_DATA}, INTERVAL 3 DAY), '%Y-%m-%d') 
+				        AND 
+				        DATE_FORMAT(DATE_ADD(#{SEARCH_DATA}, INTERVAL 3 DAY), '%Y-%m-%d')
+		        </when>
+		        <otherwise>
+		            <!-- 오늘 기준 일주일 범위 -->
+		            AND ORDER_DT BETWEEN DATE_SUB(NOW(), INTERVAL 3 DAY) 
+		                             AND DATE_ADD(NOW(), INTERVAL 3 DAY)
+		        </otherwise>
+		    </choose>
+		    GROUP BY DATE_FORMAT(ORDER_DT, '%Y-%m-%d')
+		    ORDER BY CHART_LABEL
+		</when>
+	        
+	        
+	        <when test="SEARCH_TYPE == '월별'">
+	        #월별 통계
+	            SELECT 
+	                DATE_FORMAT(ORDER_DT, '%Y-%m') as CHART_LABEL,       -- 월별로 묶어줌(DATE_FORMAT부분이 년월까지 들어가면 월로 묶임)     
+	                SUM(FINAL_AMOUNT) as TOTAL_AMOUNT,                   -- 오더테이블에서 최종 결제가격을 SUM
+	                COUNT(*) as ORDER_COUNT,                             -- 월별 주문수량
+	                '월별' as CHART_TYPE                                  -- 차트타입
+	            FROM ORDERS                                              -- 오더테이블
+	            WHERE 1=1
+	            <choose>
+	            	<when test="SEARCH_DATA !=null and SEARCH_DATA !=''">
+	            		AND DATE_FORMAT(ORDER_DT, '%Y-%m') BETWEEN
+	            		    DATE_FORMAT(DATE_SUB(STR_TO_DATE(CONCAT(#{SEARCH_DATA}, '-01'), '%Y-%m-%d'), INTERVAL 3 MONTH), '%Y-%m')
+	            	    AND DATE_FORMAT(DATE_ADD(STR_TO_DATE(CONCAT(#{SEARCH_DATA}, '-01'), '%Y-%m-%d'), INTERVAL 3 MONTH), '%Y-%m')
+
+	            	</when>
+	            	
+	            	<otherwise>
+	            		AND ORDER_DT BETWEEN DATE_SUB(NOW(),INTERVAL 3 MONTH)
+	            						 AND DATE_ADD(NOW(), INTERVAL 3 MONTH)
+	            	</otherwise>
+	            </choose>
+	            GROUP BY DATE_FORMAT(ORDER_DT, '%Y-%m')                  -- 월별로 그룹화
+	            ORDER BY CHART_LABEL                                     -- 차트라벨순으로
+	        </when>
+	        
+	      
+	        <when test="SEARCH_TYPE == '결제수단별'">
+	        #결제 수단별
+	            SELECT 
+	                PAYMENT_METHOD as CHART_LABEL,                       -- 결제수단별로 묶어줌
+	                SUM(FINAL_AMOUNT) as TOTAL_AMOUNT,                   -- 오더테이블에서 최종 결제가격을 합해줌
+	                COUNT(*) as ORDER_COUNT,                             -- 결제수단 별 주문 수량
+	                '결제수단별' as CHART_TYPE                              -- 차트타입
+	            FROM ORDERS                                              -- 오더테이블에서 가져옴
+	           WHERE 1=1
+	           <if test="SEARCH_DATA !=null and SEARCH_DATA !='' and SEARCH_DATA !='전체'">
+	           	 AND PAYMENT_METHOD = #{SEARCH_DATA}
+	           </if>
+	            GROUP BY PAYMENT_METHOD                                  -- 결제수단 별로 묶어줌
+	            ORDER BY TOTAL_AMOUNT DESC                               -- 총 결제금액 순으로 조회
+	        </when>
+	        
+	    </choose>
+	</select>
+	
+	<select id="selectStatDetailByAdmin" parameterType="map" resultType="map">
+		<choose>
+			<when test="SEARCH_TYPE == '결제수단별'">
+				SELECT 
+				       ORDER_NUMBER                                       -- 주문번호
+				     , ORDER_COMMENT                                      -- 주문상태
+				     , DATE_FORMAT(ORDER_DT, '%Y-%m-%d') AS ORDER_DT      -- 주문일
+				     , FINAL_AMOUNT                                       -- 총 결제금액
+				     , USER_NAME                                          -- 주문자
+				     , MEMBER_ID                                          -- 주문ID
+				     , PAYMENT_METHOD                                     -- 결제 방법
+				  FROM ORDERS
+				 WHERE 1=1
+				<if test="SEARCH_DATA !=null and SEARCH_DATA != '' and SEARCH_DATA !='전체'">
+				   AND PAYMENT_METHOD = #{SEARCH_DATA}
+				</if>
+			</when>
+			
+			<when test="SEARCH_TYPE == '일별'">
+				SELECT 
+				       ORDER_NUMBER                                       -- 주문번호
+				     , ORDER_COMMENT                                      -- 주문상태
+				     , DATE_FORMAT(ORDER_DT, '%Y-%m-%d') AS ORDER_DT      -- 주문일
+				     , FINAL_AMOUNT                                       -- 총 결제금액
+				     , USER_NAME                                          -- 주문자
+				     , MEMBER_ID                                          -- 주문ID
+				     , PAYMENT_METHOD                                     -- 결제 방법
+				  FROM ORDERS
+				 WHERE 1=1
+				<if test="SEARCH_DATA !=null and SEARCH_DATA != '' and SEARCH_DATA !='전체'">
+				  AND DATE(ORDER_DT) = #{SEARCH_DATA}
+				</if>
+			</when>
+			
+			<when test="SEARCH_TYPE == '월별'">
+				SELECT 
+				       ORDER_NUMBER                                       -- 주문번호
+				     , ORDER_COMMENT                                      -- 주문상태
+				     , DATE_FORMAT(ORDER_DT, '%Y-%m-%d') AS ORDER_DT      -- 주문일
+				     , FINAL_AMOUNT                                       -- 총 결제금액
+				     , USER_NAME                                          -- 주문자
+				     , MEMBER_ID                                          -- 주문ID
+				     , PAYMENT_METHOD                                     -- 결제 방법
+				  FROM ORDERS
+				 WHERE 1=1
+				<if test="SEARCH_DATA !=null and SEARCH_DATA != '' and SEARCH_DATA !='전체'">
+				   AND DATE_FORMAT(ORDER_DT, '%Y-%m') = #{SEARCH_DATA}
+				</if>
+			</when>
+		</choose>
+	</select>
+</mapper>

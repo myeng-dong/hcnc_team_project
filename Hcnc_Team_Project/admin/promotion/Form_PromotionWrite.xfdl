@@ -1,0 +1,739 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_PromotionWrite" width="1280" height="1430" titletext="New Form" background="#F4F7FE" onload="Form_PromotionWrite_onload">
+    <Layouts>
+      <Layout height="1430" width="1280">
+        <Static id="stat_bg" taborder="0" left="40" top="70" height="520" background="#ffffff" borderRadius="10px" right="40" text=""/>
+        <Static id="txt_th" taborder="1" text="프로모션타입" left="80" top="146" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" color="#a3aed0"/>
+        <Static id="txt_thbanner" taborder="2" text="프로모션명" left="80" top="308" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_thtitle" taborder="3" text="설명" left="80" top="418" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_date" taborder="4" text="등록일" left="80" top="254" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_date_td" taborder="5" text="-" left="190" top="254" width="120" height="36" font="normal 14pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_date00" taborder="6" text="발급유무" left="80" top="92" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_update_dt" taborder="7" text="수정일" left="628" top="254" width="120" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_update_td" taborder="8" text="-" left="750" top="254" width="372" height="36" font="normal 14pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_date02" taborder="9" text="작성자" left="80" top="201" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_inputid" taborder="10" text="-" left="190" top="201" width="250" height="36" font="normal 14pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th00_onclick"/>
+        <Static id="txt_date01_00" taborder="11" text="최종작성자" left="628" top="201" width="120" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_updateid" taborder="12" text="-" left="748" top="201" width="372" height="36" font="normal 14pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th00_onclick"/>
+        <Div id="Div00" taborder="14" text="Div00" left="80" top="190" height="1" right="80" background="#f5f5f5"/>
+        <Div id="Div01" taborder="13" text="Div01" left="80" top="135" height="1" background="#f5f5f5" right="80"/>
+        <Div id="Div02" taborder="15" text="Div02" left="80" top="245" height="1" background="#f5f5f5" right="80"/>
+        <Div id="Div03" taborder="16" text="Div03" left="80" top="300" height="1" background="#f5f5f5" right="80"/>
+        <Div id="Div04" taborder="17" text="Div04" left="80" top="355" height="1" background="#f5f5f5" right="80"/>
+        <Div id="Div05" taborder="18" text="Div05" left="80" top="410" height="1" background="#f5f5f5" right="80"/>
+        <Radio id="radio_auto_type" taborder="19" left="190" top="92" width="200" height="31" innerdataset="ds_promo_auto" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="수동발급" value="P"/>
+        <Combo id="combo_promo_type" taborder="20" text="전체회원" left="190" top="143" width="308" height="40" innerdataset="ds_promo_type" codecolumn="codecolumn" datacolumn="datacolumn" index="0" value="all" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Edit id="promo_title" taborder="21" left="190" top="308" height="40" right="110" border="1px solid #cccccc" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Static id="txt_thtitle00" taborder="22" text="시작일" left="80" top="364" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Calendar id="cal_start_day" taborder="23" left="190" top="364" width="302" height="39" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Calendar id="cal_end_day" taborder="24" left="742" top="364" width="302" height="39" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Static id="txt_thtitle00_00" taborder="25" text="종료일" left="628" top="368" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <TextArea id="txtarea_promo_description" taborder="26" left="190" top="418" width="978" height="141" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Static id="stat_bg00" taborder="27" left="40" top="652" height="198" background="#ffffff" borderRadius="10px" right="40" text=""/>
+        <Static id="txt_date00_00" taborder="28" text="할인유형" left="80" top="674" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Div id="Div01_00" taborder="29" text="Div01" left="80" top="717" height="1" background="#f5f5f5" right="80"/>
+        <Radio id="radio_discout_type" taborder="30" left="190" top="670" width="450" height="35" innerdataset="ds_promo_discount_type" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="출력" value="1"/>
+        <Static id="txt_date00_00_00" taborder="31" text="할인적용값" left="80" top="728" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Edit id="input_discount_value" taborder="32" left="190" top="728" height="40" right="848" border="1px solid #cccccc" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Div id="Div01_01" taborder="33" text="Div01" left="80" top="775" height="1" background="#f5f5f5" right="80"/>
+        <Static id="txt_date00_00_00_00" taborder="34" text="최소주문금액" left="80" top="786" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Edit id="input_min_order_price" taborder="35" left="190" top="786" height="40" right="848" border="1px solid #cccccc" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Static id="txt_date00_01" taborder="36" text="프로모션 기본정보" left="45" top="32" width="170" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#0a0e79"/>
+        <Static id="txt_date00_01_00" taborder="37" text="프로모션 할인율" left="40" top="612" width="170" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#0a0e79"/>
+        <Static id="stat_bg00_00" taborder="38" left="40" top="916" height="124" background="#ffffff" borderRadius="10px" right="40" text=""/>
+        <Static id="txt_date00_00_01" taborder="39" text="회원선택" left="90" top="988" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_date00_01_00_00" taborder="40" text="프로모션 대상" left="40" top="876" width="170" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#0a0e79"/>
+        <Button id="btn_done" taborder="41" text="저장" background="#135dae" color="#ffffff" borderRadius="5px" border="0px none" right="40" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_done_onclick" height="50" top="1356"/>
+        <Button id="btn_cancle" taborder="42" text="취소" background="#ffffff" color="#ff3d3d" borderRadius="5px" border="1px solid #ff3d3d" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" left="40" onclick="btn_cancle_onclick" height="52" top="1354"/>
+        <Radio id="radio_view_type" taborder="43" left="748" top="94" width="200" height="31" innerdataset="ds_promo_active" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="출력" value="1"/>
+        <Static id="txt_date00_02" taborder="44" text="활성화여부" left="628" top="93" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Radio id="radio_promo_type" taborder="45" left="190" top="990" width="480" height="40" innerdataset="ds_promo_target" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체회원" value="all" onitemchanged="radio_promo_type_onitemchanged"/>
+        <Static id="txt_th00" taborder="46" text="*관리자의 관리를 위한 타입입니다.실제 영향을 미치지 않습니다" left="518" top="146" width="442" height="36" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" color="#4e48a1"/>
+        <Static id="txt_date00_00_01_00" taborder="47" text="대상타입" left="90" top="939" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Radio id="radio_promo_target_type" taborder="48" left="190" top="936" width="450" height="35" innerdataset="ds_promo_target_type" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="회원분류" value="member"/>
+        <Div id="Div01_00_00" taborder="49" text="Div01" left="90" top="977" height="1" background="#f5f5f5" right="70"/>
+        <Combo id="grade_combo" taborder="50" text="Combo00" left="586" top="992" width="134" height="37" innerdataset="ds_grade" codecolumn="GRADE_CODE" datacolumn="GRADE_NAME" readonly="true"/>
+        <Static id="stat_bg00_01" taborder="51" left="40" top="1100" height="198" background="#ffffff" borderRadius="10px" right="40" text=""/>
+        <Static id="txt_date00_00_02" taborder="52" text="쿠폰코드" left="80" top="1122" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Div id="Div01_00_01" taborder="53" text="Div01" left="80" top="1165" height="1" background="#f5f5f5" right="80"/>
+        <Radio id="radio_pcoupon_code" taborder="54" left="190" top="1118" width="438" height="35" innerdataset="ds_promo_pnum_auto" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="자동발급" value="P"/>
+        <Static id="txt_date00_00_00_01" taborder="55" text="쿠폰사용기간" left="80" top="1176" width="100" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Div id="Div01_01_00" taborder="56" text="Div01" left="80" top="1223" height="1" background="#f5f5f5" right="80"/>
+        <Static id="txt_date00_01_00_01" taborder="57" text="프로모션 쿠폰설정" left="40" top="1060" width="170" height="36" font="normal 14pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#0a0e79"/>
+        <Static id="txt_date01" taborder="58" text="쿠폰사용가능일" left="80" top="1234" width="110" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Static id="txt_update_dt00" taborder="59" text="쿠폰만료일" left="638" top="1234" width="120" height="36" font="normal 12pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th00_onclick" color="#a3aed0"/>
+        <Radio id="radio_coupon_dt_set" taborder="60" left="190" top="1177" width="438" height="35" innerdataset="ds_promo_dt" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="고정기간" value="fixed" onitemchanged="radio_coupon_dt_set_onitemchanged"/>
+        <Calendar id="cal_end_coupon_dt" taborder="61" left="752" top="1234" width="302" height="39" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Calendar id="cal_start_coupon_dt" taborder="62" left="190" top="1234" width="302" height="39" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Static id="Static00" taborder="63" text="일" left="670" top="1165" width="120" height="60" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;"/>
+        <Combo id="combo_promo_dt_option" taborder="64" text="3" left="523" top="1176" width="137" height="38" innerdataset="ds_promo_dt_option" codecolumn="codecolumn" datacolumn="datacolumn" index="0" value="3일" popuptype="none" readonly="true"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_promo_target">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">전체회원</Col>
+            <Col id="codecolumn">all</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">신규회원</Col>
+            <Col id="codecolumn">new</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">등급별</Col>
+            <Col id="codecolumn">grade</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_write">
+        <ColumnInfo>
+          <ConstColumn id="PROMOTION_ID" type="STRING" size="30"/>
+          <ConstColumn id="PROMOTION_NAME" type="STRING" size="30"/>
+          <ConstColumn id="PROMOTION_TYPE" type="STRING" size="30"/>
+          <ConstColumn id="DESCRIPTION" type="STRING" size="30"/>
+          <ConstColumn id="START_DT" type="STRING" size="30"/>
+          <ConstColumn id="END_DT" type="STRING" size="30"/>
+          <ConstColumn id="IS_ACTIVE" type="STRING" size="30"/>
+          <ConstColumn id="INPUT_DT" type="STRING" size="30"/>
+          <ConstColumn id="UPDATE_DT" type="STRING" size="30"/>
+          <ConstColumn id="INPUT_ID" type="STRING" size="30"/>
+          <ConstColumn id="UPDATE_ID" type="STRING" size="30"/>
+          <ConstColumn id="AUTO_ISSUED" type="STRING" size="30"/>
+          <ConstColumn id="P_COUPON_CODE" type="STRING" size="30"/>
+          <ConstColumn id="ISSUED_DT" type="STRING" size="30"/>
+          <ConstColumn id="EXPIRY_DT" type="STRING" size="30"/>
+          <ConstColumn id="PERIOD_SETTING" type="STRING" size="30"/>
+          <ConstColumn id="DISCOUNT_ID" type="STRING" size="30"/>
+          <ConstColumn id="DISCOUNT_TYPE" type="STRING" size="30"/>
+          <ConstColumn id="DISCOUNT_VALUE" type="STRING" size="30"/>
+          <ConstColumn id="MIN_ORDER_PRICE" type="STRING" size="30"/>
+          <ConstColumn id="TARGET_ID" type="STRING" size="30"/>
+          <ConstColumn id="TARGET_TYPE" type="STRING" size="30"/>
+          <ConstColumn id="TARGET_VALUE" type="STRING" size="30"/>
+          <ConstColumn id="TARGET_AMOUNT" type="STRING" size="30"/>
+          <Column id="Column0" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_promo_discount_type">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">할인%</Col>
+            <Col id="codecolumn">R</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">할인금액</Col>
+            <Col id="codecolumn">A</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_auto">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">수동발급</Col>
+            <Col id="codecolumn">0</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">자동발급</Col>
+            <Col id="codecolumn">1</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_active">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">활성화</Col>
+            <Col id="codecolumn">1</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">비활성화</Col>
+            <Col id="codecolumn">0</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_type">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">프로모션이벤트</Col>
+            <Col id="codecolumn">PROMOTION</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">신규회원이벤트</Col>
+            <Col id="codecolumn">WELCOME</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_target_type">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">회원분류</Col>
+            <Col id="codecolumn">member</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_target_grade">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">전체회원</Col>
+            <Col id="codecolumn">all</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">신규회원</Col>
+            <Col id="codecolumn">new</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_grade">
+        <ColumnInfo>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="GRADE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_pnum_auto">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">자동발급</Col>
+            <Col id="codecolumn">P</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_dt">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">고정기간</Col>
+            <Col id="codecolumn">fixed</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">발급일기준</Col>
+            <Col id="codecolumn">relative</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_dt_option">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">3</Col>
+            <Col id="codecolumn">3</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">5</Col>
+            <Col id="codecolumn">5</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">7</Col>
+            <Col id="codecolumn">7</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">15</Col>
+            <Col id="codecolumn">15</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">30</Col>
+            <Col id="codecolumn">30</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[var memberId="";
+
+var objDate = new nexacro.Date();
+var mm = (objDate.getMonth() + 1).toString().padLeft(2, "0");
+var dd = objDate.getDate().toString().padLeft(2, "0");
+var TODAY = objDate.getFullYear() + "." + mm + "." + dd;
+var TODAYNUM = objDate.getFullYear() + mm + dd;
+
+this.Form_PromotionWrite_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+    trace("작성페이지 들어왔음");    
+    
+    // 데이터셋에 빈 행 추가
+    this.ds_promo_write.addRow();
+    
+    // arguments
+    var ownerFrame = this.getOwnerFrame();
+    var promotionId = null;
+    var memberId = null;
+    
+    if (ownerFrame && ownerFrame.arguments) {
+        promotionId = ownerFrame.arguments["PROMOTION_ID"];
+        memberId = ownerFrame.arguments["MEMBER_ID"];
+    }
+    
+    if (!memberId && nexacro.getApplication().gds_adminInfo && nexacro.getApplication().gds_adminInfo.rowcount > 0) {
+        memberId = nexacro.getApplication().gds_adminInfo.getColumn(0, "MEMBER_ID");
+    }
+    
+    this.memberId = memberId;
+    this.promotionId = promotionId;  // 수정: this.promotionId로 저장
+    
+    // 모드 설정
+    this.mode = promotionId ? "update" : "insert";  // 수정: 대문자로 통일
+    
+    if (this.mode === "update") {
+        trace("업데이트모드임");
+        this.fnLoadPromotionData();
+    } else {
+        trace("Insert모드임");
+        if (this.ds_promo_write.rowcount === 0) {
+            this.ds_promo_write.addRow();
+        }
+        this.txt_date_td.set_text(TODAY);
+        this.txt_inputid.set_text(this.memberId);
+        this.txt_update_td.set_text(TODAY);
+        this.txt_updateid.set_text(this.memberId);
+        
+        this.ds_promo_write.setColumn(0, "INPUT_DT", TODAY);
+        this.ds_promo_write.setColumn(0, "INPUT_ID", this.memberId);
+        this.ds_promo_write.setColumn(0, "UPDATE_DT", TODAY);
+        this.ds_promo_write.setColumn(0, "UPDATE_ID", this.memberId);
+        
+        this.uploadCompleted = false;
+    }
+    
+    this.fn_gradeSearch();
+};
+
+// 기존 프로모션 데이터 조회 (수정 모드일 때)
+this.fnLoadPromotionData = function() {
+    var strSvcID = "selectPromoViewByAdmin";
+    var strURL = "svc::selectPromoViewByAdmin.do";
+    var strInDatasets = "";
+    var strOutDatasets = "ds_promo_view=ds_promo_view";
+    var strArg = "promotionId=" + this.promotionId;
+    var callBack = "fnCallback";
+    var inAsync = true;
+    
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
+};
+
+// 기존 데이터를 폼에 채우는 함수
+this.fnSetFormData = function() {
+    if(this.ds_promo_view.getRowCount() > 0) {
+        var row = 0;
+        
+        // 기본 정보
+        this.promo_title.set_value(this.ds_promo_view.getColumn(row, "PROMOTION_NAME"));
+        this.combo_promo_type.set_value(this.ds_promo_view.getColumn(row, "PROMOTION_TYPE"));
+        this.txtarea_promo_description.set_value(this.ds_promo_view.getColumn(row, "DESCRIPTION"));
+        this.cal_start_day.set_value(this.ds_promo_view.getColumn(row, "START_DT"));
+        this.cal_end_day.set_value(this.ds_promo_view.getColumn(row, "END_DT"));
+        this.radio_view_type.set_value(this.ds_promo_view.getColumn(row, "IS_ACTIVE"));
+        this.radio_auto_type.set_value(this.ds_promo_view.getColumn(row, "AUTO_ISSUED"));
+        
+        // 할인 정보
+        this.radio_discout_type.set_value(this.ds_promo_view.getColumn(row, "DISCOUNT_TYPE"));
+        this.input_discount_value.set_value(this.ds_promo_view.getColumn(row, "DISCOUNT_VALUE"));
+        this.input_min_order_price.set_value(this.ds_promo_view.getColumn(row, "MIN_ORDER_PRICE"));
+        
+        // 대상 정보
+        this.radio_promo_type00.set_value(this.ds_promo_view.getColumn(row, "TARGET_TYPE"));
+        this.radio_promo_type.set_value(this.ds_promo_view.getColumn(row, "TARGET_VALUE"));
+        
+        // 등급별인 경우 콤보박스 설정
+        if(this.ds_promo_view.getColumn(row, "TARGET_VALUE") == "grade") {
+            this.grade_combo.set_readonly(false);
+            this.grade_combo.set_value(this.ds_promo_view.getColumn(row, "TARGET_VALUE"));
+        }
+        
+        // 쿠폰 정보
+        this.input_coupon_code.set_value(this.ds_promo_view.getColumn(row, "P_COUPON_CODE"));
+        this.cal_end_coupon_dt.set_value(this.ds_promo_view.getColumn(row, "EXPIRY_DT"));
+        
+        // PERIOD_SETTING에 따른 처리
+        var periodSetting = this.ds_promo_view.getColumn(row, "PERIOD_SETTING");
+        if(periodSetting == "fixed") {
+            this.radio_coupon_dt_set.set_value("fixed");
+        } else if(periodSetting && periodSetting.indexOf("relative_") == 0) {
+            this.radio_coupon_dt_set.set_value("relative");
+            var days = periodSetting.replace("relative_", "");
+            this.combo_promo_dt_option.set_value(days);
+            this.combo_promo_dt_option.set_readonly(false);
+        }
+        
+        trace("기존 데이터가 폼에 설정되었습니다.");
+    }
+};
+
+// 취소 버튼
+this.btn_cancle_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    if(this.ds_promo_write.getRowCount() > 0 && this.ds_promo_write.getRowType(0) != Dataset.ROWTYPE_NORMAL) {
+        if(confirm("작성 중인 내용이 있습니다. 취소하시겠습니까?")) {
+            this.close("CANCEL");
+        }
+    } else {
+        this.close("CANCEL");
+    }
+};
+
+this.btn_done_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    // 유효성 검사
+    if(!this.fnValidation()) {
+        return;
+    }
+    
+    // 폼 데이터 수집
+    this.fnCollectFormData();
+    
+    // 수집된 데이터 trace로 확인
+    this.fnTraceCollectedData();
+    
+    var strSvcID = "";
+    var strURL = "";
+    var sInDatasets = "ds_promo_write=ds_promo_write";
+    var sOutDatasets = "";
+    var sArguments = "";
+    var sCallBackFnc = "fnCallback";
+    
+    if(this.mode == "update") {
+        // 수정
+        strSvcID = "updatePromotion";
+        strURL = "svc::updatePromotionByAdmin.do";
+    } else {
+        // 등록
+        strSvcID = "insertPromotion";
+        strURL = "svc::insertPromotionByAdmin.do";
+    }
+    
+    this.transaction(strSvcID, strURL, sInDatasets, sOutDatasets, sArguments, sCallBackFnc);
+};
+
+// 폼 데이터 수집
+this.fnCollectFormData = function()
+{
+    var row = 0;
+    
+    // 수정 모드일 때 PROMOTION_ID 설정
+    if(this.mode == "update") {
+        this.ds_promo_write.setColumn(row, "PROMOTION_ID", this.promotionId); 
+    }
+    
+    // 작성자 정보
+    this.ds_promo_write.setColumn(row, "INPUT_ID", this.memberId || 'admin');
+    this.ds_promo_write.setColumn(row, "UPDATE_ID", this.memberId || 'admin');
+
+    // 기본 정보
+    this.ds_promo_write.setColumn(row, "PROMOTION_NAME", this.promo_title.getValue());
+    this.ds_promo_write.setColumn(row, "PROMOTION_TYPE", this.combo_promo_type.getValue());
+    this.ds_promo_write.setColumn(row, "DESCRIPTION", this.txtarea_promo_description.getValue());
+    this.ds_promo_write.setColumn(row, "START_DT", this.cal_start_day.getValue());
+    this.ds_promo_write.setColumn(row, "END_DT", this.cal_end_day.getValue());
+    this.ds_promo_write.setColumn(row, "IS_ACTIVE", this.radio_view_type.getValue());
+    this.ds_promo_write.setColumn(row, "AUTO_ISSUED", this.radio_auto_type.getValue());
+    
+    // 할인 정보
+    this.ds_promo_write.setColumn(row, "DISCOUNT_TYPE", this.radio_discout_type.getValue());
+    this.ds_promo_write.setColumn(row, "DISCOUNT_VALUE", this.input_discount_value.getValue());
+    this.ds_promo_write.setColumn(row, "MIN_ORDER_PRICE", this.input_min_order_price.getValue());
+    
+    // 대상 정보
+    this.ds_promo_write.setColumn(row, "TARGET_TYPE", this.radio_promo_type00.getValue());
+    
+    // 등급별 선택 처리
+    var targetValue = this.radio_promo_type.getValue();
+    if(targetValue == "grade") {
+        targetValue = this.grade_combo.getValue();
+    }
+    this.ds_promo_write.setColumn(row, "TARGET_VALUE", targetValue);
+    
+    // 쿠폰 코드 (수정 모드가 아닐 때만 자동생성)
+    if(this.mode != "update") {
+        var today = new Date();
+        var dateStr = today.getFullYear() + 
+                      String(today.getMonth() + 1).padStart(2, '0') + 
+                      String(today.getDate()).padStart(2, '0');
+        var couponCode = "PROMOTION" + dateStr;
+        this.ds_promo_write.setColumn(row, "P_COUPON_CODE", couponCode);
+    } else {
+        this.ds_promo_write.setColumn(row, "P_COUPON_CODE", this.input_coupon_code.getValue());
+    }
+    
+    // 쿠폰 기간 설정
+    var periodType = this.radio_coupon_dt_set.getValue();
+    if(periodType == "fixed") {
+        this.ds_promo_write.setColumn(row, "EXPIRY_DT", this.cal_end_coupon_dt.getValue());
+        this.ds_promo_write.setColumn(row, "PERIOD_SETTING", "fixed");
+    } else {
+        var days = this.combo_promo_dt_option.getValue();
+        this.ds_promo_write.setColumn(row, "PERIOD_SETTING", "relative_" + days);
+        
+        // 쿠폰 발행일 기준으로 만료일 자동 계산
+        var startDate = this.cal_start_coupon_dt.getValue() || new Date().toString().substr(0,8);
+        var startDateObj = new Date(startDate);
+        var expiryDate = new Date(startDateObj.getTime() + (parseInt(days) * 24 * 60 * 60 * 1000));
+        var expiryStr = expiryDate.getFullYear() + 
+                       String(expiryDate.getMonth() + 1).padStart(2, '0') + 
+                       String(expiryDate.getDate()).padStart(2, '0');
+        this.ds_promo_write.setColumn(row, "EXPIRY_DT", expiryStr);
+    }
+};
+
+// 수집된 데이터 trace 출력
+this.fnTraceCollectedData = function()
+{
+    trace("=== 수집된 프로모션 데이터 ===");
+    var row = 0;
+    
+    trace("MODE: " + this.mode);
+    trace("PROMOTION_ID: " + this.ds_promo_write.getColumn(row, "PROMOTION_ID"));
+    trace("PROMOTION_NAME: " + this.ds_promo_write.getColumn(row, "PROMOTION_NAME"));
+    trace("PROMOTION_TYPE: " + this.ds_promo_write.getColumn(row, "PROMOTION_TYPE"));
+    trace("DESCRIPTION: " + this.ds_promo_write.getColumn(row, "DESCRIPTION"));
+    trace("START_DT: " + this.ds_promo_write.getColumn(row, "START_DT"));
+    trace("END_DT: " + this.ds_promo_write.getColumn(row, "END_DT"));
+    trace("IS_ACTIVE: " + this.ds_promo_write.getColumn(row, "IS_ACTIVE"));
+    trace("AUTO_ISSUED: " + this.ds_promo_write.getColumn(row, "AUTO_ISSUED"));
+    trace("DISCOUNT_TYPE: " + this.ds_promo_write.getColumn(row, "DISCOUNT_TYPE"));
+    trace("DISCOUNT_VALUE: " + this.ds_promo_write.getColumn(row, "DISCOUNT_VALUE"));
+    trace("MIN_ORDER_PRICE: " + this.ds_promo_write.getColumn(row, "MIN_ORDER_PRICE"));
+    trace("TARGET_TYPE: " + this.ds_promo_write.getColumn(row, "TARGET_TYPE"));
+    trace("TARGET_VALUE: " + this.ds_promo_write.getColumn(row, "TARGET_VALUE"));
+    trace("P_COUPON_CODE: " + this.ds_promo_write.getColumn(row, "P_COUPON_CODE"));
+    trace("EXPIRY_DT: " + this.ds_promo_write.getColumn(row, "EXPIRY_DT"));
+    trace("PERIOD_SETTING: " + this.ds_promo_write.getColumn(row, "PERIOD_SETTING"));
+    trace("INPUT_ID: " + this.ds_promo_write.getColumn(row, "INPUT_ID"));
+    trace("UPDATE_ID: " + this.ds_promo_write.getColumn(row, "UPDATE_ID"));
+    trace("===============================");
+};
+
+// 등급별 선택시 콤보박스 활성화
+this.radio_promo_type_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+    if(e.postvalue == "grade") {
+        this.grade_combo.set_readonly(false);
+    } else {
+        this.grade_combo.set_readonly(true);
+        this.grade_combo.set_value("");
+    }
+};
+
+//등급 조회
+this.fn_gradeSearch = function(){
+    
+    var strSvcID = "selectMemberGradeList"
+    var setURL = "svc::selectMemberGradeListByAdmin.do";
+    var strInDatasets = "";
+    var strOutDatasets = "ds_grade=ds_grade";
+    var strArg = "";
+    var callBack = "fnCallback";
+    var inAsync = true;
+    
+    this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+// 쿠폰 기간 설정 변경시 콤보박스 활성화
+this.radio_coupon_dt_set_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+    if(e.postvalue == "relative") {
+        this.combo_promo_dt_option.set_readonly(false);
+        this.cal_end_coupon_dt.set_readonly(true);
+    } else {
+        this.combo_promo_dt_option.set_readonly(true);
+        this.cal_end_coupon_dt.set_readonly(false);
+    }
+};
+
+// 실시간 유효성 검사 이벤트들
+this.cal_end_day_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+    if(this.cal_start_day.getValue() && this.cal_end_day.getValue()) {
+        var startDt = new Date(this.cal_start_day.getValue());
+        var endDt = new Date(this.cal_end_day.getValue());
+        
+        if(startDt >= endDt) {
+            alert("종료일은 시작일보다 늦어야 합니다.");
+            this.cal_end_day.set_value("");
+            this.cal_end_day.setFocus();
+        }
+    }
+};
+
+this.cal_start_day_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+    if(this.cal_start_day.getValue() && this.cal_end_day.getValue()) {
+        var startDt = new Date(this.cal_start_day.getValue());
+        var endDt = new Date(this.cal_end_day.getValue());
+        
+        if(startDt >= endDt) {
+            alert("시작일은 종료일보다 빨라야 합니다.");
+            this.cal_start_day.set_value("");
+            this.cal_start_day.setFocus();
+        }
+    }
+};
+
+this.input_discount_value_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+    var value = parseFloat(e.postvalue);
+    var discountType = this.radio_discout_type.getValue();
+    
+    if(isNaN(value) || value <= 0) {
+        alert("할인값은 0보다 큰 숫자를 입력해주세요.");
+        this.input_discount_value.set_value("");
+        this.input_discount_value.setFocus();
+        return;
+    }
+    
+    if(discountType == "R" && value > 100) {
+        alert("할인율은 100%를 초과할 수 없습니다.");
+        this.input_discount_value.set_value("");
+        this.input_discount_value.setFocus();
+    }
+};
+
+this.input_min_order_price_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+    var value = parseFloat(e.postvalue);
+    
+    if(e.postvalue && (isNaN(value) || value < 0)) {
+        alert("최소주문금액은 0 이상의 숫자를 입력해주세요.");
+        this.input_min_order_price.set_value("");
+        this.input_min_order_price.setFocus();
+    }
+};
+
+// 트랜잭션 콜백
+this.fnCallback = function(svcId, errorCode, errorMsg)
+{
+    if(errorCode < 0) {
+        alert("오류가 발생했습니다.\n" + errorMsg);
+        return;
+    }
+    
+    switch(svcId) {
+        case "selectMemberGradeList":
+            trace("등급 데이터 조회 완료: " + this.ds_grade.getRowCount() + "건");
+            if(this.ds_grade.getRowCount() > 0) {
+                trace("첫 번째 등급: " + this.ds_grade.getColumn(0, "GRADE_NAME"));
+            }
+            break;
+            
+        case "selectPromoViewByAdmin":
+            trace("기존 프로모션 데이터 로딩 완료");
+            this.fnSetFormData();
+            break;
+            
+        case "insertPromotion":
+            alert("프로모션이 등록되었습니다.");
+            break;
+            
+        case "updatePromotion":
+            alert("프로모션이 수정되었습니다.");
+            break;
+    }
+};
+
+// 유효성 검사
+this.fnValidation = function()
+{
+    if(!this.promo_title.getValue() || this.promo_title.getValue().trim() == "") {
+        alert("프로모션명을 입력해주세요.");
+        this.promo_title.setFocus();
+        return false;
+    }
+    
+    if(!this.cal_start_day.getValue()) {
+        alert("시작일을 입력해주세요.");
+        this.cal_start_day.setFocus();
+        return false;
+    }
+    
+    if(!this.cal_end_day.getValue()) {
+        alert("종료일을 입력해주세요.");
+        this.cal_end_day.setFocus();
+        return false;
+    }
+    
+    var startDt = new Date(this.cal_start_day.getValue());
+    var endDt = new Date(this.cal_end_day.getValue());
+    
+    if(startDt >= endDt) {
+        alert("종료일은 시작일보다 늦어야 합니다.");
+        this.cal_end_day.setFocus();
+        return false;
+    }
+    
+    if(!this.input_discount_value.getValue() || this.input_discount_value.getValue().trim() == "") {
+        alert("할인값을 입력해주세요.");
+        this.input_discount_value.setFocus();
+        return false;
+    }
+    
+    var discountType = this.radio_discout_type.getValue();
+    var discountValue = parseFloat(this.input_discount_value.getValue());
+    
+    if(discountValue <= 0) {
+        alert("할인값은 0보다 커야 합니다.");
+        this.input_discount_value.setFocus();
+        return false;
+    }
+    
+    if(discountType == "R" && discountValue > 100) {
+        alert("할인율은 100%를 초과할 수 없습니다.");
+        this.input_discount_value.setFocus();
+        return false;
+    }
+    
+    // 등급별 선택시 등급 콤보박스 확인
+    if(this.radio_promo_type.getValue() == "grade" && !this.grade_combo.getValue()) {
+        alert("등급을 선택해주세요.");
+        this.grade_combo.setFocus();
+        return false;
+    }
+    
+    return true;
+};]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="txt_inputid" propid="text" datasetid="ds_bwrite" columnid="INPUT_ID"/>
+      <BindItem id="item1" compid="grade_combo" propid="value" datasetid="ds_memberDt" columnid="GRADE_CODE"/>
+    </Bind>
+    <InitValue>
+      <Combo id="grade_combo" readonly="true"/>
+    </InitValue>
+  </Form>
+</FDL>
