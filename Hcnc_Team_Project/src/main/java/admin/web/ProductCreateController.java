@@ -25,6 +25,7 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.ProductCreateService;
 import admin.util.UploadFile;
+import admin.util.UploadResult;
 
 @Controller
 public class ProductCreateController {
@@ -44,13 +45,31 @@ public class ProductCreateController {
         return ResponseEntity.ok(jsonString);
     }
 	
+	@RequestMapping(value="/previewProductCreateByAdmin.do")
+	public NexacroResult previewProductCreateByAdmin(
+			 @RequestParam("file") MultipartFile file
+			){
+		NexacroResult rs = new NexacroResult();
+		try {
+			UploadResult ur = uploadFile.uploadToFile(file); 
+			String fileName = ur.getFileName();
+			Map<String,Object> res = new HashMap();
+			res.put("fileName",fileName);
+			rs.addDataSet("preview",res);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return rs;
+	}
+	
 	@RequestMapping(value="/insertProductCreateByAdmin.do")
 	public  ResponseEntity<String> insertProductCreateByAdmin(
 			 @RequestParam("file") MultipartFile file,
 	         @RequestParam("bd_key") String bdKey
 			){
 		try {
-			uploadFile.uploadToFile(file);	
+			// uploadFile.uploadToFile(file);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

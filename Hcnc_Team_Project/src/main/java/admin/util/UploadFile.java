@@ -19,13 +19,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+// 파일 전송에 성공할시 1.성공 body 2.파일명을 리턴함
+// 192.168.0.150:5000/dood/파일명 으로 이미지 불러오기 가능
 @Service
 public class UploadFile {
-	 public String uploadToFile(MultipartFile file) throws IOException {
+	 public UploadResult uploadToFile(MultipartFile file) throws IOException {
 	        String flaskUrl = "http://192.168.0.150:5000/";
-
+	        
+	        long timestamp = System.currentTimeMillis();
 	        String originalFilename = file.getOriginalFilename();
-	        String encodedFilename = URLEncoder.encode(originalFilename, StandardCharsets.UTF_8.toString());
+	        String ext = "";
+	        if (originalFilename != null && originalFilename.contains(".")) {
+	            ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+	        }
+	        String newFileName = "dood" + timestamp + ext;
+	        String encodedFilename = URLEncoder.encode(newFileName, StandardCharsets.UTF_8.toString());
 
 	        ByteArrayResource resource = new ByteArrayResource(file.getBytes()) {
 	            @Override
@@ -50,7 +58,7 @@ public class UploadFile {
 	            String.class
 	        );
 
-	        return flaskResponse.getBody();
+	        return new UploadResult(flaskResponse.getBody(), "http://192.168.0.150:5000/dood/"+newFileName);
 	    }
 	/*
 	 * @PostMapping("/api/upload.do") public ResponseEntity<String>

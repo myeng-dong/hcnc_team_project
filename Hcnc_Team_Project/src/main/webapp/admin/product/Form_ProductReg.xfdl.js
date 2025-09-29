@@ -14,42 +14,277 @@
             this.set_background("#f5f7fa");
             if (Form == this.constructor)
             {
-                this._setFormPosition(1280,1490);
+                this._setFormPosition(1280,2070);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
+            obj = new DataObject("categories", this);
+            obj.set_url("http://localhost:8080/selectProductCategoryListByAdmin.do");
+            obj._setContents([
+            	{
+            		"sortNumber" : 0,
+            		"mainCateNm" : "필기구",
+            		"isActive" : "Y",
+            		"mainCateId" : 3,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 7,
+            				"subCateNm" : "볼펜88",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 17,
+            				"subCateNm" : "몽땅연필",
+            				"sortNumber" : 2,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 18,
+            				"subCateNm" : "형광펜",
+            				"sortNumber" : 3,
+            				"isActive" : "Y"
+            			}
+            		]
+            	},
+            	{
+            		"sortNumber" : 1,
+            		"mainCateNm" : "문구류",
+            		"isActive" : "Y",
+            		"mainCateId" : 1,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 5,
+            				"subCateNm" : "볼펜",
+            				"sortNumber" : 0,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 1,
+            				"subCateNm" : "필기류",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 2,
+            				"subCateNm" : "노트류",
+            				"sortNumber" : 2,
+            				"isActive" : "Y"
+            			}
+            		]
+            	},
+            	{
+            		"sortNumber" : 2,
+            		"mainCateNm" : "사무용품",
+            		"isActive" : "Y",
+            		"mainCateId" : 2,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 3,
+            				"subCateNm" : "파일/바인더",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 4,
+            				"subCateNm" : "책상정리용품",
+            				"sortNumber" : 2,
+            				"isActive" : "Y"
+            			}
+            		]
+            	},
+            	{
+            		"sortNumber" : 2,
+            		"mainCateNm" : "기타",
+            		"isActive" : "Y",
+            		"mainCateId" : 5,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 9,
+            				"subCateNm" : "기타하위분류",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			}
+            		]
+            	},
+            	{
+            		"sortNumber" : 3,
+            		"mainCateNm" : "공책류",
+            		"isActive" : "Y",
+            		"mainCateId" : 4,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 6,
+            				"subCateNm" : "연습장",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 8,
+            				"subCateNm" : "연습장2",
+            				"sortNumber" : 2,
+            				"isActive" : "Y"
+            			}
+            		]
+            	},
+            	{
+            		"sortNumber" : 4,
+            		"mainCateNm" : "사무기기",
+            		"isActive" : "Y",
+            		"mainCateId" : 6,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 10,
+            				"subCateNm" : "노트북",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 11,
+            				"subCateNm" : "마우스",
+            				"sortNumber" : 2,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 12,
+            				"subCateNm" : "빔프로젝터",
+            				"sortNumber" : 3,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 13,
+            				"subCateNm" : "키보드",
+            				"sortNumber" : 4,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 14,
+            				"subCateNm" : "노트북충전기",
+            				"sortNumber" : 5,
+            				"isActive" : "Y"
+            			}
+            		]
+            	},
+            	{
+            		"sortNumber" : 5,
+            		"mainCateNm" : "잡기류",
+            		"isActive" : "Y",
+            		"mainCateId" : 7,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 15,
+            				"subCateNm" : "텀블러",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 19,
+            				"subCateNm" : "포스트잇",
+            				"sortNumber" : 2,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 21,
+            				"subCateNm" : "화분",
+            				"sortNumber" : 3,
+            				"isActive" : "Y"
+            			}
+            		]
+            	},
+            	{
+            		"sortNumber" : 6,
+            		"mainCateNm" : "사무악세사리",
+            		"isActive" : "Y",
+            		"mainCateId" : 8,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 20,
+            				"subCateNm" : "부품1",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 22,
+            				"subCateNm" : "악세1",
+            				"sortNumber" : 2,
+            				"isActive" : "Y"
+            			}
+            		]
+            	},
+            	{
+            		"sortNumber" : 8,
+            		"mainCateNm" : "대분류추가야2ㅇ",
+            		"isActive" : "Y",
+            		"mainCateId" : 14,
+            		"subCategories" : [
+            			{
+            				"subCateId" : 24,
+            				"subCateNm" : "하위2",
+            				"sortNumber" : 1,
+            				"isActive" : "Y"
+            			},
+            			{
+            				"subCateId" : 25,
+            				"subCateNm" : "추가테스트",
+            				"sortNumber" : 2,
+            				"isActive" : "Y"
+            			}
+            		]
+            	}
+            ]);
+            this.addChild(obj.name, obj);
+
+
             obj = new Dataset("ds_display", this);
             obj._setContents("<ColumnInfo><Column id=\"code\" type=\"STRING\"/><Column id=\"name\" type=\"STRING\"/></ColumnInfo><Rows><Row><Col id=\"code\">Y</Col><Col id=\"name\">진열함</Col></Row><Row><Col id=\"code\">N</Col><Col id=\"name\">진열안함</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_sale", this);
-            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"STRING\"/><Column id=\"name\" type=\"STRING\"/></ColumnInfo><Rows><Row><Col id=\"code\">Y</Col><Col id=\"name\">판매함</Col></Row><Row><Col id=\"code\">N</Col><Col id=\"name\">판매안함</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"STRING\"/><Column id=\"name\" type=\"STRING\"/></ColumnInfo><Rows><Row><Col id=\"code\">nomal</Col><Col id=\"name\">기본</Col></Row><Row><Col id=\"code\">new</Col><Col id=\"name\">신규</Col></Row><Row><Col id=\"code\">hot</Col><Col id=\"name\">인기</Col></Row><Row><Col id=\"code\">recommend</Col><Col id=\"name\">추천</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_cate_main", this);
-            obj._setContents("<ColumnInfo><Column id=\"MAIN_CATE_ID\" type=\"BIGDECIMAL\"/><Column id=\"MAIN_CATE_NM\" type=\"STRING\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"mainCateId\" type=\"STRING\" size=\"256\"/><Column id=\"mainCateNm\" type=\"STRING\" size=\"256\"/><Column id=\"subCategories\" type=\"STRING\" size=\"512\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_cate_sub", this);
-            obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"BIGDECIMAL\"/><Column id=\"MAIN_CATE_ID\" type=\"BIGDECIMAL\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"subCateId\" type=\"STRING\"/><Column id=\"subCateNm\" type=\"STRING\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_product", this);
-            obj._setContents("<ColumnInfo><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\"/><Column id=\"SUB_CATE_ID\" type=\"BIGDECIMAL\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\"/><Column id=\"PRODUCT_DESC\" type=\"STRING\"/><Column id=\"PRODUCT_PRICE\" type=\"INT\"/><Column id=\"COST_PRICE\" type=\"INT\"/><Column id=\"IS_VISIBLE\" type=\"STRING\"/><Column id=\"KEYWORD\" type=\"STRING\"/><Column id=\"MEMO\" type=\"STRING\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"COST_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_WEIGHT\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"DETAIL_DESCRIPTION\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
-            obj = new Dataset("ds_selOptions", this);
-            obj._setContents("<ColumnInfo><Column id=\"OPTION_ID\" type=\"BIGDECIMAL\"/><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\"/><Column id=\"OPTION_NAME\" type=\"STRING\"/><Column id=\"OPTION_VALUE\" type=\"STRING\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\"/></ColumnInfo>");
+            obj = new Dataset("createStatus", this);
+            obj._setContents("");
             this.addChild(obj.name, obj);
 
 
-            obj = new Dataset("ds_out_product", this);
-            obj._setContents("<ColumnInfo><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\"/></ColumnInfo>");
+            obj = new Dataset("ds_image", this);
+            obj._setContents("<ColumnInfo><Column id=\"FILE_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"FILE_URL\" type=\"STRING\" size=\"256\"/><Column id=\"FILE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"FiLE_SIZE\" type=\"STRING\" size=\"256\"/><Column id=\"FILE_PATH\" type=\"STRING\" size=\"256\"/><Column id=\"FILE_TYPE\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("preview", this);
+            obj._setContents("<ColumnInfo><Column id=\"fileName\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("Dataset00", this);
+            obj._setContents("");
+            this.addChild(obj.name, obj);
+
+
+            obj = new FileDialog("productImage", this);
+            this.addChild(obj.name, obj);
+
+
+            obj = new FileUpTransfer("productImageTransfer", this);
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -101,150 +336,79 @@
             obj.set_index("0");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("rdo_sale","156","125","195","64",null,null,null,null,null,null,this);
+            obj = new Radio("rdo_sale","156","125","394","64",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_sale");
             obj.set_codecolumn("code");
             obj.set_datacolumn("name");
             obj.set_direction("vertical");
-            obj.set_text("판매함");
-            obj.set_value("Y");
+            obj.set_text("기본");
+            obj.set_value("nomal");
             obj.set_index("0");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_category","20","190","1240","70",null,null,null,null,null,null,this);
+            obj = new Static("box_category","20","176","1240","124",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
-            obj.set_borderRadius("10px");
+            obj.set_borderRadius("0px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_category","40","213","100","25",null,null,null,null,null,null,this);
-            obj.set_text("상품분류");
-            obj.set_font("bold 12pt \'Gulim\'");
-            obj.set_color("#222222");
-            this.addChild(obj.name, obj);
-
-            obj = new Combo("cmb_maincate","140","210","200","30",null,null,null,null,null,null,this);
+            obj = new Combo("cmb_maincate","160","225","200","30",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_cate_main");
-            obj.set_codecolumn("MAIN_CATE_ID");
-            obj.set_datacolumn("MAIN_CATE_NM");
+            obj.set_codecolumn("mainCateId");
+            obj.set_datacolumn("mainCateNm");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("cmb_subcate","360","210","200","30",null,null,null,null,null,null,this);
+            obj = new Combo("cmb_subcate","160","263","200","30",null,null,null,null,null,null,this);
             obj.set_innerdataset("ds_cate_sub");
-            obj.set_codecolumn("SUB_CATE_ID");
-            obj.set_datacolumn("SUB_CATE_NM");
+            obj.set_codecolumn("subCateId");
+            obj.set_datacolumn("subCateNm");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_basic","20","270","1240","280",null,null,null,null,null,null,this);
+            obj = new Static("box_basic","20","300","1240","240",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
-            obj.set_borderRadius("10px");
+            obj.set_borderRadius("0px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_basic","40","290","100","25",null,null,null,null,null,null,this);
-            obj.set_text("기본 정보");
-            obj.set_font("bold 12pt \'Gulim\'");
-            obj.set_color("#222222");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("sta_name","60","330","100","25",null,null,null,null,null,null,this);
-            obj.set_text("상품명");
-            this.addChild(obj.name, obj);
-
-            obj = new Edit("edt_name","140","325","400","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_name","150","355","400","30",null,null,null,null,null,null,this);
             obj.set_displaynulltext("상품명 입력");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_code","60","370","100","25",null,null,null,null,null,null,this);
-            obj.set_text("상품코드");
-            this.addChild(obj.name, obj);
-
-            obj = new Edit("edt_code","140","365","400","30",null,null,null,null,null,null,this);
-            obj.set_enable("false");
+            obj = new Edit("edt_code","150","401","400","30",null,null,null,null,null,null,this);
+            obj.set_displaynulltext("ex) PRO001");
             obj.set_text("자동생성");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_desc","60","410","100","25",null,null,null,null,null,null,this);
-            obj.set_text("상세설명");
-            this.addChild(obj.name, obj);
-
-            obj = new WebBrowser("wb_detailDesc","140","400","800","80",null,null,null,null,null,null,this);
-            this.addChild(obj.name, obj);
-
-            obj = new Static("sta_keyword","60","500","100","25",null,null,null,null,null,null,this);
-            obj.set_text("검색어");
-            this.addChild(obj.name, obj);
-
-            obj = new Edit("edt_keyword","140","495","800","30",null,null,null,null,null,null,this);
-            obj.set_displaynulltext("검색어 입력(, 로 구분)");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("box_saleinfo","20","560","1240","100",null,null,null,null,null,null,this);
+            obj = new Static("box_saleinfo","20","540","1240","170",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
-            obj.set_borderRadius("10px");
+            obj.set_borderRadius("0px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_saleinfo","40","570","100","25",null,null,null,null,null,null,this);
-            obj.set_text("판매 정보");
-            obj.set_font("bold 12pt \'Gulim\'");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("sta_price","150","588","0","0",null,null,null,null,null,null,this);
+            obj = new Static("sta_price","150","598","0","0",null,null,null,null,null,null,this);
             obj.set_text("판매가");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_price","210","605","200","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_price","160","589","200","30",null,null,null,null,null,null,this);
+            obj.set_textAlign("right");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_supply","430","598","0","0",null,null,null,null,null,null,this);
+            obj = new Static("sta_supply","430","608","0","0",null,null,null,null,null,null,this);
             obj.set_text("공급가");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_supply","490","605","200","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_costprice","636","589","200","30",null,null,null,null,null,null,this);
+            obj.set_textAlign("right");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_option","20","670","1240","120",null,null,null,null,null,null,this);
-            obj.set_background("#ffffff");
-            obj.set_border("1px solid #e0e0e0");
-            obj.set_borderRadius("10px");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("sta_option","40","690","100","25",null,null,null,null,null,null,this);
-            obj.set_text("옵션");
-            obj.set_font("bold 12pt \'Gulim\'");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_optionSelect","150","685","100","30",null,null,null,null,null,null,this);
-            obj.set_text("옵션 선택");
-            this.addChild(obj.name, obj);
-
-            obj = new Div("div_selectedOptions","270","685","950","100",null,null,null,null,null,null,this);
-            obj.set_background("#ffffff");
-            obj.getSetter("scrollbars").set("autoboth");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("box_imgmemo","20","800","1240","200",null,null,null,null,null,null,this);
-            obj.set_background("#ffffff");
-            obj.set_border("1px solid #e0e0e0");
-            obj.set_borderRadius("10px");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("sta_memo","40","830","100","25",null,null,null,null,null,null,this);
-            obj.set_text("메모");
-            this.addChild(obj.name, obj);
-
-            obj = new TextArea("txt_memo","140","825","800","80",null,null,null,null,null,null,this);
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_save","900","1100","150","40",null,null,null,null,null,null,this);
+            obj = new Button("btn_save","935","1740","150","40",null,null,null,null,null,null,this);
             obj.set_text("저장");
             obj.set_background("#000000");
             obj.set_color("#ffffff");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_cancel","1070","1100","150","40",null,null,null,null,null,null,this);
+            obj = new Button("btn_cancel","1105","1740","150","40",null,null,null,null,null,null,this);
             obj.set_text("취소");
             obj.set_background("#444444");
             obj.set_color("#ffffff");
@@ -260,20 +424,233 @@
             obj.set_background("#FAFAFB");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_display00_00","20","60","120","38",null,null,null,null,null,null,this);
+            obj = new Static("sta_display00_00","20","60","1240","38",null,null,null,null,null,null,this);
             obj.set_text("표시 설정");
             obj.set_font("normal 700 10pt/normal \"Gulim\"");
             obj.set_color("#222222");
             obj.set_taborder("36");
+            obj.set_textAlign("left");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_padding("0px 0px 0px 10px");
+            this.addChild(obj.name, obj);
+
+            obj = new Edit("edt_content","150","450","850","80",null,null,null,null,null,null,this);
+            obj.set_taborder("32");
+            obj.set_displaynulltext("상품 단순설명");
+            obj.set_text("자동생성");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_00_00","20","176","1240","41",null,null,null,null,null,null,this);
+            obj.set_text("상품 분류");
+            obj.set_font("normal 700 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("29");
+            obj.set_textAlign("left");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_padding("0px 0px 0px 10px");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_02","20","217","120","44",null,null,null,null,null,null,this);
+            obj.set_text("대분류");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("29");
             obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_01_00","20","260","120","40",null,null,null,null,null,null,this);
+            obj.set_text("중분류");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("30");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_00_00_00","20","300","1240","40",null,null,null,null,null,null,this);
+            obj.set_text("기본 정보");
+            obj.set_font("normal 700 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("31");
+            obj.set_textAlign("left");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_padding("0px 0px 0px 10px");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_02_00","20","340","120","51",null,null,null,null,null,null,this);
+            obj.set_text("상품명");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("31");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_01_00_00","20","390","120","49",null,null,null,null,null,null,this);
+            obj.set_text("상품코드");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("32");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_01_00_00_00","20","425","120","115",null,null,null,null,null,null,this);
+            obj.set_text("상품설명");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("30");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_00_00_00_00","20","540","1240","39",null,null,null,null,null,null,this);
+            obj.set_text("판매 정보");
+            obj.set_font("normal 700 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("31");
+            obj.set_textAlign("left");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_padding("0px 0px 0px 10px");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_02_00_00","20","580","120","40",null,null,null,null,null,null,this);
+            obj.set_text("판매가");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("31");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_01_00_00_01","20","619","120","49",null,null,null,null,null,null,this);
+            obj.set_text("수량");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("32");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_01_00_00_01_00","20","659","120","49",null,null,null,null,null,null,this);
+            obj.set_text("무게");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("33");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Edit("edt_weight","160","670","200","30",null,null,null,null,null,null,this);
+            obj.set_taborder("34");
+            obj.set_textAlign("right");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00","364","592","52","29",null,null,null,null,null,null,this);
+            obj.set_taborder("35");
+            obj.set_text("원");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00","840","591","52","29",null,null,null,null,null,null,this);
+            obj.set_taborder("36");
+            obj.set_text("원");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00_00","364","672","52","29",null,null,null,null,null,null,this);
+            obj.set_taborder("37");
+            obj.set_text("kg");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("box_saleinfo00","20","710","1240","550",null,null,null,null,null,null,this);
+            obj.set_background("#ffffff");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_borderRadius("0px");
+            obj.set_taborder("38");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_00_00_00_00_00","20","710","1240","39",null,null,null,null,null,null,this);
+            obj.set_text("상품 게시글");
+            obj.set_font("normal 700 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("39");
+            obj.set_textAlign("left");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_padding("0px 0px 0px 10px");
+            this.addChild(obj.name, obj);
+
+            obj = new WebBrowser("web_postContent","20","750","1240","510",null,null,null,null,null,null,this);
+            obj.set_taborder("40");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("box_saleinfo01","21","1261","1240","350",null,null,null,null,null,null,this);
+            obj.set_background("#ffffff");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_borderRadius("0px");
+            obj.set_taborder("41");
+            obj.set_text("");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_00_00_00_00_00_00","21","1261","1240","59",null,null,null,null,null,null,this);
+            obj.set_text("이미지 정보");
+            obj.set_font("normal 700 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("45");
+            obj.set_textAlign("left");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_padding("0px 0px 0px 10px");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_02_00_00_00","23","1320","120","290",null,null,null,null,null,null,this);
+            obj.set_text("이미지등록");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("45");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("sta_display00_01_00_00_01_01","500","579","120","49",null,null,null,null,null,null,this);
+            obj.set_text("원가");
+            obj.set_font("normal 500 10pt/normal \"Gulim\"");
+            obj.set_color("#222222");
+            obj.set_taborder("45");
+            obj.set_textAlign("center");
+            obj.set_background("#FAFAFB");
+            this.addChild(obj.name, obj);
+
+            obj = new Edit("edt_stock","160","631","200","30",null,null,null,null,null,null,this);
+            obj.set_textAlign("right");
+            obj.set_taborder("46");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00_01","364","633","52","29",null,null,null,null,null,null,this);
+            obj.set_taborder("47");
+            obj.set_text("개");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_selectFile",null,"1268","140","44","25",null,null,null,null,null,this);
+            obj.set_taborder("44");
+            obj.set_text("파일찾기");
+            obj.set_background("#135dae");
+            obj.set_border("0px none");
+            obj.set_borderRadius("5px");
+            obj.set_color("#ffffff");
+            obj.set_font("normal 10pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",1280,1490,this,function(p){});
+            obj = new Layout("default","",1280,2070,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
+            obj = new BindItem("item0","cmb_maincate","value","ds_cate_main","mainCateId");
+            this.addChild(obj.name, obj);
+            obj.bind();
 
+            obj = new BindItem("item1","cmb_subcate","value","ds_cate_sub","subCateId");
+            this.addChild(obj.name, obj);
+            obj.bind();
             
             // TriggerItem Information
 
@@ -286,66 +663,71 @@
         
         // User Script
         this.registerScript("Form_ProductReg.xfdl", function() {
-        // CKEditor 적용
+        var mode = "create";
         this.Form_ProductReg_onload = function(obj,e)
         {
-        	this.fn_loadCategory();
-            var html = "<!DOCTYPE html>" +
-                       "<html><head>" +
-                       "<script src='https://cdn.ckeditor.com/4.22.1/full/ckeditor.js'></script>" +
-                       "</head><body>" +
-                       "<textarea id='editor1'></textarea>" +
-                       "<script>" +
-                       " CKEDITOR.replace('editor1', { height: 350, filebrowserUploadUrl: '/uploadImageProductByAdmin.do', filebrowserUploadMethod: 'form' });" +
-                       "</script>" +
-                       "</body></html>";
-            this.wb_detailDesc.set_html(html);
-
+        	this.categories.request("SEARCH", "GET", "http://localhost:8080/selectProductCategoryListByAdmin.do");
+            this.setMemberId();
+        	var sUrl = "http://localhost:8080/ckedit.do;";
+        	// this.web_postContent.set_url(sUrl);
+        	// 모드 처리 param
         };
-
-        // CKEditor 본문 가져오기
-        this.fn_getEditorContent = function() {
-            var doc = this.wb_detailDesc.getProperty("document");
-            return doc.parentWindow.CKEDITOR.instances['editor1'].getData();
-        };
-
-
+        this.FileUpTransfer00_onsuccess = function(){
+        	this.alert("전송성공!!");
+        }
         // 저장 버튼 클릭
         this.btn_save_onclick = function(obj,e)
         {
-            if (this.edt_name.value == null || this.edt_name.value == "") {
-                this.alert("상품명을 입력하세요.");
-                return;
-            }
-            if (this.edt_price.value == null || this.edt_price.value == "") {
-                this.alert("판매가를 입력하세요.");
-                return;
-            }
+        	var objFileUp = new nexacro.FileUpTransfer("FileUpTransfer00", this);
+        	this.addChild( "FileUpTransfer00", objFileUp );
+        	objFileUp.set_url( "http://localhost:8080/insertProductCreateByAdmin.do");
+        	objFileUp.setEventHandler( "onsuccess", this.FileUpTransfer00_onsuccess, this);
+        	objFileUp.addFile( "file00", objVFile00 );
+
+        	return;
+        	function emptyCheck(value,errorMsg) {
+        		if(value == null || value == ""){
+        			this.alert(errorMsg);
+        			return true;
+        		}
+        		return false;
+        	}
+        	if(emptyCheck(this.cmb_subcate.value, "중분류를 선택해주세요."))return;
+        	if(emptyCheck(this.edt_name.value,"상품명을 입력하세요."))return;
+        	if(emptyCheck(this.edt_code.value,"상품 코드를 입력하세요."))return;
+        	if(emptyCheck(this.edt_content.value,"상품 상세설명을 입력하세요."))return;
+        	if(emptyCheck(this.edt_price.value,"판매가를 입력하세요."))return;
+        	if(emptyCheck(this.edt_costprice.value,"원가를 입력하세요."))return;
+        	if(emptyCheck(this.edt_weight.value,"상품무게를 입력하세요."))return;
+
 
             // CKEditor 본문 가져오기
-            var desc = this.fn_getEditorContent();
+            var desc = this.getEditorContent();
 
             // ds_product 구성 (단일행)
             this.ds_product.clearData();
             var nRow = this.ds_product.addRow();
-            this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
-            this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", desc);
-            this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
-            this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_supply.value);
-            this.ds_product.setColumn(nRow, "KEYWORD", this.edt_keyword.value);
-            this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
-            this.ds_product.setColumn(nRow, "SALE_YN", this.rdo_sale.value);
-            this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
-            this.ds_product.setColumn(nRow, "MEMO", this.txt_memo.value);
-            this.ds_product.setColumn(nRow, "INPUT_ID", "admin"); // 추후 세션 연동 가능
+        	this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_CODE", this.edt_code.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", this.edt_content.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
+        	this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
+        	this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
+        	this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
+        	this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
+        	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
+            this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
+
 
             // 트랜잭션 호출
             var strSvcId = "insertProductByAdmin";
             var strUrl = "svc::insertProductByAdmin.do";
 
             // IN/OUT Dataset 매핑
-            var strIn  = "ds_product=ds_product ds_selOptions=ds_selOptions ds_inventory=ds_inventory";
-            var strOut = "ds_out_product=ds_out_product";
+            var strIn  = "ds_product=ds_product";
+            var strOut = "createStatus=createStatus";
 
             var strArg = "";
             var callBack = "fn_callback";
@@ -353,44 +735,140 @@
 
             this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
         };
+        function sendDataWithFile()
+        {
+            var objFileUpTransfer = new FileUpTransfer();
 
+            // 각 컬럼 값을 개별 파라미터로 추가
+            objFileUpTransfer.addPostData("userId", this.Dataset00.getColumn(0, "USER_ID"));
+            objFileUpTransfer.addPostData("userName", this.Dataset00.getColumn(0, "USER_NAME"));
+            objFileUpTransfer.addPostData("userEmail", this.Dataset00.getColumn(0, "USER_EMAIL"));
+            objFileUpTransfer.addPostData("department", this.Dataset00.getColumn(0, "DEPARTMENT"));
+            objFileUpTransfer.addPostData("regDate", this.Dataset00.getColumn(0, "REG_DATE"));
 
+            // 추가 파라미터 (파일과 관련된 메타데이터)
+            objFileUpTransfer.addPostData("uploadType", "document");
+            objFileUpTransfer.addPostData("category", "user_file");
+
+            objFileUpTransfer.setUploadUrl("http://localhost:8080/uploadWithParams");
+            objFileUpTransfer.upload();
+        }
         // 취소 버튼
         this.btn_cancel_onclick = function(obj,e) {
             this.go("product::Form_Product.xfdl");
         };
+
+        // 이미지등록버튼
+        this.btn_selectFile_onclick = function(obj,e)
+        {
+        	var previewRowCount = this.preview.getRowCount();
+        	if(previewRowCount >= 4){
+        		this.alert("이미지는 4개까지 등록가능합니다");
+        		return;
+        	}
+        	this.productImage.open('nexacro17', 1);
+        };
+
+        // 이미지 선택 후처리
+        this.productImage_onclose = function(obj,e)
+        {
+        	var files = e.virtualfiles[0];
+        	trace(JSON.stringify(files));
+        	trace("e.path= " + e.path);
+        	var nRow = this.ds_image.addRow();
+        	this.ds_image.setColumn(nRow,"FILE_NAME",files.filename);
+        	this.ds_image.setColumn(nRow,"FILE_PATH",files.fullpath);
+        	files.addEventHandler("onsuccess", this.VirtualFile00_onsuccess,this);
+        	files.open(null,1);
+        	trace("files.fullpath= " + files.fullpath);
+        	this.ImageViewer00.set_image(files.fullpath);
+        	return;
+
+        	var files = e.virtualfiles[0];
+            if (files && files.length > 0) {
+                var nexafile = files[files.length - 1];
+                trace("선택파일: " + nexafile.filename);
+
+                // 이미지 파일 확장자 검증
+                var ext = nexafile.filename.split('.').pop().toLowerCase();
+                var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                if (allowedExtensions.indexOf(ext) === -1) {
+                    alert("이미지 파일만 업로드 가능합니다. (jpg, jpeg, png, gif)");
+                    return;
+                }
+
+                // 업로드 상태 설정
+                // this.isUploading = true;
+                // this.uploadCompleted = false;
+
+                var currentRow = 0;
+                if (currentMode === "insert") {
+                    // 신규 등록: 기존 Dataset 초기화 후 새 행 추가
+                    for (var i = this.ds_bwrite.rowcount - 1; i >= 0; i--) {
+                        this.ds_bwrite.deleteRow(i);
+                    }
+                    currentRow = this.ds_bwrite.addRow();
+                } else {
+                    // 수정: 기존 행 유지, 이미지 정보만 업데이트
+                    currentRow = 0;
+                    trace("Update 모드 - 기존 데이터 유지");
+                }
+
+                // 파일 정보 설정
+                this.ds_bwrite.setColumn(currentRow, "IMG_ORIGIN_NAME", nexafile.filename);
+
+                var attachedName = this.radio_banner_type.value + "_" + nexafile.name + "_" + TODAYNUM + "." + ext;
+                this.ds_bwrite.setColumn(currentRow, "IMG_ATTACHED_NAME", attachedName);
+
+                // 수정 모드일 때 백업된 데이터 복원
+                if (currentMode === "update" && backupData.BANNER_ID) {
+                    this.ds_bwrite.setColumn(currentRow, "BANNER_ID", backupData.BANNER_ID);
+                    this.ds_bwrite.setColumn(currentRow, "INPUT_DT", backupData.INPUT_DT);
+                    this.ds_bwrite.setColumn(currentRow, "INPUT_ID", backupData.INPUT_ID);
+                    this.ds_bwrite.setColumn(currentRow, "SORT_NUMBER", backupData.SORT_NUMBER);
+                    this.ds_bwrite.setColumn(currentRow, "BANNER_TYPE", backupData.BANNER_TYPE);
+                    this.ds_bwrite.setColumn(currentRow, "BANNER_TITLE", backupData.BANNER_TITLE);
+                    this.ds_bwrite.setColumn(currentRow, "IS_VISIBLE", backupData.IS_VISIBLE);
+                    this.ds_bwrite.setColumn(currentRow, "LINKED_URL", backupData.LINKED_URL);
+                    trace("Update 모드 - 기존 데이터 복원 완료");
+                }
+
+                // 모드 재설정
+                this.currentMode = currentMode;
+                this.mode = currentMode;
+
+                this.file_name.set_value(nexafile.filename);
+
+                // FileUpTransfer 설정
+                this.FileUpTransfer.clearFileList();
+                this.FileUpTransfer.addFile("bFile", nexafile);
+                this.FileUpTransfer.setPostData("attachedName", attachedName);
+
+                this.FileUpTransfer.url = "svc::uploadBannerFile.do";
+
+                trace("파일 업로드 시작 - URL: " + this.FileUpTransfer.url);
+                trace("attachedName: " + attachedName);
+                trace("현재 모드: " + (this.currentMode || this.mode));  // 안전하게 모드 확인
+
+                this.FileUpTransfer.upload();
+
+            } else {
+                this.file_name.set_value("선택된 파일이 없습니다.");
+                trace("선택된 파일이 없습니다.");
+            }
+        };
+        this.VirtualFile00_onsuccess = function (obj,  e) {
+        	trace("VirtualFile00_onsuccess 성공!!");
+        	trace("e.binarydata= " + e.binarydata);
+        	trace("e.textdata= " + e.textdata);
+        }
 
         // 콜백
         this.fn_callback = function(svcID, errCode, errMsg) {
             if (errCode < 0) { this.alert("오류: " + errMsg); return; }
 
             switch(svcID){
-        		case "selectCategory":
-        			break;
-        		case "insertProductByAdmin":
-                    var newProductId = this.ds_out_product.getColumn(0, "PRODUCT_ID");
-                    this.alert("상품등록이 완료되었습니다. 상품번호: " + newProductId);
-
-                    // 이미지 매핑
-                    this.fn_updateImageMapping(newProductId);
-
-                    // 상품 목록 화면으로 이동
-                    this.go("product::Form_Product.xfdl");
-                    break;
-
-                case "updateProductImageMappingByAdmin":
-                    trace("이미지 매핑 및 대표 지정 완료");
-                    break;
-                case "insertOptionsByAdmin":
-                    this.alert("옵션 등록 완료");
-                    this.go("product::Form_Product.xfdl");
-                    break;
             }
-        };
-
-        // 카테고리 조회
-        this.fn_loadCategory = function() {
-            this.transaction("selectCategory", "svc::selectProductCategoryListByAdmin.do", "", "ds_cate_main=ds_cate_main ds_cate_sub=ds_cate_sub", "", "fn_callback", true);
         };
 
         // 이미지 매핑
@@ -399,106 +877,300 @@
             this.transaction("updateProductImageMappingByAdmin", "svc::updateProductImageMappingByAdmin.do", "", "", strArg, "fn_callback", true);
         };
 
-        // 옵션 팝업 열기
-        this.btn_optionSelect_onclick = function() {
-            var objChild = new ChildFrame();
-            objChild.init("OptionPop", 200, 100, 600, 400, null, null, "Form::Form_ProductOptionSelect.xfdl");
-            objChild.set_titletext("옵션 선택");
-            objChild.showModal(this.getOwnerFrame(), null, this, "fn_optionCallback");
+        // 대분류 로직
+        this.categoriesJsonSuccess = function(obj,e)
+        {
+
+        	var result = this.categories.getResponse();
+        	var parseRes = JSON.parse(result);
+        	parseRes.forEach(function(res) {
+            var target = this.ds_cate_main;
+            var rowIndex = target.addRow();
+
+            target.setColumn(rowIndex, "mainCateId", res.mainCateId);
+            target.setColumn(rowIndex, "mainCateNm", res.mainCateNm);
+            target.setColumn(rowIndex, "isActive", res.isActive);
+            target.setColumn(rowIndex, "sortNumber", res.sortNumber);
+
+            var subCategoriesJson = JSON.stringify(res.subCategories);
+            target.setColumn(rowIndex, "subCategories", subCategoriesJson);
+
+        	}, this);
+        };
+        // 중분류 로직
+        this.cmb_maincate_onitemchanged = function(obj,e)
+        {
+        	var selectIndex = e.postindex;
+        	var sub = this.ds_cate_main.getColumn(selectIndex,"subCategories");
+        	var parseRes = JSON.parse(sub);
+        	var target = this.ds_cate_sub;
+        	target.clearData();
+        	parseRes.forEach(function(res) {
+            var rowIndex = target.addRow();
+            target.setColumn(rowIndex, "subCateId", res.subCateId);
+            target.setColumn(rowIndex, "subCateNm", res.subCateNm);
+        	}, this);
         };
 
-        // 팝업 콜백
-        this.fn_optionCallback = function(sId, sArg) {
-            if (sId == "OptionPop" && sArg) {
-                var arr = JSON.parse(sArg);
-                this.ds_selOptions.clearData();
-                for (var i=0; i<arr.length; i++) {
-                    var nRow = this.ds_selOptions.addRow();
-                    this.ds_selOptions.setColumn(nRow, "OPTION_NAME", arr[i].OPTION_NAME);
-                    this.ds_selOptions.setColumn(nRow, "OPTION_VALUE", arr[i].OPTION_VALUE);
-                    this.ds_selOptions.setColumn(nRow, "ADDITIONAL_PRICE", arr[i].ADDITIONAL_PRICE);
+
+        ////////// CK EDITOR ///////////
+
+        // 사용자 ID 설정
+        this.setMemberId = function()
+        {
+            // 전역변수에서 USER_ID 가져오기 (전역변수 이름에 따라 수정)
+            var sUserId = nexacro.getApplication().gds_adminInfo.getColumn(0, "MEMBER_ID"); // 또는 gds_user.getColumn(0, "USER_ID") 등
+
+
+            if(sUserId) { //전역변수에서 받아온 내용이 있으면 넣어주고 아니면 예외 trace
+                this.ds_product.setColumn(0, "INPUT_ID", sUserId);
+                trace("사용자 ID 설정: " + sUserId);
+            } else {
+                trace("사용자 ID를 가져올 수 없습니다.");
+                // 필요시 로그인 페이지로 이동하거나 오류 처리
+            }
+        };
+
+        // 웹브라우저 로드 완료 후 실행
+        this.web_postContent_onloadcompleted = function(obj,e)
+        {
+            trace("에디터 로드 완료");
+            this.setTimer(1, 2000);
+        };
+
+        // 타이머 이벤트
+        this.ProductReg_ontimer = function(obj,e)
+        {
+            if(e.timerid == 1) {
+                this.killTimer(1);
+                trace("에디터 준비 완료");
+
+                // 초기 메시지 설정
+                this.setEditorContent("<p>내용을 입력해주세요.</p>");
+            }
+        };
+
+        this.getEditorContent = function()
+        {
+            try {
+                var sContent = this.web_postContent.callMethod("getEditorContent", "");
+
+                trace("=== 에디터 내용 디버깅 ===");
+                trace("가져온 내용: " + sContent);
+                trace("내용 타입: " + typeof sContent);
+
+                if(!sContent || sContent === "undefined" || sContent === "null" || sContent === null) {
+                    return "";
                 }
-                this.fn_drawOptionTags();
+
+                return String(sContent);
+
+            } catch(e) {
+                trace("에디터 내용 가져오기 실패: " + e.message);
+                return "";
             }
         };
 
-        // 선택 옵션 태그 그리기
-        this.fn_drawOptionTags = function() {
-            var objDiv = this.div_selectedOptions.form;
-            objDiv.removeAll();
-            var maxWidth = this.div_selectedOptions.getOffsetWidth() - 20;
-            var nLeft = 10, nTop = 8, tagWidth = 120, tagHeight = 30, gap = 10;
-
-            for (var i=0; i<this.ds_selOptions.getRowCount(); i++) {
-                var optName = this.ds_selOptions.getColumn(i, "OPTION_NAME");
-                var objStatic = new Static("stc_opt_" + i, nLeft, nTop, 90, 24);
-                objStatic.set_text(optName);
-                objStatic.set_background("#f0f0f0");
-                objStatic.set_border("1px solid #cccccc");
-                objStatic.set_borderRadius("5px");
-                objStatic.set_textAlign("center");
-                objDiv.addChild(objStatic.name, objStatic);
-                objStatic.show();
-
-                var objBtn = new Button("btn_x_" + i, nLeft+95, nTop, 20, 24);
-                objBtn.set_text("X"); objBtn.set_color("red"); objBtn.optRow = i;
-                objBtn.addEventHandler("onclick", this.fn_removeOption, this);
-                objDiv.addChild(objBtn.name, objBtn); objBtn.show();
-
-                nLeft += tagWidth + gap;
-                if (nLeft + tagWidth > maxWidth) { nLeft = 10; nTop += tagHeight + gap; }
-            }
-        };
-
-        // 옵션 삭제
-        this.fn_removeOption = function(obj,e) {
-            this.ds_selOptions.deleteRow(obj.optRow);
-            this.fn_drawOptionTags();
-        };
-
-        // 옵션 저장
-        this.fn_insertOptions = function(productId) {
-            for (var i=0; i<this.ds_selOptions.getRowCount(); i++) {
-                this.ds_selOptions.setColumn(i, "PRODUCT_ID", productId);
-            }
-            this.transaction("insertOptionsByAdmin", "svc::insertOptionsByAdmin.do", "ds_selOptions=ds_selOptions", "", "", "fn_callback", true);
-        };
-
-        this.div_selectedOptions_onclick = function(obj,e)
+        // 에디터 내용 설정
+        this.setEditorContent = function(sContent)
         {
-        	var objChild = new ChildFrame();
-            objChild.init("OptionSelectPop", 200, 100, 800, 600, null, null, "product::Form_ProductOptionSelect.xfdl");
-            objChild.set_titletext("옵션 선택");
-            objChild.showModal(this.getOwnerFrame(), "", this, "fn_optionSelectCallback");
-        };
+            try {
+                if(!sContent) {
+                    sContent = "";
+                }
 
+                var result = this.web_postContent.callMethod("setEditorContent", sContent);
+                trace("에디터 내용 설정 결과: " + result);
 
-        // 팝업 닫힌 후 콜백
-        this.fn_optionSelectCallback = function(sPopupId, sRtn)
-        {
-            if (!sRtn) return;
-
-            var arr = JSON.parse(sRtn);
-
-            for (var i=0; i<arr.length; i++) {
-                var row = this.ds_selOptions.addRow();
-                this.ds_selOptions.setColumn(row, "OPTION_ID", arr[i].OPTION_ID);
-                this.ds_selOptions.setColumn(row, "OPTION_NAME", arr[i].OPTION_NAME);
-                this.ds_selOptions.setColumn(row, "OPTION_VALUE", arr[i].OPTION_VALUE);
-                this.ds_selOptions.setColumn(row, "ADDITIONAL_PRICE", arr[i].ADDITIONAL_PRICE);
+            } catch(e) {
+                trace("에디터 내용 설정 실패: " + e.message);
             }
         };
+
+        // 에디터 준비 상태 확인
+        this.isEditorReady = function()
+        {
+            try {
+                var result = this.web_postContent.callMethod("isEditorReady", "");
+                return result === true || result === "true";
+            } catch(e) {
+                trace("에디터 준비 상태 확인 실패: " + e.message);
+                return false;
+            }
+        };
+        //
+        this.Button00_onclick = function(obj,e)
+        {
+        	this.productImage.open('nexacro17', FileDialog.LOAD);
+        };
+
+        this.FileDialog00_onclose = function(obj,e)
+        {
+        	this.productImageTransfer.addFile("file",e.virtualfiles[0]);
+        	this.productImageTransfer.upload('http://localhost:8080/previewProductCreateByAdmin.do');
+        };
+
+        this.FileUpTransfer00_onprogress = function(obj,e)
+        {
+        };
+
+        this.FileUpTransfer00_onsuccess = function(obj,e)
+        {
+
+        	var imageUrl = e.datasets[0]._rawRecords[0][0];
+        	var nRow = this.preview.addRow();
+        	trace("생성",nRow);
+        	this.fn_createNewImageViewer(nRow,imageUrl);
+
+        };
+
+        this.FileUpTransfer00_onerror = function(obj,e)
+        {
+        	trace(e.errormsg);
+        	trace(e.statuscode);
+        };
+
+        this.fn_createNewImageViewer = function(rowIndex, imageUrl)
+        {
+            try {
+                var imageViewerId = "ImageViewer_" + rowIndex + "_" + Date.now();
+                var newImageViewer = new ImageViewer();
+
+                // 위치 계산 (4열 그리드 형태로 배치)
+                var baseLeft = 240;   // 시작 X 좌표
+                var baseTop = 1356;   // 시작 Y 좌표
+                var width = 219;      // ImageViewer 너비
+                var height = 214;     // ImageViewer 높이
+                var spacing = 15;     // 간격
+
+                var col = rowIndex;  // 4열로 배치
+                var row = rowIndex; //Math.floor(rowIndex / 4);
+
+                var left = baseLeft + col * (width + spacing);
+                var top = baseTop + row * (height + spacing);
+                trace(left);
+                // ImageViewer 초기화
+                newImageViewer.init(
+                    imageViewerId,  // ID
+                    left,           // left
+                    baseTop,            // top
+                    width,          // width
+                    height          // height
+                );
+
+                // ImageViewer 속성 설정
+                newImageViewer.set_image(imageUrl);
+                newImageViewer.set_stretch("fit");
+                newImageViewer.set_imagealign("center");
+                newImageViewer.set_cursor("pointer");
+
+
+                // 클릭 이벤트 - 이미지 삭제
+                newImageViewer.addEventHandler("onclick", function(obj, e) {
+                    var result = confirm("이 이미지를 삭제하시겠습니까?");
+                    if (result) {
+                        this.fn_removeImageViewer(imageViewerId);
+                    }
+                }.bind(this));
+
+
+                // Form에 ImageViewer 추가
+                this.addChild(imageViewerId, newImageViewer);
+
+                // 화면에 표시
+                newImageViewer.show();
+
+                // Dataset에 ViewerID 저장 (나중에 참조용)
+                this.preview.setColumn(rowIndex, "fileName", imageViewerId);
+
+                trace("ImageViewer 생성 완료: " + imageViewerId + " at (" + left + ", " + top + ")");
+
+                // Form의 스크롤 영역 조정 (이미지가 많아지면)
+                //this.fn_adjustFormSize(row);
+
+            } catch (ex) {
+                trace("ImageViewer 생성 오류: " + ex.message);
+            }
+        };
+
+        // ImageViewer 삭제
+        this.fn_removeImageViewer = function(viewerId)
+        {
+            try {
+                // ImageViewer 컴포넌트 제거
+                if (this.components[viewerId]) {
+                    this.removeChild(viewerId);
+                    trace("ImageViewer 삭제: " + viewerId);
+                }
+
+                // Dataset에서 해당 행 삭제
+        		var target = this.preview.findRow("fileName",viewerId);
+        		this.preview.deleteRow(target);
+
+                // 나머지 ImageViewer들 위치 재조정
+                this.fn_rearrangeImageViewers();
+
+                alert("이미지가 삭제되었습니다.");
+
+            } catch (ex) {
+                trace("ImageViewer 삭제 오류: " + ex.message);
+            }
+        };
+        // 삭제 후 재배치
+        this.fn_rearrangeImageViewers = function()
+        {
+            try {
+                var baseLeft = 240;
+                var baseTop = 1356;
+                var width = 219;
+                var height = 214;
+                var spacing = 15;
+
+                var rowCount = this.preview.getRowCount();
+        		trace("재배치"+rowCount);
+                for (var i = 0; i < rowCount; i++) {
+                    var viewerId = this.preview.getColumn(i, "fileName");
+                    var comp = this.components[viewerId];
+                    if (comp) {
+        				//var layOutIndex = i - 1
+                        var col = i % 4;
+                        var row = Math.floor(i / 4);
+
+                        var left = baseLeft + col * (width + spacing);
+                        var top  = baseTop  + row * (height + spacing);
+
+                        comp.move(left, top, width, height);
+                        trace("재배치: " + viewerId + " → (" + left + ", " + top + ")");
+                    }
+                }
+            } catch (ex) {
+                trace("fn_rearrangeImageViewers 오류: " + ex.message);
+            }
+        };
+
+
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_ProductReg_onload,this);
+            this.addEventHandler("ontimer",this.ProductReg_ontimer,this);
             this.rdo_display.addEventHandler("onitemchanged",this.rdo_display_onitemchanged,this);
-            this.btn_optionSelect.addEventHandler("onclick",this.btn_optionSelect_onclick,this);
-            this.div_selectedOptions.addEventHandler("onclick",this.div_selectedOptions_onclick,this);
+            this.rdo_sale.addEventHandler("onitemchanged",this.rdo_sale_onitemchanged,this);
+            this.cmb_maincate.addEventHandler("onitemchanged",this.cmb_maincate_onitemchanged,this);
+            this.edt_name.addEventHandler("onchanged",this.edt_name_onchanged,this);
             this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);
             this.btn_cancel.addEventHandler("onclick",this.btn_cancel_onclick,this);
+            this.web_postContent.addEventHandler("onloadcompleted",this.web_postContent_onloadcompleted,this);
+            this.btn_selectFile.addEventHandler("onclick",this.btn_selectFile_onclick,this);
+            this.categories.addEventHandler("onsuccess",this.categoriesJsonSuccess,this);
+            this.categories.addEventHandler("onerror",this.categoriesJsonError,this);
+            this.categories.addEventHandler("onload",this.categoriesJsonOnload,this);
+            this.productImage.addEventHandler("onclose",this.FileDialog00_onclose,this);
+            this.productImageTransfer.addEventHandler("onerror",this.FileUpTransfer00_onerror,this);
+            this.productImageTransfer.addEventHandler("onprogress",this.FileUpTransfer00_onprogress,this);
+            this.productImageTransfer.addEventHandler("onsuccess",this.FileUpTransfer00_onsuccess,this);
         };
         this.loadIncludeScript("Form_ProductReg.xfdl");
         this.loadPreloadList();

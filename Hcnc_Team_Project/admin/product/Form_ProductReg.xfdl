@@ -25,12 +25,12 @@
         <Static id="sta_price" text="판매가" left="150" top="598" width="0" height="0"/>
         <Edit id="edt_price" left="160" top="589" width="200" height="30" textAlign="right"/>
         <Static id="sta_supply" text="공급가" left="430" top="608" width="0" height="0"/>
-        <Edit id="edt_costprice" left="160" top="630" width="200" height="30" textAlign="right"/>
+        <Edit id="edt_costprice" left="636" top="589" width="200" height="30" textAlign="right"/>
         <!-- 옵션 선택 -->
         <!-- 메모 -->
         <!-- 버튼 -->
-        <Button id="btn_save" text="저장" left="935" top="1680" width="150" height="40" background="#000000" color="#ffffff" borderRadius="8px" onclick="btn_save_onclick"/>
-        <Button id="btn_cancel" text="취소" left="1105" top="1680" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" onclick="btn_cancel_onclick"/>
+        <Button id="btn_save" text="저장" left="935" top="1740" width="150" height="40" background="#000000" color="#ffffff" borderRadius="8px" onclick="btn_save_onclick"/>
+        <Button id="btn_cancel" text="취소" left="1105" top="1740" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" onclick="btn_cancel_onclick"/>
         <Static id="sta_display00" text="진열상태" left="20" top="98" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="35" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_00" text="표시 설정" left="20" top="60" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="38" taborder="36" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <Edit id="edt_content" left="150" top="450" width="850" height="80" text="자동생성" taborder="32" displaynulltext="상품 단순설명"/>
@@ -43,49 +43,22 @@
         <Static id="sta_display00_01_00_00_00" text="상품설명" left="20" top="425" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="115" taborder="30" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_00_00_00_00" text="판매 정보" left="20" top="540" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="39" taborder="31" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <Static id="sta_display00_02_00_00" text="판매가" left="20" top="580" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="31" textAlign="center" background="#FAFAFB"/>
-        <Static id="sta_display00_01_00_00_01" text="원가" left="20" top="619" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="32" textAlign="center" background="#FAFAFB"/>
+        <Static id="sta_display00_01_00_00_01" text="수량" left="20" top="619" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="32" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00_00_01_00" text="무게" left="20" top="659" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="33" textAlign="center" background="#FAFAFB"/>
         <Edit id="edt_weight" left="160" top="670" width="200" height="30" taborder="34" textAlign="right"/>
         <Static id="Static00" taborder="35" text="원" left="364" top="592" width="52" height="29"/>
-        <Static id="Static00_00" taborder="36" text="원" left="364" top="632" width="52" height="29"/>
+        <Static id="Static00_00" taborder="36" text="원" left="840" top="591" width="52" height="29"/>
         <Static id="Static00_00_00" taborder="37" text="kg" left="364" top="672" width="52" height="29"/>
         <Static id="box_saleinfo00" left="20" top="710" width="1240" height="550" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="38"/>
         <Static id="sta_display00_00_00_00_00_00" text="상품 게시글" left="20" top="710" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="39" taborder="39" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <WebBrowser id="web_postContent" taborder="40" left="20" top="750" width="1240" height="510" onloadcompleted="web_postContent_onloadcompleted"/>
-        <Static id="box_saleinfo01" left="20" top="1260" width="1240" height="350" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="41"/>
-        <Static id="sta_display00_02_00_00_00" text="이미지등록" left="20" top="1320" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="290" taborder="45" textAlign="center" background="#FAFAFB"/>
-        <Static id="sta_display00_00_00_00_00_00_00" text="이미지 정보" left="20" top="1261" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="59" taborder="45" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px" onclick="sta_display00_00_00_00_00_00_00_onclick"/>
-        <Button id="btn_selectFile" taborder="44" text="파일찾기" top="1268" height="44" background="#135dae" border="0px none" borderRadius="5px" color="#ffffff" font="normal 10pt/normal &quot;Noto Sans KR Black&quot;" onclick="btn_selectFile_onclick" right="30" width="140"/>
-        <ImageViewer id="ImageViewer00" taborder="45" text="ImageViewer00" left="240" top="1356" width="219" height="214" image="url('http://192.168.0.150:5000/dood/image.jpg')"/>
-        <ImageViewer id="ImageViewer00_00" taborder="46" text="ImageViewer00" left="474" top="1356" width="219" height="214"/>
-        <ImageViewer id="ImageViewer00_00_00" taborder="47" text="ImageViewer00" left="708" top="1356" width="219" height="214"/>
-        <ImageViewer id="ImageViewer00_00_00_00" taborder="48" text="ImageViewer00" left="942" top="1356" width="219" height="214"/>
-        <Static id="DropStatic" taborder="2" text="Drop Files Here" left="26" top="1700" width="482" height="150" visible="true" background="aliceblue" color="dodgerblue" font="normal 30pt/normal &quot;Arial&quot;" textAlign="center" verticalAlign="middle"/>
-        <Button id="Button00" taborder="0" text="open" left="26" top="1640" width="120" height="50" onclick="Button00_onclick"/>
-        <Grid id="Grid00" taborder="1" left="26" top="1700" width="482" height="150" binddataset="Dataset00" ondragenter="Grid00_ondragenter" ondragleave="Grid00_ondragleave" ondrop="Grid00_ondrop">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="380"/>
-                <Column size="100"/>
-              </Columns>
-              <Rows>
-                <Row size="24" band="head"/>
-                <Row size="24"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="name"/>
-                <Cell col="1" text="size"/>
-              </Band>
-              <Band id="body">
-                <Cell text="bind:name"/>
-                <Cell col="1" text="bind:size" textAlign="right"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Button id="Button01" taborder="3" text="upload" left="160" top="1640" width="120" height="50" onclick="Button01_onclick"/>
-        <TextArea id="TextArea00" taborder="4" left="528" top="1730" width="482" height="120"/>
+        <Static id="box_saleinfo01" left="21" top="1261" width="1240" height="350" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="41" text=""/>
+        <Static id="sta_display00_00_00_00_00_00_00" text="이미지 정보" left="21" top="1261" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="59" taborder="45" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
+        <Static id="sta_display00_02_00_00_00" text="이미지등록" left="23" top="1320" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="290" taborder="45" textAlign="center" background="#FAFAFB"/>
+        <Static id="sta_display00_01_00_00_01_01" text="원가" left="500" top="579" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="45" textAlign="center" background="#FAFAFB"/>
+        <Edit id="edt_stock" left="160" top="631" width="200" height="30" textAlign="right" taborder="46"/>
+        <Static id="Static00_00_01" taborder="47" text="개" left="364" top="633" width="52" height="29"/>
+        <Button id="btn_selectFile" taborder="44" text="파일찾기" top="1268" height="44" background="#135dae" border="0px none" borderRadius="5px" color="#ffffff" font="normal 10pt/normal &quot;Noto Sans KR Black&quot;" right="25" width="140" onclick="btn_selectFile_onclick"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -394,7 +367,12 @@
           <Column id="FILE_TYPE" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
-      <FileUpTransfer id="productImageTransfer"/>
+      <FileUpTransfer id="productImageTransfer" onerror="FileUpTransfer00_onerror" onprogress="FileUpTransfer00_onprogress" onsuccess="FileUpTransfer00_onsuccess"/>
+      <Dataset id="preview">
+        <ColumnInfo>
+          <Column id="fileName" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
       <Dataset id="Dataset00"/>
     </Objects>
     <Script type="xscript5.1"><![CDATA[var mode = "create";
@@ -494,7 +472,12 @@ this.btn_cancel_onclick = function(obj,e) {
 
 // 이미지등록버튼
 this.btn_selectFile_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
+{	
+	var previewRowCount = this.preview.getRowCount();
+	if(previewRowCount >= 4){
+		this.alert("이미지는 4개까지 등록가능합니다");
+		return;
+	}
 	this.productImage.open('nexacro17', 1);
 };
 
@@ -730,99 +713,27 @@ this.isEditorReady = function()
 //
 this.Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.productImage.open('nexacro17', FileDialog.MULTILOAD);
+	this.productImage.open('nexacro17', FileDialog.LOAD);
 };
 
 this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
-{
-	this.addFileList(e.virtualfiles);
-};
-
-this.addFileList = function(filelist)
-{
-	for (var i = 0, len = filelist.length, vFile; i < len; i++)
-	{
-		vFile = filelist[i];
-		vFile.addEventHandler("onsuccess", this.FileList_onsuccess, this);
-		vFile.addEventHandler("onerror", this.FileList_onerror , this);
-		
-		vFile.open(null, 1);
-	}
-}
-
-this.FileList_onsuccess = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileEventInfo)
-{
-	switch (e.reason)
-	{
-		case 1:
-			obj.getFileSize();
-			trace("obj.binarydata= ", obj.binarydata);
-			break;
-		case 9:
-			var nRowIdx = this.Dataset00.addRow();
-			this.Dataset00.setColumn(nRowIdx, 0, obj.filename);
-			this.Dataset00.setColumn(nRowIdx, 1, this.cutFileSize(e.filesize));
-			this.productImageTransfer.addFile("file", obj);
-			break;
-	}
-}
-
-this.FileList_onerror = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileErrorEventInfo)
-{
-	trace("errortype: "+e.errortype);
-	trace("errormsg: "+e.errormsg);
-	trace("statuscode: "+e.statuscode);
-}
-
-// https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications#Example_Showing_file(s)_size
-this.cutFileSize = function(filesize)
-{
-	var sOutput = filesize + " bytes";
-	for (var aMultiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"], nMultiple = 0, nApprox = filesize / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) 
-	{
-		sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
-	}
-	return sOutput;
-};
-
-this.Grid00_ondragenter = function(obj:nexacro.Grid,e:nexacro.DragEventInfo)
-{
-	if(e.datatype == "file")
-	{
-		this.Grid00.set_opacity(0.5);
-	}
-};
-
-this.Grid00_ondragleave = function(obj:nexacro.Grid,e:nexacro.DragEventInfo)
-{
-	this.Grid00.set_opacity(1);
-};
-
-this.Grid00_ondrop = function(obj:nexacro.Grid,e:nexacro.GridDragEventInfo)
-{
-	this.Grid00.set_opacity(1);
-	if(e.datatype == "file")
-	{
-		this.addFileList(e.filelist);
-	}
-};
-
-this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	this.TextArea00.set_value("");
-	this.productImageTransfer.setPostData("bd_key","hi");
-	this.productImageTransfer.upload('http://localhost:8080/insertProductCreateByAdmin.do');
+{	
+	this.productImageTransfer.addFile("file",e.virtualfiles[0]);
+	this.productImageTransfer.upload('http://localhost:8080/previewProductCreateByAdmin.do');
 };
 
 this.FileUpTransfer00_onprogress = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferProgressEventInfo)
 {
-	
 };
 
 this.FileUpTransfer00_onsuccess = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferEventinfo)
 {	
-	trace(e.code);
-	trace(e.message);
+	
+	var imageUrl = e.datasets[0]._rawRecords[0][0];	
+	var nRow = this.preview.addRow();
+	trace("생성",nRow);
+	this.fn_createNewImageViewer(nRow,imageUrl);
+
 };
 
 this.FileUpTransfer00_onerror = function(obj:nexacro.FileUploadTransfer,e:nexacro.FileUploadTransferErrorEventInfo)
@@ -830,6 +741,125 @@ this.FileUpTransfer00_onerror = function(obj:nexacro.FileUploadTransfer,e:nexacr
 	trace(e.errormsg);
 	trace(e.statuscode);
 };
+
+this.fn_createNewImageViewer = function(rowIndex, imageUrl)
+{
+    try {
+        var imageViewerId = "ImageViewer_" + rowIndex + "_" + Date.now();
+        var newImageViewer = new ImageViewer();
+        
+        // 위치 계산 (4열 그리드 형태로 배치)
+        var baseLeft = 240;   // 시작 X 좌표
+        var baseTop = 1356;   // 시작 Y 좌표
+        var width = 219;      // ImageViewer 너비
+        var height = 214;     // ImageViewer 높이
+        var spacing = 15;     // 간격
+        
+        var col = rowIndex;  // 4열로 배치
+        var row = rowIndex; //Math.floor(rowIndex / 4);
+        
+        var left = baseLeft + col * (width + spacing);
+        var top = baseTop + row * (height + spacing);
+        trace(left);
+        // ImageViewer 초기화
+        newImageViewer.init(
+            imageViewerId,  // ID
+            left,           // left
+            baseTop,            // top
+            width,          // width
+            height          // height
+        );
+        
+        // ImageViewer 속성 설정
+        newImageViewer.set_image(imageUrl);
+        newImageViewer.set_stretch("fit");
+        newImageViewer.set_imagealign("center");
+        newImageViewer.set_cursor("pointer");
+        
+        
+        // 클릭 이벤트 - 이미지 삭제
+        newImageViewer.addEventHandler("onclick", function(obj, e) {
+            var result = confirm("이 이미지를 삭제하시겠습니까?");
+            if (result) {
+                this.fn_removeImageViewer(imageViewerId);
+            }
+        }.bind(this));
+        
+        
+        // Form에 ImageViewer 추가
+        this.addChild(imageViewerId, newImageViewer);
+        
+        // 화면에 표시
+        newImageViewer.show();
+        
+        // Dataset에 ViewerID 저장 (나중에 참조용)
+        this.preview.setColumn(rowIndex, "fileName", imageViewerId);
+        
+        trace("ImageViewer 생성 완료: " + imageViewerId + " at (" + left + ", " + top + ")");
+        
+        // Form의 스크롤 영역 조정 (이미지가 많아지면)
+        //this.fn_adjustFormSize(row);
+        
+    } catch (ex) {
+        trace("ImageViewer 생성 오류: " + ex.message);
+    }
+};
+
+// ImageViewer 삭제
+this.fn_removeImageViewer = function(viewerId)
+{
+    try {
+        // ImageViewer 컴포넌트 제거
+        if (this.components[viewerId]) {
+            this.removeChild(viewerId);
+            trace("ImageViewer 삭제: " + viewerId);
+        }
+        
+        // Dataset에서 해당 행 삭제
+		var target = this.preview.findRow("fileName",viewerId);
+		this.preview.deleteRow(target);
+        
+        // 나머지 ImageViewer들 위치 재조정
+        this.fn_rearrangeImageViewers();
+        
+        alert("이미지가 삭제되었습니다.");
+        
+    } catch (ex) {
+        trace("ImageViewer 삭제 오류: " + ex.message);
+    }
+};
+// 삭제 후 재배치
+this.fn_rearrangeImageViewers = function()
+{
+    try {
+        var baseLeft = 240;
+        var baseTop = 1356;
+        var width = 219;
+        var height = 214;
+        var spacing = 15;
+
+        var rowCount = this.preview.getRowCount();
+		trace("재배치"+rowCount);
+        for (var i = 0; i < rowCount; i++) {
+            var viewerId = this.preview.getColumn(i, "fileName");
+            var comp = this.components[viewerId];
+            if (comp) {
+				//var layOutIndex = i - 1
+                var col = i % 4;
+                var row = Math.floor(i / 4);
+
+                var left = baseLeft + col * (width + spacing);
+                var top  = baseTop  + row * (height + spacing);
+
+                comp.move(left, top, width, height);
+                trace("재배치: " + viewerId + " → (" + left + ", " + top + ")");
+            }
+        }
+    } catch (ex) {
+        trace("fn_rearrangeImageViewers 오류: " + ex.message);
+    }
+};
+
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="cmb_maincate" propid="value" datasetid="ds_cate_main" columnid="mainCateId"/>
