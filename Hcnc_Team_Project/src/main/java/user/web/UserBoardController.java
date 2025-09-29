@@ -1,21 +1,19 @@
 package user.web;
-import java.util.List;
-import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import org.codehaus.jackson.map.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import user.service.UserBoardService;
 
 @Controller
@@ -37,7 +35,7 @@ public class UserBoardController {
         mav.setViewName("event/list");
         return mav;
     }
-	
+    
 	@RequestMapping(value="/noticeList.do")
     public ModelAndView noticeList() {
         ModelAndView mav = new ModelAndView();
@@ -47,13 +45,46 @@ public class UserBoardController {
         return mav;
     }
 
-    @RequestMapping(value="/faqList.do")
-    public ModelAndView faqList() {
-        ModelAndView mav = new ModelAndView();
-        List<Map<String, Object>> posts = userBoardService.getBoardPosts("FAQ");
-        mav.addObject("faqList", posts);
-        mav.setViewName("faq/list"); // 공통 JSP
-        return mav;
-    }
+	
+	@RequestMapping(value="/noticeListData.do")
+	public ModelAndView getNoticeList(
+	        @RequestParam(defaultValue = "1") int pageIndex,
+	        @RequestParam(defaultValue = "10") int pageSize,
+	        @RequestParam(required = false) String category,
+	        @RequestParam(required = false) String searchKeyword) {
+	    
+	    ModelAndView mav = new ModelAndView("jsonView");  // jsonView로 설정
+	    
+	    System.out.println("===== Controller 호출 =====");
+	    System.out.println("pageIndex: " + pageIndex);
+	    
+	    try {
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("pageIndex", pageIndex);
+	        params.put("pageSize", pageSize);
+	        params.put("firstIndex", (pageIndex - 1) * pageSize);
+	        params.put("category", category);
+	        params.put("searchKeyword", searchKeyword);
+	        
+	        List<Map<String, Object>> posts = userBoardService.selectPostListByUser(params);
+	        int totalCount = userBoardService.selectPostTotalCountByUser(params);
+	        
+	        System.out.println("조회 결과: " + posts.size() + "건");
+	        
+	        mav.addObject("success", true);
+	        mav.addObject("resultList", posts);
+	        mav.addObject("pageIndex", pageIndex);
+	        mav.addObject("totalCount", totalCount);
+	        mav.addObject("totalPages", (int) Math.ceil((double) totalCount / pageSize));
+	        
+	    } catch (Exception e) {
+	        System.out.println("에러 발생: " + e.getMessage());
+	        e.printStackTrace();
+	        mav.addObject("success", false);
+	        mav.addObject("message", "데이터 조회 중 오류: " + e.getMessage());
+	    }
+	    
+	    return mav;
+	}
 
 }
