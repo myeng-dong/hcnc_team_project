@@ -38,6 +38,9 @@ public interface MemberMapper {
 	//회원 등급변경
 	int updateMemberGrade(Map<String, Object> updateGrade);
 	
+	//전체 회원 등급 자동 업데이트  
+	int updateAllMemberGradeAuto();
+	
 	//관리자 제외한 등급 조회 
 	List<Map<String, Object>> selectGradeExceptionAdminList();
 	
@@ -76,5 +79,19 @@ public interface MemberMapper {
 	
 	//블랙리스트 조회
 	List<Map<String, Object>> selectBlackListByAdmin(Map<String, Object> param);
+	
+	//블랙리스트 상세조회(신고내역)
+	List<Map<String, Object>> selectBlackDetailListByAdmin(String memberId);
+	
+	//블랙리스트 신고 취소
+	int updateMemberBlackStatusListByAdmin(Map<String, Object> row);
+	
+	//회원 가입 이력 조회를 위한 리스트 조회
+	List<Map<String, Object>> selectMemberRegHistoryListByAdmin(Map<String, Object> param);
+	
+	
+	
+	
+
 
 }

@@ -20,4 +20,19 @@
 	    ORDER BY P.INPUT_DT DESC
     </select>
 
+	<select id="selectPostListByUser" parameterType="hashmap" resultType="hashmap">
+	#게시글 조회 쿼리
+          SELECT 
+        POST_ID,
+        POST_TITLE,
+        INPUT_DT
+    FROM POSTS
+    WHERE DELETE_DT IS NULL
+    LIMIT #{firstIndex}, #{pageSize}
+    </select>
+    
+    <!-- 공지사항 총 개수 조회 -->
+    <select id="selectPostTotalCountByUser" parameterType="hashmap" resultType="int">
+       SELECT COUNT(*) FROM POSTS WHERE DELETE_DT IS NULL
+    </select>
 </mapper>

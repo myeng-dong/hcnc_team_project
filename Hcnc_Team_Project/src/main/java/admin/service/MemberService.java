@@ -72,6 +72,11 @@ public class MemberService {
 
 	}
 
+	//전체 회원 등급 자동 업데이트
+	public int updateAllMemberGradeAuto() {
+	    return memberMapper.updateAllMemberGradeAuto();
+	}
+
 	// 관리자 제외 등급 조회
 	public List<Map<String, Object>> selectGradeExceptionAdminList() {
 
@@ -170,6 +175,25 @@ public class MemberService {
 		
 		return memberMapper.selectBlackListByAdmin(param);
 	}
-   
+	
+	//블랙리스트 상세조회(광고없음)
+	public List<Map<String, Object>> selectBlackDetailListByAdmin(String memberId) {
+		
+		return  memberMapper.selectBlackDetailListByAdmin(memberId);
+	}
+	
+	//블랙리스트 신고취소
+	public int updateMemberBlackStatusListByAdmin(Map<String, Object> row) {
+		
+		return  memberMapper.updateMemberBlackStatusListByAdmin(row);
+	}
+	
+	//회원가입 이력 조회를 위한 회원 조회
+	public List<Map<String, Object>> selectMemberRegHistoryListByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.selectMemberRegHistoryListByAdmin(param);
+	}
+	
+
 
 }
