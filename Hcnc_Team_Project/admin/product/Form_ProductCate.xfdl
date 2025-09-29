@@ -86,7 +86,15 @@ this.Form_ProductCate_onload = function(obj,e)
 this.fn_callback = function(svcID, errCode, errMsg)
 {
     if (errCode < 0) {
-        alert("실행을 실패 했습니다" );
+		// 삭제 서비스에서 에러났을 경우만 다른 문구 출력
+		if (svcID == "deleteCategoryByAdmion")
+		{
+			alert("해당 대분류에 하위 분류가 있어서 삭제할 수 없습니다.")
+		}
+		else
+		{
+			alert("실행을 실패 했습니다" + errMsg );
+		}
         return;
     }
 
