@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_MemberRegHistory" width="1280" height="720" titletext="New Form" background="lightblue" onload="Form_MemberRegHistory_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="reg_search_box" taborder="0" left="20" top="17" width="1240" height="143" background="white" text="" borderRadius="8px" onclick="reg_search_box_onclick"/>
+        <Grid id="black_list" taborder="1" left="20" top="170" height="530" background="#FFFFFF" border="0px none" borderRadius="10px" right="20" autofittype="col" binddataset="ds_list" oncellclick="black_list_oncellclick">&gt;
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="165"/><Column size="127"/><Column size="185"/><Column size="171"/><Column size="230"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="전화번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="로그인 유형" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="회원등록일" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/></Band><Band id="body"><Cell text="expr:currow + 1" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="3" text="bind:PHONE_NUMBER" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center" displaytype="mask" edittype="mask" maskedittype="string" maskeditformat="###-####-####"/><Cell col="4" text="bind:LOGIN_TYPE" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="5" text="bind:INPUT_DT" displaytype="normal" edittype="none" combocodecol="GRADE_CODE" combodatacol="GRADE_NAME" combodataset="ds_grade" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/></Band></Format></Formats></Grid>
+        <Static id="Static00" taborder="2" text="로그인 유형" left="36" top="36" width="69" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static00_onclick"/>
+        <Static id="Static00_00" taborder="3" text="전화번호" left="430" top="90" width="60" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_01" taborder="4" text="아이디" left="50" top="90" width="40" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_01_00" taborder="5" text="이름" left="450" top="37" width="27" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_00_00" taborder="6" text="회원 등록일" left="820" top="37" width="70" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Radio id="login_type" taborder="7" left="130" top="40" width="181" height="26" innerdataset="ds_loginType" codecolumn="LOGIN_TYPE" datacolumn="NAME" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Edit id="search_member_id" taborder="8" left="113" top="92" width="256" height="28" borderRadius="8px" border="1px solid black"/>
+        <Edit id="search_user_name" taborder="9" left="510" top="40" width="256" height="28" borderRadius="8px" border="1px solid black"/>
+        <MaskEdit id="search_phoneNumber" taborder="10" left="510" top="91" width="254" height="31" border="1px solid black" borderRadius="8px" format="###-####-####" type="string"/>
+        <Calendar id="Calendar00" taborder="11" left="900" top="40" width="160" height="30" border="1px solid black" borderRadius="8px"/>
+        <Static id="Static00_02" taborder="12" text="~" left="1070" top="43" width="20" height="22" font="bold 14px/normal &quot;Gulim&quot;"/>
+        <Calendar id="Calendar01" taborder="13" left="1090" top="40" width="160" height="30" border="1px solid black" borderRadius="8px"/>
+        <Button id="search_btn" taborder="14" text="검색하기" left="940" top="110" width="110" height="29" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="search_btn_onclick"/>
+        <Button id="reset_btn" taborder="15" text="초기화" left="1070" top="111" width="110" height="27" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="reset_btn_onclick"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="black_list" propid="binddataset" datasetid="ds_list" columnid=""/>
+      <BindItem id="item1" compid="login_type" propid="value" datasetid="ds_search" columnid="LOGIN_TYPE"/>
+      <BindItem id="item2" compid="search_member_id" propid="value" datasetid="ds_search" columnid="MEMBER_ID"/>
+      <BindItem id="item3" compid="search_user_name" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
+      <BindItem id="item7" compid="Calendar00" propid="value" datasetid="ds_search" columnid="INPUT_START_DT"/>
+      <BindItem id="item8" compid="Calendar01" propid="value" datasetid="ds_search" columnid="INPUT_END_DT"/>
+      <BindItem id="item4" compid="search_phoneNumber" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[this.Form_MemberRegHistory_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_selectMemberRegHistoryList();
+};
+
+
+//가입 이력 조회
+this.fn_selectMemberRegHistoryList = function(){
+	
+	var strSvcID = "selectMemberRegHistoryList"
+	var setURL = "svc::/selectMemberRegHistoryListByAdmin.do";
+	var strInDatasets = "ds_search=ds_search";
+	var strOutDatasets = "ds_list=ds_list";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+
+// 공통 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+	
+	if(errorCode == -1){
+		this.alert(errorMSG)
+	}
+	
+	switch(svcID){
+	case "selectMemberRegHistoryList" : 
+		console.log(this.ds_list.saveXML());
+		break;
+		
+	}
+	
+}
+
+//검색버튼
+this.search_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_selectMemberRegHistoryList();
+};
+
+
+//초기화
+this.reset_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_loginType">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="LOGIN_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">홈페이지</Col>
+            <Col id="LOGIN_TYPE">IDPW</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">카카오</Col>
+            <Col id="LOGIN_TYPE">KAKAO</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="LOGIN_TYPE" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="LOGIN_TYPE" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="INPUT_START_DT" type="STRING" size="256"/>
+          <Column id="INPUT_END_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>
