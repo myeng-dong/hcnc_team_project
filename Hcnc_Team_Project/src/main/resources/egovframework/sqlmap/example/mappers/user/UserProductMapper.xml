@@ -45,7 +45,6 @@
 	           ,P.PRODUCT_PRICE
 	           ,P.COST_PRICE
 	           ,P.SALED_PRICE
-	           ,P.PRODUCT_CONTENT
 	           ,P.PRODUCT_WEIGHT
 	           ,P.IS_VISIBLE
 	           ,P.SORT_NUMBER
@@ -69,7 +68,6 @@
 	             ,P.PRODUCT_PRICE
 	             ,P.COST_PRICE
 	             ,P.SALED_PRICE
-	             ,P.PRODUCT_CONTENT
 	             ,P.PRODUCT_WEIGHT
 	             ,P.IS_VISIBLE
 	             ,P.SORT_NUMBER

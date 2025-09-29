@@ -8,7 +8,7 @@
             <Layout>
               <Static id="search_tit" taborder="0" text="검색분류" left="20" top="3" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
               <Static id="Static00" taborder="1" left="82" top="15" width="2" height="20" background="#cccccc" text=""/>
-              <Radio id="radio_issued" taborder="2" left="96" top="49" width="304" height="30" innerdataset="ds_issued" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="" value="">
+              <Radio id="radio_issued" taborder="2" left="96" top="49" width="304" height="30" innerdataset="ds_issued" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="지급" value="Y">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="codecolumn" size="256"/>
@@ -45,35 +45,13 @@
     </Layouts>
     <Script type="xscript5.1"><![CDATA[this.Form_ReviewList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	this.fnSearchReview();
-	trace("리뷰이벤트 출력여부 확인용>>>");
+	this.fnSearchNewMem();
+	trace("신규회원 쿠폰 출력여부 확인용>>>");
 };
 
-this.grid_list_oncellclick = function(obj, e) {
-    if(e.cell == 8){ // 리뷰 열 클릭
-        var row = e.row;
-        var popup = new nexacro.ChildFrame();
-        var surl = "promotion::Form_ReviewDetail.xfdl";
-        popup.init("openPop", 300, 100, 800, 700, null, null, surl);
-        popup.set_dragmovetype("all");
-        popup.set_showtitlebar(true);
-        
-        // 선택 리뷰 정보 전달 - REVIEW_ID를 문자열로 변환
-        popup.arguments = {
-            REVIEW_ID: String(this.ds_review_list.getColumn(row,"REVIEW_ID")),
-            MEMBER_ID: this.ds_review_list.getColumn(row,"MEMBER_ID"),
-            ORDER_ID: String(this.ds_review_list.getColumn(row,"ORDER_ID")),
-            PRODUCT_NAME: this.ds_review_list.getColumn(row,"PRODUCT_NAME"),
-            REVIEW_TITLE: this.ds_review_list.getColumn(row,"REVIEW_TITLE"),
-            REVIEW_CONTENT: this.ds_review_list.getColumn(row,"REVIEW_CONTENT")
-        };
-        popup.showModal(this.getOwnerFrame(), null, this, "fn_popCallback", true);
-    }
-};
-
-// 리뷰리스트
-this.fnSearchReview = function() {
-    var strSvcID       = "selectReview";
+// 신규회원쿠폰발행리스트
+this.fnSearchNewMem = function() {
+    var strSvcID       = "selectNewMem";
     var strURL         = "svc::selectProductReviewListByAdmin.do";
     var strInDatasets  = "";
     var strOutDatasets = "ds_review_list=ds_review_list"; 
@@ -91,7 +69,7 @@ this.fnCallback = function(svc, err, errMsg) {
         return;
     }
     switch(svc){
-		case "selectReview"  :
+		case "selectNewMem"  :
 
 		return;
 		
@@ -136,23 +114,34 @@ this.fn_popCallback = function(svcID, strVal){
       </Dataset>
       <Dataset id="ds_issued">
         <ColumnInfo>
-          <Column id="ISSUED_CODE" type="STRING" size="256"/>
-          <Column id="ISSUED_STATUE" type="STRING" size="256"/>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row>
-            <Col id="ISSUED_CODE">지급</Col>
-            <Col id="ISSUED_STATUE">Y</Col>
+            <Col id="datacolumn">지급</Col>
+            <Col id="codecolumn">Y</Col>
           </Row>
           <Row>
-            <Col id="ISSUED_STATUE">N</Col>
-            <Col id="ISSUED_CODE">미지급</Col>
+            <Col id="codecolumn">N</Col>
+            <Col id="datacolumn">미지급</Col>
           </Row>
           <Row>
-            <Col id="ISSUED_CODE">전체</Col>
-            <Col id="ISSUED_STATUE"/>
+            <Col id="datacolumn">전체</Col>
+            <Col id="codecolumn">all</Col>
           </Row>
         </Rows>
+      </Dataset>
+      <Dataset id="ds_newmem_list">
+        <ColumnInfo>
+          <ConstColumn id="MEMBER_ID" type="STRING" size="30"/>
+          <ConstColumn id="COUPON_CODE" type="STRING" size="30"/>
+          <ConstColumn id="COUPON_TYPE" type="STRING" size="30"/>
+          <ConstColumn id="ISSUED_DT" type="STRING" size="30"/>
+          <ConstColumn id="EXPIRY_DT" type="STRING" size="30"/>
+          <ConstColumn id="ConstColumn1" type="STRING" size="30"/>
+          <ConstColumn id="ConstColumn2" type="STRING" size="30"/>
+        </ColumnInfo>
       </Dataset>
     </Objects>
   </Form>
