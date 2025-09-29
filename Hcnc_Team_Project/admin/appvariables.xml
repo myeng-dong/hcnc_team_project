@@ -89,6 +89,7 @@
           <Col id="MENU_ID">0204</Col>
           <Col id="MENU_NM">입출고기록</Col>
           <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">product::Form_ProductStockMovements.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">0205</Col>

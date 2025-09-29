@@ -42,18 +42,14 @@
 		JOIN MAIN_CATEGORIES mc
 		ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
 
-		-- 옵션 (없을 수도 있음)
 		LEFT JOIN OPTIONS o
 		ON p.PRODUCT_ID = o.PRODUCT_ID
 
-		-- 재고 (옵션별 매칭, 옵션 없는 경우 NULL 허용)
 		LEFT JOIN INVENTORIES i
 		ON p.PRODUCT_ID = i.PRODUCT_ID
 		AND (o.OPTION_ID = i.OPTION_ID OR (o.OPTION_ID IS NULL AND i.OPTION_ID IS
 		NULL))
-
 		WHERE 1=1
-
 		<!-- 검색어 -->
 		<if
 			test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
@@ -89,11 +85,11 @@
 
 		<!-- 등록일/수정일 (둘 중 입력된 값 기준으로 필터) -->
 		<if test="START_DATE != null and START_DATE != ''">
-			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) &gt;=
+			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) <![CDATA[>]]>=
 			#{START_DATE}
 		</if>
 		<if test="END_DATE != null and END_DATE != ''">
-			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) &lt;=
+			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) <![CDATA[<]]>=
 			#{END_DATE}
 		</if>
 
@@ -116,9 +112,6 @@
 		FROM MAIN_CATEGORIES
 		ORDER BY MAIN_CATE_NM
 	</select>
-
-
-
 
 	<!-- 중분류 콤보 - Service에서 int 하나로 호출하므로 parameterType="int" - int/단일파라미터는 
 		#{_parameter} 로 참조 -->
@@ -155,7 +148,96 @@
 
 
 
-	
+	<!-- ___________재고 입출고 리스트___________  -->
+	<!-- 재고/입출고 리스트  -->
+	<select id="selectStockMovementsListByAdmin"
+			parameterType="java.util.Map" resultType="java.util.Map">
+	SELECT	p.PRODUCT_CODE,
+			p.PRODUCT_NAME,
+			SUM(i.QUANTITY) OVER (PARTITION BY p.PRODUCT_ID) AS TOTAL_QUANTITY,
+			mc.MAIN_CATE_NM,
+			sc.SUB_CATE_NM,
+			o.OPTION_NAME,
+			o.OPTION_VALUE,
+			o.IS_VISIBLE,
+			i.QUANTITY AS CURRENT_QUANTITY,
+			sm.MOVE_QUANTITY,
+			sm.MOVE_TYPE,
+			sm.INPUT_DT
+	  FROM
+			PRODUCTS p
+	  JOIN SUB_CATEGORIES sc ON
+			p.SUB_CATE_ID = sc.SUB_CATE_ID
+	  JOIN MAIN_CATEGORIES mc ON
+			sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+	  LEFT JOIN OPTIONS o ON
+			p.PRODUCT_ID = o.PRODUCT_ID
+	  LEFT JOIN INVENTORIES i ON
+			p.PRODUCT_ID = i.PRODUCT_ID
+		AND (o.OPTION_ID IS NULL
+			OR o.OPTION_ID = i.OPTION_ID)
+	  LEFT JOIN STOCK_MOVEMENTS sm ON
+			i.INVENTORY_ID = sm.INVENTORY_ID
+
+	WHERE 1=1
+		<!-- 검색어 -->
+		<if
+			test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
+			<choose>
+				<when test="SEARCH_TYPE == 'PRODUCT_CODE'">
+					AND p.PRODUCT_CODE LIKE CONCAT('%', #{SEARCH_TEXT},	'%')
+				</when>
+				<when test="SEARCH_TYPE == 'PRODUCT_NAME'">
+					AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT},	'%')
+				</when>
+				<when test="SEARCH_TYPE == 'MOVE_TYPE'">
+					AND sm.MOVE_TYPE LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+						OR (#{SEARCH_TEXT} = '입고' AND sm.MOVE_TYPE = 'Inbound')
+				        OR (#{SEARCH_TEXT} = '출고' AND sm.MOVE_TYPE = 'Outbound')
+				        OR (#{SEARCH_TEXT} = '옵션추가' AND sm.MOVE_TYPE = 'Add option')
+				</when>
+			</choose>
+		</if>
+
+		<!-- 진열상태 (Controller에서 'all'은 제거함) -->
+		<if test="IS_VISIBLE != null and IS_VISIBLE != ''">
+			AND o.IS_VISIBLE = #{IS_VISIBLE}
+		</if>
+
+		<!-- 판매상태 (Controller에서 'allS'는 제거함) -->
+		<if test="QUANTITY_STATUS != null and QUANTITY_STATUS != ''">
+			<choose>
+				<when test="QUANTITY_STATUS == 'sale'">
+					AND IFNULL(i.QUANTITY, 0) <![CDATA[>]]> 0
+				</when>
+				<when test="QUANTITY_STATUS == 'nosale'">
+					AND IFNULL(i.QUANTITY, 0) = 0
+				</when>
+			</choose>
+		</if>
+
+		<!-- 등록일/수정일 (둘 중 입력된 값 기준으로 필터) -->
+		<if test="START_DATE != null and START_DATE != ''">
+			AND DATE(sm.INPUT_DT) <![CDATA[>]]>= #{START_DATE}
+		</if>
+		<if test="END_DATE != null and END_DATE != ''">
+			AND DATE(sm.INPUT_DT) <![CDATA[<]]>= #{END_DATE}
+		</if>
+
+		<!-- 카테고리 -->
+		<if test="MAIN_CATE_ID != null and MAIN_CATE_ID != ''">
+			AND mc.MAIN_CATE_ID = #{MAIN_CATE_ID}
+		</if>
+		<if test="SUB_CATE_ID != null and SUB_CATE_ID != ''">
+			AND sc.SUB_CATE_ID = #{SUB_CATE_ID}
+		</if>
+	ORDER BY
+		p.PRODUCT_ID,
+		o.OPTION_ID,
+		sm.INPUT_DT DESC
+
+		
+	</select>
 	
 	
 

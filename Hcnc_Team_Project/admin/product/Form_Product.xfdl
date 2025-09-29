@@ -8,16 +8,16 @@
             <Layout/>
           </Layouts>
         </Div>
-        <Div id="Div00_00" taborder="6" text="" left="24" top="65" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30">
+        <Div id="Div00_00" taborder="6" text="" left="24" top="65" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
           <Layouts>
             <Layout>
-              <Edit id="edt_search" taborder="0" left="309" top="5" width="317" height="30"/>
+              <Edit id="edt_search" taborder="0" left="325" top="5" width="317" height="30"/>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="Div00_00_00" taborder="0" text="" left="24" top="120" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30" color="#215825"/>
-        <Div id="Div00_00_00_00" taborder="2" text="" left="24" top="175" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30"/>
-        <Div id="Div00_00_00_00_00" taborder="8" text="" left="24" top="230" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="30">
+        <Div id="Div00_00_00" taborder="0" text="" left="24" top="120" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26" color="#215825"/>
+        <Div id="Div00_00_00_00" taborder="2" text="" left="24" top="175" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26"/>
+        <Div id="Div00_00_00_00_00" taborder="8" text="" left="24" top="230" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
           <Layouts>
             <Layout>
               <Radio id="Radio00" taborder="0" left="155" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" index="0" text="전체" value="all">
@@ -150,7 +150,7 @@
         <Static id="sta_regDate" text="상품등록일" left="40" height="40" top="175" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="11" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
         <Static id="sta_sale" text="진열상태" left="40" height="40" top="230" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="12" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
         <Button id="btn_view" text="조회" top="70" width="72" height="30" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="13" onclick="btn_view_onclick" cursor="pointer" left="698"/>
-        <Combo id="cmb_searchType" left="179" top="70" width="150" height="30" text="상품명" taborder="14" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME">
+        <Combo id="cmb_searchType" left="179" top="70" width="150" height="30" text="상품명" taborder="14" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME" onitemchanged="cmb_searchType_onitemchanged">
           <Dataset id="innerdataset">
             <ColumnInfo>
               <Column id="codecolumn" size="256"/>
@@ -738,6 +738,11 @@ this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
 
 
 
+
+this.cmb_searchType_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	
+};
 ]]></Script>
   </Form>
 </FDL>

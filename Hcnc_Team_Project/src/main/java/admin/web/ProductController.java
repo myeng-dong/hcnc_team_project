@@ -95,6 +95,10 @@ public class ProductController {
 
 	
 	
+	
+	
+	// ---------------- 재고 ------------------
+	
 	//재고저장 관리
 	@RequestMapping("/updateInventory.do")
 	public NexacroResult updateInventory(
@@ -115,10 +119,55 @@ public class ProductController {
 	
 	
 	
+	// ----------------- 재고/입출고리스트 관리 -----------------
+	
+	// 재고/입출고 리스트  조회
+	@RequestMapping("/selectStockMovementsListByAdmin.do")
+	public NexacroResult selectStockMovementsListByAdmin(
+			@ParamDataSet(name = "ds_searchCond", required = false) Map<String, Object> cond) {
+		// null 방지
+		if (cond == null)
+			cond = new HashMap<>();
+
+		// 'all'/'allS' 같은 프론트 기본값은 서버에서 무시 처리
+		Object qs = cond.get("QUANTITY_STATUS");
+		if (qs != null && "allS".equalsIgnoreCase(String.valueOf(qs))) {
+			cond.remove("QUANTITY_STATUS");
+		}
+		Object iv = cond.get("IS_VISIBLE");
+		if (iv != null && "all".equalsIgnoreCase(String.valueOf(iv))) {
+			cond.remove("IS_VISIBLE");
+		}
+
+		// 날짜 값 정규화 (유효하지 않으면 제거, 상품목록조회의 normalizeYmd 적용)
+		String sd = normalizeYmd(cond.get("START_DATE"));
+		String ed = normalizeYmd(cond.get("END_DATE"));
+		if (sd == null)
+			cond.remove("START_DATE");
+		else
+			cond.put("START_DATE", sd);
+		if (ed == null)
+			cond.remove("END_DATE");
+		else
+			cond.put("END_DATE", ed);
+
+		System.out.println(">>> [재고입출고, Controller cond] " + cond);
+
+		List<Map<String, Object>> list = productService.selectStockMovementsListByAdmin(cond);
+
+		NexacroResult rs = new NexacroResult();
+		rs.addDataSet("ds_out_proList", list);
+		return rs;
+	}
+
+
 	
 	
 	
-	
+		
+		
+		
+		
 	// ----------------- 카테고리 관리 -----------------
 
 	// 대분류 조회
