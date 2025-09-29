@@ -18,9 +18,28 @@ import admin.service.PromotionService;
 public class PromotionController {
 	
 	@Autowired
-
 	private PromotionService promotionService;
 	
+	
+	//신규회원쿠폰발급확인용 LIST
+//	@RequestMapping(value = "/selectNewMemListByAdmin.do")
+//	public NexacroResult selectNewMemListByAdmin(
+//			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+//		NexacroResult result = new NexacroResult();
+//		try {
+//			List<Map<String, Object>> selectNewMemList = promotionService.selectNewMemListByAdmin(param);
+//			result.addDataSet("ds_newmem_list", selectNewMemList);
+//		}catch (Exception e){
+//			System.out.println(e);
+//			result.setErrorCode(-1);
+//			result.setErrorMsg("쿠폰받은 신규회원 조회중 오류");
+//		}
+//		return result;
+//	}
+	
+	
+	
+	//프로모션들
 	@RequestMapping(value = "/selectPromoListByAdmin.do")
     public NexacroResult selectPromoListByAdmin(
             @ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
@@ -43,7 +62,7 @@ public class PromotionController {
 		NexacroResult result = new NexacroResult();
 		try {
 			Map<String, Object> promotionView = promotionService.selectPromoViewByAdmin(promotionId);
-			result.addDataSet("ds_promo_view", promotionView);
+			result.addDataSet("ds_promo", promotionView);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -55,11 +74,11 @@ public class PromotionController {
 	
 	@RequestMapping(value = "/insertPromotionByAdmin.do")
 	public NexacroResult insertPromotionByAdmin(
-	        @ParamDataSet(name = "ds_promo_write", required = false) Map<String, Object> param) {
+	        @ParamDataSet(name = "ds_promo", required = false) Map<String, Object> param) {
 	    NexacroResult result = new NexacroResult();
 	    try {
 	    	int insertCount = promotionService.insertPromotionByAdmin(param);
-	        System.out.println("프로모션이 등록되었습니다. (등록된 행 수: " + insertCount + "): 참고로1여야 성공임");
+	        System.out.println("프로모션이 등록되었습니다. (등록된 행 수: " + insertCount + "): 참고로4여야 성공임");
 	        
 	    } catch (Exception e) {
 	        System.out.println(e);
@@ -71,7 +90,7 @@ public class PromotionController {
 	
 	@RequestMapping(value = "/updatePromotionByAdmin.do")
 	public NexacroResult updatePromotionByAdmin(
-	        @ParamDataSet(name = "ds_promo_write", required = false) Map<String, Object> param) {
+	        @ParamDataSet(name = "ds_promo", required = false) Map<String, Object> param) {
 	    NexacroResult result = new NexacroResult();
 	    try {
 	        int updateCount = promotionService.updatePromotionByAdmin(param);
