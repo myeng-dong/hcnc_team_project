@@ -68,7 +68,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="6" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" onkeydown="grid_list_onkeydown" onkillfocus="grid_list_onkillfocus" oncellclick="grid_list_oncellclick" oncellposchanged="grid_list_oncellposchanged">
+        <Grid id="grid_list" taborder="6" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" readonly="true" selecttype="multirow">
           <Formats>
             <Format id="default">
               <Columns>
