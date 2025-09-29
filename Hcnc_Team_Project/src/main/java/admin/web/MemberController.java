@@ -479,24 +479,23 @@ public class MemberController {
 	// 포인트 사용 유형 리스트 조회
 	// By.PJ 09.22
 	@RequestMapping(value = "/selectMemberChageTypeListByAdmin.do")
-	public NexacroResult selectMemberChageTypeList() {
+	public NexacroResult selectMemberChageTypeList(
+	        @ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
 
-		NexacroResult result = new NexacroResult();
+	    NexacroResult result = new NexacroResult();
 
-		try {
-			// 회원등급 전체 조회 (param 필요 없음)
-			List<Map<String, Object>> selectChageTypeList = memberService.selectMemberChageTypeList();
+	    try {
+	        List<Map<String, Object>> selectChageTypeList = memberService.selectMemberChageTypeList(param);
+	        result.addDataSet("ds_type", selectChageTypeList);
 
-			// ds_grade라는 이름으로 넥사크로에 전달
-			result.addDataSet("ds_type", selectChageTypeList);
-
-		} catch (Exception e) {
-			System.out.println(e);
-			result.setErrorCode(-1);
-			result.setErrorMsg("회원등급 조회 실패 >>> " + e.getMessage());
-		}
-		return result;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.setErrorCode(-1);
+	        result.setErrorMsg("회원 포인트 유형 조회 실패 >>> " + e.getMessage());
+	    }
+	    return result;
 	}
+
 
 	// 해당 회원의 포인트 상세 조회
 	// By.PJ 09.22
@@ -515,8 +514,8 @@ public class MemberController {
 		}
 		return result;
 	}
-	
-	//해당 회원의 쿠폰 상세 조회
+
+	// 해당 회원의 쿠폰 상세 조회
 	// By.PJ 09.22
 	@RequestMapping(value = "/selectCouponDetailListByAdmin.do")
 	public NexacroResult selectCouponDetailList(
@@ -532,6 +531,61 @@ public class MemberController {
 			result.setErrorMsg("포인트 상세조회 중 오류 발생");
 		}
 		return result;
+	}
+
+	// 포인트 적립 및 차감
+	//By. PJ 09.23
+	@RequestMapping(value = "/insertMemberPointByAdmin.do")
+	public NexacroResult insertMemberPoint(
+			@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> insertPointList) {
+		NexacroResult result = new NexacroResult();
+		int inserted = 0;
+
+		try {
+			
+			for (Map<String, Object> point : insertPointList) {
+				String rowType = String.valueOf(point.get("DataSetRowType"));
+				
+				if ("1".equals(rowType)) {
+					inserted = memberService.insertPoint(point);
+				}
+
+			}
+			Map<String, Object> dsInsCnt = new HashMap<>();
+
+			 dsInsCnt.put("INSERTED", inserted);
+
+			result.addDataSet("ds_insCnt", dsInsCnt);
+		} catch (Exception e) {
+			System.out.println("insert error: " + e.getMessage());
+			result.setErrorCode(-1);
+			result.setErrorMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	//쿠폰 지급
+	@RequestMapping(value="/insertCouponByAdmin.do")
+	public NexacroResult insertCoupon(@ParamDataSet(name="ds_insert", required=false)  Map<String, Object> param){
+		                         
+		NexacroResult result = new NexacroResult();
+		
+		try {
+			
+			Map<String, Object> dsInsCnt = new HashMap<>();
+			
+			int inserted = memberService.insertCoupon(param);
+			
+			dsInsCnt.put("INSERTED", inserted);
+			result.addDataSet("ds_insCnt", dsInsCnt);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("catch 오류 >>>");
+		}
+		return result;
+		
 	}
 
 }

@@ -13,70 +13,85 @@
             this.set_titletext("New Form");
             this.set_color("blue");
             this.set_background("#F4F7FE");
+            this.set_font("normal 11pt/normal \"Noto Sans KR\"");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
-            obj = new Dataset("ds_boardType", this);
-            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">전체</Col><Col id=\"NAME\">전체</Col></Row><Row><Col id=\"CODE\">공지사항</Col><Col id=\"NAME\">공지사항</Col></Row><Row><Col id=\"CODE\">FAQ</Col><Col id=\"NAME\">FAQ</Col></Row><Row><Col id=\"CODE\">QnA</Col><Col id=\"NAME\">QnA</Col></Row></Rows>");
+            obj = new Dataset("ds_report", this);
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">전체</Col><Col id=\"NAME\">전체</Col></Row><Row><Col id=\"CODE\">신고접수</Col><Col id=\"NAME\">신고접수</Col></Row><Row><Col id=\"CODE\">신고처리</Col><Col id=\"NAME\">신고처리</Col></Row><Row><Col id=\"CODE\">신고취소</Col><Col id=\"NAME\">신고취소</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
-            obj = new Dataset("ds_board", this);
-            obj._setContents("<ColumnInfo><Column id=\"BOARD_ID\" type=\"STRING\" size=\"256\"/><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"POST_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"POST_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"STRING\" size=\"256\"/><Column id=\"CHK\" type=\"STRING\" size=\"256\"/><Column id=\"POST_ID\" type=\"STRING\" size=\"256\"/><Column id=\"BOARD_NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            obj = new Dataset("ds_list", this);
+            obj._setContents("<ColumnInfo><Column id=\"TARGET_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"REPORTER\" type=\"STRING\" size=\"256\"/><Column id=\"COMMENT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"REVIEW_ID\" type=\"STRING\" size=\"256\"/><Column id=\"BOARD_WRITER\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"CHK\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_CONTENT\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_search", this);
-            obj._setContents("<ColumnInfo><Column id=\"START_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"END_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"BOARD_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"TARGET_TYPE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_postType", this);
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">전체</Col><Col id=\"NAME\">전체</Col></Row><Row><Col id=\"CODE\">댓글</Col><Col id=\"NAME\">댓글</Col></Row><Row><Col id=\"CODE\">리뷰</Col><Col id=\"NAME\">리뷰</Col></Row></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_reportType", this);
+            obj._setContents("<ColumnInfo><Column id=\"REPORT_TYPE\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
             obj = new Dataset("ds_selected", this);
-            obj._setContents("<ColumnInfo><Column id=\"BOARD_ID\" type=\"STRING\" size=\"256\"/><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"POST_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"POST_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"TARGET_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"REPORTER\" type=\"STRING\" size=\"256\"/><Column id=\"COMMENT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"REVIEW_ID\" type=\"STRING\" size=\"256\"/><Column id=\"BOARD_WRITER\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"REPORT_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_reportGrid", this);
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">신고접수</Col><Col id=\"NAME\">신고접수</Col></Row><Row><Col id=\"CODE\">신고처리</Col><Col id=\"NAME\">신고처리</Col></Row><Row><Col id=\"CODE\">신고취소</Col><Col id=\"NAME\">신고취소</Col></Row></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Div("search_area","40","0",null,"60","40",null,null,null,null,null,this);
-            obj.set_taborder("2");
+            obj.set_taborder("0");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
             obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_name","492","14","50","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("stc_name","991","13","50","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("2");
             obj.set_text("작성자");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","543","17","105","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Edit("Edit00",null,"16","125","30","30",null,null,null,null,null,this.search_area.form);
             obj.set_taborder("3");
             obj.set_borderRadius("5px");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Button("Button00","630","17","30","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Button("Button00",null,"16","30","30","30",null,null,null,null,null,this.search_area.form);
             obj.set_taborder("4");
             obj.set_text("⌕");
             obj.set_background("#135dae");
             obj.set_borderRadius("5px");
             obj.set_color("white");
             obj.set_cursor("pointer");
-            obj.set_border("0px none,0px,0px");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("stc_ship","30","14","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("stc_postType","30","13","80","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("0");
             obj.set_text("게시글 유형");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Radio("rad_type","130","15","310","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Radio("rad_type","130","13","220","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("1");
-            obj.set_innerdataset("ds_boardType");
-            obj.set_codecolumn("CODE");
+            obj.set_innerdataset("ds_postType");
+            obj.set_codecolumn("NAME");
             obj.set_datacolumn("NAME");
             obj.set_direction("vertical");
             obj.set_font("normal 9pt/normal \"Noto Sans KR\"");
@@ -85,46 +100,59 @@
             obj.set_index("0");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("stc_name00","734","14","80","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("stc_report","429","12","70","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("5");
-            obj.set_text("작성일");
+            obj.set_text("신고 상태");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","40","85",null,null,"40","40",null,null,null,null,this);
-            obj.set_taborder("0");
-            obj.set_binddataset("ds_board");
+            obj = new Combo("Combo00","496","16","104","30",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("6");
+            obj.set_innerdataset("ds_report");
+            obj.set_codecolumn("NAME");
+            obj.set_datacolumn("NAME");
+            obj.set_borderRadius("5px");
+            obj.set_text("전체");
+            obj.set_value("전체");
+            obj.set_index("0");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Static("stc_report00","702","12","70","36",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("7");
+            obj.set_text("신고 유형");
+            obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Combo("Combo00_00","769","15","104","30",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("8");
+            obj.set_innerdataset("ds_reportType");
+            obj.set_codecolumn("REPORT_TYPE");
+            obj.set_datacolumn("REPORT_TYPE");
+            obj.set_borderRadius("5px");
+            obj.set_text("");
+            obj.set_value("");
+            obj.set_index("0");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Grid("grid_list","40","116",null,null,"40","40",null,null,null,null,this);
+            obj.set_taborder("1");
+            obj.set_binddataset("ds_list");
             obj.set_autofittype("col");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"47\"/><Column size=\"52\"/><Column size=\"113\"/><Column size=\"78\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"게시분류\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"작성자\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"제목\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"송장 번호\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell text=\"bind:CHK\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"1\" text=\"bind:BOARD_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"3\" text=\"bind:POST_TITLE\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"4\" text=\"bind:TRACKING_NUMBER\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"47\"/><Column size=\"52\"/><Column size=\"51\"/><Column size=\"236\"/><Column size=\"66\"/><Column size=\"100\"/><Column size=\"54\"/><Column size=\"67\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"게시분류\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"리뷰ID\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"댓글ID\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"신고내용\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"5\" text=\"작성자\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"6\" text=\"작성자ID\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"7\" text=\"신고 유형\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"8\" text=\"신고 상태\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell text=\"bind:CHK\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"1\" text=\"bind:TARGET_TYPE\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:REVIEW_ID\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\" cursor=\"pointer\"/><Cell col=\"3\" text=\"bind:COMMENT_ID\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\" cursor=\"pointer\"/><Cell col=\"4\" text=\"bind:REPORT_CONTENT\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"5\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"6\" text=\"bind:BOARD_WRITER\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"7\" text=\"bind:REPORT_TYPE\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"8\" text=\"bind:REPORT_STATUS\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"combo\" displaytype=\"combocontrol\" combodataset=\"ds_reportGrid\" combodatacol=\"NAME\" combocodecol=\"NAME\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_new",null,"16","100","30","65",null,null,null,null,null,this);
-            obj.set_taborder("1");
-            obj.set_text("등록");
+            obj = new Button("btn_save",null,"70","100","30","40",null,null,null,null,null,this);
+            obj.set_taborder("2");
+            obj.set_text("저장");
             obj.set_borderRadius("5px");
             obj.set_background("#135dae");
             obj.set_color("white");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             obj.set_textAlign("center");
             obj.set_cursor("pointer");
-            obj.set_border("0px none");
-            this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_01","836","17","100","30",null,null,null,null,null,null,this);
-            obj.set_taborder("3");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("txt_th00_00_00","950","12","30","36",null,null,null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_text("-");
-            obj.set_font("normal 11pt/normal \"Noto Sans KR\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_00_00","973","17","100","30",null,null,null,null,null,null,this);
-            obj.set_taborder("5");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -134,14 +162,6 @@
             
             // BindItem Information
             obj = new BindItem("item0","search_area.form.Edit00","value","ds_search","USER_NAME");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item1","Calendar00_01","value","ds_search","START_DATE");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item2","Calendar00_00_00","value","ds_search","END_DATE");
             this.addChild(obj.name, obj);
             obj.bind();
             
@@ -159,29 +179,40 @@
         //페이지 온로드시
         this.Form_Board_Notice_onload = function(obj,e)
         {
-        	this.fnselectPostListByAdmin();
+        	this.fnselectReportByAdmin();
+            this.grid_list.setCellProperty("head", 0, "text", "0");
+
+        	this.search_area_Combo00_00.set_value("전체");
         };
 
-
-        //등록 버튼
-        this.btn_new_onclick = function(obj,e)
-        {
-        	this.fnInsertPost();
-        };
-
-        //포스트 조회 트랜젝션
-        this.fnselectPostListByAdmin = function(){
+        // 리포트 리스트 조회 트랜젝션
+        this.fnselectReportByAdmin = function(){
         	var timestamp   = new Date().getTime();
 
-        	var strSvcID       = "fnselectPostListByAdmin";
-            var strURL         = "svc::selectPostListByAdmin.do?time=" + new Date().getTime();
+        	var strSvcID       = "selectReportByAdmin";
+            var strURL         = "svc::selectReportByAdmin.do?time=" + new Date().getTime();
             var strInDatasets  = "ds_search=ds_search";
-            var strOutDatasets = "ds_board=ds_board";
-            var strArg         = "timestamp=timestamp";
+            var strOutDatasets = "ds_list=ds_list ds_reportType=ds_reportType";
+            var strArg         = "";
             var strCallback    = "fnCallback";
 
             this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
         }
+
+        //
+        this.fnUpdateReportByAdmin = function(){
+        	var timestamp   = new Date().getTime();
+
+        	var strSvcID       = "updateReportByAdmin";
+            var strURL         = "svc::updateReportByAdmin.do?time=" + new Date().getTime();
+            var strInDatasets  = "ds_selected=ds_selected";
+            var strOutDatasets = "";
+            var strArg         = "";
+            var strCallback    = "fnCallback";
+
+            this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+        }
+
 
         // 공통 콜백
         this.fnCallback = function(svcID, errCode, errMsg) {
@@ -191,70 +222,158 @@
             }
 
             switch(svcID) {
-                case "fnselectPostListByAdmin":
+                case "selectReportByAdmin":
+
                     trace("조회 완료");
                     break;
+
+        		case "updateReportByAdmin" :
+
+        			this.fnselectReportByAdmin();
+        		    trace("수정 완료");
+        			break;
             }
         };
 
-        // 라디오 박스 눌렀을때 조회되게
-        this.search_area_rad_ship_onitemchanged = function(obj,e)
+
+        // 신고 상태별 조회(콤보박스)
+        this.search_area_Combo00_onitemchanged = function(obj,e)
         {
-        	var val = e.postvalue;  // 라디오에서 선택된 값
-
-            if(val == "전체"){
-                this.ds_search.setColumn(0, "BOARD_ID", "ALL");  // 전체는 ALL 같은 값으로 보냄 (쿼리에선 1,3,4로 조회함)
-            } else if(val == "공지사항"){
-                this.ds_search.setColumn(0, "BOARD_ID", "1");    // 공지사항
-            } else if(val == "FAQ"){
-                this.ds_search.setColumn(0, "BOARD_ID", "3");    // FAQ
-            } else if(val == "QnA"){
-                this.ds_search.setColumn(0, "BOARD_ID", "4");    // QnA
-            }
-
-            this.fnselectPostListByAdmin();
+        	var type = e.postvalue;
+        	this.ds_search.setColumn(0,"REPORT_STATUS",type);
+        	this.fnselectReportByAdmin();
         };
 
-        this.fnInsertPost = function(obj,e)
+        // 신고 유형별 조회(콤보박스)
+        this.search_area_Combo00_00_onitemchanged = function(obj,e)
         {
+        	var type = e.postvalue;
+        	this.ds_search.setColumn(0,"REPORT_TYPE",type);
+        	this.fnselectReportByAdmin();
+        };
+
+        // 댓글, 리뷰 유형(라디오)
+        this.search_area_rad_type_onitemchanged = function(obj,e)
+        {
+        	var type = e.postvalue;
+        	this.ds_search.setColumn(0,"TARGET_TYPE",type);
+        	this.fnselectReportByAdmin();
+        };
+
+        // 글 작성자 조회(에디트박스)
+        this.search_area_Edit00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode==13){
+        		this.fnselectReportByAdmin();
+        	}
+
+        };
+
+        //조회 버튼
+        this.search_area_Button00_onclick = function(obj,e)
+        {
+        	this.fnselectReportByAdmin();
+
+        };
+
+        //체크박스 전체선택 , 전체해제
+        this.grid_list_onheadclick = function(obj, e)
+        {
+            // 첫 번째 컬럼(체크박스 헤더) 클릭 시
+            if (e.cell == 0) {
+                var headVal = obj.getCellProperty("head", 0, "text");
+
+                // 현재 상태 확인 (체크 → 해제 / 해제 → 체크)
+                var newVal = (headVal == "1" ? "0" : "1");
+
+                // 헤더 갱신
+                obj.setCellProperty("head", 0, "text", newVal);
+
+                // 데이터셋 전체 반영
+                for (var i = 0; i < this.ds_list.getRowCount(); i++) {
+                    this.ds_list.setColumn(i, "CHK", newVal);
+                }
+            }
+        };
+
+        // 저장버튼 클릭시
+        this.search_area_btn_save_onclick = function(obj,e)
+        {
+        	this.ds_selected.clearData();
+
+            for (var i = 0; i < this.ds_list.getRowCount(); i++) {
+                if (this.ds_list.getColumn(i, "CHK") == "1") {
+                    var nRow = this.ds_selected.addRow();
+                    this.ds_selected.copyRow(nRow, this.ds_list, i);
+                }
+            }
+
+            if (this.ds_selected.getRowCount() == 0) {
+                this.alert("선택된 항목이 없습니다.");
+                return;
+            }
+
+        	//저장 버튼을 눌렀을때 트랜젝션
+        	this.fnUpdateReportByAdmin();
+        };
+
+
+        this.grid_list_oncellclick = function(obj,e)
+        {
+        	var row = e.row;      // 클릭한 행 번호
+            var col = e.col;      // 클릭한 컬럼 번호
+            var colId = obj.getCellProperty("body", col, "text");
+
+
+            // 특정 컬럼만 동작시키고 싶다면 조건문
+            if (colId.indexOf("COMMENT_ID") > -1) { // 댓글 신고 조회
+        		var commentId   = this.ds_list.getColumn(row,"COMMENT_ID");
+        		if(!commentId){
+        			alert("리뷰 신고입니다.");
+        			return;
+        		}
+
+                var popupArgs = {COMMENT_ID : commentId}
+
         		 // 팝업 크기
                 var popW = 500;
                 var popH = 350;
 
+        		var owner = this.getOwnerFrame();
+                var absX = (owner.width  - popW) / 2;
+                var absY = (owner.height - popH) / 2;
+
                 var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-        		objChildFrame.init("itemPop", 200, 200, popW, popH, null, null, "popup::Pop_BaordInsert.xfdl"); // init
-        		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_popupCallback"); // 모달 띄어주기
+        		objChildFrame.init("itemPop", absX, absY, popW, popH, null, null, "popup::Pop_BaordReport.xfdl"); // init
+        		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
+            }
 
-        };
+        	    // 특정 컬럼만 동작시키고 싶다면 조건문
+            if (colId.indexOf("REVIEW_ID") > -1) {
 
-        //엔터 눌렀을때 조회되게
-        this.search_area_Edit00_onkeyup = function(obj,e)
-        {
-        	if(e.keycode == 13){
-        		this.fnselectPostListByAdmin();
-        	}
-        };
+        		var reviewId    = this.ds_list.getColumn(row,"REVIEW_ID");
+        		if(!reviewId){
+        			alert("게시글 신고입니다.");
+        			return;
+        		}
 
+                var popupArgs = {REVIEW_ID : reviewId}
 
+        		 // 팝업 크기
+                var popW = 500;
+                var popH = 350;
 
-        this.grid_list_oncelldblclick = function(obj,e)
-        {
-        	 if(e.row < 0) return; // 헤더 클릭 무시
+        		var owner = this.getOwnerFrame();
+                var absX = (owner.width  - popW) / 2;
+                var absY = (owner.height - popH) / 2;
 
-            var nRow = e.row;
-            var paramPostId = this.ds_board.getColumn(nRow, "POST_ID"); // 실제 컬럼명에 맞게 수정
-
-            if(paramPostId) {
-                // 상세보기 팝업 열기
-
-        		var popW = 800;
-                var popH = 700;
                 var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-        		objChildFrame.init("detailPop", 0, 0, popW, popH, null, null, "popup::Pop_BoardDetail.xfdl"); // init
-        		objChildFrame.paramPostId = paramPostId;
-        		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_popupCallback"); // 모달 띄어주기
+        		objChildFrame.init("itemPop", absX, absY, popW, popH, null, null, "popup::Pop_BaordReport.xfdl"); // init
+        		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
             }
         };
+
+
 
         });
         
@@ -265,15 +384,15 @@
             this.search_area.form.stc_name.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
             this.search_area.form.Edit00.addEventHandler("onkeyup",this.search_area_Edit00_onkeyup,this);
             this.search_area.form.Button00.addEventHandler("onclick",this.search_area_Button00_onclick,this);
-            this.search_area.form.stc_ship.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
-            this.search_area.form.rad_type.addEventHandler("onitemchanged",this.search_area_rad_ship_onitemchanged,this);
-            this.search_area.form.stc_name00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
+            this.search_area.form.stc_postType.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
+            this.search_area.form.rad_type.addEventHandler("onitemchanged",this.search_area_rad_type_onitemchanged,this);
+            this.search_area.form.stc_report.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
+            this.search_area.form.Combo00.addEventHandler("onitemchanged",this.search_area_Combo00_onitemchanged,this);
+            this.search_area.form.stc_report00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
+            this.search_area.form.Combo00_00.addEventHandler("onitemchanged",this.search_area_Combo00_00_onitemchanged,this);
             this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
-            this.grid_list.addEventHandler("oncelldblclick",this.grid_list_oncelldblclick,this);
-            this.btn_new.addEventHandler("onclick",this.btn_new_onclick,this);
-            this.Calendar00_01.addEventHandler("onchanged",this.search_area_Calendar00_01_onchanged,this);
-            this.txt_th00_00_00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
-            this.Calendar00_00_00.addEventHandler("onchanged",this.search_area_Calendar00_00_00_onchanged,this);
+            this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
+            this.btn_save.addEventHandler("onclick",this.search_area_btn_save_onclick,this);
         };
         this.loadIncludeScript("Form_Board_Report.xfdl");
         this.loadPreloadList();

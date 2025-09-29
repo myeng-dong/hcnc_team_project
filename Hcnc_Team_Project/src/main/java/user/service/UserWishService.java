@@ -3,7 +3,9 @@ package user.service;
 import java.util.HashMap;
 import java.util.List;
 
+
 import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +17,23 @@ public class UserWishService {
 
 	@Autowired
 	private UserWishMapper userWishMapper;
+
 	
 	// 위시리스트 조회
+
     public List<HashMap<String, Object>> selectWishlistByUser(HashMap<String, Object> param) {
         return userWishMapper.selectWishlistByUser(param);
     }
     
+
     // 카테고리별 개수 조회
+
     public List<HashMap<String, Object>> getCategoryCount(HashMap<String, Object> param) {
         return userWishMapper.getCategoryCount(param);
     }
     
+
+
     // 장바구니 추가 (증복체크포함)
     @Transactional
     public int addToCart(HashMap<String, Object> param) {
@@ -77,6 +85,7 @@ public class UserWishService {
     // 장바구니 아이템 존재 확인
     public HashMap<String, Object> checkCartItem(HashMap<String, Object> param) {
         return userWishMapper.checkCartItem(param);
+
     }
     
     // 장바구니 수량 업데이트
@@ -84,4 +93,5 @@ public class UserWishService {
     public int updateCartQuantity(HashMap<String, Object> param) {
         return userWishMapper.updateCartQuantity(param);
     }
+
 }

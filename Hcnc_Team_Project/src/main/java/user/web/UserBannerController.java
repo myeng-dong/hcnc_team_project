@@ -47,11 +47,7 @@ public class UserBannerController {
 	            break;
 	        }
 	    }
-	    
-	    System.out.println("mainBanners 개수: " + mainBanners.size());
-	    System.out.println("topBanners 개수: " + topBanners.size());
-	    System.out.println("popupBanners 개수: " + popupBanners.size());
-	    
+    
 	    mav.addObject("mainBanners", mainBanners);
 	    mav.addObject("topBanners", topBanners);
 	    mav.addObject("popupBanners", popupBanners);

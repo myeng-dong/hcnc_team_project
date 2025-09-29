@@ -4,9 +4,7 @@
   <div class="inner">
     <div class="cs-center flex ju-between ai-center">
       <!-- 로고 -->
-      <figure class="logo-wrap">
-        <img src="logo.png" alt="로고" class="logo">
-      </figure>
+      <h2 class="logo"><a href="/"></a></h2>
 
       <div class="footer-nav flex">
         <a href="/policy/terms">이용약관</a>
