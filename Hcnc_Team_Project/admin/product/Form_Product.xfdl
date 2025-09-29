@@ -175,7 +175,7 @@
         <Static id="sta_dash" text="~" left="334" top="178" height="35" width="20" taborder="19" font="normal bold 10pt/normal &quot;Arial&quot;"/>
         <Button id="btn_show" text="선택 진열" top="306" width="92" height="30" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_show_onclick" taborder="20" left="418"/>
         <Button id="btn_hide" text="진열 취소" top="306" width="92" height="30" color="#FFFFFF" background="#ce5525" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_hide_onclick" taborder="21" left="534"/>
-        <Static id="sta_listTitle00" text="재고/변경가능" height="61" top="290" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="22" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" width="113" right="68"/>
+        <Static id="sta_listTitle00" text="재고 클릭시 수정가능" height="61" top="290" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="22" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" width="188" right="68"/>
         <Static id="stc_total" taborder="23" text="" left="39" top="15" width="61" height="30" font="12px/normal &quot;Gulim&quot;,&quot;Arial Black&quot;" borderRadius="0px 10px 10px 0px"/>
       </Layout>
     </Layouts>

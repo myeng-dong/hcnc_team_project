@@ -287,8 +287,8 @@
             obj.set_taborder("21");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_listTitle00",null,"290","113","61","68",null,null,null,null,null,this);
-            obj.set_text("재고/변경가능");
+            obj = new Static("sta_listTitle00",null,"290","188","61","68",null,null,null,null,null,this);
+            obj.set_text("재고 클릭시 수정가능");
             obj.set_font("bold 11pt/normal \"맑은 고딕\"");
             obj.set_taborder("22");
             obj.set_color("#383838");
