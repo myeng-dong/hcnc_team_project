@@ -32,6 +32,17 @@
     				
     				var list = res.cartList;
     				
+    				// 장바구니가 비어있는 경우 처리
+    	            if(!list || list.length === 0) {
+    	                showEmptyCart();
+    	                return;
+    	            }
+    	            
+    	            // 기존 테이블 표시
+    	            $(".cart-table").show();
+    	            $(".cart-footer").show();
+    	            $("#empty-cart").hide();
+    				
     				var allCheck = true;
     				
     				var uniqueList = [];
@@ -114,6 +125,42 @@
     				alert("장바구니 리스트 조회 통신 실패");
     			}
     		});
+    	}
+    	
+    	// 빈 장바구니 상태 표시 함수
+    	const showEmptyCart = () => {
+    	    // 기존 테이블과 푸터 숨기기
+    	    $(".cart-table").hide();
+    	    $(".cart-footer").hide();
+    	    
+    	 // 빈 상태 메시지 표시
+    	    var emptyHtml = '<div id="empty-cart" class="empty-cart">' +
+    	            '<div class="empty-cart-icon">' +
+    	                '<i class="bi bi-cart-x"></i>' +
+    	            '</div>' +
+    	            '<div class="empty-cart-message">' +
+    	                '<h3>장바구니가 비어 있습니다</h3>' +
+    	                '<p>상품을 담고 주문해보세요!</p>' +
+    	            '</div>' +
+    	            '<div class="empty-cart-actions">' +
+    	                '<button class="cart-btn shopping-btn" onclick="history.back()">' +
+    	                    '<i class="bi bi-bag"></i>' +
+    	                    '쇼핑 계속하기' +
+    	                '</button>' +
+    	            '</div>' +
+    	        '</div>';
+    	    
+    	    // cart-grid 다음에 빈 상태 메시지 삽입
+    	    if($("#empty-cart").length === 0) {
+    	        $(".cart-grid").after(emptyHtml);
+    	    } else {
+    	        $("#empty-cart").show();
+    	    }
+    	}
+
+    	// 쇼핑 계속하기 버튼 함수
+    	const goToShopping = () => {
+    	    window.location.href = "/"; // 메인 페이지로 이동 (또는 상품 목록 페이지)
     	}
     	
     	function generateProductOptions(cartItemId, productId, currentOption, fullList) {
@@ -236,9 +283,9 @@
             $("#" + cart_item_id + "-quantity").val(quantity - 1);
 			
             
-            
-            if (quantity <= 0){
-                $("#quantity").val(1);
+            if (quantity > 1) {
+                $("#" + cart_item_id + "-quantity").val(quantity - 1);
+                updateCnt(cart_item_id);
             }
 
             // document.getElementById("quantity").value = quantity - 1;
@@ -349,7 +396,7 @@
         const deleteProduct = (cart_item_id) => {
         	if(confirm("삭제하시겠습니까?")){
 	        	var param = {
-	        			cartItemId : cart_item_id
+        			cartItemId : cart_item_id
 	        		, cartId : cartId
 	        	};
 	        	
@@ -360,11 +407,13 @@
 	        		, dataType: "json"
 	        		, success: function(){
 	        			
-	        				window.location.reload();
+	        			alert("삭제 되었습니다.");
+	                    // 페이지 새로고침 대신 장바구니 리스트 다시 조회
+	                    selectCartList();
 	     
 	        		}
 	        		, error: function(){
-	        			alert("삭제 통신 실패");
+	        			alert("개별 삭제 통신 실패");
 	        		}
 	        	});
         	}
@@ -438,7 +487,8 @@
 				, success: function(){
 					alert("삭제 되었습니다.");
 			        			
-        			window.location.reload();
+		            // 페이지 새로고침 대신 장바구니 리스트 다시 조회
+		            selectCartList();
 				}
 				, error: function(){
         			alert("개별 삭제 통신 실패");
@@ -458,7 +508,8 @@
 				, success: function(){
 					alert("삭제 되었습니다.");
         			
-        			window.location.reload();
+		            // 페이지 새로고침 대신 장바구니 리스트 다시 조회
+		            selectCartList();
 				}
 				, error: function(){
         			alert("전체 삭제 통신 실패");
@@ -588,6 +639,11 @@
                 }
             });
         }
+        
+        // 주문하기 버튼
+        function orderRequest(){
+        	window.location.href="orderView.do?cartId="+cartId;
+        }
     </script>
 
   <div class="container cart">
@@ -652,7 +708,7 @@
 		      <div class="sum-row"><span>주문금액</span><span id="sum-products" class="price"></span></div>
 		      <div class="sum-row small"><span>일반배송비</span><span id="sum-ship-normal">0원</span></div>
 		      <div class="sum-total"><span>결제금액</span><span id="sum-final" class="price">0원</span></div>
-		      <button class="order-btn" id="btnOrder" onclick="window.location.href='/orderView.do'">주문하기</button>
+		      <button class="order-btn" id="btnOrder" onclick="orderRequest()">주문하기</button>
 		    </div>
 	    </div>
 	  </div>

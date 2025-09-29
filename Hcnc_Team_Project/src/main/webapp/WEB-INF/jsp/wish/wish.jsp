@@ -493,7 +493,7 @@
         return '기타';
     };
     
-    // 하트 토글 함수
+ // 하트 토글 함수 - 수정된 버전
     var toggleWishlist = function(productId, heartElement) {
         var param = {
             productId: productId,
@@ -517,8 +517,14 @@
                     // 하트 상태 업데이트
                     updateHeartDisplay(heartElement, res.isWished);
                     
+                    // 메시지가 없을 경우 기본 메시지 사용
+                    var message = res.message;
+                    if (!message || message === null || message === 'null') {
+                        message = res.isWished ? "위시리스트에 추가되었습니다." : "위시리스트에서 제거되었습니다.";
+                    }
+                    
                     // 토스트 메시지 표시
-                    showToast(res.message, "success");
+                    showToast(message, "success");
                     
                     // 위시리스트 페이지라면 새로고침
                     if (typeof selectWishlist === 'function') {
@@ -527,7 +533,11 @@
                     }
                 } else {
                     $(heartElement).html(originalHtml);
-                    showToast("처리 중 오류가 발생했습니다.", "error");
+                    var errorMessage = res.message;
+                    if (!errorMessage || errorMessage === null || errorMessage === 'null') {
+                        errorMessage = "처리 중 오류가 발생했습니다.";
+                    }
+                    showToast(errorMessage, "error");
                 }
             },
             error: function(err){
