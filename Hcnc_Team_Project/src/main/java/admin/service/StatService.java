@@ -17,5 +17,9 @@ public class StatService {
 	public List<Map<String, Object>> selectStatByAdmin(Map<String, Object> dsSearch) {
 		return statmapper.selectStatByAdmin(dsSearch);
 	}
+
+	public List<Map<String, Object>> selectStatDetailByAdmin(Map<String, Object> dsDetailSearch) {
+		return statmapper.selectStatDetailByAdmin(dsDetailSearch);
+	}
 	
 }
