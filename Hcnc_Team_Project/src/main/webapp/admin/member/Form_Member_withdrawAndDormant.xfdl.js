@@ -411,7 +411,189 @@
         	}
         }
 
+        //라디오 선택할때 자동조회
+        this.Radio00_onitemchanged = function(obj,e)
+        {
+        	this.fn_selectDormantWithdrawnMembers();
+        };
 
+        //이름 검색
+        this.Edit00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_selectDormantWithdrawnMembers();
+        	}
+        };
+
+        //이메일 검색
+        this.Edit00_00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_selectDormantWithdrawnMembers();
+        	}
+        };
+
+        //가입일 시작일
+        this.Calendar00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar00_00.value;
+
+            if (!startDate) return; // 시작일 없으면 처리 중단
+
+            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+            if (endDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 시작일은 00시 00분
+            this.ds_search.setColumn(0, "JOIN_START_DATE", startDate + "000000");
+
+            // 종료일이 있으면 23시 59분까지 설정
+            if (endDate) {
+                this.ds_search.setColumn(0, "JOIN_END_DATE", endDate + "235959");
+            }
+
+        	//자동 검색
+        	this.fn_selectDormantWithdrawnMembers();
+        };
+
+        //가입일 종료일
+        this.Calendar00_00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar00_00.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "JOIN_END_DATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "JOIN_START_DATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectDormantWithdrawnMembers();
+        };
+
+        //휴면 시작일
+        this.Calendar00_01_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00_01.value;
+            var endDate   = this.Calendar00_00_00.value;
+
+            if (!startDate) return; // 시작일 없으면 처리 중단
+
+            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+            if (endDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 시작일은 00시 00분
+            this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
+
+            // 종료일이 있으면 23시 59분까지 설정
+            if (endDate) {
+                this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
+            }
+
+        	//자동 검색
+        	this.fn_selectDormantWithdrawnMembers();
+        };
+
+        //휴면 종료일
+        this.Calendar00_00_00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00_01.value;
+            var endDate   = this.Calendar00_00_00.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectDormantWithdrawnMembers();
+        };
+
+        //탈퇴 시작일
+        this.Calendar00_01_00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00_01_00.value;
+            var endDate   = this.Calendar00_00_00_00.value;
+
+            if (!startDate) return; // 시작일 없으면 처리 중단
+
+            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+            if (endDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00_00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 시작일은 00시 00분
+            this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
+
+            // 종료일이 있으면 23시 59분까지 설정
+            if (endDate) {
+                this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
+            }
+
+        	//자동 검색
+        	this.fn_selectDormantWithdrawnMembers();
+        };
+
+        //탈퇴 종료일
+        this.Calendar00_00_00_00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00_01_00.value;
+            var endDate   = this.Calendar00_00_00_00.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00_00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectDormantWithdrawnMembers();
+        };
 
         });
         
@@ -426,6 +608,14 @@
             this.status00_00_00_00.addEventHandler("onclick",this.Static00_onclick,this);
             this.status01.addEventHandler("onclick",this.Static00_onclick,this);
             this.Radio00.addEventHandler("onitemchanged",this.Radio00_onitemchanged,this);
+            this.Edit00.addEventHandler("onkeyup",this.Edit00_onkeyup,this);
+            this.Edit00_00.addEventHandler("onkeyup",this.Edit00_00_onkeyup,this);
+            this.Calendar00.addEventHandler("onchanged",this.Calendar00_onchanged,this);
+            this.Calendar00_00.addEventHandler("onchanged",this.Calendar00_00_onchanged,this);
+            this.Calendar00_01.addEventHandler("onchanged",this.Calendar00_01_onchanged,this);
+            this.Calendar00_00_00.addEventHandler("onchanged",this.Calendar00_00_00_onchanged,this);
+            this.Calendar00_01_00.addEventHandler("onchanged",this.Calendar00_01_00_onchanged,this);
+            this.Calendar00_00_00_00.addEventHandler("onchanged",this.Calendar00_00_00_00_onchanged,this);
             this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
             this.Button00_00.addEventHandler("onclick",this.Button00_00_onclick,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);

@@ -30,20 +30,20 @@
 		  FROM MEMBERS M INNER JOIN GRADES G
 		    ON M.GRADE_CODE = G.GRADE_CODE
 		 WHERE 1=1 
-	     <if test="SEARCH_TYPE == '아이디'">
+	     <if test="SEARCH_TYPE == '아이디' and SEARCH_TEXT != null and SEARCH_TEXT != ''">
            AND M.MEMBER_ID LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
          </if>
-         <if test="SEARCH_TYPE == '이름'">
+         <if test="SEARCH_TYPE == '이름' and SEARCH_TEXT != null and SEARCH_TEXT != ''">
            AND M.USER_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
          </if>
-         <if test="SEARCH_TYPE == '이메일'">
+         <if test="SEARCH_TYPE == '이메일' and SEARCH_TEXT != null and SEARCH_TEXT != ''">
           AND M.EMAIL_ADDR LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
         </if>
          <if test="GRADE_NAME != null and GRADE_NAME != ''">
            AND G.GRADE_NAME = #{GRADE_NAME}
         </if>
         <if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
-          AND M.PHONE_NUMBER LIKE CONCAT('%', #{PHONE_NUMBER}, '%')
+          AND M.PHONE_NUMBER LIKE CONCAT('%', TRIM(#{PHONE_NUMBER}), '%')
         </if>
        	<!-- 검색 범위에서 마지막날도 포함하기  -->
        	<!-- BETWEEN 은 기본적으로 양쪽 끝값을 포함 -->
@@ -185,7 +185,11 @@
    
    <!-- 관리자 뺴고 오로지 회원 등급만 조회-->
    <select id="selectGradeExceptionAdminList" resultType="java.util.Map">
-   	 SELECT 
+      SELECT 
+        '' AS GRADE_CODE,
+        '전체' AS GRADE_NAME
+      UNION 
+   	 SELECT
           GRADE_CODE
           ,GRADE_NAME
       FROM GRADES
@@ -193,41 +197,44 @@
      ORDER BY GRADE_CODE 
    </select>
    
-   <!-- 회원등급 자동 변경-->
+   <!-- 회원등급 변경: 값이 들어오면 그 등급으로 아니면 자동적으로-->
    <update id="updateMemberGrade" parameterType="java.util.Map">
     UPDATE MEMBERS M
        SET M.GRADE_CODE =
        <choose>
-           <!-- 수동 변경 -->
            <when test="GRADE_CODE != null and GRADE_CODE != ''">
                #{GRADE_CODE}
            </when>
-           <!-- 자동 변경 -->
            <otherwise>
-               (SELECT G.GRADE_CODE
-                  FROM GRADES G
-                 WHERE M.PRICE_AMOUNT >= G.STANDARD_AMOUNT
-                 ORDER BY G.STANDARD_AMOUNT DESC
-                 LIMIT 1)
+               COALESCE(
+                   (SELECT G.GRADE_CODE
+                      FROM GRADES G
+                     WHERE M.PRICE_AMOUNT >= G.STANDARD_AMOUNT
+                       AND G.GRADE_CODE != 9  <!-- 관리자 등급 제외 -->
+                     ORDER BY G.STANDARD_AMOUNT DESC
+                     LIMIT 1),
+                   1  <!-- 기본값: 일반 등급 -->
+               )
            </otherwise>
        </choose>
       WHERE M.MEMBER_ID = #{MEMBER_ID}
-   </update>
-   
-	<!-- 전체 회원 등급 자동 업데이트 (관리자 제외) -->
-	<update id="updateAllMemberGradeAuto">
+	</update>
+	
+	<!-- 전체 회원 등급 자동 업데이트 (스케줄러용) -->
+	<update id="updateAllMemberGradeAutoByAdmin">
 	    UPDATE MEMBERS M
 	       SET M.GRADE_CODE = (
 	           SELECT G.GRADE_CODE
 	             FROM GRADES G
 	            WHERE M.PRICE_AMOUNT >= G.STANDARD_AMOUNT
+	              AND G.GRADE_CODE != 9  -- 관리자 등급 제외
 	            ORDER BY G.STANDARD_AMOUNT DESC
 	            LIMIT 1
 	       )
-	     WHERE M.GRADE_CODE != 9  -- 관리자 제외
+	     WHERE M.GRADE_CODE != 9  -- 관리자는 등급 변경 안함
 	</update>
-   
-   	<!-- 휴면/탈퇴 회원 조회 -->
+	   
+	<!-- 휴면/탈퇴 회원 조회 -->
 	<select id="selectDormantWithdrawnMembers"
 		parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
@@ -254,34 +261,28 @@
 		    END AS DAYS_SINCE_CHANGE
 		  FROM MEMBERS M
 	     WHERE M.STATUS IN ('R', 'N')
-
 		<!-- 상태 검색 -->
 		<if test="STATUS != null and STATUS != ''">
 			AND M.STATUS = #{STATUS}
 		</if>
-
 		<!-- 이름 검색 -->
 		<if test="USER_NAME != null and USER_NAME != ''">
 			AND M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
 		</if>
-
 		<!-- 이메일 검색 -->
 		<if test="EMAIL_ADDR != null and EMAIL_ADDR != ''">
 			AND M.EMAIL_ADDR LIKE CONCAT('%', #{EMAIL_ADDR}, '%')
 		</if>
-
 		<!-- 가입일 범위 검색 -->
 		<if test="JOIN_START_DATE != null and JOIN_END_DATE != null">
 			AND M.INPUT_DT BETWEEN #{JOIN_START_DATE} AND DATE_ADD(#{JOIN_END_DATE},
 			INTERVAL 1 DAY)
 		</if>
-
 		<!-- 휴면일 범위 검색 (LAST_LOGIN_DT) -->
 		<if test="DORMANT_START_DATE != null and DORMANT_END_DATE != null">
 			AND M.LAST_LOGIN_DT BETWEEN #{DORMANT_START_DATE} AND
 			DATE_ADD(#{DORMANT_END_DATE}, INTERVAL 1 DAY)
 		</if>
-
 		<!-- 탈퇴일 범위 검색 (DELETE_DT) -->
 		<if test="DELETE_START_DATE != null and DELETE_END_DATE != null">
 			AND M.DELETE_DT BETWEEN #{DELETE_START_DATE} AND
@@ -352,7 +353,7 @@
 	         AND M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
 	     </if>
 	     <if test="PHONE_NUMBER != '' and PHONE_NUMBER != null">
-	         AND M.PHONE_NUMBER LIKE CONCAT('%', #{PHONE_NUMBER}, '%')
+	         AND M.PHONE_NUMBER LIKE CONCAT('%', TRIM(#{PHONE_NUMBER}), '%')
 	     </if>
 	     <!-- 포인트 많은 순, 쿠폰 갯수 많은 순 -->
 	      ORDER BY POINT DESC, COUPON_CNT DESC
@@ -550,6 +551,10 @@
 		MEMBER_ID
 		,USER_NAME
 		,PHONE_NUMBER
+		,CASE
+			WHEN LOGIN_TYPE = 'IDPW' THEN '홈페이지'
+			WHEN LOGIN_TYPE = 'KAKAO' THEN '카카오'
+		 END AS LOGIN_NAME
 		,LOGIN_TYPE
 		,INPUT_DT
 	  FROM MEMBERS
@@ -562,14 +567,62 @@
      </if>
      <if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
      	AND PHONE_NUMBER LIKE CONCAT('%',TRIM(#{PHONE_NUMBER}),'%')
+     	<!-- 정규식에 의한 공백 제거 -->
      </if>
      <if test="INPUT_START_DT != null and INPUT_END_DT != null">
      	AND INPUT_DT BETWEEN #{INPUT_START_DT} AND DATE_ADD(#{INPUT_END_DT}, INTERVAL 1 DAY)
      </if>
      <if test="LOGIN_TYPE != null and LOGIN_TYPE != ''">
-     	AND LOGIN_TYPE = #{LOGIN_TYPE}
+     	AND LOGIN_TYPE = #{LOGIN_TYPE} 
      </if>
      ORDER BY INPUT_DT DESC
 	</select>
 	
+	<!-- 차트 그리기 위한 쿼리 : 전체 회원 중 일반회원과 카카오 회원의 비율  -->
+	<select id="selectLoginTypeStatsByAdmin" resultType="java.util.Map">
+	  SELECT
+	    <!-- CASE문 간략히  -->
+		CASE A.LOGIN_TYPE WHEN 'IDPW' THEN '일반회원'
+		                  WHEN  'KAKAO' THEN '카카오 회원'
+		 END AS LOGIN_TYPE
+	     ,COUNT(0) AS CNT
+	     ,ROUND(COUNT(0) * 100.0 / SUM(COUNT(0)) OVER (), 2) AS RATE
+	    FROM MEMBERS A
+	   WHERE A.LOGIN_TYPE IN ('IDPW', 'KAKAO')
+	   GROUP BY A.LOGIN_TYPE
+	</select>
+	
+	<!-- 탈퇴 이력 조회 -->
+	<select id="selectWithdrawMemberListByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			MEMBER_ID
+			,USER_NAME 
+			,PHONE_NUMBER
+			,CASE LOGIN_TYPE WHEN 'IDPW' THEN '홈페이지'
+				             WHEN 'KAKAO' THEN '카카오'
+			  END AS LOGIN_NAME
+			,LOGIN_TYPE 
+			,INPUT_DT
+			<!-- 상태가 N으로 변한 시점 -->
+			,DELETE_DT
+		  FROM MEMBERS 
+		 WHERE STATUS = 'N'
+		 <if test="MEMBER_ID != null and MEMBER_ID != ''">
+		 	AND MEMBER_ID LIKE CONCAT('%',#{MEMBER_ID},'%')
+		 </if>
+		 <if test="USER_NAME != null and USER_NAME !=''">
+		 	AND USER_NAME LIKE CONCAT('%',#{USER_NAME},'%')
+		 </if>
+		 <if test="LOGIN_TYPE != null and LOGIN_TYPE != ''">
+		 	AND LOGIN_TYPE = #{LOGIN_TYPE}
+		 </if>
+		 <if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
+		 	AND PHONE_NUMBER LIKE CONCAT('%',TRIM(#{PHONE_NUMBER}),'%')
+		 </if>
+		 <if test="DELETE_START_DT != null and DELETE_END_DT != null">
+		 	AND DELETE_DT BETWEEN #{DELETE_START_DT} AND DATE_ADD(#{DELETE_END_DT}, INTERVAL 1 DAY)
+		 </if>
+	</select>
+	
+
 </mapper>

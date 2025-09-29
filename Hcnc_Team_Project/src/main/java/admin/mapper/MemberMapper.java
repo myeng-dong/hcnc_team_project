@@ -38,8 +38,6 @@ public interface MemberMapper {
 	//회원 등급변경
 	int updateMemberGrade(Map<String, Object> updateGrade);
 	
-	//전체 회원 등급 자동 업데이트  
-	int updateAllMemberGradeAuto();
 	
 	//관리자 제외한 등급 조회 
 	List<Map<String, Object>> selectGradeExceptionAdminList();
@@ -86,8 +84,17 @@ public interface MemberMapper {
 	//블랙리스트 신고 취소
 	int updateMemberBlackStatusListByAdmin(Map<String, Object> row);
 	
-	//회원 가입 이력 조회를 위한 리스트 조회
+	//회원 가입 이력 조회
 	List<Map<String, Object>> selectMemberRegHistoryListByAdmin(Map<String, Object> param);
+	
+	//스케쥴러 : 서버시작시 바로 + 매일 새벽 2시에 회원등급 자동 변경
+	int updateAllMemberGradeAutoByAdmin();
+	
+	//회원가입 이력  통계,차트 
+	List<Map<String, Object>> selectLoginTypeStatsByAdmin();
+	
+	//회원 탈퇴 이력 조회
+	List<Map<String, Object>> selectWithdrawMemberListByAdmin(Map<String, Object> param);
 	
 	
 	
