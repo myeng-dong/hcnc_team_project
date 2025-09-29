@@ -1,10 +1,217 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberWithdrawHistory" width="1280" height="720" titletext="New Form">
+  <Form id="Form_MemberWithdrawHistory" width="1280" height="720" titletext="New Form" background="#F4F7FE" borderRadius="8px" onload="Form_MemberWithdrawHistory_onload">
     <Layouts>
       <Layout height="720" width="1280">
-        <Static id="Static00" taborder="0" text="Static00" left="44" top="28" width="116" height="44"/>
+        <Static id="withDraw_search_box" taborder="0" left="20" top="17" width="1240" height="133" background="white" text="" borderRadius="8px" onclick="reg_search_box_onclick"/>
+        <Grid id="black_list" taborder="1" left="20" top="160" height="540" background="#FFFFFF" border="0px none" borderRadius="10px" right="20" autofittype="col" binddataset="ds_list" oncellclick="black_list_oncellclick">&gt;
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="165"/><Column size="127"/><Column size="190"/><Column size="171"/><Column size="230"/><Column size="192"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="전화번호" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="로그인 유형" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="회원등록일" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/><Cell col="6" text="회원탈퇴일" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/></Band><Band id="body"><Cell text="expr:currow + 1" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="3" text="bind:PHONE_NUMBER" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center" displaytype="mask" edittype="mask" maskedittype="string" maskeditformat="###-####-####"/><Cell col="4" text="bind:LOGIN_NAME" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="5" text="bind:INPUT_DT" displaytype="normal" edittype="none" combocodecol="GRADE_CODE" combodatacol="GRADE_NAME" combodataset="ds_grade" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/><Cell col="6" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center" text="bind:DELETE_DT"/></Band></Format></Formats></Grid>
+        <Static id="Static00" taborder="2" text="가입 유형" left="36" top="36" width="69" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static00_onclick"/>
+        <Static id="Static00_01" taborder="3" text="아이디" left="50" top="90" width="40" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_01_00" taborder="4" text="이름" left="450" top="37" width="27" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_00" taborder="5" text="전화번호" left="430" top="90" width="60" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static00_00_00" taborder="6" text="회원 탈퇴일" left="820" top="37" width="70" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Calendar id="Calendar00" taborder="7" left="898" top="40" width="162" height="29" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
+        <Calendar id="Calendar00_00" taborder="8" left="1088" top="41" width="162" height="29" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_onchanged"/>
+        <Static id="Static00_02" taborder="9" text="~" left="1070" top="43" width="20" height="22" font="bold 14px/normal &quot;Gulim&quot;"/>
+        <Button id="search_btn" taborder="10" text="검색하기" left="902" top="93" width="108" height="37" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="search_btn_onclick"/>
+        <Button id="Button01" taborder="11" text="초기화" left="1025" top="93" width="110" height="37" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
+        <Radio id="Radio00" taborder="12" left="116" top="40" width="224" height="29" innerdataset="ds_loginType" codecolumn="LOGIN_TYPE" datacolumn="NAME" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;" onitemchanged="Radio00_onitemchanged"/>
+        <Edit id="Edit00" taborder="13" left="112" top="92" width="208" height="28" border="1px solid black" borderRadius="s" onchanged="Edit00_onchanged" onkeyup="Edit00_onkeyup"/>
+        <Edit id="Edit00_00" taborder="14" left="502" top="39" width="208" height="28" border="1px solid black" borderRadius="8px" onkeyup="Edit00_00_onkeyup"/>
+        <MaskEdit id="MaskEdit00" taborder="15" left="502" top="90" width="208" height="28" border="1px solid black" borderRadius="8px" format="###-####-####" type="string" onchanged="MaskEdit00_onchanged" onkeyup="MaskEdit00_onkeyup"/>
       </Layout>
     </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="black_list" propid="binddataset" datasetid="ds_list" columnid=""/>
+      <BindItem id="item1" compid="Radio00" propid="value" datasetid="ds_search" columnid="LOGIN_TYPE"/>
+      <BindItem id="item2" compid="Edit00" propid="value" datasetid="ds_search" columnid="MEMBER_ID"/>
+      <BindItem id="item3" compid="Edit00_00" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
+      <BindItem id="item4" compid="MaskEdit00" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
+      <BindItem id="item5" compid="Calendar00" propid="value" datasetid="ds_search" columnid="DELETE_START_DT"/>
+      <BindItem id="item6" compid="Calendar00_00" propid="value" datasetid="ds_search" columnid="DELETE_END_DT"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_loginType">
+        <ColumnInfo>
+          <Column id="NAME" type="STRING" size="256"/>
+          <Column id="LOGIN_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="NAME">전체</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">홈페이지</Col>
+            <Col id="LOGIN_TYPE">IDPW</Col>
+          </Row>
+          <Row>
+            <Col id="NAME">카카오</Col>
+            <Col id="LOGIN_TYPE">KAKAO</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="LOGIN_TYPE" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="DELETE_DT" type="STRING" size="256"/>
+          <Column id="LOGIN_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="LOGIN_TYPE" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="DELETE_START_DT" type="STRING" size="256"/>
+          <Column id="DELETE_END_DT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.Form_MemberWithdrawHistory_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_selectWithdrawMemberList();
+};
+
+
+
+//가입 이력 조회
+this.fn_selectWithdrawMemberList = function(){
+	
+	var strSvcID = "selectWithdrawMemberList"
+	var setURL = "svc::/selectWithdrawMemberListByAdmin.do";
+	var strInDatasets = "ds_search=ds_search";
+	var strOutDatasets = "ds_list=ds_list";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+
+
+// 공통 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+	
+	if(errorCode == -1){
+		this.alert(errorMSG)
+	}
+	
+	switch(svcID){
+	case "selectWithdrawMemberList" : 
+		console.log(this.ds_list.saveXML());
+		break;
+	}
+	
+}
+
+//검색버튼
+this.search_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_selectWithdrawMemberList();
+};
+
+//초기화
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.reload();
+};
+
+//로그인 타입 선택시 바로바로
+this.Radio00_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_selectWithdrawMemberList();
+};
+
+//아이디 검색
+this.Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fn_selectWithdrawMemberList();
+	}
+};
+
+//이름 검색
+this.Edit00_00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fn_selectWithdrawMemberList();
+	}
+};
+
+//전화번호 검색
+this.MaskEdit00_onkeyup = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fn_selectWithdrawMemberList();
+	}
+};
+
+//회원 탈퇴 시작일
+this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var startDate = this.Calendar00.value;
+    var endDate   = this.Calendar00_00.value;
+    
+    if (!startDate) return; // 시작일 없으면 처리 중단
+    
+    // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+    if (endDate && endDate < startDate) {
+        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+        this.Calendar00_00.set_value(startDate);
+        endDate = startDate;
+    }
+    
+    // 시작일은 00시 00분
+    this.ds_search.setColumn(0, "DELETE_START_DT", startDate + "000000");
+    
+    // 종료일이 있으면 23시 59분까지 설정
+    if (endDate) {
+        this.ds_search.setColumn(0, "DELETE_END_DT", endDate + "235959");
+    }
+	
+	//자동 검색 
+	this.fn_selectWithdrawMemberList();
+};
+
+//회원 탈퇴 종료일
+this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var startDate = this.Calendar00.value;
+    var endDate   = this.Calendar00_00.value;
+    
+    if (!endDate) return; // 종료일 없으면 처리 중단
+    
+    // 종료일이 시작일보다 빠른 경우
+    if (startDate && endDate < startDate) {
+        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+        this.Calendar00_00.set_value(startDate);
+        endDate = startDate;
+    }
+    
+    // 종료일은 23시 59분
+    this.ds_search.setColumn(0, "DELETE_END_DT", endDate + "235959");
+    
+    // 시작일이 있으면 00시 00분까지 세팅
+    if (startDate) {
+        this.ds_search.setColumn(0, "DELETE_START_DT", startDate + "000000");
+    }
+	
+	//자동 검색 
+	this.fn_selectWithdrawMemberList();
+};
+]]></Script>
   </Form>
 </FDL>

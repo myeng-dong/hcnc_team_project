@@ -181,7 +181,7 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item3","member_name00","value","ds_search","ORDER_iD");
+            obj = new BindItem("item3","member_name00","value","ds_search","ORDER_NUMBER");
             this.addChild(obj.name, obj);
             obj.bind();
 
@@ -368,6 +368,75 @@
             }
         };
 
+        //라디오 자동검색
+        this.point_type_onitemchanged = function(obj,e)
+        {
+        	this.fn_selectPointDetailList();
+        };
+
+
+        //포인트 발생일
+        this.Calendar00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar00_00.value;
+
+            if (!startDate) return; // 시작일 없으면 처리 중단
+
+            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+            if (endDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 시작일은 00시 00분
+            this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+
+            // 종료일이 있으면 23시 59분까지 설정
+            if (endDate) {
+                this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+            }
+
+        	//자동 검색
+        	this.fn_selectPointDetailList();
+        };
+
+        //발생일 끝
+        this.Calendar00_00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar00_00.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectPointDetailList();
+        };
+
+        //주문번호 자동 검색 조회
+        this.member_name00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_selectPointDetailList();
+        	}
+        };
+
         });
         
         // Regist UI Components Event
@@ -378,6 +447,9 @@
             this.grade_search_box00.addEventHandler("onclick",this.grade_search_box00_onclick,this);
             this.point_type.addEventHandler("onitemchanged",this.point_type_onitemchanged,this);
             this.member_name00.addEventHandler("onchanged",this.member_name_onchanged,this);
+            this.member_name00.addEventHandler("onkeyup",this.member_name00_onkeyup,this);
+            this.Calendar00.addEventHandler("onchanged",this.Calendar00_onchanged,this);
+            this.Calendar00_00.addEventHandler("onchanged",this.Calendar00_00_onchanged,this);
             this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
             this.Button01.addEventHandler("onclick",this.Button01_onclick,this);
             this.pointAndCoupon.addEventHandler("oncellclick",this.pointAndCoupon_oncellclick,this);

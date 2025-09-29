@@ -112,38 +112,32 @@
             obj.set_borderRadius("8px");
             this.search_box.addChild(obj.name, obj);
 
-            obj = new Edit("member_phoneNum","94","156","266","29",null,null,null,null,null,null,this.search_box.form);
+            obj = new Calendar("Calendar00","94","199","176","28",null,null,null,null,null,null,this.search_box.form);
             obj.set_taborder("7");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.search_box.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar00","94","199","176","28",null,null,null,null,null,null,this.search_box.form);
+            obj = new Calendar("Calendar00_00","297","198","190","29",null,null,null,null,null,null,this.search_box.form);
             obj.set_taborder("8");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.search_box.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar00_00","297","198","190","29",null,null,null,null,null,null,this.search_box.form);
-            obj.set_taborder("9");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.search_box.addChild(obj.name, obj);
-
             obj = new Static("Static00","280","205","34","16",null,null,null,null,null,null,this.search_box.form);
-            obj.set_taborder("10");
+            obj.set_taborder("9");
             obj.set_text("~");
             this.search_box.addChild(obj.name, obj);
 
             obj = new Static("Static01","9","11","102","38",null,null,null,null,null,null,this.search_box.form);
-            obj.set_taborder("11");
+            obj.set_taborder("10");
             obj.set_text("회원 검색");
             obj.set_textAlign("center");
             obj.set_font("20px/normal \"Noto Sans KR Black\"");
             this.search_box.addChild(obj.name, obj);
 
             obj = new Button("search_btn","280","247","100","31",null,null,null,null,null,null,this.search_box.form);
-            obj.set_taborder("12");
+            obj.set_taborder("11");
             obj.set_text("조회하기");
             obj.set_font("13px/normal \"Noto Sans KR Black\"");
             obj.set_background("#2563eb");
@@ -152,12 +146,20 @@
             this.search_box.addChild(obj.name, obj);
 
             obj = new Button("reset_btn","399","247","100","31",null,null,null,null,null,null,this.search_box.form);
-            obj.set_taborder("13");
+            obj.set_taborder("12");
             obj.set_text("초기화");
             obj.set_font("13px/normal \"Noto Sans KR Black\"");
             obj.set_background(" #9ca3af");
             obj.set_color("#fff");
             obj.set_borderRadius("4px");
+            this.search_box.addChild(obj.name, obj);
+
+            obj = new MaskEdit("MaskEdit00","95","157","265","28",null,null,null,null,null,null,this.search_box.form);
+            obj.set_taborder("13");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
+            obj.set_format("###-####-####");
+            obj.set_type("string");
             this.search_box.addChild(obj.name, obj);
 
             obj = new Button("insert_member","95","311","105","29",null,null,null,null,null,null,this);
@@ -191,15 +193,15 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item4","search_box.form.member_phoneNum","value","ds_search","PHONE_NUMBER");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
             obj = new BindItem("item5","search_box.form.Calendar00","value","ds_search","FIRST_LOGIN_DT");
             this.addChild(obj.name, obj);
             obj.bind();
 
             obj = new BindItem("item6","search_box.form.Calendar00_00","value","ds_search","LAST_LOGIN_DT");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item4","search_box.form.MaskEdit00","value","ds_search","PHONE_NUMBER");
             this.addChild(obj.name, obj);
             obj.bind();
             
@@ -218,17 +220,16 @@
         this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_MemberList_onload = function(obj,e)
         {
-        	this.fn_search();
-        	this.fn_gradeSearch();
+        //     var objDate = new nexacro.Date();
+        //     var mm = (objDate.getMonth()+1).toString().padLeft(2,"0");
+        //     var dd = objDate.getDate().toString().padLeft(2,"0");
+        //     var today = objDate.getYear() + mm + dd;
+        //
+        //     this.ds_search.setColumn(0, "FIRST_LOGIN_DT", objDate.getYear() + "0101");
+        //     this.ds_search.setColumn(0, "LAST_LOGIN_DT", today);
 
-        	//날짜 디폴트 값 설정
-        	var objDate = new nexacro.Date();
-        	var mm = (objDate.getMonth()+1).toString().padLeft(2,"0");
-        	var dd = objDate.getDate().toString().padLeft(2,"0");
-        	var today = objDate.getYear() + mm + dd;
-
-        	var startDate = this.ds_search.setColumn(0,"FIRST_LOGIN_DT",objDate.getYear()+"0101");
-        	var endDate = this.ds_search.setColumn(0,"LAST_LOGIN_DT",today);
+            this.fn_search();
+            this.fn_gradeSearch();
         };
 
 
@@ -316,6 +317,83 @@
         		this.getOwnerFrame().set_formurl("member::Form_MemberDetail.xfdl");
         	}
         };
+
+        //이름 검색
+        this.search_box_Edit00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode ==13){
+        		this.fn_search();
+        	}
+        };
+
+        //등급에 따라 검색
+        this.search_box_member_grade_onitemchanged = function(obj,e)
+        {
+           this.fn_search();
+        };
+
+        //전화번호 검색
+        this.search_box_MaskEdit00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode ==13){
+        		this.fn_search();
+        	}
+        };
+
+        //시작일
+        this.search_box_Calendar00_onchanged = function(obj,e)
+        {
+        	var startDate = this.search_box.form.Calendar00.value;
+            var endDate   = this.search_box.form.Calendar00_00.value;
+
+            if (!startDate) return; // 시작일 없으면 처리 중단
+
+            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+            if (endDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.search_box.form.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 시작일은 00시 00분
+            this.ds_search.setColumn(0, "FIRST_LOGIN_DT", startDate + "000000");
+
+            // 종료일이 있으면 23시 59분까지 설정
+            if (endDate) {
+                this.ds_search.setColumn(0, "LAST_LOGIN_DT", endDate + "235959");
+            }
+
+        	//자동 검색
+        	this.fn_search()
+        };
+
+        //종료일
+        this.search_box_Calendar00_00_onchanged = function(obj,e)
+        {
+        	var startDate = this.search_box.form.Calendar00.value;
+            var endDate   = this.search_box.form.Calendar00_00.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.search_box.form.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "LAST_LOGIN_DT", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "FIRST_LOGIN_DT", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_search()
+        };
+
         });
         
         // Regist UI Components Event
@@ -324,9 +402,14 @@
             this.addEventHandler("onload",this.Form_MemberList_onload,this);
             this.member_list.addEventHandler("oncellclick",this.member_list_oncellclick,this);
             this.search_box.form.member_info.addEventHandler("onitemchanged",this.search_box_member_info_onitemchanged,this);
+            this.search_box.form.Edit00.addEventHandler("onkeyup",this.search_box_Edit00_onkeyup,this);
+            this.search_box.form.member_grade.addEventHandler("onitemchanged",this.search_box_member_grade_onitemchanged,this);
+            this.search_box.form.Calendar00.addEventHandler("onchanged",this.search_box_Calendar00_onchanged,this);
+            this.search_box.form.Calendar00_00.addEventHandler("onchanged",this.search_box_Calendar00_00_onchanged,this);
             this.search_box.form.Static00.addEventHandler("onclick",this.search_box_Static00_onclick,this);
             this.search_box.form.search_btn.addEventHandler("onclick",this.search_box_search_btn_onclick,this);
             this.search_box.form.reset_btn.addEventHandler("onclick",this.search_box_reset_btn_onclick,this);
+            this.search_box.form.MaskEdit00.addEventHandler("onkeyup",this.search_box_MaskEdit00_onkeyup,this);
             this.insert_member.addEventHandler("onclick",this.Button00_onclick,this);
         };
         this.loadIncludeScript("Form_MemberList.xfdl");

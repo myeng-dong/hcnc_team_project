@@ -45,7 +45,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("member_grade","100","53","980","34",null,null,null,null,null,null,this);
+            obj = new Radio("member_grade","110","53","1000","34",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_innerdataset("ds_grade");
             obj.set_codecolumn("GRADE_CODE");
@@ -78,13 +78,13 @@
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("grade_name","100","106","1093","35",null,null,null,null,null,null,this);
+            obj = new Edit("grade_name","100","106","1070","35",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("grade_emil","100","165","1093","35",null,null,null,null,null,null,this);
+            obj = new Edit("grade_emil","100","165","1070","35",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
@@ -283,6 +283,82 @@
         	this.reload();
         };
 
+        //등급 선택시 자동 조회
+        this.member_grade_onitemchanged = function(obj,e)
+        {
+        	this.fn_GradeManageSearch()
+        };
+
+        //등급 이름 자동 검색
+        this.grade_name_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_GradeManageSearch();
+        	}
+        };
+
+        //등급 이메일 자동 검색
+        this.grade_emil_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_GradeManageSearch();
+        	}
+        };
+
+        //시작일
+        this.Calendar00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar00_00.value;
+
+            if (!startDate) return; // 시작일 없으면 처리 중단
+
+            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+            if (endDate && endDate < startDate) {
+                this.alert("시작일은 종료일보다 느릴 수 없습니다.");
+                this.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 시작일은 00시 00분
+            this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+
+            // 종료일이 있으면 23시 59분까지 설정
+            if (endDate) {
+                this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+            }
+
+        	//자동 검색
+        	this.fn_GradeManageSearch();
+        };
+
+        //종료일
+        this.Calendar00_00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar00_00.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_GradeManageSearch();
+        };
+
 
 
         });
@@ -291,6 +367,12 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_MemberGrade_onload,this);
+            this.grade_search_box.addEventHandler("onclick",this.grade_search_box_onclick,this);
+            this.member_grade.addEventHandler("onitemchanged",this.member_grade_onitemchanged,this);
+            this.grade_name.addEventHandler("onkeyup",this.grade_name_onkeyup,this);
+            this.grade_emil.addEventHandler("onkeyup",this.grade_emil_onkeyup,this);
+            this.Calendar00.addEventHandler("onchanged",this.Calendar00_onchanged,this);
+            this.Calendar00_00.addEventHandler("onchanged",this.Calendar00_00_onchanged,this);
             this.search_btn.addEventHandler("onclick",this.Button00_onclick,this);
             this.reset_btn.addEventHandler("onclick",this.Button00_00_onclick,this);
             this.update_grade.addEventHandler("onclick",this.inse_onclick,this);
