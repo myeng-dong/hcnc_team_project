@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.UserCouponMapper">
 
+	<!-- 프로모션 진행여부 확인 후  아이디를 불러오고 불러온아이디의 쿠폰코드 쪽을 체크해서 특정 PROMOTION_CODE를 가지고있지 않는 사람에게 INSERT해줌 -->
+	<!-- 이때 체크할 부분이 프로모션에서 설정한 자동여부 -->
+	
+	
+	<!-- 프로모션에서 수동체크했을때 사용자는 어캐 받을지 일단고민중 -->
+	
 	<!-- 신규회원자동발급용 -->
     <insert id="insertSignUpCoupon" parameterType="map">
 	    INSERT INTO COUPONS (
@@ -23,7 +29,7 @@
 	        ,#{minOrderPrice}
 	        ,NOW()
 	        ,#{expiryDt}
-	        ,'newMember'
+	        ,'WELCOME'
 	    )
 	</insert>
 

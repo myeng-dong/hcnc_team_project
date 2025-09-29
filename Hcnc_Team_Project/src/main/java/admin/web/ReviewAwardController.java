@@ -17,7 +17,7 @@ public class ReviewAwardController {
 
     @Autowired
     private ReviewAwardService reviewAwardService;
-
+    
     // 리뷰 리스트 조회
     @RequestMapping(value="/selectProductReviewListByAdmin.do")
     public NexacroResult selectProductReviewListByAdmin() {

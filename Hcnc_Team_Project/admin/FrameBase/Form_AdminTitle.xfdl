@@ -3,8 +3,8 @@
   <Form id="Form_AdminTitle" width="1280" height="70" titletext="New Form" onload="Form_AdminTitle_onload" background="#F4F7FE">
     <Layouts>
       <Layout height="70" width="1280">
-        <Static id="sta_h3" taborder="0" text="h3 title area" left="40" top="10" width="940" height="40" onclick="static_board_onclick" font="normal 20pt/normal &quot;Noto Sans KR Black&quot;" color="black"/>
-        <Static id="sta_location" taborder="1" text="⌂&gt;회원&gt;회원관리" left="38" top="42" width="990" height="40" onclick="static_board_onclick" font="normal 9pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+        <Static id="sta_h3" taborder="0" text="h3 title area" left="40" top="10" height="40" onclick="static_board_onclick" font="normal 20pt/normal &quot;Noto Sans KR Black&quot;" color="black" right="110"/>
+        <Static id="sta_location" taborder="1" text="⌂&gt;회원&gt;회원관리" left="40" top="50" height="18" onclick="static_board_onclick" font="normal 9pt/normal &quot;Noto Sans KR DemiLight&quot;" right="110"/>
       </Layout>
     </Layouts>
     <Bind>

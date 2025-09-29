@@ -46,9 +46,9 @@
             obj.set_background("#cccccc");
             this.addChild(obj.name, obj);
 
-            obj = new Static("admin_id","1020","14",null,"23","190",null,null,null,null,null,this);
+            obj = new Static("admin_id",null,"14","70","23","200",null,null,null,null,null,this);
             obj.set_taborder("4");
-            obj.set_background("lightgray");
+            obj.set_background("#f5f5f5");
             obj.set_textAlign("center");
             obj.set_color("black");
             obj.set_font("bold 14px/normal \"Noto Sans KR Black\"");

@@ -211,6 +211,51 @@ this.fn_popCallback = function(svcID, strVal){
           </Row>
         </Rows>
       </Dataset>
+      <Dataset id="ds_promo_target">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">전체회원</Col>
+            <Col id="codecolumn">all</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">신규회원</Col>
+            <Col id="codecolumn">new</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">등급별</Col>
+            <Col id="codecolumn">grade</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_grade">
+        <ColumnInfo>
+          <Column id="GRADE_CODE" type="STRING" size="256"/>
+          <Column id="GRADE_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_promo_active">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">활성화</Col>
+            <Col id="codecolumn">1</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">비활성화</Col>
+            <Col id="codecolumn">0</Col>
+          </Row>
+        </Rows>
+      </Dataset>
     </Objects>
   </Form>
 </FDL>
