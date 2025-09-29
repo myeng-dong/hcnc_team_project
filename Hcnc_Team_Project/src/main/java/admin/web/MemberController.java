@@ -146,11 +146,12 @@ public class MemberController {
 
 		try {
 
-			// 조회 결과를 list에 담고....
-			List<Map<String, Object>> selectList = memberService.selectMemberList(param);
-
-			// 넥사크로에 다시 보낸다!
-			result.addDataSet("ds_list", selectList);
+			// 1. 먼저 전체 회원 등급 자동 업데이트 실행
+	        memberService.updateAllMemberGradeAuto();
+	        
+	        // 2.회원 목록 조회(등급도 자동)
+	        List<Map<String, Object>> selectList = memberService.selectMemberList(param);
+	        result.addDataSet("ds_list", selectList);
 
 		} catch (Exception e) {
 			System.out.println(e);
@@ -168,7 +169,11 @@ public class MemberController {
 		NexacroResult result = new NexacroResult();
 
 		try {
-			// 회원등급 전체 조회 (param 필요 없음)
+			
+			//회원등급 자동 업뎃
+			 memberService.updateAllMemberGradeAuto();
+			
+			 // 회원등급 전체 조회 (param 필요 없음)
 			List<Map<String, Object>> gradeList = memberService.selectMemberGradeList();
 
 			// ds_grade라는 이름으로 넥사크로에 전달
@@ -480,24 +485,23 @@ public class MemberController {
 	// By.PJ 09.22
 	@RequestMapping(value = "/selectMemberChageTypeListByAdmin.do")
 	public NexacroResult selectMemberChageTypeList(
-	        @ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
 
-	    NexacroResult result = new NexacroResult();
+		NexacroResult result = new NexacroResult();
 
-	    try {
-	        List<Map<String, Object>> selectChageTypeList = memberService.selectMemberChageTypeList(param);
-	        result.addDataSet("ds_type", selectChageTypeList);
+		try {
+			List<Map<String, Object>> selectChageTypeList = memberService.selectMemberChageTypeList(param);
+			result.addDataSet("ds_type", selectChageTypeList);
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        result.setErrorCode(-1);
-	        result.setErrorMsg("회원 포인트 유형 조회 실패 >>> " + e.getMessage());
-	    }
-	    return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원 포인트 유형 조회 실패 >>> " + e.getMessage());
+		}
+		return result;
 	}
 
-
-	// 해당 회원의 포인트 상세 조회
+	// 해당 회원의 포인트 상세 조회(ds_search에 MEMBER_ID담아서 보내주기 )
 	// By.PJ 09.22
 	@RequestMapping(value = "/selectPointDetailListByAdmin.do")
 	public NexacroResult selectPointDetailList(
@@ -534,7 +538,7 @@ public class MemberController {
 	}
 
 	// 포인트 적립 및 차감
-	//By. PJ 09.23
+	// By. PJ 09.23
 	@RequestMapping(value = "/insertMemberPointByAdmin.do")
 	public NexacroResult insertMemberPoint(
 			@ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> insertPointList) {
@@ -542,10 +546,10 @@ public class MemberController {
 		int inserted = 0;
 
 		try {
-			
+
 			for (Map<String, Object> point : insertPointList) {
 				String rowType = String.valueOf(point.get("DataSetRowType"));
-				
+
 				if ("1".equals(rowType)) {
 					inserted = memberService.insertPoint(point);
 				}
@@ -553,7 +557,7 @@ public class MemberController {
 			}
 			Map<String, Object> dsInsCnt = new HashMap<>();
 
-			 dsInsCnt.put("INSERTED", inserted);
+			dsInsCnt.put("INSERTED", inserted);
 
 			result.addDataSet("ds_insCnt", dsInsCnt);
 		} catch (Exception e) {
@@ -563,29 +567,124 @@ public class MemberController {
 		}
 		return result;
 	}
-	
-	//쿠폰 지급
-	@RequestMapping(value="/insertCouponByAdmin.do")
-	public NexacroResult insertCoupon(@ParamDataSet(name="ds_insert", required=false)  Map<String, Object> param){
-		                         
+
+	// 쿠폰 지급(관리자가 강제 insert 엮을게 필요함)
+	// By.PJ 09.23
+	@RequestMapping(value = "/insertCouponByAdmin.do")
+	public NexacroResult insertCoupon(@ParamDataSet(name = "ds_insert", required = false) Map<String, Object> param) {
+
 		NexacroResult result = new NexacroResult();
-		
+
 		try {
-			
+
 			Map<String, Object> dsInsCnt = new HashMap<>();
-			
+
 			int inserted = memberService.insertCoupon(param);
-			
+
 			dsInsCnt.put("INSERTED", inserted);
 			result.addDataSet("ds_insCnt", dsInsCnt);
 
 		} catch (Exception e) {
 			System.out.println(e);
 			result.setErrorCode(-1);
-			result.setErrorMsg("catch 오류 >>>");
+			result.setErrorMsg("쿠폰 지급중 오류");
 		}
 		return result;
-		
 	}
 
+	// 블랙이 된 회원 리스트 조회
+	// By. PJ 09.24
+	@RequestMapping(value = "/selectBlackListByAdmin.do")
+	public NexacroResult selectBlackListByAdmin(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			List<Map<String, Object>> selectBlackList = memberService.selectBlackListByAdmin(param);
+
+			result.addDataSet("ds_list", selectBlackList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("블랙리스트 조회 중 오류");
+		}
+		return result;
+	}
+
+	// 블랙리스트 상세 조회(신고내역)
+	// By. PJ 09.25
+	@RequestMapping(value = "/selectBlackDetailListByAdmin.do")
+	public NexacroResult selectBlackDetailListByAdmin(
+			@ParamVariable(name = "memberId", required = false) String memberId) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			List<Map<String, Object>> selectBlackListDetail = memberService.selectBlackDetailListByAdmin(memberId);
+
+			result.addDataSet("ds_list", selectBlackListDetail);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("블랙리스트 상세 조회 중 오류");
+		}
+		return result;
+	};
+
+	// 블랙 헤제(신고취소로 상태를 바꿔서 5개 미만으로 줄여서 하는 방식)
+	// 신고 처리 변경 행 수정
+	// By.PJ 09.25
+	@RequestMapping(value = "/updateMemberBlackStatusListByAdmin.do")
+	public NexacroResult updateMemberBlackStatusListByAdmin(
+	        @ParamDataSet(name = "ds_list", required = false) List<Map<String, Object>> updateList) {
+	    NexacroResult result = new NexacroResult();
+	    int updated = 0;
+	    
+	    try {
+	        for (Map<String, Object> row : updateList) {
+	            String rowType = String.valueOf(row.get("DataSetRowType"));
+	            
+	            if ("2".equals(rowType)) { // 수정된 행만 처리
+	            	updated = memberService.updateMemberBlackStatusListByAdmin(row);
+	                
+	            }
+	        }
+	        
+	        Map<String, Object> dsUpCnt = new HashMap<>();
+	        dsUpCnt.put("UPDATED", updated);
+	        result.addDataSet("ds_upCnt", dsUpCnt);
+	        
+	    } catch (Exception e) {
+	        result.setErrorCode(-1);
+	        result.setErrorMsg("신고 상태 변경 중 오류");
+	    }
+	    return result;
+	}
+	
+	// 회원 가입 이력을 위한 회원 조회
+	// By. PJ 09.26
+	@RequestMapping(value = "/selectMemberRegHistoryListByAdmin.do")
+	public NexacroResult selectMemberRegHistoryListByAdmin(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+
+		try {
+
+			List<Map<String, Object>> selectMemberRegList = memberService.selectMemberRegHistoryListByAdmin(param);
+
+			result.addDataSet("ds_list", selectMemberRegList);
+
+		} catch (Exception e) {
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("회원 가입 이력 조회중  오류");
+		}
+		return result;
+	}
 }

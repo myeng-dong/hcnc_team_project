@@ -81,14 +81,20 @@
 
             obj = new Edit("member_name00","110","129","1093","35",null,null,null,null,null,null,this);
             obj.set_taborder("6");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Calendar("Calendar00","110","80","373","33",null,null,null,null,null,null,this);
             obj.set_taborder("7");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Calendar("Calendar00_00","520","80","373","33",null,null,null,null,null,null,this);
             obj.set_taborder("8");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00","489","84","28","24",null,null,null,null,null,null,this);
@@ -140,7 +146,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("plus","1110","224","63","22",null,null,null,null,null,null,this);
+            obj = new Button("plus","29","224","63","22",null,null,null,null,null,null,this);
             obj.set_taborder("15");
             obj.set_text("+");
             obj.set_background("#2563eb");
@@ -149,7 +155,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("minus","1180","224","60","22",null,null,null,null,null,null,this);
+            obj = new Button("minus","100","224","60","22",null,null,null,null,null,null,this);
             obj.set_taborder("16");
             obj.set_text("-");
             obj.set_background(" #9ca3af");
@@ -193,7 +199,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberPointDetail.xfdl","common::common.xjs");
         this.registerScript("Form_MemberPointDetail.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.memberId="";
         this.Form_MemberPointDetail_onload = function(obj,e)
         {
@@ -281,8 +289,8 @@
         			// 저장 후 다시 조회하여 최신 데이터 반영
         			this.fn_selectPointDetailList();
         		}else{
-        			this.alert("저장 실패")
-        			this.alert(this.ds_list.saveXML())
+        			this.alert("포인트 저장에 실패했습니다")
+        			this.fn_selectPointDetailList();
         		}
 
         		break;

@@ -55,7 +55,7 @@
                 <Cell col="3" text="bind:PRODUCT_SHORT" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none" cursor="pointer"/>
                 <Cell col="4" text="bind:PHONE_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
                 <Cell col="5" text="bind:ADDRESS" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
-                <Cell col="6" text="bind:COURIER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                <Cell col="6" text="bind:COURIER_ID" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="combo" displaytype="combocontrol" combodataset="ds_courier" combodatacol="NAME" combocodecol="CODE"/>
                 <Cell col="7" text="bind:SHIPMENT_STATUS" displaytype="combocontrol" edittype="combo" combodataset="ds_status" combocodecol="NAME" combodatacol="NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
                 <Cell col="8" text="bind:TRACKING_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
               </Band>
@@ -248,6 +248,7 @@ this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
           <Column id="ADDRESS" type="STRING" size="256"/>
           <Column id="PRODUCT_SHORT" type="STRING" size="256"/>
           <Column id="PRODUCT_SUMMARY" type="STRING" size="256"/>
+          <Column id="COURIER_ID" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -281,6 +282,7 @@ this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
           <Column id="SHIPPED_DT" type="STRING" size="256"/>
           <Column id="DELIVERD_DT" type="STRING" size="256"/>
           <Column id="UPDATE_DT" type="STRING" size="256"/>
+          <Column id="COURIER_ID" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="ds_orderStat">
@@ -313,6 +315,26 @@ this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
         </ColumnInfo>
         <Rows>
           <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_courier">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">1</Col>
+            <Col id="NAME">롯데택배</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">2</Col>
+            <Col id="NAME">우체국택배</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">3</Col>
+            <Col id="NAME">CJ대한통운</Col>
+          </Row>
         </Rows>
       </Dataset>
     </Objects>
