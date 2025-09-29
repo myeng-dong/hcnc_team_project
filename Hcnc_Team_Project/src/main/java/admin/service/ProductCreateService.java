@@ -20,18 +20,18 @@ public class ProductCreateService {
         return productMapper.selectProductListByAdmin(p);
     }
 
-    public void insertProduct(Map<String,Object> p) {
-        productMapper.insertProduct(p);
+    public int insertProductCreateByAdmin(Map<String,Object> p) {
+        return productMapper.insertProductCreateByAdmin(p);
     }
 
 
 
-    public void insertInventory(Map<String,Object> p) {
-        productMapper.insertInventory(p);
+    public int insertCreateInventoryByAdmin(Map<String,Object> p) {
+        return productMapper.insertCreateInventoryByAdmin(p);
     }
 
-    public void insertProductImage(Map<String,Object> fileInfo) {
-        productMapper.insertProductImage(fileInfo);
+    public int insertProductImageByAdmin(Map<String,Object> fileInfo) {
+        return productMapper.insertProductImageByAdmin(fileInfo);
     }
 
     public void updateProductImageMapping(Map<String,Object> p) {

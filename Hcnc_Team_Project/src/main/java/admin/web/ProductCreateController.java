@@ -25,6 +25,7 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.ProductCreateService;
 import admin.util.UploadFile;
+import admin.util.UploadFile.ImageType;
 import admin.util.UploadResult;
 
 @Controller
@@ -51,7 +52,7 @@ public class ProductCreateController {
 			){
 		NexacroResult rs = new NexacroResult();
 		try {
-			UploadResult ur = uploadFile.uploadToFile(file); 
+			UploadResult ur = uploadFile.uploadToFile(file, ImageType.PREVIEW); 
 			String fileName = ur.getFileName();
 			Map<String,Object> res = new HashMap();
 			res.put("fileName",fileName);
@@ -63,32 +64,87 @@ public class ProductCreateController {
 		return rs;
 	}
 	
-	@RequestMapping(value="/insertProductCreateByAdmin.do")
-	public  ResponseEntity<String> insertProductCreateByAdmin(
-			 @RequestParam("file") MultipartFile file,
-	         @RequestParam("bd_key") String bdKey
+	@RequestMapping(value = "/insertProductCreateByAdmin.do")
+	public NexacroResult insertProductCreateByAdmin(
+	        @ParamDataSet(name = "ds_product", required = false) Map<String, Object> ds_product,
+	        @ParamDataSet(name = "preview", required = false) List<Map<String, Object>> preview
+	) {
+	    NexacroResult rs = new NexacroResult();
+
+	    try {
+	    	int imageSize = (preview != null) ? preview.size() : 0;
+	        System.out.println(ds_product);
+	        System.out.println(preview);
+
+	        // 1. 제품 정보 Insert
+	        Map<String, Object> product = ds_product;
+	        int count = productCreateService.insertProductCreateByAdmin(product);
+	        
+	        Long productId = (Long) product.get("PRODUCT_ID");
+	        
+	        if (count != 1) {
+	            rs.addDataSet("createStatus", "PRODUCT");
+	            return rs;
+	        }
+	        int sortNum = 0;
+	        for (Map<String, Object> pre : preview) {
+	            Map<String, Object> insertPreview = new HashMap<>();
+	            String fileName = (String) pre.get("fileUrl");
+
+	            insertPreview.put("PRODUCT_ID", productId);
+	            insertPreview.put("IMAGE_URL", fileName);
+	            insertPreview.put("SORT_NUMBER", sortNum);
+	            sortNum++;
+	            productCreateService.insertProductImageByAdmin(insertPreview);
+	            uploadFile.moveFile(fileName,ImageType.PRODUCT);
+	        }
+
+	        if (imageSize != sortNum) {
+	            rs.addDataSet("createStatus", "IMAGE");
+	            return rs;
+	        }
+
+	        Map<String, Object> insertInven = new HashMap<>();
+	        insertInven.put("PRODUCT_ID", productId);
+	        insertInven.put("STOCK", ds_product.get("STOCK"));
+	        int inventoryCount = productCreateService.insertCreateInventoryByAdmin(insertInven);
+
+	        if (inventoryCount != 1) {
+	            rs.addDataSet("createStatus", "INVEN");
+	            return rs;
+	        }
+
+	        rs.addDataSet("createStatus", "SUCCESS");
+	        return rs;
+
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
+
+	    return rs;
+	}
+	
+	@RequestMapping(value="/deleteFile.do")
+	public  NexacroResult insertProductCreateByAdmin(
+			@ParamDataSet(name="ds_deleteImage", required = false) List<Map<String, Object>> ds_deleteImage
 			){
+		NexacroResult rs = new NexacroResult();
+		List<Map<String,String>> result = new ArrayList<>();
 		try {
-			// uploadFile.uploadToFile(file);
+			for(Map<String, Object> image : ds_deleteImage) {
+				String fileName = (String)image.get("fileName");
+				UploadResult ur = uploadFile.deleteFile(fileName,ImageType.PRODUCT);
+				Map<String, String> map = new HashMap<>();
+				map.put("fileName",ur.getFileName());
+				result.add(map);
+			}
+			rs.addDataSet("ds_delete_result",result);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		
-		return ResponseEntity.ok("ok");
+		return rs;
 	}
-	/*
-	 * @RequestMapping("/selectProductCategoryListByAdmin.do") public NexacroResult
-	 * selectProductCategoryListByAdmin() { NexacroResult result = new
-	 * NexacroResult(); ObjectMapper objectMapper = new ObjectMapper(); try {
-	 * List<Map<String,Object>> categorys =
-	 * productCreateService.selectProductCategoryListByAdmin();
-	 * System.out.println(objectMapper.writeValueAsString(categorys));
-	 * result.addDataSet("ds_cate_main",categorys); } catch (Exception e) {
-	 * 
-	 * }
-	 * 
-	 * 
-	 * result.add("ds_cate_sub",categorys); return result; }
-	 */
+	
 	
 }

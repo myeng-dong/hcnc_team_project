@@ -23,9 +23,9 @@
         <!-- 판매 정보 -->
         <Static id="box_saleinfo" left="20" top="540" width="1240" height="170" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px"/>
         <Static id="sta_price" text="판매가" left="150" top="598" width="0" height="0"/>
-        <Edit id="edt_price" left="160" top="589" width="200" height="30" textAlign="right"/>
+        <Edit id="edt_price" left="160" top="589" width="200" height="30" textAlign="right" displaynulltext="0"/>
         <Static id="sta_supply" text="공급가" left="430" top="608" width="0" height="0"/>
-        <Edit id="edt_costprice" left="636" top="589" width="200" height="30" textAlign="right"/>
+        <Edit id="edt_costprice" left="636" top="589" width="200" height="30" textAlign="right" displaynulltext="0"/>
         <!-- 옵션 선택 -->
         <!-- 메모 -->
         <!-- 버튼 -->
@@ -45,7 +45,7 @@
         <Static id="sta_display00_02_00_00" text="판매가" left="20" top="580" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="31" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00_00_01" text="수량" left="20" top="619" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="32" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00_00_01_00" text="무게" left="20" top="659" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="33" textAlign="center" background="#FAFAFB"/>
-        <Edit id="edt_weight" left="160" top="670" width="200" height="30" taborder="34" textAlign="right"/>
+        <Edit id="edt_weight" left="160" top="670" width="200" height="30" taborder="34" textAlign="right" displaynulltext="0"/>
         <Static id="Static00" taborder="35" text="원" left="364" top="592" width="52" height="29"/>
         <Static id="Static00_00" taborder="36" text="원" left="840" top="591" width="52" height="29"/>
         <Static id="Static00_00_00" taborder="37" text="kg" left="364" top="672" width="52" height="29"/>
@@ -56,9 +56,10 @@
         <Static id="sta_display00_00_00_00_00_00_00" text="이미지 정보" left="21" top="1261" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="59" taborder="45" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <Static id="sta_display00_02_00_00_00" text="이미지등록" left="23" top="1320" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="290" taborder="45" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00_00_01_01" text="원가" left="500" top="579" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="45" textAlign="center" background="#FAFAFB"/>
-        <Edit id="edt_stock" left="160" top="631" width="200" height="30" textAlign="right" taborder="46"/>
+        <Edit id="edt_stock" left="160" top="631" width="200" height="30" textAlign="right" taborder="46" displaynulltext="0"/>
         <Static id="Static00_00_01" taborder="47" text="개" left="364" top="633" width="52" height="29"/>
         <Button id="btn_selectFile" taborder="44" text="파일찾기" top="1268" height="44" background="#135dae" border="0px none" borderRadius="5px" color="#ffffff" font="normal 10pt/normal &quot;Noto Sans KR Black&quot;" right="25" width="140" onclick="btn_selectFile_onclick"/>
+        <Static id="Static01" taborder="48" text="* 최대 4개 첨부가능" left="130" top="1283" width="276" height="20"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -350,6 +351,7 @@
           <Column id="DETAIL_DESCRIPTION" type="STRING" size="256"/>
           <Column id="PRODUCT_TYPE" type="STRING" size="256"/>
           <Column id="PRODUCT_ID" type="STRING" size="256"/>
+          <Column id="STOCK" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -371,6 +373,7 @@
       <Dataset id="preview">
         <ColumnInfo>
           <Column id="fileName" type="STRING" size="256"/>
+          <Column id="fileUrl" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="Dataset00"/>
@@ -381,22 +384,13 @@ this.Form_ProductReg_onload = function(obj,e)
 	this.categories.request("SEARCH", "GET", "http://localhost:8080/selectProductCategoryListByAdmin.do");  
     this.setMemberId();
 	var sUrl = "http://localhost:8080/ckedit.do;";
-	// this.web_postContent.set_url(sUrl);
+	this.web_postContent.set_url(sUrl);
 	// 모드 처리 param
 };
-this.FileUpTransfer00_onsuccess = function(){
-	this.alert("전송성공!!");
-}
+
 // 저장 버튼 클릭
 this.btn_save_onclick = function(obj,e)
 {
-	var objFileUp = new nexacro.FileUpTransfer("FileUpTransfer00", this);  
-	this.addChild( "FileUpTransfer00", objFileUp );
-	objFileUp.set_url( "http://localhost:8080/insertProductCreateByAdmin.do");
-	objFileUp.setEventHandler( "onsuccess", this.FileUpTransfer00_onsuccess, this);
-	objFileUp.addFile( "file00", objVFile00 );
-
-	return;
 	function emptyCheck(value,errorMsg) {
 		if(value == null || value == ""){
 			this.alert(errorMsg);
@@ -411,6 +405,7 @@ this.btn_save_onclick = function(obj,e)
 	if(emptyCheck(this.edt_price.value,"판매가를 입력하세요."))return;
 	if(emptyCheck(this.edt_costprice.value,"원가를 입력하세요."))return;
 	if(emptyCheck(this.edt_weight.value,"상품무게를 입력하세요."))return;
+	if(emptyCheck(this.edt_stock.value,"수량을 입력하세요."))return;
 	
 
     // CKEditor 본문 가져오기
@@ -427,18 +422,19 @@ this.btn_save_onclick = function(obj,e)
 	this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
 	this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
 	this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
-	this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
+	//this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
 	this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
 	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
     this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
+	this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
 
 
     // 트랜잭션 호출
-    var strSvcId = "insertProductByAdmin";
-    var strUrl = "svc::insertProductByAdmin.do";
+    var strSvcId = "insertProductCreateByAdmin";
+    var strUrl = "svc::insertProductCreateByAdmin.do";
 
     // IN/OUT Dataset 매핑
-    var strIn  = "ds_product=ds_product";
+    var strIn  = "ds_product=ds_product preview=preview";
     var strOut = "createStatus=createStatus";
 
     var strArg = "";
@@ -447,24 +443,7 @@ this.btn_save_onclick = function(obj,e)
 
     this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
 };
-function sendDataWithFile()
-{
-    var objFileUpTransfer = new FileUpTransfer();
-    
-    // 각 컬럼 값을 개별 파라미터로 추가
-    objFileUpTransfer.addPostData("userId", this.Dataset00.getColumn(0, "USER_ID"));
-    objFileUpTransfer.addPostData("userName", this.Dataset00.getColumn(0, "USER_NAME"));
-    objFileUpTransfer.addPostData("userEmail", this.Dataset00.getColumn(0, "USER_EMAIL"));
-    objFileUpTransfer.addPostData("department", this.Dataset00.getColumn(0, "DEPARTMENT"));
-    objFileUpTransfer.addPostData("regDate", this.Dataset00.getColumn(0, "REG_DATE"));
-    
-    // 추가 파라미터 (파일과 관련된 메타데이터)
-    objFileUpTransfer.addPostData("uploadType", "document");
-    objFileUpTransfer.addPostData("category", "user_file");
-    
-    objFileUpTransfer.setUploadUrl("http://localhost:8080/uploadWithParams");
-    objFileUpTransfer.upload();
-}
+
 // 취소 버튼
 this.btn_cancel_onclick = function(obj,e) {
     this.go("product::Form_Product.xfdl");
@@ -481,112 +460,12 @@ this.btn_selectFile_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventIn
 	this.productImage.open('nexacro17', 1);
 };
 
-// 이미지 선택 후처리
-this.productImage_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
-{
-	var files = e.virtualfiles[0];
-	trace(JSON.stringify(files));
-	trace("e.path= " + e.path);
-	var nRow = this.ds_image.addRow();
-	this.ds_image.setColumn(nRow,"FILE_NAME",files.filename);
-	this.ds_image.setColumn(nRow,"FILE_PATH",files.fullpath);
-	files.addEventHandler("onsuccess", this.VirtualFile00_onsuccess,this);
-	files.open(null,1);
-	trace("files.fullpath= " + files.fullpath);
-	this.ImageViewer00.set_image(files.fullpath);
-	return;
-	
-	var files = e.virtualfiles[0];
-    if (files && files.length > 0) {
-        var nexafile = files[files.length - 1];
-        trace("선택파일: " + nexafile.filename);
-
-        // 이미지 파일 확장자 검증
-        var ext = nexafile.filename.split('.').pop().toLowerCase();
-        var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-        if (allowedExtensions.indexOf(ext) === -1) {
-            alert("이미지 파일만 업로드 가능합니다. (jpg, jpeg, png, gif)");
-            return;
-        }
-
-        // 업로드 상태 설정
-        // this.isUploading = true;
-        // this.uploadCompleted = false;
-
-        var currentRow = 0;
-        if (currentMode === "insert") {
-            // 신규 등록: 기존 Dataset 초기화 후 새 행 추가
-            for (var i = this.ds_bwrite.rowcount - 1; i >= 0; i--) {
-                this.ds_bwrite.deleteRow(i);
-            }
-            currentRow = this.ds_bwrite.addRow();
-        } else {
-            // 수정: 기존 행 유지, 이미지 정보만 업데이트
-            currentRow = 0;
-            trace("Update 모드 - 기존 데이터 유지");
-        }
-
-        // 파일 정보 설정
-        this.ds_bwrite.setColumn(currentRow, "IMG_ORIGIN_NAME", nexafile.filename);
-        
-        var attachedName = this.radio_banner_type.value + "_" + nexafile.name + "_" + TODAYNUM + "." + ext;
-        this.ds_bwrite.setColumn(currentRow, "IMG_ATTACHED_NAME", attachedName);
-        
-        // 수정 모드일 때 백업된 데이터 복원
-        if (currentMode === "update" && backupData.BANNER_ID) {
-            this.ds_bwrite.setColumn(currentRow, "BANNER_ID", backupData.BANNER_ID);
-            this.ds_bwrite.setColumn(currentRow, "INPUT_DT", backupData.INPUT_DT);
-            this.ds_bwrite.setColumn(currentRow, "INPUT_ID", backupData.INPUT_ID);
-            this.ds_bwrite.setColumn(currentRow, "SORT_NUMBER", backupData.SORT_NUMBER);
-            this.ds_bwrite.setColumn(currentRow, "BANNER_TYPE", backupData.BANNER_TYPE);
-            this.ds_bwrite.setColumn(currentRow, "BANNER_TITLE", backupData.BANNER_TITLE);
-            this.ds_bwrite.setColumn(currentRow, "IS_VISIBLE", backupData.IS_VISIBLE);
-            this.ds_bwrite.setColumn(currentRow, "LINKED_URL", backupData.LINKED_URL);
-            trace("Update 모드 - 기존 데이터 복원 완료");
-        }
-        
-        // 모드 재설정
-        this.currentMode = currentMode;
-        this.mode = currentMode;
-
-        this.file_name.set_value(nexafile.filename);
-
-        // FileUpTransfer 설정
-        this.FileUpTransfer.clearFileList();
-        this.FileUpTransfer.addFile("bFile", nexafile);
-        this.FileUpTransfer.setPostData("attachedName", attachedName);
-        
-        this.FileUpTransfer.url = "svc::uploadBannerFile.do";
-        
-        trace("파일 업로드 시작 - URL: " + this.FileUpTransfer.url);
-        trace("attachedName: " + attachedName);
-        trace("현재 모드: " + (this.currentMode || this.mode));  // 안전하게 모드 확인
-        
-        this.FileUpTransfer.upload();
-        
-    } else {
-        this.file_name.set_value("선택된 파일이 없습니다.");
-        trace("선택된 파일이 없습니다.");
-    }
-};
-this.VirtualFile00_onsuccess = function (obj:nexacro.VirtualFile,  e:nexacro.VirtualFileEventInfo) {
-	trace("VirtualFile00_onsuccess 성공!!");
-	trace("e.binarydata= " + e.binarydata);
-	trace("e.textdata= " + e.textdata);
-}
-
 // 콜백
 this.fn_callback = function(svcID, errCode, errMsg) {
     if (errCode < 0) { this.alert("오류: " + errMsg); return; }
 	
     switch(svcID){
     }
-};
-
-// 이미지 매핑
-this.fn_updateImageMapping = function(productId) {
-    var strArg = "PRODUCT_ID=" + productId + " UPDATE_ID=admin";
-    this.transaction("updateProductImageMappingByAdmin", "svc::updateProductImageMappingByAdmin.do", "", "", strArg, "fn_callback", true);
 };
 
 // 대분류 로직
@@ -608,11 +487,19 @@ this.categoriesJsonSuccess = function(obj:nexacro.DataObject,e:nexacro.DataObjec
     target.setColumn(rowIndex, "subCategories", subCategoriesJson);
 
 	}, this); 
+	
+	this.cmb_maincate.set_index(0);
+	this.subCateSolt(0);
+	
 };
 // 중분류 로직
 this.cmb_maincate_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
-	var selectIndex = e.postindex;
+	this.subCateSolt(e.postindex);
+};
+
+this.subCateSolt = function(index){
+	var selectIndex = index;
 	var sub = this.ds_cate_main.getColumn(selectIndex,"subCategories");
 	var parseRes = JSON.parse(sub);
 	var target = this.ds_cate_sub;
@@ -622,7 +509,8 @@ this.cmb_maincate_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChang
     target.setColumn(rowIndex, "subCateId", res.subCateId);
     target.setColumn(rowIndex, "subCateNm", res.subCateNm);
 	}, this); 
-};
+	this.cmb_subcate.set_index(0);
+}
 
 
 ////////// CK EDITOR ///////////
@@ -794,6 +682,7 @@ this.fn_createNewImageViewer = function(rowIndex, imageUrl)
         
         // Dataset에 ViewerID 저장 (나중에 참조용)
         this.preview.setColumn(rowIndex, "fileName", imageViewerId);
+		this.preview.setColumn(rowIndex, "fileUrl", imageUrl);
         
         trace("ImageViewer 생성 완료: " + imageViewerId + " at (" + left + ", " + top + ")");
         

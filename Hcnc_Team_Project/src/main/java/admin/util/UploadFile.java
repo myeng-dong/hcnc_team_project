@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -23,12 +25,47 @@ import org.springframework.web.multipart.MultipartFile;
 // 192.168.0.150:5000/dood/파일명 으로 이미지 불러오기 가능
 @Service
 public class UploadFile {
-	 public UploadResult uploadToFile(MultipartFile file) throws IOException {
-	        String flaskUrl = "http://192.168.0.150:5000/";
-	        
+	 private final String URL = "http://192.168.0.150:5000/";
+	 
+	 public enum ImageType {
+		    BANNER("banner/"),
+		    PRODUCT("save/"),
+		    REVIEW("review/"),
+		 	PREVIEW("preview/");
+
+		    private final String description;
+
+		    ImageType(String description) {
+		        this.description = description;
+		    }
+
+		    public String getDescription() {
+		        return description;
+		    }
+		}
+	 
+	 public String extractFileName(String fullPath) {
+		    // fullPath: "http://192.168.0.150:5000/dood/preview/dood12345.jpg"
+		    if (fullPath == null || fullPath.isEmpty()) return "";
+		    
+		    // URL + 경로 부분 제거
+		    int lastSlash = fullPath.lastIndexOf('/');
+		    if (lastSlash != -1 && lastSlash + 1 < fullPath.length()) {
+		        return fullPath.substring(lastSlash + 1); // dood12345.jpg
+		    }
+		    return fullPath; // 혹시 /가 없으면 그대로 반환
+		}
+	 /*
+	  *  isPreview
+	  *  true : preview폴더에 저장 (삭제해도되는 이미지)
+	  *  false: save폴더에 저장 (삭제되면 안되는 이미지)
+	  */
+	 public UploadResult uploadToFile(MultipartFile file,ImageType imageType) throws IOException {
+	        String mode = URL + imageType.getDescription();
 	        long timestamp = System.currentTimeMillis();
 	        String originalFilename = file.getOriginalFilename();
 	        String ext = "";
+	        
 	        if (originalFilename != null && originalFilename.contains(".")) {
 	            ext = originalFilename.substring(originalFilename.lastIndexOf("."));
 	        }
@@ -51,49 +88,64 @@ public class UploadFile {
 	        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
 	        RestTemplate restTemplate = new RestTemplate();
-	        ResponseEntity<String> flaskResponse = restTemplate.exchange(
-	            flaskUrl,
+	        ResponseEntity<String> response = restTemplate.exchange(
+        		mode,
 	            HttpMethod.POST,
 	            requestEntity,
 	            String.class
 	        );
-
-	        return new UploadResult(flaskResponse.getBody(), "http://192.168.0.150:5000/dood/"+newFileName);
+	        String resultUrl = URL + "dood/"+ imageType.getDescription() + newFileName;
+	        return new UploadResult(response.getBody(), resultUrl);
 	    }
-	/*
-	 * @PostMapping("/api/upload.do") public ResponseEntity<String>
-	 * uploadToFlask(@RequestParam("file") MultipartFile file) { // 1. Flask 서버 URL
-	 * String flaskUrl = "http://192.168.0.150:5000/";
-	 * 
-	 * // 2. Flask로 전달할 데이터 (FormData 형식) 준비 MultiValueMap<String, Object> body =
-	 * new LinkedMultiValueMap<>();
-	 * 
-	 * try { // 원본 파일명 가져오기 String originalFilename = file.getOriginalFilename();
-	 * 
-	 * // 파일명을 UTF-8로 URL 인코딩 String encodedFilename =
-	 * URLEncoder.encode(originalFilename, StandardCharsets.UTF_8.toString());
-	 * ByteArrayResource resource = new ByteArrayResource(file.getBytes()) { // 파일
-	 * 이름을 유지하기 위해 getFilename()을 오버라이드
-	 * 
-	 * @Override public String getFilename() { return encodedFilename; } };
-	 * 
-	 * // Resource를 MultiValueMap에 추가 body.add("file", resource);
-	 * 
-	 * } catch (IOException e) { // 파일을 읽는 중 발생한 오류 처리 e.printStackTrace(); return
-	 * ResponseEntity.status(500).body("{\"error\": \"파일 데이터 읽기 오류\"}"); }
-	 * 
-	 * HttpHeaders headers = new HttpHeaders();
-	 * headers.setContentType(MediaType.MULTIPART_FORM_DATA); // Content-Type 설정
-	 * headers.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
-	 * // UTF-8 강제
-	 * 
-	 * HttpEntity<MultiValueMap<String, Object>> requestEntity = new
-	 * HttpEntity<>(body, headers);
-	 * 
-	 * // 3. RestTemplate으로 Flask에 요청 (POST) RestTemplate restTemplate = new
-	 * RestTemplate(); ResponseEntity<String> flaskResponse = restTemplate.exchange(
-	 * flaskUrl, HttpMethod.POST, requestEntity, String.class );
-	 * 
-	 * // 4. Flask의 최종 응답 (이미지 URL)을 클라이언트에 전달 return flaskResponse; }
-	 */
+	 
+	 // Preview -> save로 이동
+	 public String moveFile(String filename, ImageType moveTarget) {
+		    String url = URL + "move";
+		    String splitFileName = extractFileName(filename);
+		    System.out.println(splitFileName);
+		    RestTemplate restTemplate = new RestTemplate();
+
+		    Map<String, String> body = new HashMap<>();
+		    body.put("filename", splitFileName);
+		    body.put("target", moveTarget.toString());
+
+		    HttpHeaders headers = new HttpHeaders();
+		    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		    HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(body, headers);
+
+		    ResponseEntity<String> response = restTemplate.exchange(
+		        url,
+		        HttpMethod.POST,
+		        requestEntity,
+		        String.class
+		    );
+
+		    return response.getBody();
+		}
+	 // 삭제
+	 public UploadResult deleteFile(String fileUrl, ImageType deleteTarget) {
+	        String deleteUrl = URL + "delete"; // Flask에서 삭제 API 엔드포인트
+	        String splitFileName = extractFileName(fileUrl);
+	        RestTemplate restTemplate = new RestTemplate();
+	        
+	        Map<String, String> body = new HashMap<>();
+		    body.put("filename", splitFileName);
+		    body.put("target", deleteTarget.toString());
+		    
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_JSON);
+
+	       
+	        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(body, headers);
+
+	        ResponseEntity<String> response = restTemplate.exchange(
+	                deleteUrl,
+	                HttpMethod.POST,
+	                requestEntity,
+	                String.class
+	        );
+
+	        return new UploadResult(response.getBody(), splitFileName);
+	    }
 }

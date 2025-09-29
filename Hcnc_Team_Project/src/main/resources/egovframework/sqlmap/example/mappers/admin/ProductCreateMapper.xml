@@ -40,7 +40,9 @@
       M.SORT_NUMBER ASC,
       S.SORT_NUMBER ASC
   </select>
-  <insert id="insertProductCreateByAdmin">
+  <insert id="insertProductCreateByAdmin" parameterType="java.util.Map" 
+        useGeneratedKeys="true" 
+        keyProperty="PRODUCT_ID">
   	INSERT INTO
     PRODUCTS (
         SUB_CATE_ID,
@@ -59,19 +61,41 @@
     )
 VALUES
 (
-        #{subCateId},
-        #{productName},
-        #{productCode},
-        #{productContent},
-        #{productPrice},
-        #{costPrice},
-        #{productWeight},
-        #{isVisible},
+        #{SUB_CATE_ID},
+        #{PRODUCT_NAME},
+        #{PRODUCT_CODE},
+        #{PRODUCT_CONTENT},
+        #{PRODUCT_PRICE},
+        #{COST_PRICE},
+        #{PRODUCT_WEIGHT},
+        #{IS_VISIBLE},
         current_timestamp(),
-        #{adminId},
+        #{INPUT_ID},
         0,
-        #{ckContent},
-        'nomal'
+        #{DETAIL_DESCRIPTION},
+        #{PRODUCT_TYPE}
     )
+  </insert>
+  <insert id="insertProductImageByAdmin" parameterType="java.util.Map">
+  	INSERT INTO
+    PRODUCT_IMG (
+        PRODUCT_ID,
+        IMAGE_URL,
+        ALT_TEXT,
+        SORT_NUMBER,
+        IS_MAIN,
+        INPUT_DT,
+        UPDATE_DT,
+        INPUT_ID,
+        UPDATE_ID
+	    )
+	VALUES
+	(
+        #{PRODUCT_ID}, #{IMAGE_URL}, NULL, #{SORT_NUMBER}, 'N', current_timestamp(), NULL, NULL, NULL)
+  </insert>
+  <insert id="insertCreateInventoryByAdmin" parameterType="java.util.Map">
+  INSERT INTO INVENTORIES
+	(PRODUCT_ID, OPTION_ID, QUANTITY, UPDATE_DT, INPUT_DT, INPUT_ID, UPDATE_ID)
+	VALUES(#{PRODUCT_ID}, NULL, #{STOCK}, NULL, current_timestamp(), NULL, NULL)
   </insert>
 </mapper>

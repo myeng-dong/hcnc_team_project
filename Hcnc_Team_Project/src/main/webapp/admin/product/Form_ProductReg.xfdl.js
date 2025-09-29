@@ -256,7 +256,7 @@
 
 
             obj = new Dataset("ds_product", this);
-            obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"COST_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_WEIGHT\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"DETAIL_DESCRIPTION\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"COST_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_WEIGHT\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"DETAIL_DESCRIPTION\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"STOCK\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -271,7 +271,7 @@
 
 
             obj = new Dataset("preview", this);
-            obj._setContents("<ColumnInfo><Column id=\"fileName\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"fileName\" type=\"STRING\" size=\"256\"/><Column id=\"fileUrl\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
@@ -391,6 +391,7 @@
 
             obj = new Edit("edt_price","160","589","200","30",null,null,null,null,null,null,this);
             obj.set_textAlign("right");
+            obj.set_displaynulltext("0");
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_supply","430","608","0","0",null,null,null,null,null,null,this);
@@ -399,6 +400,7 @@
 
             obj = new Edit("edt_costprice","636","589","200","30",null,null,null,null,null,null,this);
             obj.set_textAlign("right");
+            obj.set_displaynulltext("0");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_save","935","1740","150","40",null,null,null,null,null,null,this);
@@ -545,6 +547,7 @@
             obj = new Edit("edt_weight","160","670","200","30",null,null,null,null,null,null,this);
             obj.set_taborder("34");
             obj.set_textAlign("right");
+            obj.set_displaynulltext("0");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00","364","592","52","29",null,null,null,null,null,null,this);
@@ -622,6 +625,7 @@
             obj = new Edit("edt_stock","160","631","200","30",null,null,null,null,null,null,this);
             obj.set_textAlign("right");
             obj.set_taborder("46");
+            obj.set_displaynulltext("0");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00_00_01","364","633","52","29",null,null,null,null,null,null,this);
@@ -637,6 +641,11 @@
             obj.set_borderRadius("5px");
             obj.set_color("#ffffff");
             obj.set_font("normal 10pt/normal \"Noto Sans KR Black\"");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static01","130","1283","276","20",null,null,null,null,null,null,this);
+            obj.set_taborder("48");
+            obj.set_text("* 최대 4개 첨부가능");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -669,22 +678,13 @@
         	this.categories.request("SEARCH", "GET", "http://localhost:8080/selectProductCategoryListByAdmin.do");
             this.setMemberId();
         	var sUrl = "http://localhost:8080/ckedit.do;";
-        	// this.web_postContent.set_url(sUrl);
+        	this.web_postContent.set_url(sUrl);
         	// 모드 처리 param
         };
-        this.FileUpTransfer00_onsuccess = function(){
-        	this.alert("전송성공!!");
-        }
+
         // 저장 버튼 클릭
         this.btn_save_onclick = function(obj,e)
         {
-        	var objFileUp = new nexacro.FileUpTransfer("FileUpTransfer00", this);
-        	this.addChild( "FileUpTransfer00", objFileUp );
-        	objFileUp.set_url( "http://localhost:8080/insertProductCreateByAdmin.do");
-        	objFileUp.setEventHandler( "onsuccess", this.FileUpTransfer00_onsuccess, this);
-        	objFileUp.addFile( "file00", objVFile00 );
-
-        	return;
         	function emptyCheck(value,errorMsg) {
         		if(value == null || value == ""){
         			this.alert(errorMsg);
@@ -699,6 +699,7 @@
         	if(emptyCheck(this.edt_price.value,"판매가를 입력하세요."))return;
         	if(emptyCheck(this.edt_costprice.value,"원가를 입력하세요."))return;
         	if(emptyCheck(this.edt_weight.value,"상품무게를 입력하세요."))return;
+        	if(emptyCheck(this.edt_stock.value,"수량을 입력하세요."))return;
 
 
             // CKEditor 본문 가져오기
@@ -715,18 +716,19 @@
         	this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
         	this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
         	this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
-        	this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
+        	//this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
         	this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
         	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
             this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
+        	this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
 
 
             // 트랜잭션 호출
-            var strSvcId = "insertProductByAdmin";
-            var strUrl = "svc::insertProductByAdmin.do";
+            var strSvcId = "insertProductCreateByAdmin";
+            var strUrl = "svc::insertProductCreateByAdmin.do";
 
             // IN/OUT Dataset 매핑
-            var strIn  = "ds_product=ds_product";
+            var strIn  = "ds_product=ds_product preview=preview";
             var strOut = "createStatus=createStatus";
 
             var strArg = "";
@@ -735,24 +737,7 @@
 
             this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
         };
-        function sendDataWithFile()
-        {
-            var objFileUpTransfer = new FileUpTransfer();
 
-            // 각 컬럼 값을 개별 파라미터로 추가
-            objFileUpTransfer.addPostData("userId", this.Dataset00.getColumn(0, "USER_ID"));
-            objFileUpTransfer.addPostData("userName", this.Dataset00.getColumn(0, "USER_NAME"));
-            objFileUpTransfer.addPostData("userEmail", this.Dataset00.getColumn(0, "USER_EMAIL"));
-            objFileUpTransfer.addPostData("department", this.Dataset00.getColumn(0, "DEPARTMENT"));
-            objFileUpTransfer.addPostData("regDate", this.Dataset00.getColumn(0, "REG_DATE"));
-
-            // 추가 파라미터 (파일과 관련된 메타데이터)
-            objFileUpTransfer.addPostData("uploadType", "document");
-            objFileUpTransfer.addPostData("category", "user_file");
-
-            objFileUpTransfer.setUploadUrl("http://localhost:8080/uploadWithParams");
-            objFileUpTransfer.upload();
-        }
         // 취소 버튼
         this.btn_cancel_onclick = function(obj,e) {
             this.go("product::Form_Product.xfdl");
@@ -769,112 +754,12 @@
         	this.productImage.open('nexacro17', 1);
         };
 
-        // 이미지 선택 후처리
-        this.productImage_onclose = function(obj,e)
-        {
-        	var files = e.virtualfiles[0];
-        	trace(JSON.stringify(files));
-        	trace("e.path= " + e.path);
-        	var nRow = this.ds_image.addRow();
-        	this.ds_image.setColumn(nRow,"FILE_NAME",files.filename);
-        	this.ds_image.setColumn(nRow,"FILE_PATH",files.fullpath);
-        	files.addEventHandler("onsuccess", this.VirtualFile00_onsuccess,this);
-        	files.open(null,1);
-        	trace("files.fullpath= " + files.fullpath);
-        	this.ImageViewer00.set_image(files.fullpath);
-        	return;
-
-        	var files = e.virtualfiles[0];
-            if (files && files.length > 0) {
-                var nexafile = files[files.length - 1];
-                trace("선택파일: " + nexafile.filename);
-
-                // 이미지 파일 확장자 검증
-                var ext = nexafile.filename.split('.').pop().toLowerCase();
-                var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-                if (allowedExtensions.indexOf(ext) === -1) {
-                    alert("이미지 파일만 업로드 가능합니다. (jpg, jpeg, png, gif)");
-                    return;
-                }
-
-                // 업로드 상태 설정
-                // this.isUploading = true;
-                // this.uploadCompleted = false;
-
-                var currentRow = 0;
-                if (currentMode === "insert") {
-                    // 신규 등록: 기존 Dataset 초기화 후 새 행 추가
-                    for (var i = this.ds_bwrite.rowcount - 1; i >= 0; i--) {
-                        this.ds_bwrite.deleteRow(i);
-                    }
-                    currentRow = this.ds_bwrite.addRow();
-                } else {
-                    // 수정: 기존 행 유지, 이미지 정보만 업데이트
-                    currentRow = 0;
-                    trace("Update 모드 - 기존 데이터 유지");
-                }
-
-                // 파일 정보 설정
-                this.ds_bwrite.setColumn(currentRow, "IMG_ORIGIN_NAME", nexafile.filename);
-
-                var attachedName = this.radio_banner_type.value + "_" + nexafile.name + "_" + TODAYNUM + "." + ext;
-                this.ds_bwrite.setColumn(currentRow, "IMG_ATTACHED_NAME", attachedName);
-
-                // 수정 모드일 때 백업된 데이터 복원
-                if (currentMode === "update" && backupData.BANNER_ID) {
-                    this.ds_bwrite.setColumn(currentRow, "BANNER_ID", backupData.BANNER_ID);
-                    this.ds_bwrite.setColumn(currentRow, "INPUT_DT", backupData.INPUT_DT);
-                    this.ds_bwrite.setColumn(currentRow, "INPUT_ID", backupData.INPUT_ID);
-                    this.ds_bwrite.setColumn(currentRow, "SORT_NUMBER", backupData.SORT_NUMBER);
-                    this.ds_bwrite.setColumn(currentRow, "BANNER_TYPE", backupData.BANNER_TYPE);
-                    this.ds_bwrite.setColumn(currentRow, "BANNER_TITLE", backupData.BANNER_TITLE);
-                    this.ds_bwrite.setColumn(currentRow, "IS_VISIBLE", backupData.IS_VISIBLE);
-                    this.ds_bwrite.setColumn(currentRow, "LINKED_URL", backupData.LINKED_URL);
-                    trace("Update 모드 - 기존 데이터 복원 완료");
-                }
-
-                // 모드 재설정
-                this.currentMode = currentMode;
-                this.mode = currentMode;
-
-                this.file_name.set_value(nexafile.filename);
-
-                // FileUpTransfer 설정
-                this.FileUpTransfer.clearFileList();
-                this.FileUpTransfer.addFile("bFile", nexafile);
-                this.FileUpTransfer.setPostData("attachedName", attachedName);
-
-                this.FileUpTransfer.url = "svc::uploadBannerFile.do";
-
-                trace("파일 업로드 시작 - URL: " + this.FileUpTransfer.url);
-                trace("attachedName: " + attachedName);
-                trace("현재 모드: " + (this.currentMode || this.mode));  // 안전하게 모드 확인
-
-                this.FileUpTransfer.upload();
-
-            } else {
-                this.file_name.set_value("선택된 파일이 없습니다.");
-                trace("선택된 파일이 없습니다.");
-            }
-        };
-        this.VirtualFile00_onsuccess = function (obj,  e) {
-        	trace("VirtualFile00_onsuccess 성공!!");
-        	trace("e.binarydata= " + e.binarydata);
-        	trace("e.textdata= " + e.textdata);
-        }
-
         // 콜백
         this.fn_callback = function(svcID, errCode, errMsg) {
             if (errCode < 0) { this.alert("오류: " + errMsg); return; }
 
             switch(svcID){
             }
-        };
-
-        // 이미지 매핑
-        this.fn_updateImageMapping = function(productId) {
-            var strArg = "PRODUCT_ID=" + productId + " UPDATE_ID=admin";
-            this.transaction("updateProductImageMappingByAdmin", "svc::updateProductImageMappingByAdmin.do", "", "", strArg, "fn_callback", true);
         };
 
         // 대분류 로직
@@ -896,11 +781,19 @@
             target.setColumn(rowIndex, "subCategories", subCategoriesJson);
 
         	}, this);
+
+        	this.cmb_maincate.set_index(0);
+        	this.subCateSolt(0);
+
         };
         // 중분류 로직
         this.cmb_maincate_onitemchanged = function(obj,e)
         {
-        	var selectIndex = e.postindex;
+        	this.subCateSolt(e.postindex);
+        };
+
+        this.subCateSolt = function(index){
+        	var selectIndex = index;
         	var sub = this.ds_cate_main.getColumn(selectIndex,"subCategories");
         	var parseRes = JSON.parse(sub);
         	var target = this.ds_cate_sub;
@@ -910,7 +803,8 @@
             target.setColumn(rowIndex, "subCateId", res.subCateId);
             target.setColumn(rowIndex, "subCateNm", res.subCateNm);
         	}, this);
-        };
+        	this.cmb_subcate.set_index(0);
+        }
 
 
         ////////// CK EDITOR ///////////
@@ -1082,6 +976,7 @@
 
                 // Dataset에 ViewerID 저장 (나중에 참조용)
                 this.preview.setColumn(rowIndex, "fileName", imageViewerId);
+        		this.preview.setColumn(rowIndex, "fileUrl", imageUrl);
 
                 trace("ImageViewer 생성 완료: " + imageViewerId + " at (" + left + ", " + top + ")");
 
