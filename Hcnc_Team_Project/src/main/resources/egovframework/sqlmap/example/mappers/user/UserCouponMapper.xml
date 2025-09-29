@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user.mapper.UserCouponMapper">
+
+	<!-- 신규회원자동발급용 -->
+    <insert id="insertSignUpCoupon" parameterType="map">
+	    INSERT INTO COUPONS (
+	        MEMBER_ID
+	        ,COUPON_CODE
+	        ,COUPON_NAME
+	        ,DISCOUNT_TYPE
+	        ,DISCOUNT_VALUE
+	        ,MIN_ORDER_PRICE
+	        ,ISSUED_DT
+	        ,EXPIRY_DT
+	        ,COUPON_TYPE
+	    ) VALUES (
+	        #{memberId}
+	        ,#{couponCode}
+	        ,#{couponName}
+	        ,#{discountType}
+	        ,#{discountValue}
+	        ,#{minOrderPrice}
+	        ,NOW()
+	        ,#{expiryDt}
+	        ,'newMember'
+	    )
+	</insert>
+
+</mapper>
