@@ -85,14 +85,20 @@
 
             obj = new Edit("Edit00","116","62","900","36",null,null,null,null,null,null,this);
             obj.set_taborder("7");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Calendar("Calendar00","119","110","409","32",null,null,null,null,null,null,this);
             obj.set_taborder("8");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Calendar("Calendar01","550","110","469","30",null,null,null,null,null,null,this);
             obj.set_taborder("9");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00","528","113",null,"24","724",null,null,null,null,null,this);
@@ -104,6 +110,8 @@
 
             obj = new Calendar("Calendar02","120","155","408","30",null,null,null,null,null,null,this);
             obj.set_taborder("11");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00_01","526","160",null,null,"726","536",null,null,null,null,this);
@@ -115,6 +123,8 @@
 
             obj = new Calendar("Calendar03","551","157","469","30",null,null,null,null,null,null,this);
             obj.set_taborder("13");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Button("back_btn","556","666","104","28",null,null,null,null,null,null,this);

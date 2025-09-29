@@ -34,7 +34,7 @@
             
             // UI Components Initialize
             obj = new Static("loginForm","365","33","553","620",null,null,null,null,null,null,this);
-            obj.set_taborder("10");
+            obj.set_taborder("9");
             obj.set_borderRadius("15px");
             obj.set_background("white");
             obj.set_boxShadow("6px 6px 12px rgba(0,0,0,0.25)");
@@ -69,7 +69,7 @@
             obj.set_taborder("4");
             obj.set_text("관리자 로그인");
             obj.set_textAlign("center");
-            obj.set_font("normal 50px/normal \"Noto Sans KR Black\"");
+            obj.set_font("50px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
             obj = new Button("admin_login","504","546","272","49",null,null,null,null,null,null,this);
@@ -81,33 +81,26 @@
             obj.set_font("15px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static02","1000","30","230","38",null,null,null,null,null,null,this);
-            obj.set_taborder("6");
-            obj.set_text("아이디 및 비밀번호를 입력하세요");
-            obj.set_font("normal 15px/normal");
-            this.addChild(obj.name, obj);
-
             obj = new Static("Static01_00","500","240","220","40",null,null,null,null,null,null,this);
-            obj.set_taborder("7");
+            obj.set_taborder("6");
             obj.set_text("아이디 및 비밀번호를 입력하세요");
             obj.set_textAlign("center");
             obj.set_font("16px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new ImageViewer("h1_logo","495","110","170","52",null,null,null,null,null,null,this);
-            obj.set_taborder("8");
-            obj.set_text("logo");
+            obj = new ImageViewer("h1_logo","495","110","185","52",null,null,null,null,null,null,this);
+            obj.set_taborder("7");
             obj.set_image("url(\'imagerc::h1_logo.png\')");
             this.addChild(obj.name, obj);
 
             obj = new CheckBox("CheckBox00","486","495","88","22",null,null,null,null,null,null,this);
-            obj.set_taborder("9");
+            obj.set_taborder("8");
             obj.set_text("아이디 기억");
             obj.set_font("12px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
             obj = new Static("findPw","700","495","70","22",null,null,null,null,null,null,this);
-            obj.set_taborder("11");
+            obj.set_taborder("10");
             obj.set_text("비밀번호 찾기");
             obj.set_font("12px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
@@ -293,7 +286,6 @@
             this.Static00_00.addEventHandler("onclick",this.Static00_00_onclick,this);
             this.admin_pw.addEventHandler("onkeyup",this.admin_pw_onkeyup,this);
             this.admin_login.addEventHandler("onclick",this.admin_login_onclick,this);
-            this.Static02.addEventHandler("onclick",this.Static02_onclick,this);
             this.h1_logo.addEventHandler("onclick",this.h1_logo_onclick,this);
         };
         this.loadIncludeScript("Form_Login.xfdl");
