@@ -640,7 +640,7 @@
             });
         }
         
-        
+
         
         // 주문 번호 생성
         var orderCounter = 0;
@@ -666,6 +666,7 @@
         	var orderNumber = generateUniqueOrderNumber();
         	
         	window.location.href="orderView.do?cartId="+ cartId + "&orderNum=" + orderNumber;
+
         }
     </script>
 
