@@ -9,9 +9,9 @@
         <Static id="Static00_00" taborder="3" text="적립 구분" left="44" top="37" width="66" bottom="656" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
         <Static id="Static00_00_00" taborder="4" text="발생 일시" left="44" top="83" width="66" bottom="610" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
         <Static id="Static00_00_00_00" taborder="5" text="주문 번호" left="44" top="133" width="66" bottom="560" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Edit id="member_name00" taborder="6" left="110" top="129" width="1093" height="35" onchanged="member_name_onchanged" border="1px solid black" borderRadius="8px"/>
-        <Calendar id="Calendar00" taborder="7" left="110" top="80" width="373" height="33" border="1px solid black" borderRadius="8px"/>
-        <Calendar id="Calendar00_00" taborder="8" left="520" top="80" width="373" height="33" border="1px solid black" borderRadius="8px"/>
+        <Edit id="member_name00" taborder="6" left="110" top="129" width="1093" height="35" onchanged="member_name_onchanged" border="1px solid black" borderRadius="8px" onkeyup="member_name00_onkeyup"/>
+        <Calendar id="Calendar00" taborder="7" left="110" top="80" width="373" height="33" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
+        <Calendar id="Calendar00_00" taborder="8" left="520" top="80" width="373" height="33" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_onchanged"/>
         <Static id="Static00" taborder="9" text="~" left="489" top="84" width="28" height="24" textAlign="center"/>
         <Button id="Button00" taborder="10" text="검색" left="489" top="181" width="97" height="29" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="Button00_onclick"/>
         <Button id="Button01" taborder="11" text="초기화" left="608" top="181" width="88" height="29" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
@@ -240,12 +240,81 @@ this.pointAndCoupon_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickE
         obj.setCellProperty("body", e.col, "edittype", "none");
     }
 };
+
+//라디오 자동검색
+this.point_type_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_selectPointDetailList();
+};
+
+
+//포인트 발생일
+this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var startDate = this.Calendar00.value;
+    var endDate   = this.Calendar00_00.value;
+    
+    if (!startDate) return; // 시작일 없으면 처리 중단
+    
+    // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+    if (endDate && endDate < startDate) {
+        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+        this.Calendar00_00.set_value(startDate);
+        endDate = startDate;
+    }
+    
+    // 시작일은 00시 00분
+    this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+    
+    // 종료일이 있으면 23시 59분까지 설정
+    if (endDate) {
+        this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+    }
+	
+	//자동 검색 
+	this.fn_selectPointDetailList();
+};
+
+//발생일 끝
+this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var startDate = this.Calendar00.value;
+    var endDate   = this.Calendar00_00.value;
+    
+    if (!endDate) return; // 종료일 없으면 처리 중단
+    
+    // 종료일이 시작일보다 빠른 경우
+    if (startDate && endDate < startDate) {
+        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+        this.Calendar00_00.set_value(startDate);
+        endDate = startDate;
+    }
+    
+    // 종료일은 23시 59분
+    this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+    
+    // 시작일이 있으면 00시 00분까지 세팅
+    if (startDate) {
+        this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+    }
+	
+	//자동 검색 
+	this.fn_selectPointDetailList();
+};
+
+//주문번호 자동 검색 조회
+this.member_name00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fn_selectPointDetailList();
+	}
+};
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="point_type" propid="value" datasetid="ds_search" columnid="CHANGE_TYPE"/>
       <BindItem id="item1" compid="Calendar00" propid="value" datasetid="ds_search" columnid="SDATE"/>
       <BindItem id="item2" compid="Calendar00_00" propid="value" datasetid="ds_search" columnid="EDATE"/>
-      <BindItem id="item3" compid="member_name00" propid="value" datasetid="ds_search" columnid="ORDER_iD"/>
+      <BindItem id="item3" compid="member_name00" propid="value" datasetid="ds_search" columnid="ORDER_NUMBER"/>
       <BindItem id="item4" compid="pointAndCoupon" propid="binddataset" datasetid="ds_user" columnid=""/>
     </Bind>
   </Form>

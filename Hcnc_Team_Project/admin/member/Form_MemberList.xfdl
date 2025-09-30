@@ -14,15 +14,15 @@
               <Static id="Static00_00_00" taborder="2" text="휴대전화" left="20" top="157" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
               <Static id="Static00_00_00_00" taborder="3" text="접속일" left="20" top="199" width="50" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
               <Combo id="member_info" taborder="4" left="94" top="62" width="104" height="33" text="" onitemchanged="search_box_member_info_onitemchanged" innerdataset="ds_info" codecolumn="SEARCH_TYPE" datacolumn="SEARCH_TYPE" border="1px solid black" borderRadius="8px"/>
-              <Edit id="Edit00" taborder="5" left="210" top="62" width="272" height="34" border="1px solid black" borderRadius="8px"/>
-              <Combo id="member_grade" taborder="6" left="94" top="111" width="266" height="30" innerdataset="ds_grade" codecolumn="GRADE_NAME" datacolumn="GRADE_NAME" border="1px solid black" borderRadius="8px"/>
-              <Edit id="member_phoneNum" taborder="7" left="94" top="156" width="266" height="29" border="1px solid black" borderRadius="8px"/>
-              <Calendar id="Calendar00" taborder="8" left="94" top="199" width="176" height="28" border="1px solid black" borderRadius="8px"/>
-              <Calendar id="Calendar00_00" taborder="9" left="297" top="198" width="190" height="29" border="1px solid black" borderRadius="8px"/>
-              <Static id="Static00" taborder="10" text="~" left="280" top="205" width="34" height="16" onclick="search_box_Static00_onclick"/>
-              <Static id="Static01" taborder="11" text="회원 검색" left="9" top="11" width="102" height="38" textAlign="center" font="20px/normal &quot;Noto Sans KR Black&quot;"/>
-              <Button id="search_btn" taborder="12" text="조회하기" left="280" top="247" width="100" height="31" font="13px/normal &quot;Noto Sans KR Black&quot;" background="#2563eb" color="#fff" borderRadius="4px" onclick="search_box_search_btn_onclick"/>
-              <Button id="reset_btn" taborder="13" text="초기화" left="399" top="247" width="100" height="31" font="13px/normal &quot;Noto Sans KR Black&quot;" background=" #9ca3af" color="#fff" borderRadius="4px" onclick="search_box_reset_btn_onclick"/>
+              <Edit id="Edit00" taborder="5" left="210" top="62" width="272" height="34" border="1px solid black" borderRadius="8px" onkeyup="search_box_Edit00_onkeyup"/>
+              <Combo id="member_grade" taborder="6" left="94" top="111" width="266" height="30" innerdataset="ds_grade" codecolumn="GRADE_NAME" datacolumn="GRADE_NAME" border="1px solid black" borderRadius="8px" onitemchanged="search_box_member_grade_onitemchanged"/>
+              <Calendar id="Calendar00" taborder="7" left="94" top="199" width="176" height="28" border="1px solid black" borderRadius="8px" onchanged="search_box_Calendar00_onchanged"/>
+              <Calendar id="Calendar00_00" taborder="8" left="297" top="198" width="190" height="29" border="1px solid black" borderRadius="8px" onchanged="search_box_Calendar00_00_onchanged"/>
+              <Static id="Static00" taborder="9" text="~" left="280" top="205" width="34" height="16" onclick="search_box_Static00_onclick"/>
+              <Static id="Static01" taborder="10" text="회원 검색" left="9" top="11" width="102" height="38" textAlign="center" font="20px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Button id="search_btn" taborder="11" text="조회하기" left="280" top="247" width="100" height="31" font="13px/normal &quot;Noto Sans KR Black&quot;" background="#2563eb" color="#fff" borderRadius="4px" onclick="search_box_search_btn_onclick"/>
+              <Button id="reset_btn" taborder="12" text="초기화" left="399" top="247" width="100" height="31" font="13px/normal &quot;Noto Sans KR Black&quot;" background=" #9ca3af" color="#fff" borderRadius="4px" onclick="search_box_reset_btn_onclick"/>
+              <MaskEdit id="MaskEdit00" taborder="13" left="95" top="157" width="265" height="28" border="1px solid black" borderRadius="8px" format="###-####-####" type="string" onkeyup="search_box_MaskEdit00_onkeyup"/>
             </Layout>
           </Layouts>
         </Div>
@@ -34,9 +34,9 @@
       <BindItem id="item2" compid="search_box.form.Edit00" propid="value" datasetid="ds_search" columnid="SEARCH_TEXT"/>
       <BindItem id="item3" compid="search_box.form.member_info" propid="value" datasetid="ds_search" columnid="SEARCH_TYPE"/>
       <BindItem id="item1" compid="search_box.form.member_grade" propid="value" datasetid="ds_search" columnid="GRADE_NAME"/>
-      <BindItem id="item4" compid="search_box.form.member_phoneNum" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
       <BindItem id="item5" compid="search_box.form.Calendar00" propid="value" datasetid="ds_search" columnid="FIRST_LOGIN_DT"/>
       <BindItem id="item6" compid="search_box.form.Calendar00_00" propid="value" datasetid="ds_search" columnid="LAST_LOGIN_DT"/>
+      <BindItem id="item4" compid="search_box.form.MaskEdit00" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
     </Bind>
     <Objects>
       <Dataset id="ds_search">
@@ -98,17 +98,16 @@
     <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
 this.Form_MemberList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	this.fn_search();
-	this.fn_gradeSearch();
-	
-	//날짜 디폴트 값 설정
-	var objDate = new nexacro.Date();
-	var mm = (objDate.getMonth()+1).toString().padLeft(2,"0");
-	var dd = objDate.getDate().toString().padLeft(2,"0");
-	var today = objDate.getYear() + mm + dd;
-	
-	var startDate = this.ds_search.setColumn(0,"FIRST_LOGIN_DT",objDate.getYear()+"0101");
-	var endDate = this.ds_search.setColumn(0,"LAST_LOGIN_DT",today);
+//     var objDate = new nexacro.Date();
+//     var mm = (objDate.getMonth()+1).toString().padLeft(2,"0");
+//     var dd = objDate.getDate().toString().padLeft(2,"0");
+//     var today = objDate.getYear() + mm + dd;
+//     
+//     this.ds_search.setColumn(0, "FIRST_LOGIN_DT", objDate.getYear() + "0101");
+//     this.ds_search.setColumn(0, "LAST_LOGIN_DT", today);
+    
+    this.fn_search();
+    this.fn_gradeSearch();
 };
 
 
@@ -195,6 +194,83 @@ this.member_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEven
 		
 		this.getOwnerFrame().set_formurl("member::Form_MemberDetail.xfdl");
 	}
-};]]></Script>
+};
+
+//이름 검색
+this.search_box_Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode ==13){
+		this.fn_search();
+	}
+};
+
+//등급에 따라 검색
+this.search_box_member_grade_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+   this.fn_search();
+};
+
+//전화번호 검색
+this.search_box_MaskEdit00_onkeyup = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode ==13){
+		this.fn_search();
+	}
+};
+
+//시작일
+this.search_box_Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var startDate = this.search_box.form.Calendar00.value;
+    var endDate   = this.search_box.form.Calendar00_00.value;
+    
+    if (!startDate) return; // 시작일 없으면 처리 중단
+    
+    // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+    if (endDate && endDate < startDate) {
+        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+        this.search_box.form.Calendar00_00.set_value(startDate);
+        endDate = startDate;
+    }
+    
+    // 시작일은 00시 00분
+    this.ds_search.setColumn(0, "FIRST_LOGIN_DT", startDate + "000000");
+    
+    // 종료일이 있으면 23시 59분까지 설정
+    if (endDate) {
+        this.ds_search.setColumn(0, "LAST_LOGIN_DT", endDate + "235959");
+    }
+	
+	//자동 검색 
+	this.fn_search()
+};
+
+//종료일
+this.search_box_Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var startDate = this.search_box.form.Calendar00.value;
+    var endDate   = this.search_box.form.Calendar00_00.value;
+    
+    if (!endDate) return; // 종료일 없으면 처리 중단
+    
+    // 종료일이 시작일보다 빠른 경우
+    if (startDate && endDate < startDate) {
+        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+        this.search_box.form.Calendar00_00.set_value(startDate);
+        endDate = startDate;
+    }
+    
+    // 종료일은 23시 59분
+    this.ds_search.setColumn(0, "LAST_LOGIN_DT", endDate + "235959");
+    
+    // 시작일이 있으면 00시 00분까지 세팅
+    if (startDate) {
+        this.ds_search.setColumn(0, "FIRST_LOGIN_DT", startDate + "000000");
+    }
+	
+	//자동 검색 
+	this.fn_search()
+};
+]]></Script>
   </Form>
 </FDL>

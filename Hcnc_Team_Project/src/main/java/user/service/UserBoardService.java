@@ -26,6 +26,19 @@ public class UserBoardService {
 	public int selectPostTotalCountByUser(Map<String, Object> params) {
 		return userBoardMapper.selectPostTotalCountByUser(params);
 	}
+
+	public Map<String, Object> selectUserPostDetailByUser(int postId) {
+		return userBoardMapper.selectUserPostDetailByUser(postId);
+	}
+
+	public List<Map<String, Object>> selectUserCommentByUser(int postId) {
+		return userBoardMapper.selectUserCommentByUser(postId);
+	}
+
+	public void updateUserPostCntByUser(int postId) {
+		userBoardMapper.updateUserPostCntByUser(postId);
+		
+	}
     
     
 
