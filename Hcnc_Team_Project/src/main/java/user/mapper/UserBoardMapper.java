@@ -17,4 +17,13 @@ public interface UserBoardMapper {
 	//게시글 개수 조회
 	int selectPostTotalCountByUser(Map<String, Object> params);
 
+	//게시글 상세 조회
+	Map<String, Object> selectUserPostDetailByUser(int postId);
+
+	//게시글에 달린 댓글 조회
+	List<Map<String, Object>> selectUserCommentByUser(int postId);
+
+	//게시글 조회수 업데이트
+	void updateUserPostCntByUser(int postId);
+
 }

@@ -8,8 +8,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>공지사항</title>
-    <jsp:include page="../layout/headertop.jsp" />
-    <link rel="stylesheet" href="/css/content/substyle.css" />
+    <jsp:include page="../layout/headertop.jsp" /> <!-- 헤더부분 인클루드 -->
+    <script src="../../../common/utils.js"></script> <!-- 자바스크립트 공통유틸 -->
+    <link rel="stylesheet" href="/css/content/substyle.css" /> 
   </head>
   <style>
     @charset "UTF-8";
@@ -374,16 +375,13 @@
                     <button type="button" class="active category-btn" data-category="">전체</button>
                   </li>
                   <li>
-                    <button type="button" class="category-btn" data-category="progress">진행중</button>
+                    <button type="button" class="category-btn" data-category="2">일반게시판</button>
                   </li>
                   <li>
-                    <button type="button" class="category-btn" data-category="ended">종료</button>
+                    <button type="button" class="category-btn" data-category="1">공지사항</button>
                   </li>
                   <li>
-                    <button type="button" class="category-btn" data-category="important">중요</button>
-                  </li>
-                  <li>
-                    <button type="button" class="category-btn" data-category="event">이벤트</button>
+                    <button type="button" class="category-btn" data-category="4">질문</button>
                   </li>
                 </ul>
               </div>
@@ -453,7 +451,7 @@
               type: 'GET',
               data: {
                 pageIndex: pageIndex || 1,
-                pageSize: 10,
+                pageSize: 5,
                 category: category || '',
                 searchKeyword: ''
               },
@@ -487,20 +485,20 @@
           function renderNoticeList(data) {
             var noticeInfo = $('.notice-info');
             noticeInfo.empty();
-            
+            //데이터가 없을 때
             if (!data || data.length === 0) {
-              noticeInfo.append(
-                '<div class="empty-state">' +
-                '<div class="icon">📋</div>' +
-                '<div class="message">등록된 공지사항이 없습니다.</div>' +
-                '</div>'
-              );
+            	noticeInfo.append(
+       	                '<div class="empty-state">' +
+       	                '<div class="icon">📋</div>' +
+       	                '<div class="message">조회된 게시글이 없습니다.</div>' +
+       	                '</div>'
+       	              );
               return;
             }
             
             $.each(data, function(index, item) {
               var categoryClass = getCategoryClass(item.POST_TYPE);
-              var detailUrl = contextPath + '/board/noticeListData.do?postId=' + item.POST_ID;
+              var detailUrl = contextPath + '/board/detail.do?postId=' + item.POST_ID;
               
               var html = '<div class="noticeItem" data-category="' + categoryClass + '">' +
                          '<a href="' + detailUrl + '">' +
