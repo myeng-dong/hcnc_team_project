@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductStockMovements" width="1280" height="800" titletext="상품관리" background="#eff7ff" ontimer="Form_ProductStockMovements_ontimer" onload="Form_ProductStockMovements_onload">
+  <Form id="Form_ProductStockMovements" width="1280" height="800" titletext="상품관리" background="#f4f7fe" ontimer="Form_ProductStockMovements_ontimer" onload="Form_ProductStockMovements_onload">
     <Layouts>
       <Layout width="1280" height="800">
-        <Div id="Div00" taborder="3" text="" top="10" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" width="90" left="24">
+        <Div id="Div00" taborder="2" text="" top="10" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" width="90" left="24">
           <Layouts>
             <Layout/>
           </Layouts>
         </Div>
-        <Div id="Div00_00" taborder="5" text="" left="24" top="65" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
+        <Div id="Div00_00" taborder="4" text="" left="24" top="65" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
           <Layouts>
             <Layout>
               <Edit id="edt_search" taborder="0" left="325" top="5" width="317" height="30"/>
@@ -17,7 +17,7 @@
         </Div>
         <Div id="Div00_00_00" taborder="0" text="" left="24" top="120" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26" color="#215825"/>
         <Div id="Div00_00_00_00" taborder="1" text="" left="24" top="175" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26"/>
-        <Div id="Div00_00_00_00_00" taborder="7" text="" left="24" top="230" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
+        <Div id="Div00_00_00_00_00" taborder="6" text="" left="24" top="230" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
           <Layouts>
             <Layout>
               <Radio id="Radio00" taborder="0" left="155" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" index="0" text="전체" value="all">
@@ -68,7 +68,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="6" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" readonly="true" selecttype="multirow">
+        <Grid id="grid_list" taborder="5" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" readonly="true" selecttype="multirow">
           <Formats>
             <Format id="default">
               <Columns>
@@ -100,7 +100,7 @@
                 <Cell row="1" col="3" rowspan="2" text="상품 총 재고" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="4" colspan="2" text="상품분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="6" colspan="2" text="옵션" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
-                <Cell row="1" col="8" rowspan="2" text="진열" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell row="1" col="8" rowspan="2" text="옵션&#13;&#10;진열" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" wordWrap="both"/>
                 <Cell row="1" col="9" rowspan="2" text="재고" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="10" rowspan="2" text="입•출고량" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="11" rowspan="2" text="타입" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
@@ -128,14 +128,12 @@
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_excel" text="엑셀다운로드" top="305" width="150" height="30" color="#2e7d32" background="url('imagerc::excel_logo.png') no-repeat left center /38px #ffffff" border="1px solid #CCCCCC" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" padding="0px 0px 0px 25px" taborder="2" onclick="btn_excel_onclick" cursor="pointer" left="1066"/>
-        <Static id="sta_listTitle" text="목록" left="50" height="61" top="296" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="4" color="#232323"/>
-        <Static id="sta_prodType" text="검색분류" left="40" height="40" top="65" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="8" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Static id="sta_category" text="상품분류" left="40" height="40" top="120" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="9" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Static id="sta_regDate" text="입•출고 등록일" left="40" height="40" top="175" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="10" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Static id="sta_sale" text="진열상태" left="40" height="40" top="230" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="11" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Button id="btn_view" text="조회" top="70" width="72" height="30" color="#ffffff" background="#0d838b" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="12" onclick="btn_view_onclick" cursor="pointer" left="698"/>
-        <Combo id="cmb_searchType" left="179" top="70" width="150" height="30" text="상품명" taborder="13" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME">
+        <Static id="sta_listTitle" text="목록" left="50" height="61" top="296" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="3" color="#232323"/>
+        <Static id="sta_prodType" text="검색분류" left="40" height="40" top="65" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="7" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_category" text="상품분류" left="40" height="40" top="120" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="8" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_regDate" text="입•출고 등록일" left="40" height="40" top="175" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="9" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Static id="sta_sale" text="진열상태" left="40" height="40" top="230" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="10" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
+        <Combo id="cmb_searchType" left="179" top="70" width="150" height="30" text="상품명" taborder="11" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME">
           <Dataset id="innerdataset">
             <ColumnInfo>
               <Column id="codecolumn" size="256"/>
@@ -157,12 +155,15 @@
             </Rows>
           </Dataset>
         </Combo>
-        <Combo id="cmb_cate1" left="179" top="125" width="150" height="30" text="" taborder="14" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_mainCate" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM" index="-1" value="" displayrowcount="20" onitemchanged="cmb_cate1_onitemchanged"/>
-        <Calendar id="cal_start" left="179" top="180" height="30" width="149" taborder="15" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Combo id="cmb_cate2" left="349" top="125" width="150" height="30" text="- 중분류 선택 -" taborder="16" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_subCate" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM" displayrowcount="20"/>
-        <Calendar id="cal_end" left="349" top="180" height="30" width="150" taborder="17" font="normal 800 10pt/normal &quot;Arial&quot;"/>
-        <Static id="sta_dash" text="~" left="334" top="178" height="35" width="20" taborder="18" font="normal bold 10pt/normal &quot;Arial&quot;"/>
-        <Static id="stc_total" taborder="19" text="" left="39" top="15" width="61" height="30" font="12px/normal &quot;Gulim&quot;,&quot;Arial Black&quot;" borderRadius="0px 10px 10px 0px"/>
+        <Combo id="cmb_cate1" left="179" top="125" width="150" height="30" text="" taborder="12" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_mainCate" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM" index="-1" value="" displayrowcount="20" onitemchanged="cmb_cate1_onitemchanged"/>
+        <Calendar id="cal_start" left="179" top="180" height="30" width="149" taborder="13" font="normal 800 10pt/normal &quot;Arial&quot;"/>
+        <Combo id="cmb_cate2" left="349" top="125" width="150" height="30" text="- 중분류 선택 -" taborder="14" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_subCate" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM" displayrowcount="20"/>
+        <Calendar id="cal_end" left="349" top="180" height="30" width="150" taborder="15" font="normal 800 10pt/normal &quot;Arial&quot;"/>
+        <Static id="sta_dash" text="~" left="334" top="178" height="35" width="20" taborder="16" font="normal bold 10pt/normal &quot;Arial&quot;"/>
+        <Static id="stc_total" taborder="17" text="" left="39" top="15" width="61" height="30" font="12px/normal &quot;Gulim&quot;,&quot;Arial Black&quot;" borderRadius="0px 10px 10px 0px"/>
+        <Static id="sta_listTitle00" text="Inbound : 입고&#13;&#10;Outbound : 출고&#13;&#10;Add option : 옵션추가" height="61" top="290" font="bold 8pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="18" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="left" verticalAlign="middle" width="134" right="210" letterSpacing="1px"/>
+        <Button id="btn_view" text="조회" top="70" width="72" height="30" onclick="btn_view_onclick" left="698" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="6px" font="bold 12px 'Arial'" cursor="pointer" taborder="19"/>
+        <Button id="btn_excel" text="    엑셀다운로드" top="305" width="130" height="30" onclick="btn_excel_onclick" left="188" background="url('imagerc::excel_logo.png') no-repeat left center /30px" color="#000000" border="1px solid #cccccc" borderRadius="6px" font="bold 12px 'Arial'" cursor="pointer" taborder="20"/>
       </Layout>
     </Layouts>
     <Objects>

@@ -12,6 +12,7 @@
             this.set_name("Form_ProductSearch");
             this.set_titletext("상품 검색");
             this.set_border("0px none");
+            this.set_background("#f4f7fe");
             if (Form == this.constructor)
             {
                 this._setFormPosition(600,400);

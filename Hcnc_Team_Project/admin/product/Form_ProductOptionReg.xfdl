@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductOptionReg" width="1280" height="800" titletext="옵션 등록/수정" background="#eff7ff" onload="Form_ProductOptionReg_onload">
+  <Form id="Form_ProductOptionReg" width="1280" height="800" titletext="옵션 등록/수정" background="#f4f7fe" onload="Form_ProductOptionReg_onload">
     <Layouts>
       <Layout width="1280" height="800">
         <!-- 타이틀 -->
@@ -234,6 +234,7 @@ this.btn_save_onclick = function()
 	trace("저장 시 가져온 UserId = " + sUserId);
 	
 	for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
+	
     trace("저장 전 체크 >> row=" + i 
          + " PRODUCT_ID=" + this.ds_optionReg.getColumn(i,"PRODUCT_ID")
          + " INPUT_ID="   + this.ds_optionReg.getColumn(i,"INPUT_ID")

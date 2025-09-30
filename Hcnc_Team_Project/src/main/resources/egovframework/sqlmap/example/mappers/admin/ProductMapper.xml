@@ -139,6 +139,7 @@
     UPDATE INVENTORIES
        SET QUANTITY = #{QUANTITY},
            UPDATE_DT = NOW(),
+           INPUT_ID = #{INPUT_ID},
            UPDATE_ID = #{UPDATE_ID}
      WHERE PRODUCT_ID = #{PRODUCT_ID}
        AND ( (OPTION_ID IS NULL AND #{OPTION_ID} IS NULL)
@@ -163,7 +164,9 @@
 			i.QUANTITY AS CURRENT_QUANTITY,
 			sm.MOVE_QUANTITY,
 			sm.MOVE_TYPE,
-			sm.INPUT_DT
+			sm.INPUT_DT,
+			o.INPUT_ID,
+			o.UPDATE_ID 
 	  FROM
 			PRODUCTS p
 	  JOIN SUB_CATEGORIES sc ON
@@ -232,11 +235,7 @@
 			AND sc.SUB_CATE_ID = #{SUB_CATE_ID}
 		</if>
 	ORDER BY
-		p.PRODUCT_ID,
-		o.OPTION_ID,
 		sm.INPUT_DT DESC
-
-		
 	</select>
 	
 	
@@ -254,7 +253,7 @@
 	<!-- 대분류 -->
 	<select id="selectMainCategoryByAdmin"
 		resultType="java.util.Map">
-		SELECT MAIN_CATE_ID, MAIN_CATE_NM, SORT_NUMBER, IS_ACTIVE
+		SELECT MAIN_CATE_ID, MAIN_CATE_NM, SORT_NUMBER, IS_ACTIVE, INPUT_ID, UPDATE_ID
 		FROM MAIN_CATEGORIES
 		ORDER BY SORT_NUMBER
 	</select>
@@ -262,9 +261,8 @@
 	<!-- 중분류 -->
 	<select id="selectSubCategoryByAdmin" resultType="java.util.Map">
 		SELECT
-		SUB_CATE_ID, MAIN_CATE_ID, SUB_CATE_NM, SORT_NUMBER, IS_ACTIVE
-		FROM
-		SUB_CATEGORIES
+		SUB_CATE_ID, MAIN_CATE_ID, SUB_CATE_NM, SORT_NUMBER, IS_ACTIVE, INPUT_ID, UPDATE_ID
+		FROM SUB_CATEGORIES
 		ORDER BY MAIN_CATE_ID, SORT_NUMBER
 	</select>
 
@@ -273,18 +271,18 @@
 			<when test="TYPE == 'main'">
 				INSERT INTO MAIN_CATEGORIES
 				(MAIN_CATE_NM,
-				SORT_NUMBER, IS_ACTIVE, INPUT_ID, INPUT_DT)
+				SORT_NUMBER, IS_ACTIVE, INPUT_ID, INPUT_DT, UPDATE_ID)
 				VALUES
 				(#{MAIN_CATE_NM},
-				#{SORT_NUMBER}, #{IS_ACTIVE}, #{INPUT_ID}, NOW())
+				#{SORT_NUMBER}, #{IS_ACTIVE}, #{INPUT_ID}, NOW(), #{UPDATE_ID})
 			</when>
 			<otherwise>
 				INSERT INTO SUB_CATEGORIES
 				(MAIN_CATE_ID, SUB_CATE_NM,
-				SORT_NUMBER, IS_ACTIVE, INPUT_ID, INPUT_DT)
+				SORT_NUMBER, IS_ACTIVE, INPUT_ID, INPUT_DT, UPDATE_ID)
 				VALUES
 				(#{MAIN_CATE_ID},
-				#{SUB_CATE_NM}, #{SORT_NUMBER}, #{IS_ACTIVE}, #{INPUT_ID}, NOW())
+				#{SUB_CATE_NM}, #{SORT_NUMBER}, #{IS_ACTIVE}, #{INPUT_ID}, NOW(), #{UPDATE_ID})
 			</otherwise>
 		</choose>
 	</insert>

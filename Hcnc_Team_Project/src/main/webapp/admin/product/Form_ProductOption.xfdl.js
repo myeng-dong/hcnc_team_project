@@ -11,7 +11,7 @@
         {
             this.set_name("Form_ProductOption");
             this.set_titletext("상품관리");
-            this.set_background("#eff7ff");
+            this.set_background("#f4f7fe");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,800);
@@ -73,32 +73,6 @@
             obj.set_font("bold 10pt/normal \"맑은 고딕\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_show","806","172","92","30",null,null,null,null,null,null,this);
-            obj.set_text("선택 진열");
-            obj.set_color("#FFFFFF");
-            obj.set_background("#f09d37");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_hide","928","172","92","30",null,null,null,null,null,null,this);
-            obj.set_text("진열 취소");
-            obj.set_color("#FFFFFF");
-            obj.set_background("#ce5525");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_reg","1078","172","120","30",null,null,null,null,null,null,this);
-            obj.set_text("옵션등록");
-            obj.set_color("#FFFFFF");
-            obj.set_background("#102b6e");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
-            obj.set_taborder("0");
-            obj.set_cursor("pointer");
-            this.addChild(obj.name, obj);
-
             obj = new Static("sta_listTitle","42","152","86","61",null,null,null,null,null,null,this);
             obj.set_text("옵션 목록");
             obj.set_font("bold 14pt/normal \"맑은 고딕\"");
@@ -116,16 +90,6 @@
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_view","702","56","72","30",null,null,null,null,null,null,this);
-            obj.set_text("조회");
-            obj.set_color("#ffffff");
-            obj.set_background("#102b6e");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
-            obj.set_taborder("5");
-            obj.set_cursor("pointer");
-            this.addChild(obj.name, obj);
-
             obj = new Combo("cmb_searchType","157","56","150","35",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
@@ -141,12 +105,56 @@
 
             obj = new Static("sta_listTitle00","498","152","215","61",null,null,null,null,null,null,this);
             obj.set_text("옵션 더블클릭시 수정가능");
-            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
+            obj.set_font("11pt/normal \"Arial\"");
             obj.set_taborder("12");
             obj.set_color("#383838");
             obj.set_border("0px none,0px none,5px solid #ffa70f,0px solid #ffa70f");
             obj.set_textAlign("center");
             obj.set_verticalAlign("bottom");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_view","714","58","72","30",null,null,null,null,null,null,this);
+            obj.set_text("조회");
+            obj.set_background("#000000");
+            obj.set_color("#ffffff");
+            obj.set_border("1px solid #000000");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("12");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_show","832","172","92","30",null,null,null,null,null,null,this);
+            obj.set_text("선택 진열");
+            obj.set_background("#f09d37");
+            obj.set_color("#ffffff");
+            obj.set_border("1px solid #f09d37");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("11");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_hide","948","172","92","30",null,null,null,null,null,null,this);
+            obj.set_text("진열 취소");
+            obj.set_background("#ce5525");
+            obj.set_color("#ffffff");
+            obj.set_border("1px solid #ce5525");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("12");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_reg","1130","172","100","30",null,null,null,null,null,null,this);
+            obj.set_text("옵션등록");
+            obj.set_background("#000000");
+            obj.set_color("#ffffff");
+            obj.set_border("1px solid #000000");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("12");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -502,13 +510,13 @@
             this.addEventHandler("onload",this.Form_ProductOption_onload,this);
             this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
             this.grid_list.addEventHandler("oncelldblclick",this.grid_list_oncelldblclick,this);
+            this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
+            this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
+            this.sta_listTitle00.addEventHandler("onclick",this.sta_listTitle_onclick,this);
+            this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
             this.btn_show.addEventHandler("onclick",this.btn_show_onclick,this);
             this.btn_hide.addEventHandler("onclick",this.btn_hide_onclick,this);
             this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);
-            this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
-            this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
-            this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
-            this.sta_listTitle00.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.ds_out_opList.addEventHandler("oncolumnchanged",this.ds_out_opList_oncolumnchanged,this);
             this.ds_in.addEventHandler("oncolumnchanged",this.ds_out_opList_oncolumnchanged,this);
         };

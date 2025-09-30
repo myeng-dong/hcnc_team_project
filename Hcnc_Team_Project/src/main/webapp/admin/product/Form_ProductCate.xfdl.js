@@ -38,43 +38,49 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Button("btn_goProduct","10","43","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_goProduct","10","10","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품목록");
-            obj.set_background("#056e70");
+            obj.set_background("#000000");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0");
+            obj.set_border("1px solid #000000");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_goDisplay","120","43","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_goDisplay","120","10","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품진열");
-            obj.set_background("#056e70");
+            obj.set_background("#000000");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0");
+            obj.set_border("1px solid #000000");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_goProductReg","230","43","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_goProductReg","230","10","100","35",null,null,null,null,null,null,this);
             obj.set_text("상품등록");
-            obj.set_background("#056e70");
+            obj.set_background("#000000");
             obj.set_color("#ffffff");
             obj.set_font("bold 10pt \'Gulim\'");
             obj.set_borderRadius("8px");
-            obj.set_border("0");
+            obj.set_border("1px solid #000000");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grd_category","10","100","500","590",null,null,null,null,null,null,this);
+            obj = new Grid("grd_category","10","89","500","590",null,null,null,null,null,null,this);
             obj.set_binddataset("ds_category");
-            obj.set_border("1px solid #90caf9");
+            obj.set_background("#ffffff");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("12px");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"30\"/><Column size=\"370\"/></Columns><Rows><Row size=\"37\"/></Rows><Band id=\"body\"><Cell text=\"expr:(type==&apos;main&apos; ? (expanded==&apos;Y&apos; ? &apos;-&apos; : &apos;+&apos;) : &apos;&apos;)\" textAlign=\"center\" font=\"14px/normal &quot;Gulim&quot;\"/><Cell col=\"1\" text=\"expr:(level==0 ? cate_name : &apos;   &apos; + cate_name)\" font=\"14px/normal &quot;Gulim&quot;\"/></Band></Format></Formats>");
+            obj.set_font("12px \'Arial\'");
+            obj.set_color("#222222");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"30\"/><Column size=\"370\"/></Columns><Rows><Row size=\"37\"/></Rows><Band id=\"body\"><Cell text=\"expr:(type==&apos;main&apos; ? (expanded==&apos;Y&apos; ? &apos;-&apos; : &apos;+&apos;) : &apos;&apos;)\" textAlign=\"center\" font=\"14px &apos;Gulim&apos;\" color=\"#000000\"/><Cell col=\"1\" text=\"expr:(level==0 ? cate_name : &apos;   &apos; + cate_name)\" font=\"14px &apos;Gulim&apos;\" color=\"#222222\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Div("div_detail","530","100","730","590",null,null,null,null,null,null,this);
+            obj = new Div("div_detail","530","89","730","590",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
-            obj.set_border("1px solid #90caf9");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("12px");
             obj.getSetter("padding").set("15px");
             this.addChild(obj.name, obj);
@@ -83,46 +89,58 @@
             obj.set_text("상세정보");
             obj.set_font("bold 14pt \'Gulim\'");
             obj.set_color("#000000");
+            obj.set_background("transparent");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Static("sta_current","20","60","100","25",null,null,null,null,null,null,this.div_detail.form);
             obj.set_text("ID");
             obj.set_font("10pt \'Gulim\'");
             obj.set_color("#000000");
+            obj.set_background("transparent");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Static("sta_idValue","140","60","200","25",null,null,null,null,null,null,this.div_detail.form);
             obj.set_text("자동생성");
             obj.set_font("10pt \'Gulim\'");
             obj.set_color("#666666");
+            obj.set_background("transparent");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Static("sta_name","20","100","100","25",null,null,null,null,null,null,this.div_detail.form);
             obj.set_text("분류명");
             obj.set_font("10pt \'Gulim\'");
             obj.set_color("#000000");
+            obj.set_background("transparent");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Edit("edt_cateName","140","100","400","25",null,null,null,null,null,null,this.div_detail.form);
-            obj.set_border("1px solid #90caf9");
+            obj.set_background("#ffffff");
+            obj.set_border("1px solid #cccccc");
             obj.set_borderRadius("6px");
+            obj.set_font("12px \'Arial\'");
+            obj.set_color("#222222");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Static("sta_sort","20","140","100","25",null,null,null,null,null,null,this.div_detail.form);
             obj.set_text("정렬순번");
             obj.set_font("10pt \'Gulim\'");
             obj.set_color("#000000");
+            obj.set_background("transparent");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Edit("edt_sort","140","140","100","25",null,null,null,null,null,null,this.div_detail.form);
-            obj.set_border("1px solid #90caf9");
+            obj.set_background("#ffffff");
+            obj.set_border("1px solid #cccccc");
             obj.set_borderRadius("6px");
+            obj.set_font("12px \'Arial\'");
+            obj.set_color("#222222");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Static("sta_display","20","180","100","25",null,null,null,null,null,null,this.div_detail.form);
             obj.set_text("진열상태");
             obj.set_font("10pt \'Gulim\'");
             obj.set_color("#000000");
+            obj.set_background("transparent");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Radio("rdo_display","140","175","359","35",null,null,null,null,null,null,this.div_detail.form);
@@ -130,59 +148,63 @@
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
             obj.set_direction("vertical");
-            obj.set_font("10pt \'Gulim\'");
-            obj.set_color("#000000");
+            obj.set_font("12px \'Arial\'");
+            obj.set_color("#222222");
             var div_detail_form_rdo_display_innerdataset = new nexacro.NormalDataset("div_detail_form_rdo_display_innerdataset", obj);
             div_detail_form_rdo_display_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">Y</Col><Col id=\"datacolumn\">진열함</Col></Row><Row><Col id=\"codecolumn\">N</Col><Col id=\"datacolumn\">진열안함</Col></Row></Rows>");
             obj.set_innerdataset(div_detail_form_rdo_display_innerdataset);
-            obj.set_text("진열함");
             obj.set_value("Y");
             obj.set_index("0");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Button("btn_saveDetail","140","230","100","30",null,null,null,null,null,null,this.div_detail.form);
             obj.set_text("저장");
-            obj.set_background("#102b6e");
+            obj.set_background("#000000");
             obj.set_color("#ffffff");
-            obj.set_font("bold 10pt \'Gulim\'");
+            obj.set_border("1px solid #000000");
             obj.set_borderRadius("8px");
-            obj.set_border("0");
+            obj.set_font("bold 11pt \'Gulim\'");
+            obj.set_cursor("pointer");
             this.div_detail.addChild(obj.name, obj);
 
             obj = new Button("btn_addMain","10","730","100","35",null,null,null,null,null,null,this);
             obj.set_text("대분류추가");
-            obj.set_background("#102b6e");
+            obj.set_background("#000000");
             obj.set_color("#ffffff");
-            obj.set_font("bold 10pt \'Gulim\'");
+            obj.set_border("1px solid #000000");
             obj.set_borderRadius("8px");
-            obj.set_border("0");
+            obj.set_font("bold 11pt \'Gulim\'");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_addSub","120","730","100","35",null,null,null,null,null,null,this);
             obj.set_text("하위추가");
-            obj.set_background("#102b6e");
+            obj.set_background("#000000");
             obj.set_color("#ffffff");
-            obj.set_font("bold 10pt \'Gulim\'");
+            obj.set_border("1px solid #000000");
             obj.set_borderRadius("8px");
-            obj.set_border("0");
+            obj.set_font("bold 11pt \'Gulim\'");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_edit","230","730","100","35",null,null,null,null,null,null,this);
             obj.set_text("수정");
-            obj.set_background("#102b6e");
+            obj.set_background("#000000");
             obj.set_color("#ffffff");
-            obj.set_font("bold 10pt \'Gulim\'");
+            obj.set_border("1px solid #000000");
             obj.set_borderRadius("8px");
-            obj.set_border("0");
+            obj.set_font("bold 11pt \'Gulim\'");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_delete","340","730","100","35",null,null,null,null,null,null,this);
             obj.set_text("삭제");
             obj.set_background("#a1162f");
             obj.set_color("#ffffff");
-            obj.set_font("bold 10pt \'Gulim\'");
+            obj.set_border("1px solid #a1162f");
             obj.set_borderRadius("8px");
-            obj.set_border("0");
+            obj.set_font("bold 11pt \'Gulim\'");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -589,6 +611,23 @@
 
         };
 
+        // 사용자 ID 반환 함수
+        this.getUserId = function()
+        {
+            var app = nexacro.getApplication();
+            var sUserId = app.gds_adminInfo.getColumn(0, "MEMBER_ID");
+
+            if (sUserId && sUserId != "undefined") {
+                trace("현재 로그인 사용자 ID: " + sUserId);
+                return sUserId;
+            } else {
+                trace("⚠ 사용자 ID를 가져올 수 없습니다. gds_adminInfo 상태 확인 필요");
+                return null;
+            }
+        };
+
+
+
         /***************************************************
         * 저장 버튼 (신규/수정 통합)
         ***************************************************/
@@ -612,6 +651,8 @@
             this.ds_in.clearData();
             var nRow = this.ds_in.addRow();
 
+        	var sUserId = this.getUserId();
+
             // 신규
             if (this._insertMode) {
                 if (this._insertMode.type=="main") {
@@ -624,7 +665,8 @@
                 }
                 this.ds_in.setColumn(nRow,"SORT_NUMBER", sort);
                 this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
-                this.ds_in.setColumn(nRow,"INPUT_ID","admin");
+                this.ds_in.setColumn(nRow,"INPUT_ID", sUserId);
+        		this.ds_in.setColumn(nRow,"UPDATE_ID", sUserId);
 
                 this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do?time=" + new Date().getTime(),
                     "ds_in=ds_in","","","fn_callback",true);
@@ -650,7 +692,7 @@
                 }
                 this.ds_in.setColumn(nRow,"SORT_NUMBER", sort);
                 this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
-                this.ds_in.setColumn(nRow,"UPDATE_ID","admin");
+                this.ds_in.setColumn(nRow,"UPDATE_ID", sUserId);
 
                 this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do?time=" + new Date().getTime(),
                     "ds_in=ds_in","","","fn_callback",true);

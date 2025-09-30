@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductOptionSelect" width="800" height="600" titletext="옵션 선택" background="#f7f9fc" onload="Form_ProductOptionSelect_onload">
+  <Form id="Form_ProductOptionSelect" width="800" height="600" titletext="옵션 선택" background="#f4f7fe" onload="Form_ProductOptionSelect_onload">
     <Layouts>
       <Layout width="800" height="600">
         <Static id="sta_title" text="옵션 선택" left="20" top="20" width="300" height="30" font="bold 14pt 'Gulim'" color="#222222"/>

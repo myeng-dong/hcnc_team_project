@@ -11,7 +11,7 @@
         {
             this.set_name("Form_Product");
             this.set_titletext("상품관리");
-            this.set_background("#eff7ff");
+            this.set_background("#f4f7fe");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,800);
@@ -25,7 +25,7 @@
 
             obj = new Dataset("ds_out_proList", this);
             obj.set_useclientlayout("true");
-            obj._setContents("<ColumnInfo><Column id=\"chk\" type=\"INT\" size=\"256\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CONTENT\" type=\"STRING\" size=\"1000\"/><Column id=\"COST_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"PRODUCT_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"TOTAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"QUANTITY\" type=\"INT\" size=\"256\"/><Column id=\"INV_OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"DATETIME\" size=\"256\"/><Column id=\"UPDATE_DT\" type=\"DATETIME\" size=\"256\"/><Column id=\"PRODUCT_ID\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"chk\" type=\"INT\" size=\"256\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CONTENT\" type=\"STRING\" size=\"1000\"/><Column id=\"COST_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"PRODUCT_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"ADDITIONAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"TOTAL_PRICE\" type=\"INT\" size=\"256\"/><Column id=\"MAIN_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"SUB_CATE_NM\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"OPTION_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"QUANTITY\" type=\"INT\" size=\"256\"/><Column id=\"INV_OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"DATETIME\" size=\"256\"/><Column id=\"UPDATE_DT\" type=\"DATETIME\" size=\"256\"/><Column id=\"PRODUCT_ID\" type=\"INT\" size=\"256\"/><Column id=\"OPTION_ID\" type=\"INT\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -45,19 +45,19 @@
 
 
             obj = new Dataset("ds_qu", this);
-            obj._setContents("<ColumnInfo><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\" size=\"256\"/><Column id=\"OPTION_ID\" type=\"BIGDECIMAL\" size=\"256\"/><Column id=\"QUANTITY\" type=\"INT\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"PRODUCT_ID\" type=\"BIGDECIMAL\" size=\"256\"/><Column id=\"OPTION_ID\" type=\"BIGDECIMAL\" size=\"256\"/><Column id=\"QUANTITY\" type=\"INT\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Div("Div00","24","10","90","40",null,null,null,null,null,null,this);
-            obj.set_taborder("4");
+            obj.set_taborder("2");
             obj.set_text("");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px 10px 10px 10px");
             this.addChild(obj.name, obj);
 
             obj = new Div("Div00_00","24","65",null,"40","26",null,null,null,null,null,this);
-            obj.set_taborder("6");
+            obj.set_taborder("4");
             obj.set_text("");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px 10px 10px 10px");
@@ -76,14 +76,14 @@
             this.addChild(obj.name, obj);
 
             obj = new Div("Div00_00_00_00","24","175",null,"40","26",null,null,null,null,null,this);
-            obj.set_taborder("2");
+            obj.set_taborder("1");
             obj.set_text("");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px 10px 10px 10px");
             this.addChild(obj.name, obj);
 
             obj = new Div("Div00_00_00_00_00","24","230",null,"40","26",null,null,null,null,null,this);
-            obj.set_taborder("8");
+            obj.set_taborder("6");
             obj.set_text("");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px 10px 10px 10px");
@@ -128,42 +128,19 @@
             this.Div00_00_00_00_00.addChild(obj.name, obj);
 
             obj = new Grid("grid_list","24","285",null,"465","26",null,null,null,null,null,this);
-            obj.set_taborder("7");
+            obj.set_taborder("5");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_out_proList");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"28\"/><Column size=\"61\"/><Column size=\"107\"/><Column size=\"173\"/><Column size=\"63\"/><Column size=\"63\"/><Column size=\"63\"/><Column size=\"70\"/><Column size=\"82\"/><Column size=\"82\"/><Column size=\"82\"/><Column size=\"82\"/><Column size=\"117\"/><Column size=\"41\"/><Column size=\"63\"/><Column size=\"38\"/><Column size=\"37\"/></Columns><Rows><Row size=\"66\" band=\"head\"/><Row size=\"48\" band=\"head\"/><Row size=\"24\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell colspan=\"18\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" text=\"전체\"/><Cell row=\"1\" col=\"1\" rowspan=\"2\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"2\" rowspan=\"2\" text=\"상품코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"3\" rowspan=\"2\" text=\"상품명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"4\" rowspan=\"2\" text=\"설명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"5\" rowspan=\"2\" text=\"원가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"6\" rowspan=\"2\" text=\"상품가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"7\" rowspan=\"2\" text=\"옵션가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"8\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"최종판매가\"/><Cell row=\"1\" col=\"9\" colspan=\"2\" text=\"상품분류\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"11\" colspan=\"2\" text=\"옵션\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"13\" rowspan=\"2\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"14\" rowspan=\"2\" text=\"진열\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"15\" rowspan=\"2\" colspan=\"2\" text=\"재고\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"17\" rowspan=\"2\" text=\"관리\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"2\" col=\"9\" text=\"대분류\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"2\" col=\"10\" text=\"중분류\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"2\" col=\"11\" text=\"옵션\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"2\" col=\"12\" text=\"세부사항\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" background=\"#ffffff\" textAlign=\"center\" edittype=\"checkbox\" text=\"bind:chk\"/><Cell col=\"1\" text=\"expr:currow + 1\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"2\" background=\"#ffffff\" text=\"bind:PRODUCT_CODE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"3\" background=\"#ffffff\" text=\"bind:PRODUCT_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"4\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_CONTENT\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"5\" background=\"#ffffff\" text=\"bind:COST_PRICE\" font=\"12px/normal &quot;Gulim&quot;\" edittype=\"none\"/><Cell col=\"6\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"7\" edittype=\"none\" background=\"#ffffff\" text=\"bind:ADDITIONAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"8\" edittype=\"none\" background=\"#ffffff\" text=\"bind:TOTAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"9\" edittype=\"none\" background=\"#ffffff\" text=\"bind:MAIN_CATE_NM\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"10\" edittype=\"none\" background=\"#ffffff\" text=\"bind:SUB_CATE_NM\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"11\" background=\"#ffffff\" text=\"bind:OPTION_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"12\" edittype=\"none\" background=\"#ffffff\" text=\"bind:OPTION_VALUE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"13\" edittype=\"none\" background=\"#ffffff\" text=\"bind:INPUT_DT\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" displaytype=\"date\"/><Cell col=\"14\" edittype=\"none\" background=\"#ffffff\" text=\"bind:IS_VISIBLE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"15\" edittype=\"mask\" background=\"#ffffff\" text=\"bind:QUANTITY\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" displaytype=\"mask\"/><Cell col=\"16\" edittype=\"none\" text=\"수정\" font=\"12px/normal &quot;Gulim&quot;\" displaytype=\"buttoncontrol\" background=\"transparent\" cssclass=\"productCellBtnEdit\"/><Cell col=\"17\" edittype=\"none\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/></Band></Format></Formats>");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_reg",null,"70","100","30","50",null,null,null,null,null,this);
-            obj.set_text("상품등록");
-            obj.set_color("#FFFFFF");
-            obj.set_background("#102b6e");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
-            obj.set_border("1px solid #CCCCCC");
-            obj.set_taborder("1");
-            obj.set_cursor("pointer");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_excel","180","306","150","30",null,null,null,null,null,null,this);
-            obj.set_text("엑셀다운로드");
-            obj.set_color("#2e7d32");
-            obj.set_background("url(\'imagerc::excel_logo.png\') no-repeat left center /38px #ffffff");
-            obj.set_border("1px solid #CCCCCC");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
-            obj.set_padding("0px 0px 0px 25px");
-            obj.set_taborder("3");
-            obj.set_cursor("pointer");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"24\"/><Column size=\"61\"/><Column size=\"107\"/><Column size=\"173\"/><Column size=\"52\"/><Column size=\"52\"/><Column size=\"52\"/><Column size=\"68\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"103\"/><Column size=\"41\"/><Column size=\"41\"/><Column size=\"71\"/><Column size=\"37\"/></Columns><Rows><Row size=\"66\" band=\"head\"/><Row size=\"48\" band=\"head\"/><Row size=\"24\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell colspan=\"18\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" text=\"전체\"/><Cell row=\"1\" col=\"1\" rowspan=\"2\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"2\" rowspan=\"2\" text=\"상품코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"3\" rowspan=\"2\" text=\"상품명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"4\" rowspan=\"2\" text=\"설명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"5\" rowspan=\"2\" text=\"원가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"6\" rowspan=\"2\" text=\"상품가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"7\" rowspan=\"2\" text=\"옵션가\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"8\" rowspan=\"2\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"최종판매가\"/><Cell row=\"1\" col=\"9\" colspan=\"2\" text=\"상품분류\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"11\" colspan=\"2\" text=\"옵션\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"13\" rowspan=\"2\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"14\" rowspan=\"2\" text=\"진열\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"15\" rowspan=\"2\" colspan=\"2\" text=\"재고\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"1\" col=\"17\" rowspan=\"2\" text=\"관리\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"2\" col=\"9\" text=\"대분류\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"2\" col=\"10\" text=\"중분류\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"2\" col=\"11\" text=\"옵션\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell row=\"2\" col=\"12\" text=\"세부사항\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" background=\"#ffffff\" textAlign=\"center\" edittype=\"checkbox\" text=\"bind:chk\"/><Cell col=\"1\" text=\"expr:currow + 1\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"2\" background=\"#ffffff\" text=\"bind:PRODUCT_CODE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"3\" background=\"#ffffff\" text=\"bind:PRODUCT_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"4\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_CONTENT\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"5\" background=\"#ffffff\" text=\"bind:COST_PRICE\" font=\"12px/normal &quot;Gulim&quot;\" edittype=\"none\"/><Cell col=\"6\" edittype=\"none\" background=\"#ffffff\" text=\"bind:PRODUCT_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"7\" edittype=\"none\" background=\"#ffffff\" text=\"bind:ADDITIONAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"8\" edittype=\"none\" background=\"#ffffff\" text=\"bind:TOTAL_PRICE\" font=\"12px/normal &quot;Gulim&quot;\"/><Cell col=\"9\" edittype=\"none\" background=\"#ffffff\" text=\"bind:MAIN_CATE_NM\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"10\" edittype=\"none\" background=\"#ffffff\" text=\"bind:SUB_CATE_NM\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"11\" background=\"#ffffff\" text=\"bind:OPTION_NAME\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" edittype=\"none\"/><Cell col=\"12\" edittype=\"none\" background=\"#ffffff\" text=\"bind:OPTION_VALUE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"13\" edittype=\"none\" background=\"#ffffff\" text=\"bind:INPUT_DT\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" displaytype=\"date\"/><Cell col=\"14\" edittype=\"none\" background=\"#ffffff\" text=\"bind:IS_VISIBLE\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/><Cell col=\"15\" edittype=\"mask\" background=\"#ffffff\" text=\"bind:QUANTITY\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\" displaytype=\"mask\"/><Cell col=\"16\" edittype=\"none\" text=\"수정\" font=\"12px/normal &quot;Gulim&quot;\" displaytype=\"buttoncontrol\" background=\"transparent\" cssclass=\"productCellBtnEdit\"/><Cell col=\"17\" edittype=\"none\" background=\"#ffffff\" font=\"12px/normal &quot;Gulim&quot;\" textAlign=\"center\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_listTitle","50","296","80","61",null,null,null,null,null,null,this);
             obj.set_text("목록");
             obj.set_font("bold 13pt/normal \"Arial\"");
-            obj.set_taborder("5");
+            obj.set_taborder("3");
             obj.set_color("#232323");
             this.addChild(obj.name, obj);
 
@@ -171,7 +148,7 @@
             obj.set_text("검색분류");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
-            obj.set_taborder("9");
+            obj.set_taborder("7");
             obj.set_background("transparent");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
@@ -181,7 +158,7 @@
             obj.set_text("상품분류");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
-            obj.set_taborder("10");
+            obj.set_taborder("8");
             obj.set_background("transparent");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
@@ -191,7 +168,7 @@
             obj.set_text("상품등록일");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
-            obj.set_taborder("11");
+            obj.set_taborder("9");
             obj.set_background("transparent");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
@@ -201,25 +178,14 @@
             obj.set_text("진열상태");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
-            obj.set_taborder("12");
+            obj.set_taborder("10");
             obj.set_background("transparent");
             obj.set_borderRadius("10px 0px 0px 10px");
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_view","698","70","72","30",null,null,null,null,null,null,this);
-            obj.set_text("조회");
-            obj.set_color("#ffffff");
-            obj.set_background("#102b6e");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
-            obj.set_border("1px solid #CCCCCC");
-            obj.set_taborder("13");
-            obj.set_cursor("pointer");
-            this.addChild(obj.name, obj);
-
             obj = new Combo("cmb_searchType","179","70","150","30",null,null,null,null,null,null,this);
-            obj.set_taborder("14");
+            obj.set_taborder("11");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
@@ -232,7 +198,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Combo("cmb_cate1","179","125","150","30",null,null,null,null,null,null,this);
-            obj.set_taborder("15");
+            obj.set_taborder("12");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             obj.set_innerdataset("ds_mainCate");
             obj.set_codecolumn("MAIN_CATE_ID");
@@ -244,12 +210,12 @@
             this.addChild(obj.name, obj);
 
             obj = new Calendar("cal_start","179","180","149","30",null,null,null,null,null,null,this);
-            obj.set_taborder("16");
+            obj.set_taborder("13");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             this.addChild(obj.name, obj);
 
             obj = new Combo("cmb_cate2","349","125","150","30",null,null,null,null,null,null,this);
-            obj.set_taborder("17");
+            obj.set_taborder("14");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             obj.set_innerdataset("ds_subCate");
             obj.set_codecolumn("SUB_CATE_ID");
@@ -259,38 +225,20 @@
             this.addChild(obj.name, obj);
 
             obj = new Calendar("cal_end","349","180","150","30",null,null,null,null,null,null,this);
-            obj.set_taborder("18");
+            obj.set_taborder("15");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_dash","334","178","20","35",null,null,null,null,null,null,this);
             obj.set_text("~");
-            obj.set_taborder("19");
+            obj.set_taborder("16");
             obj.set_font("normal bold 10pt/normal \"Arial\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_show","418","306","92","30",null,null,null,null,null,null,this);
-            obj.set_text("선택 진열");
-            obj.set_color("#FFFFFF");
-            obj.set_background("#f09d37");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
-            obj.set_taborder("20");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_hide","534","306","92","30",null,null,null,null,null,null,this);
-            obj.set_text("진열 취소");
-            obj.set_color("#FFFFFF");
-            obj.set_background("#ce5525");
-            obj.set_borderRadius("6px");
-            obj.set_font("bold 11pt/normal \"Arial\"");
-            obj.set_taborder("21");
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_listTitle00",null,"290","188","61","68",null,null,null,null,null,this);
             obj.set_text("재고 클릭시 수정가능");
-            obj.set_font("bold 11pt/normal \"맑은 고딕\"");
-            obj.set_taborder("22");
+            obj.set_font("11pt/normal \"Arial\"");
+            obj.set_taborder("17");
             obj.set_color("#383838");
             obj.set_border("0px none,0px none,5px solid #ffa70f,0px solid #ffa70f");
             obj.set_textAlign("center");
@@ -298,10 +246,65 @@
             this.addChild(obj.name, obj);
 
             obj = new Static("stc_total","39","15","61","30",null,null,null,null,null,null,this);
-            obj.set_taborder("23");
+            obj.set_taborder("18");
             obj.set_text("");
             obj.set_font("12px/normal \"Gulim\",\"Arial Black\"");
             obj.set_borderRadius("0px 10px 10px 0px");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_reg",null,"70","100","30","50",null,null,null,null,null,this);
+            obj.set_text("상품등록");
+            obj.set_background("#000000");
+            obj.set_color("#ffffff");
+            obj.set_border("1px solid #000000");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("19");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_view","698","70","72","30",null,null,null,null,null,null,this);
+            obj.set_text("조회");
+            obj.set_background("#000000");
+            obj.set_color("#ffffff");
+            obj.set_border("1px solid #000000");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("20");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_show","418","306","92","30",null,null,null,null,null,null,this);
+            obj.set_text("선택 진열");
+            obj.set_background("#f09d37");
+            obj.set_color("#ffffff");
+            obj.set_border("1px solid #f09d37");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("21");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_hide","534","306","92","30",null,null,null,null,null,null,this);
+            obj.set_text("진열 취소");
+            obj.set_background("#ce5525");
+            obj.set_color("#ffffff");
+            obj.set_border("1px solid #ce5525");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("22");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_excel","180","306","130","30",null,null,null,null,null,null,this);
+            obj.set_text("    엑셀다운로드");
+            obj.set_background("url(\'imagerc::excel_logo.png\') no-repeat left center /30px");
+            obj.set_color("#000000");
+            obj.set_border("1px solid #cccccc");
+            obj.set_borderRadius("6px");
+            obj.set_font("bold 12px \'Arial\'");
+            obj.set_cursor("pointer");
+            obj.set_taborder("23");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -405,7 +408,6 @@
 
 
 
-
          //조회버튼
         this.btn_view_onclick = function(obj,e)
         {
@@ -430,11 +432,6 @@
                 true                                   // 비동기
             );
         };
-
-
-
-
-
 
 
 
@@ -539,6 +536,24 @@
         };
 
 
+        // 사용자 ID 반환 함수
+        this.getUserId = function()
+        {
+            var app = nexacro.getApplication();
+            var sUserId = app.gds_adminInfo.getColumn(0, "MEMBER_ID");
+
+            if (sUserId && sUserId != "undefined") {
+                trace("현재 로그인 사용자 ID: " + sUserId);
+                return sUserId;
+            } else {
+                trace("⚠ 사용자 ID를 가져올 수 없습니다. gds_adminInfo 상태 확인 필요");
+                return null;
+            }
+        };
+
+
+
+
         //재고 수량 저장 공통함수
         this._updateQuantityByButton = function (row) {
             var oldVal = this.ds_out_proList.getColumn(row, "QUANTITY"); // 현재 값
@@ -547,7 +562,7 @@
             var optionId  = this.ds_out_proList.getColumn(row, "OPTION_ID");
         	var optionName = this.ds_out_proList.getColumn(row, "OPTION_NAME");
         	var optionValue = this.ds_out_proList.getColumn(row, "OPTION_VALUE");
-
+        	var sUserId = this.getUserId();
 
             if (!this.confirm("상품:" + productName + "옵션:"+ optionName+"/"+optionValue+"의 재고를 " + oldVal + "개로 저장하시겠습니까?")) {
                 return;
@@ -558,6 +573,16 @@
             this.ds_qu.setColumn(r, "PRODUCT_ID", productId);
             this.ds_qu.setColumn(r, "OPTION_ID", optionId);
             this.ds_qu.setColumn(r, "QUANTITY", oldVal);
+            this.ds_qu.setColumn(r, "INPUT_ID", sUserId);
+        	this.ds_qu.setColumn(r, "UPDATE_ID", sUserId);
+
+        	// 등록/수정자 세팅
+        	if (this.ds_out_proList.getColumn(row, "INPUT_ID")) {
+        		this.ds_out_proList.setColumn(row, "UPDATE_ID", sUserId);
+        	} else {
+        		this.ds_out_proList.setColumn(row, "INPUT_ID", sUserId);
+        	}
+
 
             this.transaction(
                 "updateInventory",
@@ -569,17 +594,6 @@
                 true
             );
         };
-
-
-
-
-
-
-
-
-
-
-
 
 
         //상품등록(페이지이동)
@@ -812,14 +826,6 @@
         };
 
 
-
-
-
-        this.cmb_searchType_onitemchanged = function(obj,e)
-        {
-
-        };
-
         });
         
         // Regist UI Components Event
@@ -831,16 +837,16 @@
             this.grid_list.addEventHandler("onkeydown",this.grid_list_onkeydown,this);
             this.grid_list.addEventHandler("onkillfocus",this.grid_list_onkillfocus,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
-            this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);
-            this.btn_excel.addEventHandler("onclick",this.btn_excel_onclick,this);
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
-            this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
             this.cmb_searchType.addEventHandler("onitemchanged",this.cmb_searchType_onitemchanged,this);
             this.cmb_cate1.addEventHandler("onitemchanged",this.cmb_cate1_onitemchanged,this);
+            this.sta_listTitle00.addEventHandler("onclick",this.sta_listTitle_onclick,this);
+            this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);
+            this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);
             this.btn_show.addEventHandler("onclick",this.btn_show_onclick,this);
             this.btn_hide.addEventHandler("onclick",this.btn_hide_onclick,this);
-            this.sta_listTitle00.addEventHandler("onclick",this.sta_listTitle_onclick,this);
+            this.btn_excel.addEventHandler("onclick",this.btn_excel_onclick,this);
             this.ds_out_proList.addEventHandler("oncolumnchanged",this.ds_out_proList_oncolumnchanged,this);
         };
         this.loadIncludeScript("Form_Product.xfdl");
