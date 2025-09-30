@@ -70,6 +70,7 @@ public class UserBoardController {
 	    return mav;
 	}
 	
+	
 	//게시글 상세 조회시 링크 
 	@RequestMapping(value="/detail.do")
     public ModelAndView boardDetail(HttpServletRequest request) {
@@ -88,24 +89,29 @@ public class UserBoardController {
 			mav.addObject("comment", comment);
 			
 		    HttpSession session = request.getSession(false);
+		  //세션이 있으면 아래 내용 실행
+		    if (session != null) {
+	            Map<String, Object> info = (Map<String, Object>) session.getAttribute("userInfo");
+	            
+	            // info가 null이 아닐 때만 처리
+	            if (info != null) {
+	                String loginUser = (String) info.get("MEMBER_ID");
+	                String writer = (String) postDetail.get("MEMBER_ID");
+	                
+	                // 두 값이 모두 null이 아니고, 다를 때만 조회수 증가
+	                if (loginUser != null && writer != null && !loginUser.equals(writer)) {
+	                    userBoardService.updateUserPostCntByUser(postId);
+	                }
+	                
+	                // 유저 정보
+	                mav.addObject("status", 200);
+	                Map<String, Object> user = userMemberService.selectUserInfoByUser(loginUser);
+	                mav.addObject("user", user);
+	            }else {
+	            }
+	        }
+
 		    
-	        Map<String, Object> info = (Map<String, Object>) session.getAttribute("userInfo");
-	        
-	        String loginUser = (String) info.get("MEMBER_ID");
-            String writer = (String) postDetail.get("MEMBER_ID");
-            
-            // 조회수 증가 (작성자 본인 제외)
-            if (!loginUser.equals(writer)) {
-            	System.out.println("조회수 증가 접근");
-                userBoardService.updateUserPostCntByUser(postId);
-            }
-            
-	        if (info != null) {
-	            // 유저 정보
-	            mav.addObject("status", 200);
-	            Map<String, Object> user = userMemberService.selectUserInfoByUser(loginUser);
-	            mav.addObject("user", user);
-		    }
 		
         }catch(Exception e){
         	  System.out.println("===== detail.do 에러 발생 =====");
@@ -117,4 +123,8 @@ public class UserBoardController {
         return mav;
     }
 
+	@RequestMapping(value="/insert.do")
+	public String insert() {
+		return "notice/insertPost";
+	}
 }

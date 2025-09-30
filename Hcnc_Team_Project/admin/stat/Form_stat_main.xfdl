@@ -3,7 +3,7 @@
   <Form id="Form_Stat_Main" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_Stat_Main_onload">
     <Layouts>
       <Layout height="720" width="1280">
-        <Div id="search_area" taborder="1" top="0" background="#ffffff" borderRadius="10px" text="" height="60" left="40" right="40">
+        <Div id="search_area" taborder="0" top="0" background="#ffffff" borderRadius="10px" text="" height="60" left="40" right="40">
           <Layouts>
             <Layout>
               <Static id="txt_cnt" taborder="0" left="110" top="15" width="80" height="36" font="normal 10pt/normal &quot;Noto Sans KR&quot;"/>
@@ -16,10 +16,10 @@
             </Layout>
           </Layouts>
         </Div>
-        <Div id="Div00" taborder="2" text=" " left="40" top="100" width="590" background="white" borderRadius="10px" height="490">
+        <Div id="Div00" taborder="1" text=" " left="40" top="90" width="47%" background="white" borderRadius="10px" bottom="50">
           <Layouts>
             <Layout>
-              <BasicChart id="BasicChart00" taborder="0" left="31" top="80" width="509" bottom="27" background="white" borderRadius="10px" binddataset="ds_stat" categorycolumn="bind:CHART_LABEL" onseriesclick="Div00_BasicChart00_onseriesclick">
+              <BasicChart id="BasicChart00" taborder="0" left="0" top="57" bottom="0" background="white" borderRadius="10px" binddataset="ds_stat" categorycolumn="bind:CHART_LABEL" onseriesclick="Div00_BasicChart00_onseriesclick" right="0">
                 <Contents><![CDATA[{
 	"legend": {
 		"id": "legend",
@@ -181,26 +181,26 @@
 	]
 }]]></Contents>
               </BasicChart>
-              <Div id="Div00" taborder="1" left="0" top="53" width="590" height="35" border="1px solid #eeeeee,0px none,0px none">
+              <Div id="Div00" taborder="1" left="0" top="53" width="100%" height="35" border="1px solid #eeeeee,0px none,0px none">
                 <Layouts>
                   <Layout/>
                 </Layouts>
               </Div>
               <Static id="txt_th01" taborder="2" text="주문 내역" left="29" top="10" width="80" height="36" font="normal 13pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
-              <Div id="Div01" taborder="3" left="30" top="70" width="530" height="397" background="white">
+              <Div id="Div01" taborder="3" left="0" top="70" background="white" bottom="0" right="0">
                 <Layouts>
                   <Layout>
-                    <Static id="txt_th01_00" taborder="0" text="조회된 데이터가 없습니다" left="191" top="174" width="159" height="16" font="normal 11pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th_onclick" color="#4b4b4b" textAlign="center"/>
+                    <Static id="txt_th01_00" taborder="0" text="조회된 데이터가 없습니다" left="36.22%" top="48.24%" width="159" height="16" font="normal 11pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th_onclick" color="#4b4b4b" textAlign="center"/>
                   </Layout>
                 </Layouts>
               </Div>
             </Layout>
           </Layouts>
         </Div>
-        <Div id="Div00_00" taborder="3" text="Div00" top="100" background="white" bottom="130" borderRadius="10px" right="40" width="590">
+        <Div id="Div00_00" taborder="2" text="Div00" top="90" background="white" bottom="50" borderRadius="10px" right="40" width="47%">
           <Layouts>
             <Layout>
-              <Div id="Div00" taborder="1" left="0" top="53" width="590" height="35" border="1px solid #eeeeee,0px none,0px none">
+              <Div id="Div00" taborder="1" left="0" top="53" width="100%" height="35" border="1px solid #eeeeee,0px none,0px none">
                 <Layouts>
                   <Layout/>
                 </Layouts>
@@ -208,10 +208,10 @@
               <Static id="txt_th01" taborder="1" text="상세 내역" left="29" top="10" width="80" height="36" font="normal 13pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
               <Static id="txt_th01_00" taborder="2" text="상세 내역을 보려면 포인터를 클릭하세요" left="360" top="21" width="199" height="16" font="normal 9pt/normal &quot;Noto Sans KR Light&quot;" onclick="txt_th_onclick" color="#4b4b4b" textAlign="right"/>
               <Static id="txt_th01_01" taborder="3" left="106" top="11" width="80" height="36" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
+              <Grid id="grid_list" taborder="4" top="63" background="#FFFFFF" border="0px none" borderRadius="10px" right="0" autofittype="col" binddataset="ds_detailstat" bottom="0" width="100.00%">&gt; <Formats><Format id="default"><Columns><Column size="107"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/></Columns><Rows><Row size="44" band="head"/><Row size="33"/></Rows><Band id="head"><Cell text="주문번호" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="1" text="주문ID" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="2" text="주문자" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="3" text="결제금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="4" text="주문일" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/></Band><Band id="body"><Cell text="bind:ORDER_NUMBER" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="3" text="bind:FINAL_AMOUNT" textAlign="right" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/><Cell col="4" text="bind:ORDER_DT" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/></Band></Format></Formats></Grid>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="0" top="155" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_detailstat" bottom="170" width="590">&gt; <Formats><Format id="default"><Columns><Column size="107"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/></Columns><Rows><Row size="44" band="head"/><Row size="33"/></Rows><Band id="head"><Cell text="주문번호" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="1" text="주문ID" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="2" text="주문자" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="3" text="결제금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="4" text="주문일" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/></Band><Band id="body"><Cell text="bind:ORDER_NUMBER" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="3" text="bind:FINAL_AMOUNT" textAlign="right" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/><Cell col="4" text="bind:ORDER_DT" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/></Band></Format></Formats></Grid>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[// 온로드시
@@ -404,9 +404,6 @@ this.fnMonthSearchdata = function(selectedDate){
 }
 
 ]]></Script>
-    <Bind>
-      <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
-    </Bind>
     <Objects>
       <Dataset id="ds_stat">
         <ColumnInfo>
@@ -492,5 +489,8 @@ this.fnMonthSearchdata = function(selectedDate){
         </Rows>
       </Dataset>
     </Objects>
+    <Bind>
+      <BindItem id="item0" compid="Div00_00.form.grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+    </Bind>
   </Form>
 </FDL>
