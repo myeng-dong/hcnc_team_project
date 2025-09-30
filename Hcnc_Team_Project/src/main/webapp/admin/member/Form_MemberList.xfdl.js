@@ -11,7 +11,7 @@
         {
             this.set_name("Form_MemberList");
             this.set_titletext("New Form");
-            this.set_background("lightblue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -136,7 +136,7 @@
             obj.set_font("20px/normal \"Noto Sans KR Black\"");
             this.search_box.addChild(obj.name, obj);
 
-            obj = new Button("search_btn","280","247","100","31",null,null,null,null,null,null,this.search_box.form);
+            obj = new Button("search_btn","530","237","100","41",null,null,null,null,null,null,this.search_box.form);
             obj.set_taborder("11");
             obj.set_text("조회하기");
             obj.set_font("13px/normal \"Noto Sans KR Black\"");
@@ -145,7 +145,7 @@
             obj.set_borderRadius("4px");
             this.search_box.addChild(obj.name, obj);
 
-            obj = new Button("reset_btn","399","247","100","31",null,null,null,null,null,null,this.search_box.form);
+            obj = new Button("reset_btn","660","237","100","41",null,null,null,null,null,null,this.search_box.form);
             obj.set_taborder("12");
             obj.set_text("초기화");
             obj.set_font("13px/normal \"Noto Sans KR Black\"");

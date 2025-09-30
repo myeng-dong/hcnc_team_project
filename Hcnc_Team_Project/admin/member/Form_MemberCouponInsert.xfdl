@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberCouponInsert" width="560" height="540" titletext="New Form" background="lightBlue" onload="Form_MemberCouponInsert_onload">
+  <Form id="Form_MemberCouponInsert" width="560" height="540" titletext="New Form" background="#F4F7FE" onload="Form_MemberCouponInsert_onload" onkeyup="Form_MemberCouponInsert_onkeyup">
     <Layouts>
       <Layout height="540" mobileorientation="landscape" width="560">
         <Static id="grade_search_box00" taborder="0" left="10" top="10" width="538" height="510" background="white" text="" borderRadius="8px" onclick="grade_search_box00_onclick"/>
@@ -18,6 +18,7 @@
         <Button id="Button00" taborder="12" text="지급하기" left="190" top="450" width="158" height="38" onclick="Button00_onclick" font="12px/normal &quot;Noto Sans KR Black&quot;" background="#2563eb" borderRadius="4px" color="white"/>
         <Spin id="Spin00" taborder="13" left="175" top="177" width="250" height="32" max="2147483647" min="0" value="" border="1px solid black" borderRadius="8px"/>
         <Spin id="Spin01" taborder="14" left="175" top="238" width="251" height="32" max="2147483647" min="0" value="" border="1px solid black" borderRadius="8px"/>
+        <Static id="Static00_00" taborder="15" text="ESC[닫기]" left="454" top="488" width="66" height="25" color="RED" font="bold 12px/normal &quot;Gulim&quot;" onclick="Static00_onclick"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
@@ -69,6 +70,19 @@ this.fn_callBack = function(svcID, errorCode, errorMSG){
 	}
 }
 
+//esc 누르면 닫힘
+this.Form_MemberCouponInsert_onkeyup = function(obj:nexacro.Form,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 27){
+		this.close();
+	}
+};
+
+//눌러도 닫힘
+this.Static00_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
 ]]></Script>
     <Objects>
       <Dataset id="ds_insert">

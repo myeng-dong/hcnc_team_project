@@ -146,7 +146,7 @@ public class MemberController {
 
 		try {
 
-	        List<Map<String, Object>> selectList = memberService.selectMemberList(param);
+			List<Map<String, Object>> selectList = memberService.selectMemberList(param);
 			result.addDataSet("ds_list", selectList);
 
 		} catch (Exception e) {
@@ -691,7 +691,7 @@ public class MemberController {
 		return result;
 	}
 
-	// 회원 탈퇴 이력  조회
+	// 회원 탈퇴 이력 조회
 	// By. PJ 09.29 Pang
 	@RequestMapping(value = "/selectWithdrawMemberListByAdmin.do")
 	public NexacroResult selectWithdrawMemberListByAdmin(
@@ -709,6 +709,21 @@ public class MemberController {
 			System.out.println(e);
 			result.setErrorCode(-1);
 			result.setErrorMsg("회원 탈퇴 이력 조회중  오류");
+		}
+		return result;
+	}
+
+	// 회원 탈퇴 이력 - 통계
+	// By. 09.30 Pang
+	@RequestMapping(value = "/selectMemberWithdrawCntByAdmin.do")
+	public NexacroResult selectMemberWithdrawCntByAdmin() {
+		NexacroResult result = new NexacroResult();
+		try {
+			List<Map<String, Object>> statsList = memberService.selectMemberWithdrawCntByAdmin();
+			result.addDataSet("ds_stats", statsList);
+		} catch (Exception e) {
+			result.setErrorCode(-1);
+			result.setErrorMsg("통계 조회 중 오류");
 		}
 		return result;
 	}

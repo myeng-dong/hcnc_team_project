@@ -32,6 +32,11 @@
             obj = new Dataset("ds_search", this);
             obj._setContents("<ColumnInfo><Column id=\"LOGIN_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PHONE_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"DELETE_START_DT\" type=\"STRING\" size=\"256\"/><Column id=\"DELETE_END_DT\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_stats", this);
+            obj._setContents("<ColumnInfo><Column id=\"CNT\" type=\"STRING\" size=\"256\"/><Column id=\"DELETE_MONTH\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Static("withDraw_search_box","20","17","1240","133",null,null,null,null,null,null,this);
@@ -41,7 +46,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("black_list","20","160",null,"540","20",null,null,null,null,null,this);
+            obj = new Grid("black_list","540","160",null,"540","20",null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
@@ -99,7 +104,7 @@
             obj.set_font("bold 14px/normal \"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("search_btn","902","93","108","37",null,null,null,null,null,null,this);
+            obj = new Button("search_btn","820","90","130","37",null,null,null,null,null,null,this);
             obj.set_taborder("10");
             obj.set_text("검색하기");
             obj.set_background("#2563eb");
@@ -108,7 +113,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button01","1025","93","110","37",null,null,null,null,null,null,this);
+            obj = new Button("Button01","970","90","130","37",null,null,null,null,null,null,this);
             obj.set_taborder("11");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
@@ -143,6 +148,100 @@
             obj.set_borderRadius("8px");
             obj.set_format("###-####-####");
             obj.set_type("string");
+            this.addChild(obj.name, obj);
+
+            obj = new BasicChart("BasicChart00","10","164","520","536",null,null,null,null,null,null,this);
+            obj.set_taborder("16");
+            obj.set_binddataset("ds_stats");
+            obj._setContents({
+            	"legend": {
+            		"id": "legend",
+            		"padding": "3px 10px 3px 10px",
+            		"itemtextfont": "9pt '맑은 고딕'",
+            		"itemtextcolor": "#4c4c4c",
+            		"visible": false
+            	},
+            	"hrangebar": {
+            		"id": "hrangebar",
+            		"trackbarpadding": "1px",
+            		"background": "#eaeaea",
+            		"linestyle": "1px solid #d5d5d5",
+            		"trackbarlinestyle": "0px none",
+            		"trackbarfillstyle": "#c9c9c9",
+            		"size": "12",
+            		"visible": false
+            	},
+            	"vrangebar": {
+            		"id": "vrangebar",
+            		"trackbarpadding": "1px",
+            		"background": "#eaeaea",
+            		"linestyle": "1px solid #d5d5d5",
+            		"trackbarlinestyle": "0px none",
+            		"trackbarfillstyle": "#c9c9c9",
+            		"size": "12",
+            		"visible": false
+            	},
+            	"tooltip": {
+            		"id": "tooltip",
+            		"background": "#4b4b4b",
+            		"linestyle": "0px none",
+            		"textcolor": "white",
+            		"textfont": "10pt/normal '맑은 고딕'",
+            		"padding": "5px"
+            	},
+            	"board": {
+            		"id": "board"
+            	},
+            	"categoryaxis": {
+            		"id": "categoryaxis",
+            		"titletext": "월별",
+            		"titletextcolor": "#4c4c4c",
+            		"titletextfont": "bold 14px/normal \"Noto Sans KR Black\"",
+            		"labeltextcolor": "#6f6f6f",
+            		"labeltextfont": "bold 12px/normal \"Noto Sans KR Black\"",
+            		"axislinestyle": "1px solid #525252",
+            		"ticklinestyle": "1px solid #525252",
+            		"boardlinestyle": "1px solid #d0d0d0",
+            		"titlegap": "8"
+            	},
+            	"seriesset": [
+            		{
+            			"id": "series0",
+            			"titletext": "series",
+            			"barvisible": true,
+            			"barsize": "65",
+            			"itemtextvisible": true,
+            			"itemtextcolor": "#003860",
+            			"itemtextfont": "16px/normal \"Noto Sans KR Black\"",
+            			"valuecolumn": "bind:CNT",
+            			"stacktype": "none",
+            			"linevisible": false
+            		}
+            	],
+            	"valueaxes": [
+            		{
+            			"id": "valueaxis0",
+            			"titletext": "탈퇴 회원 수",
+            			"boardlinevisible": true,
+            			"boardlinestyle": "1px solid #d0d0d0",
+            			"labeltextcolor": "#6f6f6f",
+            			"labeltextfont": "bold 12px/normal \"Noto Sans KR Black\"",
+            			"titletextcolor": "#4c4c4c",
+            			"titletextfont": "bold 14px/normal \"Noto Sans KR Black\"",
+            			"ticklinestyle": "1px solid #525252",
+            			"axislinestyle": "1px solid #525252",
+            			"titlegap": "12"
+            		}
+            	],
+            	"title": {
+            		"id": "title",
+            		"text": "탈퇴 회원 통계",
+            		"textfont": "20px/normal \"Noto Sans KR Black\"",
+            		"padding": "0px 0px 5px",
+            		"linestyle": "0px none"
+            	}
+            });
+            obj.set_categorycolumn("bind:DELETE_MONTH");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -192,6 +291,7 @@
         this.Form_MemberWithdrawHistory_onload = function(obj,e)
         {
         	this.fn_selectWithdrawMemberList();
+        	this.fn_selectMemberWithdrawCnt();
         };
 
 
@@ -210,7 +310,19 @@
         	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
         }
 
+        //탈퇴 통계 조회
+        this.fn_selectMemberWithdrawCnt = function(){
 
+        	var strSvcID = "selectMemberWithdrawCnt"
+        	var setURL = "svc::/selectMemberWithdrawCntByAdmin.do";
+        	var strInDatasets = "";
+        	var strOutDatasets = "ds_stats=ds_stats";
+        	var strArg = "";
+        	var callBack = "fn_callBack";
+        	var inAsync = true;
+
+        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+        }
 
         // 공통 콜백
         this.fn_callBack = function(svcID, errorCode, errorMSG){
@@ -222,6 +334,10 @@
         	switch(svcID){
         	case "selectWithdrawMemberList" :
         		console.log(this.ds_list.saveXML());
+        		break;
+
+        	case "selectMemberWithdrawCnt" :
+        		console.log(this.ds_stats.saveXML());
         		break;
         	}
 
