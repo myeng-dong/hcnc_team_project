@@ -11,7 +11,7 @@
         {
             this.set_name("Form_ProductOptionReg");
             this.set_titletext("옵션 등록/수정");
-            this.set_background("#eff7ff");
+            this.set_background("#f9f9f9");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,800);
@@ -314,6 +314,7 @@
         	trace("저장 시 가져온 UserId = " + sUserId);
 
         	for (var i=0; i<this.ds_optionReg.getRowCount(); i++) {
+
             trace("저장 전 체크 >> row=" + i
                  + " PRODUCT_ID=" + this.ds_optionReg.getColumn(i,"PRODUCT_ID")
                  + " INPUT_ID="   + this.ds_optionReg.getColumn(i,"INPUT_ID")

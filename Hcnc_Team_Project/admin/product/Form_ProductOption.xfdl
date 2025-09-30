@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductOption" width="1280" height="800" titletext="상품관리" background="#eff7ff" onload="Form_ProductOption_onload">
+  <Form id="Form_ProductOption" width="1280" height="800" titletext="상품관리" background="#f9f9f9" onload="Form_ProductOption_onload">
     <Layouts>
       <Layout width="1280" height="800" stepcount="0">
         <Div id="Div00_00" taborder="0" text="" top="35" height="76" background="#ffffff" borderRadius="10px 10px 10px 10px" left="27" width="1230">
@@ -59,12 +59,8 @@
         <Static id="stc_total_prefix" text="총 [ " top="172" height="20" left="168" width="29" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
         <Static id="stc_total_value" text="" top="172" textDecoration="underline" height="20" left="197" width="20" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
         <Static id="stc_total_suffix" text=" ]건" top="172" height="20" left="212" width="36" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
-        <Button id="btn_show" text="선택 진열" top="172" height="30" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="btn_show_onclick" width="92" left="806"/>
-        <Button id="btn_hide" text="진열 취소" top="172" height="30" color="#FFFFFF" background="#ce5525" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="btn_hide_onclick" width="92" left="928"/>
-        <Button id="btn_reg" text="옵션등록" top="172" height="30" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" taborder="0" onclick="btn_reg_onclick" cursor="pointer" width="120" left="1078"/>
         <Static id="sta_listTitle" text="옵션 목록" height="61" top="152" font="bold 14pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="1" color="#232323" left="42" width="86"/>
         <Static id="sta_prodType" text="옵션검색" height="40" top="53" onclick="sta_prodType_onclick" font="bold 16px/normal &quot;맑은 고딕&quot;" padding="0px 0px 0px 10px" taborder="4" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" left="40" width="90"/>
-        <Button id="btn_view" text="조회" top="56" height="30" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" taborder="5" cursor="pointer" onclick="btn_view_onclick" width="72" left="702"/>
         <Combo id="cmb_searchType" top="56" height="35" text="상품명" taborder="6" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME" width="150" left="157">
           <Dataset id="innerdataset">
             <ColumnInfo>
@@ -91,7 +87,11 @@
             </Rows>
           </Dataset>
         </Combo>
-        <Static id="sta_listTitle00" text="옵션 더블클릭시 수정가능" height="61" top="152" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="12" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" left="498" width="215"/>
+        <Static id="sta_listTitle00" text="옵션 더블클릭시 수정가능" height="61" top="152" font="11pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" taborder="12" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" left="498" width="215"/>
+        <Button id="btn_view" text="조회" top="58" width="72" height="30" onclick="btn_view_onclick" left="714" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="6px" font="bold 12px 'Arial'" cursor="pointer" taborder="12"/>
+        <Button id="btn_show" text="선택 진열" top="172" width="92" height="30" onclick="btn_show_onclick" left="832" background="#f09d37" color="#ffffff" border="1px solid #f09d37" borderRadius="6px" font="bold 12px 'Arial'" cursor="pointer" taborder="11"/>
+        <Button id="btn_hide" text="진열 취소" top="172" width="92" height="30" onclick="btn_hide_onclick" left="948" background="#ce5525" color="#ffffff" border="1px solid #ce5525" borderRadius="6px" font="bold 12px 'Arial'" cursor="pointer" taborder="12"/>
+        <Button id="btn_reg" text="옵션등록" top="172" width="100" height="30" onclick="btn_reg_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="6px" font="bold 12px 'Arial'" cursor="pointer" taborder="12" left="1130"/>
       </Layout>
     </Layouts>
     <Objects>

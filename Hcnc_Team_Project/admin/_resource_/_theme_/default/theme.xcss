@@ -1933,7 +1933,7 @@ color        : #aaaaaa;
 
 .GridCellControl.cls_inbound
 {
-	background : #75a8ff;
+	background : #63b4ff;
 	color : #000000;
 }
 
@@ -1943,7 +1943,7 @@ color        : #aaaaaa;
 		color : #000000;
 }.GridCellControl.cls_outbound
 {
-	background : #ff879b;
+	background : #ffa47a;
 	color : #000000;
 }
 

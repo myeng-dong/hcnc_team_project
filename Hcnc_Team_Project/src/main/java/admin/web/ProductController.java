@@ -106,10 +106,10 @@ public class ProductController {
 			HttpServletRequest request) {
 	    NexacroResult result = new NexacroResult();
 
-	    String loginId = (String) request.getSession().getAttribute("loginId");
-	    if (loginId == null) loginId = "system";
-	
-	    p.put("UPDATE_ID", loginId);
+//	    String loginId = (String) request.getSession().getAttribute("loginId");
+//	    if (loginId == null) loginId = "system";
+//	
+//	    p.put("UPDATE_ID", loginId);
 	
 	    productService.updateInventory(p);
 	
