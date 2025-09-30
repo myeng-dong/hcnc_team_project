@@ -86,7 +86,6 @@ public class ProductService {
 	
 	
 	// ----- 재고 -----
-	
 	public void updateInventory(Map<String, Object> p) {
 		 productMapper.updateInventory(p);
 	}
@@ -95,6 +94,16 @@ public class ProductService {
 		return productMapper.selectStockMovementsListByAdmin(cond);
 	}
 
+
 	
+	
+	
+	
+
+	// ----- 상품 진열 순서 관리 -----
+	public List<Map<String, Object>> productDisplayOrderListByAdmin(Map<String, Object> cond) {
+		return productMapper.productDisplayOrderListByAdmin(cond);
+	}
+
 	
 }

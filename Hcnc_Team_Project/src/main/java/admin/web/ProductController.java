@@ -97,6 +97,30 @@ public class ProductController {
 	
 	
 	
+	
+	
+	
+	// ----------------- 상품 진열 순서 관리 -----------------
+	
+	// 상품 진열순서관리 리스트
+	@RequestMapping("/productDisplayOrderListByAdmin.do")
+	public NexacroResult productDisplayOrderListByAdmin(
+			@ParamDataSet(name = "ds_in", required = false) Map<String, Object> cond) {
+		NexacroResult result = new NexacroResult();
+		
+		List<Map<String, Object>> list = productService.productDisplayOrderListByAdmin(cond);
+		
+		result.addDataSet("ds_out_proList", list);
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	// ---------------- 재고 ------------------
 	
 	//재고저장 관리
@@ -319,6 +343,10 @@ public class ProductController {
 
 	
 	
+	
+	
+	
+
 	
 	
 	
