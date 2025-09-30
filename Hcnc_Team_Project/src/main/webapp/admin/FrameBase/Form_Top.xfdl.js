@@ -29,7 +29,6 @@
 
             obj = new ImageViewer("h1_logo","5","3","190","45",null,null,null,null,null,null,this);
             obj.set_taborder("0");
-            obj.set_text("logo");
             obj.set_image("url(\'imagerc::h1_logo.png\')");
             this.addChild(obj.name, obj);
 
@@ -47,13 +46,18 @@
             obj.set_background("#cccccc");
             this.addChild(obj.name, obj);
 
-            obj = new Static("admin_id","990","16","98","18",null,null,null,null,null,null,this);
+            obj = new Static("admin_id","1020","14",null,"23","190",null,null,null,null,null,this);
             obj.set_taborder("4");
-            obj.set_border("1px solid black");
+            obj.set_background("lightgray");
+            obj.set_textAlign("center");
+            obj.set_color("black");
+            obj.set_font("bold 14px/normal \"Noto Sans KR Black\"");
+            obj.set_borderRadius("12px");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","Desktop_screen",1280,50,this,function(p){});
+            obj.set_stepcount("0");
             this.addLayout(obj.name, obj);
             
             // BindItem Information

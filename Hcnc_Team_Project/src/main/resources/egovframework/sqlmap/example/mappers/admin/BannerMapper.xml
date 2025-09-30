@@ -23,6 +23,8 @@
 	        ,SORT_NUMBER
 	        ,INPUT_DT
 	        ,INPUT_ID
+	        ,UPDATE_DT
+	        ,UPDATE_ID
 	    ) VALUES (
 	        #{BANNER_TYPE}
 	        ,#{BANNER_TITLE}
@@ -33,7 +35,9 @@
 	        ,#{LINKED_URL}
 	        ,#{SORT_NUMBER}
 	        ,NOW()
-	        ,#{MEMBER_ID}
+	        ,#{INPUT_ID}
+	        ,NOW()
+	        ,#{UPDATE_ID}
 	    )
 	</insert>
 	
@@ -41,16 +45,15 @@
 	<update id="updateBannerByAdmin" parameterType="map">
         UPDATE BANNERS
         SET
-            BANNER_TYPE      = #{BANNER_TYPE},
-            BANNER_TITLE     = #{BANNER_TITLE},
-            IMG_ORIGIN_NAME  = #{IMG_ORIGIN_NAME},
-            IMG_ATTACHED_NAME= #{IMG_ATTACHED_NAME},
-            IMG_PATH         = #{IMG_PATH},
-            IS_VISIBLE       = #{IS_VISIBLE},
-            LINKED_URL       = #{LINKED_URL},
-            SORT_NUMBER      = #{SORT_NUMBER},
-            UPDATE_DT        = NOW(),
-            UPDATE_ID        = #{MEMBER_ID}
+            BANNER_TITLE     = #{BANNER_TITLE}
+            ,IMG_ORIGIN_NAME  = #{IMG_ORIGIN_NAME}
+            ,IMG_ATTACHED_NAME= #{IMG_ATTACHED_NAME}
+            ,IMG_PATH         = #{IMG_PATH}
+            ,IS_VISIBLE       = #{IS_VISIBLE}
+            ,LINKED_URL       = #{LINKED_URL}
+            ,SORT_NUMBER      = #{SORT_NUMBER}
+            ,UPDATE_DT        = NOW()
+            ,UPDATE_ID        = #{UPDATE_ID}
         WHERE BANNER_ID = #{BANNER_ID}
     </update>
 </mapper>
