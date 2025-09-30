@@ -61,50 +61,32 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00","44","37","66",null,null,"656",null,null,null,null,this);
+            obj = new Edit("member_name00","110","129","790","35",null,null,null,null,null,null,this);
             obj.set_taborder("3");
-            obj.set_text("적립 구분");
-            obj.set_font("14px/normal \"Noto Sans KR Black\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("Static00_00_00","44","83","66",null,null,"610",null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_text("발생 일시");
-            obj.set_font("14px/normal \"Noto Sans KR Black\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("Static00_00_00_00","44","133","66",null,null,"560",null,null,null,null,this);
-            obj.set_taborder("5");
-            obj.set_text("주문 번호");
-            obj.set_font("14px/normal \"Noto Sans KR Black\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Edit("member_name00","110","129","1093","35",null,null,null,null,null,null,this);
-            obj.set_taborder("6");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Calendar("Calendar00","110","80","373","33",null,null,null,null,null,null,this);
-            obj.set_taborder("7");
+            obj.set_taborder("4");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Calendar("Calendar00_00","520","80","373","33",null,null,null,null,null,null,this);
-            obj.set_taborder("8");
+            obj.set_taborder("5");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00","489","84","28","24",null,null,null,null,null,null,this);
-            obj.set_taborder("9");
+            obj.set_taborder("6");
             obj.set_text("~");
             obj.set_textAlign("center");
             this.addChild(obj.name, obj);
 
             obj = new Button("Button00","541","174","98","36",null,null,null,null,null,null,this);
-            obj.set_taborder("10");
+            obj.set_taborder("7");
             obj.set_text("검색");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -113,15 +95,15 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("Button01","650","174","100","36",null,null,null,null,null,null,this);
-            obj.set_taborder("11");
+            obj.set_taborder("8");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("pointAndCoupon","30","250",null,"371","30",null,null,null,null,null,this);
-            obj.set_taborder("12");
+            obj = new Grid("pointAndCoupon","30","250","1220","371",null,null,null,null,null,null,this);
+            obj.set_taborder("9");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
@@ -131,7 +113,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("Button02","530","640","110","38",null,null,null,null,null,null,this);
-            obj.set_taborder("13");
+            obj.set_taborder("10");
             obj.set_text("뒤로가기");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -140,7 +122,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("Button03","660","640","110","38",null,null,null,null,null,null,this);
-            obj.set_taborder("14");
+            obj.set_taborder("11");
             obj.set_text("포인트 적립 및 차감");
             obj.set_borderRadius("4px");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
@@ -148,7 +130,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("plus","29","224","63","22",null,null,null,null,null,null,this);
-            obj.set_taborder("15");
+            obj.set_taborder("12");
             obj.set_text("+");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -157,12 +139,30 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("minus","100","224","60","22",null,null,null,null,null,null,this);
-            obj.set_taborder("16");
+            obj.set_taborder("13");
             obj.set_text("-");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
             obj.set_color("white");
             obj.set_font("11pt \"Noto Sans KR Black\"");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static02","46","37","54","23",null,null,null,null,null,null,this);
+            obj.set_taborder("14");
+            obj.set_text("적립구분");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static02_00","46","85","54","23",null,null,null,null,null,null,this);
+            obj.set_taborder("15");
+            obj.set_text("발행시기");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static02_00_00","46","138","54","23",null,null,null,null,null,null,this);
+            obj.set_taborder("16");
+            obj.set_text("주문번호");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -226,7 +226,7 @@
         this.fn_pointType = function(){
 
         	var strSvcID = "selectMemberChageTypeList"
-        	var setURL = "svc::/selectMemberChageTypeListByAdmin.do";
+        	var setURL = "svc::/selectMemberChageTypeListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_search=ds_search";
         	var strOutDatasets = "ds_type=ds_type";
         	var strArg = "";
@@ -240,7 +240,7 @@
         this.fn_selectPointDetailList= function(){
 
         	var strSvcID = "selectPointDetail"
-        	var setURL = "svc::/selectPointDetailListByAdmin.do";
+        	var setURL = "svc::/selectPointDetailListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_search=ds_search";
         	var strOutDatasets = "ds_list=ds_list";
         	var strArg = ""
@@ -259,7 +259,7 @@
 
             // 서버로 전송
             var strSvcID       = "insertMemberPoint";
-            var strURL         = "svc::/insertMemberPointByAdmin.do";
+            var strURL         = "svc::/insertMemberPointByAdmin.do?time=" + new Date().getTime();
             var strInDatasets  = "ds_list=ds_list:U";   // 변경된 것만 보냄 :U가 중요함!!
             var strOutDatasets = "ds_insCnt=ds_insCnt";
             var strArg         = "";
@@ -438,6 +438,7 @@
         	}
         };
 
+
         });
         
         // Regist UI Components Event
@@ -458,6 +459,7 @@
             this.Button03.addEventHandler("onclick",this.Button03_onclick,this);
             this.plus.addEventHandler("onclick",this.plus_onclick,this);
             this.minus.addEventHandler("onclick",this.minus_onclick,this);
+            this.Static02_00.addEventHandler("onclick",this.Static02_00_onclick,this);
         };
         this.loadIncludeScript("Form_MemberPointDetail.xfdl");
         this.loadPreloadList();
