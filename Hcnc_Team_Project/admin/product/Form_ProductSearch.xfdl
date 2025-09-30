@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductSearch" width="600" height="400" titletext="상품 검색" border="0px none" onload="Form_ProductSearch_onload">
+  <Form id="Form_ProductSearch" width="600" height="400" titletext="상품 검색" border="0px none" onload="Form_ProductSearch_onload" background="#f4f7fe">
     <Layouts>
       <Layout width="600" height="400">
         <Grid id="grd_prod" left="55" top="70" width="490" height="300" binddataset="ds_prod" border="1px solid #102b6e" oncellclick="grd_prod_oncellclick">

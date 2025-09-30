@@ -11,7 +11,7 @@
         {
             this.set_name("Form_ProductOptionReg");
             this.set_titletext("옵션 등록/수정");
-            this.set_background("#f9f9f9");
+            this.set_background("#f4f7fe");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,800);

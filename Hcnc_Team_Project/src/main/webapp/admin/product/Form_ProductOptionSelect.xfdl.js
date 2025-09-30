@@ -11,7 +11,7 @@
         {
             this.set_name("Form_ProductOptionSelect");
             this.set_titletext("옵션 선택");
-            this.set_background("#f7f9fc");
+            this.set_background("#f4f7fe");
             if (Form == this.constructor)
             {
                 this._setFormPosition(800,600);

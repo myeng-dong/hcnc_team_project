@@ -11,7 +11,7 @@
         {
             this.set_name("Form_ProductStockMovements");
             this.set_titletext("상품관리");
-            this.set_background("#f9f9f9");
+            this.set_background("#f4f7fe");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,800);

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductCate" width="1280" height="800" titletext="카테고리관리" onload="Form_ProductCate_onload" background="#f9f9f9">
+  <Form id="Form_ProductCate" width="1280" height="800" titletext="카테고리관리" onload="Form_ProductCate_onload" background="#f4f7fe">
     <Layouts>
       <Layout width="1280" height="800">
         <!-- 상단 메뉴 버튼 -->
-        <Button id="btn_goProduct" text="상품목록" left="10" top="43" width="100" height="35" onclick="btn_goProduct_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
-        <Button id="btn_goDisplay" text="상품진열" left="120" top="43" width="100" height="35" onclick="btn_goDisplay_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
-        <Button id="btn_goProductReg" text="상품등록" left="230" top="43" width="100" height="35" onclick="btn_goProductReg_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
+        <Button id="btn_goProduct" text="상품목록" left="10" top="10" width="100" height="35" onclick="btn_goProduct_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
+        <Button id="btn_goDisplay" text="상품진열" left="120" top="10" width="100" height="35" onclick="btn_goDisplay_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
+        <Button id="btn_goProductReg" text="상품등록" left="230" top="10" width="100" height="35" onclick="btn_goProductReg_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
         <!-- 좌측: 카테고리 트리 -->
-        <Grid id="grd_category" binddataset="ds_category" left="10" top="100" width="500" height="590" oncellclick="grd_category_oncellclick" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" font="12px 'Arial'" color="#222222">
+        <Grid id="grd_category" binddataset="ds_category" left="10" top="89" width="500" height="590" oncellclick="grd_category_oncellclick" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" font="12px 'Arial'" color="#222222">
           <Formats>
             <Format id="default">
               <Columns>
@@ -26,7 +26,7 @@
           </Formats>
         </Grid>
         <!-- 우측: 상세 정보 -->
-        <Div id="div_detail" left="530" top="100" width="730" height="590" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" padding="15px">
+        <Div id="div_detail" left="530" top="89" width="730" height="590" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" padding="15px">
           <Layouts>
             <Layout>
               <Static id="sta_title" text="상세정보" left="20" top="20" font="bold 14pt 'Gulim'" color="#000000" background="transparent"/>

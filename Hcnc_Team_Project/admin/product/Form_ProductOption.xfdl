@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductOption" width="1280" height="800" titletext="상품관리" background="#f9f9f9" onload="Form_ProductOption_onload">
+  <Form id="Form_ProductOption" width="1280" height="800" titletext="상품관리" background="#f4f7fe" onload="Form_ProductOption_onload">
     <Layouts>
       <Layout width="1280" height="800" stepcount="0">
         <Div id="Div00_00" taborder="0" text="" top="35" height="76" background="#ffffff" borderRadius="10px 10px 10px 10px" left="27" width="1230">
