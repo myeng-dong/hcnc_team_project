@@ -1,38 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.UserBoardMapper">
-	<select id="selectBoardListByUser" parameterType="String" resultType="java.util.Map">
-        SELECT P.POST_ID
-		     , P.BOARD_ID
-		     , P.MEMBER_ID
-		     , P.POST_TITLE
-             , P.POST_CONTENT
-		     , P.VIEW_CNT
-		     , P.SORT_NUMBER
-		     , P.POST_STATUS
-		     , P.INPUT_DT
-		     , P.UPDATE_DT
-        	 , B.BOARD_NAME
-        	 , B.BOARD_CODE
-	    FROM POSTS P
-	    JOIN BOARDS B ON P.BOARD_ID = B.BOARD_ID
-	    WHERE B.BOARD_CODE = #{boardCode}
-	    ORDER BY P.INPUT_DT DESC
-    </select>
 
 	<select id="selectPostListByUser" parameterType="hashmap" resultType="hashmap">
-	#게시글 조회 쿼리
+	#게시글 리스트 조회 
           SELECT 
-        POST_ID,
-        POST_TITLE,
-        INPUT_DT
-    FROM POSTS
-    WHERE DELETE_DT IS NULL
+                 POST_ID
+               , POST_TITLE
+               , DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT
+            FROM POSTS
+           WHERE DELETE_DT IS NULL
+  	<choose>
+  		<when test="category!=null and category!=''">
+  			AND BOARD_ID = #{category}
+  		</when>
+  		<otherwise>
+  			AND BOARD_ID IN (1,2,4)
+  		</otherwise>
+  	</choose>
     LIMIT #{firstIndex}, #{pageSize}
     </select>
     
     <!-- 공지사항 총 개수 조회 -->
     <select id="selectPostTotalCountByUser" parameterType="hashmap" resultType="int">
-       SELECT COUNT(*) FROM POSTS WHERE DELETE_DT IS NULL
+       SELECT 
+             COUNT(*) 
+        FROM POSTS 
+       WHERE DELETE_DT IS NULL
+         AND BOARD_ID IN (1,2,4)
+    </select>
+    
+    <select id="selectUserPostDetailByUser" parameterType="int" resultType="map">
+    #상세 게시글 조회
+    	SELECT
+               BOARD_ID
+             , MEMBER_ID
+             , POST_TYPE
+             , DATE_FORMAT(INPUT_DT, '%Y-%m-%d')
+               AS INPUT_DT
+             , POST_TITLE
+             , POST_CONTENT
+             , VIEW_CNT
+          FROM POSTS 
+         WHERE POST_ID = #{postId}
+    </select>
+    
+    <update id="updateUserPostCntByUser" parameterType="int">
+    #게시글 조회수 업데이트
+    	UPDATE POSTS
+    	   SET VIEW_CNT = VIEW_CNT +1
+    	 WHERE POST_ID = #{postId}
+    </update>
+    
+    <select id="selectUserCommentByUser" parameterType="int" resultType="map">
+    	SELECT
+               COMMENT
+             , MEMBER_ID
+             , DATE_FORMAT(INPUT_DT, '%Y-%m-%d')
+               AS INPUT_DT
+          FROM COMMENTS 
+         WHERE POST_ID = #{postId}
     </select>
 </mapper>
