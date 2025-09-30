@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user.mapper.UserOrderMapper">
+	<!-- 쿠폰 결과 매핑 (Map 사용) -->
+    <resultMap id="couponResultMap" type="java.util.HashMap">
+        <id property="couponId" column="COUPON_ID"/>
+        <result property="couponName" column="COUPON_NAME"/>
+        <result property="couponCode" column="COUPON_CODE"/>
+        <result property="discountType" column="DISCOUNT_TYPE"/>
+        <result property="discountValue" column="DISCOUNT_VALUE"/>
+        <result property="minOrderPrice" column="MIN_ORDER_PRICE"/>
+        <result property="expiryDt" column="EXPIRY_DT"/>
+    </resultMap>
+    
+    <!-- 사용자 결과 매핑 (쿠폰 포함, Map 사용) -->
+    <resultMap id="userWithCouponsResultMap" type="java.util.HashMap">
+        <result property="username" column="USER_NAME"/>
+        <result property="phoneNumber" column="PHONE_NUMBER"/>
+        <result property="post" column="POST"/>
+        <result property="addr1" column="ADDR_1"/>
+        <result property="addr2" column="ADDR_2"/>
+        <result property="point" column="POINT"/>
+        <result property="gradeDiscount" column="DISCOUNT_RATE"/>
+        <collection property="COUPONS" resultMap="couponResultMap"/>
+    </resultMap>
+
+<!-- 	<select id="selectOrderRequestItemListByUser" parameterType="java.lang.Long" resultType="java.util.HashMap">
+		SELECT CI.CART_ITEM_ID, CI.PRODUCT_ID, CI.PRODUCT_OPTION, CI.PRICE, CI.QUANTITY, CI.SUB_TOTAL
+			 , P.PRODUCT_NAME
+			 , PI.IMAGE_ID, PI.IMAGE_URL, PI.ALT_TEXT
+			FROM CART_ITEMS CI
+    		INNER JOIN PRODUCTS P
+    			ON CI.PRODUCT_ID = P.PRODUCT_ID
+    		INNER JOIN PRODUCT_IMG PI
+    			ON CI.PRODUCT_ID = PI.PRODUCT_ID
+    		WHERE 1=1
+    			AND CI.CART_ID = #{cartId}
+    			AND CI.IS_CHECKED = 'Y' 
+    			AND ( PI.IS_MAIN IS NULL OR PI.IS_MAIN = 'Y')
+	</select>
+	 -->
+	 
+	 
+	<select id="selectOrderRequestItemListByUser" parameterType="java.lang.Long" resultType="java.util.HashMap">
+		SELECT CI.CART_ITEM_ID, CI.PRODUCT_ID, CI.PRODUCT_OPTION, CI.PRICE, CI.QUANTITY, CI.SUB_TOTAL
+			 , P.PRODUCT_NAME, P.COST_PRICE
+			FROM CART_ITEMS CI
+    		INNER JOIN PRODUCTS P
+    			ON CI.PRODUCT_ID = P.PRODUCT_ID
+    		WHERE 1=1
+    			AND CI.CART_ID = #{cartId}
+    			AND CI.IS_CHECKED = 'Y' 
+	</select>
+	
+	<select id="selectItemCntByUser" parameterType="java.lang.Long" resultType="java.util.HashMap">
+		SELECT COUNT(CART_ITEM_ID) AS ITEM_CNT, SUM(SUB_TOTAL) AS TOTAL_PRICE
+			FROM CART_ITEMS
+			WHERE 1=1
+				AND CART_ID = #{cartId}
+				AND IS_CHECKED = 'Y'
+	</select>
+	
+	<select id="selectOrderMeberInfoByUser" parameterType="java.util.Map" resultMap="userWithCouponsResultMap">
+		SELECT M.USER_NAME, M.PHONE_NUMBER
+			, A.POST, A.ADDR_1, A.ADDR_2
+			, G.DISCOUNT_RATE
+			, P.POINT
+			, C.COUPON_ID, C.COUPON_NAME, C.COUPON_CODE, C.DISCOUNT_TYPE, C.DISCOUNT_VALUE, C.MIN_ORDER_PRICE, DATE_FORMAT(C.EXPIRY_DT, '%Y-%m-%d') AS EXPIRY_DT
+			FROM MEMBERS M
+			LEFT JOIN ADDRESS A
+				ON M.MEMBER_ID = A.MEMBER_ID
+			LEFT JOIN GRADES G
+				ON M.GRADE_CODE = G.GRADE_CODE
+			LEFT JOIN POINTS P
+				ON M.MEMBER_ID = P.MEMBER_ID
+			LEFT JOIN COUPONS C
+				ON M.MEMBER_ID = C.MEMBER_ID
+			WHERE M.MEMBER_ID = #{memberId}
+			ORDER BY C.EXPIRY_DT ASC
+	</select>
+	
+	<select id="selectOrderMemberBasicInfoByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT M.USER_NAME, M.PHONE_NUMBER
+			, G.GRADE_CODE, G.DISCOUNT_RATE 
+			FROM MEMBERS M
+				INNER JOIN GRADES G
+					ON M.GRADE_CODE = G.GRADE_CODE
+			WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectMemberPointByUser" parameterType="java.util.Map" resultType="int">
+		SELECT SUM(P.POINT)
+			FROM POINTS P
+			WHERE P.MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectMemberCouponListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT C.COUPON_ID, C.COUPON_NAME, C.COUPON_CODE, C.DISCOUNT_TYPE, C.DISCOUNT_VALUE, C.MIN_ORDER_PRICE, DATE_FORMAT(C.EXPIRY_DT, '%Y-%m-%d') AS EXPIRY_DT
+			FROM COUPONS C
+			WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectMemberAddressListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT A.POST, A.ADDR_1, A.ADDR_2
+			FROM ADDRESS A
+			WHERE MEMBER_ID = #{memberId}
+	</select>
+</mapper> 
