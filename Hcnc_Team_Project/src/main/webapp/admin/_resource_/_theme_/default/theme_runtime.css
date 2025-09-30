@@ -677,15 +677,10 @@
 }
 .ListViewCellControl .cellmaskedit
 {
-
-	background : #63b4ff;
-	color : #000000;
-
 	font : 12px "Gulim";
 	background : #ffffff;
 	border : 1px solid #d5d5d5;
 	padding : 1px 9px 0px 9px;
-
 }
 .ListViewCellControl .cellprogressbar
 {
@@ -697,13 +692,8 @@
 }
 .ListView .body .expandbar
 {
-
-	background : #ffa47a;
-	color : #000000;
-
 	background : linear-gradient(to top,#eaeaea,#ffffff);
 	border : 1px solid #c2c2c2;
-
 }
 .Button[status=mouseover]
 {

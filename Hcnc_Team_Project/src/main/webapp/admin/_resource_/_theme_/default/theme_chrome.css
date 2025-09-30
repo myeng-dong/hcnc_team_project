@@ -939,12 +939,7 @@ textarea::-webkit-scrollbar { display: none; }
 }
 .ListViewCellControl .cellcombo
 {
-
-	background : #63b4ff;
-	color : #000000;
-
 	font : 12px "Gulim";
-
 }
 .ListBoxControl.popupListViewCellControlcellcombocombolist.dummy.dummy
 {
@@ -953,10 +948,6 @@ textarea::-webkit-scrollbar { display: none; }
 }
 .ListViewCellControl .celledit
 {
-
-	background : #ffa47a;
-	color : #000000;
-
 	font : 12px "Gulim";
 	background : #ffffff;
 	border : 1px solid #d5d5d5;
@@ -988,7 +979,6 @@ textarea::-webkit-scrollbar { display: none; }
 	background : #eaeaea;
 	background : linear-gradient(to top,#eaeaea,#ffffff);
 	border : 1px solid #c2c2c2;
-
 }
 #nexacontainer .Button[status=mouseover]
 {
