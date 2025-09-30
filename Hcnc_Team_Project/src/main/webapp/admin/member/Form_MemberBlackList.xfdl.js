@@ -11,7 +11,7 @@
         {
             this.set_name("Form_MemberBlackList");
             this.set_titletext("New Form");
-            this.set_background("lightBlue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);

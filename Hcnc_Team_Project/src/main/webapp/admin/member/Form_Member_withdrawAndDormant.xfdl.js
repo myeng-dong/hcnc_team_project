@@ -11,7 +11,7 @@
         {
             this.set_name("Form_Member_withdrawAndDormant");
             this.set_titletext("New Form");
-            this.set_background("lightBlue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -19,7 +19,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_status", this);
-            obj._setContents("<ColumnInfo><Column id=\"STATUS_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"STATUS_NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"STATUS_CODE\">R</Col><Col id=\"STATUS_NAME\">휴면</Col></Row><Row><Col id=\"STATUS_CODE\">N</Col><Col id=\"STATUS_NAME\">탈퇴</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"STATUS_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"STATUS_NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"STATUS_CODE\"/><Col id=\"STATUS_NAME\">전체</Col></Row><Row><Col id=\"STATUS_CODE\">R</Col><Col id=\"STATUS_NAME\">휴면</Col></Row><Row><Col id=\"STATUS_CODE\">N</Col><Col id=\"STATUS_NAME\">탈퇴</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -97,7 +97,7 @@
             obj.set_textAlign("center");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("Radio00","130","24","190","32",null,null,null,null,null,null,this);
+            obj = new Radio("Radio00","130","24","210","32",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             obj.set_innerdataset("ds_status");
             obj.set_codecolumn("STATUS_CODE");
@@ -175,7 +175,7 @@
             obj.set_font("bold 12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button00","520","301","100","31",null,null,null,null,null,null,this);
+            obj = new Button("Button00","520","300","100","32",null,null,null,null,null,null,this);
             obj.set_taborder("19");
             obj.set_text("검색");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
@@ -184,7 +184,7 @@
             obj.set_color("white");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button00_00","650","301",null,"31","530",null,null,null,null,null,this);
+            obj = new Button("Button00_00","630","301",null,"31","550",null,null,null,null,null,this);
             obj.set_taborder("20");
             obj.set_text("초기화");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");

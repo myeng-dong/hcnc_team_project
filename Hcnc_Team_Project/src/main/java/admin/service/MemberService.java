@@ -206,6 +206,12 @@ public class MemberService {
 		
 		return memberMapper.selectWithdrawMemberListByAdmin(param);
 	}
+	
+	//월별 회원 탈퇴 통계
+	public List<Map<String, Object>> selectMemberWithdrawCntByAdmin() {
+		
+		return memberMapper.selectMemberWithdrawCntByAdmin();
+	}
 
 
 

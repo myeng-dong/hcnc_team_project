@@ -227,11 +227,11 @@
 	           SELECT G.GRADE_CODE
 	             FROM GRADES G
 	            WHERE M.PRICE_AMOUNT >= G.STANDARD_AMOUNT
-	              AND G.GRADE_CODE != 9  -- 관리자 등급 제외
+	              AND G.GRADE_CODE != 9  
 	            ORDER BY G.STANDARD_AMOUNT DESC
 	            LIMIT 1
 	       )
-	     WHERE M.GRADE_CODE != 9  -- 관리자는 등급 변경 안함
+	     WHERE M.GRADE_CODE != 9 
 	</update>
 	   
 	<!-- 휴면/탈퇴 회원 조회 -->
@@ -361,12 +361,14 @@
     
     <!-- 포인트 유형 조회  -->
     <select id="selectMemberChageTypeList" parameterType="java.util.Map" resultType="java.util.Map" >
-     	SELECT DISTINCT CHANGE_TYPE
+	    SELECT 
+	        '' AS CHANGE_TYPE,
+	        '전체' AS LABEL
+	     UNION
+      	SELECT DISTINCT
+     	    CHANGE_TYPE
+     	    ,CHANGE_TYPE AS LABEL
      	  FROM POINTS
-         WHERE 1=1
-         <if test="MEMBER_ID != null and MEMBER_ID != ''">
-  		   AND MEMBER_ID = #{MEMBER_ID}
-         </if>
          ORDER BY CHANGE_TYPE
     </select>
     
@@ -624,5 +626,17 @@
 		 </if>
 	</select>
 	
-
+	<!-- 월별 탈퇴 회원 수 -->
+	<select id="selectMemberWithdrawCntByAdmin" resultType="java.util.Map">
+	   SELECT 
+	        DATE_FORMAT(DELETE_DT, '%Y-%m') AS DELETE_MONTH
+	        ,COUNT(0) AS CNT
+	     FROM MEMBERS
+	    WHERE STATUS = 'N'
+	      AND DELETE_DT IS NOT NULL
+	    GROUP BY DATE_FORMAT(DELETE_DT, '%Y-%m')
+	    ORDER BY DELETE_MONTH
+	</select>
+	
+	
 </mapper>

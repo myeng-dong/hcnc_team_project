@@ -132,7 +132,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("search_btn","875","100","135","40",null,null,null,null,null,null,this);
+            obj = new Button("search_btn","855","92","135","36",null,null,null,null,null,null,this);
             obj.set_taborder("14");
             obj.set_text("검색하기");
             obj.set_background("#2563eb");
@@ -141,7 +141,7 @@
             obj.set_color("white");
             this.addChild(obj.name, obj);
 
-            obj = new Button("reset_btn","1045","100","135","40",null,null,null,null,null,null,this);
+            obj = new Button("reset_btn","1010","92","135","36",null,null,null,null,null,null,this);
             obj.set_taborder("15");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");

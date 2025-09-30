@@ -11,7 +11,7 @@
         {
             this.set_name("Form_memberCouponDetail");
             this.set_titletext("New Form");
-            this.set_background("lightBlue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -29,11 +29,11 @@
 
 
             obj = new Dataset("ds_use", this);
-            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"IS_USED\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">사용</Col><Col id=\"IS_USED\">Y</Col></Row><Row><Col id=\"CODE\">미사용</Col><Col id=\"IS_USED\">N</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"IS_USED\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">전체</Col></Row><Row><Col id=\"CODE\">사용</Col><Col id=\"IS_USED\">Y</Col></Row><Row><Col id=\"CODE\">미사용</Col><Col id=\"IS_USED\">N</Col></Row></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("point_detail_box","25","14","1210","213",null,null,null,null,null,null,this);
+            obj = new Static("point_detail_box","25","14","1210","221",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("white");
             obj.set_text("");
@@ -127,7 +127,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("back_btn","556","666","104","28",null,null,null,null,null,null,this);
+            obj = new Button("back_btn","556","666","104","34",null,null,null,null,null,null,this);
             obj.set_taborder("14");
             obj.set_text("뒤로가기");
             obj.set_background("#2563eb");
@@ -136,7 +136,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button00","450","197","78","24",null,null,null,null,null,null,this);
+            obj = new Button("Button00","562","199","78","31",null,null,null,null,null,null,this);
             obj.set_taborder("15");
             obj.set_text("조회하기");
             obj.set_background("#2563eb");
@@ -145,7 +145,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button01","542","198","78","22",null,null,null,null,null,null,this);
+            obj = new Button("Button01","660","200","78","30",null,null,null,null,null,null,this);
             obj.set_taborder("16");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
@@ -153,12 +153,13 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button02","680","666","98","28",null,null,null,null,null,null,this);
+            obj = new Button("Button02","680","666","98","34",null,null,null,null,null,null,this);
             obj.set_taborder("17");
             obj.set_text("쿠폰 지급");
             obj.set_borderRadius("4px");
             obj.set_color("black");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
+            obj.set_background(" #9ca3af");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -303,6 +304,128 @@
         	}
         };
 
+        //라디오 선택
+        this.Radio00_onitemchanged = function(obj,e)
+        {
+        	this.fn_selectPointDetailList();
+        };
+
+        //쿠폰 종류
+        this.Edit00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_selectPointDetailList();
+        	}
+        };
+
+        //발급 일자 검색 = 시작
+        this.Calendar00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar01.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar01.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectPointDetailList();
+        };
+
+        //발급일자 - 종료
+        this.Calendar01_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar01.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar01.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectPointDetailList();
+        };
+
+        //만료 시작일자
+        this.Calendar02_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar02.value;
+            var endDate   = this.Calendar03.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar03.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectPointDetailList();
+        };
+
+        //만료 종료 일자
+        this.Calendar03_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar02.value;
+            var endDate   = this.Calendar03.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar03.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectPointDetailList();
+        };
+
         });
         
         // Regist UI Components Event
@@ -310,7 +433,12 @@
         {
             this.addEventHandler("onload",this.Form_memberCouponDetail_onload,this);
             this.coupon.addEventHandler("oncellclick",this.pointAndCoupon_oncellclick,this);
+            this.Radio00.addEventHandler("onitemchanged",this.Radio00_onitemchanged,this);
+            this.Edit00.addEventHandler("onkeyup",this.Edit00_onkeyup,this);
             this.Calendar00.addEventHandler("onchanged",this.Calendar00_onchanged,this);
+            this.Calendar01.addEventHandler("onchanged",this.Calendar01_onchanged,this);
+            this.Calendar02.addEventHandler("onchanged",this.Calendar02_onchanged,this);
+            this.Calendar03.addEventHandler("onchanged",this.Calendar03_onchanged,this);
             this.back_btn.addEventHandler("onclick",this.back_btn_onclick,this);
             this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
             this.Button01.addEventHandler("onclick",this.Button01_onclick,this);
