@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberBlackList" width="1280" height="720" titletext="New Form" background="lightBlue" onload="Form_MemberBlackList_onload">
+  <Form id="Form_MemberBlackList" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_MemberBlackList_onload">
     <Layouts>
       <Layout height="720" width="1280">
         <Static id="black_search_box" taborder="0" left="20" top="17" width="1240" height="210" background="white" text="" borderRadius="8px"/>

@@ -21,6 +21,7 @@
             ,pc.ISSUED_DT
             ,pc.EXPIRY_DT
             ,pc.IS_USED
+            ,pc.PERIOD_SETTING
             ,pd.DISCOUNT_ID
             ,pd.DISCOUNT_TYPE
             ,pd.DISCOUNT_VALUE
@@ -79,17 +80,15 @@
 	        ,p.UPDATE_DT
 	        ,p.INPUT_ID
 	        ,p.UPDATE_ID
-	        ,p.AUTO_ISSUED
-	        --프로모션기본
+	        ,p.AUTO_ISSUED 	        
 	        ,pc.P_COUPON_CODE
 	        ,pc.ISSUED_DT
 	        ,pc.EXPIRY_DT
-	        --쿠폰관련
+	        ,pc.PERIOD_SETTING 	        
 	        ,pd.DISCOUNT_ID
 	        ,pd.DISCOUNT_TYPE
 	        ,pd.DISCOUNT_VALUE
-	        ,pd.MIN_ORDER_PRICE
-	        --할인정보
+	        ,pd.MIN_ORDER_PRICE 	
 	        ,pt.TARGET_ID
 	        ,pt.TARGET_TYPE
 	        ,pt.TARGET_VALUE
@@ -125,7 +124,7 @@
 	        ,#{START_DT}
 	        ,#{END_DT}
 	        ,#{IS_ACTIVE}
-	        ,#{AUTO_ISSUED} --신규추가함
+	        ,#{AUTO_ISSUED}
 	        ,NOW()
 	        ,NOW()
 	        ,#{INPUT_ID}
@@ -190,7 +189,7 @@
 	        #{promotionId}
 	        ,#{P_COUPON_CODE}
 	        ,#{EXPIRY_DT}
-	        ,#{PERIOD_SETTING} --신규추가할거임
+	        ,#{PERIOD_SETTING}
 	    )
 	</insert>
 	

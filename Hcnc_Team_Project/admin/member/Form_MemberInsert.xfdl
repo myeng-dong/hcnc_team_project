@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberInsert" width="1370" height="720" titletext="New Form" onload="Form_MemberInsert_onload" background="lightblue">
+  <Form id="Form_MemberInsert" width="1370" height="720" titletext="New Form" onload="Form_MemberInsert_onload" background="#F4F7FE">
     <Layouts>
       <Layout height="720" width="1370">
         <Div id="insert_box" taborder="0" text="" left="13" top="10" width="1337" height="688" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)">

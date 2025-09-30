@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberBlackListDetail" width="660" height="530" titletext="New Form" onkeyup="Form_MemberBlackListDetail_onkeyup" onload="Form_MemberBlackListDetail_onload">
+  <Form id="Form_MemberBlackListDetail" width="660" height="530" titletext="New Form" onkeyup="Form_MemberBlackListDetail_onkeyup" onload="Form_MemberBlackListDetail_onload" background="#F4F7FE">
     <Layouts>
       <Layout height="530" width="660">
         <Div id="Div00" taborder="0" left="18" top="40" width="622" height="440" background="lightGray" borderRadius="12px" text="">

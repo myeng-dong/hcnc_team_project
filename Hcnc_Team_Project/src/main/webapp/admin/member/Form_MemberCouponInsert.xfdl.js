@@ -11,7 +11,7 @@
         {
             this.set_name("Form_MemberCouponInsert");
             this.set_titletext("New Form");
-            this.set_background("lightBlue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(560,540);
@@ -136,6 +136,13 @@
             obj.set_max("2147483647");
             obj.set_value("");
             this.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00","454","488","66","25",null,null,null,null,null,null,this);
+            obj.set_taborder("15");
+            obj.set_text("ESC[닫기]");
+            obj.set_color("RED");
+            obj.set_font("bold 12px/normal \"Gulim\"");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",560,540,this,function(p){});
@@ -228,6 +235,19 @@
         	}
         }
 
+        //esc 누르면 닫힘
+        this.Form_MemberCouponInsert_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 27){
+        		this.close();
+        	}
+        };
+
+        //눌러도 닫힘
+        this.Static00_onclick = function(obj,e)
+        {
+        	this.close();
+        };
 
         });
         
@@ -235,8 +255,10 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_MemberCouponInsert_onload,this);
+            this.addEventHandler("onkeyup",this.Form_MemberCouponInsert_onkeyup,this);
             this.grade_search_box00.addEventHandler("onclick",this.grade_search_box00_onclick,this);
             this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
+            this.Static00_00.addEventHandler("onclick",this.Static00_onclick,this);
         };
         this.loadIncludeScript("Form_MemberCouponInsert.xfdl");
         this.loadPreloadList();

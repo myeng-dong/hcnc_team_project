@@ -21,14 +21,14 @@
 
             
             // UI Components Initialize
-            obj = new Static("sta_h3","40","10","940","40",null,null,null,null,null,null,this);
+            obj = new Static("sta_h3","40","10",null,"40","110",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("h3 title area");
             obj.set_font("normal 20pt/normal \"Noto Sans KR Black\"");
             obj.set_color("black");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_location","38","42","990","40",null,null,null,null,null,null,this);
+            obj = new Static("sta_location","40","50",null,"18","110",null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("⌂>회원>회원관리");
             obj.set_font("normal 9pt/normal \"Noto Sans KR DemiLight\"");

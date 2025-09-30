@@ -72,10 +72,6 @@ public class MemberService {
 
 	}
 
-	//전체 회원 등급 자동 업데이트
-	public int updateAllMemberGradeAuto() {
-	    return memberMapper.updateAllMemberGradeAuto();
-	}
 
 	// 관리자 제외 등급 조회
 	public List<Map<String, Object>> selectGradeExceptionAdminList() {
@@ -159,7 +155,7 @@ public class MemberService {
 	//쿠폰 지급
 	public int insertCoupon(Map<String, Object> param) {
 
-		 // UUID 기반 쿠폰 코드 생성
+		// UUID 기반 쿠폰 코드 생성
         String uuid = UUID.randomUUID().toString().replace("-", "");
         // 앞 16자리만 사용 (대문자로 변환하면 가독성 ↑)
         String couponCode = uuid.substring(0, 16).toUpperCase();
@@ -188,12 +184,36 @@ public class MemberService {
 		return  memberMapper.updateMemberBlackStatusListByAdmin(row);
 	}
 	
-	//회원가입 이력 조회를 위한 회원 조회
+	//회원가입 이력 조회
 	public List<Map<String, Object>> selectMemberRegHistoryListByAdmin(Map<String, Object> param) {
 		
 		return memberMapper.selectMemberRegHistoryListByAdmin(param);
 	}
 	
+	//스케줄러를 통한 회원 등급 자동 
+	public int updateAllMemberGradeAutoByAdmin() {
+		return memberMapper.updateAllMemberGradeAutoByAdmin();
+	}
+	
+	//회원 가입 이력  차트 통계
+	public List<Map<String, Object>> selectLoginTypeStatsByAdmin() {
+		
+		return memberMapper.selectLoginTypeStatsByAdmin();
+	}
+	
+	//회원 탈퇴 이력 조회
+	public List<Map<String, Object>> selectWithdrawMemberListByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.selectWithdrawMemberListByAdmin(param);
+	}
+	
+	//월별 회원 탈퇴 통계
+	public List<Map<String, Object>> selectMemberWithdrawCntByAdmin() {
+		
+		return memberMapper.selectMemberWithdrawCntByAdmin();
+	}
+
+
 
 
 }

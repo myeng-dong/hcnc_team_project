@@ -11,7 +11,7 @@
         {
             this.set_name("Form_MemberGrade");
             this.set_titletext("New Form");
-            this.set_background("lightblue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -45,7 +45,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("member_grade","100","53","980","34",null,null,null,null,null,null,this);
+            obj = new Radio("member_grade","110","53","1000","34",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_innerdataset("ds_grade");
             obj.set_codecolumn("GRADE_CODE");
@@ -78,13 +78,13 @@
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("grade_name","100","106","1093","35",null,null,null,null,null,null,this);
+            obj = new Edit("grade_name","100","106","1070","35",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("grade_emil","100","165","1093","35",null,null,null,null,null,null,this);
+            obj = new Edit("grade_emil","100","165","1070","35",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
@@ -108,7 +108,7 @@
             obj.set_font("bold 12px \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("search_btn","523","275","97","30",null,null,null,null,null,null,this);
+            obj = new Button("search_btn","533","275","97","30",null,null,null,null,null,null,this);
             obj.set_taborder("11");
             obj.set_text("검색");
             obj.set_background("#2563eb");
@@ -117,7 +117,7 @@
             obj.set_borderRadius("4px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("reset_btn","649","275","97","30",null,null,null,null,null,null,this);
+            obj = new Button("reset_btn","640","275","97","30",null,null,null,null,null,null,this);
             obj.set_taborder("12");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
@@ -125,7 +125,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","20","329",null,"311","20",null,null,null,null,null,this);
+            obj = new Grid("grid_list","20","329",null,"331","20",null,null,null,null,null,this);
             obj.set_taborder("13");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
@@ -135,7 +135,7 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"52\"/><Column size=\"165\"/><Column size=\"136\"/><Column size=\"164\"/><Column size=\"150\"/><Column size=\"145\"/><Column size=\"237\"/><Column size=\"144\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"아이디\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"이름\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"이메일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"전화번호\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"구매액\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" text=\"가입일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"등급변경\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\"/><Cell col=\"1\" text=\"bind:MEMBER_ID\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"3\" text=\"bind:EMAIL_ADDR\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"4\" text=\"bind:PHONE_NUMBER\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" displaytype=\"mask\" edittype=\"mask\" maskedittype=\"string\" maskeditformat=\"###-####-####\"/><Cell col=\"5\" edittype=\"normal\" text=\"bind:PRICE_AMOUNT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"6\" text=\"bind:INPUT_DT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"7\" text=\"bind:GRADE_CODE\" displaytype=\"combocontrol\" edittype=\"combo\" combocodecol=\"GRADE_CODE\" combodatacol=\"GRADE_NAME\" combodataset=\"ds_grade\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Button("update_grade","591","680","82","35",null,null,null,null,null,null,this);
+            obj = new Button("update_grade","591","668","99","45",null,null,null,null,null,null,this);
             obj.set_taborder("14");
             obj.set_text("등급 변경");
             obj.set_background("#2563eb");
@@ -283,6 +283,82 @@
         	this.reload();
         };
 
+        //등급 선택시 자동 조회
+        this.member_grade_onitemchanged = function(obj,e)
+        {
+        	this.fn_GradeManageSearch()
+        };
+
+        //등급 이름 자동 검색
+        this.grade_name_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_GradeManageSearch();
+        	}
+        };
+
+        //등급 이메일 자동 검색
+        this.grade_emil_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_GradeManageSearch();
+        	}
+        };
+
+        //시작일
+        this.Calendar00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar00_00.value;
+
+            if (!startDate) return; // 시작일 없으면 처리 중단
+
+            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+            if (endDate && endDate < startDate) {
+                this.alert("시작일은 종료일보다 느릴 수 없습니다.");
+                this.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 시작일은 00시 00분
+            this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+
+            // 종료일이 있으면 23시 59분까지 설정
+            if (endDate) {
+                this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+            }
+
+        	//자동 검색
+        	this.fn_GradeManageSearch();
+        };
+
+        //종료일
+        this.Calendar00_00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar00_00.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar00_00.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_GradeManageSearch();
+        };
+
 
 
         });
@@ -291,6 +367,12 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_MemberGrade_onload,this);
+            this.grade_search_box.addEventHandler("onclick",this.grade_search_box_onclick,this);
+            this.member_grade.addEventHandler("onitemchanged",this.member_grade_onitemchanged,this);
+            this.grade_name.addEventHandler("onkeyup",this.grade_name_onkeyup,this);
+            this.grade_emil.addEventHandler("onkeyup",this.grade_emil_onkeyup,this);
+            this.Calendar00.addEventHandler("onchanged",this.Calendar00_onchanged,this);
+            this.Calendar00_00.addEventHandler("onchanged",this.Calendar00_00_onchanged,this);
             this.search_btn.addEventHandler("onclick",this.Button00_onclick,this);
             this.reset_btn.addEventHandler("onclick",this.Button00_00_onclick,this);
             this.update_grade.addEventHandler("onclick",this.inse_onclick,this);
