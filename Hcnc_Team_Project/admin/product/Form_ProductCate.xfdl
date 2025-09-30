@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductCate" width="1280" height="800" titletext="카테고리관리" onload="Form_ProductCate_onload" background="#f4f7fe">
+  <Form id="Form_ProductCate" width="1280" height="800" titletext="카테고리관리" onload="Form_ProductCate_onload" background="#f9f9f9">
     <Layouts>
       <Layout width="1280" height="800">
         <!-- 상단 메뉴 버튼 -->
-        <Button id="btn_goProduct" text="상품목록" left="10" top="43" width="100" height="35" onclick="btn_goProduct_onclick" background="#056e70" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
-        <Button id="btn_goDisplay" text="상품진열" left="120" top="43" width="100" height="35" onclick="btn_goDisplay_onclick" background="#056e70" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
-        <Button id="btn_goProductReg" text="상품등록" left="230" top="43" width="100" height="35" onclick="btn_goProductReg_onclick" background="#056e70" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
+        <Button id="btn_goProduct" text="상품목록" left="10" top="43" width="100" height="35" onclick="btn_goProduct_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
+        <Button id="btn_goDisplay" text="상품진열" left="120" top="43" width="100" height="35" onclick="btn_goDisplay_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
+        <Button id="btn_goProductReg" text="상품등록" left="230" top="43" width="100" height="35" onclick="btn_goProductReg_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
         <!-- 좌측: 카테고리 트리 -->
-        <Grid id="grd_category" binddataset="ds_category" left="10" top="100" width="500" height="590" oncellclick="grd_category_oncellclick" border="1px solid #90caf9" borderRadius="12px">
+        <Grid id="grd_category" binddataset="ds_category" left="10" top="100" width="500" height="590" oncellclick="grd_category_oncellclick" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" font="12px 'Arial'" color="#222222">
           <Formats>
             <Format id="default">
               <Columns>
@@ -19,25 +19,25 @@
                 <Row size="37"/>
               </Rows>
               <Band id="body">
-                <Cell text="expr:(type=='main' ? (expanded=='Y' ? '-' : '+') : '')" textAlign="center" font="14px/normal &quot;Gulim&quot;"/>
-                <Cell col="1" text="expr:(level==0 ? cate_name : '   ' + cate_name)" font="14px/normal &quot;Gulim&quot;"/>
+                <Cell text="expr:(type=='main' ? (expanded=='Y' ? '-' : '+') : '')" textAlign="center" font="14px 'Gulim'" color="#000000"/>
+                <Cell col="1" text="expr:(level==0 ? cate_name : '   ' + cate_name)" font="14px 'Gulim'" color="#222222"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
         <!-- 우측: 상세 정보 -->
-        <Div id="div_detail" left="530" top="100" width="730" height="590" background="#ffffff" border="1px solid #90caf9" borderRadius="12px" padding="15px">
+        <Div id="div_detail" left="530" top="100" width="730" height="590" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" padding="15px">
           <Layouts>
             <Layout>
-              <Static id="sta_title" text="상세정보" left="20" top="20" font="bold 14pt 'Gulim'" color="#000000"/>
-              <Static id="sta_current" text="ID" left="20" top="60" width="100" height="25" font="10pt 'Gulim'" color="#000000"/>
-              <Static id="sta_idValue" text="자동생성" left="140" top="60" width="200" height="25" font="10pt 'Gulim'" color="#666666"/>
-              <Static id="sta_name" text="분류명" left="20" top="100" width="100" height="25" font="10pt 'Gulim'" color="#000000"/>
-              <Edit id="edt_cateName" left="140" top="100" width="400" height="25" border="1px solid #90caf9" borderRadius="6px"/>
-              <Static id="sta_sort" text="정렬순번" left="20" top="140" width="100" height="25" font="10pt 'Gulim'" color="#000000"/>
-              <Edit id="edt_sort" left="140" top="140" width="100" height="25" border="1px solid #90caf9" borderRadius="6px"/>
-              <Static id="sta_display" text="진열상태" left="20" top="180" width="100" height="25" font="10pt 'Gulim'" color="#000000"/>
-              <Radio id="rdo_display" taborder="10" left="140" top="175" width="359" height="35" index="0" value="Y" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" text="진열함" font="10pt 'Gulim'" color="#000000">
+              <Static id="sta_title" text="상세정보" left="20" top="20" font="bold 14pt 'Gulim'" color="#000000" background="transparent"/>
+              <Static id="sta_current" text="ID" left="20" top="60" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
+              <Static id="sta_idValue" text="자동생성" left="140" top="60" width="200" height="25" font="10pt 'Gulim'" color="#666666" background="transparent"/>
+              <Static id="sta_name" text="분류명" left="20" top="100" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
+              <Edit id="edt_cateName" left="140" top="100" width="400" height="25" background="#ffffff" border="1px solid #cccccc" borderRadius="6px" font="12px 'Arial'" color="#222222"/>
+              <Static id="sta_sort" text="정렬순번" left="20" top="140" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
+              <Edit id="edt_sort" left="140" top="140" width="100" height="25" background="#ffffff" border="1px solid #cccccc" borderRadius="6px" font="12px 'Arial'" color="#222222"/>
+              <Static id="sta_display" text="진열상태" left="20" top="180" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
+              <Radio id="rdo_display" taborder="10" left="140" top="175" width="359" height="35" index="0" value="Y" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="12px 'Arial'" color="#222222">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="codecolumn" size="256"/>
@@ -55,15 +55,15 @@
                   </Rows>
                 </Dataset>
               </Radio>
-              <Button id="btn_saveDetail" text="저장" left="140" top="230" width="100" height="30" onclick="btn_saveDetail_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
+              <Button id="btn_saveDetail" text="저장" left="140" top="230" width="100" height="30" onclick="btn_saveDetail_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
             </Layout>
           </Layouts>
         </Div>
         <!-- 하단 버튼 영역 -->
-        <Button id="btn_addMain" text="대분류추가" left="10" top="730" width="100" height="35" onclick="btn_addMain_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
-        <Button id="btn_addSub" text="하위추가" left="120" top="730" width="100" height="35" onclick="btn_addSub_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
-        <Button id="btn_edit" text="수정" left="230" top="730" width="100" height="35" onclick="btn_edit_onclick" background="#102b6e" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
-        <Button id="btn_delete" text="삭제" left="340" top="730" width="100" height="35" onclick="btn_delete_onclick" background="#a1162f" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="0"/>
+        <Button id="btn_addMain" text="대분류추가" left="10" top="730" width="100" height="35" onclick="btn_addMain_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
+        <Button id="btn_addSub" text="하위추가" left="120" top="730" width="100" height="35" onclick="btn_addSub_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
+        <Button id="btn_edit" text="수정" left="230" top="730" width="100" height="35" onclick="btn_edit_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
+        <Button id="btn_delete" text="삭제" left="340" top="730" width="100" height="35" onclick="btn_delete_onclick" background="#a1162f" color="#ffffff" border="1px solid #a1162f" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
       </Layout>
     </Layouts>
     <!-- 데이터셋 정의 -->
@@ -453,6 +453,23 @@ this.btn_delete_onclick = function(obj,e)
 	
 };
 
+// 사용자 ID 반환 함수
+this.getUserId = function()
+{
+    var app = nexacro.getApplication();
+    var sUserId = app.gds_adminInfo.getColumn(0, "MEMBER_ID");
+
+    if (sUserId && sUserId != "undefined") {
+        trace("현재 로그인 사용자 ID: " + sUserId);
+        return sUserId;
+    } else {
+        trace("⚠ 사용자 ID를 가져올 수 없습니다. gds_adminInfo 상태 확인 필요");
+        return null;
+    }
+};
+
+
+
 /***************************************************
 * 저장 버튼 (신규/수정 통합)
 ***************************************************/
@@ -475,7 +492,9 @@ this.btn_saveDetail_onclick = function(obj,e)
 
     this.ds_in.clearData();
     var nRow = this.ds_in.addRow();
-
+	
+	var sUserId = this.getUserId();
+	
     // 신규
     if (this._insertMode) {
         if (this._insertMode.type=="main") {
@@ -488,7 +507,8 @@ this.btn_saveDetail_onclick = function(obj,e)
         }
         this.ds_in.setColumn(nRow,"SORT_NUMBER", sort);
         this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
-        this.ds_in.setColumn(nRow,"INPUT_ID","admin");
+        this.ds_in.setColumn(nRow,"INPUT_ID", sUserId);
+		this.ds_in.setColumn(nRow,"UPDATE_ID", sUserId);
 
         this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do?time=" + new Date().getTime(),
             "ds_in=ds_in","","","fn_callback",true);
@@ -514,7 +534,7 @@ this.btn_saveDetail_onclick = function(obj,e)
         }
         this.ds_in.setColumn(nRow,"SORT_NUMBER", sort);
         this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
-        this.ds_in.setColumn(nRow,"UPDATE_ID","admin");
+        this.ds_in.setColumn(nRow,"UPDATE_ID", sUserId);
 
         this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do?time=" + new Date().getTime(),
             "ds_in=ds_in","","","fn_callback",true);

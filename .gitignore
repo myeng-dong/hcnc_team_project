@@ -89,3 +89,8 @@ local.properties
 # IDE 관련 폴더
 .settings/
 *.geninfo
+Hcnc_Team_Project/src/main/webapp/admin/_resource_/_theme_/default/theme_chrome.css
+Hcnc_Team_Project/src/main/webapp/admin/_resource_/_theme_/default/theme_ie10.css
+Hcnc_Team_Project/src/main/webapp/admin/_resource_/_theme_/default/theme_ie11.css
+Hcnc_Team_Project/src/main/webapp/admin/_resource_/_theme_/default/theme_runtime.css
+Hcnc_Team_Project/src/main/webapp/admin/_resource_/_theme_/default/theme_safari.css
