@@ -1,26 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberPointAndCoupon" width="1280" height="720" titletext="New Form" background="lightBlue" onload="Form_MemberPointAndCoupon_onload">
+  <Form id="Form_MemberPointAndCoupon" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_MemberPointAndCoupon_onload">
     <Layouts>
       <Layout height="720" width="1280">
         <Static id="point_search_box" taborder="0" left="20" top="17" width="1240" height="233" background="white" text="" borderRadius="8px"/>
-        <Static id="Static00_00" taborder="1" text="아이디" left="40" top="37" width="52" bottom="656" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Edit id="member_name" taborder="2" left="100" top="33" width="1093" height="35" onchanged="member_name_onchanged" border="1px solid black" borderRadius="8px"/>
-        <Static id="Static00_00_00" taborder="3" text="이름" left="40" top="87" width="52" bottom="606" font="bold 14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Edit id="user_name" taborder="4" left="100" top="85" width="1093" height="35" onchanged="grade_emil_onchanged" border="1px solid black" borderRadius="8px"/>
-        <Static id="Static00_00_00_00" taborder="5" text="전화번호" left="40" top="147" width="52" bottom="546" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static00_00_00_00_onclick"/>
-        <Edit id="phone_number" taborder="6" left="100" top="143" width="1093" height="35" border="1px solid black" borderRadius="8px"/>
-        <Grid id="pointAndCoupon" taborder="7" left="20" top="265" height="431" background="#FFFFFF" border="0px none" borderRadius="10px" right="20" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick">&gt;
-          <Formats><Format id="default"><Columns><Column size="52"/><Column size="194"/><Column size="136"/><Column size="178"/><Column size="132"/><Column size="119"/><Column size="162"/><Column size="123"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="전화번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="포인트 잔액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="포인트 상세" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="사용가능 쿠폰수" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="쿠폰 상세" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:PHONE_NUMBER" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="mask" edittype="mask" maskedittype="string" maskeditformat="###-####-####"/><Cell col="4" edittype="normal" text="bind:POINT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="buttoncontrol" edittype="button" text="상세 포인트 내역" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="6" text="bind:COUPON_CNT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="7" displaytype="buttoncontrol" edittype="button" text="상세 쿠폰 내역" font="12px/normal &quot;LG Smart UI Bold&quot;"/></Band></Format></Formats></Grid>
-        <Button id="select_btn" taborder="8" text="조회하기" left="530" top="197" width="100" height="40" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="select_btn_onclick"/>
-        <Button id="cancel_btn" taborder="9" text="초기화" left="648" top="197" width="92" height="40" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="cancel_btn_onclick"/>
+        <Static id="Static00_00" taborder="1" text="아이디" left="40" top="41" width="52" bottom="652" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Edit id="member_name" taborder="2" left="100" top="33" width="1093" height="42" onchanged="member_name_onchanged" border="1px solid black" borderRadius="8px" onkeyup="member_name_onkeyup"/>
+        <Static id="Static00_00_00" taborder="3" text="이름" left="46" top="97" width="40" bottom="596" font="bold 14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Edit id="user_name" taborder="4" left="100" top="85" width="1093" height="45" onchanged="grade_emil_onchanged" border="1px solid black" borderRadius="8px" onkeyup="user_name_onkeyup"/>
+        <Static id="Static00_00_00_00" taborder="5" text="전화번호" left="34" top="152" width="52" bottom="541" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static00_00_00_00_onclick"/>
+        <Grid id="pointAndCoupon" taborder="6" left="20" top="265" height="431" background="#FFFFFF" border="0px none" borderRadius="10px" right="20" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick">&gt;
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="194"/><Column size="136"/><Column size="178"/><Column size="132"/><Column size="119"/><Column size="162"/><Column size="123"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="전화번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="포인트 잔액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="포인트 상세" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="사용가능 쿠폰수" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="쿠폰 상세" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:PHONE_NUMBER" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="mask" edittype="mask" maskedittype="string" maskeditformat="###-####-####"/><Cell col="4" edittype="normal" text="bind:POINT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="buttoncontrol" edittype="button" text="상세 포인트 내역" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="6" text="bind:COUPON_CNT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="7" displaytype="buttoncontrol" edittype="button" text="상세 쿠폰 내역" font="12px/normal &quot;LG Smart UI Bold&quot;"/></Band></Format></Formats></Grid>
+        <Button id="select_btn" taborder="7" text="조회하기" left="530" top="202" width="100" height="33" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="select_btn_onclick"/>
+        <Button id="cancel_btn" taborder="8" text="초기화" left="648" top="202" width="92" height="33" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="cancel_btn_onclick"/>
+        <MaskEdit id="MaskEdit00" taborder="9" left="100" top="143" width="1090" height="44" border="1px solid black" borderRadius="8px" format="###-####-####" type="string" onkeyup="MaskEdit00_onkeyup"/>
       </Layout>
     </Layouts>
     <Bind>
       <BindItem id="item0" compid="member_name" propid="value" datasetid="ds_search" columnid="MEMBER_ID"/>
       <BindItem id="item1" compid="user_name" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
-      <BindItem id="item2" compid="phone_number" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
       <BindItem id="item3" compid="pointAndCoupon" propid="binddataset" datasetid="ds_user" columnid=""/>
+      <BindItem id="item2" compid="MaskEdit00" propid="value" datasetid="ds_search" columnid="PHONE_NUMBER"/>
     </Bind>
     <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
 this.Form_MemberPointAndCoupon_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
@@ -42,7 +42,6 @@ this.fn_selectPointAndCoupon= function(){
 	
 	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
 }
-
 
 // 공통 콜백
 this.fn_callBack = function(svcID, errorCode, errorMSG){
@@ -90,6 +89,30 @@ this.pointAndCoupon_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickE
 		this.getOwnerFrame().arguments = {"MEMBER_ID" : memberId}
 		
 		this.getOwnerFrame().set_formurl("member::Form_MemberCouponDetail.xfdl");
+	}
+};
+
+//아이디 검색
+this.member_name_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fn_selectPointAndCoupon();
+	}
+};
+
+//이름 검색
+this.user_name_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fn_selectPointAndCoupon();
+	}
+};
+
+//전화번호
+this.MaskEdit00_onkeyup = function(obj:nexacro.MaskEdit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fn_selectPointAndCoupon();
 	}
 };
 ]]></Script>

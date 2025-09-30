@@ -19,29 +19,8 @@ public class ProductService {
     public List<Map<String,Object>> selectProductListByAdmin(Map<String,Object> p) {
         return productMapper.selectProductListByAdmin(p);
     }
-
-    public void insertProduct(Map<String,Object> p) {
-        productMapper.insertProduct(p);
-    }
-
-
-
-    public void insertInventory(Map<String,Object> p) {
-        productMapper.insertInventory(p);
-    }
-
-    public void insertProductImage(Map<String,Object> fileInfo) {
-        productMapper.insertProductImage(fileInfo);
-    }
-
-    public void updateProductImageMapping(Map<String,Object> p) {
-        productMapper.updateProductImageMapping(p);
-    }
-
-    public void setMainImage(Map<String,Object> p) {
-        productMapper.setMainImage(p);
-    }
-
+    
+    // 상품목록 카테고리 콤보
 	public List<Map<String, Object>> selectMainCategoryComboByAdmin() {
 		return productMapper.selectMainCategoryComboByAdmin();
 	}
@@ -54,7 +33,7 @@ public class ProductService {
 	
 	
 	
-	// ---- 카테고리 ----
+	// ----- 카테고리 -----
 	public List<Map<String,Object>> selectMainCategoryByAdmin() {
 	    return productMapper.selectMainCategoryByAdmin();
 	}
@@ -99,6 +78,22 @@ public class ProductService {
 		return productMapper.selectOptionOneByAdmin(optionId);
 	}
 
+	public List<Map<String, Object>> selectProductListOptionByAdmin(Map<String, Object> cond) {
+		return productMapper.selectProductListOptionByAdmin(cond);
+	}
+
+	
+	
+	
+	// ----- 재고 -----
+	
+	public void updateInventory(Map<String, Object> p) {
+		 productMapper.updateInventory(p);
+	}
+
+	public List<Map<String, Object>> selectStockMovementsListByAdmin(Map<String, Object> cond) {
+		return productMapper.selectStockMovementsListByAdmin(cond);
+	}
 
 	
 	

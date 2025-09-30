@@ -135,6 +135,8 @@
         {
         	// controller에 httpsession
         	var args = this.parent.arguments;
+        	console.log(args);
+        	console.log(args.isLogout);
         	if(args.isLogout){
 
         		var glbAd = nexacro.getApplication();

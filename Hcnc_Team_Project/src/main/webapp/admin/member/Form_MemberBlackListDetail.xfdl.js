@@ -11,6 +11,7 @@
         {
             this.set_name("Form_MemberBlackListDetail");
             this.set_titletext("New Form");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(660,530);
