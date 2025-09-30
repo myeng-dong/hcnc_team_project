@@ -49,7 +49,7 @@
             
             // UI Components Initialize
             obj = new Div("search_area","40","0",null,"60","40",null,null,null,null,null,this);
-            obj.set_taborder("1");
+            obj.set_taborder("0");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
             obj.set_text("");
@@ -105,14 +105,14 @@
             obj.set_taborder("6");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Div("Div00","40","100","590","490",null,null,null,null,null,null,this);
-            obj.set_taborder("2");
+            obj = new Div("Div00","40","90","47%",null,null,"50",null,null,null,null,this);
+            obj.set_taborder("1");
             obj.set_text(" ");
             obj.set_background("white");
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new BasicChart("BasicChart00","31","80","509",null,null,"27",null,null,null,null,this.Div00.form);
+            obj = new BasicChart("BasicChart00","0","57",null,null,"0","0",null,null,null,null,this.Div00.form);
             obj.set_taborder("0");
             obj.set_background("white");
             obj.set_borderRadius("10px");
@@ -280,7 +280,7 @@
             obj.set_categorycolumn("bind:CHART_LABEL");
             this.Div00.addChild(obj.name, obj);
 
-            obj = new Div("Div00","0","53","590","35",null,null,null,null,null,null,this.Div00.form);
+            obj = new Div("Div00","0","53","100%","35",null,null,null,null,null,null,this.Div00.form);
             obj.set_taborder("1");
             obj.set_border("1px solid #eeeeee,0px none,0px none");
             this.Div00.addChild(obj.name, obj);
@@ -292,12 +292,12 @@
             obj.set_color("#4b4b4b");
             this.Div00.addChild(obj.name, obj);
 
-            obj = new Div("Div01","30","70","530","397",null,null,null,null,null,null,this.Div00.form);
+            obj = new Div("Div01","0","70",null,null,"0","0",null,null,null,null,this.Div00.form);
             obj.set_taborder("3");
             obj.set_background("white");
             this.Div00.addChild(obj.name, obj);
 
-            obj = new Static("txt_th01_00","191","174","159","16",null,null,null,null,null,null,this.Div00.form.Div01.form);
+            obj = new Static("txt_th01_00","36.22%","48.24%","159","16",null,null,null,null,null,null,this.Div00.form.Div01.form);
             obj.set_taborder("0");
             obj.set_text("조회된 데이터가 없습니다");
             obj.set_font("normal 11pt/normal \"Noto Sans KR\"");
@@ -305,14 +305,14 @@
             obj.set_textAlign("center");
             this.Div00.form.Div01.addChild(obj.name, obj);
 
-            obj = new Div("Div00_00",null,"100","590",null,"40","130",null,null,null,null,this);
-            obj.set_taborder("3");
+            obj = new Div("Div00_00",null,"90","47%",null,"40","50",null,null,null,null,this);
+            obj.set_taborder("2");
             obj.set_text("Div00");
             obj.set_background("white");
             obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
 
-            obj = new Div("Div00","0","53","590","35",null,null,null,null,null,null,this.Div00_00.form);
+            obj = new Div("Div00","0","53","100%","35",null,null,null,null,null,null,this.Div00_00.form);
             obj.set_taborder("1");
             obj.set_border("1px solid #eeeeee,0px none,0px none");
             this.Div00_00.addChild(obj.name, obj);
@@ -338,22 +338,22 @@
             obj.set_color("#4b4b4b");
             this.Div00_00.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list",null,"155","590",null,"40","170",null,null,null,null,this);
-            obj.set_taborder("0");
+            obj = new Grid("grid_list",null,"63","100.00%",null,"0","0",null,null,null,null,this.Div00_00.form);
+            obj.set_taborder("4");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_detailstat");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"107\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/></Columns><Rows><Row size=\"44\" band=\"head\"/><Row size=\"33\"/></Rows><Band id=\"head\"><Cell text=\"주문번호\" background=\"white\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" border=\"0px,0px,1px solid #eeeeee\" color=\"black\"/><Cell col=\"1\" text=\"주문ID\" background=\"white\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" border=\"0px,0px,1px solid #eeeeee\" color=\"black\"/><Cell col=\"2\" text=\"주문자\" background=\"white\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" border=\"0px,0px,1px solid #eeeeee\" color=\"black\"/><Cell col=\"3\" text=\"결제금액\" background=\"white\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" border=\"0px,0px,1px solid #eeeeee\" color=\"black\"/><Cell col=\"4\" text=\"주문일\" background=\"white\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" border=\"0px,0px,1px solid #eeeeee\" color=\"black\"/></Band><Band id=\"body\"><Cell text=\"bind:ORDER_NUMBER\" textAlign=\"center\" border=\"0px\" font=\"normal 10pt/normal &quot;Noto Sans KR Light&quot;\"/><Cell col=\"1\" text=\"bind:MEMBER_ID\" textAlign=\"center\" border=\"0px\" font=\"normal 10pt/normal &quot;Noto Sans KR Light&quot;\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px\" font=\"normal 10pt/normal &quot;Noto Sans KR Light&quot;\"/><Cell col=\"3\" text=\"bind:FINAL_AMOUNT\" textAlign=\"right\" border=\"0px\" font=\"normal 10pt/normal &quot;Noto Sans KR Medium&quot;\"/><Cell col=\"4\" text=\"bind:ORDER_DT\" textAlign=\"center\" border=\"0px\" font=\"normal 10pt/normal &quot;Noto Sans KR Light&quot;\"/></Band></Format></Formats>");
-            this.addChild(obj.name, obj);
+            this.Div00_00.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item0","grid_list","binddataset","ds_user","");
+            obj = new BindItem("item0","Div00_00.form.grid_list","binddataset","ds_user","");
             this.addChild(obj.name, obj);
             obj.bind();
             

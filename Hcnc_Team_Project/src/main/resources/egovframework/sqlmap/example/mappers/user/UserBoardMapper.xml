@@ -6,6 +6,7 @@
 	#게시글 리스트 조회 
           SELECT 
                  POST_ID
+               , BOARD_ID
                , POST_TITLE
                , DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT
             FROM POSTS

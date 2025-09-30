@@ -189,6 +189,13 @@
           <Col id="MENU_ID">06</Col>
           <Col id="MENU_NM">통계</Col>
           <Col id="MENU_LEVEL">0</Col>
+          <Col id="MENU_PATH"></Col>
+        </Row>
+        <Row>
+          <Col id="MENU_ID">0601</Col>
+          <Col id="MENU_NM">주문통계</Col>
+          <Col id="MENU_LEVEL">1</Col>
+          <Col id="MENU_PATH">stat::Form_stat_main.xfdl</Col>
         </Row>
         <Row>
           <Col id="MENU_ID">07</Col>

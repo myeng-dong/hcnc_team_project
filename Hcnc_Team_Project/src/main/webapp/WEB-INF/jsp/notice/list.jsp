@@ -356,14 +356,14 @@
           <div class="breadcrumb">
             <a href="/">홈</a>
             <span>›</span>
-            <strong>전체</strong>
+            <strong>게시판</strong>
           </div>
 
           <!-- 메인 콘텐츠 영역 -->
           <div class="sub-area">
             <!-- 페이지 제목 -->
             <div class="sub-title-area">
-              <h3>[ 전체 ]</h3>
+              <h3>[ 게시판 ]</h3>
             </div>
 
             <!-- 콘텐츠 영역 -->
@@ -497,7 +497,7 @@
             }
             
             $.each(data, function(index, item) {
-              var categoryClass = getCategoryClass(item.POST_TYPE);
+              var categoryClass = getCategoryClass(item.BOARD_ID);
               var detailUrl = contextPath + '/board/detail.do?postId=' + item.POST_ID;
               
               var html = '<div class="noticeItem" data-category="' + categoryClass + '">' +
@@ -514,21 +514,21 @@
               noticeInfo.append(html);
             });
           }
+         
           
-          function getCategoryClass(postType) {
-            if (!postType) return 'general';
-            
-            var categoryMap = {
-              'IMPORTANT': 'important',
-              'PROGRESS': 'progress',
-              'EVENT': 'event',
-              'ENDED': 'ended',
-              'GENERAL': 'general'
-            };
-            
-            return categoryMap[postType.toUpperCase()] || 'general';
-          }
+          function getCategoryClass(boardId) {
+        	    if (!boardId) return 'general';
+        	    
+        	    var categoryMap = {
+        	        '1': 'notice',      // 공지사항
+        	        '2': 'general',     // 일반게시판
+        	        '4': 'question'     // 질문
+        	    };
+        	    
+        	    return categoryMap[String(boardId)] || 'general';
+        	}
           
+          //페이지네이션
           function renderPagination(currentPage, totalPages) {
             var pagination = $('#pagination');
             pagination.empty();

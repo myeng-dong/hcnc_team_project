@@ -76,7 +76,7 @@
 	      LEFT JOIN BOARDS B ON P.BOARD_ID = B.BOARD_ID           -- 보드테이블
 	     WHERE 1=1
 	   	 <if test="BOARD_ID == null or BOARD_ID == '' or BOARD_ID == 'ALL'">    -- 조건1.넥사에서 처음뿌려줄 내용
-		   AND P.BOARD_ID IN (1, 3, 4)
+		   AND P.BOARD_ID IN (1, 3, 4, 6)
 		</if>
 		<if test="BOARD_ID != null and BOARD_ID != '' and BOARD_ID != 'ALL'">   -- 조건2.넥사에서 받을  BOARD_ID
 	       AND P.BOARD_ID = #{BOARD_ID}
@@ -88,7 +88,7 @@
 	
 	
 	<insert id="insertPostByAdmin" parameterType="map">
-		#보드 작성 쿼리
+		#게시글 작성 쿼리
     	INSERT INTO POSTS 
     	  (BOARD_ID, MEMBER_ID, POST_TITLE, POST_CONTENT)
     	VALUES
