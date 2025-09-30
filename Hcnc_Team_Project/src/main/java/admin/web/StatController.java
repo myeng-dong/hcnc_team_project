@@ -32,5 +32,19 @@ public class StatController {
 		return result;
 	}
 	
+	// 통계 상세 조회
+	@RequestMapping(value="selectStatDetailByAdmin.do")
+	public NexacroResult selectStatDetailByAdmin(
+			@ParamDataSet(name="ds_detailsearch", required=false) Map<String, Object> dsDetailSearch) {
+		NexacroResult result = new NexacroResult();
+		
+		List<Map<String, Object>> statDetailList = statservice.selectStatDetailByAdmin(dsDetailSearch);
+		
+		result.addDataSet("ds_detailstat", statDetailList);
+		
+		return result;	
+	}
+	
+	
 	
 }

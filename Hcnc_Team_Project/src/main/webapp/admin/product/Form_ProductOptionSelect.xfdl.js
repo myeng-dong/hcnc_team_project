@@ -125,6 +125,7 @@
         // Regist UI Components Event
         this.on_initEvent = function()
         {
+            this.addEventHandler("onload",this.Form_ProductOptionSelect_onload,this);
             this.btn_ok.addEventHandler("onclick",this.btn_ok_onclick,this);
             this.btn_close.addEventHandler("onclick",this.btn_close_onclick,this);
         };
