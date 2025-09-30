@@ -14,7 +14,7 @@
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/layout.css'/>"/>
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/common.css'/>"/>
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/reset.css'/>"/>
-	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 	<!-- j쿼리를 실행하기 위해 스크립트 선언을 해줘야한다. -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -345,46 +345,70 @@
 
 		/* 탭 네비게이션 */
 		.nav-tabs {
-			border-bottom: 1px solid rgba(220, 6, 48, 0.3);
-			margin-bottom: 30px;
-			background-color: #ffffff;
-			position: sticky;
-			top: 0;
-			z-index: 100;
-			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+			border-bottom: 2px solid #f8f9fa;
+		    margin-bottom: 0;
+		    background-color: #ffffff;
+		    padding: 0 20px;
 		}
 
 		.nav-tabs .nav-link {
-			color: #666;
-			font-weight: 500;
-			padding: 12px 20px;
-			border: 1px solid #e9ecef;
-			border-radius: 4px 4px 0 0;
-			margin-right: 2px;
-			transition: all 0.3s ease;
-			background-color: #ffffff;
+	    	color: #666;
+		    font-weight: 600;
+		    padding: 16px 24px;
+		    border: none; /* 기존 박스 테두리 제거 */
+		    border-radius: 0;
+		    margin-right: 8px;
+		    transition: all 0.3s ease;
+		    background-color: transparent;
+		    position: relative;
+		    font-size: 15px;
+		    letter-spacing: 0.3px;
+		}
+
+		.nav-tabs .nav-link::after {
+		    content: '';
+		    position: absolute;
+		    bottom: -2px;
+		    left: 0;
+		    width: 0;
+		    height: 3px;
+		    background: linear-gradient(135deg, #DC0630 0%, #b8052a 100%);
+		    border-radius: 2px 2px 0 0;
+		    transition: width 0.3s ease;
 		}
 
 		.nav-tabs .nav-link:hover {
 			color: #DC0630;
-			background-color: rgba(220, 6, 48, 0.03);
-			border-color: rgba(220, 6, 48, 0.2);
+		    background-color: rgba(220, 6, 48, 0.05);
+		    border-color: transparent;
+		    border-radius: 8px 8px 0 0;
 		}
 
 		.nav-tabs .nav-link.active {
-			color: #ffffff !important;
-			background-color: #DC0630 !important;
-			border: 1px solid #DC0630 !important;
+			color: #DC0630 !important;
+		    background-color: rgba(220, 6, 48, 0.08) !important;
+		    border-color: transparent !important;
+		    border-radius: 8px 8px 0 0;
+		    font-weight: 700;
+		}
+		
+		.nav-tabs .nav-link.active::after {
+		    width: 100%;
+		}
+		
+		.nav-tabs .nav-link:hover::after {
+		    width: 100%;
 		}
 
 		/* 탭 네비게이션을 포함하는 섹션 */
 		.tab-navigation-section {
 			position: sticky;
-			top: 0;
-			z-index: 100;
-			background-color: #ffffff;
-			padding-top: 10px;
-			margin-bottom: 0;
+		    top: 0;
+		    z-index: 100;
+		    background-color: #ffffff;
+		    margin-bottom: 0;
+		    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+		    border-bottom: 1px solid #f1f3f4;
 		}
 
 		/* 탭 콘텐츠 */
@@ -399,13 +423,14 @@
 
 		/* 카운트 뱃지 */
 		#productReviewCnt, #productQnACnt {
-			background: #DC0630;
-			color: white;
-			padding: 2px 6px;
-			border-radius: 8px;
-			font-size: 11px;
-			margin-left: 6px;
-			font-weight: 500;
+			background: linear-gradient(135deg, #DC0630 0%, #b8052a 100%);
+		    color: white;
+		    padding: 3px 8px;
+		    border-radius: 12px;
+		    font-size: 11px;
+		    margin-left: 8px;
+		    font-weight: 600;
+		    box-shadow: 0 2px 4px rgba(220, 6, 48, 0.3);
 		}
 
 		/* 반응형 */
@@ -504,16 +529,31 @@
 	</style> 
 	
 	<script>
-		// 부트스트랩 네비 메뉴 버튼
-		const triggerTabList = document.querySelectorAll('#myTab button')
+		// 부트스트랩 네비 메뉴 버튼 (즉시 상단 이동 - ㄻ 250925 14:13)
+		const triggerTabList = document.querySelectorAll('#nav-tab button')
 		triggerTabList.forEach(triggerEl => {
 		  const tabTrigger = new bootstrap.Tab(triggerEl)
 	
 		  triggerEl.addEventListener('click', event => {
 		    event.preventDefault();
 		    tabTrigger.show();
+		    
+		    setTimeout(function() {
+	            // 탭 네비게이션 섹션을 화면 맨 위로 스크롤
+	            const tabNavigationSection = document.querySelector('.tab-navigation-section');
+	            if (tabNavigationSection) {
+	                // 탭이 화면 맨 위에 딱 붙도록 스크롤
+	                tabNavigationSection.scrollIntoView({ 
+	                    behavior: 'smooth', 
+	                    block: 'start' 
+	                });
+	            }
+	        }, 100);
 		  })
 		})
+		
+
+
 	</script>
 	
 <!-- 상품 옵션 처리  -->
@@ -834,13 +874,15 @@
 			</div>
 		</div>
     	<div class="inner">
-    		<nav>
-				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
-					<button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
-					<button class="nav-link" id="nav-qna-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
-				</div>
-			</nav>
+    		<div class="tab-navigation-section">
+	    		<nav>
+					<div class="nav nav-tabs" id="nav-tab" role="tablist">
+						<button class="nav-link active" hrer="goDetail" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
+						<button class="nav-link" href="#nav-profile" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
+						<button class="nav-link" href="goQna" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
+					</div>
+				</nav>
+			</div>
 			<div class="tab-content" id="nav-tabContent">
 				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 					<%@ include file="tabs/description.jsp" %>
