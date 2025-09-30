@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="../layout/headerlink.jsp" />
 
 <!DOCTYPE html>
@@ -369,25 +371,19 @@
               <div class="sub-category-area">
                 <ul class="flex f-wrap">
                   <li>
-                    <button type="button" class="active" data-category="all">
-                      전체
-                    </button>
+                    <button type="button" class="active category-btn" data-category="">전체</button>
                   </li>
                   <li>
-                    <button type="button" data-category="progress">
-                      진행중
-                    </button>
+                    <button type="button" class="category-btn" data-category="progress">진행중</button>
                   </li>
                   <li>
-                    <button type="button" data-category="ended">종료</button>
+                    <button type="button" class="category-btn" data-category="ended">종료</button>
                   </li>
                   <li>
-                    <button type="button" data-category="important">
-                      중요
-                    </button>
+                    <button type="button" class="category-btn" data-category="important">중요</button>
                   </li>
                   <li>
-                    <button type="button" data-category="event">이벤트</button>
+                    <button type="button" class="category-btn" data-category="event">이벤트</button>
                   </li>
                 </ul>
               </div>
@@ -405,175 +401,181 @@
                     </ul>
                   </div>
 
-                  <!-- 공지사항 목록 -->
+                  <!-- 공지사항 목록 (AJAX로 동적 로딩) -->
                   <div class="notice-info">
-                    <!-- 공지사항 아이템 1 - 중요공지 -->
-                    <div class="noticeItem" data-category="important">
-                      <a href="/notice/detail/1">
-                        <ul>
-                          <li>1</li>
-                          <li>
-                            2025년 설날 배송 안내 및 고객센터 운영시간 변경
-                          </li>
-                          <li>관리자</li>
-                          <li>2025-01-15</li>
-                        </ul>
-                      </a>
-                    </div>
-
-                    <!-- 공지사항 아이템 2 - 진행중 -->
-                    <div class="noticeItem" data-category="progress">
-                      <a href="/notice/detail/2">
-                        <ul>
-                          <li>2</li>
-                          <li>신제품 런칭 기념 특가 할인 이벤트</li>
-                          <li>이벤트팀</li>
-                          <li>2025-01-10</li>
-                        </ul>
-                      </a>
-                    </div>
-
-                    <!-- 공지사항 아이템 3 - 일반 -->
-                    <div class="noticeItem" data-category="general">
-                      <a href="/notice/detail/3">
-                        <ul>
-                          <li>3</li>
-                          <li>개인정보처리방침 개정 안내</li>
-                          <li>법무팀</li>
-                          <li>2025-01-08</li>
-                        </ul>
-                      </a>
-                    </div>
-
-                    <!-- 공지사항 아이템 4 - 종료 -->
-                    <div class="noticeItem" data-category="ended">
-                      <a href="/notice/detail/4">
-                        <ul>
-                          <li>4</li>
-                          <li>추석 연휴 배송 지연 안내</li>
-                          <li>배송팀</li>
-                          <li>2024-12-15</li>
-                        </ul>
-                      </a>
-                    </div>
-
-                    <!-- 공지사항 아이템 5 - 이벤트 -->
-                    <div class="noticeItem" data-category="event">
-                      <a href="/notice/detail/5">
-                        <ul>
-                          <li>5</li>
-                          <li>신규회원 가입시 10% 할인쿠폰 증정</li>
-                          <li>마케팅팀</li>
-                          <li>2024-12-20</li>
-                        </ul>
-                      </a>
-                    </div>
+                    <!-- 여기에 데이터가 동적으로 로딩됩니다 -->
                   </div>
                 </div>
               </div>
 
               <!-- 페이지네이션 -->
-              <div class="pagination">
-                <a href="#" class="prev" data-page="prev">«</a>
-                <a href="#" class="active" data-page="1">1</a>
-                <a href="#" data-page="2">2</a>
-                <a href="#" data-page="3">3</a>
-                <a href="#" data-page="4">4</a>
-                <a href="#" data-page="5">5</a>
-                <a href="#" class="next" data-page="next">»</a>
+              <div class="pagination" id="pagination">
+                <!-- 페이지네이션이 동적으로 생성됩니다 -->
               </div>
             </div>
           </div>
         </div>
 
-        <script>
-          // 카테고리 필터 기능
-          document.addEventListener("DOMContentLoaded", function () {
-            const categoryButtons = document.querySelectorAll(
-              ".sub-category-area button"
-            );
-            const noticeItems = document.querySelectorAll(".noticeItem");
-            const noticeInfo = document.querySelector(".notice-info");
-
+        <script type="text/javascript">
+          var currentPage = 1;
+          var currentCategory = '';
+          var contextPath = '${pageContext.request.contextPath}';
+          
+          $(document).ready(function() {
+            console.log('페이지 로드 시작');
+            console.log('Context Path:', contextPath);
+            
+            // 초기 데이터 로드
+            loadNoticeList(1, '');
+            
             // 카테고리 버튼 클릭 이벤트
-            categoryButtons.forEach((button) => {
-              button.addEventListener("click", function () {
-                const selectedCategory = this.dataset.category;
-
-                // 활성 버튼 변경
-                categoryButtons.forEach((btn) =>
-                  btn.classList.remove("active")
-                );
-                this.classList.add("active");
-
-                // 필터링
-                filterNotices(selectedCategory);
-              });
-            });
-
-            // 공지사항 필터링 함수
-            function filterNotices(category) {
-              let visibleCount = 0;
-
-              noticeItems.forEach((item) => {
-                if (category === "all" || item.dataset.category === category) {
-                  item.style.display = "block";
-                  visibleCount++;
-                } else {
-                  item.style.display = "none";
-                }
-              });
-
-              // 검색 결과가 없을 때
-              if (visibleCount === 0) {
-                showEmptyState();
-              } else {
-                hideEmptyState();
-              }
-            }
-
-            // 빈 상태 표시
-            function showEmptyState() {
-              const existingEmpty = noticeInfo.querySelector(".empty-state");
-              if (!existingEmpty) {
-                const emptyDiv = document.createElement("div");
-                emptyDiv.className = "empty-state";
-                emptyDiv.innerHTML = `
-                        <div class="icon">📋</div>
-                        <div class="message">해당 카테고리에 공지사항이 없습니다.</div>
-                    `;
-                noticeInfo.appendChild(emptyDiv);
-              }
-            }
-
-            // 빈 상태 숨기기
-            function hideEmptyState() {
-              const emptyState = noticeInfo.querySelector(".empty-state");
-              if (emptyState) {
-                emptyState.remove();
-              }
-            }
-
-            // 페이지네이션 클릭 이벤트
-            const paginationLinks = document.querySelectorAll(".pagination a");
-            paginationLinks.forEach((link) => {
-              link.addEventListener("click", function (e) {
-                e.preventDefault();
-
-                // 활성 페이지 변경
-                if (
-                  !this.classList.contains("prev") &&
-                  !this.classList.contains("next")
-                ) {
-                  paginationLinks.forEach((l) => l.classList.remove("active"));
-                  this.classList.add("active");
-                }
-
-                // 여기서 AJAX 호출 또는 페이지 이동 로직 추가
-                console.log("페이지 변경:", this.dataset.page);
-              });
+            $('.category-btn').on('click', function() {
+              var category = $(this).data('category');
+              console.log('카테고리 클릭:', category);
+              
+              // 활성 버튼 변경
+              $('.category-btn').removeClass('active');
+              $(this).addClass('active');
+              
+              // 데이터 로드
+              currentCategory = category;
+              loadNoticeList(1, category);
             });
           });
+          
+          function loadNoticeList(pageIndex, category) {
+            var url = contextPath + '/board/noticeListData.do';
+            console.log('AJAX 요청 URL:', url);
+            console.log('페이지:', pageIndex, '카테고리:', category);
+            
+            $.ajax({
+              url: url,
+              type: 'GET',
+              data: {
+                pageIndex: pageIndex || 1,
+                pageSize: 10,
+                category: category || '',
+                searchKeyword: ''
+              },
+              dataType: 'json',
+              success: function(response) {
+                console.log('응답 성공:', response);
+                if (response.success) {
+                  currentPage = pageIndex;
+                  renderNoticeList(response.resultList);
+                  renderPagination(response.pageIndex, response.totalPages);
+                } else {
+                  alert(response.message || '데이터를 불러오는데 실패했습니다.');
+                }
+              },
+              error: function(xhr, status, error) {
+                console.error('AJAX 에러');
+                console.error('상태:', status);
+                console.error('에러:', error);
+                console.error('응답 상태코드:', xhr.status);
+                console.error('응답 텍스트:', xhr.responseText);
+                
+                if (xhr.status === 404) {
+                  alert('요청한 페이지를 찾을 수 없습니다. URL을 확인해주세요.');
+                } else {
+                  alert('데이터를 불러오는 중 오류가 발생했습니다.');
+                }
+              }
+            });
+          }
+
+          function renderNoticeList(data) {
+            var noticeInfo = $('.notice-info');
+            noticeInfo.empty();
+            
+            if (!data || data.length === 0) {
+              noticeInfo.append(
+                '<div class="empty-state">' +
+                '<div class="icon">📋</div>' +
+                '<div class="message">등록된 공지사항이 없습니다.</div>' +
+                '</div>'
+              );
+              return;
+            }
+            
+            $.each(data, function(index, item) {
+              var categoryClass = getCategoryClass(item.POST_TYPE);
+              var detailUrl = contextPath + '/board/noticeListData.do?postId=' + item.POST_ID;
+              
+              var html = '<div class="noticeItem" data-category="' + categoryClass + '">' +
+                         '<a href="' + detailUrl + '">' +
+                         '<ul>' +
+                         '<li>' + item.POST_ID + '</li>' +
+                         '<li>' + (item.POST_TITLE || '') + '</li>' +
+                         '<li>' + (item.MEMBER_NAME || '관리자') + '</li>' +
+                         '<li>' + (item.INPUT_DT || '') + '</li>' +
+                         '</ul>' +
+                         '</a>' +
+                         '</div>';
+              
+              noticeInfo.append(html);
+            });
+          }
+          
+          function getCategoryClass(postType) {
+            if (!postType) return 'general';
+            
+            var categoryMap = {
+              'IMPORTANT': 'important',
+              'PROGRESS': 'progress',
+              'EVENT': 'event',
+              'ENDED': 'ended',
+              'GENERAL': 'general'
+            };
+            
+            return categoryMap[postType.toUpperCase()] || 'general';
+          }
+          
+          function renderPagination(currentPage, totalPages) {
+            var pagination = $('#pagination');
+            pagination.empty();
+            
+            if (totalPages <= 0) return;
+            
+            var html = '';
+            
+            // 이전 버튼
+            if (currentPage > 1) {
+              html += '<a href="#" class="prev" data-page="' + (currentPage - 1) + '">«</a>';
+            }
+            
+            // 페이지 번호 (최대 5개 표시)
+            var startPage = Math.max(1, currentPage - 2);
+            var endPage = Math.min(totalPages, startPage + 4);
+            
+            if (endPage - startPage < 4) {
+              startPage = Math.max(1, endPage - 4);
+            }
+            
+            for (var i = startPage; i <= endPage; i++) {
+              if (i === currentPage) {
+                html += '<a href="#" class="active" data-page="' + i + '">' + i + '</a>';
+              } else {
+                html += '<a href="#" data-page="' + i + '">' + i + '</a>';
+              }
+            }
+            
+            // 다음 버튼
+            if (currentPage < totalPages) {
+              html += '<a href="#" class="next" data-page="' + (currentPage + 1) + '">»</a>';
+            }
+            
+            pagination.html(html);
+            
+            // 페이지 클릭 이벤트
+            pagination.find('a').on('click', function(e) {
+              e.preventDefault();
+              var page = parseInt($(this).data('page'));
+              if (page && page !== currentPage) {
+                loadNoticeList(page, currentCategory);
+              }
+            });
+          }
         </script>
       </div>
       <jsp:include page="../layout/footer.jsp" />

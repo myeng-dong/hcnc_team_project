@@ -3,14 +3,14 @@
   <Form id="Form_ProductOption" width="1280" height="800" titletext="상품관리" background="#eff7ff" onload="Form_ProductOption_onload">
     <Layouts>
       <Layout width="1280" height="800" stepcount="0">
-        <Div id="Div00_00" taborder="0" text="" left="24" top="84" height="76" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
+        <Div id="Div00_00" taborder="0" text="" top="35" height="76" background="#ffffff" borderRadius="10px 10px 10px 10px" left="27" width="1230">
           <Layouts>
             <Layout>
-              <Edit id="edt_search" taborder="0" left="315" top="21" width="331" height="35"/>
+              <Edit id="edt_search" taborder="0" top="21" height="35" left="311" right="588"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="1" left="24" top="200" height="570" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_opList" onheadclick="grid_list_onheadclick" oncelldblclick="grid_list_oncelldblclick">
+        <Grid id="grid_list" taborder="1" top="151" height="550" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_out_opList" onheadclick="grid_list_onheadclick" oncelldblclick="grid_list_oncelldblclick" left="27" width="1230" font="bold 10pt/normal &quot;맑은 고딕&quot;">
           <Formats>
             <Format id="default">
               <Columns>
@@ -19,7 +19,7 @@
                 <Column size="100"/>
                 <Column size="151"/>
                 <Column size="151"/>
-                <Column size="151"/>
+                <Column size="225"/>
                 <Column size="151"/>
                 <Column size="69"/>
                 <Column size="223"/>
@@ -51,21 +51,21 @@
                 <Cell col="5" edittype="none" background="#ffffff" text="bind:PRODUCT_NAME" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
                 <Cell col="6" edittype="none" background="#ffffff" text="bind:ADDITIONAL_PRICE" font="12px/normal &quot;Gulim&quot;"/>
                 <Cell col="7" edittype="none" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
-                <Cell col="8" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;"/>
+                <Cell col="8" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;" displaytype="date"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Static id="stc_total_prefix" text="총 [ " left="168" top="221" height="20" width="20"/>
-        <Static id="stc_total_value" text="" left="200" top="221" textDecoration="underline" height="20" width="20"/>
-        <Static id="stc_total_suffix" text=" ]건" left="222" top="221" height="20" width="20"/>
-        <Button id="btn_show" text="선택 진열" left="810" top="221" width="92" height="35" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_show_onclick"/>
-        <Button id="btn_hide" text="진열 취소" left="920" top="221" width="92" height="35" color="#FFFFFF" background="#18b391" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" onclick="btn_hide_onclick"/>
-        <Button id="btn_reg" text="옵션등록" left="1060" top="221" width="120" height="35" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="0" onclick="btn_reg_onclick" cursor="pointer"/>
-        <Static id="sta_listTitle" text="옵션 목록" left="50" height="61" top="201" font="bold 13pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="80" taborder="1" color="#232323"/>
-        <Static id="sta_prodType" text="옵션검색" left="40" height="40" top="102" onclick="sta_prodType_onclick" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" taborder="4" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" width="140"/>
-        <Button id="btn_view" text="조회" left="690" top="105" width="72" height="34" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;Arial&quot;" border="1px solid #CCCCCC" taborder="5" cursor="pointer" onclick="btn_view_onclick"/>
-        <Combo id="cmb_searchType" left="179" top="105" width="150" height="35" text="상품명" taborder="6" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME">
+        <Static id="stc_total_prefix" text="총 [ " top="172" height="20" left="168" width="29" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
+        <Static id="stc_total_value" text="" top="172" textDecoration="underline" height="20" left="197" width="20" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
+        <Static id="stc_total_suffix" text=" ]건" top="172" height="20" left="212" width="36" font="bold 10pt/normal &quot;맑은 고딕&quot;"/>
+        <Button id="btn_show" text="선택 진열" top="172" height="30" color="#FFFFFF" background="#f09d37" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="btn_show_onclick" width="92" left="806"/>
+        <Button id="btn_hide" text="진열 취소" top="172" height="30" color="#FFFFFF" background="#ce5525" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="btn_hide_onclick" width="92" left="928"/>
+        <Button id="btn_reg" text="옵션등록" top="172" height="30" color="#FFFFFF" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" taborder="0" onclick="btn_reg_onclick" cursor="pointer" width="120" left="1078"/>
+        <Static id="sta_listTitle" text="옵션 목록" height="61" top="152" font="bold 14pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="1" color="#232323" left="42" width="86"/>
+        <Static id="sta_prodType" text="옵션검색" height="40" top="53" onclick="sta_prodType_onclick" font="bold 16px/normal &quot;맑은 고딕&quot;" padding="0px 0px 0px 10px" taborder="4" background="transparent" borderRadius="10px 0px 0px 10px" color="#333333" left="40" width="90"/>
+        <Button id="btn_view" text="조회" top="56" height="30" color="#ffffff" background="#102b6e" borderRadius="6px" font="bold 11pt/normal &quot;맑은 고딕&quot;" taborder="5" cursor="pointer" onclick="btn_view_onclick" width="72" left="702"/>
+        <Combo id="cmb_searchType" top="56" height="35" text="상품명" taborder="6" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" index="1" value="PRODUCT_NAME" width="150" left="157">
           <Dataset id="innerdataset">
             <ColumnInfo>
               <Column id="codecolumn" size="256"/>
@@ -91,7 +91,7 @@
             </Rows>
           </Dataset>
         </Combo>
-        <Static id="sta_listTitle00" text="옵션 더블클릭시 수정가능" left="413" height="61" top="201" font="11pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" width="215" taborder="12" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom"/>
+        <Static id="sta_listTitle00" text="옵션 더블클릭시 수정가능" height="61" top="152" font="bold 11pt/normal &quot;맑은 고딕&quot;" onclick="sta_listTitle_onclick" taborder="12" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" left="498" width="215"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -134,17 +134,17 @@ include "common::common.xjs";
 
 this.Form_ProductOption_onload = function(obj,e)
 {
-
+	
     var oArgs = this.getOwnerFrame().arguments;
 	
     if (oArgs && oArgs.REFRESH == "Y") {
-			this.fn_search();
-			return;
-		}
-
+		this.fn_search();
+		return;
+	}
+	
 	this.fn_search();
 }
-	
+
 
 
 
@@ -189,13 +189,13 @@ this.fn_search = function() {
     // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
 	
 	this.gfn_transction(
-    "selectOptionByAdmin",
-    "selectOptionByAdmin.do?time=" + new Date().getTime(), // 캐시 방지용 파라미터 추가
-    "ds_searchCond=ds_searchCond",
-    "ds_out_opList=ds_out_opList",
-    ""
+		"selectOptionByAdmin",
+		"selectOptionByAdmin.do?time=" + new Date().getTime(), // 캐시 방지용 파라미터 추가
+		"ds_searchCond=ds_searchCond",
+		"ds_out_opList=ds_out_opList",
+		""
 	);
-
+	
 };
 
 
@@ -211,7 +211,7 @@ this.fn_callback = function(strSvcID, nErrorCode, strErrorMsg){
 	
     switch(strSvcID){
 	case "selectOptionByAdmin":
-	
+		
 		var ea = this.ds_out_opList.getRowCount();
 		
 		this.stc_total_value.set_text(ea);
@@ -242,7 +242,7 @@ this.btn_reg_onclick = function(obj,e)
 this.btn_toggle_onclick = function(obj, e)
 {
     var selRows = [];
-
+	
     for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
         if (this.ds_out_opList.getColumn(i, "chk") == 1) {
             var optionId   = this.ds_out_opList.getColumn(i, "OPTION_ID");
@@ -250,29 +250,29 @@ this.btn_toggle_onclick = function(obj, e)
             selRows.push({ OPTION_ID: optionId, IS_VISIBLE: isVisible });
         }
     }
-
+	
     if (selRows.length == 0) {
         this.alert("변경할 옵션을 선택하세요.");
         return;
     }
-
+	
     if (!this.confirm("총 " + selRows.length + "건의 옵션 진열상태를 변경하시겠습니까?")) {
         return;
     }
-
+	
     // 기존 ds_in Dataset 초기화
     this.ds_in.clearData();
-
+	
     // 선택된 행만 채우기
     for (var j=0; j<selRows.length; j++) {
         var row = this.ds_in.addRow();
         this.ds_in.setColumn(row, "OPTION_ID", selRows[j].OPTION_ID);
-
+		
         // 상태 반전 (Y → N, N → Y)
         var newState = (selRows[j].IS_VISIBLE == "Y" ? "N" : "Y");
         this.ds_in.setColumn(row, "IS_VISIBLE", newState);
     }
-
+	
     //  transaction 호출 (이제 ds_in은 Form에 있으므로 정상 동작)
     this.transaction(
         "updateOptionVisibleByAdmin",
@@ -302,39 +302,39 @@ this._getSelectedOptionIds = function() {
 
 
 /**
- * 옵션 진열상태 변경 공통 함수
- * @param {string} newState - "Y" = 진열, "N" = 숨김
- */
+* 옵션 진열상태 변경 공통 함수
+* @param {string} newState - "Y" = 진열, "N" = 숨김
+*/
 this.fn_updateVisible = function(newState)
 {
     var selRows = [];
-
+	
     // 1) 체크박스 선택된 행 수집
     for (var i=0; i<this.ds_out_opList.getRowCount(); i++) {
         if (this.ds_out_opList.getColumn(i, "chk") == 1) {
             selRows.push(this.ds_out_opList.getColumn(i, "OPTION_ID"));
         }
     }
-
+	
     // 2) 유효성 검사
     if (selRows.length == 0) {
         this.alert((newState == "Y" ? "진열" : "숨김") + "할 옵션을 선택하세요.");
         return;
     }
-
+	
     if (!this.confirm("총 " + selRows.length + "건을 " + (newState == "Y" ? "진열" : "숨김") + " 상태로 변경하시겠습니까?")) {
         return;
     }
-
+	
     // 3) ds_in Dataset 채우기
     this.ds_in.clearData();
-
+	
     for (var j=0; j<selRows.length; j++) {
         var row = this.ds_in.addRow();
         this.ds_in.setColumn(row, "OPTION_ID", selRows[j]);
         this.ds_in.setColumn(row, "IS_VISIBLE", newState);
     }
-
+	
     // 4) 트랜잭션 호출
     this.transaction(
         "updateOptionVisibleByAdmin",
@@ -396,8 +396,8 @@ this.grid_list_onheadclick = function(obj, e)
 
 
 /***************************************************
- * 옵션목록 더블클릭 → 등록/수정 폼으로 이동
- ***************************************************/
+* 옵션목록 더블클릭 → 등록/수정 폼으로 이동
+***************************************************/
 this.grid_list_oncelldblclick = function(obj,e)
 {
     // 선택된 행 데이터 가져오기
@@ -408,26 +408,26 @@ this.grid_list_oncelldblclick = function(obj,e)
     var optionName = this.ds_out_opList.getColumn(nRow, "OPTION_NAME");
     var optionVal  = this.ds_out_opList.getColumn(nRow, "OPTION_VALUE");
     var addPrice   = this.ds_out_opList.getColumn(nRow, "ADDITIONAL_PRICE");
-
+	
     // 확인 메시지
     if (this.confirm("해당 옵션 정보를 수정하시겠습니까?")) {
-       this.fn_openOptionForm("UPDATE", {
-			"OPTION_ID"        : optionId,
-            "OPTION_NAME"      : optionName,
-            "OPTION_VALUE"     : optionVal,
-            "ADDITIONAL_PRICE" : addPrice
-	   
+		this.fn_openOptionForm("UPDATE", {
+				"OPTION_ID"        : optionId,
+				"OPTION_NAME"      : optionName,
+				"OPTION_VALUE"     : optionVal,
+				"ADDITIONAL_PRICE" : addPrice
+				
 			});
-		}
+	}
 };
 
 
 
 /**
- * 옵션 등록/수정 폼 열기
- * @param {string} mode - "INSERT" or "UPDATE"
- * @param {object} args - 옵션 데이터 (수정일 경우)
- */
+* 옵션 등록/수정 폼 열기
+* @param {string} mode - "INSERT" or "UPDATE"
+* @param {object} args - 옵션 데이터 (수정일 경우)
+*/
 this.fn_openOptionForm = function(mode, args)
 {
     var app = nexacro.getApplication();
@@ -436,7 +436,7 @@ this.fn_openOptionForm = function(mode, args)
 	
 	// 이전 arguments 지우고 새로 세팅
 	workFrame.arguments = null;
-
+	
     // 전달값 만들기 // Object Merge 동작 args객체에 들어있는 모든 key-value 쌍 하나씩 꺼내서 oArgs에 복사
     var oArgs = { MODE: mode };
     if (args) {
@@ -444,12 +444,12 @@ this.fn_openOptionForm = function(mode, args)
             oArgs[k] = args[k];
         }
     }
-
+	
     trace("fn_openOptionForm 전달 >>> " + JSON.stringify(oArgs));
-
+	
     // arguments 세팅
     workFrame.arguments = oArgs;
-
+	
     // 등록/수정 화면 열기
     workFrame.set_formurl("product::Form_ProductOptionReg.xfdl");
 };
