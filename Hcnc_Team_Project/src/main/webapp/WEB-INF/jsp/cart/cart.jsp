@@ -640,9 +640,33 @@
             });
         }
         
-        // 주문하기 버튼
+
+        
+        // 주문 번호 생성
+        var orderCounter = 0;
+        
+        function generateUniqueOrderNumber(){
+        	orderCounter++;
+        	var timestamp = new Date().getTime().toString().slice(-10); //뒤 10자리
+        	var counter = ('0000' + orderCounter).slice(-4); //4자리 카운터
+        	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        	var randomPart = '';
+        	
+        	// 남은 6자리를 랜덤으로 채움
+        	for(var i = 0; i < 6; i++){
+        		var randomIndex = Math.floor(Math.random() * chars.length);
+        		randomPart += chars.charAt(randomIndex);
+        	}
+        	
+        	return timestamp + counter + randomPart; //총 20자
+        }
+        
+     	// 주문하기 버튼
         function orderRequest(){
-        	window.location.href="orderView.do?cartId="+cartId;
+        	var orderNumber = generateUniqueOrderNumber();
+        	
+        	window.location.href="orderView.do?cartId="+ cartId + "&orderNum=" + orderNumber;
+
         }
     </script>
 

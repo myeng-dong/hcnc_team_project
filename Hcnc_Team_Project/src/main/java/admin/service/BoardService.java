@@ -45,6 +45,29 @@ public class BoardService {
 	public void updatePostByAdmin(Map<String, Object> dsUpdate) {
 		boardMapper.updatePostByAdmin(dsUpdate);
 	}
+
+	public List<Map<String, Object>> selectReportTypeByAdmin() {
+		return boardMapper.selectReportTypeByAdmin();
+	}
+
+	public List<Map<String, Object>> selectReportByAdmin(Map<String, Object> dsSearch) {
+		// TODO Auto-generated method stub
+		return boardMapper.selectReportByAdmin(dsSearch);
+	}
+
+	public void updateReportByAdmin(Map<String, Object> row) {
+		boardMapper.updateReportByAdmin(row);
+	}
+
+	public List<Map<String, Object>> selectcommentReportByAdmin(Map<String, Object> dsSearch) {
+		
+		return boardMapper.selectcommentReportByAdmin(dsSearch);
+	}
+
+	public List<Map<String, Object>> selectReviewReportByAdmin(Map<String, Object> dsSearch) {
+		
+		return boardMapper.selectReviewReportByAdmin(dsSearch);
+	}
 	
 	
 }

@@ -144,10 +144,9 @@
         //온로드시 조회
         this.Form_Board_Qna_onload = function(obj,e)
         {
-        	this.fnselectOneOnOneByAdmin();                        // 1대1 게시판 조회 트랜젝션
-        	var today = this.gfnGetToday();                        // 오늘 날짜를 받아옴
-            this.ds_search.setColumn(0, "START_DATE", today);      // ds_search에
-            this.Calendar00_01.set_value(today);  // 캘린더도 오늘날짜로
+        	this.fnselectOneOnOneByAdmin(); // 1대1 게시판 조회 트랜젝션
+
+
         };
 
         //엔터키 눌렀을때

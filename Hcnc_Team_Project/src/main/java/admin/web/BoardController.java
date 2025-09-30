@@ -117,6 +117,7 @@ public class BoardController {
 	    return result;
 	}
 	
+	//게시글 상세 조회
 	@RequestMapping(value="/selectPostDetailByAdmin.do")
 	public NexacroResult selectPostDetailByAdmin(
 			@ParamDataSet(name="ds_postId", required = false) Map<String,Object> dsPostId) {
@@ -135,6 +136,8 @@ public class BoardController {
 		return result;
 	}
 
+	
+    // 게시글 수정
 	@RequestMapping(value="/updatePostByAdmin.do")
 	public NexacroResult updatePostByAdmin(
 			@ParamDataSet(name="ds_update", required = false) Map<String,Object> dsUpdate) {
@@ -167,7 +170,89 @@ public class BoardController {
 		return result;
 	}
 	
+	// 신고리스트 조회
+	@RequestMapping(value="/selectReportByAdmin.do")
+	public NexacroResult selectReportByAdmin(
+			@ParamDataSet(name="ds_search", required = false) Map<String,Object> dsSearch) {
+		
+		NexacroResult result = new NexacroResult();
+		 try {  
+			    //신고 리스트
+			 	List<Map<String, Object>> reportList = boardService.selectReportByAdmin(dsSearch);
+				result.addDataSet("ds_list", reportList);
+				
+				//신고 유형을 담을 데이터셋
+				List<Map<String, Object>> reportStatusList = boardService.selectReportTypeByAdmin();
+		        result.addDataSet("ds_reportType", reportStatusList);
+		        
+		 }catch (Exception e) {
+		        result.setErrorCode(-1);
+		        result.setErrorMsg("게시글 조회 중 오류가 발생했습니다: " + e.getMessage());
+		        e.printStackTrace();
+		 }
+		return result;
+	}
 	
+	// 신고 상태 업데이트
+	@RequestMapping(value="/updateReportByAdmin.do")
+	public NexacroResult updateReportByAdmin(
+			@ParamDataSet(name="ds_selected", required = false) List<Map<String,Object>> dsSelected) {
+		
+		NexacroResult result = new NexacroResult();
+		 try {          	 
+	        	 if(dsSelected != null) {
+	        		 for(Map<String, Object> row : dsSelected) {
+	        			 Object reportId = row.get("REPORT_ID");
+	        			 if(reportId == null) {
+	        				 System.out.println("리포트아이디가 없습니다.");
+	        			 }else {
+	        				 boardService.updateReportByAdmin(row);
+	        			 }
+	        		 }
+	        	 }      
+		 }catch (Exception e) {
+		        result.setErrorCode(-1);
+		        result.setErrorMsg("게시글 수정 중에 오류가 발생하였습니다.: " + e.getMessage());
+		        e.printStackTrace();
+		 }
+		return result;
+	}
+	
+	// 신고 댓글 및 신고 리뷰 상세조회
+	@RequestMapping(value="/selectReviewCommentByAdmin.do")
+	public NexacroResult selectReviewCommentByAdmin(
+			@ParamDataSet(name="ds_search", required = false) Map<String,Object> dsSearch) {
+		
+		NexacroResult result = new NexacroResult();
+		
+		if(dsSearch.get("REVIEW_ID") != null ) {
+		    List<Map<String, Object>> reviewList = boardService.selectReviewReportByAdmin(dsSearch);
+		    result.addDataSet("ds_board", reviewList);
+		}
+		if(dsSearch.get("COMMENT_ID") != null ) {
+
+			List<Map<String, Object>> commentList = boardService.selectcommentReportByAdmin(dsSearch);
+			result.addDataSet("ds_board", commentList);
+			
+		}
+		
+		
+		 try {  
+			    //신고 리스트
+			 	List<Map<String, Object>> reportList = boardService.selectReportByAdmin(dsSearch);
+				result.addDataSet("ds_list", reportList);
+				
+				//신고 유형을 담을 데이터셋
+				List<Map<String, Object>> reportStatusList = boardService.selectReportTypeByAdmin();
+		        result.addDataSet("ds_reportType", reportStatusList);
+		        
+		 }catch (Exception e) {
+		        result.setErrorCode(-1);
+		        result.setErrorMsg("게시글 조회 중 오류가 발생했습니다: " + e.getMessage());
+		        e.printStackTrace();
+		 }
+		return result;
+	}
 	
 
 }

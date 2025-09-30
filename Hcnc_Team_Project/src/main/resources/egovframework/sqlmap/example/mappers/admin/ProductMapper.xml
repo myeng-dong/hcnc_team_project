@@ -276,18 +276,18 @@
 	<!-- 옵션 관리 -->
 	<!-- 옵션 조회,검색 -->
 	<select id="selectOptionByAdmin" parameterType="java.util.Map"
-		resultType="java.util.Map">
+		resultType="java.util.Map" flushCache="true">
 		SELECT
-		o.OPTION_ID,
-		o.OPTION_NAME,
-		o.OPTION_VALUE,
-		p.PRODUCT_NAME,
-		o.ADDITIONAL_PRICE,
-		o.IS_VISIBLE,
-		o.INPUT_DT
-		FROM OPTIONS o
-		JOIN PRODUCTS p ON o.PRODUCT_ID = p.PRODUCT_ID
-		WHERE 1=1
+				o.OPTION_ID,
+				o.OPTION_NAME,
+				o.OPTION_VALUE,
+				p.PRODUCT_NAME,
+				o.ADDITIONAL_PRICE,
+				o.IS_VISIBLE,
+				o.INPUT_DT
+		  FROM OPTIONS o
+		  LEFT JOIN PRODUCTS p ON o.PRODUCT_ID = p.PRODUCT_ID
+		 WHERE 1=1
 		<!-- 검색어 처리 -->
 		<if
 			test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
@@ -319,7 +319,7 @@
 	</update>
 
 	<!-- 옵션 단건 조회 -->
-	<select id="selectOptionOneByAdmin" parameterType="long" resultType="map">
+	<select id="selectOptionOneByAdmin" parameterType="long" resultType="map" flushCache="true" >
     SELECT OPTION_ID
          , OPTION_NAME
          , OPTION_VALUE
@@ -331,16 +331,16 @@
          , UPDATE_DT
       FROM OPTIONS
      WHERE OPTION_ID = #{OPTION_ID}
-</select>
+	</select>
 
 
 
-		<!-- 옵션 등록 -->
+	<!-- 옵션 등록 -->
 	<insert id="insertOption" parameterType="java.util.Map">
 		INSERT INTO OPTIONS
-			(OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
+			(PRODUCT_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE, INPUT_DT, INPUT_ID)
 		VALUES
-			(#{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID})
+			(#{PRODUCT_ID}, #{OPTION_NAME}, #{OPTION_VALUE}, #{ADDITIONAL_PRICE}, NOW(), #{INPUT_ID})
 	</insert>
 
 
@@ -349,7 +349,8 @@
 	<!-- 옵션 수정 -->
 	<update id="updateOption" parameterType="java.util.Map">
 		UPDATE OPTIONS
-		   SET OPTION_NAME = #{OPTION_NAME}
+		   SET PRODUCT_ID = #{PRODUCT_ID}
+		   	  ,OPTION_NAME = #{OPTION_NAME}
 			  ,OPTION_VALUE = #{OPTION_VALUE}
 			  ,ADDITIONAL_PRICE = #{ADDITIONAL_PRICE}
 			  ,UPDATE_DT = NOW()

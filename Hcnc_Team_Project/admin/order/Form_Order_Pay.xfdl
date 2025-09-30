@@ -15,8 +15,8 @@
               <Static id="stc_name00" taborder="5" text="연락처" left="988" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
               <Edit id="Edit00_00" taborder="6" top="13" width="115" height="30" borderRadius="5px" right="45" onchanged="search_area_Edit00_00_onchanged" onkeyup="search_area_Edit00_00_onkeyup"/>
               <Button id="Button00_00" taborder="7" text="⌕" top="13" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_00_onclick" border="0px none" width="30" right="30" cursor="pointer"/>
-              <Static id="stc_ship00" taborder="8" text="결제 방법" left="375" top="8" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Radio id="rad_payMeth" taborder="9" left="455" top="5" width="167" height="45" innerdataset="ds_payMethod" codecolumn="NAME" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" index="0" text="전체" value="전체" onitemchanged="search_area_rad_payMeth_onitemchanged"/>
+              <Static id="stc_ship00" taborder="8" text="결제 방법" left="415" top="8" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Radio id="rad_payMeth" taborder="9" left="495" top="5" width="167" height="45" innerdataset="ds_payMethod" codecolumn="NAME" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" index="0" text="전체" value="전체" onitemchanged="search_area_rad_payMeth_onitemchanged"/>
             </Layout>
           </Layouts>
         </Div>
