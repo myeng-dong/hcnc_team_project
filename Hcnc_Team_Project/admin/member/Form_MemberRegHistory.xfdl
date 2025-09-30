@@ -18,8 +18,8 @@
         <Calendar id="Calendar00" taborder="11" left="900" top="40" width="160" height="30" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
         <Static id="Static00_02" taborder="12" text="~" left="1070" top="43" width="20" height="22" font="bold 14px/normal &quot;Gulim&quot;"/>
         <Calendar id="Calendar01" taborder="13" left="1090" top="40" width="160" height="30" border="1px solid black" borderRadius="8px" onchanged="Calendar01_onchanged"/>
-        <Button id="search_btn" taborder="14" text="검색하기" left="875" top="100" width="135" height="40" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="search_btn_onclick"/>
-        <Button id="reset_btn" taborder="15" text="초기화" left="1045" top="100" width="135" height="40" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="reset_btn_onclick"/>
+        <Button id="search_btn" taborder="14" text="검색하기" left="855" top="92" width="135" height="36" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="search_btn_onclick"/>
+        <Button id="reset_btn" taborder="15" text="초기화" left="1010" top="92" width="135" height="36" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="reset_btn_onclick"/>
         <PieChart id="LoginStats" taborder="16" left="28" top="180" width="472" height="514" binddataset="ds_stats" categorycolumn="bind:LOGIN_TYPE" onseriesclick="LoginStats_onseriesclick">
           <Contents><![CDATA[{
 	"title": {
@@ -249,7 +249,7 @@ this.LoginStats_onseriesclick = function(obj:nexacro.PieChart,e:nexacro.ChartCli
         <Rows>
           <Row>
             <Col id="NAME">전체</Col>
-            <Col id="LOGIN_TYPE"></Col>
+            <Col id="LOGIN_TYPE"/>
           </Row>
           <Row>
             <Col id="NAME">홈페이지</Col>

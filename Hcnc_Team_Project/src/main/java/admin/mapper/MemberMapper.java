@@ -96,9 +96,8 @@ public interface MemberMapper {
 	//회원 탈퇴 이력 조회
 	List<Map<String, Object>> selectWithdrawMemberListByAdmin(Map<String, Object> param);
 	
+	//월별 회원 탈퇴 통계
+	List<Map<String, Object>> selectMemberWithdrawCntByAdmin();
 	
-	
-	
-
 
 }

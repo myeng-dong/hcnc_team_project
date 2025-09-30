@@ -11,7 +11,7 @@
         {
             this.set_name("Form_MemberPointDetail");
             this.set_titletext("New Form");
-            this.set_background("lightBlue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -19,7 +19,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_type", this);
-            obj._setContents("<ColumnInfo><Column id=\"CHANGE_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"LABEL\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"LABEL\">사용</Col><Col id=\"CHANGE_TYPE\"/></Row><Row><Col id=\"LABEL\">적립</Col><Col id=\"CHANGE_TYPE\"/></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"CHANGE_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"LABEL\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
@@ -52,7 +52,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("point_type","110","37","170","26",null,null,null,null,null,null,this);
+            obj = new Radio("point_type","110","37","180","26",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_innerdataset("ds_type");
             obj.set_codecolumn("CHANGE_TYPE");
@@ -103,7 +103,7 @@
             obj.set_textAlign("center");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button00","489","181","97","29",null,null,null,null,null,null,this);
+            obj = new Button("Button00","541","174","98","36",null,null,null,null,null,null,this);
             obj.set_taborder("10");
             obj.set_text("검색");
             obj.set_background("#2563eb");
@@ -112,7 +112,7 @@
             obj.set_color("white");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button01","608","181","88","29",null,null,null,null,null,null,this);
+            obj = new Button("Button01","650","174","100","36",null,null,null,null,null,null,this);
             obj.set_taborder("11");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
@@ -130,7 +130,7 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"52\"/><Column size=\"99\"/><Column size=\"136\"/><Column size=\"540\"/><Column size=\"170\"/><Column size=\"225\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"유형\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"포인트\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"설명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"발행 시기\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"주문 번호\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"1\" text=\"bind:CHANGE_TYPE\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" displaytype=\"combotext\" edittype=\"combo\" combocodecol=\"CHANGE_TYPE\" combodatacol=\"CHANGE_TYPE\" combodataset=\"ds_type\"/><Cell col=\"2\" text=\"bind:POINT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" displaytype=\"number\" edittype=\"mask\"/><Cell col=\"3\" text=\"bind:DESCRIPTION\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" edittype=\"normal\" displaytype=\"normal\"/><Cell col=\"4\" edittype=\"none\" text=\"bind:INPUT_DT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"5\" displaytype=\"normal\" edittype=\"none\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" text=\"bind:ORDER_NUMBER\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button02","549","660","101","28",null,null,null,null,null,null,this);
+            obj = new Button("Button02","530","640","110","38",null,null,null,null,null,null,this);
             obj.set_taborder("13");
             obj.set_text("뒤로가기");
             obj.set_background("#2563eb");
@@ -139,11 +139,12 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button03","660","658","100","30",null,null,null,null,null,null,this);
+            obj = new Button("Button03","660","640","110","38",null,null,null,null,null,null,this);
             obj.set_taborder("14");
             obj.set_text("포인트 적립 및 차감");
             obj.set_borderRadius("4px");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
+            obj.set_background(" #9ca3af");
             this.addChild(obj.name, obj);
 
             obj = new Button("plus","29","224","63","22",null,null,null,null,null,null,this);

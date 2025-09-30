@@ -4,7 +4,7 @@
     <Layouts>
       <Layout height="720" width="1280">
         <Static id="withDraw_search_box" taborder="0" left="20" top="17" width="1240" height="133" background="white" text="" borderRadius="8px" onclick="reg_search_box_onclick"/>
-        <Grid id="black_list" taborder="1" left="20" top="160" height="540" background="#FFFFFF" border="0px none" borderRadius="10px" right="20" autofittype="col" binddataset="ds_list" oncellclick="black_list_oncellclick">&gt;
+        <Grid id="black_list" taborder="1" left="540" top="160" height="540" background="#FFFFFF" border="0px none" borderRadius="10px" right="20" autofittype="col" binddataset="ds_list" oncellclick="black_list_oncellclick">&gt;
           <Formats><Format id="default"><Columns><Column size="52"/><Column size="165"/><Column size="127"/><Column size="190"/><Column size="171"/><Column size="230"/><Column size="192"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="전화번호" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="로그인 유형" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="회원등록일" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/><Cell col="6" text="회원탈퇴일" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/></Band><Band id="body"><Cell text="expr:currow + 1" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="3" text="bind:PHONE_NUMBER" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center" displaytype="mask" edittype="mask" maskedittype="string" maskeditformat="###-####-####"/><Cell col="4" text="bind:LOGIN_NAME" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="5" text="bind:INPUT_DT" displaytype="normal" edittype="none" combocodecol="GRADE_CODE" combodatacol="GRADE_NAME" combodataset="ds_grade" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/><Cell col="6" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center" text="bind:DELETE_DT"/></Band></Format></Formats></Grid>
         <Static id="Static00" taborder="2" text="가입 유형" left="36" top="36" width="69" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static00_onclick"/>
         <Static id="Static00_01" taborder="3" text="아이디" left="50" top="90" width="40" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
@@ -14,12 +14,102 @@
         <Calendar id="Calendar00" taborder="7" left="898" top="40" width="162" height="29" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
         <Calendar id="Calendar00_00" taborder="8" left="1088" top="41" width="162" height="29" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_onchanged"/>
         <Static id="Static00_02" taborder="9" text="~" left="1070" top="43" width="20" height="22" font="bold 14px/normal &quot;Gulim&quot;"/>
-        <Button id="search_btn" taborder="10" text="검색하기" left="902" top="93" width="108" height="37" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="search_btn_onclick"/>
-        <Button id="Button01" taborder="11" text="초기화" left="1025" top="93" width="110" height="37" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
+        <Button id="search_btn" taborder="10" text="검색하기" left="820" top="90" width="130" height="37" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="search_btn_onclick"/>
+        <Button id="Button01" taborder="11" text="초기화" left="970" top="90" width="130" height="37" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
         <Radio id="Radio00" taborder="12" left="116" top="40" width="224" height="29" innerdataset="ds_loginType" codecolumn="LOGIN_TYPE" datacolumn="NAME" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;" onitemchanged="Radio00_onitemchanged"/>
         <Edit id="Edit00" taborder="13" left="112" top="92" width="208" height="28" border="1px solid black" borderRadius="s" onchanged="Edit00_onchanged" onkeyup="Edit00_onkeyup"/>
         <Edit id="Edit00_00" taborder="14" left="502" top="39" width="208" height="28" border="1px solid black" borderRadius="8px" onkeyup="Edit00_00_onkeyup"/>
         <MaskEdit id="MaskEdit00" taborder="15" left="502" top="90" width="208" height="28" border="1px solid black" borderRadius="8px" format="###-####-####" type="string" onchanged="MaskEdit00_onchanged" onkeyup="MaskEdit00_onkeyup"/>
+        <BasicChart id="BasicChart00" taborder="16" left="10" top="164" width="520" height="536" binddataset="ds_stats" categorycolumn="bind:DELETE_MONTH">
+          <Contents><![CDATA[{
+	"legend": {
+		"id": "legend",
+		"padding": "3px 10px 3px 10px",
+		"itemtextfont": "9pt '맑은 고딕'",
+		"itemtextcolor": "#4c4c4c",
+		"visible": false
+	},
+	"hrangebar": {
+		"id": "hrangebar",
+		"trackbarpadding": "1px",
+		"background": "#eaeaea",
+		"linestyle": "1px solid #d5d5d5",
+		"trackbarlinestyle": "0px none",
+		"trackbarfillstyle": "#c9c9c9",
+		"size": "12",
+		"visible": false
+	},
+	"vrangebar": {
+		"id": "vrangebar",
+		"trackbarpadding": "1px",
+		"background": "#eaeaea",
+		"linestyle": "1px solid #d5d5d5",
+		"trackbarlinestyle": "0px none",
+		"trackbarfillstyle": "#c9c9c9",
+		"size": "12",
+		"visible": false
+	},
+	"tooltip": {
+		"id": "tooltip",
+		"background": "#4b4b4b",
+		"linestyle": "0px none",
+		"textcolor": "white",
+		"textfont": "10pt/normal '맑은 고딕'",
+		"padding": "5px"
+	},
+	"board": {
+		"id": "board"
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletext": "월별",
+		"titletextcolor": "#4c4c4c",
+		"titletextfont": "bold 14px/normal \"Noto Sans KR Black\"",
+		"labeltextcolor": "#6f6f6f",
+		"labeltextfont": "bold 12px/normal \"Noto Sans KR Black\"",
+		"axislinestyle": "1px solid #525252",
+		"ticklinestyle": "1px solid #525252",
+		"boardlinestyle": "1px solid #d0d0d0",
+		"titlegap": "8"
+	},
+	"seriesset": [
+		{
+			"id": "series0",
+			"titletext": "series",
+			"barvisible": true,
+			"barsize": "65",
+			"itemtextvisible": true,
+			"itemtextcolor": "#003860",
+			"itemtextfont": "16px/normal \"Noto Sans KR Black\"",
+			"valuecolumn": "bind:CNT",
+			"stacktype": "none",
+			"linevisible": false
+		}
+	],
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"titletext": "탈퇴 회원 수",
+			"boardlinevisible": true,
+			"boardlinestyle": "1px solid #d0d0d0",
+			"labeltextcolor": "#6f6f6f",
+			"labeltextfont": "bold 12px/normal \"Noto Sans KR Black\"",
+			"titletextcolor": "#4c4c4c",
+			"titletextfont": "bold 14px/normal \"Noto Sans KR Black\"",
+			"ticklinestyle": "1px solid #525252",
+			"axislinestyle": "1px solid #525252",
+			"titlegap": "12"
+		}
+	],
+	"title": {
+		"id": "title",
+		"text": "탈퇴 회원 통계",
+		"textfont": "20px/normal \"Noto Sans KR Black\"",
+		"padding": "0px 0px 5px",
+		"linestyle": "0px none"
+	}
+}]]></Contents>
+        </BasicChart>
       </Layout>
     </Layouts>
     <Bind>
@@ -78,10 +168,20 @@
           <Row/>
         </Rows>
       </Dataset>
+      <Dataset id="ds_stats">
+        <ColumnInfo>
+          <Column id="CNT" type="STRING" size="256"/>
+          <Column id="DELETE_MONTH" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[this.Form_MemberWithdrawHistory_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.fn_selectWithdrawMemberList();
+	this.fn_selectMemberWithdrawCnt();
 };
 
 
@@ -100,7 +200,19 @@ this.fn_selectWithdrawMemberList = function(){
 	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
 }
 
-
+//탈퇴 통계 조회
+this.fn_selectMemberWithdrawCnt = function(){
+	
+	var strSvcID = "selectMemberWithdrawCnt"
+	var setURL = "svc::/selectMemberWithdrawCntByAdmin.do";
+	var strInDatasets = "";
+	var strOutDatasets = "ds_stats=ds_stats";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
 
 // 공통 콜백
 this.fn_callBack = function(svcID, errorCode, errorMSG){
@@ -112,6 +224,10 @@ this.fn_callBack = function(svcID, errorCode, errorMSG){
 	switch(svcID){
 	case "selectWithdrawMemberList" : 
 		console.log(this.ds_list.saveXML());
+		break;
+	
+	case "selectMemberWithdrawCnt" : 
+		console.log(this.ds_stats.saveXML());
 		break;
 	}
 	
