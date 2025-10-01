@@ -141,46 +141,58 @@
 
 
 	<!--______________ 상품진열순서관리______________-->
+	<!-- 조회 -->
 	<select id="productDisplayOrderListByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
-		SELECT
-			p.SORT_NUMBER,
-			p.PRODUCT_ID,
-			p.PRODUCT_CODE,
-			p.PRODUCT_NAME,
-			mc.MAIN_CATE_NM,
-			sc.SUB_CATE_NM,
-			p.IS_VISIBLE,
-			p.INPUT_DT,
-			SUM(IFNULL(i.QUANTITY, 0)) AS TOTAL_QUANTITY,
-		    CASE
-				WHEN SUM(IFNULL(i.QUANTITY, 0)) = 0 THEN '품절'
-				ELSE '판매중'
-			END AS OUT_OF_STOCK,
-			GROUP_CONCAT(
-		        DISTINCT CONCAT(o.OPTION_NAME, ':', o.OPTION_VALUE)
-		        ORDER BY o.OPTION_NAME SEPARATOR ', '
-		    ) AS OPTION_LIST
-		FROM
-			PRODUCTS p
-		JOIN SUB_CATEGORIES sc ON
-			p.SUB_CATE_ID = sc.SUB_CATE_ID
-		JOIN MAIN_CATEGORIES mc ON
-			sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
-		LEFT JOIN OPTIONS o ON
-			p.PRODUCT_ID = o.PRODUCT_ID
-		LEFT JOIN INVENTORIES i ON
-			p.PRODUCT_ID = i.PRODUCT_ID
-		GROUP BY
-			p.PRODUCT_ID
-		ORDER BY
-			p.SORT_NUMBER
+	    SELECT
+	        p.SORT_NUMBER,
+	        p.PRODUCT_ID,
+	        p.PRODUCT_CODE,
+	        p.PRODUCT_NAME,
+	        mc.MAIN_CATE_NM,
+	        sc.SUB_CATE_NM,
+	        p.IS_VISIBLE,
+	        p.INPUT_DT,
+	        SUM(IFNULL(i.QUANTITY, 0)) AS TOTAL_QUANTITY,
+	        CASE
+	            WHEN SUM(IFNULL(i.QUANTITY, 0)) = 0 THEN '품절'
+	            ELSE '판매중'
+	        END AS OUT_OF_STOCK,
+	        GROUP_CONCAT(
+	            DISTINCT CONCAT(o.OPTION_NAME, ':', o.OPTION_VALUE)
+	            ORDER BY o.OPTION_NAME SEPARATOR ', '
+	        ) AS OPTION_LIST
+	    FROM PRODUCTS p
+	    JOIN SUB_CATEGORIES sc ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+	    JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+	    LEFT JOIN OPTIONS o ON p.PRODUCT_ID = o.PRODUCT_ID
+	    LEFT JOIN INVENTORIES i ON p.PRODUCT_ID = i.PRODUCT_ID
+	    <where>
+	        <if test="displayType != null and displayType != ''">
+	            AND p.PRODUCT_TYPE = #{displayType}
+	        </if>
+	    </where>
+	    GROUP BY p.PRODUCT_ID
+	    ORDER BY p.SORT_NUMBER DESC, p.PRODUCT_ID ASC
 	</select>
 
 
-
-
-
-
+	
+	<!-- 저장 -->
+	<update id="updateProductSort" parameterType="java.util.Map">
+	    UPDATE PRODUCTS
+	    SET SORT_NUMBER = #{SORT_NUMBER}
+	    WHERE PRODUCT_ID = #{PRODUCT_ID}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 

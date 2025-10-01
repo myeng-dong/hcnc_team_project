@@ -105,5 +105,9 @@ public class ProductService {
 		return productMapper.productDisplayOrderListByAdmin(cond);
 	}
 
+	public void updateProductSort(Map<String, Object> row) {
+		 productMapper.updateProductSort(row);
+	}
+
 	
 }

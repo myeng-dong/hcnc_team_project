@@ -49,6 +49,7 @@ public interface ProductMapper {
 	
 	// ---- 상품진열순서리스트 ----
 	List<Map<String, Object>> productDisplayOrderListByAdmin(Map<String, Object> cond);
+	void updateProductSort(Map<String, Object> row);
 
 
 

@@ -105,14 +105,52 @@ public class ProductController {
 	// 상품 진열순서관리 리스트
 	@RequestMapping("/productDisplayOrderListByAdmin.do")
 	public NexacroResult productDisplayOrderListByAdmin(
-			@ParamDataSet(name = "ds_in", required = false) Map<String, Object> cond) {
-		NexacroResult result = new NexacroResult();
+	        @ParamVariable(name = "displayType", required = false) String displayType) {
+
+		if(displayType == null || displayType.isEmpty()) {
+			displayType = "normal";
+		}
 		
-		List<Map<String, Object>> list = productService.productDisplayOrderListByAdmin(cond);
-		
-		result.addDataSet("ds_out_proList", list);
-		return result;
+	    Map<String,Object> cond = new HashMap<>();
+	    cond.put("displayType", displayType);
+
+	    List<Map<String, Object>> list = productService.productDisplayOrderListByAdmin(cond);
+
+	    NexacroResult result = new NexacroResult();
+	    result.addDataSet("ds_out_proList", list);
+	    return result;
 	}
+
+	
+	
+	
+	// 진열순서 변경
+	@RequestMapping("/updateProductSort.do")
+	public NexacroResult updateProductSort(
+	        @ParamDataSet(name="ds_sortSave", required=false) List<Map<String,Object>> list) {
+
+	    if(list != null) {
+	        for(Map<String,Object> row : list) {
+	            productService.updateProductSort(row);
+	        }
+	    }
+	    return new NexacroResult();
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
