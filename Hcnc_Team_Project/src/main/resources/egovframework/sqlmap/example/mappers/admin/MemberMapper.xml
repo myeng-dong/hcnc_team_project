@@ -223,14 +223,14 @@
 	<!-- 전체 회원 등급 자동 업데이트 (스케줄러용) -->
 	<update id="updateAllMemberGradeAutoByAdmin">
 	    UPDATE MEMBERS M
-	       SET M.GRADE_CODE = (
-	           SELECT G.GRADE_CODE
+	       SET M.GRADE_CODE = COALESCE(
+	          (SELECT G.GRADE_CODE
 	             FROM GRADES G
 	            WHERE M.PRICE_AMOUNT >= G.STANDARD_AMOUNT
 	              AND G.GRADE_CODE != 9  
 	            ORDER BY G.STANDARD_AMOUNT DESC
 	            LIMIT 1
-	       )
+	           ) ,1)
 	     WHERE M.GRADE_CODE != 9 
 	</update>
 	   
@@ -256,8 +256,8 @@
 			M.DELETE_DT,
 			<!-- DAYS_SINCE_CHANGE : 지금으로 부터 휴면일과, 탈퇴일 계산 -->
 		  	CASE
-			  WHEN M.STATUS = 'R' THEN DATEDIFF(NOW(), M.LAST_LOGIN_DT)
-			  WHEN M.STATUS = 'N' THEN DATEDIFF(NOW(), M.DELETE_DT)
+			  WHEN M.STATUS = 'R' THEN DATEDIFF(NOW(), COALESCE(M.LAST_LOGIN_DT, M.INPUT_DT))
+			  WHEN M.STATUS = 'N' THEN DATEDIFF(NOW(), COALESCE(M.DELETE_DT,M.UPDATE_DT))
 		    END AS DAYS_SINCE_CHANGE
 		  FROM MEMBERS M
 	     WHERE M.STATUS IN ('R', 'N')
@@ -310,17 +310,17 @@
          AND DELETE_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
     </delete>
    	
- 
    <!-- 휴면 전환: 1년 이상 미접속 회원을 휴면(R)으로 (스케쥴러)-->
    <update id="updateDormantMembers">
-    UPDATE MEMBERS
-       SET STATUS = 'R',
-           UPDATE_DT = NOW()
-     WHERE STATUS = 'Y'
-       AND LAST_LOGIN_DT <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
+     UPDATE MEMBERS
+        SET STATUS = 'R'
+            ,UPDATE_DT = NOW()
+   	  WHERE STATUS = 'Y'
+        AND (
+         COALESCE(LAST_LOGIN_DT, INPUT_DT) <![CDATA[<=]]> DATE_SUB(NOW(), INTERVAL 1 YEAR)
+         )
    </update>
  
-   	
    	<!-- 휴면 회원 복구 (상태를 Y로 변경): 넥사크로에서 휴면 복구-->
     <update id="reactivateDormantMember" parameterType="java.util.Map">
      UPDATE MEMBERS
