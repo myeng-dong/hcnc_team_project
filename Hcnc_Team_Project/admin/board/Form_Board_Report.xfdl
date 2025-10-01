@@ -1,29 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Board_Notice" width="1280" height="720" titletext="New Form" color="blue" background="#F4F7FE" onload="Form_Board_Notice_onload">
+  <Form id="Form_Board_Notice" width="1280" height="720" titletext="New Form" color="blue" background="#F4F7FE" onload="Form_Board_Notice_onload" font="normal 11pt/normal &quot;Noto Sans KR&quot;">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1280">
-        <Div id="search_area" taborder="2" left="40" top="0" height="60" background="#ffffff" borderRadius="10px" text="" right="40">
+        <Div id="search_area" taborder="0" left="40" top="0" height="60" background="#ffffff" borderRadius="10px" text="" right="40">
           <Layouts>
             <Layout>
-              <Static id="stc_name" taborder="2" text="작성자" left="492" top="14" width="50" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Edit id="Edit00" taborder="3" left="543" top="17" width="105" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
-              <Button id="Button00" taborder="4" text="⌕" left="630" top="17" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick" cursor="pointer" border="0px none,0px,0px"/>
-              <Static id="stc_ship" taborder="0" text="게시글 유형" left="30" top="14" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Radio id="rad_type" taborder="1" left="130" top="15" width="310" height="36" innerdataset="ds_boardType" codecolumn="CODE" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onitemchanged="search_area_rad_ship_onitemchanged" index="0" text="전체" value="전체"/>
-              <Static id="stc_name00" taborder="5" text="작성일" left="734" top="14" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Static id="stc_name" taborder="2" text="작성자" left="991" top="13" width="50" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Edit id="Edit00" taborder="3" top="16" width="125" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px" right="30"/>
+              <Button id="Button00" taborder="4" text="⌕" top="16" height="30" background="#135dae" borderRadius="5px" color="white" cursor="pointer" width="30" right="30" onclick="search_area_Button00_onclick"/>
+              <Static id="stc_postType" taborder="0" text="게시글 유형" left="30" top="13" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Radio id="rad_type" taborder="1" left="130" top="13" width="220" height="36" innerdataset="ds_postType" codecolumn="NAME" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" index="0" text="전체" value="전체" onitemchanged="search_area_rad_type_onitemchanged"/>
+              <Static id="stc_report" taborder="5" text="신고 상태" left="429" top="12" width="70" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Combo id="Combo00" taborder="6" text="전체" left="496" top="16" width="104" height="30" innerdataset="ds_report" codecolumn="NAME" datacolumn="NAME" borderRadius="5px" index="0" value="전체" onitemchanged="search_area_Combo00_onitemchanged"/>
+              <Static id="stc_report00" taborder="7" text="신고 유형" left="702" top="12" width="70" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Combo id="Combo00_00" taborder="8" text="" left="769" top="15" width="104" height="30" innerdataset="ds_reportType" codecolumn="REPORT_TYPE" datacolumn="REPORT_TYPE" borderRadius="5px" index="0" value="" onitemchanged="search_area_Combo00_00_onitemchanged"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="0" left="40" top="85" right="40" bottom="40" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncelldblclick="grid_list_oncelldblclick">
+        <Grid id="grid_list" taborder="1" left="40" top="116" right="40" bottom="40" binddataset="ds_list" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
                 <Column size="26"/>
                 <Column size="47"/>
                 <Column size="52"/>
-                <Column size="113"/>
-                <Column size="78"/>
+                <Column size="51"/>
+                <Column size="236"/>
+                <Column size="66"/>
+                <Column size="100"/>
+                <Column size="54"/>
+                <Column size="67"/>
               </Columns>
               <Rows>
                 <Row size="40" band="head"/>
@@ -32,52 +39,68 @@
               <Band id="head">
                 <Cell text="chk" displaytype="checkboxcontrol" edittype="checkbox" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
                 <Cell col="1" text="게시분류" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="2" text="작성자" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="3" text="제목" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="4" text="송장 번호" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="2" text="리뷰ID" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="3" text="댓글ID" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="4" text="신고내용" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="5" text="작성자" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="6" text="작성자ID" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="7" text="신고 유형" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                <Cell col="8" text="신고 상태" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="1" text="bind:BOARD_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="2" text="bind:USER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
-                <Cell col="3" text="bind:POST_TITLE" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
-                <Cell col="4" text="bind:TRACKING_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                <Cell col="1" text="bind:TARGET_TYPE" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="2" text="bind:REVIEW_ID" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none" cursor="pointer"/>
+                <Cell col="3" text="bind:COMMENT_ID" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none" cursor="pointer"/>
+                <Cell col="4" text="bind:REPORT_CONTENT" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="5" text="bind:USER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="6" text="bind:BOARD_WRITER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="7" text="bind:REPORT_TYPE" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="8" text="bind:REPORT_STATUS" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="combo" displaytype="combocontrol" combodataset="ds_reportGrid" combodatacol="NAME" combocodecol="NAME"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_new" taborder="1" text="등록" top="16" height="30" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" onclick="btn_new_onclick" right="65" width="100" border="0px none"/>
-        <Calendar id="Calendar00_01" taborder="3" left="836" top="17" width="100" height="30" onchanged="search_area_Calendar00_01_onchanged"/>
-        <Static id="txt_th00_00_00" taborder="4" text="-" left="950" top="12" width="30" height="36" font="normal 11pt/normal &quot;Noto Sans KR&quot;" onclick="search_area_txt_th_onclick"/>
-        <Calendar id="Calendar00_00_00" taborder="5" left="973" top="17" width="100" height="30" onchanged="search_area_Calendar00_00_00_onchanged"/>
+        <Button id="btn_save" taborder="2" text="저장" top="70" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" right="40" width="100"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[//페이지 온로드시
 this.Form_Board_Notice_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	this.fnselectPostListByAdmin();
+	this.fnselectReportByAdmin();
+    this.grid_list.setCellProperty("head", 0, "text", "0");	
+
+	this.search_area_Combo00_00.set_value("전체");
 };
 
-
-//등록 버튼
-this.btn_new_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
-{
-	this.fnInsertPost();
-};
-
-//포스트 조회 트랜젝션
-this.fnselectPostListByAdmin = function(){
+// 리포트 리스트 조회 트랜젝션
+this.fnselectReportByAdmin = function(){
 	var timestamp   = new Date().getTime();
 	
-	var strSvcID       = "fnselectPostListByAdmin";
-    var strURL         = "svc::selectPostListByAdmin.do?time=" + new Date().getTime();
+	var strSvcID       = "selectReportByAdmin";
+    var strURL         = "svc::selectReportByAdmin.do?time=" + new Date().getTime();
     var strInDatasets  = "ds_search=ds_search";
-    var strOutDatasets = "ds_board=ds_board";
-    var strArg         = "timestamp=timestamp";
+    var strOutDatasets = "ds_list=ds_list ds_reportType=ds_reportType";
+    var strArg         = "";
     var strCallback    = "fnCallback";
 
     this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
 }
+
+// 
+this.fnUpdateReportByAdmin = function(){
+	var timestamp   = new Date().getTime();
+	
+	var strSvcID       = "updateReportByAdmin";
+    var strURL         = "svc::updateReportByAdmin.do?time=" + new Date().getTime();
+    var strInDatasets  = "ds_selected=ds_selected";
+    var strOutDatasets = "";
+    var strArg         = "";
+    var strCallback    = "fnCallback";
+
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+}
+
 
 // 공통 콜백
 this.fnCallback = function(svcID, errCode, errMsg) {
@@ -87,73 +110,161 @@ this.fnCallback = function(svcID, errCode, errMsg) {
     }
 
     switch(svcID) {
-        case "fnselectPostListByAdmin":
+        case "selectReportByAdmin":
+			
             trace("조회 완료");
             break;
+			
+		case "updateReportByAdmin" : 
+		
+			this.fnselectReportByAdmin();
+		    trace("수정 완료");
+			break;
     }
 };
 
-// 라디오 박스 눌렀을때 조회되게 
-this.search_area_rad_ship_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+
+// 신고 상태별 조회(콤보박스)
+this.search_area_Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
-	var val = e.postvalue;  // 라디오에서 선택된 값
-
-    if(val == "전체"){
-        this.ds_search.setColumn(0, "BOARD_ID", "ALL");  // 전체는 ALL 같은 값으로 보냄 (쿼리에선 1,3,4로 조회함)
-    } else if(val == "공지사항"){
-        this.ds_search.setColumn(0, "BOARD_ID", "1");    // 공지사항
-    } else if(val == "FAQ"){
-        this.ds_search.setColumn(0, "BOARD_ID", "3");    // FAQ
-    } else if(val == "QnA"){
-        this.ds_search.setColumn(0, "BOARD_ID", "4");    // QnA
-    }
-
-    this.fnselectPostListByAdmin();
+	var type = e.postvalue;
+	this.ds_search.setColumn(0,"REPORT_STATUS",type);
+	this.fnselectReportByAdmin();
 };
 
-this.fnInsertPost = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{		
+// 신고 유형별 조회(콤보박스)
+this.search_area_Combo00_00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	var type = e.postvalue;
+	this.ds_search.setColumn(0,"REPORT_TYPE",type);
+	this.fnselectReportByAdmin();
+};
+
+// 댓글, 리뷰 유형(라디오)
+this.search_area_rad_type_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	var type = e.postvalue;
+	this.ds_search.setColumn(0,"TARGET_TYPE",type);
+	this.fnselectReportByAdmin();
+};
+
+// 글 작성자 조회(에디트박스)
+this.search_area_Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode==13){
+		this.fnselectReportByAdmin();
+	}
+
+};
+
+//조회 버튼
+this.search_area_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnselectReportByAdmin();
+
+};
+
+//체크박스 전체선택 , 전체해제
+this.grid_list_onheadclick = function(obj:nexacro.Grid, e:nexacro.GridClickEventInfo)
+{
+    // 첫 번째 컬럼(체크박스 헤더) 클릭 시
+    if (e.cell == 0) {
+        var headVal = obj.getCellProperty("head", 0, "text");
+
+        // 현재 상태 확인 (체크 → 해제 / 해제 → 체크)
+        var newVal = (headVal == "1" ? "0" : "1");
+
+        // 헤더 갱신
+        obj.setCellProperty("head", 0, "text", newVal);
+
+        // 데이터셋 전체 반영
+        for (var i = 0; i < this.ds_list.getRowCount(); i++) {
+            this.ds_list.setColumn(i, "CHK", newVal);
+        }
+    }
+};
+
+// 저장버튼 클릭시
+this.search_area_btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.ds_selected.clearData();
+
+    for (var i = 0; i < this.ds_list.getRowCount(); i++) {
+        if (this.ds_list.getColumn(i, "CHK") == "1") {
+            var nRow = this.ds_selected.addRow();
+            this.ds_selected.copyRow(nRow, this.ds_list, i);
+        }
+    }
+
+    if (this.ds_selected.getRowCount() == 0) {
+        this.alert("선택된 항목이 없습니다.");
+        return;
+    }
+
+	//저장 버튼을 눌렀을때 트랜젝션
+	this.fnUpdateReportByAdmin();
+};
+
+
+this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var row = e.row;      // 클릭한 행 번호
+    var col = e.col;      // 클릭한 컬럼 번호
+    var colId = obj.getCellProperty("body", col, "text");
+	
+	
+    // 특정 컬럼만 동작시키고 싶다면 조건문
+    if (colId.indexOf("COMMENT_ID") > -1) { // 댓글 신고 조회
+		var commentId   = this.ds_list.getColumn(row,"COMMENT_ID");
+		if(!commentId){
+			alert("리뷰 신고입니다.");
+			return;
+		}
+		
+        var popupArgs = {COMMENT_ID : commentId}
+		
 		 // 팝업 크기
         var popW = 500;
         var popH = 350;
-
-        var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-		objChildFrame.init("itemPop", 200, 200, popW, popH, null, null, "popup::Pop_BaordInsert.xfdl"); // init
-		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_popupCallback"); // 모달 띄어주기
-    
-};
-
-//엔터 눌렀을때 조회되게
-this.search_area_Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
-{ 	
-	if(e.keycode == 13){
-		this.fnselectPostListByAdmin();
-	}
-};
-
-
-
-this.grid_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
-{
-	 if(e.row < 0) return; // 헤더 클릭 무시
-    
-    var nRow = e.row;
-    var paramPostId = this.ds_board.getColumn(nRow, "POST_ID"); // 실제 컬럼명에 맞게 수정
-      
-    if(paramPostId) {
-        // 상세보기 팝업 열기
 		
-		var popW = 800;
-        var popH = 700;
+		var owner = this.getOwnerFrame();
+        var absX = (owner.width  - popW) / 2;
+        var absY = (owner.height - popH) / 2;
+		
         var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-		objChildFrame.init("detailPop", 0, 0, popW, popH, null, null, "popup::Pop_BoardDetail.xfdl"); // init
-		objChildFrame.paramPostId = paramPostId;
-		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_popupCallback"); // 모달 띄어주기
+		objChildFrame.init("itemPop", absX, absY, popW, popH, null, null, "popup::Pop_BaordReport.xfdl"); // init
+		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
+    }
+	
+	    // 특정 컬럼만 동작시키고 싶다면 조건문
+    if (colId.indexOf("REVIEW_ID") > -1) {
+	
+		var reviewId    = this.ds_list.getColumn(row,"REVIEW_ID");
+		if(!reviewId){
+			alert("게시글 신고입니다.");
+			return;
+		}
+		
+        var popupArgs = {REVIEW_ID : reviewId}
+		
+		 // 팝업 크기
+        var popW = 500;
+        var popH = 350;
+		
+		var owner = this.getOwnerFrame();
+        var absX = (owner.width  - popW) / 2;
+        var absY = (owner.height - popH) / 2;
+		
+        var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
+		objChildFrame.init("itemPop", absX, absY, popW, popH, null, null, "popup::Pop_BaordReport.xfdl"); // init
+		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
     }
 };
+
+
 ]]></Script>
     <Objects>
-      <Dataset id="ds_boardType">
+      <Dataset id="ds_report">
         <ColumnInfo>
           <Column id="CODE" type="STRING" size="256"/>
           <Column id="NAME" type="STRING" size="256"/>
@@ -164,58 +275,105 @@ this.grid_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEve
             <Col id="NAME">전체</Col>
           </Row>
           <Row>
-            <Col id="CODE">공지사항</Col>
-            <Col id="NAME">공지사항</Col>
+            <Col id="CODE">신고접수</Col>
+            <Col id="NAME">신고접수</Col>
           </Row>
           <Row>
-            <Col id="CODE">FAQ</Col>
-            <Col id="NAME">FAQ</Col>
+            <Col id="CODE">신고처리</Col>
+            <Col id="NAME">신고처리</Col>
           </Row>
           <Row>
-            <Col id="CODE">QnA</Col>
-            <Col id="NAME">QnA</Col>
+            <Col id="CODE">신고취소</Col>
+            <Col id="NAME">신고취소</Col>
           </Row>
         </Rows>
       </Dataset>
-      <Dataset id="ds_board">
+      <Dataset id="ds_list">
         <ColumnInfo>
-          <Column id="BOARD_ID" type="STRING" size="256"/>
-          <Column id="MEMBER_ID" type="STRING" size="256"/>
-          <Column id="POST_TITLE" type="STRING" size="256"/>
-          <Column id="POST_CONTENT" type="STRING" size="256"/>
-          <Column id="SORT_NUMBER" type="STRING" size="256"/>
-          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="TARGET_TYPE" type="STRING" size="256"/>
+          <Column id="REPORTER" type="STRING" size="256"/>
+          <Column id="COMMENT_ID" type="STRING" size="256"/>
+          <Column id="REVIEW_ID" type="STRING" size="256"/>
+          <Column id="BOARD_WRITER" type="STRING" size="256"/>
+          <Column id="REPORT_TYPE" type="STRING" size="256"/>
+          <Column id="REPORT_STATUS" type="STRING" size="256"/>
           <Column id="CHK" type="STRING" size="256"/>
-          <Column id="POST_ID" type="STRING" size="256"/>
-          <Column id="BOARD_NAME" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="REPORT_ID" type="STRING" size="256"/>
+          <Column id="REPORT_CONTENT" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <Dataset id="ds_search">
         <ColumnInfo>
-          <Column id="START_DATE" type="STRING" size="256"/>
-          <Column id="END_DATE" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
-          <Column id="BOARD_ID" type="STRING" size="256"/>
+          <Column id="REPORT_STATUS" type="STRING" size="256"/>
+          <Column id="REPORT_TYPE" type="STRING" size="256"/>
+          <Column id="TARGET_TYPE" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
         </Rows>
       </Dataset>
+      <Dataset id="ds_postType">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">전체</Col>
+            <Col id="NAME">전체</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">댓글</Col>
+            <Col id="NAME">댓글</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">리뷰</Col>
+            <Col id="NAME">리뷰</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_reportType">
+        <ColumnInfo>
+          <Column id="REPORT_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
       <Dataset id="ds_selected">
         <ColumnInfo>
-          <Column id="BOARD_ID" type="STRING" size="256"/>
-          <Column id="MEMBER_ID" type="STRING" size="256"/>
-          <Column id="POST_TITLE" type="STRING" size="256"/>
-          <Column id="POST_CONTENT" type="STRING" size="256"/>
-          <Column id="SORT_NUMBER" type="STRING" size="256"/>
-          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="TARGET_TYPE" type="STRING" size="256"/>
+          <Column id="REPORTER" type="STRING" size="256"/>
+          <Column id="COMMENT_ID" type="STRING" size="256"/>
+          <Column id="REVIEW_ID" type="STRING" size="256"/>
+          <Column id="BOARD_WRITER" type="STRING" size="256"/>
+          <Column id="REPORT_TYPE" type="STRING" size="256"/>
+          <Column id="REPORT_STATUS" type="STRING" size="256"/>
+          <Column id="REPORT_ID" type="STRING" size="256"/>
         </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_reportGrid">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">신고접수</Col>
+            <Col id="NAME">신고접수</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">신고처리</Col>
+            <Col id="NAME">신고처리</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">신고취소</Col>
+            <Col id="NAME">신고취소</Col>
+          </Row>
+        </Rows>
       </Dataset>
     </Objects>
     <Bind>
       <BindItem id="item0" compid="search_area.form.Edit00" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
-      <BindItem id="item1" compid="Calendar00_01" propid="value" datasetid="ds_search" columnid="START_DATE"/>
-      <BindItem id="item2" compid="Calendar00_00_00" propid="value" datasetid="ds_search" columnid="END_DATE"/>
     </Bind>
   </Form>
 </FDL>

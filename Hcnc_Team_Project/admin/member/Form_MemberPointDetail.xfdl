@@ -1,33 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberPointDetail" width="1280" height="720" titletext="New Form" background="lightBlue" onload="Form_MemberPointDetail_onload">
+  <Form id="Form_MemberPointDetail" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_MemberPointDetail_onload">
     <Layouts>
       <Layout height="720" width="1280">
-        <Static id="point_detail_box" taborder="0" left="20" top="17" width="1240" height="203" background="white" text="" borderRadius="8px"/>
-        <Static id="grade_search_box00" taborder="1" left="20" top="240" width="1240" height="470" background="white" text="" borderRadius="8px" onclick="grade_search_box00_onclick"/>
-        <Radio id="point_type" taborder="2" left="110" top="37" width="170" height="26" innerdataset="ds_type" codecolumn="CHANGE_TYPE" datacolumn="CHANGE_TYPE" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static00_00" taborder="3" text="적립 구분" left="44" top="37" width="66" bottom="656" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static00_00_00" taborder="4" text="발생 일시" left="44" top="83" width="66" bottom="610" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static00_00_00_00" taborder="5" text="주문 번호" left="44" top="133" width="66" bottom="560" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Edit id="member_name00" taborder="6" left="110" top="129" width="1093" height="35" onchanged="member_name_onchanged"/>
-        <Calendar id="Calendar00" taborder="7" left="110" top="80" width="373" height="33"/>
-        <Calendar id="Calendar00_00" taborder="8" left="520" top="80" width="373" height="33"/>
-        <Static id="Static00" taborder="9" text="~" left="489" top="84" width="28" height="24" textAlign="center"/>
-        <Button id="Button00" taborder="10" text="검색" left="489" top="181" width="97" height="29" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="Button00_onclick"/>
-        <Button id="Button01" taborder="11" text="초기화" left="608" top="181" width="88" height="29" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
-        <Grid id="pointAndCoupon" taborder="12" left="30" top="250" height="371" background="#FFFFFF" border="0px none" borderRadius="10px" right="30" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick">&gt;
-          <Formats><Format id="default"><Columns><Column size="52"/><Column size="99"/><Column size="136"/><Column size="540"/><Column size="170"/><Column size="225"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="유형" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="포인트" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="설명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="발행 시기" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="주문 번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:CHANGE_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="2" text="bind:POINT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:DESCRIPTION" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="4" edittype="normal" text="bind:INPUT_DT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="normal" edittype="none" font="12px/normal &quot;LG Smart UI Bold&quot;" text="bind:ORDER_NUMBER"/></Band></Format></Formats></Grid>
-        <Button id="Button02" taborder="13" text="뒤로가기" left="590" top="660" width="101" height="28" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button02_onclick"/>
+        <Static id="point_detail_box" taborder="0" left="20" top="17" width="1240" height="203" background="white" text="" borderRadius="8px" onclick="point_detail_box_onclick"/>
+        <Static id="grade_search_box00" taborder="1" left="20" top="250" width="1240" height="460" background="white" text="" borderRadius="8px" onclick="grade_search_box00_onclick"/>
+        <Radio id="point_type" taborder="2" left="110" top="37" width="180" height="26" innerdataset="ds_type" codecolumn="CHANGE_TYPE" datacolumn="LABEL" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;" onitemchanged="point_type_onitemchanged"/>
+        <Edit id="member_name00" taborder="3" left="110" top="129" width="790" height="35" onchanged="member_name_onchanged" border="1px solid black" borderRadius="8px" onkeyup="member_name00_onkeyup"/>
+        <Calendar id="Calendar00" taborder="4" left="110" top="80" width="373" height="33" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
+        <Calendar id="Calendar00_00" taborder="5" left="520" top="80" width="373" height="33" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_onchanged"/>
+        <Static id="Static00" taborder="6" text="~" left="489" top="84" width="28" height="24" textAlign="center"/>
+        <Button id="Button00" taborder="7" text="검색" left="541" top="174" width="98" height="36" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="8" text="초기화" left="650" top="174" width="100" height="36" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
+        <Grid id="pointAndCoupon" taborder="9" left="30" top="250" height="371" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick" width="1220">&gt;
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="99"/><Column size="136"/><Column size="540"/><Column size="170"/><Column size="225"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="유형" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="포인트" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="설명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="발행 시기" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="주문 번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:CHANGE_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="combotext" edittype="combo" combocodecol="CHANGE_TYPE" combodatacol="CHANGE_TYPE" combodataset="ds_type"/><Cell col="2" text="bind:POINT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="number" edittype="mask"/><Cell col="3" text="bind:DESCRIPTION" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" edittype="normal" displaytype="normal"/><Cell col="4" edittype="none" text="bind:INPUT_DT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="normal" edittype="none" font="12px/normal &quot;LG Smart UI Bold&quot;" text="bind:ORDER_NUMBER"/></Band></Format></Formats></Grid>
+        <Button id="Button02" taborder="10" text="뒤로가기" left="530" top="640" width="110" height="38" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button02_onclick"/>
+        <Button id="Button03" taborder="11" text="포인트 적립 및 차감" left="660" top="640" width="110" height="38" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button03_onclick" background=" #9ca3af"/>
+        <Button id="plus" taborder="12" text="+" left="29" top="224" width="63" height="22" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="plus_onclick"/>
+        <Button id="minus" taborder="13" text="-" left="100" top="224" width="60" height="22" background=" #9ca3af" borderRadius="4px" color="white" font="11pt &quot;Noto Sans KR Black&quot;" onclick="minus_onclick"/>
+        <Static id="Static02" taborder="14" text="적립구분" left="46" top="37" width="54" height="23" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static02_00" taborder="15" text="발행시기" left="46" top="85" width="54" height="23" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static02_00_onclick"/>
+        <Static id="Static02_00_00" taborder="16" text="주문번호" left="46" top="138" width="54" height="23" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
       </Layout>
     </Layouts>
     <Objects>
       <Dataset id="ds_type">
         <ColumnInfo>
           <Column id="CHANGE_TYPE" type="STRING" size="256"/>
+          <Column id="LABEL" type="STRING" size="256"/>
         </ColumnInfo>
-        <Rows>
-          <Row/>
-        </Rows>
       </Dataset>
       <Dataset id="ds_list">
         <ColumnInfo>
@@ -36,6 +37,7 @@
           <Column id="DESCRIPTION" type="STRING" size="256"/>
           <Column id="INPUT_DT" type="STRING" size="256"/>
           <Column id="ORDER_NUMBER" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -53,20 +55,32 @@
           <Row/>
         </Rows>
       </Dataset>
+      <Dataset id="ds_insCnt">
+        <ColumnInfo>
+          <Column id="INSERTED" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[this.memberId=""; 
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+this.memberId=""; 
 this.Form_MemberPointDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-  this.fn_pointType();
-  
-  // 부모 Frame에서 arguments 꺼내오기
-  var ownerFrame = this.getOwnerFrame();
-  var memberId = ownerFrame.arguments["MEMBER_ID"];
-  
-  this.ds_search.setColumn(0, "MEMBER_ID", memberId);
+	this.fn_pointType();
 	
-  this.fn_selectPointDetailList();
- 
+	// 부모 Frame에서 arguments 꺼내오기
+    var ownerFrame = this.getOwnerFrame();
+    var memberId = ownerFrame.arguments["MEMBER_ID"];
+    
+    // 전역 변수에 저장
+    this.memberId = memberId;
+    
+    this.ds_search.setColumn(0, "MEMBER_ID", memberId);
+    
+    this.fn_selectPointDetailList();
+	
 };
 
 
@@ -74,8 +88,8 @@ this.Form_MemberPointDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEve
 this.fn_pointType = function(){
 	
 	var strSvcID = "selectMemberChageTypeList"
-	var setURL = "svc::/selectMemberChageTypeListByAdmin.do";
-	var strInDatasets = "";
+	var setURL = "svc::/selectMemberChageTypeListByAdmin.do?time=" + new Date().getTime();
+	var strInDatasets = "ds_search=ds_search";
 	var strOutDatasets = "ds_type=ds_type";
 	var strArg = "";
 	var callBack = "fn_callBack";
@@ -88,7 +102,7 @@ this.fn_pointType = function(){
 this.fn_selectPointDetailList= function(){
 	
 	var strSvcID = "selectPointDetail"
-	var setURL = "svc::/selectPointDetailListByAdmin.do";
+	var setURL = "svc::/selectPointDetailListByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "ds_search=ds_search";
 	var strOutDatasets = "ds_list=ds_list";
 	var strArg = ""
@@ -98,20 +112,57 @@ this.fn_selectPointDetailList= function(){
 	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
 }
 
+//변경된 행 저장
+this.Button03_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (!this.ds_list.getColumnInfo("rowType")) {
+        this.ds_list.addColumn("rowType", "string");
+    }
+	
+    // 서버로 전송
+    var strSvcID       = "insertMemberPoint";
+    var strURL         = "svc::/insertMemberPointByAdmin.do?time=" + new Date().getTime();
+    var strInDatasets  = "ds_list=ds_list:U";   // 변경된 것만 보냄 :U가 중요함!!
+    var strOutDatasets = "ds_insCnt=ds_insCnt";
+    var strArg         = "";
+    var callBack       = "fn_callBack";
+    var inAsync        = true;
+	
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
+};
+
 // 공통 콜백
 this.fn_callBack = function(svcID, errorCode, errorMSG){
 	
 	if(errorCode == -1){
-		this.alert(errorMSG)
+		this.alert(errorMSG);
+		return; // 에러 시 더 이상 진행하지 않음
 	}
 	
 	switch(svcID){
 	case "selectPointDetail" : 
 		console.log(this.ds_list.saveXML());
 		break;
-	
+		
+	case "insertMemberPoint" :
+		
+		if(this.ds_insCnt.getColumn(0,"INSERTED") > 0){
+			this.alert("포인트가 성공적으로 저장되었습니다.");
+			
+			// 저장 후 다시 조회하여 최신 데이터 반영
+			this.fn_selectPointDetailList();
+		}else{
+			this.alert("포인트 저장에 실패했습니다")
+			this.fn_selectPointDetailList();
+		}
+		
+		break;
+		
+	case "selectMemberChageTypeList" :
+		// 포인트 타입 로드 완료
+		break;
+		
 	}
-	
 }
 
 //검색
@@ -132,12 +183,129 @@ this.Button02_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.getOwnerFrame().set_formurl("member::Form_MemberPointAndCoupon.xfdl");
 };
+
+//행추가
+this.plus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var boardRow = this.ds_list.addRow();
+	
+	// 새로 추가된 행에 MEMBER_ID 설정
+	//ds_search에 있는 MEMBER_ID 추출
+    var memberId = this.ds_search.getColumn(0, "MEMBER_ID");
+    this.ds_list.setColumn(boardRow, "MEMBER_ID", memberId);
+};
+
+//행삭제
+this.minus_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var boardRow = this.ds_list.rowposition;
+	
+	if(boardRow >= 0){
+		this.ds_list.deleteRow(boardRow);
+	}
+};
+
+
+this.pointAndCoupon_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	
+    //1이 유형
+	//2가 포인트
+	//3 설명
+	var rowType = this.ds_list.getRowType(e.row)
+		
+	 if (rowType == Dataset.ROWTYPE_INSERT) {
+        // 새로 추가된 행만 편집 가능
+        if (e.col == 1) { // 유형
+            obj.setCellProperty("body", e.col, "edittype", "combo");
+        }
+        else if (e.col == 2) { // 포인트
+            obj.setCellProperty("body", e.col, "edittype", "mask");
+        }
+        else if (e.col == 3) { // 설명
+            obj.setCellProperty("body", e.col, "edittype", "normal");
+        }
+    } else {
+        // 기존 행은 무조건 조회 전용
+        obj.setCellProperty("body", e.col, "edittype", "none");
+    }
+};
+
+//라디오 자동검색
+this.point_type_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_selectPointDetailList();
+};
+
+
+//포인트 발생일
+this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var startDate = this.Calendar00.value;
+    var endDate   = this.Calendar00_00.value;
+    
+    if (!startDate) return; // 시작일 없으면 처리 중단
+    
+    // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+    if (endDate && endDate < startDate) {
+        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+        this.Calendar00_00.set_value(startDate);
+        endDate = startDate;
+    }
+    
+    // 시작일은 00시 00분
+    this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+    
+    // 종료일이 있으면 23시 59분까지 설정
+    if (endDate) {
+        this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+    }
+	
+	//자동 검색 
+	this.fn_selectPointDetailList();
+};
+
+//발생일 끝
+this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var startDate = this.Calendar00.value;
+    var endDate   = this.Calendar00_00.value;
+    
+    if (!endDate) return; // 종료일 없으면 처리 중단
+    
+    // 종료일이 시작일보다 빠른 경우
+    if (startDate && endDate < startDate) {
+        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+        this.Calendar00_00.set_value(startDate);
+        endDate = startDate;
+    }
+    
+    // 종료일은 23시 59분
+    this.ds_search.setColumn(0, "EDATE", endDate + "235959");
+    
+    // 시작일이 있으면 00시 00분까지 세팅
+    if (startDate) {
+        this.ds_search.setColumn(0, "SDATE", startDate + "000000");
+    }
+	
+	//자동 검색 
+	this.fn_selectPointDetailList();
+};
+
+//주문번호 자동 검색 조회
+this.member_name00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fn_selectPointDetailList();
+	}
+};
+
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="point_type" propid="value" datasetid="ds_search" columnid="CHANGE_TYPE"/>
       <BindItem id="item1" compid="Calendar00" propid="value" datasetid="ds_search" columnid="SDATE"/>
       <BindItem id="item2" compid="Calendar00_00" propid="value" datasetid="ds_search" columnid="EDATE"/>
-      <BindItem id="item3" compid="member_name00" propid="value" datasetid="ds_search" columnid="ORDER_iD"/>
+      <BindItem id="item3" compid="member_name00" propid="value" datasetid="ds_search" columnid="ORDER_NUMBER"/>
       <BindItem id="item4" compid="pointAndCoupon" propid="binddataset" datasetid="ds_user" columnid=""/>
     </Bind>
   </Form>

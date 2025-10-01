@@ -31,10 +31,7 @@ this.Form_Order_Main_onload = function(obj:nexacro.Form, e:nexacro.LoadEventInfo
 {
     // 초기 조회
     this.fnSearchOrders();
-	var today = this.gfnGetToday(); 
-    this.ds_search.setColumn(0, "START_DATE", today);
-    this.search_area.form.Calendar00_01.set_value(today);
-	
+    	
 };
 
 // 주문 내역 조회
@@ -105,15 +102,6 @@ this.search_area_Edit00_onkeyup = function(obj:nexacro.Edit, e:nexacro.KeyEventI
     if (e.keycode == 13) {  // 13 = Enter 키
         this.fnSearchOrders(); // 조회 트랜젝션
     }
-};
-
-// 공통 함수 : 오늘 날짜 반환 (YYYYMMDD)
-this.gfnGetToday = function() {
-    var d = new Date();
-    var yyyy = d.getFullYear();
-    var mm = ("0" + (d.getMonth()+1)).slice(-2);
-    var dd = ("0" + d.getDate()).slice(-2);
-    return "" + yyyy + mm + dd;
 };
 
 // 시작일 변경 이벤트

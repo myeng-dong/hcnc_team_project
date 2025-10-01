@@ -38,6 +38,7 @@ public interface MemberMapper {
 	//회원 등급변경
 	int updateMemberGrade(Map<String, Object> updateGrade);
 	
+	
 	//관리자 제외한 등급 조회 
 	List<Map<String, Object>> selectGradeExceptionAdminList();
 	
@@ -60,10 +61,43 @@ public interface MemberMapper {
 	List<Map<String, Object>> selectPointAndCouponList(Map<String, Object> param);
 	
 	//포인트 상세조회 중 사용 유형들 조회
-	List<Map<String, Object>> selectMemberChageTypeList();
+	List<Map<String, Object>> selectMemberChageTypeList(Map<String, Object> param);
 	
+	//포인트 상세보기 리스트
 	List<Map<String, Object>> selectPointDetailList(Map<String, Object> param);
-
+	
+	//쿠폰 상세보기 리스트
 	List<Map<String, Object>> selectCouponDetailList(Map<String, Object> param);
+
+	//포인트 적립 및 차감
+	int insertPoint(Map<String, Object> point);
+	
+	//쿠폰 지급
+	int insertCoupon(Map<String, Object> param);
+	
+	//블랙리스트 조회
+	List<Map<String, Object>> selectBlackListByAdmin(Map<String, Object> param);
+	
+	//블랙리스트 상세조회(신고내역)
+	List<Map<String, Object>> selectBlackDetailListByAdmin(String memberId);
+	
+	//블랙리스트 신고 취소
+	int updateMemberBlackStatusListByAdmin(Map<String, Object> row);
+	
+	//회원 가입 이력 조회
+	List<Map<String, Object>> selectMemberRegHistoryListByAdmin(Map<String, Object> param);
+	
+	//스케쥴러 : 서버시작시 바로 + 매일 새벽 2시에 회원등급 자동 변경
+	int updateAllMemberGradeAutoByAdmin();
+	
+	//회원가입 이력  통계,차트 
+	List<Map<String, Object>> selectLoginTypeStatsByAdmin();
+	
+	//회원 탈퇴 이력 조회
+	List<Map<String, Object>> selectWithdrawMemberListByAdmin(Map<String, Object> param);
+	
+	//월별 회원 탈퇴 통계
+	List<Map<String, Object>> selectMemberWithdrawCntByAdmin();
+	
 
 }

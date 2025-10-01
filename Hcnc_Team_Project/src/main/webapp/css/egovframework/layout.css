@@ -1,5 +1,4 @@
 @charset "utf-8";
-
 /* 공통 레이아웃 */
 .inner {
   width: 1280px;
@@ -13,6 +12,7 @@
   width: 100%;
 }
 
+header{z-index:30;}
 
 header .flex,
 footer .flex{ display: flex; }
@@ -118,21 +118,30 @@ header .flex.fd-column{flex-direction: column;}
 .gnb li{flex:1;}
 .gnb li a { display:block; width:100%; padding:12px 0; text-align:center; font-weight:bold; }
 
+#gnb.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 30;
+}
+
 /* 카테고리 바 */
 .category-bar {
   background: #333;
   position: relative;
 }
-.category-bar ul {
+.category-bar .category-menu {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.category-bar li {
+.category-bar .category-col {
   flex: 1;
+  position:relative;
 }
-.category-bar li a,
-.category-bar li button {
+.category-bar .category-col a,
+.category-bar .category-col button {
   display: block;
   width: 100%;
   text-align: center;
@@ -145,57 +154,35 @@ header .flex.fd-column{flex-direction: column;}
   cursor: pointer;
 }
 
-.category-col li a{text-align:left;}
+.category-bar .category-col .subcategory-col a{text-align:left;}
 
 /* 카테고리 메뉴 */
-.category-menu {
+.subcategory-col {
   display: none; /* 기본 숨김 */
   position: absolute;
-  top: 44px;
+  top: 45px;
   left: 0;
   width: 100%;
   background: #fff;
-  border-top: 2px solid #333;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
-/* JS 토글용 클래스 */
-.category-menu.show {
-  display: block;
-}
-
-/* hover-item 호버 시 메뉴 표시 */
-.hover-item:hover ~ .category-menu {
-  display: block;
-}
-
-/* 카테고리 컬럼 */
-.category-col {
-  flex:1;
-  border-left:1px solid #ccc;	
-  padding: 20px 10px;
-}
-
-.category-col:first-child{ border-left:none;}
-.category-col:last-child{ border-right:1px solid #ccc;}
-
-.category-col h5 {
-  font-size: 15px;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
 .category-col ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: none; /* 기본은 숨김 */
 }
-.category-col li a {
+
+.category-bar.show .category-col ul {
   display: block;
-  padding: 3px 0;
-  font-size: 14px;
-  color: #555;
 }
+
+.category-col h5 {  font-size: 14px;  margin:0;  font-weight: bold;}
+.category-col ul {  list-style: none;  margin: 0;  padding: 0;}
+.category-col ul li:first-child{padding:5px 0; font-weight:bolder; display:none;}
+.category-bar .category-col .subcategory-col a { display: block;  padding: 5px 0;  font-size: 14px;  color: #555;}
+
 
 
 /* FOOTER */

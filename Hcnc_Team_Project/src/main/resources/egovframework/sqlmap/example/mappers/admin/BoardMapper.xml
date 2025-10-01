@@ -75,20 +75,20 @@
 	      LEFT JOIN MEMBERS M ON P.MEMBER_ID = M.MEMBER_ID        -- 멤버테이블
 	      LEFT JOIN BOARDS B ON P.BOARD_ID = B.BOARD_ID           -- 보드테이블
 	     WHERE 1=1
-	   	 <if test="BOARD_ID == null or BOARD_ID == '' or BOARD_ID == 'ALL'">
-		   AND P.BOARD_ID IN (1, 3, 4)
+	   	 <if test="BOARD_ID == null or BOARD_ID == '' or BOARD_ID == 'ALL'">    -- 조건1.넥사에서 처음뿌려줄 내용
+		   AND P.BOARD_ID IN (1, 3, 4, 6)
 		</if>
-		<if test="BOARD_ID != null and BOARD_ID != '' and BOARD_ID != 'ALL'">
+		<if test="BOARD_ID != null and BOARD_ID != '' and BOARD_ID != 'ALL'">   -- 조건2.넥사에서 받을  BOARD_ID
 	       AND P.BOARD_ID = #{BOARD_ID}
 	    </if>
-	    <if test="USER_NAME != null and USER_NAME != ''">
+	    <if test="USER_NAME != null and USER_NAME != ''">                       -- 조건3.넥사에서 받을  USER_NAME
 		   AND M.USER_NAME LIKE CONCAT ('%', #{USER_NAME}, '%')
 		</if>
 	</select>
 	
 	
 	<insert id="insertPostByAdmin" parameterType="map">
-		#보드 작성 쿼리
+		#게시글 작성 쿼리
     	INSERT INTO POSTS 
     	  (BOARD_ID, MEMBER_ID, POST_TITLE, POST_CONTENT)
     	VALUES
@@ -98,18 +98,18 @@
 	<select id="selectPostDetailByAdmin" parameterType="map" resultType="map">
 		#게시글 상세조회
 		SELECT 
-		       P.POST_TITLE                                                -- 게시글 제목
-		     , P.POST_ID                                                   -- 게시글 ID
-		     , B.BOARD_ID                                                  -- 보드 ID
-		     , P.POST_CONTENT                                              -- 게시글 내용
-		     , B.BOARD_NAME                                                -- 보드이름
-		     , P.INPUT_DT                                                  -- 작성일
-		     , M.USER_NAME                                                 -- 작성자
-		  FROM POSTS P                                            -- 게시글테이블
-		  LEFT JOIN BOARDS B ON P.BOARD_ID = B.BOARD_ID           -- 보드테이블
-		  LEFT JOIN MEMBERS M ON P.MEMBER_ID = M.MEMBER_ID        -- 멤버테이블
+		       P.POST_TITLE            -- 게시글 제목
+		     , P.POST_ID               -- 게시글 ID
+		     , B.BOARD_ID              -- 보드 ID
+		     , P.POST_CONTENT          -- 게시글 내용
+		     , B.BOARD_NAME            -- 보드이름
+		     , P.INPUT_DT              -- 작성일
+		     , M.USER_NAME             -- 작성자
+		  FROM POSTS P                                         -- 게시글테이블
+		  LEFT JOIN BOARDS B ON P.BOARD_ID = B.BOARD_ID        -- 보드테이블
+		  LEFT JOIN MEMBERS M ON P.MEMBER_ID = M.MEMBER_ID     -- 멤버테이블
 		 WHERE 1=1
-		<if test="POST_ID != null and POST_ID != ''">
+		<if test="POST_ID != null and POST_ID != ''">          -- 조건1.넥사에서 받을  POST_ID
 		   AND P.POST_ID = #{POST_ID}
 		</if>
 	</select>
@@ -117,7 +117,7 @@
 	<update id="updatePostByAdmin" parameterType="map">
 		#게시글 수정
 		
-		<if test="POST_ID != null and POST_ID != ''">
+		<if test="POST_ID != null and POST_ID != ''">  -- 무결성 조건1. POST_ID가 없으면 실행 안되게
 		 UPDATE POSTS
 		    SET 
 		       POST_TITLE   = #{POST_TITLE}
@@ -126,5 +126,79 @@
 		    AND POST_ID=#{POST_ID}
 		</if>
 	</update>
+	
+	<select id="selectReportByAdmin" parameterType="map" resultType="map">
+	#리뷰/댓글 신고 관리
+		SELECT 
+			   '0' AS CHK
+			 , R.REPORT_ID
+			 , R.REPORT_CONTENT
+			 , R.TARGET_TYPE	  -- 신고 대상 유형
+			 , R.REPORTER          -- 신고자 
+			 , R.COMMENT_ID       -- 코멘트 아이디
+			 , R.REVIEW_ID        -- 리뷰 아이디
+			 , R.BOARD_WRITER     -- 게시글 작성자
+			 , R.REPORT_TYPE      -- 신고 유형
+			 , R.REPORT_STATUS    -- 신고 상태
+			 , M.USER_NAME
+		  FROM REPORT R                     -- 신고 테이블
+     LEFT JOIN MEMBERS M ON M.MEMBER_ID = R.BOARD_WRITER
+		 WHERE 1=1
+	<if test="TARGET_TYPE != null and TARGET_TYPE != '' and TARGET_TYPE != '전체'"> 
+		   AND TARGET_TYPE = #{TARGET_TYPE}
+	</if>
+	<if test="REPORT_STATUS != null and REPORT_STATUS != '' and REPORT_STATUS != '전체'">
+		   AND REPORT_STATUS = #{REPORT_STATUS}
+	</if>
+	<if test="REPORT_TYPE != null and REPORT_TYPE != '' and REPORT_TYPE !='전체'">
+	       AND REPORT_TYPE = #{REPORT_TYPE}
+	</if>
+	<if test="USER_NAME != null and USER_NAME != ''">
+		   AND USER_NAME LIKE CONCAT ('%',#{USER_NAME},'%')
+	</if>
+	</select>
+	
+	<select id="selectReportTypeByAdmin" resultType="map">
+    #신고 유형 조회 
+    
+		SELECT '전체' AS REPORT_TYPE
+		UNION ALL
+		SELECT REPORT_TYPE
+		  FROM REPORT
+      GROUP BY REPORT_TYPE
+	</select>
+	
+	<update id="updateReportByAdmin" parameterType="map">
+	#신고 상태 업데이트
+		UPDATE REPORT
+		   SET REPORT_STATUS = #{REPORT_STATUS}
+		 WHERE REPORT_ID = #{REPORT_ID}
+	</update>
+	
+	<select id="selectcommentReportByAdmin" parameterType="map" resultType="map">
+	#신고 댓글 상세 조회 
+		SELECT COMMENT    AS POST_CONTENT       -- 댓글 내용
+		     , "조회된 댓글"  AS POST_TITLE         -- 댓글 제목 없어서 임의로 지정
+		     , MEMBER_ID                        -- 작성자
+		     , DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT
+		  FROM COMMENTS
+	<if test="REVIEW_ID != null and REVIEW_ID != ''">
+	       AND REVIEW_ID = #{REVIEW_ID}
+	</if>
+	</select>
+	
+	<select id="selectReviewReportByAdmin" parameterType="map" resultType="map">
+	#신고 리뷰 상세 조회
+		SELECT REVIEW_CONTENT AS POST_CONTENT      -- 리뷰 내용
+		     , REVIEW_TITLE   AS POST_TITLE        -- 리뷰 제목
+		     , MEMBER_ID                           -- 리뷰 작성자
+		     , DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT
+		  FROM REVIEWS
+		 WHERE 1=1 
+	<if test="REVIEW_ID != null and REVIEW_ID != ''">
+	       AND REVIEW_ID = #{REVIEW_ID}
+	</if>
+	</select>
+	
 	
 </mapper>

@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_MemberBlackListDetail" width="660" height="530" titletext="New Form" onkeyup="Form_MemberBlackListDetail_onkeyup" onload="Form_MemberBlackListDetail_onload" background="#F4F7FE">
+    <Layouts>
+      <Layout height="530" width="660">
+        <Div id="Div00" taborder="0" left="18" top="40" width="622" height="440" background="lightGray" borderRadius="12px" text="">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <Static id="Static00" taborder="1" text="ESC[닫기]" left="574" top="500" width="66" height="25" color="RED" font="bold 12px/normal &quot;Gulim&quot;" onclick="Static00_onclick"/>
+        <Static id="Static01" taborder="2" text="신고 내역" left="20" top="10" width="70" height="25" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Grid id="black_list" taborder="3" left="30" top="50" height="410" background="#FFFFFF" border="0px none" borderRadius="10px" right="30" autofittype="col" binddataset="ds_list" oncellclick="black_list_oncellclick">&gt;
+          <Formats><Format id="default"><Columns><Column size="43"/><Column size="78"/><Column size="69"/><Column size="192"/><Column size="102"/><Column size="122"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="신고유형" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="신고내용" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="상태" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="신고일자" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="2" text="bind:REPORT_TYPE" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="3" text="bind:REPORT_CONTENT" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="4" text="bind:REPORT_STATUS" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;" displaytype="combocontrol" edittype="combo" combocodecol="REPORT_STATUS" combodatacol="REPORT_STATUS" combodataset="ds_status"/><Cell col="5" text="bind:INPUT_DT" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/></Band></Format></Formats></Grid>
+        <Button id="status_change_btn" taborder="4" text="상태 변경" left="282" top="490" width="95" height="28" background="#2563eb" borderRadius="4px" font="11px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="status_change_btn_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.Form_MemberBlackListDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	// 부모 폼으로부터 전달된 파라미터에 직접 접근
+    var memberId = this.parent.MEMBER_ID;
+	trace("ㅇㅇ :" + memberId)
+	
+	this.fn_selectBlackListDetail(memberId);
+	
+};
+
+//블랙 리스트 신고 내역 조회
+this.fn_selectBlackListDetail= function(memberId){
+	
+	var strSvcID = "selectBlackDetailList"
+	var setURL = "svc::/selectBlackDetailListByAdmin.do?time=" + new Date().getTime();
+	var strInDatasets = "";
+	var strOutDatasets = "ds_list=ds_list";
+	//단일값으로 memberId를 보내서 BOARD_WRITER에 담는다 
+	var strArg = "memberId="+memberId;
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
+
+//상태변경
+this.status_change_btn_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var strSvcID = "updateMemberBlackStatusList";
+	var setURL = "svc::/updateMemberBlackStatusListByAdmin.do?time=" + new Date().getTime();
+	var strInDatasets = "ds_list=ds_list:u"; // 수정된 데이터만 서버로 보냄
+	var strOutDatasets = "ds_upCnt = ds_upCnt";
+	var strArg = "";
+	var callBack = "fn_callBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
+};
+
+// 공통 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG){
+	
+	if(errorCode == -1){
+		this.alert(errorMSG)
+	}
+	
+	switch(svcID){
+	case "selectBlackDetailList" : 
+		console.log(this.ds_list.saveXML());
+		break;
+		
+		
+	case "updateMemberBlackStatusList" :
+		if(this.ds_upCnt.getColumn(0,"UPDATED")>0){
+			this.alert('상태가 변경 되었습니다')
+			this.close();
+		}else{
+			this.alert('상태가 변경 되지 않았습니다 다시 확인하세요')
+			this.reload();
+		}
+		
+	}
+	
+}
+
+//esc 눌렀을때 닫힘
+this.Form_MemberBlackListDetail_onkeyup = function(obj:nexacro.Form,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 27){
+		this.close();
+	}
+};
+
+//그냥 클릭해도 닫히게
+this.Static00_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+{
+	this.close();
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="black_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="REPORT_TYPE" type="STRING" size="256"/>
+          <Column id="REPORT_CONTENT" type="STRING" size="256"/>
+          <Column id="INPUT_DT" type="STRING" size="256"/>
+          <Column id="REPORT_STATUS" type="STRING" size="256"/>
+          <Column id="REPORT_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_status">
+        <ColumnInfo>
+          <Column id="REPORT_STATUS" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="REPORT_STATUS">신고처리</Col>
+          </Row>
+          <Row>
+            <Col id="REPORT_STATUS">신고취소</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_upCnt">
+        <ColumnInfo>
+          <Column id="UPDATED" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>
