@@ -31,7 +31,7 @@
         BIRTH,
         GENDER,
         GRADE_CODE,
-        STATUS,
+        STATUS
 		FROM MEMBERS
 		WHERE MEMBER_ID = #{id}
 	</select>

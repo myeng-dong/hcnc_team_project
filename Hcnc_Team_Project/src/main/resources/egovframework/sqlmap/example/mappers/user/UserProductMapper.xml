@@ -77,7 +77,7 @@
 	    </if>
 	</select>
 
-	<select id="selectCateGoryProductsListByUser" resultType="java.util.Map">
+	<select id="selectCategoryProductsListByUser" resultType="java.util.Map">
 	    SELECT p.PRODUCT_ID
 	         , p.PRODUCT_NAME
 	         , p.PRODUCT_CODE
@@ -85,14 +85,19 @@
 	         , p.SALED_PRICE
 	         , p.SORT_NUMBER
 	         , p.PRODUCT_TYPE
-	         , p.SUB_CATE_ID AS CATEGORY
+	         , p.SUB_CATE_ID
+	         , sc.SUB_CATE_NM AS SUB_CATE_NAME
+	         , sc.MAIN_CATE_ID
+	         , mc.MAIN_CATE_NM AS MAIN_CATE_NAME
 	         , pImg.IMAGE_URL
 	         , pImg.ALT_TEXT
 	         , COALESCE(r.REVIEW_COUNT, 0) AS REVIEW_COUNT
 	         , COALESCE(r.AVG_RATING, 0) AS AVG_RATING
 	         , COALESCE(inv.TOTAL_QUANTITY, 0) AS STOCK_QUANTITY
-         	 , CASE WHEN COALESCE(inv.TOTAL_QUANTITY, 0) &gt;= 0 THEN 'Y' ELSE 'N' END AS IS_SOLDOUT
+	         , CASE WHEN COALESCE(inv.TOTAL_QUANTITY, 0) > 0 THEN 'N' ELSE 'Y' END AS IS_SOLDOUT
 	    FROM PRODUCTS p
+	    LEFT JOIN SUB_CATEGORIES sc ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+	    LEFT JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
 	    LEFT JOIN PRODUCT_IMG pImg 
 	           ON p.PRODUCT_ID = pImg.PRODUCT_ID 
 	          AND pImg.IS_MAIN = 'Y'
@@ -105,23 +110,52 @@
 	        GROUP BY PRODUCT_ID
 	    ) r ON p.PRODUCT_ID = r.PRODUCT_ID
 	    LEFT JOIN (
-		    SELECT PRODUCT_ID
-		         , SUM(QUANTITY) AS TOTAL_QUANTITY
-		    FROM INVENTORIES
-		    GROUP BY PRODUCT_ID
-		) inv ON p.PRODUCT_ID = inv.PRODUCT_ID
+	        SELECT PRODUCT_ID
+	             , SUM(QUANTITY) AS TOTAL_QUANTITY
+	        FROM INVENTORIES
+	        GROUP BY PRODUCT_ID
+	    ) inv ON p.PRODUCT_ID = inv.PRODUCT_ID
 	    WHERE p.IS_VISIBLE = 'Y'
+	      AND sc.IS_ACTIVE = 'Y'
+	      AND mc.IS_ACTIVE = 'Y'
+	    <if test="mainCateId != null and mainCateId != ''">
+	        AND sc.MAIN_CATE_ID = #{mainCateId}
+	    </if>
 	    <if test="subCateId != null and subCateId != ''">
 	        AND p.SUB_CATE_ID = #{subCateId}
 	    </if>
-	    <if test="sortNumber != null and sortNumber != ''">
-	        AND p.SORT_NUMBER = #{sortNumber}
+	    <choose>
+	        <when test="sortType == 'name'">
+	            ORDER BY p.PRODUCT_NAME ASC
+	        </when>
+	        <when test="sortType == 'lowPrice'">
+	            ORDER BY p.SALED_PRICE ASC
+	        </when>
+	        <when test="sortType == 'highPrice'">
+	            ORDER BY p.SALED_PRICE DESC
+	        </when>
+	        <otherwise>
+	            ORDER BY p.INPUT_DT DESC, p.SORT_NUMBER DESC
+	        </otherwise>
+	    </choose>
+	    LIMIT #{offset}, #{pageSize}
+	</select>
+	
+	<select id="selectCategoryProductsCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM PRODUCTS p
+	    LEFT JOIN SUB_CATEGORIES sc ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+	    LEFT JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+	    WHERE p.IS_VISIBLE = 'Y'
+	      AND sc.IS_ACTIVE = 'Y'
+	      AND mc.IS_ACTIVE = 'Y'
+	    <if test="mainCateId != null and mainCateId != ''">
+	        AND sc.MAIN_CATE_ID = #{mainCateId}
 	    </if>
-	    ORDER BY p.SORT_NUMBER DESC, p.INPUT_DT DESC
-	    <if test="limit != null">
-	        LIMIT #{limit}
+	    <if test="subCateId != null and subCateId != ''">
+	        AND p.SUB_CATE_ID = #{subCateId}
 	    </if>
-	</select>	
+	</select>
 
 	<insert id="insertCartItemByUser" parameterType="java.util.Map">
 		INSERT INTO CART_ITEMS (CART_ID, PRODUCT_ID, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL)
