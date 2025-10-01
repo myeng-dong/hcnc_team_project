@@ -2944,7 +2944,7 @@
             						{
             							"enabled" :
             							{
-            								"color" : nexacro.ColorObject("#333333"),
+            								"color" : nexacro.ColorObject("#000000"),
             								"border" : nexacro.BorderObject("1px solid #c7c7c7"),
             								"padding" : nexacro.PaddingObject("6px 10px 6px 10px")
             							},
@@ -2958,17 +2958,17 @@
             							},
             							"selected" :
             							{
-            								"color" : nexacro.ColorObject("#dee4ef"),
+            								"color" : nexacro.ColorObject("#ffffff"),
             								"border" : nexacro.BorderObject("1px solid #1055a1")
             							},
             							"focused_selected" :
             							{
-            								"color" : nexacro.ColorObject("#dee4ef"),
+            								"color" : nexacro.ColorObject("#ffffff"),
             								"border" : nexacro.BorderObject("1px solid #1055a1")
             							},
             							"disabled" :
             							{
-            								"color" : nexacro.ColorObject("#ababab")
+            								"color" : nexacro.ColorObject("#999999")
             							},
             							"disabled_selected" :
             							{
