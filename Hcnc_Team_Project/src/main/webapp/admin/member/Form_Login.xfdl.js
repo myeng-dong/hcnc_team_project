@@ -12,6 +12,7 @@
             this.set_name("Form_Login");
             this.set_titletext("New Form");
             this.set_background("#CACDDC");
+            this.set_visible("true");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -30,6 +31,16 @@
 
             obj = new Dataset("ds_isLogin", this);
             obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_findPassword", this);
+            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"EMAIL\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_findResult", this);
+            obj._setContents("<ColumnInfo><Column id=\"RESULT\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -93,7 +104,7 @@
             obj.set_image("url(\'imagerc::h1_logo.png\')");
             this.addChild(obj.name, obj);
 
-            obj = new CheckBox("CheckBox00","486","495","88","22",null,null,null,null,null,null,this);
+            obj = new CheckBox("chk_saveId","486","495","88","22",null,null,null,null,null,null,this);
             obj.set_taborder("8");
             obj.set_text("아이디 기억");
             obj.set_font("12px/normal \"Noto Sans KR Medium\"");
@@ -104,6 +115,55 @@
             obj.set_text("비밀번호 찾기");
             obj.set_font("12px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
+
+            obj = new Div("div_findPassword","0","-4","1300","729",null,null,null,null,null,null,this);
+            obj.set_taborder("11");
+            obj.set_visible("false");
+            obj.set_background("rgba(0,0,0,0.5)");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00","390","200","500","300",null,null,null,null,null,null,this.div_findPassword.form);
+            obj.set_taborder("0");
+            obj.set_background("white");
+            this.div_findPassword.addChild(obj.name, obj);
+
+            obj = new Static("Static01","530","210","220","44",null,null,null,null,null,null,this.div_findPassword.form);
+            obj.set_taborder("1");
+            obj.set_text("비밀번호 찾기");
+            obj.set_textAlign("center");
+            this.div_findPassword.addChild(obj.name, obj);
+
+            obj = new Edit("edt_findId","484","269","333","42",null,null,null,null,null,null,this.div_findPassword.form);
+            obj.set_taborder("2");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
+            this.div_findPassword.addChild(obj.name, obj);
+
+            obj = new Edit("edt_findEmail","484","339","331","43",null,null,null,null,null,null,this.div_findPassword.form);
+            obj.set_taborder("3");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
+            this.div_findPassword.addChild(obj.name, obj);
+
+            obj = new Button("btn_findSubmit","521","420","99","36",null,null,null,null,null,null,this.div_findPassword.form);
+            obj.set_taborder("4");
+            obj.set_text("발급");
+            this.div_findPassword.addChild(obj.name, obj);
+
+            obj = new Button("btn_findCancel","658","414","105","42",null,null,null,null,null,null,this.div_findPassword.form);
+            obj.set_taborder("5");
+            obj.set_text("취소");
+            this.div_findPassword.addChild(obj.name, obj);
+
+            obj = new Static("Static02","420","279","39","23",null,null,null,null,null,null,this.div_findPassword.form);
+            obj.set_taborder("6");
+            obj.set_text("아이디");
+            this.div_findPassword.addChild(obj.name, obj);
+
+            obj = new Static("Static03","423","345","35","30",null,null,null,null,null,null,this.div_findPassword.form);
+            obj.set_taborder("7");
+            obj.set_text("이메일");
+            this.div_findPassword.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
@@ -117,6 +177,14 @@
             obj = new BindItem("item1","admin_pw","value","ds_admin","PASSWORD");
             this.addChild(obj.name, obj);
             obj.bind();
+
+            obj = new BindItem("item2","div_findPassword.form.edt_findId","value","ds_findPassword","MEMBER_ID");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item3","div_findPassword.form.edt_findEmail","value","ds_findPassword","EMAIL");
+            this.addChild(obj.name, obj);
+            obj.bind();
             
             // TriggerItem Information
 
@@ -128,154 +196,255 @@
         };
         
         // User Script
-        this.addIncludeScript("Form_Login.xfdl","common::common.xjs");
         this.registerScript("Form_Login.xfdl", function() {
-        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
-        this.Form_Login_onload = function(obj,e)
+        this.isWait = false;
+        this.Form_Login_onload = function(obj, e)
         {
-        	// controller에 httpsession
-        	var args = this.parent.arguments;
-        	console.log(args);
-        	console.log(args.isLogout);
-        	if(args.isLogout){
+            var args = this.parent.arguments;
 
-        		var glbAd = nexacro.getApplication();
+            // 로그아웃 후 재진입 처리
+            if(args && args.isLogout) {
+                var glbAd = nexacro.getApplication();
+                glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments =
+                    { "isLogout": false };
+            }
 
-        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": false};
+            // 로그인 상태 확인 (세션 체크)
+            this.checkLogin();
 
-        		return;
-        	}
-        	this.checkLogin();
+            // 저장된 아이디 불러오기 (쿠키 읽기만)
+            this.loadSavedId();
         };
 
-
-        //콜백
-        this.fn_callBack = function (svcID, errorCode, errorMSG)
+        // 로그인 버튼
+        this.admin_login_onclick = function(obj, e)
         {
-            if(errorCode == -1){
-        		this.alert(errorMSG);
-        		return;
-        	}
-        	console.log("errorCode= "+errorCode);
+            var adminId = this.ds_admin.getColumn(0, "MEMBER_ID");
+            var adminPw = this.ds_admin.getColumn(0, "PASSWORD");
 
-        	switch(svcID){
-        	case "adminCheckLogin":
+            if(!adminId || adminId == '') {
+                this.alert('아이디를 입력해 주세요');
+                this.admin_id.setFocus();
+                return;
+            }
 
-        		var isLogin = this.ds_isLogin.getColumn(0,"MEMBER_ID");
+            if(!adminPw || adminPw == '') {
+                this.alert('비밀번호를 입력해 주세요');
+                this.admin_pw.setFocus();
+                return;
+            }
 
+            // 체크박스 상태를 서버로 전달만
+            var saveId = this.chk_saveId.value == true ? "Y" : "N";
 
-        		if(isLogin != null && isLogin !='undefined'){
+            var strSvcID = "adminLogin";
+            var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
+            var strInDatasets = "ds_admin=ds_admin";
+            var strOutDatasets = "ds_loginChk=ds_loginChk";
+            var strArg = "SAVE_ID=" + saveId;
+            var callBack = "fn_callBack";
+            var inAsync = true;
 
-        			this.loginSet();
-        		}
-        		break;
-        	case "adminLogin" :
-        		if(this.ds_loginChk.getRowCount() == 0){
-        			alert("아이디 또는 비밀번호를 확인하세요");
-        			return;
-        		}
-        		this.loginSet();
-
-        		break;
-        	}
+            this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
         };
 
-
-        //로그인 버튼
-        this.admin_login_onclick = function(obj,e)
+        // 엔터키 로그인 (중복 코드 제거 - 버튼 클릭 호출)
+        this.admin_pw_onkeyup = function(obj, e)
         {
-        	var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
-        	var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
+            if(e.keycode == 13) {
+                this.admin_login_onclick(this.admin_login, null);
+            }
+        };
 
-        	if(adminId == null || adminId ==''){
-        		this.alert('아이디를 입력해 주세요')
+        // 콜백
+        this.fn_callBack = function(svcID, errorCode, errorMSG)
+        {
+            if(errorCode == -1) {
+                this.alert(errorMSG);
+                return;
+            }
+
+            switch(svcID) {
+                case "adminCheckLogin":
+                    var isLogin = this.ds_isLogin.getColumn(0, "MEMBER_ID");
+                    if(isLogin != null && isLogin != 'undefined') {
+                        this.loginSet();
+                    }
+                    break;
+
+                case "adminLogin":
+                    if(this.ds_loginChk.getRowCount() == 0) {
+                        this.alert("아이디 또는 비밀번호를 확인하세요");
+                        return;
+                    }
+                    this.loginSet();
+                    break;
+
+                case "findPassword":
+                    if(this.ds_findResult.getRowCount() > 0) {
+                        var result = this.ds_findResult.getColumn(0, "RESULT");
+                        if(result == "SUCCESS") {
+                            this.alert("임시 비밀번호가 이메일로 발송되었습니다.\n" +
+                                      "(개발 중에는 콘솔 로그를 확인하세요)\n" +
+                                      "로그인 후 비밀번호를 변경해주세요.");
+                            this.closePasswordFindPopup();
+                        } else if(result == "NOT_FOUND") {
+                            this.alert("일치하는 회원 정보가 없습니다.\n" +
+                                      "아이디와 이메일을 확인해주세요.");
+                        } else {
+                            this.alert("비밀번호 찾기에 실패했습니다.\n" +
+                                      "잠시 후 다시 시도해주세요.");
+                        }
+                    }
+                    break;
+            }
+        };
+
+        // 세션 확인
+        this.checkLogin = function() {
+            var strSvcID = "adminCheckLogin";
+            var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();
+            var strInDatasets = "";
+            var strOutDatasets = "ds_isLogin=ds_isLogin ds_loginChk=ds_loginChk";
+            var strArg = "";
+            var callBack = "fn_callBack";
+            var inAsync = true;
+
+            this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
+        };
+
+        // 로그인 완료 처리
+        this.loginSet = function() {
+            var glbAd = nexacro.getApplication();
+
+            // 전역 데이터셋에 저장
+            glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
+
+            // 상단 프레임에 아이디 표시
+            if(glbAd.gds_adminInfo.rowcount > 0) {
+                var memberId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
+                var topForm = glbAd.mainframe.VFrameSet00.TopFrame.form;
+                topForm.admin_id.set_text(memberId);
+            }
+
+            // 메뉴 영역 복구
+            nexacro.VFrameSet00.set_separatesize("50,*");
+            nexacro.HFrameSet00.set_separatesize("200,*");
+            nexacro.InnerVFrameSet.set_separatesize("110,*");
+
+            // 대시보드로 이동
+            glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl(
+                "dash::Form_test.xfdl"
+            );
+        };
+
+        // 쿠키 읽기 (표시만)
+        this.loadSavedId = function()
+        {
+            var savedId = this.getCookie("ADMIN_ID");
+
+            if(savedId && savedId != '' && savedId != 'undefined' && savedId != 'null') {
+                this.ds_admin.setColumn(0, "MEMBER_ID", savedId);
+                this.chk_saveId.set_value(true);
+            } else {
+                this.ds_admin.setColumn(0, "MEMBER_ID", "");
+                this.chk_saveId.set_value(false);
+            }
+        };
+
+        // 쿠키 읽기 함수
+        this.getCookie = function(name)
+        {
+            try {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if(parts.length == 2) {
+                    return decodeURIComponent(parts.pop().split(";").shift());
+                }
+            } catch(e) {
+                console.log("getCookie error: " + e.message);
+            }
+            return null;
+        };
+
+        // 비밀번호 찾기 관련 함수들은 그대로 유지...
+
+        /************************************************
+        * 비밀번호 찾기 기능
+        ************************************************/
+
+        // 비밀번호 찾기 텍스트 클릭
+        this.findPw_onclick = function(obj,e)
+        {
+        	this.showPasswordFindPopup();
+        };
+
+        // 비밀번호 찾기 팝업 표시
+        this.showPasswordFindPopup = function()
+        {
+        	// Dataset 초기화
+        	this.ds_findPassword.clearData();
+        	this.ds_findPassword.addRow();
+
+        	// 팝업 표시
+        	this.div_findPassword.set_visible(true);
+
+        	// 첫 번째 입력란에 포커스
+        	this.div_findPassword.form.edt_findId.setFocus();
+        };
+
+        // 비밀번호 찾기 팝업 닫기
+        this.closePasswordFindPopup = function()
+        {
+        	this.div_findPassword.set_visible(false);
+        	this.ds_findPassword.clearData();
+        	this.ds_findPassword.addRow();
+        };
+
+        //발급 버튼
+        this.div_findPassword_btn_findSubmit_onclick = function(obj,e)
+        {
+        	var memberId = this.ds_findPassword.getColumn(0, "MEMBER_ID");
+        	var email = this.ds_findPassword.getColumn(0, "EMAIL");
+
+        	if(memberId == null || memberId == ''){
+        		this.alert('아이디를 입력해주세요.');
+        		this.div_findPassword.form.edt_findId.setFocus();
         		return;
         	}
 
-        	if(adminPw == null || adminPw ==''){
-        		this.alert('비밀번호를 입력해 주새요')
+        	if(email == null || email == ''){
+        		this.alert('이메일을 입력해주세요.');
+        		this.div_findPassword.form.edt_findEmail.setFocus();
         		return;
         	}
 
-        	var strSvcID = "adminLogin"
-        	var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
-        	var strInDatasets = "ds_admin=ds_admin";
-        	var strOutDatasets = "ds_loginChk=ds_loginChk";
+        	// 이메일 형식 검증
+        	var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        	if(!emailPattern.test(email)){
+        		this.alert('올바른 이메일 형식을 입력해주세요.');
+        		this.div_findPassword.form.edt_findEmail.setFocus();
+        		return;
+        	}
+
+        	var strSvcID = "findPassword";
+        	var setURL = "svc::/findPasswordByAdmin.do?time=" + new Date().getTime();
+        	var strInDatasets = "ds_findPassword=ds_findPassword";
+        	var strOutDatasets = "ds_findResult=ds_findResult";
         	var strArg = "";
         	var callBack = "fn_callBack";
         	var inAsync = true;
 
-        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
-
+        	this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
         };
 
-        //ds_loginChk도 다시 업데이트
-        this.checkLogin = function(){
-        	var strSvcID = "adminCheckLogin"
-        	var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();
-        	var strInDatasets = "";
-        	var strOutDatasets = "ds_isLogin=ds_isLogin ds_loginChk=ds_loginChk";
-        	var strArg = "";
-        	var callBack = "fn_callBack";
-        	var inAsync = true;
 
-        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
-
-        }
-
-        this.loginSet = function () {
-
-        	var glbAd = nexacro.getApplication();
-
-        	// 전역데이터셋 저장( copydata() )
-        	glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
-
-
-        	//직접 탑 프레임에 접근해서 상단에 멤버 id 띄우기(중요!)
-        	if (glbAd.gds_adminInfo.rowcount > 0) {
-        		var memberId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
-        		var topForm = glbAd.mainframe.VFrameSet00.TopFrame.form;
-        		topForm.admin_id.set_text(memberId);
-        		trace("로그인한 관리자 ID = " + memberId);
-        	}
-
-        	// 메뉴/타이틀 영역 복구
-        	nexacro.VFrameSet00.set_separatesize("50,*");   // TopFrame 높이 복원
-        	nexacro.HFrameSet00.set_separatesize("200,*");  // LeftFrame 너비 복원
-        	nexacro.InnerVFrameSet.set_separatesize("110,*"); // TitleFrame 높이 복원
-
-        	// 대시보드로 이동
-        	glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("dash::Form_test.xfdl");
-
-        }
-
-        this.admin_pw_onkeyup = function(obj,e)
+        // 비밀번호 찾기 취소 버튼
+        this.div_findPassword_btn_findCancel_onclick = function(obj,e)
         {
-        	if(e.keycode == 13){
-        		var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
-        		var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
-
-        		if(adminId == null || adminId ==''){
-        			this.alert('아이디를 입력해 주세요')
-        			return;
-        		}
-
-        		if(adminPw == null || adminPw ==''){
-        			this.alert('비밀번호를 입력해 주새요')
-        			return;
-        		}
-
-        		var strSvcID = "adminLogin"
-        		var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
-        		var strInDatasets = "ds_admin=ds_admin";
-        		var strOutDatasets = "ds_loginChk=ds_loginChk";
-        		var strArg = "";
-        		var callBack = "fn_callBack";
-        		var inAsync = true;
-
-        		this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
-        	}
+        	this.closePasswordFindPopup();
         };
+
 
         });
         
@@ -289,6 +458,10 @@
             this.admin_pw.addEventHandler("onkeyup",this.admin_pw_onkeyup,this);
             this.admin_login.addEventHandler("onclick",this.admin_login_onclick,this);
             this.h1_logo.addEventHandler("onclick",this.h1_logo_onclick,this);
+            this.chk_saveId.addEventHandler("canchange",this.chk_saveId_canchange,this);
+            this.findPw.addEventHandler("onclick",this.findPw_onclick,this);
+            this.div_findPassword.form.btn_findSubmit.addEventHandler("onclick",this.div_findPassword_btn_findSubmit_onclick,this);
+            this.div_findPassword.form.btn_findCancel.addEventHandler("onclick",this.div_findPassword_btn_findCancel_onclick,this);
         };
         this.loadIncludeScript("Form_Login.xfdl");
         this.loadPreloadList();
