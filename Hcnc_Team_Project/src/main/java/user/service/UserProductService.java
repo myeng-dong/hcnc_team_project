@@ -24,11 +24,43 @@ public class UserProductService {
 		return userProductMapper.selectProductByUser(productId);
 	}
 
-	public int insertCartItemByUser(Map<String, Object> param) {
+	public int insertCartItemByUser(Map<String, Object> param, List<Long> optionIds) {
 		// TODO Auto-generated method stub
 		int result = 0;
 		try {
-			result = userProductMapper.insertCartItemByUser(param);
+			// CART_ITEMS 데이터 insert
+			// INSERT 후 param Map에 cartItemId가 자동으로 추가됨
+			userProductMapper.insertCartItemByUser(param);
+			Long cartItemId = Long.parseLong(param.get("cartItemId").toString());
+			
+			System.out.println("cartItemId : " + cartItemId);
+			
+			// CART_ITEM_OPTIONS 데이터 insert
+			boolean cartItemOptions = true;
+			if(optionIds.size() > 0) {
+				Map<String, Object> optionId = new HashMap<String, Object>();
+				
+				optionId.put("cartItemId", cartItemId);
+				
+				for(int i=0; i < optionIds.size(); i++) {
+					
+					optionId.put("optionId", optionIds.get(i));
+					
+					int optionInsert =  userProductMapper.insertCartItemOptionByUser(optionId);
+					
+					if(optionInsert != 1) {
+						cartItemOptions = false;
+					}
+				}
+			}
+			
+			if(cartItemOptions) {
+				result = 1;
+				System.out.println("옵션처리 성공!");
+			} else {
+				result = 0;
+				System.out.println("옵션처리 실패x");
+			}
 			
 		} catch(DuplicateKeyException e) {
 			result = 2;
@@ -104,7 +136,5 @@ public class UserProductService {
         
         return userProductMapper.selectCategoryProductsListByUser(params);
     }
-	
 
-	
 }

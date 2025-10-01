@@ -50,13 +50,12 @@
 	<update id="updateChkBox" parameterType="java.util.HashMap">
 		UPDATE CART_ITEMS
 		   SET IS_CHECKED = #{isChecked}
-		 WHERE CART_ID = #{cartId}
+		 WHERE 1=1
+		 	AND CART_ID = #{cartId}
 			<if test="cartItemId != null">
 				AND CART_ITEM_ID = #{cartItemId}
 			</if>
-			<if test="option != null">
-				AND PRODUCT_OPTION = #{option}
-			</if>
+
 	</update>
 	
 	<!-- 상품 삭제 -->
@@ -65,9 +64,6 @@
 		 WHERE CART_ID = #{cartId}
 			<if test="cartItemId != null">	
 				AND CART_ITEM_ID = #{cartItemId}
-			</if>
-			<if test="option != null">
-				AND PRODUCT_OPTION = #{option}
 			</if>
 			<if	test="selectedItems">
 				AND IS_CHECKED = 'Y'

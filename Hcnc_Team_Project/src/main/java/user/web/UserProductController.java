@@ -1,5 +1,6 @@
 package user.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,18 +49,37 @@ public class UserProductController {
 	///////////////////////////////////////////////////////////////
 	
 	@RequestMapping(value="/insertCartItem.do")
-	public ModelAndView insertCartItemByUser(@RequestParam Map<String, Object> param) {
+	public ModelAndView insertCartItemByUser(HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		
-		System.out.println(param);
+		// optionIds 배열 따로 받기
+		String[] optionIdsStr = request.getParameterValues("optionIds");
+		List<Long> optionIds = new ArrayList<Long>();
+		if (optionIdsStr != null) {
+			for (String id : optionIdsStr) {
+				optionIds.add(Long.parseLong(id));
+			}
+		}
 		
-		int insertCartItem = userProductService.insertCartItemByUser(param);
+		// 나머지 파라미터 데이터 Map으로 처리
+		Map<String, Object> param = new HashMap<>();
+	    param.put("memberId", request.getParameter("memberId"));
+	    param.put("cartId", request.getParameter("cartId"));
+	    param.put("productId", request.getParameter("productId"));
+	    param.put("option", request.getParameter("option"));
+	    param.put("price", request.getParameter("price"));
+	    param.put("quantity", request.getParameter("quantity"));
+	    param.put("subTotal", request.getParameter("subTotal"));
 		
-		mav.addObject("insertResult", insertCartItem);
 		
-		System.out.println(insertCartItem);
-		
+	    System.out.println("옵션 IDs: " + optionIds);
+	    System.out.println("파라미터: " + param);
+	    
+	    int insertResult = userProductService.insertCartItemByUser(param, optionIds);
+	    
+	    mav.addObject("insertResult", insertResult);
+	    
 		return mav;
 	}
 	
