@@ -7,48 +7,63 @@
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.4.2/ckeditor5.css">
     <style>
         body, html { 
-            margin: 0; 
-            padding: 10px; 
-            width: 100%; 
-            height: 100%; 
-            font-family: 'Malgun Gothic', Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-        .loading {
-            padding: 20px;
-            text-align: center;
-            color: #666;
-            background: white;
-            border-radius: 5px;
-            margin: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .editor-container {
-            background: white;
-            border-radius: 5px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            height: calc(100% - 30px);
-            display: flex;
-            flex-direction: column;
-        }
-        #editor {
-            flex: 1;
-            min-height: 300px;
-        }
-        .ck-editor__editable {
-            min-height: 300px !important;
-        }
-        .ck.ck-editor {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .ck.ck-editor__main > .ck-editor__editable {
-            border-radius: 0 0 5px 5px;
-        }
-        .ck.ck-toolbar {
-            border-radius: 5px 5px 0 0;
-        }
+        margin: 0; 
+        padding: 0; 
+        width: 100%; 
+        height: 100%; 
+        font-family: 'Malgun Gothic', Arial, sans-serif;
+        background-color: #f8f9fa;
+        overflow: hidden !important; /* 추가 */
+        -ms-overflow-style: none; /* IE, Edge */
+        scrollbar-width: none; /* Firefox */
+        box-sizing: border-box;
+	    }
+	    
+	    /* 스크롤바 숨기기 */
+	    body::-webkit-scrollbar,
+	    html::-webkit-scrollbar {
+	        display: none;
+	    }
+	    
+	    .loading {
+	        padding: 20px;
+	        text-align: center;
+	        color: #666;
+	        background: white;
+	        border-radius: 5px;
+	        margin: 10px;
+	        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	    }
+	    .editor-container {
+	        background: white;
+	        border-radius: 5px;
+	        padding: 10px;
+	        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	        height: calc(100% - 20px);
+	        display: flex;
+	        flex-direction: column;
+	        overflow: hidden; /* 추가 */
+	        box-sizing: border-box;
+	    }
+	    #editor {
+	        flex: 1;
+	        min-height: 300px;
+	    }
+	    .ck-editor__editable {
+	        min-height: 300px !important;
+	        max-height: 400px !important; /* 추가: 최대 높이 제한 */
+	        overflow-y: auto !important; /* 추가: 에디터 내부만 스크롤 */
+	    }
+	    .ck.ck-editor {
+	        border: 1px solid #ddd;
+	        border-radius: 5px;
+	    }
+	    .ck.ck-editor__main > .ck-editor__editable {
+	        border-radius: 0 0 5px 5px;
+	    }
+	    .ck.ck-toolbar {
+	        border-radius: 5px 5px 0 0;
+	    }
     </style>
 </head>
 <body>

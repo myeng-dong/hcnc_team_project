@@ -11,7 +11,7 @@
         {
             this.set_name("Form_MemberDetail");
             this.set_titletext("New Form");
-            this.set_background("lightblue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1190,700);
@@ -407,7 +407,7 @@
         this.fn_memberDetail = function(memberId){
 
         	var strSvcID = "selectMemberDetail"
-        	var setURL = "svc::/selectMemberDetailByAdmin.do";
+        	var setURL = "svc::/selectMemberDetailByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_memberDt=ds_memberDt";
         	var strArg = "memberId="+memberId;
@@ -421,7 +421,7 @@
         this.fn_gradeSearch = function(){
 
         	var strSvcID = "selectMemberGradeList"
-        	var setURL = "svc::/selectMemberGradeListByAdmin.do";
+        	var setURL = "svc::/selectMemberGradeListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_grade=ds_grade";
         	var strArg = "";
@@ -452,7 +452,7 @@
 
         	var strSvcID = "memberUpdate"
 
-        	var setURL = "svc::/memberUpdateByAdmin.do";
+        	var setURL = "svc::/memberUpdateByAdmin.do?time=" + new Date().getTime();
 
         	var strInDatasets = "ds_memberDt=ds_memberDt";
 

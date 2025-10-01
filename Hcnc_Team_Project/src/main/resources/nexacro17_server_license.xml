@@ -12,8 +12,8 @@
 		<targetPlatform>Windows,WindowsRT,macOS,iOS,Android,WindowsXP</targetPlatform>
 	</customer>
 	<date>
-		<activation>2025-08-01</activation>
+		<activation>2025-10-01</activation>
 		<term unit="month">2</term>
 	</date>
-	<key>PRJ3FGA2SQF2UQ82JDA8GU58TSA5ZYJ3V</key>
+	<key>NSH2FQRB3GKNQURKVRK5NP93ZAG3J6WXX</key>
 </license>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_MemberDetail" width="1190" height="700" titletext="New Form" onload="Form_MemberDetail_onload" background="lightblue">
+  <Form id="Form_MemberDetail" width="1190" height="700" titletext="New Form" onload="Form_MemberDetail_onload" background="#F4F7FE">
     <Layouts>
       <Layout height="700" width="1190">
         <Div id="detail_box" taborder="0" text="" left="15" top="18" width="1155" height="662" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)">
@@ -194,7 +194,7 @@ this.Form_MemberDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInf
 this.fn_memberDetail = function(memberId){
 	
 	var strSvcID = "selectMemberDetail"
-	var setURL = "svc::/selectMemberDetailByAdmin.do";
+	var setURL = "svc::/selectMemberDetailByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = ""; 
 	var strOutDatasets = "ds_memberDt=ds_memberDt"; 
 	var strArg = "memberId="+memberId;
@@ -208,7 +208,7 @@ this.fn_memberDetail = function(memberId){
 this.fn_gradeSearch = function(){
 	
 	var strSvcID = "selectMemberGradeList"
-	var setURL = "svc::/selectMemberGradeListByAdmin.do";
+	var setURL = "svc::/selectMemberGradeListByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "";
 	var strOutDatasets = "ds_grade=ds_grade";
 	var strArg = "";
@@ -239,7 +239,7 @@ this.fn_memeberUpdate = function(memberId){
 	
 	var strSvcID = "memberUpdate"
 	
-	var setURL = "svc::/memberUpdateByAdmin.do";
+	var setURL = "svc::/memberUpdateByAdmin.do?time=" + new Date().getTime();
 	
 	var strInDatasets = "ds_memberDt=ds_memberDt"; 
 	

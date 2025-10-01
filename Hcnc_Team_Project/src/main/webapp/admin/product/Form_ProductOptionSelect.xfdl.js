@@ -11,7 +11,7 @@
         {
             this.set_name("Form_ProductOptionSelect");
             this.set_titletext("옵션 선택");
-            this.set_background("#f7f9fc");
+            this.set_background("#f4f7fe");
             if (Form == this.constructor)
             {
                 this._setFormPosition(800,600);
@@ -125,6 +125,7 @@
         // Regist UI Components Event
         this.on_initEvent = function()
         {
+            this.addEventHandler("onload",this.Form_ProductOptionSelect_onload,this);
             this.btn_ok.addEventHandler("onclick",this.btn_ok_onclick,this);
             this.btn_close.addEventHandler("onclick",this.btn_close_onclick,this);
         };

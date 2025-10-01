@@ -24,7 +24,12 @@
 
 
             obj = new Dataset("ds_issued", this);
-            obj._setContents("<ColumnInfo><Column id=\"ISSUED_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"ISSUED_STATUE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"ISSUED_CODE\">지급</Col><Col id=\"ISSUED_STATUE\">Y</Col></Row><Row><Col id=\"ISSUED_STATUE\">N</Col><Col id=\"ISSUED_CODE\">미지급</Col></Row><Row><Col id=\"ISSUED_CODE\">전체</Col><Col id=\"ISSUED_STATUE\"/></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"datacolumn\" type=\"STRING\" size=\"256\"/><Column id=\"codecolumn\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"datacolumn\">지급</Col><Col id=\"codecolumn\">Y</Col></Row><Row><Col id=\"codecolumn\">N</Col><Col id=\"datacolumn\">미지급</Col></Row><Row><Col id=\"datacolumn\">전체</Col><Col id=\"codecolumn\">all</Col></Row></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_newmem_list", this);
+            obj._setContents("<ColumnInfo><ConstColumn id=\"MEMBER_ID\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"COUPON_CODE\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"COUPON_TYPE\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"ISSUED_DT\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"EXPIRY_DT\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"ConstColumn1\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"ConstColumn2\" type=\"STRING\" size=\"30\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
@@ -54,8 +59,8 @@
             obj.set_datacolumn("datacolumn");
             obj.set_direction("vertical");
             obj.set_font("normal 10pt/normal \"Noto Sans KR Medium\"");
-            obj.set_text("");
-            obj.set_value("");
+            obj.set_text("지급");
+            obj.set_value("Y");
             obj.set_index("0");
             this.search_area.addChild(obj.name, obj);
 
@@ -144,35 +149,13 @@
         this.registerScript("Form_NewMemList.xfdl", function() {
         this.Form_ReviewList_onload = function(obj,e)
         {
-        	this.fnSearchReview();
-        	trace("리뷰이벤트 출력여부 확인용>>>");
+        	this.fnSearchNewMem();
+        	trace("신규회원 쿠폰 출력여부 확인용>>>");
         };
 
-        this.grid_list_oncellclick = function(obj, e) {
-            if(e.cell == 8){ // 리뷰 열 클릭
-                var row = e.row;
-                var popup = new nexacro.ChildFrame();
-                var surl = "promotion::Form_ReviewDetail.xfdl";
-                popup.init("openPop", 300, 100, 800, 700, null, null, surl);
-                popup.set_dragmovetype("all");
-                popup.set_showtitlebar(true);
-
-                // 선택 리뷰 정보 전달 - REVIEW_ID를 문자열로 변환
-                popup.arguments = {
-                    REVIEW_ID: String(this.ds_review_list.getColumn(row,"REVIEW_ID")),
-                    MEMBER_ID: this.ds_review_list.getColumn(row,"MEMBER_ID"),
-                    ORDER_ID: String(this.ds_review_list.getColumn(row,"ORDER_ID")),
-                    PRODUCT_NAME: this.ds_review_list.getColumn(row,"PRODUCT_NAME"),
-                    REVIEW_TITLE: this.ds_review_list.getColumn(row,"REVIEW_TITLE"),
-                    REVIEW_CONTENT: this.ds_review_list.getColumn(row,"REVIEW_CONTENT")
-                };
-                popup.showModal(this.getOwnerFrame(), null, this, "fn_popCallback", true);
-            }
-        };
-
-        // 리뷰리스트
-        this.fnSearchReview = function() {
-            var strSvcID       = "selectReview";
+        // 신규회원쿠폰발행리스트
+        this.fnSearchNewMem = function() {
+            var strSvcID       = "selectNewMem";
             var strURL         = "svc::selectProductReviewListByAdmin.do";
             var strInDatasets  = "";
             var strOutDatasets = "ds_review_list=ds_review_list";
@@ -190,7 +173,7 @@
                 return;
             }
             switch(svc){
-        		case "selectReview"  :
+        		case "selectNewMem"  :
 
         		return;
 

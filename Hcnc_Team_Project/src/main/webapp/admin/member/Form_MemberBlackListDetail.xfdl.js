@@ -11,6 +11,7 @@
         {
             this.set_name("Form_MemberBlackListDetail");
             this.set_titletext("New Form");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(660,530);
@@ -105,7 +106,7 @@
         this.fn_selectBlackListDetail= function(memberId){
 
         	var strSvcID = "selectBlackDetailList"
-        	var setURL = "svc::/selectBlackDetailListByAdmin.do";
+        	var setURL = "svc::/selectBlackDetailListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_list=ds_list";
         	//단일값으로 memberId를 보내서 BOARD_WRITER에 담는다
@@ -120,7 +121,7 @@
         this.status_change_btn_onclick = function(obj,e)
         {
         	var strSvcID = "updateMemberBlackStatusList";
-        	var setURL = "svc::/updateMemberBlackStatusListByAdmin.do";
+        	var setURL = "svc::/updateMemberBlackStatusListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_list=ds_list:u"; // 수정된 데이터만 서버로 보냄
         	var strOutDatasets = "ds_upCnt = ds_upCnt";
         	var strArg = "";
