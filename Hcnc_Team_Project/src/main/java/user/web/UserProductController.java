@@ -141,4 +141,56 @@ public class UserProductController {
 		return mav;
 	}
 	
+	private static final int PAGE_SIZE = 16; // 페이지당 상품 수
+    private static final int PAGE_BLOCK_SIZE = 10; // 페이지 블록 크기
+
+    @RequestMapping(value="/list.do")
+    public ModelAndView selectProductListByCategory(@RequestParam Map<String, Object> param) {
+        
+        ModelAndView mav = new ModelAndView();
+        
+        try {
+            // 파라미터 추출
+            String mainCateId = (String) param.get("mainCateId");
+            String subCateId = (String) param.get("subCateId");
+            String sortType = param.get("sortType") != null ? (String) param.get("sortType") : "newest";
+            int page = param.get("page") != null ? Integer.parseInt((String) param.get("page")) : 1;
+
+            // 상품 총 개수 조회
+            int totalCount = userProductService.getCategoryProductsCount(mainCateId, subCateId);
+
+            // 페이징 계산
+            int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
+            int offset = (page - 1) * PAGE_SIZE;
+
+            // 페이지 블록 계산
+            int startPage = ((page - 1) / PAGE_BLOCK_SIZE) * PAGE_BLOCK_SIZE + 1;
+            int endPage = Math.min(startPage + PAGE_BLOCK_SIZE - 1, totalPages);
+
+            // 상품 목록 조회
+            List<Map<String, Object>> productList = userProductService.getCategoryProductsList(
+                    mainCateId, subCateId, sortType, offset, PAGE_SIZE);
+
+            // ModelAndView에 데이터 추가
+            mav.addObject("mainCateId", mainCateId);
+            mav.addObject("subCateId", subCateId);
+            mav.addObject("productList", productList);
+            mav.addObject("totalCount", totalCount);
+            mav.addObject("sortType", sortType);
+            mav.addObject("currentPage", page);
+            mav.addObject("totalPages", totalPages);
+            mav.addObject("startPage", startPage);
+            mav.addObject("endPage", endPage);
+
+            mav.setViewName("product/list");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("errorMessage", "상품 목록을 불러오는 중 오류가 발생했습니다.");
+            mav.setViewName("error/error");
+        }
+        
+        return mav;
+    }
 }
+	

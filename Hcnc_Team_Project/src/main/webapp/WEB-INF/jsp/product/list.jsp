@@ -1,127 +1,104 @@
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../layout/headerlink.jsp" />
-
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>상품목록</title>
     <jsp:include page="../layout/headertop.jsp" />
-    <link rel="stylesheet" href="/css/content/substyle.css">
     <link rel="stylesheet" href="/css/content/board.css">
+    <link rel="stylesheet" href="../../../css/component/productItem.css">
+    <link rel="stylesheet" href="../../../js/component/productItem.js">
 </head>
 <body>
+<style>
+	.prdList .prdItem {width:31%; margin-bottom:30px;}
+	.sub-search-area{padding:20px 0;}
+</style>
 <div class="container-wrap">
-	<jsp:include page="../layout/header.jsp" />
+    <jsp:include page="../layout/header.jsp" />
     <div class="container productlist">
-    	<div class="breadcrumb">
-	      <a href="/">홈</a>
-	      <span>›</span>
-	      <strong>상품목록</strong>
-	    </div>
-	    <div class="sub-area">
-	        <div class="sub-title-area">
-	        	<h3>[ 인기상품 ]</h3>
-	        </div>
-	        <div class="sub-content-area">
-        	<div class="sub-category-area">
-        		<ul class="flex f-wrap">
-        			<!--시작:반복변수 -->
-        			<li><a href="">2카테고리 ex연필 볼펜 </a></li>
-        			<!-- 종료:반복변수 -->
-        		</ul>
-        	</div>
-        	<div class="sub-search-area">
-        		<ul></ul>
-        	</div>
-        	<div class="prdItem_area">
-        		<div class="flex prdList f-wrap ju-between">
-			        	<!-- 시작:상품리스트 변수 -->
-			        	<!-- 조건 : 여긴 16개까지 출력 후 페이지네이션? 쇼핑몰 상품은 많으니까  -->
-			           <div class="prdItem">
-						  <a href="링크" class="prdLink">
-						  
-						  <div class="thumbnail">
-						    <img src="상품이미지" alt="타이틀">
-						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
-						    <span class="soldout">SOLD OUT</span>
-						  </div>
-						
-						  <div class="description">
-						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
-						
-						    <p class="name">{상품명변수}</p>
-							<div class="priceArea">
-						      <span class="salePercent">{할인퍼센트}%</span>
-						      <span class="priceSale">{판매되는금액}원</span>
-						      <span class="originPrice">{할인금액}원</span>
-						    </div>
-						    <div class="flex ju-between">
-						   		<div class="icons flex">
-							      <img src="베스트" alt=""/>
-							      <img src="인기상품" alt=""/>
-							    </div>
-							    <div>
-							    	<button type="button"><i class="xi-cart"></i></button>
-							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
-							    	<button type="button"><i class="xi-heart"></i></button>
-        							<button type="button"><i class="xi-share-alt"></i></button>
-							    </div>
-						    </div>
-						  </div>
-						  </a>
-						</div>
-			        	<!-- 종료:상품리스트 변수 -->
-			        	
-			        	<div class="prdItem">
-						  <a href="링크" class="prdLink">
-						  
-						  <div class="thumbnail">
-						    <img src="상품이미지" alt="타이틀">
-						    <!-- 재고 0일때 thumbnail에 relative 걸어서 absolute 그전엔 visible -->
-						    <span class="soldout">SOLD OUT</span>
-						  </div>
-						
-						  <div class="description">
-						    <div class="reviews"> 리뷰 {리뷰갯수변수} | <i class="xi-star"></i>{평점변수}</div>
-						
-						    <p class="name">{상품명변수}</p>
-							<div class="priceArea">
-						      <span class="salePercent">{할인퍼센트}%</span>
-						      <span class="priceSale">{판매되는금액}원</span>
-						      <span class="originPrice">{할인금액}원</span>
-						    </div>
-						    <div class="flex ju-between">
-						   		<div class="icons flex">
-							      <img src="베스트" alt=""/>
-							      <img src="인기상품" alt=""/>
-							    </div>
-							    <div>
-							    	<button type="button"><i class="xi-cart"></i></button>
-							    	<!-- 변수처리 위시픽이면 채워진하트아이콘 -->
-							    	<button type="button"><i class="xi-heart"></i></button>
-        							<button type="button"><i class="xi-share-alt"></i></button>
-							    </div>
-						    </div>
-						  </div>
-						  </a>
-						</div>
-
-			        </div>
-        	</div>
-        	<div class="pagination">
-			  <a href="#" class="prev">«</a>
-			  <a href="#" class="active">1</a>
-			  <a href="#">2</a>
-			  <a href="#">3</a>
-			  <a href="#">4</a>
-			  <a href="#" class="next">»</a>
-			</div>
+        <div class="breadcrumb">
+            <a href="/">홈</a>
+            <span>›</span>
+            <strong>${mainCategory['MAIN_CATE_NM']}</strong>
         </div>
-    	</div>
+        <div class="sub-area">
+            <div class="sub-title-area">
+                <h3>[ ${mainCategory['MAIN_CATE_NM']} ]</h3>
+            </div>
+            <div class="sub-content-area">
+                <div class="sub-category-area">
+                    <ul class="flex ju-between">
+                        <li><a href="/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}" class="${empty subCateId ? 'active' : ''}">전체</a></li>
+                        <c:forEach var="subCate" items="${subCategories}">
+                            <li>
+                                <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}">
+                                   class="${subCateId eq subCate.SUB_CATE_ID ? 'active' : ''}">
+                                    ${subCate.SUB_CATE_NAME}
+                                </a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+                <div class="sub-search-area flex">
+                    <div class="left">총 ${totalCount}개의 상품이 있습니다</div>
+                    <div class="right">
+                        <select id="sortType" onchange="changeSortType(this.value)">
+                            <option value="newest" ${sortType eq 'newest' ? 'selected' : ''}>신상품순</option>
+                            <option value="name" ${sortType eq 'name' ? 'selected' : ''}>상품명순</option>
+                            <option value="lowPrice" ${sortType eq 'lowPrice' ? 'selected' : ''}>낮은가격순</option>
+                            <option value="highPrice" ${sortType eq 'highPrice' ? 'selected' : ''}>높은가격순</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="prdItem_area">
+                    <div class="flex prdList f-wrap ju-between">
+                        <c:choose>
+                            <c:when test="${not empty productList}">
+                                <c:forEach var="product" items="${productList}">
+                                    <%@ include file="/WEB-INF/jsp/component/productItem.jsp" %>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="no-product">등록된 상품이 없습니다.</div>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+                
+                <c:if test="${totalPages > 1}">
+                    <div class="pagination">
+                        <c:if test="${currentPage > 1}">
+                            <a href="?mainCateId=${mainCateId}&subCateId=${subCateId}&sortType=${sortType}&page=${currentPage - 1}" class="prev">«</a>
+                        </c:if>
+                        
+                        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                            <a href="?mainCateId=${mainCateId}&subCateId=${subCateId}&sortType=${sortType}&page=${i}" 
+                               class="${i eq currentPage ? 'active' : ''}">${i}</a>
+                        </c:forEach>
+                        
+                        <c:if test="${currentPage < totalPages}">
+                            <a href="?mainCateId=${mainCateId}&subCateId=${subCateId}&sortType=${sortType}&page=${currentPage + 1}" class="next">»</a>
+                        </c:if>
+                    </div>
+                </c:if>
+            </div>
+        </div>
+    </div>
     <jsp:include page="../layout/footer.jsp" />
 </div>
 
+<script>
+function changeSortType(sortType) {
+    const params = new URLSearchParams(window.location.search);
+    params.set('sortType', sortType);
+    params.set('page', '1'); // 정렬 변경시 1페이지로
+    window.location.href = '?' + params.toString();
+}
+</script>
 </body>
 </html>

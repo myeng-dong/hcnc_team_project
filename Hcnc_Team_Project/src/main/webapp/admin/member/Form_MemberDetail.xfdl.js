@@ -11,10 +11,10 @@
         {
             this.set_name("Form_MemberDetail");
             this.set_titletext("New Form");
-            this.set_background("lightblue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
-                this._setFormPosition(1280,720);
+                this._setFormPosition(1190,700);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
@@ -49,28 +49,27 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("detail_box","15","18","1243","688",null,null,null,null,null,null,this);
+            obj = new Div("detail_box","15","18","1155","662",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("");
-            obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             obj.set_background("#fff");
             obj.set_boxShadow("0 2px 6px rgba(0,0,0,0.05)");
             this.addChild(obj.name, obj);
 
-            obj = new Static("m","16","63","60","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m","84","65","40","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("0");
             obj.set_text("아이디");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m2","16","153","59","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m2","86","178","59","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("1");
             obj.set_text("이름");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00","16","209","50","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("Static00_00_00_00","84","242","49","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("2");
             obj.set_text("이메일");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
@@ -81,44 +80,44 @@
             obj.set_text("~");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("Static01","9","6","170","38",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("Static01","20","12","170","38",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("4");
             obj.set_text("회원 및 관리자 상세");
             obj.set_textAlign("center");
             obj.set_font("20px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00","16","260","59","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("Static00_00_00_00_00","76","303","59","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("5");
             obj.set_text("휴대전화");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00","16","317","38","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("Static00_00_00_00_00_00","85","372","29","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("6");
             obj.set_text("생일");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00","16","379","38","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("Static00_00_00_00_00_00_00","84","427","38","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("7");
             obj.set_text("성별");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00_00","16","431","38","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("Static00_00_00_00_00_00_00_00","86","478","38","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("8");
             obj.set_text("등급");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00_00_00","16","489","57","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("Static00_00_00_00_00_00_00_00_00","629","72","57","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("9");
             obj.set_text("회원타입");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Button("close_btn","564","567","95","36",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Button("close_btn","585","566","110","46",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("10");
             obj.set_text("뒤로가기");
             obj.set_background(" #9ca3af");
@@ -127,140 +126,160 @@
             obj.set_font("13px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m00","399","63","80","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m00","618","131","70","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("11");
             obj.set_text("로그인 타입");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m00_00","399","117","90","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m00_00","596","192","90","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("12");
             obj.set_text("첫 로그인 날짜");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m00_00_00","399","170","123","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m00_00_00","570","253","125","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("13");
             obj.set_text("마지막 로그인 날짜");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m00_00_00_00","399","213","61","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m00_00_00_00","625","302","61","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("14");
             obj.set_text("회원 상태");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m00_00_00_00_00","399","259","61","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m00_00_00_00_00","625","356","61","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("15");
             obj.set_text("누적 금액");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m00_00_00_00_00_00","399","307","61","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m00_00_00_00_00_00","623","418","61","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("16");
             obj.set_text("가입 날짜");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m00_00_00_00_00_00_00","399","357","101","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m00_00_00_00_00_00_00","595","478","91","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("17");
             obj.set_text("최종 수정 날짜");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Radio("gender_radio","94","379","144","24",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Radio("gender_radio","184","430","231","24",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("18");
             obj.set_innerdataset("ds_gender");
             obj.set_codecolumn("GENDER");
             obj.set_datacolumn("CODE");
             obj.set_direction("vertical");
-            obj.set_font("12pt/normal \"Noto Sans KR Black\"");
+            obj.set_font("16px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Radio("type_radio","94","494","124","27",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Radio("type_radio","742","75","267","27",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("19");
             obj.set_innerdataset("ds_type");
             obj.set_codecolumn("MEMBER_TYPE");
             obj.set_datacolumn("CODE");
             obj.set_direction("vertical");
-            obj.set_font("12pt \"Noto Sans KR Black\"");
+            obj.set_font("16px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Radio("status_radio","546","217","191","24",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Radio("status_radio","742","302","271","24",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("20");
             obj.set_innerdataset("ds_status");
             obj.set_codecolumn("STATUS");
             obj.set_datacolumn("CODE");
             obj.set_direction("vertical");
-            obj.set_font("12px/normal \"Noto Sans KR Black\"");
+            obj.set_font("16px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_loginType00","546","63","161","34",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("detail_loginType00","741","122","268","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("21");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_price_amount00","546","260","161","34",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("detail_price_amount00","742","352","263","37",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("22");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Calendar("dstail_input_dt00","546","313","183","29",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Calendar("dstail_input_dt00","740","408","265","38",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("23");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Calendar("dstail_update_dt","546","363","183","29",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Calendar("dstail_update_dt","742","473","263","38",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("24");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Combo("grade_combo00","94","427","108","37",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Combo("grade_combo00","184","475","231","37",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("25");
             obj.set_innerdataset("ds_grade");
             obj.set_codecolumn("GRADE_CODE");
             obj.set_datacolumn("GRADE_NAME");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             obj.set_text("Combo00");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_phoneNumber00","94","259","161","34",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("detail_phoneNumber00","185","296","231","40",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("26");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_email00","94","207","161","34",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("detail_email00","185","234","231","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("27");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("dstail_name00","94","155","161","34",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("dstail_name00","185","175","231","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("28");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_id00","94","60","161","34",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("detail_id00","184","61","231","41",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("29");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Static("m01","16","110","60","28",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Static("m01","76","122","56","28",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("30");
             obj.set_text("비밀번호");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_password","94","107","161","34",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("detail_password","185","117","231","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("31");
             obj.set_password("true");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Button("update_btn","448","566","92","39",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Button("update_btn","435","566","110","46",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("32");
             obj.set_text("수정하기");
             obj.set_background("#2563eb");
@@ -269,23 +288,29 @@
             obj.set_font("13px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Calendar("detail_birth","94","317","161","32",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Calendar("detail_birth","185","364","231","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("33");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Calendar("detail_first_login_dt","546","121","165","31",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Calendar("detail_first_login_dt","741","184","268","40",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("34");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Calendar("detail_last_login_dt","548","171","163","33",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Calendar("detail_last_login_dt","739","246","270","38",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("35");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",1280,720,this,function(p){});
+            obj = new Layout("default","",1190,700,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
@@ -363,7 +388,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberDetail.xfdl","common::common.xjs");
         this.registerScript("Form_MemberDetail.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.memberId=""; //전역변수 선언
         this.Form_MemberDetail_onload = function(obj,e)
         {
@@ -380,7 +407,7 @@
         this.fn_memberDetail = function(memberId){
 
         	var strSvcID = "selectMemberDetail"
-        	var setURL = "svc::/selectMemberDetailByAdmin.do";
+        	var setURL = "svc::/selectMemberDetailByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_memberDt=ds_memberDt";
         	var strArg = "memberId="+memberId;
@@ -394,7 +421,7 @@
         this.fn_gradeSearch = function(){
 
         	var strSvcID = "selectMemberGradeList"
-        	var setURL = "svc::/selectMemberGradeListByAdmin.do";
+        	var setURL = "svc::/selectMemberGradeListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_grade=ds_grade";
         	var strArg = "";
@@ -425,7 +452,7 @@
 
         	var strSvcID = "memberUpdate"
 
-        	var setURL = "svc::/memberUpdateByAdmin.do";
+        	var setURL = "svc::/memberUpdateByAdmin.do?time=" + new Date().getTime();
 
         	var strInDatasets = "ds_memberDt=ds_memberDt";
 
@@ -538,6 +565,7 @@
             }
         };
 
+
         });
         
         // Regist UI Components Event
@@ -545,6 +573,7 @@
         {
             this.addEventHandler("onload",this.Form_MemberDetail_onload,this);
             this.detail_box.form.Static01.addEventHandler("onclick",this.insert_box_Static01_onclick,this);
+            this.detail_box.form.Static00_00_00_00_00.addEventHandler("onclick",this.detail_box_Static00_00_00_00_00_onclick,this);
             this.detail_box.form.close_btn.addEventHandler("onclick",this.insert_box_close_btn_onclick,this);
             this.detail_box.form.gender_radio.addEventHandler("onitemchanged",this.detail_box_gender_radio_onitemchanged,this);
             this.detail_box.form.dstail_name00.addEventHandler("onchanged",this.insert_box_insert_name_onchanged,this);

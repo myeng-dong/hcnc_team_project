@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_ProductSearch" width="600" height="400" titletext="상품 검색" border="0px none" onload="Form_ProductSearch_onload" background="#f4f7fe">
+    <Layouts>
+      <Layout width="600" height="400">
+        <Grid id="grd_prod" left="55" top="70" width="490" height="300" binddataset="ds_prod" border="1px solid #102b6e" oncellclick="grd_prod_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="103"/>
+                <Column size="368"/>
+              </Columns>
+              <Rows>
+                <Row size="37" band="head"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="상품ID" background="#ffffff" border="1px solid #ffffff" suppressalign="middle"/>
+                <Cell col="1" text="상품명" background="#ffffff" border="1px solid #ffffff" suppressalign="middle"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:PRODUCT_ID" cursor="pointer" textAlign="center" suppressalign="middle"/>
+                <Cell col="1" text="bind:PRODUCT_NAME" cursor="pointer" textAlign="center" suppressalign="middle"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Edit id="edt_search" left="55" top="20" width="345" height="35" text="상품명을 입력하세요." visible="true" displaynulltext="&quot;상품명을 입력하세요&quot;" taborder="2" border="1px solid #102b6e" onkeydown="edt_search_onkeydown"/>
+        <Button id="btn_search" text="상품검색 🔍" left="425" top="20" width="120" height="35" background="#ffffff" color="#102b6e" font="bold 10pt 'Arial'" borderRadius="6px" border="1px solid #102b6e" cursor="pointer" taborder="3" onclick="btn_search_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_searchCond">
+        <ColumnInfo>
+          <Column id="SEARCH_TEXT" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_prod">
+        <ColumnInfo>
+          <Column id="PRODUCT_ID" type="INT"/>
+          <Column id="PRODUCT_NAME" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+
+// onload 이벤트
+this.Form_ProductSearch_onload = function(obj,e)
+{
+    this.ds_searchCond.clearData();
+	
+	var nRow = this.ds_searchCond.addRow();
+    this.ds_searchCond.setColumn(nRow, "SEARCH_TEXT", ""); // 빈 문자열 → 전체검색
+
+    // 전체 상품 조회 transaction 실행
+    this.transaction(
+        "selectProductListOptionByAdmin",
+        "svc::selectProductListOptionByAdmin.do",
+        "ds_searchCond=ds_searchCond",   // inDataset
+        "ds_prod=ds_prod",               // outDataset
+        "",
+        "fn_callback",
+        true
+    );
+	
+};
+
+// 공통 검색 함수
+this.doSearch = function()
+{
+    this.ds_searchCond.clearData();
+    var nRow = this.ds_searchCond.addRow();
+    this.ds_searchCond.setColumn(nRow, "SEARCH_TEXT", this.edt_search.value);
+
+    this.transaction(
+        "selectProductListOptionByAdmin",
+        "svc::selectProductListOptionByAdmin.do?time=" + new Date().getTime(),
+        "ds_searchCond=ds_searchCond",
+        "ds_prod=ds_prod",
+        "",
+        "fn_callback",
+        true
+    );
+};
+
+
+//검색버튼
+this.btn_search_onclick = function(obj,e)
+{
+	this.doSearch();
+};
+
+//검색창에서 엔터
+this.edt_search_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.doSearch();
+	}
+};
+
+//콜백
+this.fn_callback = function(svcID, errCode, errMsg)
+{
+    if (errCode < 0) {
+        this.alert("에러: " + errMsg);
+    }
+};
+
+this.grd_prod_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var nRow = e.row;
+    if (nRow < 0) return;
+
+    var prodId   = this.ds_prod.getColumn(nRow, "PRODUCT_ID");
+    var prodName = this.ds_prod.getColumn(nRow, "PRODUCT_NAME");
+
+    var rtn = JSON.stringify({PRODUCT_ID: prodId, PRODUCT_NAME: prodName});
+    this.close(rtn);
+};
+
+
+]]></Script>
+  </Form>
+</FDL>
