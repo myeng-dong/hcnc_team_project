@@ -1225,6 +1225,9 @@ color        : #aaaaaa;
 {
 	-nexa-border : 1px solid #b1b1b1;
 	background : linear-gradient(to top, #dddcdc, #fefefe);
+	
+	
+	
 }
 
 .Tab .tabbuttonitem[status=focused]
