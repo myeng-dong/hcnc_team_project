@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductReg" width="1280" height="2070" titletext="상품등록" background="#f5f7fa" onload="Form_ProductReg_onload" ontimer="ProductReg_ontimer">
+  <Form id="Form_ProductReg" width="1280" height="2070" titletext="상품등록" background="#f5f7fa" onload="Form_ProductReg_onload" ontimer="ProductReg_ontimer" format="#00,000,000">
     <Layouts>
       <Layout width="1280" height="2070">
         <!-- 타이틀 -->
@@ -18,14 +18,14 @@
         <Combo id="cmb_subcate" left="160" top="263" width="200" height="30" innerdataset="ds_cate_sub" codecolumn="subCateId" datacolumn="subCateNm"/>
         <!-- 기본 정보 -->
         <Static id="box_basic" left="20" top="300" width="1240" height="240" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px"/>
-        <Edit id="edt_name" left="150" top="355" width="400" height="30" displaynulltext="상품명 입력" onchanged="edt_name_onchanged"/>
-        <Edit id="edt_code" left="150" top="401" width="400" height="30" text="자동생성" displaynulltext="ex) PRO001"/>
+        <Edit id="edt_name" left="150" top="355" width="400" height="30" displaynulltext="상품명 입력" onchanged="edt_name_onchanged" maxlength="50"/>
+        <Edit id="edt_code" left="150" top="401" width="400" height="30" text="자동생성" displaynulltext="ex) PRO001" maxlength="50"/>
         <!-- 판매 정보 -->
         <Static id="box_saleinfo" left="20" top="540" width="1240" height="170" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px"/>
         <Static id="sta_price" text="판매가" left="150" top="598" width="0" height="0"/>
-        <Edit id="edt_price" left="160" top="589" width="200" height="30" textAlign="right" displaynulltext="0"/>
+        <MaskEdit id="edt_price" left="160" top="589" width="200" height="30" textAlign="right" displaynulltext="0" inputtype="number" format="#00,000,000" limitbymask="both"/>
         <Static id="sta_supply" text="공급가" left="430" top="608" width="0" height="0"/>
-        <Edit id="edt_costprice" left="636" top="589" width="200" height="30" textAlign="right" displaynulltext="0"/>
+        <MaskEdit id="edt_costprice" left="636" top="589" width="200" height="30" textAlign="right" displaynulltext="0" format="#00,000,000"/>
         <!-- 옵션 선택 -->
         <!-- 메모 -->
         <!-- 버튼 -->
@@ -33,7 +33,7 @@
         <Button id="btn_cancel" text="취소" left="1105" top="1740" width="150" height="40" background="#444444" color="#ffffff" borderRadius="8px" onclick="btn_cancel_onclick"/>
         <Static id="sta_display00" text="진열상태" left="20" top="98" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="35" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_00" text="표시 설정" left="20" top="60" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="38" taborder="36" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
-        <Edit id="edt_content" left="150" top="450" width="850" height="80" text="자동생성" taborder="32" displaynulltext="상품 단순설명"/>
+        <Edit id="edt_content" left="150" top="450" width="850" height="80" text="자동생성" taborder="32" displaynulltext="상품 단순설명" maxlength="40"/>
         <Static id="sta_display00_00_00" text="상품 분류" left="20" top="176" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="41" taborder="29" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <Static id="sta_display00_02" text="대분류" left="20" top="217" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="44" taborder="29" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00" text="중분류" left="20" top="260" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="30" textAlign="center" background="#FAFAFB"/>
@@ -45,7 +45,7 @@
         <Static id="sta_display00_02_00_00" text="판매가" left="20" top="580" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="40" taborder="31" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00_00_01" text="수량" left="20" top="619" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="32" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00_00_01_00" text="무게" left="20" top="659" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="33" textAlign="center" background="#FAFAFB"/>
-        <Edit id="edt_weight" left="160" top="670" width="200" height="30" taborder="34" textAlign="right" displaynulltext="0"/>
+        <Edit id="edt_weight" left="160" top="670" width="200" height="30" taborder="34" textAlign="right" displaynulltext="0" maxlength="4"/>
         <Static id="Static00" taborder="35" text="원" left="364" top="592" width="52" height="29"/>
         <Static id="Static00_00" taborder="36" text="원" left="840" top="591" width="52" height="29"/>
         <Static id="Static00_00_00" taborder="37" text="kg" left="364" top="672" width="52" height="29"/>
@@ -56,9 +56,9 @@
         <Static id="sta_display00_00_00_00_00_00_00" text="이미지 정보" left="21" top="1261" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="59" taborder="45" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <Static id="sta_display00_02_00_00_00" text="이미지등록" left="23" top="1320" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="290" taborder="45" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00_00_01_01" text="원가" left="500" top="579" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="45" textAlign="center" background="#FAFAFB"/>
-        <Edit id="edt_stock" left="160" top="631" width="200" height="30" textAlign="right" taborder="46" displaynulltext="0"/>
+        <Edit id="edt_stock" left="160" top="631" width="200" height="30" textAlign="right" taborder="46" displaynulltext="0" maxlength="3"/>
         <Static id="Static00_00_01" taborder="47" text="개" left="364" top="633" width="52" height="29"/>
-        <Button id="btn_selectFile" taborder="44" text="파일찾기" top="1268" height="44" background="#135dae" border="0px none" borderRadius="5px" color="#ffffff" font="normal 10pt/normal &quot;Noto Sans KR Black&quot;" right="25" width="140" onclick="btn_selectFile_onclick"/>
+        <Button id="btn_selectFile" taborder="44" text="파일찾기" top="1268" height="44" background="#135dae" border="0px none" borderRadius="5px" color="#ffffff" font="normal 10pt/normal &quot;Noto Sans KR Black&quot;" width="140" onclick="btn_selectFile_onclick" left="1115"/>
         <Static id="Static01" taborder="48" text="* 최대 4개 첨부가능" left="130" top="1283" width="276" height="20"/>
       </Layout>
     </Layouts>

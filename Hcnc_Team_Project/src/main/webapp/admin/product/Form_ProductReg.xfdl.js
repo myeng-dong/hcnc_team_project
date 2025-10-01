@@ -12,6 +12,7 @@
             this.set_name("Form_ProductReg");
             this.set_titletext("상품등록");
             this.set_background("#f5f7fa");
+            this.getSetter("format").set("#00,000,000");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,2070);
@@ -382,10 +383,12 @@
 
             obj = new Edit("edt_name","150","355","400","30",null,null,null,null,null,null,this);
             obj.set_displaynulltext("상품명 입력");
+            obj.set_maxlength("50");
             this.addChild(obj.name, obj);
 
             obj = new Edit("edt_code","150","401","400","30",null,null,null,null,null,null,this);
             obj.set_displaynulltext("ex) PRO001");
+            obj.set_maxlength("50");
             obj.set_text("자동생성");
             this.addChild(obj.name, obj);
 
@@ -399,18 +402,22 @@
             obj.set_text("판매가");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_price","160","589","200","30",null,null,null,null,null,null,this);
+            obj = new MaskEdit("edt_price","160","589","200","30",null,null,null,null,null,null,this);
             obj.set_textAlign("right");
             obj.set_displaynulltext("0");
+            obj.getSetter("inputtype").set("number");
+            obj.set_format("#00,000,000");
+            obj.set_limitbymask("both");
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_supply","430","608","0","0",null,null,null,null,null,null,this);
             obj.set_text("공급가");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_costprice","636","589","200","30",null,null,null,null,null,null,this);
+            obj = new MaskEdit("edt_costprice","636","589","200","30",null,null,null,null,null,null,this);
             obj.set_textAlign("right");
             obj.set_displaynulltext("0");
+            obj.set_format("#00,000,000");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_save","935","1740","150","40",null,null,null,null,null,null,this);
@@ -449,6 +456,7 @@
             obj = new Edit("edt_content","150","450","850","80",null,null,null,null,null,null,this);
             obj.set_taborder("32");
             obj.set_displaynulltext("상품 단순설명");
+            obj.set_maxlength("40");
             obj.set_text("자동생성");
             this.addChild(obj.name, obj);
 
@@ -558,6 +566,7 @@
             obj.set_taborder("34");
             obj.set_textAlign("right");
             obj.set_displaynulltext("0");
+            obj.set_maxlength("4");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00","364","592","52","29",null,null,null,null,null,null,this);
@@ -636,6 +645,7 @@
             obj.set_textAlign("right");
             obj.set_taborder("46");
             obj.set_displaynulltext("0");
+            obj.set_maxlength("3");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00_00_01","364","633","52","29",null,null,null,null,null,null,this);
@@ -643,7 +653,7 @@
             obj.set_text("개");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_selectFile",null,"1268","140","44","25",null,null,null,null,null,this);
+            obj = new Button("btn_selectFile","1115","1268","140","44",null,null,null,null,null,null,this);
             obj.set_taborder("44");
             obj.set_text("파일찾기");
             obj.set_background("#135dae");
