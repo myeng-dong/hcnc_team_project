@@ -160,7 +160,7 @@ header .flex.fd-column{flex-direction: column;}
 .subcategory-col {
   display: none; /* 기본 숨김 */
   position: absolute;
-  top: 44px;
+  top: 45px;
   left: 0;
   width: 100%;
   background: #fff;
@@ -178,36 +178,11 @@ header .flex.fd-column{flex-direction: column;}
   display: block;
 }
 
-.category-col:first-child{ border-left:none;}
-.category-col:last-child{ border-right:1px solid #ccc;}
+.category-col h5 {  font-size: 14px;  margin:0;  font-weight: bold;}
+.category-col ul {  list-style: none;  margin: 0;  padding: 0;}
+.category-col ul li:first-child{padding:5px 0; font-weight:bolder; display:none;}
+.category-bar .category-col .subcategory-col a { display: block;  padding: 5px 0;  font-size: 14px;  color: #555;}
 
-.category-col h5 {
-  font-size: 15px;
-  margin:0;
-  font-weight: bold;
-}
-.category-col ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.category-bar .category-col .subcategory-col a {
-  display: block;
-  padding: 3px 0;
-  font-size: 14px;
-  color: #555;
-}
-
-.category-menu::before {
-  content: "";               /* 필수 */
-  position: absolute;
-  top: 44px;
-  left: -100%;               /* 왼쪽으로 100% 이동 */
-  width: 300%;               /* 원하신 넓이 */
-       /* 부모 높이와 동일 */
-  background-color: #fff;    /* 배경 흰색 */
-  z-index: -1;               /* 메뉴 뒤에 위치하도록 */
-}
 
 
 /* FOOTER */

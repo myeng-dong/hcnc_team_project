@@ -91,7 +91,17 @@
         "./nexacro17lib/component/DeviceAPI/DeviceObjs_Runtime.js",
         "./nexacro17lib/component/DeviceAPI/Mobile.js",
         "./nexacro17lib/component/DeviceAPI/BluetoothLE.js",
-        "./nexacro17lib/component/DeviceAPI/TCPClientSocket.js"
+        "./nexacro17lib/component/DeviceAPI/TCPClientSocket.js",
+        "./nexacro17lib/component/Chart/GraphicsChart.js",
+        "./nexacro17lib/component/Chart/ChartBase.js",
+        "./nexacro17lib/component/Chart/BasicChart.js",
+        "./nexacro17lib/component/Chart/BubbleChart.js",
+        "./nexacro17lib/component/Chart/PieChart.js",
+        "./nexacro17lib/component/Chart/GaugeChart.js",
+        "./nexacro17lib/component/Chart/RadarChart.js",
+        "./nexacro17lib/component/Chart/RoseChart.js",
+        "./nexacro17lib/component/Chart/FloatChart.js",
+        "./nexacro17lib/component/Chart/PyramidChart.js"
         ],
         "environment" :
         [    
