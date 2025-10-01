@@ -65,156 +65,175 @@
     }
 </script>
 
+<!-- 주문/결제 처리 -->
 <script>
+	const urlParams = new URLSearchParams(window.location.search);
+	
+	const memberId = "user01";
+	
+	const cartId = urlParams.get("cartId");
+	const orderNumber = urlParams.get("orderNum");
+	
+	const clientKey = "test_ck_Ba5PzR0ArnwNxkAOwR0X8vmYnNeD";
+	const customerKey = "ewvVxcVTXJDPvruNASP_I";
+	const tossPayments = TossPayments(clientKey);
 
-   async function tossPayMain() {
-     const button = document.getElementById("payment-button");
-     // ------  결제위젯 초기화 ------
-     const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-     const tossPayments = TossPayments(clientKey);
-     // 회원 결제
-     const customerKey = "_v5ubVu5BOvR-O0XFSPWk";
-     const widgets = tossPayments.widgets({
-       customerKey,
-     });
-     // 비회원 결제
-     // const widgets = tossPayments.widgets({ customerKey: TossPayments.ANONYMOUS });
-     
-     // ------ 주문의 결제 금액 설정 ------
-       await widgets.setAmount({
-         currency: "KRW",
-         value: $("#finalPrice").data('value'),
-       });
-
-     await Promise.all([
-       // ------  결제 UI 렌더링 ------
-       widgets.renderPaymentMethods({
-         selector: "#payment-method",
-         variantKey: "DEFAULT",
-       }),
-       // ------  이용약관 UI 렌더링 ------
-       widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" }),
-     ]);
-
-     // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-     button.addEventListener("click", async function () {
-  	   // ------ 주문의 결제 금액 설정 ------
-       await widgets.setAmount({
-         currency: "KRW",
-         value: $("#finalPrice").data('value'),
-       });
-  	   
-  	   var items = getItems();
-  	   var orderNumber = generateUniqueOrderNumber();
-  	   var orderData = {
+	const payment = tossPayments.payment({ customerKey });
+	// 비회원 결제
+	// const payment = tossPayments.payment({customerKey: TossPayments.ANONYMOUS})
+	
+	
+	
+	// ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+	async function requestPayment(payType) {
+		// 서버에 저장할 데이터
+		var shippingComment = ''
+			   if($("#shippingComment").val() == "direct_input"){
+				 shippingComment = $("#directMessage").val();
+			   } else {
+				 shippingComment = $("#shippingComment").val();
+			   }
+			   
+	    var items = getItems();
+	    
+	    var userName = $("#orderName").val();
+	    var phoneNumber = $("#phoneNumber").val();
+	    var finalAmount = $("#finalPrice").data('value');
+			   
+	    var orderData = {
 			items: items,
 			order: {
 				orderNumber: orderNumber
-				, phoneNumber: $("#phoneNumber").val()
-  	   			, totalAmount: $("#itemTotalPrice").data('value')
-  	   			, discountAmount: Number( $("#gradeSale").data('value') ) + Number( $("#couponSale").data('value') ) + Number( $("#pointSale").data('value') )
-  	   			, finalAmount: $("#finalPrice").data('value')
-  	   			, paymentMethod: null
-  	   			, receiver: $("#receiver").val()
-  	   			, shippingPost: $("#orderPost").val()
-  	   			, shippingAddr1: $("#orderAddr1").val()
-  	   			, shippingAddr2: $("#orderAddr2").val()
-  	   			, userName: $("#orderName").val()
-  	   			, memberId: memberId
-  	   			, shippingComment: $("#shippingComment").val() || $("#shippingComment option:selected").text()
-  	   			, couponId: $('input[name="selectedCoupon"]:checked').val() || null
-  	   			, usedPoint: Number( $("#pointSale").data('value') )
+				, phoneNumber: phoneNumber
+			   			, totalAmount: $("#itemTotalPrice").data('value')
+			   			, discountAmount: Number( $("#gradeSale").data('value') ) + Number( $("#couponSale").data('value') ) + Number( $("#pointSale").data('value') )
+			   			, finalAmount: finalAmount
+			   			, receiver: $("#receiver").val()
+			   			, shippingPost: $("#orderPost").val()
+			   			, shippingAddr1: $("#orderAddr1").val()
+			   			, shippingAddr2: $("#orderAddr2").val()
+			   			, userName: userName
+			   			, memberId: memberId
+			   			, shippingComment: shippingComment
+			   			, couponId: $('input[name="selectedCoupon"]:checked').val() || null
+			   			, usedPoint: Number( $("#pointSale").data('value') )
 			}
-  	   }
-  	   
-  	   saveOrderToServer(orderData);
-  	   
-  	   
-	   await widgets.requestPayment({
-         orderId: "1HLjvIgFz_8pioYvw3k96",
-         orderName: "토스 티셔츠 외 2건",
-         successUrl: window.location.origin + "/paySuccess.do?" + items,
-         failUrl: window.location.origin + "/fail.do",
-         customerEmail: "customer123@gmail.com",
-         customerName: "김토스",
-         customerMobilePhone: "01012341234",
-       });   
-     });
-   }
-   
-   // 서버에 주문 정보 저장
-   function saveOrderToServer(orderData){
-  	 return $.ajax({
-  		 url: "/orderDataSave.do",
-  		 type: "post",
-  		 data: orderData,
-  		 dataType:'json',
-  		 success: function(){},
-  		 error: function(){}
-  	 });
-   }
-   
-   // 주문명 생성 (상품명 외 N개)
-   function getOrderName(products){
-	   if (products.length ===1){
-		   return products[0].name;
-	   }
-	   return ${products[0].name} + ' 외 ' + ${products.length -1} +'개';
-   }
-   
-   // 상품 데이터 가져오기
-   function getItems(){
-	   var itemElements = document.getElementsByClassName("itemInfoData");
-	   var items = [];
-	   
-	   for (var i=0; i < itemElements.length; i++){
-		   var element = itemElements[i];
-		   var item = {
-				   productId: parseInt(element.getAttribute('data-product-id')),
-				   productName: element.getAttribute('data-product-name'),
-				   productOption: element.getAttribute('data-product-option'),
-				   price: parseInt(element.getAttribute('data-price')),
-				   quantity: parseInt(element.getAttribute('data-quantity')),
-				   subTotal: parseInt(element.getAttribute('data-sub-total')),
-				   costPrice: parseInt(element.getAttribute('data-cost-price'))
-		   };
-		   
-		   items.push(item);
-	   }
-	   
-	   return items;
-   }
-   
-	// 주문 번호 생성
-	var orderCounter = 0;
+		}
+		
+	  // 세션에 데이터 임시저장
+	  sessionStorage.setItem("orderData", JSON.stringify(orderData));
+	  
+	  // 선택된 결제 방식 확인
+	  selectedRadio = document.querySelector('input[name="payment"]:checked');
 
-	function generateUniqueOrderNumber() {
-	    orderCounter++;
-	    var timestamp = new Date().getTime().toString().slice(-10); // 뒤 10자리
-	    var counter = ('0000' + orderCounter).slice(-4); // 4자리 카운터
-	    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-	    var randomPart = '';
-	    
-	    // 남은 6자리를 랜덤으로 채움
-	    for (var i = 0; i < 6; i++) {
-	        var randomIndex = Math.floor(Math.random() * chars.length);
-	        randomPart += chars.charAt(randomIndex);
+	  if (selectedRadio) {
+	      var selectedPayment = selectedRadio.value;
+	      console.log('선택된 결제 방식:', selectedPayment);
+	  } else {
+	      console.log('선택된 결제 방식이 없습니다.');
+	  }
+	  
+	  if(selectedPayment == "card"){
+		  // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
+		  // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+		  await payment.requestPayment({
+	          method: "CARD", // 카드 결제
+	          amount: {
+	            currency: "KRW",
+	            value: finalAmount,
+	          },
+	          orderId: orderNumber, // 고유 주문번호
+	          orderName: "DOO.D",
+	          successUrl: window.location.origin + "/paySuccess.do", // 결제 요청이 성공하면 리다이렉트되는 URL
+	          failUrl: window.location.origin + "/fail.do", // 결제 요청이 실패하면 리다이렉트되는 URL
+	          customerEmail: "",
+	          customerName: userName,
+	          customerMobilePhone: phoneNumber,
+	          // 카드 결제에 필요한 정보
+	          card: {
+	            useEscrow: false,
+	            flowMode: "DEFAULT", // 통합결제창 여는 옵션
+	            useCardPoint: false,
+	            useAppCardOnly: false,
+	          },
+	        });
+		
+	  } else if (selectedPayment == "account"){
+	        await payment.requestPayment({
+	            method: "TRANSFER", // 계좌이체 결제
+	            amount: {
+	              currency: "KRW",
+	              value: finalAmount,
+	            },
+	            orderId: orderNumber, // 고유 주문번호
+	            orderName: "DOO.D",
+	            successUrl: window.location.origin + "/paySuccess.do", // 결제 요청이 성공하면 리다이렉트되는 URL
+	            failUrl: window.location.origin + "/fail.do", // 결제 요청이 실패하면 리다이렉트되는 URL
+	            customerEmail: "",
+	            customerName: userName,
+	            customerMobilePhone: phoneNumber,
+	            // 계좌이체 결제에 필요한 정보
+	            transfer: {
+	              cashReceipt: {
+	                type: "소득공제",
+	              },
+	              useEscrow: false,
+	            },
+	          });
+	  } else if (selectedPayment == "bank"){
+	        await payment.requestPayment({
+	            method: "VIRTUAL_ACCOUNT", // 가상계좌 결제
+	            amount: {
+	              currency: "KRW",
+	              value: finalAmount,
+	            },
+	            orderId: orderNumber, // 고유 주문번호
+	            orderName: "DOO.D",
+	            successUrl: window.location.origin + "/paySuccess.do", // 결제 요청이 성공하면 리다이렉트되는 URL
+	            failUrl: window.location.origin + "/fail.do", // 결제 요청이 실패하면 리다이렉트되는 URL
+	            customerEmail: "",
+	            customerName: userName,
+	            customerMobilePhone: phoneNumber, // 가상계좌 안내 보내는 번호
+	            // 가상계좌 결제에 필요한 정보
+	            virtualAccount: {
+	              cashReceipt: {
+	                type: "소득공제",
+	              },
+	              useEscrow: false,
+	              validHours: 1,
+	            },
+	          });
+	    } else {
+	    	alert("결제 방식을 선택해주세요.");
 	    }
-	    
-	    return timestamp + counter + randomPart; // 총 20자
 	}
+	
+ 	// 상품 데이터 가져오기
+    function getItems(){
+ 	   var itemElements = document.getElementsByClassName("itemInfoData");
+ 	   var items = [];
+ 	   
+ 	   for (var i=0; i < itemElements.length; i++){
+ 		   var element = itemElements[i];
+ 		   var item = {
+ 				   productId: parseInt(element.getAttribute('data-product-id')),
+ 				   productName: element.getAttribute('data-product-name'),
+ 				   productOption: element.getAttribute('data-product-option'),
+ 				   price: parseInt(element.getAttribute('data-price')),
+ 				   quantity: parseInt(element.getAttribute('data-quantity')),
+ 				   subTotal: parseInt(element.getAttribute('data-sub-total')),
+ 				   costPrice: parseInt(element.getAttribute('data-cost-price'))
+ 		   };
+ 		   
+ 		   items.push(item);
+ 	   }
+ 	   
+ 	   return items;
+    }
+
    
  </script>
 
-
-<script>
-  const payment = () => {
-    $("#myModal").addClass("active");
-  };
-  const cancel = () => {
-    $("#myModal").removeClass("active");
-  };
-</script>
 
 <style>
     /* Modal 전체 부모 컨테이너 */
@@ -335,11 +354,11 @@
                         <div class="form-group">
                             <label class="form-label">배송 요청사항</label>
                             <select class="form-select" id="shippingComment">
-                                <option value="">배송 요청사항을 선택하세요</option>
-                                <option value="direct">문앞에 놓아주세요</option>
-                                <option value="guard">경비실에 맡겨주세요</option>
-                                <option value="call">배송 전 연락주세요</option>
-                                <option value="safe">안전한 곳에 놓아주세요</option>
+                                <option value="" disabled >배송 요청사항을 선택하세요</option>
+                                <option value="문앞에 놓아주세요">문앞에 놓아주세요</option>
+                                <option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
+                                <option value="배송 전 연락주세요">배송 전 연락주세요</option>
+                                <option value="안전한 곳에 놓아주세요">안전한 곳에 놓아주세요</option>
                                 <option value="direct_input">직접입력</option>
                             </select>
                         </div>
@@ -347,35 +366,27 @@
 
                     <!-- Payment Method -->
                     <div class="section">
-                        <h2 class="section-title">결제수단</h2>
-	                	<!-- 결제 UI -->
+                       <!--  <h2 class="section-title">결제수단</h2>
+	                	결제 UI
 					    <div id="payment-method"></div>
-					    <!-- 이용약관 UI -->
-					    <div id="agreement"></div>
+					    이용약관 UI
+					    <div id="agreement"></div> -->
 
                         
-                        <!-- <div class="payment-methods">
+                        <div class="payment-methods">
                             <div class="payment-option">
                                 <input type="radio" id="card" name="payment" value="card" checked>
-                                <label for="card" class="payment-label">신용카드</label>
+                                <label for="card" class="payment-label">신용카드/간편결제</label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="virtual" name="payment" value="account">
+                                <label for="virtual" class="payment-label">계좌이체</label>
                             </div>
                             <div class="payment-option">
                                 <input type="radio" id="bank" name="payment" value="bank">
                                 <label for="bank" class="payment-label">무통장입금</label>
                             </div>
-                            <div class="payment-option">
-                                <input type="radio" id="virtual" name="payment" value="virtual">
-                                <label for="virtual" class="payment-label">가상계좌</label>
-                            </div>
-                            <div class="payment-option">
-                                <input type="radio" id="phone" name="payment" value="phone">
-                                <label for="phone" class="payment-label">휴대폰결제</label>
-                            </div>
-                            <div class="payment-option">
-                                <input type="radio" id="kakao" name="payment" value="kakao">
-                                <label for="kakao" class="payment-label">카카오페이</label>
-                            </div>
-                        </div> -->
+                        </div>
                     </div>
 
                     <!-- Terms Agreement -->
@@ -463,9 +474,8 @@
                             <span class="summary-value" id="finalPrice" style="font-size: 20px;"></span></span>
                         </div>
                         
-                        <!-- 결제하기 버튼 -->
-    					<button class="button" id="payment-button" style="margin-top: 30px">결제하기</button>
-
+    					<button class="button" style="margin-top: 30px" onclick="requestPayment()">결제하기</button>
+    					
                         <div class="btn-actions">
                             <button class="btn btn-outline" style="flex: 1;" onclick="goBack()">이전단계</button>
                         </div>
@@ -702,6 +712,7 @@
                 const customInput = document.createElement('input');
                 customInput.type = 'text';
                 customInput.className = 'form-input';
+                customInput.id = "directMessage";
                 customInput.placeholder = '배송 요청사항을 직접 입력하세요';
                 customInput.style.marginTop = '10px';
                 
@@ -730,7 +741,7 @@
                 
                 const paymentSection = document.querySelector('.section:has(.payment-methods)');
                 
-                if (this.value === 'bank') {
+                /* if (this.value === 'bank') {
                     // 무통장입금 선택 시 은행 선택 필드 추가
                     const bankField = document.createElement('div');
                     bankField.className = 'payment-additional-fields';
@@ -771,7 +782,7 @@
                         </div>
                     `;
                     paymentSection.appendChild(cardField);
-                }
+                } */
             });
         });
 
@@ -826,8 +837,6 @@
 
 <!-- 회원 정보 조회 -->    
 	<script>
-		const memberId = "user01";
-	
 		$(function(){
 			var itemToTalPrice = ${itemCnt.TOTAL_PRICE};
 			$("#itemTotalPrice").text(itemToTalPrice.toLocaleString() + '원');
@@ -835,7 +844,7 @@
 			
 			memberInfo();
 			
-			tossPayMain();
+/* 			tossPayMain(); */
 		});
 		
 		function memberInfo(){

@@ -13,8 +13,6 @@ public interface UserOrderMapper {
 
 	HashMap<String, Object> selectItemCntByUser(Long cartId);
 
-	List<HashMap<String, Object>> selectOrderMeberInfoByUser(Map<String, Object> param);
-
 	HashMap<String, Object> selectOrderMemberBasicInfoByUser(Map<String, Object> param);
 
 	Integer selectMemberPointByUser(Map<String, Object> param);
@@ -22,5 +20,15 @@ public interface UserOrderMapper {
 	List<HashMap<String, Object>> selectMemberCouponListByUser(Map<String, Object> param);
 
 	List<HashMap<String, Object>> selectMemberAddressListByUser(Map<String, Object> param);
+
+	int orderDataSaveByUser(Map<String, Object> order);
+
+	Long getOrderIdByUser(Map<String, Object> order);
+
+	int insertOrderItemsByUser(Map<String, Object> item);
+
+	int insertPointByUser(Map<String, Object> order);
+
+	int updateCouponByUser(Map<String, Object> order);
 
 }

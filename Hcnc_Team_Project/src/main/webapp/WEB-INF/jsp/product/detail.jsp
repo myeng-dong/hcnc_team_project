@@ -569,7 +569,12 @@
 			console.log("상품 정보:", productDetail);
 			console.log("옵션 정보:", optionInfo);
 			
+			
+			// 선택된 모든 옵션의 추가 요금을 저장할 객체
+			var selectedOptions = {};
+			
 			$(document).ready(function() {
+				
 				// 1단계: 어떤 옵션명들이 있는지 찾기
 				var options = [];
 				for (var i = 0; i < optionInfo.length; i++) {
@@ -587,7 +592,7 @@
 				        options.push(optionName);
 				    }
 				}
-	
+
 				console.log("발견된 옵션명들:", options);
 	
 				// 2단계: HTML 생성
@@ -595,7 +600,7 @@
 				for(var i = 0; i < options.length; i++){
 				    optionContainer += '<div class="option-group">';
 				    optionContainer += '<span class="option-label">' + options[i] + ': </span>';
-				    optionContainer += '<select class="option-select" id="'+ optionInfo[i].OPTION_ID +'_select" onchange="optionSelect(this)")>';
+				    optionContainer += '<select class="option-select" id="'+ optionInfo[i].OPTION_ID +'_select" data-option-name="' + options[i] + '" onchange="optionSelect(this)")>';
 				    optionContainer += '<option value="non-select">옵션을 선택해주세요.</option>';
 				    
 				    // 해당 옵션명의 값들만 추가
@@ -623,22 +628,33 @@
 				$("#options-td").html(optionContainer);
 			});
 			
+			// 옵션 선택 함수
 			const optionSelect = (element) => {
-			    // 선택된 옵션 요소 가져오기
-			    var selectedOption = element.options[element.selectedIndex]; // selectElement → element
+			    // 선택된 옵션 정보 가져오기
+			    var selectedOption = element.options[element.selectedIndex];
+			    var optionName = element.getAttribute('data-option-name'); // 어떤 옵션인지 구분
+			    var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0;
 			    
-			    // data-price 값 가져오기
-			    var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0; // 숫자 변환 추가
+			    // 해당 옵션의 추가 요금 저장
+			    if(selectedOption.value === 'non-select') {
+			        delete selectedOptions[optionName]; // 선택 해제 시 삭제
+			    } else {
+			        selectedOptions[optionName] = optionPrice;
+			    }
 			    
-			    var quantity = parseInt($('#quantity').val()) || 1;
+			    // 모든 옵션의 추가 요금 합산
+			    var totalOptionPrice = 0;
+			    for(var key in selectedOptions) {
+			        totalOptionPrice += selectedOptions[key];
+			    }
 			    
-			    // 현재 가격 가져오기
+			    // 기본 상품 가격 + 모든 옵션 추가 요금
 			    var salaryPrice = getSalaryPrice();
-			    var newPrice = salaryPrice + optionPrice // currentPrice → totalPrice, optoinPrice → optionPrice
+			    var newPrice = salaryPrice + totalOptionPrice;
 			    
-			    
+			    // 수량 초기화
 			    $("#quantity").val(1);
-			    updateTotalPrice(newPrice); // 화면 업데이트
+			    updateTotalPrice(newPrice);
 			    
 			    basePrice = newPrice;
 			}
@@ -647,7 +663,7 @@
 			function getSalaryPrice() {
 			    return parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
 			}
-	
+
 			// 총 가격 업데이트
 			function updateTotalPrice(newPrice) {
 			    var element = document.getElementById("totalPrice");
@@ -702,6 +718,7 @@
     
 		function pushCart() {
 			var option = '';
+			var optionIds = [];
 			var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
 			var quantity = parseInt($('#quantity').val()) || 1;
 			var subTotal = parseInt(document.getElementById("totalPrice").getAttribute('data-price')) || 0;
@@ -709,6 +726,10 @@
 		    // 모든 옵션 셀렉트박스 확인
 		    var selectedOptions = [];
 		    var hasOption = true;
+		    
+		    // 옵션명별로 중복 제거를 위한 Set
+		    var processedOptionNames = new Set();
+		    
 		    for(var i = 0; i < optionInfo.length; i++){
 		        var selectId = optionInfo[i].OPTION_ID + '_select';
 		        var selectElement = document.getElementById(selectId);
@@ -717,21 +738,31 @@
 		        	
 		        	if(selectElement.value == 'non-select'){
 		        		hasOption = false;
+		        		break; // 하나라도 미선택이면 중단
 		        	}
 		        	
 		            var selectedOption = selectElement.options[selectElement.selectedIndex];
-		            var optionData = {
-		                optionId: optionInfo[i].OPTION_ID,
-		                optionName: optionInfo[i].OPTION_NAME,
-		                value: selectElement.value,
-		                displayText: selectedOption.text,
-		                price: selectedOption.getAttribute('data-price')
-		            };
+		            var optionName = optionInfo[i].OPTION_NAME;
 		            
-		            selectedOptions.push(optionData);
-		            console.log("옵션:", optionData.optionName + " = " + optionData.value + " (+" + optionData.price + "원)");
-		            
-		            option += optionData.value;
+		            // 같은 옵션명은 한 번만 처리 (중복 방지)
+		            if(!processedOptionNames.has(optionName)){
+		            	processedOptionNames.add(optionName);
+		            	
+		            	var optionData = {
+			                optionId: optionInfo[i].OPTION_ID,
+			                optionName: optionInfo[i].OPTION_NAME,
+			                value: selectElement.value,
+			                displayText: selectedOption.text,
+			                price: selectedOption.getAttribute('data-price')
+			            };
+			            
+			            selectedOptions.push(optionData);
+			            optionIds.push(optionInfo[i].OPTION_ID);
+			            
+			            console.log("옵션:", optionData.optionName + " = " + optionData.value + " (+" + optionData.price + "원)");
+			            
+			            option += optionData.value + ' \n';
+		            }
 		        }
 		    }
 		    
@@ -741,23 +772,27 @@
 					memberId: memberId,
 					cartId: cartId,
 					productId: productId,
-					option: option, 
+					option: option,
+					optionIds: optionIds,
 					price: price,
 					quantity: quantity,
 					subTotal: subTotal
 				};
 				
+				console.log("서버에 전송: ", param);
+				
 				$.ajax({
 					url: "/insertCartItem.do",
 					type: "post",
 					data: param,
+					traditional: true, // 배열 전송을 위해 필요.
 					dataType: "json",
 					success: function(res) {
 						var result = res.insertResult;
 						if (result == 1) {
-							confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? null : null;
+							confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId=" + 1; : null;
 						} else if (result == 2) {
-							confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? null : null;
+							confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId=" + 1; : null;
 						}
 					},
 					error: function() {

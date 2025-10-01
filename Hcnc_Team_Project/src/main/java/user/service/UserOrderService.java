@@ -28,10 +28,6 @@ public class UserOrderService {
 		return userOrderMapper.selectItemCntByUser(cartId);
 	}
 
-	public List<HashMap<String, Object>> selectOrderMeberInfoByUser(Map<String, Object> param) {
-		// TODO Auto-generated method stub
-		return userOrderMapper.selectOrderMeberInfoByUser(param);
-	}
 
 	public HashMap<String, Object> selectRequestedOrderInfoByUser(Map<String, Object> param) {
 		// TODO Auto-generated method stub
@@ -51,6 +47,86 @@ public class UserOrderService {
         } catch(Exception e) {
         	throw new RuntimeException("회원 정보 조회 실패", e);
         }
+		return result;
+	}
+
+	public int orderDataSaveByUser(Map<String, Object> order, List<Map<String, Object>> items) {
+		int result = 1;
+		
+		// 1. ORDERS테이블 데이터 입력
+		int ordersInsert = userOrderMapper.orderDataSaveByUser(order);
+		if(ordersInsert == 1) {
+			System.out.println("orders 테이블 데이터 저장완료!");
+		} else {
+			result = 0;
+			System.out.println("orders 테이블 데이터 저장실패");
+		}
+		
+		// 2. ORDER_ID 가져오기
+		Long orderId = userOrderMapper.getOrderIdByUser(order);
+		order.put("orderId", orderId);
+		
+		// 3. ORDER_ITEMS에 데이터 입력
+		boolean orderItems = true;
+		for(int i = 0; i < items.size(); i++) {
+			Map<String, Object> item = items.get(i);
+			
+			item.put("orderId", orderId);
+			
+			int orderItemsInsert = userOrderMapper.insertOrderItemsByUser(item);
+			
+			if(orderItemsInsert != 1) {
+				orderItems = false;
+			}
+		}
+		
+		if(orderItems) {
+			System.out.println("orderItems 데이터 저장완료!");
+		} else {
+			result = 0;
+			System.out.println("orderItems 데이터 저장실패");
+		}
+		
+		// 4. 포인트 차감
+		boolean points = true;
+		if((int) order.get("usedPoint") != 0) {
+			int pointInsert = userOrderMapper.insertPointByUser(order);
+			
+			if(pointInsert != 1) {
+				points = false;
+			}
+		}
+		
+		if(points) {
+			System.out.println("points 테이블 데이터 저장완료!");
+		} else {
+			result = 0;
+			System.out.println("points 테이블 데이터 저장실패 ");
+		}
+		
+		// 5. 쿠폰 차감
+		boolean coupons = true;
+		if(order.get("couponId") != null) {
+			int couponUpdate = userOrderMapper.updateCouponByUser(order);
+			
+			if(couponUpdate != 1) {
+				coupons = false;
+			}
+		}
+		
+		if(coupons) {
+			System.out.println("coupons 테이블 데이터 저장완료!");
+		} else {
+			result = 0;
+			System.out.println("coupons 테이블 데이터 저장실패");
+		}
+		// 6. 재고 차감
+		
+		// 7. 재고 입출고 관리 테이블 수정 ( 6번에 트리거 걸 예정 )
+		
+		// 8. 회원 카트ID의 체크된 항목 삭제 처리
+		
+		
 		return result;
 	}
 }

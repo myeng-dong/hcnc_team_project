@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.UserOrderMapper">
-	<!-- 쿠폰 결과 매핑 (Map 사용) -->
-    <resultMap id="couponResultMap" type="java.util.HashMap">
-        <id property="couponId" column="COUPON_ID"/>
-        <result property="couponName" column="COUPON_NAME"/>
-        <result property="couponCode" column="COUPON_CODE"/>
-        <result property="discountType" column="DISCOUNT_TYPE"/>
-        <result property="discountValue" column="DISCOUNT_VALUE"/>
-        <result property="minOrderPrice" column="MIN_ORDER_PRICE"/>
-        <result property="expiryDt" column="EXPIRY_DT"/>
-    </resultMap>
-    
-    <!-- 사용자 결과 매핑 (쿠폰 포함, Map 사용) -->
-    <resultMap id="userWithCouponsResultMap" type="java.util.HashMap">
-        <result property="username" column="USER_NAME"/>
-        <result property="phoneNumber" column="PHONE_NUMBER"/>
-        <result property="post" column="POST"/>
-        <result property="addr1" column="ADDR_1"/>
-        <result property="addr2" column="ADDR_2"/>
-        <result property="point" column="POINT"/>
-        <result property="gradeDiscount" column="DISCOUNT_RATE"/>
-        <collection property="COUPONS" resultMap="couponResultMap"/>
-    </resultMap>
-
 <!-- 	<select id="selectOrderRequestItemListByUser" parameterType="java.lang.Long" resultType="java.util.HashMap">
 		SELECT CI.CART_ITEM_ID, CI.PRODUCT_ID, CI.PRODUCT_OPTION, CI.PRICE, CI.QUANTITY, CI.SUB_TOTAL
 			 , P.PRODUCT_NAME
@@ -60,25 +37,6 @@
 				AND IS_CHECKED = 'Y'
 	</select>
 	
-	<select id="selectOrderMeberInfoByUser" parameterType="java.util.Map" resultMap="userWithCouponsResultMap">
-		SELECT M.USER_NAME, M.PHONE_NUMBER
-			, A.POST, A.ADDR_1, A.ADDR_2
-			, G.DISCOUNT_RATE
-			, P.POINT
-			, C.COUPON_ID, C.COUPON_NAME, C.COUPON_CODE, C.DISCOUNT_TYPE, C.DISCOUNT_VALUE, C.MIN_ORDER_PRICE, DATE_FORMAT(C.EXPIRY_DT, '%Y-%m-%d') AS EXPIRY_DT
-			FROM MEMBERS M
-			LEFT JOIN ADDRESS A
-				ON M.MEMBER_ID = A.MEMBER_ID
-			LEFT JOIN GRADES G
-				ON M.GRADE_CODE = G.GRADE_CODE
-			LEFT JOIN POINTS P
-				ON M.MEMBER_ID = P.MEMBER_ID
-			LEFT JOIN COUPONS C
-				ON M.MEMBER_ID = C.MEMBER_ID
-			WHERE M.MEMBER_ID = #{memberId}
-			ORDER BY C.EXPIRY_DT ASC
-	</select>
-	
 	<select id="selectOrderMemberBasicInfoByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT M.USER_NAME, M.PHONE_NUMBER
 			, G.GRADE_CODE, G.DISCOUNT_RATE 
@@ -105,4 +63,59 @@
 			FROM ADDRESS A
 			WHERE MEMBER_ID = #{memberId}
 	</select>
+	
+	<insert id="orderDataSaveByUser" parameterType="java.util.Map">
+		INSERT INTO ORDERS (ORDER_NUMBER, PHONE_NUMBER, TOTAL_AMOUNT, DISCOUNT_AMOUNT, FINAL_AMOUNT, USER_NAME, SHIPPING_POST, SHIPPING_ADDR_1, SHIPPING_ADDR_2, MEMBER_ID, SHIPPING_COMMENT, PAYMENT_METHOD)
+			VALUES( 
+				#{orderNumber},
+				#{phoneNumber},
+				#{totalAmount},
+				#{discountAmount},
+				#{finalAmount},
+				#{receiver},
+				#{shippingPost},
+				#{shippingAddr1},
+				#{shippingAddr2},
+				#{memberId},
+				#{shippingComment},
+				#{paymentMethod}
+			 )
+	</insert>
+	
+	<select id="getOrderIdByUser" parameterType="java.util.Map" resultType="java.lang.Long">
+		SELECT ORDER_ID
+			FROM ORDERS
+			WHERE ORDER_NUMBER = #{orderNumber}
+	</select>
+	
+	<insert id="insertOrderItemsByUser" parameterType="java.util.Map">
+		INSERT INTO ORDER_ITEMS (ORDER_ID ,PRODUCT_ID, PRODUCT_NAME, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL, COST_PRICE)
+			VALUES(
+				#{orderId},
+				#{productId},
+				#{productName},
+				#{productOption},
+				#{price},
+				#{quantity},
+				#{subTotal},
+				#{costPrice}
+			)
+	</insert>
+	
+	<insert id="insertPointByUser" parameterType="java.util.Map">
+		INSERT INTO POINTS (MEMBER_ID, CHANGE_TYPE, POINT, DESCRIPTION, ORDER_ID)
+			VALUES (
+				#{memberId},
+				'사용',
+				-#{usedPoint},
+				'주문 결제 시 사용',
+				#{orderId}
+			)
+	</insert>
+	
+	<update id="updateCouponByUser" parameterType="java.util.Map">
+		UPDATE COUPONS
+			SET IS_USED = 'Y', USED_DT = NOW(), ORDER_ID = #{orderId}
+			WHERE COUPON_ID = #{couponId}
+	</update>
 </mapper> 
