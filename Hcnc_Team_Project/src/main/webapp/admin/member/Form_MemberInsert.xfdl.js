@@ -283,7 +283,7 @@
         this.fn_gradeSearch = function(){
 
         	var strSvcID = "selectMemberGradeList"
-        	var setURL = "svc::/selectMemberGradeListByAdmin.do";
+        	var setURL = "svc::/selectMemberGradeListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_grade=ds_grade";
         	var strArg = "";
@@ -326,7 +326,7 @@
 
         	//통신하기
         	var strSvcID = "insertMember"
-        	var setURL = "svc::/insertMemberByAdmin.do";
+        	var setURL = "svc::/insertMemberByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_member=ds_member";
         	var strOutDatasets = "ds_insCnt=ds_insCnt";
         	var strArg = "";
