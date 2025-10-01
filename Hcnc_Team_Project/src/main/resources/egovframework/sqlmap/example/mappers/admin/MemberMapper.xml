@@ -638,5 +638,33 @@
 	    ORDER BY DELETE_MONTH
 	</select>
 	
+	<!-- 아이디와 이메일로 회원 찾기 (비밀번호 찾기용) -->
+	<select id="findMemberByIdAndEmailByAdmin" parameterType="java.util.Map" resultType="java.util.Map">
+	    SELECT 
+	        MEMBER_ID,
+	        EMAIL_ADDR,
+	        USER_NAME,
+	        GRADE_CODE
+	      FROM 
+	        MEMBERS
+	     WHERE 
+	        MEMBER_ID = #{MEMBER_ID}
+	        AND EMAIL_ADDR = #{EMAIL}
+	        AND STATUS = 'Y'
+	        AND GRADE_CODE = 9  <!-- 관리자만 -->
+	     LIMIT 1
+	</select>
+	
+	<!-- 비밀번호 업데이트 (임시 비밀번호 저장) -->
+	<update id="updatePasswordByAdmin" parameterType="java.util.Map">
+	    UPDATE MEMBERS
+	       SET 
+	           PASSWORD = #{NEW_PASSWORD},
+	           UPDATE_DT = NOW()
+	     WHERE 
+	           MEMBER_ID = #{MEMBER_ID}
+	           AND EMAIL_ADDR = #{EMAIL}
+	           AND STATUS = 'Y'
+	</update>
 	
 </mapper>

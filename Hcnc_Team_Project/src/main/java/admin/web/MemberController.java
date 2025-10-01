@@ -56,84 +56,69 @@ public class MemberController {
 		}
 	}
 
+	// 쿠키 관리 통합 메서드
+	private void handleRememberMeCookie(HttpServletResponse response, String saveId, String memberId) {
+		Cookie cookie = new Cookie("ADMIN_ID", "Y".equals(saveId) ? memberId : "");
+		cookie.setPath("/");
+		cookie.setHttpOnly(false); // 넥사크로 쿠키 접근 허용
+		cookie.setMaxAge("Y".equals(saveId) ? 30 * 24 * 60 * 60 : 0);
+		response.addCookie(cookie);
+	}
+	
+	//로그인 
 	@RequestMapping(value = "/adminLoginByAdmin.do")
-	public NexacroResult adminLogin(@ParamDataSet(name = "ds_admin", required = false) Map<String, Object> param,
-			HttpServletRequest request, HttpServletResponse response) {
+	public NexacroResult adminLogin(@ParamDataSet(name = "ds_admin") Map<String, Object> param,
+			@ParamVariable(name = "SAVE_ID") String saveId, HttpServletRequest request, HttpServletResponse response) {
 
 		NexacroResult result = new NexacroResult();
 
-		// 로그인도 암호하 과정과 똑같이 비밀번호 param에서 꺼내서 암호화로 덮어쓰기
-		String password = String.valueOf(param.get("PASSWORD"));
-		String crypto = PasswordUtil.encryptSHA256(password);
-
-		param.put("PASSWORD", crypto);
-
-		Map<String, Object> adminInfo = memberService.adminLogin(param);
-
 		try {
+			//비밀번호 암호화
+			String password = String.valueOf(param.get("PASSWORD"));
+			String crypto = PasswordUtil.encryptSHA256(password);
+			param.put("PASSWORD", crypto);
 
-			if (adminInfo != null) {
-				if ("O".equals(adminInfo.get("PASSWORD").toString())) {
-					HttpSession session = request.getSession();
+			Map<String, Object> adminInfo = memberService.adminLogin(param);
 
-					System.out.println(session.getAttribute("adminInfo"));
-					session.setAttribute("adminInfo", adminInfo);
+			if (adminInfo != null && "O".equals(adminInfo.get("PASSWORD").toString())) {
+				// 세션 생성
+				HttpSession session = request.getSession();
+				session.setAttribute("adminInfo", adminInfo);
 
-					// 쿠키에 member_id를 넣기 위해 String 변환
-					String memberId = String.valueOf(adminInfo.get("MEMBER_ID"));
-					Cookie idCookie = new Cookie("ADMIN_ID", memberId);
+				// 쿠키 관리 (통합)
+				String memberId = String.valueOf(adminInfo.get("MEMBER_ID"));
+				handleRememberMeCookie(response, saveId, memberId);
 
-					idCookie.setPath("/");
-					idCookie.setMaxAge(3600); // 1시간 유지
-
-					// 쿠키 생성하기!!
-					response.addCookie(idCookie); // 클라이언트로 쿠키 내려보내기
-
-					System.out.println("ADMIN_ID 쿠키 발급: " + memberId);
-
-					result.addDataSet("ds_loginChk", adminInfo);
-				}
+				result.addDataSet("ds_loginChk", adminInfo);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
 			result.setErrorCode(-1);
 			result.setErrorMsg("로그인 실패");
 		}
 		return result;
-	};
-
-	// 관리자 로그아웃 (세션 + 쿠키 모두 정리)
-	// By GJ.09.11
+	}
+	
+	//로그아웃
 	@RequestMapping(value = "/adminLogoutByAdmin.do")
 	public NexacroResult adminLogout(HttpServletRequest request, HttpServletResponse response) {
 		NexacroResult result = new NexacroResult();
-
 		try {
-			// 세션 정리
+			// 세션 무효화
 			HttpSession session = request.getSession(false);
 			if (session != null) {
-				// 세션 무효화
 				session.invalidate();
 			}
 
-			// 쿠키 정리 (memberId 쿠키 만료)
-			expireCookie(response, "ADMIN_ID");
+			// 쿠키 삭제
+			Cookie cookie = new Cookie("ADMIN_ID", "");
+			cookie.setPath("/");
+			cookie.setMaxAge(0); // 즉시 삭제
+			response.addCookie(cookie);
 
-			System.out.println("로그아웃 완료");
-
-			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
-	}
-
-	// 쿠키 만료 메소드
-	private void expireCookie(HttpServletResponse response, String cookieName) {
-		Cookie cookie = new Cookie(cookieName, null);
-		cookie.setPath("/"); // 경로 지정 (중요)
-		cookie.setMaxAge(0); // 즉시 만료
-		response.addCookie(cookie);
 	}
 
 	// 회원 조회
@@ -726,6 +711,94 @@ public class MemberController {
 			result.setErrorMsg("통계 조회 중 오류");
 		}
 		return result;
+	}
+
+	// 비밀번호 찾기 (임시 비밀번호 발급)
+	// By. PJ 10.01
+	@RequestMapping(value = "/findPasswordByAdmin.do")
+	public NexacroResult findPassword(
+			@ParamDataSet(name = "ds_findPassword", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+		Map<String, Object> resultMap = new HashMap<>();
+
+		try {
+			// 회원 정보 확인 (아이디와 이메일 일치 여부)
+			Map<String, Object> memberInfo = memberService.findMemberByIdAndEmailByAdmin(param);
+
+			if (memberInfo != null) {
+				// 임시 비밀번호 생성
+				String tempPassword = generateTempPassword();
+
+				// 임시 비밀번호 암호화
+				String encryptedPassword = PasswordUtil.encryptSHA256(tempPassword);
+
+				// DB에 임시 비밀번호 저장
+				param.put("NEW_PASSWORD", encryptedPassword);
+				int updated = memberService.updatePasswordByAdmin(param);
+
+				if (updated > 0) {
+					// 콘솔에 임시 비밀번호 출력 (개발/테스트용)
+					System.out.println("=============================================");
+					System.out.println("[임시 비밀번호 발급]");
+					System.out.println("수신자 이메일: " + param.get("EMAIL"));
+					System.out.println("회원 아이디: " + memberInfo.get("MEMBER_ID"));
+					System.out.println("임시 비밀번호: " + tempPassword);
+					System.out.println("=============================================");
+
+					resultMap.put("RESULT", "SUCCESS");
+				} else {
+					resultMap.put("RESULT", "UPDATE_FAIL");
+				}
+			} else {
+				resultMap.put("RESULT", "NOT_FOUND");
+			}
+
+			result.addDataSet("ds_findResult", resultMap);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setErrorCode(-1);
+			result.setErrorMsg("비밀번호 찾기 중 오류 발생: " + e.getMessage());
+		}
+
+		return result;
+	}
+
+	/**
+	 * 임시 비밀번호 생성 (10자리) //by.Pj 10.01
+	 */
+	private String generateTempPassword() {
+		String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+		String numbers = "0123456789";
+		String special = "!@#$";
+		String allChars = upperCase + lowerCase + numbers + special;
+
+		StringBuilder tempPassword = new StringBuilder();
+		java.util.Random random = new java.util.Random();
+
+		// 각 카테고리에서 최소 1개씩
+		tempPassword.append(upperCase.charAt(random.nextInt(upperCase.length())));
+		tempPassword.append(lowerCase.charAt(random.nextInt(lowerCase.length())));
+		tempPassword.append(numbers.charAt(random.nextInt(numbers.length())));
+		tempPassword.append(special.charAt(random.nextInt(special.length())));
+
+		// 나머지 6자리
+		for (int i = 0; i < 6; i++) {
+			tempPassword.append(allChars.charAt(random.nextInt(allChars.length())));
+		}
+
+		// 문자 섞기
+		char[] arr = tempPassword.toString().toCharArray();
+		for (int i = arr.length - 1; i > 0; i--) {
+			int j = random.nextInt(i + 1);
+			char temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
+		}
+
+		return new String(arr);
 	}
 
 }
