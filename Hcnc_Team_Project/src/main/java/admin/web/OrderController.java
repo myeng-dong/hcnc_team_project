@@ -103,8 +103,12 @@ public class OrderController {
         	        	upCnt++;
         	        	System.out.println("실행된 업데이트문의 갯수 : "+upCnt);
         	        }
+        	        
+        	        orderService.updateOrderCommentByAdmin(row);
         	    }
         }
+        
+        
         return result;
     }
     

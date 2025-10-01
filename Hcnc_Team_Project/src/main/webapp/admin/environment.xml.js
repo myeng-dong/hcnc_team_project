@@ -24,7 +24,7 @@ if (nexacro.Environment)
         nexacro._addService("svc", "JSP", "http://localhost:8080/", "session", null, "", "0", "0");
         nexacro._addService("order", "form", "./order/", "session", null, "", "0", "0");
         nexacro._addService("board", "form", "./board/", "session", null, "", "0", "0");
-        nexacro._addService("promo", "form", "./promo/", "session", null, "", "0", "0");
+        nexacro._addService("promotion", "form", "./promotion/", "session", null, "", "0", "0");
         nexacro._addService("member", "form", "./member/", "session", null, "", "0", "0");
         nexacro._addService("stat", "form", "./stat/", "session", null, "", "0", "0");
         nexacro._addService("setting", "form", "./setting/", "session", null, "", "0", "0");
@@ -34,6 +34,7 @@ if (nexacro.Environment)
         nexacro._addService("product", "form", "./product/", "session", null, "", "0", "0");
         nexacro._addService("common", "js", "./common/", "session", null, "", "0", "0");
         nexacro._addService("css", "file", "./css/", "session", null, "", "0", "0");
+        nexacro._addService("file", "file", "./file/", "session", null, "", "0", "0");
     	nexacro._component_uri = (nexacro._arg_compurl ? nexacro._arg_compurl : "./nexacro17lib/component/");
     	nexacro._theme_uri = "./_resource_/_theme_/";
     	// load components
@@ -68,7 +69,15 @@ if (nexacro.Environment)
         		{"id":"FileDownload", "classname":"nexacro.FileDownload", "type":"JavaScript"},
         		{"id":"FileUpload", "classname":"nexacro.FileUpload", "type":"JavaScript"},
         		{"id":"FileDialog", "classname":"nexacro.FileDialog", "type":"JavaScript"},
-        		{"id":"FileUpTransfer", "classname":"nexacro.FileUpTransfer", "type":"JavaScript"}
+        		{"id":"FileUpTransfer", "classname":"nexacro.FileUpTransfer", "type":"JavaScript"},
+        		{"id":"BasicChart", "classname":"nexacro.BasicChart", "type":"JavaScript"},
+        		{"id":"PyramidChart", "classname":"nexacro.PyramidChart", "type":"JavaScript"},
+        		{"id":"FloatChart", "classname":"nexacro.FloatChart", "type":"JavaScript"},
+        		{"id":"RoseChart", "classname":"nexacro.RoseChart", "type":"JavaScript"},
+        		{"id":"RadarChart", "classname":"nexacro.RadarChart", "type":"JavaScript"},
+        		{"id":"GaugeChart", "classname":"nexacro.GaugeChart", "type":"JavaScript"},
+        		{"id":"PieChart", "classname":"nexacro.PieChart", "type":"JavaScript"},
+        		{"id":"BubbleChart", "classname":"nexacro.BubbleChart", "type":"JavaScript"}
         ];
     	nexacro._addClasses(registerclass);
     };

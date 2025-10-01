@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Form_Stat_Main" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_Stat_Main_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Div id="search_area" taborder="0" top="0" background="#ffffff" borderRadius="10px" text="" height="60" left="40" right="40">
+          <Layouts>
+            <Layout>
+              <Static id="txt_cnt" taborder="0" left="110" top="15" width="80" height="36" font="normal 10pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="txt_th01" taborder="1" text="주문 내역" left="29" top="14" width="80" height="36" font="normal 13pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
+              <Combo id="Combo00" taborder="2" text="일별" left="247" top="17" width="120" height="30" innerdataset="ds_statname" codecolumn="NAME" datacolumn="NAME" index="0" value="일별" onitemchanged="search_area_Combo00_onitemchanged"/>
+              <Static id="txt_th01_00" taborder="3" text="기본 설정" left="177" top="14" width="80" height="36" font="normal 10pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
+              <Static id="txt_th01_00_00" taborder="4" text="상세 설정" left="630" top="13" width="80" height="36" font="normal 10pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
+              <Combo id="Combo00_00" taborder="5" text="일별" left="700" top="16" width="120" height="30" innerdataset="ds_payment" codecolumn="NAME" datacolumn="NAME" index="0" value="일별" onitemchanged="search_area_Combo00_00_onitemchanged"/>
+              <Calendar id="Calendar00" taborder="6" left="700" top="16" width="120" height="30" onchanged="search_area_Calendar00_onchanged"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div00" taborder="1" text=" " left="40" top="90" width="47%" background="white" borderRadius="10px" bottom="50">
+          <Layouts>
+            <Layout>
+              <BasicChart id="BasicChart00" taborder="0" left="0" top="57" bottom="0" background="white" borderRadius="10px" binddataset="ds_stat" categorycolumn="bind:CHART_LABEL" onseriesclick="Div00_BasicChart00_onseriesclick" right="0">
+                <Contents><![CDATA[{
+	"legend": {
+		"id": "legend",
+		"padding": "20px 10px 3px",
+		"itemtextfont": "normal 10/normal \"Noto Sans KR\"",
+		"itemtextcolor": "#4c4c4c",
+		"visible": true,
+		"markertype": "circle",
+		"align": "topright",
+		"itemcolumncount": "1",
+		"markertextgap": "2",
+		"markersize": "7"
+	},
+	"hrangebar": {
+		"id": "hrangebar",
+		"trackbarpadding": "1px",
+		"background": "#eaeaea",
+		"linestyle": "1px solid #d5d5d5",
+		"trackbarlinestyle": "0px none",
+		"trackbarfillstyle": "#c9c9c9",
+		"size": "12",
+		"visible": false
+	},
+	"vrangebar": {
+		"id": "vrangebar",
+		"trackbarpadding": "1px",
+		"background": "#eaeaea",
+		"linestyle": "1px solid #d5d5d5",
+		"trackbarlinestyle": "0px none",
+		"trackbarfillstyle": "#c9c9c9",
+		"size": "12",
+		"visible": false
+	},
+	"tooltip": {
+		"id": "tooltip",
+		"background": "#4b4b4b",
+		"linestyle": "0px none",
+		"textcolor": "white",
+		"textfont": "10pt/normal '맑은 고딕'",
+		"padding": "5px",
+		"visible": true
+	},
+	"board": {
+		"id": "board",
+		"visible": false
+	},
+	"categoryaxis": {
+		"id": "categoryaxis",
+		"titletextcolor": "#4c4c4c",
+		"titletextfont": "bold 12pt '맑은 고딕'",
+		"labeltextcolor": "#6f6f6f",
+		"labeltextfont": "normal 400 10/normal \"Noto Sans KR\"",
+		"axislinestyle": "1px solid #525252",
+		"ticklinestyle": "1px solid #525252",
+		"visible": true,
+		"titletext": " ",
+		"labeltype": "currency",
+		"ticksize": "5",
+		"gap": "0",
+		"axislineopacity": "0"
+	},
+	"valueaxes": [
+		{
+			"id": "valueaxis0",
+			"boardlinevisible": true,
+			"labeltextfont": "normal 400 8/normal \"Noto Sans KR\"",
+			"titletextcolor": "#38b9ff",
+			"ticklinestyle": "1px solid #7b7b7b",
+			"axislinestyle": "1px solid #7b7b7b",
+			"visible": "true",
+			"titletextalign": "high",
+			"ticks": "4",
+			"autotickscale": "20",
+			"ticklineopacity": "1",
+			"boardlineopacity": "0",
+			"labeltype": "currency",
+			"labeltextcolor": "#7b7b7b",
+			"axislineopacity": "1",
+			"titlerotate": "0",
+			"opposite": "false",
+			"titletextfont": "normal 10pt/normal \"Arial\"",
+			"titletext": " ",
+			"gap": "0",
+			"ticksize": "3",
+			"labelgap": "0",
+			"boardlinestyle": "1px solid #7b7b7b"
+		},
+		{
+			"id": "valueaxis1",
+			"titletext": " ",
+			"boardlinevisible": true,
+			"labeltextcolor": "#7b7b7b",
+			"labeltextfont": "normal 9/normal \"Noto Sans KR\"",
+			"titletextcolor": "#009ff4",
+			"titletextfont": "normal 800 9/normal \"Noto Sans KR\"",
+			"ticklinestyle": "1px solid #525252",
+			"axislinestyle": "1px solid #7b7b7b",
+			"opposite": "true",
+			"autotickscale": "50",
+			"ticks": "4",
+			"titletextalign": "high",
+			"titlerotate": "0",
+			"ticksize": "3",
+			"labelgap": "3",
+			"boardlineopacity": "1",
+			"boardlinestyle": "1px solid #c9c9c9"
+		}
+	],
+	"seriesset": [
+		{
+			"id": "총액",
+			"titletext": "총액",
+			"barvisible": "false",
+			"itemtextvisible": true,
+			"itemtextfont": "normal 400 10/normal \"Noto Sans KR\"",
+			"valuecolumn": "bind:TOTAL_AMOUNT",
+			"itemtextcolor": "#38b9ff",
+			"selectcolumn": "bind:TOTAL_AMOUNT",
+			"lineareavisible": "true",
+			"linevisible": "true",
+			"pointvisible": "true",
+			"lineareafillstyle": "#b0e4ff",
+			"pointfillstyle": "#38b9ff",
+			"pointsize": "9",
+			"linestyle": "1px solid #38b9ff",
+			"pointlinestyle": "1px solid #38b9ff",
+			"pointshape": "circle",
+			"pointitemtextposition": "centertop",
+			"pointitemtextgap": "8",
+			"selectpointopacity": "1",
+			"stacktype": "none",
+			"selecttype": "unselect",
+			"barsize": "20",
+			"baropacity": "0",
+			"valueaxis": "valueaxis0"
+		},
+		{
+			"id": "판매수량",
+			"titletext": "판매수량",
+			"valuecolumn": "bind:ORDER_COUNT",
+			"valueaxis": "valueaxis1",
+			"barlinestyle": "1px solid #1a85be",
+			"barfillstyle": "#1a85be",
+			"barvisible": "false",
+			"lineareavisible": "false",
+			"linevisible": "true",
+			"pointvisible": "true",
+			"itemtextvisible": "true",
+			"itemtextcolor": "#009ff4",
+			"itemtextfont": "normal 400 10/normal \"Noto Sans KR\"",
+			"pointsize": "9",
+			"pointfillstyle": "#008bd6",
+			"pointlinestyle": "1px solid #009ff4",
+			"pointitemtextgap": "9",
+			"linetype": "segment",
+			"linestyle": "2px solid #009ff4",
+			"selecttype": "unselect"
+		}
+	]
+}]]></Contents>
+              </BasicChart>
+              <Div id="Div00" taborder="1" left="0" top="53" width="100%" height="35" border="1px solid #eeeeee,0px none,0px none">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Static id="txt_th01" taborder="2" text="주문 내역" left="29" top="10" width="80" height="36" font="normal 13pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
+              <Div id="Div01" taborder="3" left="0" top="70" background="white" bottom="0" right="0">
+                <Layouts>
+                  <Layout>
+                    <Static id="txt_th01_00" taborder="0" text="조회된 데이터가 없습니다" left="36.22%" top="48.24%" width="159" height="16" font="normal 11pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th_onclick" color="#4b4b4b" textAlign="center"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div00_00" taborder="2" text="Div00" top="90" background="white" bottom="50" borderRadius="10px" right="40" width="47%">
+          <Layouts>
+            <Layout>
+              <Div id="Div00" taborder="1" left="0" top="53" width="100%" height="35" border="1px solid #eeeeee,0px none,0px none">
+                <Layouts>
+                  <Layout/>
+                </Layouts>
+              </Div>
+              <Static id="txt_th01" taborder="1" text="상세 내역" left="29" top="10" width="80" height="36" font="normal 13pt/normal &quot;Noto Sans KR Black&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
+              <Static id="txt_th01_00" taborder="2" text="상세 내역을 보려면 포인터를 클릭하세요" left="360" top="21" width="199" height="16" font="normal 9pt/normal &quot;Noto Sans KR Light&quot;" onclick="txt_th_onclick" color="#4b4b4b" textAlign="right"/>
+              <Static id="txt_th01_01" taborder="3" left="106" top="11" width="80" height="36" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th_onclick" color="#4b4b4b"/>
+              <Grid id="grid_list" taborder="4" top="63" background="#FFFFFF" border="0px none" borderRadius="10px" right="0" autofittype="col" binddataset="ds_detailstat" bottom="0" width="100.00%">&gt; <Formats><Format id="default"><Columns><Column size="107"/><Column size="80"/><Column size="80"/><Column size="80"/><Column size="80"/></Columns><Rows><Row size="44" band="head"/><Row size="33"/></Rows><Band id="head"><Cell text="주문번호" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="1" text="주문ID" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="2" text="주문자" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="3" text="결제금액" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/><Cell col="4" text="주문일" background="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" border="0px,0px,1px solid #eeeeee" color="black"/></Band><Band id="body"><Cell text="bind:ORDER_NUMBER" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/><Cell col="3" text="bind:FINAL_AMOUNT" textAlign="right" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/><Cell col="4" text="bind:ORDER_DT" textAlign="center" border="0px" font="normal 10pt/normal &quot;Noto Sans KR Light&quot;"/></Band></Format></Formats></Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[// 온로드시
+this.Form_Stat_Main_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{	
+    // 초기 설정: 일별로 기본값 설정
+    this.ds_search.addRow();
+    this.ds_search.setColumn(0, "SEARCH_TYPE", "일별");
+    
+	
+	
+    // 일별 통계 조회
+    this.fnSelectStatByAdmin();
+};
+
+// 주문 내역 조회
+this.fnSelectStatByAdmin = function() {
+    var strSvcID       = "selectStatByAdmin";
+    var strURL         = "svc::selectStatByAdmin.do?time=" + new Date().getTime();  
+    var strInDatasets  = "ds_search=ds_search";                  
+    var strOutDatasets = "ds_stat=ds_stat"; 
+    var strArg         = ""; 
+    var strCallback    = "fnCallback";
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+};
+
+// 주문 내역 상세 조회
+this.fnSelectStatDetailByAdmin = function() {
+    var strSvcID       = "selectStatDetailByAdmin";
+    var strURL         = "svc::selectStatDetailByAdmin.do?time=" + new Date().getTime();  
+    var strInDatasets  = "ds_detailsearch=ds_detailsearch";                  
+    var strOutDatasets = "ds_detailstat=ds_detailstat"; 
+    var strArg         = ""; 
+    var strCallback    = "fnCallback";
+    this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+};
+
+
+// 공통 콜백
+this.fnCallback = function(svc, err, errMsg) {
+    if (err < 0) {
+        this.alert("에러 발생: " + errMsg);
+        return;
+    }
+    switch(svc){
+        case "selectStatByAdmin" :
+			var isData = this.ds_stat.getRowCount();
+			if(isData==0){
+				this.Div00.form.Div01.set_visible(true);
+			}else{
+				this.Div00.form.Div01.set_visible(false);
+			}
+			var currentType = this.search_area.form.Combo00.value;
+			
+            this.Div00.form.txt_th01.set_text(currentType);
+			
+			switch(currentType){			
+				case "결제수단별":
+				this.search_area.form.Calendar00.set_visible(false);
+				this.search_area.form.Calendar00.set_value("");
+				break;
+				
+				default :
+				this.search_area.form.Calendar00.set_visible(true);
+				break;
+			}
+			this.ds_search.setColumn(0,"SEARCH_DATA","")
+			
+			this.ds_detailstat.clearData()
+			this.Div00_00.form.txt_th01_01.set_text("");
+			this.Div00_00.form.txt_th01_00.set_text("");
+			
+            break;
+			
+		case "selectStatDetailByAdmin" :
+			var detailCnt = this.ds_detailstat.getRowCount();
+			var search = this.ds_detailsearch.getColumn(0,"SEARCH_DATA");
+			var type   = this.ds_detailsearch.getColumn(0,"SEARCH_TYPE");
+			this.Div00_00.form.txt_th01_01.set_text("총 " + detailCnt + "건");
+			this.Div00_00.form.txt_th01_00.set_text(type +" : "+ search);
+			
+		break;
+    }
+};
+
+
+
+
+//차트 포인트 클릭 이벤트 이 폼페이지의 핵심!
+this.Div00_BasicChart00_onseriesclick = function(obj:nexacro.BasicChart,e:nexacro.ChartClickEventInfo)
+{
+	var itemIndex = e.itemindex;
+	
+	
+		if(e.itemindex ==null){
+			alert("점부분을 눌러주세요")
+			
+			return;
+		}else{
+			
+			var detail = this.ds_stat.getColumn(e.itemindex, "CHART_LABEL");
+			var type = this.ds_stat.getColumn(e.itemindex, "CHART_TYPE");
+			this.ds_detailsearch.setColumn(0,"SEARCH_TYPE",type);
+			this.ds_detailsearch.setColumn(0,"SEARCH_DATA",detail);
+
+			this.fnSelectStatDetailByAdmin();
+			
+		}
+	
+};
+
+
+// 검색조회 콤보박스
+this.search_area_Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+    this.ds_search.setColumn(0, "SEARCH_TYPE", e.postvalue);
+    this.fnSelectStatByAdmin();  // 조회 트랜젝션
+};
+
+//상세 콤보박스(전체, 카드, 계좌)
+this.search_area_Combo00_00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	 this.ds_search.setColumn(0, "SEARCH_DATA", e.postvalue);
+	 this.fnSelectStatByAdmin();
+};
+
+
+
+//날짜선택시
+this.search_area_Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+{
+	var selectedDate = e.postvalue;
+    var currentType = this.search_area.form.Combo00.value;
+	
+	switch(currentType){
+	
+		case "일별" : 
+		this.fnDailySearchdata(selectedDate); // 일변환함수 실행
+		this.fnSelectStatByAdmin();
+		break;
+		
+		
+		case "월별" : 
+		this.fnMonthSearchdata(selectedDate); //월변환함수 실행
+		this.fnSelectStatByAdmin();
+		break;
+	}
+	
+};
+
+//일별 선택시 seachdata 설정 함수
+this.fnDailySearchdata = function(selectedDate){
+    // 넥사크로 Calendar는 보통 YYYYMMDD 형식으로 넘어옴
+    if (selectedDate && selectedDate.length == 8) {
+        // YYYYMMDD → YYYY-MM-DD 변환
+        var year = selectedDate.substring(0, 4);
+        var month = selectedDate.substring(4, 6);
+        var day = selectedDate.substring(6, 8);
+        var formattedDate = year + '-' + month + '-' + day;
+        
+        this.ds_search.setColumn(0, "SEARCH_DATA", formattedDate);
+    } else if (selectedDate) {
+        // 이미 YYYY-MM-DD 형식이면 그대로 사용
+        this.ds_search.setColumn(0, "SEARCH_DATA", selectedDate);
+    } else {
+        // 값이 없으면 null로 설정
+        this.ds_search.setColumn(0, "SEARCH_DATA", null);
+    }
+}
+
+
+//월별 선택시 seachdata 설정 함수
+this.fnMonthSearchdata = function(selectedDate){
+    // 넥사크로 Calendar는 보통 YYYYMMDD 형식으로 넘어옴
+    if (selectedDate && selectedDate.length == 8) {
+        // YYYYMMDD → YYYY-MM 변환 (월별이므로 일은 제외)
+        var year = selectedDate.substring(0, 4);
+        var month = selectedDate.substring(4, 6);
+        var formattedDate = year + '-' + month;
+        
+        this.ds_search.setColumn(0, "SEARCH_DATA", formattedDate);
+    } else if (selectedDate && selectedDate.length >= 7) {
+        // 이미 YYYY-MM-DD 형식이면 YYYY-MM만 추출
+        var formattedDate = selectedDate.substring(0, 7); // YYYY-MM
+        this.ds_search.setColumn(0, "SEARCH_DATA", formattedDate);
+    } else {
+        // 값이 없으면 null로 설정
+        this.ds_search.setColumn(0, "SEARCH_DATA", null);
+    }
+}
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_stat">
+        <ColumnInfo>
+          <Column id="CHART_LABEL" type="STRING" size="256"/>
+          <Column id="TOTAL_AMOUNT" type="STRING" size="256"/>
+          <Column id="ORDER_COUNT" type="STRING" size="256"/>
+          <Column id="CHART_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="SEARCH_TYPE" type="STRING" size="256"/>
+          <Column id="SEARCH_DATA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_payment">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">전체</Col>
+            <Col id="NAME">전체</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">카드</Col>
+            <Col id="NAME">카드</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">계좌</Col>
+            <Col id="NAME">계좌</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_statname">
+        <ColumnInfo>
+          <Column id="CODE" type="STRING" size="256"/>
+          <Column id="NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">일별</Col>
+            <Col id="NAME">일별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">월별</Col>
+            <Col id="NAME">월별</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">결제수단별</Col>
+            <Col id="NAME">결제수단별</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_detailsearch">
+        <ColumnInfo>
+          <Column id="SEARCH_DATA" type="STRING" size="256"/>
+          <Column id="SEARCH_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_detailstat">
+        <ColumnInfo>
+          <Column id="ORDER_NUMBER" type="STRING" size="256"/>
+          <Column id="ORDER_COMMENT" type="STRING" size="256"/>
+          <Column id="ORDER_DT" type="STRING" size="256"/>
+          <Column id="FINAL_AMOUNT" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="PAYMENT_METHOD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="Div00_00.form.grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
+    </Bind>
+  </Form>
+</FDL>

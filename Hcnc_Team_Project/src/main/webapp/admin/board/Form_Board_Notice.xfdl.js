@@ -20,7 +20,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_boardType", this);
-            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">전체</Col><Col id=\"NAME\">전체</Col></Row><Row><Col id=\"CODE\">공지사항</Col><Col id=\"NAME\">공지사항</Col></Row><Row><Col id=\"CODE\">FAQ</Col><Col id=\"NAME\">FAQ</Col></Row><Row><Col id=\"CODE\">QnA</Col><Col id=\"NAME\">QnA</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"CODE\" type=\"STRING\" size=\"256\"/><Column id=\"NAME\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"CODE\">전체</Col><Col id=\"NAME\">전체</Col></Row><Row><Col id=\"CODE\">공지사항</Col><Col id=\"NAME\">공지사항</Col></Row><Row><Col id=\"CODE\">FAQ</Col><Col id=\"NAME\">FAQ</Col></Row><Row><Col id=\"CODE\">QnA</Col><Col id=\"NAME\">QnA</Col></Row><Row><Col id=\"CODE\">이벤트</Col><Col id=\"NAME\">이벤트</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -46,18 +46,18 @@
             obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_name","492","14","50","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("stc_name","512","14","50","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("2");
             obj.set_text("작성자");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","543","17","105","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Edit("Edit00","563","17","105","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("3");
             obj.set_borderRadius("5px");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Button("Button00","630","17","30","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Button("Button00","650","17","30","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("4");
             obj.set_text("⌕");
             obj.set_background("#135dae");
@@ -73,7 +73,7 @@
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Radio("rad_type","130","15","310","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Radio("rad_type","117","15","350","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("1");
             obj.set_innerdataset("ds_boardType");
             obj.set_codecolumn("CODE");
@@ -98,7 +98,7 @@
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"47\"/><Column size=\"52\"/><Column size=\"113\"/><Column size=\"78\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"게시분류\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"작성자\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"제목\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"송장 번호\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell text=\"bind:CHK\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"1\" text=\"bind:BOARD_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"3\" text=\"bind:POST_TITLE\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"4\" text=\"bind:TRACKING_NUMBER\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"38\"/><Column size=\"36\"/><Column size=\"152\"/><Column size=\"36\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"NO.\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"게시분류\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"제목\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"작성자\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell text=\"bind:CHK\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"1\" text=\"expr:currow+1\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:BOARD_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"3\" text=\"bind:POST_TITLE\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"4\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_new",null,"16","100","30","65",null,null,null,null,null,this);
@@ -210,6 +210,8 @@
                 this.ds_search.setColumn(0, "BOARD_ID", "3");    // FAQ
             } else if(val == "QnA"){
                 this.ds_search.setColumn(0, "BOARD_ID", "4");    // QnA
+            } else if(val == "이벤트"){
+                this.ds_search.setColumn(0, "BOARD_ID", "6");    // QnA
             }
 
             this.fnselectPostListByAdmin();

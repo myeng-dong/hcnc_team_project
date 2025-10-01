@@ -24,11 +24,43 @@ public class UserProductService {
 		return userProductMapper.selectProductByUser(productId);
 	}
 
-	public int insertCartItemByUser(Map<String, Object> param) {
+	public int insertCartItemByUser(Map<String, Object> param, List<Long> optionIds) {
 		// TODO Auto-generated method stub
 		int result = 0;
 		try {
-			result = userProductMapper.insertCartItemByUser(param);
+			// CART_ITEMS 데이터 insert
+			// INSERT 후 param Map에 cartItemId가 자동으로 추가됨
+			userProductMapper.insertCartItemByUser(param);
+			Long cartItemId = Long.parseLong(param.get("cartItemId").toString());
+			
+			System.out.println("cartItemId : " + cartItemId);
+			
+			// CART_ITEM_OPTIONS 데이터 insert
+			boolean cartItemOptions = true;
+			if(optionIds.size() > 0) {
+				Map<String, Object> optionId = new HashMap<String, Object>();
+				
+				optionId.put("cartItemId", cartItemId);
+				
+				for(int i=0; i < optionIds.size(); i++) {
+					
+					optionId.put("optionId", optionIds.get(i));
+					
+					int optionInsert =  userProductMapper.insertCartItemOptionByUser(optionId);
+					
+					if(optionInsert != 1) {
+						cartItemOptions = false;
+					}
+				}
+			}
+			
+			if(cartItemOptions) {
+				result = 1;
+				System.out.println("옵션처리 성공!");
+			} else {
+				result = 0;
+				System.out.println("옵션처리 실패x");
+			}
 			
 		} catch(DuplicateKeyException e) {
 			result = 2;
@@ -73,15 +105,36 @@ public class UserProductService {
 	}
 
 
-	public List<Map<String, Object>> selectMNProductListByUser() {
+	public List<Map<String, Object>> selectTypeProductListByUser() {
 		// TODO Auto-generated method stub
-		return userProductMapper.selectMNProductListByUser();//메인에서 NEW BEST불러가는용 임시
+		return userProductMapper.selectTypeProductListByUser();//메인에서 NEW BEST불러가는용
 	}
 
 	public List<Map<String, Object>> selectHotProductListByUser() {
 		// TODO Auto-generated method stub
-		return userProductMapper.selectHotProductListByUser();
+		return userProductMapper.selectHotProductListByUser(); // 인기상품불러가능용
 	}
-
 	
+	public int getCategoryProductsCount(String mainCateId, String subCateId) {
+		// TODO Auto-generated method stub
+        Map<String, Object> params = new HashMap<>();
+        params.put("mainCateId", mainCateId);
+        params.put("subCateId", subCateId);
+        return userProductMapper.selectCategoryProductsCount(params);
+    }
+
+    public List<Map<String, Object>> getCategoryProductsList(
+    	// TODO Auto-generated method stub
+        String mainCateId, String subCateId, String sortType, int offset, int pageSize) {
+        
+        Map<String, Object> params = new HashMap<>();
+        params.put("mainCateId", mainCateId);
+        params.put("subCateId", subCateId);
+        params.put("sortType", sortType);
+        params.put("offset", offset);
+        params.put("pageSize", pageSize);
+        
+        return userProductMapper.selectCategoryProductsListByUser(params);
+    }
+
 }

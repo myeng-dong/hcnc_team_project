@@ -24,7 +24,7 @@
 	      <c:forEach var="mainCategory" items="${categories}">
 		  <li class="category-col">
 		    <h5>
-		      <a href="/productlist.do?categoryCode=${mainCategory['MAIN_CATE_ID']}">
+		      <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}">
 		        ${mainCategory['MAIN_CATE_NM']}
 		      </a>
 		    </h5>
@@ -33,7 +33,7 @@
 		      <li>${mainCategory['MAIN_CATE_NM']}</li>
 		      <c:forEach var="subCategory" items="${mainCategory.subCategories}">
 		        <li>
-		          <a href="/productlist.do?categoryCode=${subCategory['SUB_CATE_ID']}">
+		          <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}">
 		            ${subCategory['SUB_CATE_NM']}
 		          </a>
 		        </li>
@@ -61,146 +61,107 @@ window.addEventListener("scroll", function () {
 });
 
 window.addEventListener("load", function() {
-	  var toggleBtn = document.getElementById("allCategoryToggle");
-	  var categoryBar = document.getElementById("categoryBar");
-	  var categoryMenu = document.querySelector(".category-menu");
-	  var categoryCols = categoryMenu.querySelectorAll(".category-col");
-	  var isFixedOpen = false;
+  var toggleBtn = document.getElementById("allCategoryToggle");
+  var categoryBar = document.getElementById("categoryBar");
+  var categoryMenu = document.querySelector(".category-menu");
+  var categoryCols = categoryMenu.querySelectorAll(".category-col");
+  var isFixedOpen = false;
 
-	  function setBeforeHeight() {
-	    
-	    var wasHidden = !categoryBar.classList.contains("show");
-	    if (wasHidden) {
-	      categoryBar.classList.add("show");
-	    }
+  function setBeforeHeight() {
+    var wasHidden = !categoryBar.classList.contains("show");
+    if (wasHidden) {
+      categoryBar.classList.add("show");
+    }
 
-	    var maxHeight = 0;
-	    var maxInfo = "";
+    var maxHeight = 0;
 
-	    Array.prototype.forEach.call(categoryCols, function(col, colIndex) {
+    Array.prototype.forEach.call(categoryCols, function(col, colIndex) {
+      if (colIndex === 0) return;
 
-	      if (colIndex === 0) {
-	        console.log("첫 번째 컬럼(버튼) - 스킵");
-	        return;
-	      }
+      var subcategoryUl = col.querySelector(".subcategory-col");
+      if (!subcategoryUl) return;
 
-	      var subcategoryUl = col.querySelector(".subcategory-col");
-	      if (!subcategoryUl) {
-	        console.log("subcategory-col을 찾을 수 없음");
-	        return;
-	      }
+      var ulHeight = subcategoryUl.offsetHeight;
+      if (ulHeight > maxHeight) {
+        maxHeight = ulHeight;
+      }
 
-	      console.log("subcategory-col 찾음: " + subcategoryUl.tagName);
+      var lis = subcategoryUl.querySelectorAll("li");
+      Array.prototype.forEach.call(lis, function(li) {
+        var liHeight = li.offsetHeight;
+        if (liHeight > maxHeight) {
+          maxHeight = liHeight;
+        }
+      });
+    });
 
-	      // ul 높이 체크
-	      var ulHeight = subcategoryUl.offsetHeight;
-	      console.log("ul 전체 높이: " + ulHeight + "px");
+    if (wasHidden) {
+      categoryBar.classList.remove("show");
+    }
 
-	      if (ulHeight > maxHeight) {
-	        maxHeight = ulHeight;
-	        maxInfo = "컬럼" + colIndex + " ul전체";
-	      }
+    if (maxHeight === 0) return;
 
-	      var lis = subcategoryUl.querySelectorAll("li");
-	      console.log("li 개수: " + lis.length);
+    var finalHeight = maxHeight+10;
 
-	      Array.prototype.forEach.call(lis, function(li, liIndex) {
-	        var liHeight = li.offsetHeight;
-	        var liText = li.textContent.trim();
-	        console.log('  li[' + liIndex + '] "' + liText + '": ' + liHeight + 'px');
+    var existingStyle = document.getElementById("categoryMenuHeight");
+    if (existingStyle) {
+      existingStyle.parentNode.removeChild(existingStyle);
+    }
 
-	        if (liHeight > maxHeight) {
-	          maxHeight = liHeight;
-	          maxInfo = "컬럼" + colIndex + "-li" + liIndex;
-	        }
-	      });
-	    });
+    var style = document.createElement("style");
+    style.id = "categoryMenuHeight";
+    style.innerHTML =
+      ".category-bar.show .category-menu::before {" +
+      "height: " + finalHeight + "px;" +
+      "content: '';" +
+      "position: absolute;" +
+      "left: 0%;" +
+      "width: 100%;" +
+      "background-color: #fff;" +
+      "top: 45px;" +
+      "z-index: 30;" +
+      "box-shadow: 0 5px 5px 0 rgba(0,0,0,0.3);" +
+      "}";
+    document.head.appendChild(style);
+  }
 
-	    if (wasHidden) {
-	      categoryBar.classList.remove("show");
-	    }
+  // 즉시 실행해서 높이 세팅
+  setTimeout(setBeforeHeight, 500);
 
-	    console.log("최대 높이: " + maxHeight + "px (" + maxInfo + ")");
+  // 버튼 클릭
+  toggleBtn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    isFixedOpen = !isFixedOpen;
+    if (isFixedOpen) {
+      categoryBar.classList.add("show");
+      setTimeout(setBeforeHeight, 50);
+    } else {
+      categoryBar.classList.remove("show");
+    }
+  });
 
-	    var categoryBarHeight = categoryBar.offsetHeight;
-	    console.log("category-bar 전체 높이: " + categoryBarHeight + "px");
+  // 외부 클릭 시 닫기
+  document.addEventListener("click", function(e) {
+    if (isFixedOpen && !categoryBar.contains(e.target) && e.target !== toggleBtn) {
+      isFixedOpen = false;
+      categoryBar.classList.remove("show");
+    }
+  });
 
-	    if (maxHeight === 0) {
-	      console.error("노ㅠ이0");
-	      return;
-	    }
+  // hover 이벤트
+  Array.prototype.forEach.call(categoryCols, function(col) {
+    col.addEventListener("mouseenter", function() {
+      if (!isFixedOpen) {
+        categoryBar.classList.add("show");
+        setTimeout(setBeforeHeight, 50);
+      }
+    });
 
-	    var finalHeight = maxHeight;
-	    console.log("최종 적용할 높이: " + finalHeight + "px");
-
-	    var existingStyle = document.getElementById("categoryMenuHeight");
-	    if (existingStyle) {
-	      existingStyle.parentNode.removeChild(existingStyle);
-	    }
-
-	    var style = document.createElement("style");
-	    style.id = "categoryMenuHeight";
-	    style.innerHTML =
-	      ".category-bar.show .category-menu::before {" +
-	      "height: " + finalHeight + "px;" +
-	      "content: '';" +
-	      "position: absolute;" +
-	      "left: -100%;" +
-	      "width: 300%;" +
-	      "background-color: #fff;" +
-	      "top: 44px;" +
-	      "box-shadow: 0 0 0 5px #eee;" + // 디버깅용
-	      "}";
-	    document.head.appendChild(style);
-
-	  }
-
-	  // 즉시 실행해서 구조 확인
-	  setTimeout(function() {
-	    console.log("DOM 구조 확인:");
-	    console.log("categoryCols 개수:", categoryCols.length);
-	    Array.prototype.forEach.call(categoryCols, function(col, i) {
-	      console.log("컬럼 " + i + ":", col.innerHTML.substring(0, 100) + "...");
-	    });
-	    setBeforeHeight();
-	  }, 500);
-
-	  // 버튼 클릭
-	  toggleBtn.addEventListener("click", function(e) {
-	    e.stopPropagation();
-	    isFixedOpen = !isFixedOpen;
-	    if (isFixedOpen) {
-	      categoryBar.classList.add("show");
-	      setTimeout(setBeforeHeight, 50);
-	    } else {
-	      categoryBar.classList.remove("show");
-	    }
-	  });
-
-	  // 외부 클릭 시 닫기
-	  document.addEventListener("click", function(e) {
-	    if (isFixedOpen && !categoryBar.contains(e.target) && e.target !== toggleBtn) {
-	      isFixedOpen = false;
-	      categoryBar.classList.remove("show");
-	    }
-	  });
-
-	  // hover 이벤트
-	  Array.prototype.forEach.call(categoryCols, function(col, index) {
-
-	    col.addEventListener("mouseenter", function() {
-	      if (!isFixedOpen) {
-	        categoryBar.classList.add("show");
-	        setTimeout(setBeforeHeight, 50);
-	      }
-	    });
-
-	    col.addEventListener("mouseleave", function() {
-	      if (!isFixedOpen) {
-	        categoryBar.classList.remove("show");
-	      }
-	    });
-	  });
-	});
-
+    col.addEventListener("mouseleave", function() {
+      if (!isFixedOpen) {
+        categoryBar.classList.remove("show");
+      }
+    });
+  });
+});
 </script>

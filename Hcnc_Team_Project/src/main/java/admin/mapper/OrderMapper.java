@@ -37,7 +37,10 @@ public interface OrderMapper {
 	List<Map<String, Object>> selectPostCateByAdmin();
 
 	// 택배비 업데이트
-	void updatePostPriceListByAdmin(Map<String, Object> row); 
+	void updatePostPriceListByAdmin(Map<String, Object> row);
+
+	// 주문코멘트를 발송 완료로 바꿀거임
+	void updateOrderCommentByAdmin(Map<String, Object> row); 
 	
 
 }

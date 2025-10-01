@@ -26,7 +26,6 @@
 		<filter-name>HTMLTagFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
     
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -68,11 +67,6 @@
 	  <url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
-	<servlet-mapping>
-	    <servlet-name>saveimg</servlet-name>
-	    <url-pattern>/upload/*</url-pattern>
-	</servlet-mapping>
-    
 	<welcome-file-list>
   		<!-- <welcome-file>main.do</welcome-file> -->
 	    <welcome-file>index.html</welcome-file>
