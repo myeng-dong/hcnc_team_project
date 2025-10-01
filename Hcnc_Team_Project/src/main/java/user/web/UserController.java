@@ -14,8 +14,6 @@ import user.service.UserProductService;
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
-	@Autowired
 	private UserBannerService userBannerService; 
 	@Autowired
 	private UserProductService userProductService; 
@@ -24,12 +22,7 @@ public class UserController {
 	public ModelAndView userMain() { 
 		ModelAndView mv = new ModelAndView();
 		//카테고리는 전역에서 
-		
-		// Grade 데이터
-		List<Map<String,Object>> gradeList = userService.selectGradeListByUser();
-		System.out.println(gradeList);
-		mv.addObject("gradeList", gradeList);
-		
+
 		//배너+상품
 		List<Map<String,Object>> bannerList = userBannerService.selectBannerListByUser();
 		List<Map<String,Object>> productTypeList = userProductService.selectTypeProductListByUser();
