@@ -9,4 +9,6 @@ public interface UserCouponMapper {
 
 	int insertSignUpCoupon(Map<String, Object> params);
 
+	int insertAutoPromotionCoupon(Map<String, Object> params);
+
 }

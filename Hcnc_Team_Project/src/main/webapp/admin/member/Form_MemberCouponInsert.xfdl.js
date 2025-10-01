@@ -59,13 +59,13 @@
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static03","47","181","59","25",null,null,null,null,null,null,this);
+            obj = new Static("Static03","47","181","67","25",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("할인 정도");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static04","20","236","140","29",null,null,null,null,null,null,this);
+            obj = new Static("Static04","20","236","144","29",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("쿠폰 사용 가능 최소 금액");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
@@ -206,7 +206,7 @@
         this.fn_couponInsert=function(){
 
         	var strSvcID = "insertCoupon"
-        	var setURL = "svc::/insertCouponByAdmin.do";
+        	var setURL = "svc::/insertCouponByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_insert=ds_insert";
         	var strOutDatasets = "ds_insCnt=ds_insCnt";
         	var strArg = "";

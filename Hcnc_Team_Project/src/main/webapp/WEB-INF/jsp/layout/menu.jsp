@@ -24,7 +24,7 @@
 	      <c:forEach var="mainCategory" items="${categories}">
 		  <li class="category-col">
 		    <h5>
-		      <a href="/productlist.do?categoryCode=${mainCategory['MAIN_CATE_ID']}">
+		      <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}">
 		        ${mainCategory['MAIN_CATE_NM']}
 		      </a>
 		    </h5>
@@ -33,7 +33,7 @@
 		      <li>${mainCategory['MAIN_CATE_NM']}</li>
 		      <c:forEach var="subCategory" items="${mainCategory.subCategories}">
 		        <li>
-		          <a href="/productlist.do?categoryCode=${subCategory['SUB_CATE_ID']}">
+		          <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}">
 		            ${subCategory['SUB_CATE_NM']}
 		          </a>
 		        </li>

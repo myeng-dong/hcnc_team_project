@@ -6,21 +6,21 @@
         <Static id="point_detail_box" taborder="0" left="20" top="17" width="1240" height="203" background="white" text="" borderRadius="8px" onclick="point_detail_box_onclick"/>
         <Static id="grade_search_box00" taborder="1" left="20" top="250" width="1240" height="460" background="white" text="" borderRadius="8px" onclick="grade_search_box00_onclick"/>
         <Radio id="point_type" taborder="2" left="110" top="37" width="180" height="26" innerdataset="ds_type" codecolumn="CHANGE_TYPE" datacolumn="LABEL" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;" onitemchanged="point_type_onitemchanged"/>
-        <Static id="Static00_00" taborder="3" text="적립 구분" left="44" top="37" width="66" bottom="656" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static00_00_00" taborder="4" text="발생 일시" left="44" top="83" width="66" bottom="610" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static00_00_00_00" taborder="5" text="주문 번호" left="44" top="133" width="66" bottom="560" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Edit id="member_name00" taborder="6" left="110" top="129" width="1093" height="35" onchanged="member_name_onchanged" border="1px solid black" borderRadius="8px" onkeyup="member_name00_onkeyup"/>
-        <Calendar id="Calendar00" taborder="7" left="110" top="80" width="373" height="33" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
-        <Calendar id="Calendar00_00" taborder="8" left="520" top="80" width="373" height="33" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_onchanged"/>
-        <Static id="Static00" taborder="9" text="~" left="489" top="84" width="28" height="24" textAlign="center"/>
-        <Button id="Button00" taborder="10" text="검색" left="541" top="174" width="98" height="36" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="Button00_onclick"/>
-        <Button id="Button01" taborder="11" text="초기화" left="650" top="174" width="100" height="36" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
-        <Grid id="pointAndCoupon" taborder="12" left="30" top="250" height="371" background="#FFFFFF" border="0px none" borderRadius="10px" right="30" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick">&gt;
+        <Edit id="member_name00" taborder="3" left="110" top="129" width="790" height="35" onchanged="member_name_onchanged" border="1px solid black" borderRadius="8px" onkeyup="member_name00_onkeyup"/>
+        <Calendar id="Calendar00" taborder="4" left="110" top="80" width="373" height="33" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
+        <Calendar id="Calendar00_00" taborder="5" left="520" top="80" width="373" height="33" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_onchanged"/>
+        <Static id="Static00" taborder="6" text="~" left="489" top="84" width="28" height="24" textAlign="center"/>
+        <Button id="Button00" taborder="7" text="검색" left="541" top="174" width="98" height="36" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="8" text="초기화" left="650" top="174" width="100" height="36" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
+        <Grid id="pointAndCoupon" taborder="9" left="30" top="250" height="371" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick" width="1220">&gt;
           <Formats><Format id="default"><Columns><Column size="52"/><Column size="99"/><Column size="136"/><Column size="540"/><Column size="170"/><Column size="225"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="유형" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="포인트" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="설명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="발행 시기" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="주문 번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:CHANGE_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="combotext" edittype="combo" combocodecol="CHANGE_TYPE" combodatacol="CHANGE_TYPE" combodataset="ds_type"/><Cell col="2" text="bind:POINT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="number" edittype="mask"/><Cell col="3" text="bind:DESCRIPTION" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" edittype="normal" displaytype="normal"/><Cell col="4" edittype="none" text="bind:INPUT_DT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="normal" edittype="none" font="12px/normal &quot;LG Smart UI Bold&quot;" text="bind:ORDER_NUMBER"/></Band></Format></Formats></Grid>
-        <Button id="Button02" taborder="13" text="뒤로가기" left="530" top="640" width="110" height="38" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button02_onclick"/>
-        <Button id="Button03" taborder="14" text="포인트 적립 및 차감" left="660" top="640" width="110" height="38" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button03_onclick" background=" #9ca3af"/>
-        <Button id="plus" taborder="15" text="+" left="29" top="224" width="63" height="22" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="plus_onclick"/>
-        <Button id="minus" taborder="16" text="-" left="100" top="224" width="60" height="22" background=" #9ca3af" borderRadius="4px" color="white" font="11pt &quot;Noto Sans KR Black&quot;" onclick="minus_onclick"/>
+        <Button id="Button02" taborder="10" text="뒤로가기" left="530" top="640" width="110" height="38" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button02_onclick"/>
+        <Button id="Button03" taborder="11" text="포인트 적립 및 차감" left="660" top="640" width="110" height="38" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button03_onclick" background=" #9ca3af"/>
+        <Button id="plus" taborder="12" text="+" left="29" top="224" width="63" height="22" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="plus_onclick"/>
+        <Button id="minus" taborder="13" text="-" left="100" top="224" width="60" height="22" background=" #9ca3af" borderRadius="4px" color="white" font="11pt &quot;Noto Sans KR Black&quot;" onclick="minus_onclick"/>
+        <Static id="Static02" taborder="14" text="적립구분" left="46" top="37" width="54" height="23" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static02_00" taborder="15" text="발행시기" left="46" top="85" width="54" height="23" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static02_00_onclick"/>
+        <Static id="Static02_00_00" taborder="16" text="주문번호" left="46" top="138" width="54" height="23" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
       </Layout>
     </Layouts>
     <Objects>
@@ -88,7 +88,7 @@ this.Form_MemberPointDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEve
 this.fn_pointType = function(){
 	
 	var strSvcID = "selectMemberChageTypeList"
-	var setURL = "svc::/selectMemberChageTypeListByAdmin.do";
+	var setURL = "svc::/selectMemberChageTypeListByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "ds_search=ds_search";
 	var strOutDatasets = "ds_type=ds_type";
 	var strArg = "";
@@ -102,7 +102,7 @@ this.fn_pointType = function(){
 this.fn_selectPointDetailList= function(){
 	
 	var strSvcID = "selectPointDetail"
-	var setURL = "svc::/selectPointDetailListByAdmin.do";
+	var setURL = "svc::/selectPointDetailListByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "ds_search=ds_search";
 	var strOutDatasets = "ds_list=ds_list";
 	var strArg = ""
@@ -121,7 +121,7 @@ this.Button03_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	
     // 서버로 전송
     var strSvcID       = "insertMemberPoint";
-    var strURL         = "svc::/insertMemberPointByAdmin.do";
+    var strURL         = "svc::/insertMemberPointByAdmin.do?time=" + new Date().getTime();
     var strInDatasets  = "ds_list=ds_list:U";   // 변경된 것만 보냄 :U가 중요함!!
     var strOutDatasets = "ds_insCnt=ds_insCnt";
     var strArg         = "";
@@ -299,6 +299,7 @@ this.member_name00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
 		this.fn_selectPointDetailList();
 	}
 };
+
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="point_type" propid="value" datasetid="ds_search" columnid="CHANGE_TYPE"/>

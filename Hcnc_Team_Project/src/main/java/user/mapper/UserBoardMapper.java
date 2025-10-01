@@ -26,4 +26,16 @@ public interface UserBoardMapper {
 	//게시글 조회수 업데이트
 	void updateUserPostCntByUser(int postId);
 
+	//게시글 타입 조회
+	List<Map<String, Object>> selectUserPostTypeByUser();
+
+	//게시글 작성
+	void insertUserPostByUser(Map<String, Object> params);
+
+	//댓글 작성
+	void insertUserCommentByUser(Map<String, Object> params);
+
+	//댓글 삭제
+	void deleteUserCommentByUser(Map<String, Object> params);
+
 }

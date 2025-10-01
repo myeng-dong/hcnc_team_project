@@ -3,10 +3,10 @@
   <Form id="Form_MemberList" width="1280" height="720" titletext="New Form" onload="Form_MemberList_onload" background="#F4F7FE">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1280">
-        <Grid id="member_list" taborder="0" left="10" top="345" height="350" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_list" oncellclick="member_list_oncellclick">&gt;
+        <Grid id="member_list" taborder="0" left="10" top="345" height="355" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="member_list_oncellclick" width="1260">&gt;
           <Formats><Format id="default"><Columns><Column size="48"/><Column size="44"/><Column size="77"/><Column size="78"/><Column size="112"/><Column size="136"/><Column size="81"/><Column size="138"/><Column size="56"/><Column size="163"/><Column size="61"/><Column size="159"/><Column size="80"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol"/><Cell col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="권한" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="이메일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="등급" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="휴대전화" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="성별" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="생년월일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="상태" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="11" text="등록일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="12" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" text="bind:BANNER_ID"/><Cell col="1" text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="2" text="bind:MEMBER_TYPE" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="3" text="bind:USER_NAME" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="4" text="bind:MEMBER_ID" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="5" text="bind:EMAIL_ADDR" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="6" text="bind:GRADE_NAME" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="7" edittype="mask" text="bind:PHONE_NUMBER" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center" displaytype="mask" maskeditformat="###-####-####" maskedittype="string"/><Cell col="8" text="bind:GENDER" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="9" edittype="normal" text="bind:BIRTH" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="10" edittype="normal" text="bind:STATUS" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="11" text="bind:INPUT_DT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="12" displaytype="buttoncontrol" edittype="button" text="상세" font="bold 11px/normal &quot;LG Smart UI Bold&quot;" color="blue" textAlign="center"/></Band></Format></Formats></Grid>
-        <Static id="Static00" taborder="1" text="회원목록" left="15" top="318" width="70" height="20" textAlign="center" font="16px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Div id="search_box" taborder="2" text="" left="10" top="12" width="1243" height="296" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)">
+        <Static id="Static00" taborder="1" text="회원목록" left="15" top="315" width="70" height="20" textAlign="center" font="16px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Div id="search_box" taborder="2" text="" left="10" top="12" width="1260" height="296" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)">
           <Layouts>
             <Layout>
               <Static id="m" taborder="0" text="개인정보" left="20" top="63" width="60" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
@@ -116,7 +116,7 @@ this.Form_MemberList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 this.fn_search = function(){
 	
 	var strSvcID = "selectMemberList"
-	var setURL = "svc::/selectMemberListByAdmin.do";
+	var setURL = "svc::/selectMemberListByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "ds_search=ds_search";
 	var strOutDatasets = "ds_list=ds_list";
 	var strArg = "";
@@ -130,7 +130,7 @@ this.fn_search = function(){
 this.fn_gradeSearch = function(){
 	
 	var strSvcID = "selectMemberGradeList"
-	var setURL = "svc::/selectMemberGradeListByAdmin.do";
+	var setURL = "svc::/selectMemberGradeListByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "";
 	var strOutDatasets = "ds_grade=ds_grade";
 	var strArg = "";
@@ -261,7 +261,7 @@ this.search_box_Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacr
     }
     
     // 종료일은 23시 59분
-    this.ds_search.setColumn(0, "LAST_LOGIN_DT", endDate + "235959");
+    this.ds_search.setColumn(0, "L_LOGIN_DT", endDate + "235959");
     
     // 시작일이 있으면 00시 00분까지 세팅
     if (startDate) {

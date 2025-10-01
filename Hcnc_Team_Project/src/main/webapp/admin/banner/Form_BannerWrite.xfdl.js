@@ -416,7 +416,7 @@
                 alert("파일 업로드 중입니다. 잠시 후 다시 시도해주세요.");
                 return;
             }
-            this.FileDialog.open('nexacro17', FileDialog.MULTILOAD);
+            this.FileDialog.open('nexacro17', FileDialog.LOAD);
         };
 
         // 넥사 파일 선택 후 처리
@@ -437,55 +437,10 @@
                 this.isUploading = true;
                 this.uploadCompleted = false;
 
-                // 기존 데이터 백업 (UPDATE 모드에서만)
-        		//-파일선택하면내용날아가서추가
-                var backupData = {};
-                if (this.mode === "update" && this.ds_bwrite.rowcount > 0) {
-                    backupData.BANNER_ID = this.ds_bwrite.getColumn(0, "BANNER_ID");
-                    backupData.INPUT_DT = this.ds_bwrite.getColumn(0, "INPUT_DT");
-                    backupData.INPUT_ID = this.ds_bwrite.getColumn(0, "INPUT_ID");
-                    backupData.SORT_NUMBER = this.ds_bwrite.getColumn(0, "SORT_NUMBER");
-                    backupData.BANNER_TYPE = this.ds_bwrite.getColumn(0, "BANNER_TYPE");
-                    backupData.BANNER_TITLE = this.ds_bwrite.getColumn(0, "BANNER_TITLE");
-                    backupData.IS_VISIBLE = this.ds_bwrite.getColumn(0, "IS_VISIBLE");
-                    backupData.LINKED_URL = this.ds_bwrite.getColumn(0, "LINKED_URL");
-                }
-
-                if (this.mode === "insert") {
-                    for (var i = this.ds_bwrite.rowcount - 1; i >= 0; i--) {
-                        this.ds_bwrite.deleteRow(i);
-                    }
-                    this.ds_bwrite.addRow();
-                    this.ds_bwrite.setColumn(0, "INPUT_DT", TODAY);
-                    this.ds_bwrite.setColumn(0, "INPUT_ID", this.memberId);
-        			this.ds_bwrite.setColumn(0, "UPDATE_DT", TODAY);
-                    this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
-                }
-
-                this.ds_bwrite.setColumn(0, "IMG_ORIGIN_NAME", nexafile.filename);
-                var attachedName = this.radio_banner_type.value + "_" + nexafile.name + "_" + TODAYNUM + "." + ext;
-                this.ds_bwrite.setColumn(0, "IMG_ATTACHED_NAME", attachedName);
-
-                // 수정 모드일 때 백업된 데이터 복원
-                if (this.mode === "update" && backupData.BANNER_ID) {
-                    this.ds_bwrite.setColumn(0, "BANNER_ID", backupData.BANNER_ID);
-                    this.ds_bwrite.setColumn(0, "INPUT_DT", backupData.INPUT_DT);
-                    this.ds_bwrite.setColumn(0, "INPUT_ID", backupData.INPUT_ID);
-                    this.ds_bwrite.setColumn(0, "SORT_NUMBER", backupData.SORT_NUMBER);
-                    this.ds_bwrite.setColumn(0, "BANNER_TYPE", backupData.BANNER_TYPE);
-                    this.ds_bwrite.setColumn(0, "BANNER_TITLE", backupData.BANNER_TITLE);
-                    this.ds_bwrite.setColumn(0, "IS_VISIBLE", backupData.IS_VISIBLE);
-                    this.ds_bwrite.setColumn(0, "LINKED_URL", backupData.LINKED_URL);
-                }
-
-                this.file_name.set_value(nexafile.filename);
-
-                // FileUpTransfer 설정
                 this.FileUpTransfer.clearFileList();
                 this.FileUpTransfer.addFile("bFile", nexafile);
-                this.FileUpTransfer.setPostData("attachedName", attachedName);
 
-                this.FileUpTransfer.url = "svc::uploadBannerFile.do";
+                this.FileUpTransfer.url = "svc::previewBannerFile.do";
                 this.FileUpTransfer.upload();
 
             } else {
@@ -495,7 +450,6 @@
 
         // 완료 버튼
         this.btn_done_onclick = function(obj, e) {
-            // 업로드 중이면 완료 버튼 비활성화
             if (this.isUploading) {
                 alert("파일 업로드 중입니다. 잠시 후 다시 시도해주세요.");
                 return;
@@ -508,7 +462,6 @@
             this.ds_bwrite.setColumn(0, "IS_VISIBLE", this.radio_view_type.value);
             this.ds_bwrite.setColumn(0, "LINKED_URL", this.edit_link.text);
 
-            // 모드 확인
             var finalMode = this.mode;
             if (!finalMode) {
                 var bannerId = this.ds_bwrite.getColumn(0, "BANNER_ID");
@@ -516,29 +469,24 @@
                 this.mode = finalMode;
             }
 
+            // top 타입이 아닐 때만 파일 검증
             if (this.radio_banner_type.value !== "top") {
-                if (finalMode === "insert" || (finalMode === "update" && !this.uploadCompleted)) {
-                    var imgPath = this.ds_bwrite.getColumn(0, "IMG_PATH");
-                    if (!imgPath || !this.uploadCompleted) {
-                        alert("이미지 업로드가 완료되지 않았습니다. 잠시 후 다시 시도해주세요.");
-                        return;
-                    }
+                if (finalMode === "insert" && this.ds_file.rowcount === 0) {
+                    alert("이미지를 업로드해주세요.");
+                    return;
                 }
             }
 
-            // 입력값 검증
             if (!this.radio_view_type.value || !this.radio_banner_type.value ||
                 !this.input_title.text || this.ds_bwrite.rowcount < 1 || !this.edit_link.text) {
                 alert("모든 항목을 입력해 주세요.");
                 return;
             }
 
-            // 모드별 날짜/사용자 정보 설정
             if(finalMode === "insert"){
-                // Insert: 등록일/등록자 재확인
                 if (!this.ds_bwrite.getColumn(0, "INPUT_ID")) {
                     this.ds_bwrite.setColumn(0, "INPUT_ID", this.memberId);
-        			this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
+                    this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
                 }
             } else if(finalMode === "update") {
                 this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
@@ -562,46 +510,37 @@
                 return;
             }
 
-            var imgPath = null;
+            var fileUrl = e.datasets[0]._rawRecords[0][1];
+            var originalName = e.datasets[0]._rawRecords[0][0];
 
-            // Dataset 방식으로 시도
-            if (e.datasets) {
-                for (var dsName in e.datasets) {
-                    var ds = e.datasets[dsName];
-                    if (ds && ds.getRowCount && ds.getRowCount() > 0) {
-                        for (var colIdx = 0; colIdx < ds.getColCount(); colIdx++) {
-                            var colName = ds.getColID(colIdx);
-                            if (colName === "IMG_PATH") {
-                                imgPath = ds.getColumn(0, "IMG_PATH");
-                                break;
-                            }
-                        }
-                        if (imgPath) break;
-                    }
+                trace("fileUrl: " + fileUrl);
+                trace("originalName: " + originalName);
+
+            if (fileUrl) {
+                if (this.ds_file.rowcount === 0) {
+                    this.ds_file.addRow();
                 }
-            }
+                this.ds_file.clearData();
 
-            // Variable 방식으로 시도
-            if (!imgPath && e.variables && e.variables["IMG_PATH"]) {
-                imgPath = e.variables["IMG_PATH"];
-            }
+                var nRow = this.ds_file.addRow();
 
-            // 직접 구성
-            if (!imgPath && this.ds_bwrite.rowcount > 0) {
-                var attachedName = this.ds_bwrite.getColumn(0, "IMG_ATTACHED_NAME");
-                if (attachedName) {
-                    imgPath = "/upload/banner/" + attachedName;
-                }
-            }
+                this.ds_file.setColumn(nRow, "IMG_PATH", fileUrl);
+                this.ds_file.setColumn(nRow, "IMG_ORIGIN_NAME", originalName);
 
-            // IMG_PATH 설정
-            if (imgPath && this.ds_bwrite.rowcount > 0) {
-                this.ds_bwrite.setColumn(0, "IMG_PATH", imgPath);
+                // 디버깅 로그
+                trace("=== 파일 업로드 완료 ===");
+                trace("ds_file rowcount: " + this.ds_file.rowcount);
+                trace("ds_file RowType: " + this.ds_file.getRowType(nRow));
+                trace("IMG_PATH: " + fileUrl);
+                trace("IMG_ORIGIN_NAME: " + originalName);
+
+                this.file_name.set_value(originalName);
+
                 this.uploadCompleted = true;
                 this.isUploading = false;
-            } else {
-                this.isUploading = false;
-            }
+
+                alert("파일 업로드 완료: " + originalName);
+        	}
         };
 
         // 업로드 실패 시 처리
@@ -615,7 +554,7 @@
         this.fnInsertBanner = function() {
             var strSvcID = "insertBanner";
             var strURL = "svc::insertBannerByAdmin.do";
-            var strInDatasets = "ds_bwrite=ds_bwrite";
+            var strInDatasets = "ds_bwrite=ds_bwrite ds_file=ds_file";
             var strOutDatasets = "";
             var strArg = "";
             var strCallback = "fnCallback";
@@ -627,7 +566,7 @@
         this.fnUpdateBanner = function() {
             var strSvcID = "updateBanner";
             var strURL = "svc::updateBannerByAdmin.do";
-            var strInDatasets = "ds_bwrite=ds_bwrite";
+            var strInDatasets = "ds_bwrite=ds_bwrite ds_file=ds_file";
             var strOutDatasets = ""; // update는 결과 데이터를 받아올 필요 없음
             var strArg = "";
             var strCallback = "fnCallback";

@@ -83,10 +83,27 @@ public class UserProductService {
 		return userProductMapper.selectHotProductListByUser(); // 인기상품불러가능용
 	}
 	
-	public List<Map<String, Object>> selectCateGoryProductsListByUser() {
+	public int getCategoryProductsCount(String mainCateId, String subCateId) {
 		// TODO Auto-generated method stub
-		return userProductMapper.selectCateGoryProductsListByUser(); //카테고리불러가는거
-	}
+        Map<String, Object> params = new HashMap<>();
+        params.put("mainCateId", mainCateId);
+        params.put("subCateId", subCateId);
+        return userProductMapper.selectCategoryProductsCount(params);
+    }
+
+    public List<Map<String, Object>> getCategoryProductsList(
+    	// TODO Auto-generated method stub
+        String mainCateId, String subCateId, String sortType, int offset, int pageSize) {
+        
+        Map<String, Object> params = new HashMap<>();
+        params.put("mainCateId", mainCateId);
+        params.put("subCateId", subCateId);
+        params.put("sortType", sortType);
+        params.put("offset", offset);
+        params.put("pageSize", pageSize);
+        
+        return userProductMapper.selectCategoryProductsListByUser(params);
+    }
 	
 
 	
