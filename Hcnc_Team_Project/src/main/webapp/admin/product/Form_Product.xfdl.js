@@ -532,8 +532,8 @@
         //상품등록(페이지이동)
         this.btn_reg_onclick = function(obj,e)
         {
-
-        	this.go("product::Form_ProductReg.xfdl");
+        	this.getOwnerFrame().arguments = {"productId" : -1}
+        	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
         };
 
 
@@ -713,6 +713,14 @@
 
 
 
+        this.grid_list_oncelldblclick = function(obj,e)
+        {
+        	var productId = this.ds_out_proList.getColumn(e.row,"PRODUCT_ID");
+        	trace(productId);
+        	this.getOwnerFrame().arguments = {"productId" : productId}
+        	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
+        };
+
         });
         
         // Regist UI Components Event
@@ -721,6 +729,7 @@
             this.addEventHandler("onload",this.Form_Product_onload,this);
             this.addEventHandler("ontimer",this.Form_Product_ontimer,this);
             this.Div00_00_00_00_00.form.Radio00_00.addEventHandler("onitemchanged",this.Div00_00_00_00_00_Radio00_00_onitemchanged,this);
+            this.grid_list.addEventHandler("oncelldblclick",this.grid_list_oncelldblclick,this);
             this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);
             this.btn_excel.addEventHandler("onclick",this.btn_excel_onclick,this);
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
