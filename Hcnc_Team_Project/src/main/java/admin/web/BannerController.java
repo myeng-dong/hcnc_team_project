@@ -15,12 +15,16 @@ import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.BannerService;
+import admin.util.UploadFile;
 
 @Controller
 public class BannerController {
     
     @Autowired
     private BannerService bannerService;
+    
+    @Autowired
+    private UploadFile uploadFile;
     
     @RequestMapping(value="/selectBannerListByAdmin.do")
     public NexacroResult selectBannerListByAdmin() {
@@ -30,22 +34,22 @@ public class BannerController {
         return result;
     }
     
-    @RequestMapping(value = "/uploadBannerFile.do", method = RequestMethod.POST)
-    public NexacroResult uploadBannerFile(
-            @RequestParam("bFile") List<MultipartFile> bFiles,
-            @RequestParam("attachedName") List<String> attachedNames,
-            HttpServletRequest request) throws Exception {
-        
-        return bannerService.uploadBannerFile(bFiles, attachedNames, request);
+    @RequestMapping(value = "/previewBannerFile.do")
+    public NexacroResult previewBannerFile(@RequestParam("bFile") MultipartFile file) {
+        return bannerService.previewBannerFile(file);
     }
-
+    
     @RequestMapping(value="/insertBannerByAdmin.do")
-    public NexacroResult insertBannerByAdmin(@ParamDataSet(name="ds_bwrite", required=false) Map<String, Object> dsBWrite) {
-        return bannerService.insertBanner(dsBWrite);
+    public NexacroResult insertBannerByAdmin(
+            @ParamDataSet(name="ds_bwrite", required=false) Map<String, Object> dsBWrite,
+            @ParamDataSet(name="ds_file", required=false) List<Map<String, Object>> dsFile) {
+        return bannerService.insertBannerByAdmin(dsBWrite, dsFile);
     }
-
+    
     @RequestMapping(value="/updateBannerByAdmin.do")
-    public NexacroResult updateBannerByAdmin(@ParamDataSet(name="ds_bwrite", required=false) Map<String, Object> dsBUpdate) {
-        return bannerService.updateBanner(dsBUpdate);
+    public NexacroResult updateBannerByAdmin(
+            @ParamDataSet(name="ds_bwrite", required=false) Map<String, Object> dsBUpdate,
+            @ParamDataSet(name="ds_file", required=false) List<Map<String, Object>> dsFile) {
+        return bannerService.updateBannerByAdmin(dsBUpdate, dsFile);
     }
 }
