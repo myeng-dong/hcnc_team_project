@@ -35,5 +35,7 @@ public interface UserProductMapper {
 
 	List<Map<String, Object>> selectCategoryProductsListByUser(Map<String, Object> params);
 
+	int insertCartItemOptionByUser(Map<String, Object> optionId);
+
 
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../layout/headertop.jsp" />
 <%-- <jsp:include page="../layout/header.jsp" />
 <jsp:include page="../layout/menu.jsp" /> --%>
@@ -310,7 +311,9 @@
 	                            </div>
                                 <div class="item-price-info">
                                     <span class="item-quantity">수량: ${item.QUANTITY}개</span>
-                                    <span class="item-price">${item.SUB_TOTAL}원</span>
+                                    <span class="item-price" data-value="${item.SUB_TOTAL}">
+									    <fmt:formatNumber value="${item.SUB_TOTAL}" pattern="#,###"/>원
+									</span>
 	                            </div>
                             </c:forEach>
                         </div>
