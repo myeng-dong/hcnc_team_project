@@ -15,6 +15,17 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://js.tosspayments.com/v2/standard"></script>
 
+<!-- 쿠폰 모달 컨트롤 -->
+<script>
+	function openCouponModal(){
+		$("#couponModal").show();
+	}
+
+	function closeCouponModal(){
+		$("#couponModal").hide();
+	}
+</script>
+
 <!-- 다음주소 API -->
 <script>
     function daumPostcode() {
@@ -34,28 +45,6 @@
                     addr = data.jibunAddress;
                 }
 
-                /* // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("sample6_extraAddress").value = extraAddr;
-                
-                } else {
-                    document.getElementById("sample6_extraAddress").value = '';
-                }
- */
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('orderPost').value = data.zonecode;
                 document.getElementById("orderAddr1").value = addr;
@@ -87,6 +76,40 @@
 	
 	// ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
 	async function requestPayment(payType) {
+		const phoneNumber = $("#phoneNumber").val();
+		// 정규식: 010으로 시작, 숫자만, 10자 또는 11자
+		var phoneRegex = /^010\d{7,8}$/;
+
+		if(!phoneRegex.test(phoneNumber)) {
+		    alert("올바른 휴대폰 번호를 입력해주세요. (예: 01012345678)");
+		    $("#phoneNumber").focus();
+		    return;
+		}
+		
+        // 배송 정보 확인
+        const receiverName = $("#receiver").val();
+        const addr1 = $("#orderAddr1").val();
+        
+        if (!receiverName || !phoneNumber || !addr1 ) {
+            alert('배송 정보를 모두 입력해주세요.');
+            return;
+        }
+        
+		// 필수 동의 항목 확인
+        const requiredAgreements = document.querySelectorAll('input[required]');
+        let allAgreed = true;
+        
+        requiredAgreements.forEach(checkbox => {
+            if (!checkbox.checked) {
+                allAgreed = false;
+            }
+        });
+        
+        if (!allAgreed) {
+            alert('필수 이용약관에 동의해주세요.');
+            return;
+        }
+        
 		// 서버에 저장할 데이터
 		var shippingComment = ''
 			   if($("#shippingComment").val() == "direct_input"){
@@ -98,7 +121,6 @@
 	    var items = getItems();
 	    
 	    var userName = $("#orderName").val();
-	    var phoneNumber = $("#phoneNumber").val();
 	    var finalAmount = $("#finalPrice").data('value');
 			   
 	    var orderData = {
@@ -106,7 +128,8 @@
 			order: {
 				orderNumber: orderNumber
 				, phoneNumber: phoneNumber
-			   			, totalAmount: $("#itemTotalPrice").data('value')
+			   			, totalAmount: Number ( $("#itemTotalPrice").data('value') ) + Number ( $("#shipFee").data('value') )
+			   			, shippingCost: $("#shipFee").data('value')
 			   			, discountAmount: Number( $("#gradeSale").data('value') ) + Number( $("#couponSale").data('value') ) + Number( $("#pointSale").data('value') )
 			   			, finalAmount: finalAmount
 			   			, receiver: $("#receiver").val()
@@ -117,6 +140,7 @@
 			   			, memberId: memberId
 			   			, shippingComment: shippingComment
 			   			, couponId: $('input[name="selectedCoupon"]:checked').val() || null
+			   			, couponDiscount: Number( $("#couponSale").data('value') )
 			   			, usedPoint: Number( $("#pointSale").data('value') )
 			}
 		}
@@ -217,6 +241,7 @@
  	   for (var i=0; i < itemElements.length; i++){
  		   var element = itemElements[i];
  		   var item = {
+ 				   cartItemId: parseInt(element.getAttribute('data-cart-item-id')),
  				   productId: parseInt(element.getAttribute('data-product-id')),
  				   productName: element.getAttribute('data-product-name'),
  				   productOption: element.getAttribute('data-product-option'),
@@ -271,6 +296,264 @@
       text-align: center;
     }
   </style>
+  
+  <!-- 쿠폰모달 -->
+  <style>
+  	/* 쿠폰 선택하기 버튼 */
+	.btn-coupon {
+	    width: 100%;
+	    padding: 14px 20px;
+	    background: #ffffff;
+	    border: 2px solid #DC0630;
+	    color: #DC0630;
+	    font-size: 15px;
+	    font-weight: 600;
+	    border-radius: 6px;
+	    cursor: pointer;
+	    transition: all 0.3s ease;
+	    letter-spacing: -0.3px;
+	}
+	
+	.btn-coupon:hover {
+	    background: #DC0630;
+	    color: #ffffff;
+	    transform: translateY(-1px);
+	    box-shadow: 0 4px 12px rgba(220, 6, 48, 0.2);
+	}
+	
+	.btn-coupon:active {
+	    transform: translateY(0);
+	}
+  	.modal {
+	    display: none;
+	    position: fixed;
+	    z-index: 1000;
+	    left: 0;
+	    top: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0, 0, 0, 0.4);
+	}
+	
+	.modal-content {
+	    position: relative;
+	    background-color: #ffffff;
+	    margin: 5% auto;
+	    width: 90%;
+	    max-width: 600px;
+	    border-radius: 12px;
+	    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+	    max-height: 80vh;
+	    display: flex;
+	    flex-direction: column;
+	    overflow: hidden;
+	}
+	
+	.modal-header {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    padding: 24px 28px;
+	    background: #ffffff;
+	    border-bottom: 2px solid #f5f5f5;
+	}
+	
+	.modal-header h2 {
+	    margin: 0;
+	    font-size: 22px;
+	    font-weight: 700;
+	    color: #333;
+	    letter-spacing: -0.5px;
+	}
+	
+	.modal-close {
+	    font-size: 28px;
+	    font-weight: 300;
+	    color: #999;
+	    cursor: pointer;
+	    transition: all 0.2s ease;
+	    width: 32px;
+	    height: 32px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    border-radius: 50%;
+	}
+	
+	.modal-close:hover {
+	    color: #DC0630;
+    	background: #fff0f2;
+	}
+	
+	.modal-body {
+	    padding: 24px 28px;
+	    overflow-y: auto;
+	    flex: 1;
+	    background: #fafafa;
+	}
+	
+	.modal-footer {
+	    display: flex;
+	    justify-content: flex-end;
+	    gap: 12px;
+	    padding: 20px 28px;
+	    background: #ffffff;
+	    border-top: 2px solid #f5f5f5;
+	}
+	
+	.btn-cancel, .btn-confirm {
+	    padding: 12px 28px;
+	    border: none;
+	    border-radius: 6px;
+	    cursor: pointer;
+	    font-size: 15px;
+	    font-weight: 600;
+	    transition: all 0.3s ease;
+	    letter-spacing: -0.3px;
+	}
+	
+	.btn-cancel {
+	    background: #f5f5f5;
+	    color: #666;
+	    border: 1px solid #e0e0e0;
+	}
+	
+	.btn-cancel:hover {
+	    background: #ebebeb;
+	    color: #333;
+	}
+	
+	.btn-confirm {
+	  	background: #DC0630;
+	    color: #ffffff;
+	    min-width: 100px;
+	    box-shadow: 0 2px 8px rgba(220, 6, 48, 0.2);
+	}
+	
+	.btn-confirm:hover {
+	    background: #b8051f;
+	    box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3);
+	}
+	
+	.btn-confirm:active {
+	    transform: translateY(0);
+	}
+	
+	/* 쿠폰 아이템 */
+	.coupon-item {
+	    background: #ffffff;
+	    border: 2px solid #e8e8e8;
+	    border-radius: 10px;
+	    padding: 20px;
+	    margin-bottom: 12px;
+	    cursor: pointer;
+	    transition: all 0.3s ease;
+	    position: relative;
+	}
+	
+	.coupon-item:hover:not(.disabled) {
+	    border-color: #DC0630;
+	    box-shadow: 0 4px 16px rgba(220, 6, 48, 0.12);
+	    transform: translateY(-2px);
+	}
+	
+	.coupon-item.disabled {
+	    opacity: 0.5;
+	    cursor: not-allowed;
+	    background: #f9f9f9;
+	}
+	
+	.coupon-item.selected {
+	    border-color: #DC0630;
+	    background: #fff5f7;
+	    box-shadow: 0 4px 16px rgba(220, 6, 48, 0.15);
+	}
+	
+	
+	
+	.coupon-content {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: flex-start;
+	    gap: 16px;
+	}
+	
+	.coupon-left {
+	    flex: 1;
+	    text-align: left;
+	}
+	
+	.coupon-name {
+		text-align: left;
+	    font-size: 16px;
+	    font-weight: 700;
+	    color: #333;
+	    margin-bottom: 6px;
+	    letter-spacing: -0.3px;
+	}
+	
+	.coupon-code {
+	    font-size: 13px;
+	    color: #999;
+	    margin-bottom: 12px;
+	    font-family: monospace;
+	}
+	
+	.coupon-conditions {
+	    display: flex;
+	    flex-direction: column;
+	    gap: 4px;
+	}
+	
+	.condition-item {
+	    font-size: 13px;
+	    color: #666;
+	    display: flex;
+	    align-items: center;
+	    gap: 4px;
+	}
+	
+	.condition-item.usable {
+	    color: #DC0630;
+	    font-weight: 500;
+	}
+	
+	.condition-item.unusable {
+	    color: #999;
+	}
+	
+	.coupon-right {
+	    text-align: right;
+	    min-width: 100px;
+	}
+	
+	.discount-amount,
+	.discount-rate {
+	    font-size: 24px;
+	    font-weight: 800;
+	    color: #DC0630;
+	    margin-bottom: 4px;
+	    letter-spacing: -0.5px;
+	}
+	
+	.expiry-date {
+	    font-size: 12px;
+	    color: #999;
+	}
+	
+	.radio-custom {
+	    display: none;
+	}
+	
+	.no-coupon {
+	    text-align: center;
+	    padding: 60px 20px;
+	    color: #999;
+	    font-size: 15px;
+	    background: #ffffff;
+	    border-radius: 10px;
+	}
+  </style>
 </head>
 <body>
     <!-- Breadcrumb -->
@@ -283,6 +566,23 @@
             </div>
         </div>
     </div>
+    
+    <!-- 쿠폰 모달 -->
+	<div id="couponModal" class="modal" style="display:none;">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <h2>쿠폰 선택</h2>
+	            <span class="modal-close" onclick="closeCouponModal()">&times;</span>
+	        </div>
+	        <div class="modal-body">
+	            <div id="couponList"></div>
+	        </div>
+	        <div class="modal-footer">
+	            <button class="btn-cancel" onclick="closeCouponModal()">취소</button>
+	            <button class="btn-confirm" onclick="applyCoupon()">적용</button>
+	        </div>
+	    </div>
+	</div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -299,7 +599,7 @@
                         
                         <div class="order-item" style="flex-direction: column;">
                             <c:forEach var="item" items="${itemsInfo}">
-                            	<input type="hidden" class="itemInfoData" data-product-id="${item.PRODUCT_ID}" data-product-name="${item.PRODUCT_NAME}" data-product-option="${item.PRODUCT_OPTION}" data-quantity="${item.QUANTITY}" data-price="${item.PRICE}" data-sub-total="${item.SUB_TOTAL}" data-cost-price="${item.COST_PRICE}"> 
+                            	<input type="hidden" class="itemInfoData" data-cart-item-id="${item.CART_ITEM_ID}" data-product-id="${item.PRODUCT_ID}" data-product-name="${item.PRODUCT_NAME}" data-product-option="${item.PRODUCT_OPTION}" data-quantity="${item.QUANTITY}" data-price="${item.PRICE}" data-sub-total="${item.SUB_TOTAL}" data-cost-price="${item.COST_PRICE}"> 
                             	<div style="display: flex;">
 	                            	<div class="item-image">
 	                                	<img src="https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1463/S1726816418034.jpg" alt="왕연필">
@@ -325,7 +625,7 @@
                         
                         <div class="form-group">
                             <label class="form-label">주문자 <span class="required">*</span></label>
-                            <input type="text" class="form-input" id="orderName" placeholder="주문자 성함을 입력하세요">
+                            <input type="text" class="form-input" id="orderName" placeholder="주문자 성함을 입력하세요" readonly>
                         </div>
                         
                         <div class="form-group">
@@ -369,13 +669,6 @@
 
                     <!-- Payment Method -->
                     <div class="section">
-                       <!--  <h2 class="section-title">결제수단</h2>
-	                	결제 UI
-					    <div id="payment-method"></div>
-					    이용약관 UI
-					    <div id="agreement"></div> -->
-
-                        
                         <div class="payment-methods">
                             <div class="payment-option">
                                 <input type="radio" id="card" name="payment" value="card" checked>
@@ -429,13 +722,12 @@
                         
                         <!-- Coupon Section -->
                         <div class="coupon-section">
-                            <label class="form-label">쿠폰 적용</label>
                             <div class="coupon-input">
                             	<div id="couponList">
 					                <!-- 쿠폰 아이템들이 여기에 생성됩니다 -->
 					            </div>
                                 <!-- <input type="text" class="form-input" placeholder="쿠폰 번호 입력"> -->
-                                <button class="btn-coupon" onclick="applyCoupon()">적용</button>
+                                <button class="btn-coupon" onclick="openCouponModal()">쿠폰 선택하기</button>
                             </div>
                         </div>
 
@@ -458,7 +750,7 @@
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">배송비</span>
-                            <span class="summary-value">3,000원</span>
+                            <span class="summary-value" id="shipFee" data-value=3000>3,000원</span>
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">회원등급할인</span>
@@ -477,7 +769,7 @@
                             <span class="summary-value" id="finalPrice" style="font-size: 20px;"></span></span>
                         </div>
                         
-    					<button class="button" style="margin-top: 30px" onclick="requestPayment()">결제하기</button>
+    					<button class="payButton" style="margin-top: 30px" onclick="requestPayment()">결제하기</button>
     					
                         <div class="btn-actions">
                             <button class="btn btn-outline" style="flex: 1;" onclick="goBack()">이전단계</button>
@@ -540,8 +832,12 @@
 		        
 		        alert('쿠폰이 적용되었습니다');
 		        
-		        $("#couponSale").text('- '+ applyDiscount.toLocaleString() + '원');
-		        $("#couponSale").data('value', applyDiscount); //TOD
+		        closeCouponModal();
+		        
+		        var roundedDiscount = Math.round(applyDiscount);
+		        
+		        $("#couponSale").text('- '+ roundedDiscount.toLocaleString() + '원');
+		        $("#couponSale").data('value', roundedDiscount); //TOD
 		        
 		        updateFinalAmount();
 		       
@@ -592,7 +888,7 @@
         // 최종 금액 업데이트
         function updateFinalAmount() {
             const productAmount = ${itemCnt.TOTAL_PRICE};
-            const shippingFee = 3000;
+            const shippingFee = $("#shipFee").data('value');
             
             var gradeDiscount = $("#gradeSale").data('value');
             var couponDiscount = $("#couponSale").data('value');
@@ -612,44 +908,8 @@
 
         // 결제 처리
         function processPayment() {
-            // 필수 동의 항목 확인
-            const requiredAgreements = document.querySelectorAll('input[required]');
-            let allAgreed = true;
             
-            requiredAgreements.forEach(checkbox => {
-                if (!checkbox.checked) {
-                    allAgreed = false;
-                }
-            });
-            
-            if (!allAgreed) {
-                alert('필수 이용약관에 동의해주세요.');
-                return;
-            }
 
-            // 배송 정보 확인
-            const receiverName = $("#receiver").val();
-            const phoneNumber = $("#phoneNumber").val();
-            const addr1 = $("#orderAddr1").val();
-            
-            if (!receiverName || !phoneNumber || !addr1 ) {
-                alert('배송 정보를 모두 입력해주세요.');
-                return;
-            }
-            
-         	// 결제 방법 확인
-            const selectedPayment = document.querySelector('input[name="payment"]:checked');
-            if (!selectedPayment) {
-                alert('결제 방법을 선택해주세요.');
-                return;
-            }
-
-            /* // 카카오페이인 경우에만 토스페이먼츠 호출
-            if (selectedPayment.value === 'kakao') {
-                kakaoPay();
-            } else {
-                alert('현재는 카카오페이만 지원됩니다.');
-            } */
 
             // 로딩 상태
             const paymentBtn = document.querySelector('.btn-primary.btn-full');
@@ -675,17 +935,6 @@
                     alert('주문이 완료되었습니다. 주문번호: ORDER20241209001');
                 }, 2000);
 
-                // 실제 구현 시 DB 업데이트 로직
-                /*
-                INSERT INTO ORDERS (ORDER_NO, MEMBER_ID, TOTAL_AMOUNT, ORDER_STATUS, INPUT_DT)
-                VALUES (?, ?, ?, 'PAID', NOW());
-                
-                INSERT INTO ORDER_ITEMS (ORDER_ID, PRODUCT_ID, QUANTITY, PRICE, SUB_TOTAL)
-                VALUES (?, ?, ?, ?, ?);
-                
-                UPDATE PRODUCTS SET STOCK_QUANTITY = STOCK_QUANTITY - ? WHERE PRODUCT_ID = ?;
-                */
-                
             }, 2000);
         }
 
@@ -735,60 +984,6 @@
             }
         });
 
-        // 결제 방법 변경 시 추가 입력 필드 표시
-        document.querySelectorAll('input[name="payment"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                // 기존 추가 입력 필드 제거
-                const existingFields = document.querySelectorAll('.payment-additional-fields');
-                existingFields.forEach(field => field.remove());
-                
-                const paymentSection = document.querySelector('.section:has(.payment-methods)');
-                
-                /* if (this.value === 'bank') {
-                    // 무통장입금 선택 시 은행 선택 필드 추가
-                    const bankField = document.createElement('div');
-                    bankField.className = 'payment-additional-fields';
-                    bankField.style.marginTop = '20px';
-                    bankField.innerHTML = `
-                        <div class="form-group">
-                            <label class="form-label">입금은행 선택 <span class="required">*</span></label>
-                            <select class="form-select">
-                                <option value="">은행을 선택하세요</option>
-                                <option value="kb">KB국민은행</option>
-                                <option value="shinhan">신한은행</option>
-                                <option value="woori">우리은행</option>
-                                <option value="hana">하나은행</option>
-                                <option value="nh">농협은행</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">입금자명 <span class="required">*</span></label>
-                            <input type="text" class="form-input" placeholder="입금자명을 입력하세요">
-                        </div>
-                    `;
-                    paymentSection.appendChild(bankField);
-                } else if (this.value === 'card') {
-                    // 신용카드 선택 시 할부 선택 필드 추가
-                    const cardField = document.createElement('div');
-                    cardField.className = 'payment-additional-fields';
-                    cardField.style.marginTop = '20px';
-                    cardField.innerHTML = `
-                        <div class="form-group">
-                            <label class="form-label">할부 선택</label>
-                            <select class="form-select">
-                                <option value="0">일시불</option>
-                                <option value="2">2개월</option>
-                                <option value="3">3개월</option>
-                                <option value="6">6개월</option>
-                                <option value="12">12개월</option>
-                            </select>
-                        </div>
-                    `;
-                    paymentSection.appendChild(cardField);
-                } */
-            });
-        });
-
         // 페이지 로드 시 초기화
         document.addEventListener('DOMContentLoaded', function() {
             // 초기 상태 설정
@@ -807,19 +1002,6 @@
             });
         });
 
-        // 휴대폰 번호 자동 포맷팅
-        document.querySelector('input[type="tel"]').addEventListener('input', function() {
-            let value = this.value.replace(/[^\d]/g, '');
-            if (value.length >= 11) {
-                value = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-            } else if (value.length >= 7) {
-                value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
-            } else if (value.length >= 4) {
-                value = value.replace(/(\d{3})(\d+)/, '$1-$2');
-            }
-            this.value = value;
-        });
-
         // 포인트 입력 시 보유 포인트 초과 방지
         document.querySelector('.points-input input').addEventListener('input', function() {
             const maxPoints = $("#hasPoint").data('value');
@@ -829,12 +1011,6 @@
                 this.value = maxPoints;
                 alert('보유 적립금을 초과할 수 없습니다.');
             }
-            
-         /*    if (value > 0) {
-                applyPointsDiscount(value);
-            } else {
-                applyPointsDiscount(0);
-            } */
         });
     </script>
 
@@ -847,7 +1023,6 @@
 			
 			memberInfo();
 			
-/* 			tossPayMain(); */
 		});
 		
 		function memberInfo(){
@@ -864,7 +1039,7 @@
 					$("#orderName").val(result.USER_NAME);
 					$("#receiver").val(result.USER_NAME);
 					$("#phoneNumber").val(result.PHONE_NUMBER);
-					$("#hasPoint").text(result.totalPoint);
+					$("#hasPoint").text(result.totalPoint.toLocaleString() + 'P');
 					$("#hasPoint").data('value', result.totalPoint);
 					$("#usePoint").html('<input type="number" class="form-input" id="usePoint" placeholder="사용할 포인트" min="0" max="'+ result.totalPoint +'">')
 					
@@ -876,58 +1051,62 @@
 					$("#finalPrice").data('value', orderTotalPrice);
 					
 					var couponList = result.coupons;
-					var couponsHtml = '';
-					
-					for(var i = 0; i < couponList.length; i++) {
-					    // 사용 가능 여부 체크
-					    var isUsable = orderTotalPrice >= couponList[i].MIN_ORDER_PRICE;
-					    var disabledClass = isUsable ? '' : ' disabled';
-					    var disabledAttr = isUsable ? '' : ' disabled';
-					    
-					    couponsHtml += '<div class="coupon-item' + disabledClass + '" data-coupon-id="' + couponList[i].COUPON_ID + '"';
-					    couponsHtml += ' data-usable="' + isUsable + '">';  // 사용가능 여부 저장
-					    couponsHtml += '    <div class="coupon-content">';
-					    couponsHtml += '        <div class="coupon-left">';
-					    couponsHtml += '            <div class="coupon-name">' + couponList[i].COUPON_NAME + '</div>';
-					    couponsHtml += '            <div class="coupon-code">' + couponList[i].COUPON_CODE + '</div>';
-					    couponsHtml += '            <div class="coupon-conditions">';
-					    
-					    // 조건에 따라 다른 스타일 적용
-					    if(isUsable) {
-					        couponsHtml += '                <div class="condition-item usable">✓ ' + Number(couponList[i].MIN_ORDER_PRICE).toLocaleString() + '원 이상 주문시</div>';
-					    } else {
-					        couponsHtml += '                <div class="condition-item unusable">✗ ' + Number(couponList[i].MIN_ORDER_PRICE).toLocaleString() + '원 이상 주문시 (현재: ' + orderTotalPrice.toLocaleString() + '원)</div>';
-					    }
-					    
-					    couponsHtml += '                <div class="condition-item">✓ ' + couponList[i].EXPIRY_DT + ' 까지</div>';
-					    couponsHtml += '            </div>';
-					    couponsHtml += '        </div>';
-					    couponsHtml += '        <div class="coupon-right">';
-					    
-					    if(couponList[i].DISCOUNT_TYPE != "R") {
-					        couponsHtml += '            <div class="discount-amount">' + Number(couponList[i].DISCOUNT_VALUE).toLocaleString() + '원</div>';
-					    } else {
-					        couponsHtml += '            <div class="discount-rate">' + couponList[i].DISCOUNT_VALUE + '%</div>';
-					    }
-					    
-					    couponsHtml += '            <div class="expiry-date">~' + couponList[i].EXPIRY_DT + '</div>';
-					    couponsHtml += '        </div>';
-					    couponsHtml += '    </div>';
-					    couponsHtml += '    <div class="radio-custom">';
-					    couponsHtml += '        <input type="radio" name="selectedCoupon" value="' + couponList[i].COUPON_ID + '"';
-					    couponsHtml += '               data-discount-type="' + couponList[i].DISCOUNT_TYPE + '"';
-					    couponsHtml += '               data-discount-value="' + couponList[i].DISCOUNT_VALUE + '"';
-					    couponsHtml += '               ' + disabledAttr + '>'; // disabled 속성 추가
-					    couponsHtml += '    </div>';
-					    couponsHtml += '</div>';
-					}
-					
-					if(couponList.length === 0) {
-					    couponsHtml = '<div class="no-coupon">사용 가능한 쿠폰이 없습니다.</div>';
-					}
-					
-					$("#couponList").html(couponsHtml);
-					
+		            var couponsHtml = '';
+		            
+		            for(var i = 0; i < couponList.length; i++) {
+		                var isUsable = orderTotalPrice >= couponList[i].MIN_ORDER_PRICE;
+		                var disabledClass = isUsable ? '' : ' disabled';
+		                var disabledAttr = isUsable ? '' : ' disabled';
+		                
+		                couponsHtml += '<div class="coupon-item' + disabledClass + '" data-coupon-id="' + couponList[i].COUPON_ID + '"';
+		                couponsHtml += ' data-usable="' + isUsable + '">';
+		                couponsHtml += '    <div class="coupon-content">';
+		                couponsHtml += '        <div class="coupon-left">';
+		                couponsHtml += '            <div class="coupon-name">' + couponList[i].COUPON_NAME + '</div>';
+		                couponsHtml += '            <div class="coupon-code">' + couponList[i].COUPON_CODE + '</div>';
+		                couponsHtml += '            <div class="coupon-conditions">';
+		                
+		                if(isUsable) {
+		                    couponsHtml += '                <div class="condition-item usable">✓ ' + Number(couponList[i].MIN_ORDER_PRICE).toLocaleString() + '원 이상 주문시</div>';
+		                } else {
+		                    couponsHtml += '                <div class="condition-item unusable">✗ ' + Number(couponList[i].MIN_ORDER_PRICE).toLocaleString() + '원 이상 주문시 (현재: ' + orderTotalPrice.toLocaleString() + '원)</div>';
+		                }
+		                
+		                couponsHtml += '                <div class="condition-item">✓ ' + couponList[i].EXPIRY_DT + ' 까지</div>';
+		                couponsHtml += '            </div>';
+		                couponsHtml += '        </div>';
+		                couponsHtml += '        <div class="coupon-right">';
+		                
+		                if(couponList[i].DISCOUNT_TYPE != "R") {
+		                    couponsHtml += '            <div class="discount-amount">' + Number(couponList[i].DISCOUNT_VALUE).toLocaleString() + '원</div>';
+		                } else {
+		                    couponsHtml += '            <div class="discount-rate">' + couponList[i].DISCOUNT_VALUE + '%</div>';
+		                }
+		                
+		                couponsHtml += '            <div class="expiry-date">~' + couponList[i].EXPIRY_DT + '</div>';
+		                couponsHtml += '        </div>';
+		                couponsHtml += '    </div>';
+		                couponsHtml += '    <div class="radio-custom">';
+		                couponsHtml += '        <input type="radio" name="selectedCoupon" value="' + couponList[i].COUPON_ID + '"';
+		                couponsHtml += '               data-discount-type="' + couponList[i].DISCOUNT_TYPE + '"';
+		                couponsHtml += '               data-discount-value="' + couponList[i].DISCOUNT_VALUE + '"';
+		                couponsHtml += '               ' + disabledAttr + '>';
+		                couponsHtml += '    </div>';
+		                couponsHtml += '</div>';
+		            }
+		            
+		            if(couponList.length === 0) {
+		                couponsHtml = '<div class="no-coupon">사용 가능한 쿠폰이 없습니다.</div>';
+		            }
+		            
+		            $("#couponList").html(couponsHtml);
+		            
+		         	// 쿠폰 아이템 클릭 이벤트
+		            $(".coupon-item:not(.disabled)").on("click", function() {
+		                $(".coupon-item").removeClass("selected");
+		                $(this).addClass("selected");
+		                $(this).find("input[type='radio']").prop("checked", true);
+		            });
 					
 				}
 				, error: function(){

@@ -129,14 +129,17 @@ public class UserOrderController {
 			int result = userOrderService.orderDataSaveByUser(order, items);
 	        
 			if(result == 1) {
-				mav.addObject("result", "주문/결제 완료!!");
+				mav.addObject("message", "주문/결제 완료!!");
+				mav.addObject("result", 1);
 			} else {
-				mav.addObject("result", "주문/결제 중 오류 발생했습니다.");
+				mav.addObject("message", "주문/결제 중 오류 발생했습니다.");
+				mav.addObject("result", 0);
 			}
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        
-	        mav.addObject("result", "토스페이먼츠 승인중 오류 발생");
+	        mav.addObject("message", "토스페이먼츠 승인중 오류 발생");
+	        mav.addObject("result", -1);
 	    }
 	    
 	    return mav;
@@ -147,6 +150,19 @@ public class UserOrderController {
 	public ModelAndView paySuccess() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("order/payments/paySuccess");
+		return mav;
+	}
+	
+	@RequestMapping(value="/orderSuccess.do")
+	public ModelAndView orderSuccess(@RequestParam("orderNum") String orderNumber) {
+		ModelAndView mav = new ModelAndView();
+		
+		HashMap<String, Object> orderInfo = userOrderService.selectSuccessOrderByUser(orderNumber);
+		
+		mav.addObject("orderInfo", orderInfo);
+		
+		mav.setViewName("order/orderSuccess");
+		
 		return mav;
 	}
 	

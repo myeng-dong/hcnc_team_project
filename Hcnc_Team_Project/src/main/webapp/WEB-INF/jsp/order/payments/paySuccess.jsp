@@ -6,14 +6,7 @@
     <meta charset="utf-8" />
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </head>
-  <body>
-    <h2>결제 성공</h2>
-    <p id="paymentKey"></p>
-    <p id="orderId"></p>
-    <p id="amount"></p>
-
-
+    
     <script>
 	  // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
       // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
@@ -41,56 +34,90 @@
     		  , data: data
     		  , dataType: "json"
     		  , success: function(res){
-    			alert(res.result);
-
-    			// 세션에 해당 주문 번호 결제 성공 표시해두기
-    		  	sessionStorage.setItem("orderSuccess", JSON.stringify(orderData.order.orderNumber));  
+    			var resultNum = res.result;
+    			
+    			if(resultNum === 1){
+    				sessionStorage.removeItem("orderData");
+    				window.location.href="/orderSuccess.do?orderNum=" + orderData.order.orderNumber;
+    			} else {
+    				window.location.href="/fail.do";
+    			}
     		  }
     		  , error: function(){}
     	  });
       });
-    
-      
-
-    /*   
-      async function confirm() {
-    	const formData = new FormData();
-    	formData.append('orderData', JSON.stringify(orderData));
-        const requestData = {
-         	orderData: orderData
-        };
-
-        const response = await fetch("/orderDataSave.do", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderData)
-        });
-
-        const json = await response.json();
-
-        if (!response.ok) {
-          // 결제 실패 비즈니스 로직을 구현하세요.
-          console.log(json);
-          window.location.href = `/fail.do?message=${json.message}&code=${json.code}`;
-        }
-
-        // 결제 성공 비즈니스 로직을 구현하세요.
-
-        console.log(json);
-      }
-      
-      confirm(); */
-
-      const paymentKeyElement = document.getElementById("paymentKey");
-      const orderIdElement = document.getElementById("orderId");
-      const amountElement = document.getElementById("amount");
-
-
-      orderIdElement.textContent = "주문번호: " + orderId;
-      amountElement.textContent = "결제 금액: " + amount;
-      paymentKeyElement.textContent = "paymentKey: " + paymentKey;
     </script>
+    
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        
+        .loading-container {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .dots span {
+            animation: blink 1.4s infinite;
+            font-size: 24px;
+            color: #3498db;
+        }
+        
+        .dots span:nth-child(2) { animation-delay: 0.2s; }
+        .dots span:nth-child(3) { animation-delay: 0.4s; }
+        .dots span:nth-child(4) { animation-delay: 0.6s; }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        
+        h2 {
+            color: #333;
+            margin: 10px 0;
+        }
+        
+        p {
+            color: #666;
+            margin: 10px 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <h2>결제 처리 중입니다</h2>
+        <p>잠시만 기다려 주세요...</p>
+        <div class="dots">
+            <span>.</span><span>.</span><span>.</span><span>.</span>
+        </div>
+    </div>
+   
+    
   </body>
 </html>
