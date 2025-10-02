@@ -65,6 +65,7 @@
 
             obj = new Edit("edt_search","325","5","317","30",null,null,null,null,null,null,this.Div00_00.form);
             obj.set_taborder("0");
+            obj.set_maxlength("50");
             this.Div00_00.addChild(obj.name, obj);
 
             obj = new Div("Div00_00_00","24","120",null,"40","26",null,null,null,null,null,this);
@@ -104,7 +105,7 @@
             this.Div00_00_00_00_00.addChild(obj.name, obj);
 
             obj = new Static("sta_sale","537","0",null,"40","577",null,null,null,null,null,this.Div00_00_00_00_00.form);
-            obj.set_text("판매상태");
+            obj.set_text("재고상태");
             obj.set_taborder("1");
             obj.set_font("normal 700 13px/normal \"Gulim\"");
             obj.set_padding("0px 0px 0px 10px");
@@ -120,7 +121,7 @@
             obj.set_direction("vertical");
             obj.set_font("normal 800 10pt/normal \"Arial\"");
             var Div00_00_00_00_00_form_Radio00_00_innerdataset = new nexacro.NormalDataset("Div00_00_00_00_00_form_Radio00_00_innerdataset", obj);
-            Div00_00_00_00_00_form_Radio00_00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">allS</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">sale</Col><Col id=\"datacolumn\">판매함</Col></Row><Row><Col id=\"codecolumn\">nosale</Col><Col id=\"datacolumn\">판매안함</Col></Row></Rows>");
+            Div00_00_00_00_00_form_Radio00_00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">allS</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">sale</Col><Col id=\"datacolumn\">재고있음</Col></Row><Row><Col id=\"codecolumn\">nosale</Col><Col id=\"datacolumn\">재고없음</Col></Row></Rows>");
             obj.set_innerdataset(Div00_00_00_00_00_form_Radio00_00_innerdataset);
             obj.set_text("전체");
             obj.set_value("allS");
@@ -378,8 +379,26 @@
         this._setCond = function(ds, col, val) {
             // null/undefined만 제외하고 값 세팅
             if (val !== undefined && val !== null) {
-                ds.setColumn(0, col, val);
+        		if (typeof val == "string"){
+        			val = nexacro.trim(val);
+
+        			if(col == "SEARCH_TEXT"){
+        					val = val.replace(/\s+/g, "");                   // 일반 공백 제거
+        					val = val.replace(/[\u200B-\u200D\uFEFF]/g,"");  // 특수공백 제거
+        					val = val.toLowerCase();                         // 소문자 변환
+        			}
+        		}
+        		ds.setColumn(0, col, val);
             }
+        };
+
+
+        // =============검색어 가공 함수=============
+        this._normalizeSearchText = function(text) {
+            if (!text) return "";
+
+        // 모든 공백 제거 후 소문자로 변환
+            return text.replace(/\s+/g, "").toLowerCase();
         };
 
 
@@ -389,7 +408,6 @@
             // 1) 초기화 및 한 줄 추가
             this.ds_searchCond.clearData();
             this.ds_searchCond.addRow();
-
             // 2) 콤보/에딧/라디오/달력 값을 ds_searchCond에 넣기
             this._setCond(this.ds_searchCond, "SEARCH_TYPE",     this.cmb_searchType.value);                   // 검색분류 (PRODUCT_CODE/PRODUCT_NAME)
             this._setCond(this.ds_searchCond, "SEARCH_TEXT",     this.Div00_00.form.edt_search.text);          // 검색어
@@ -412,8 +430,16 @@
         this.btn_view_onclick = function(obj,e)
         {
         	this.fn_search();
+
         };
 
+        // 검색창
+        this.Div00_00_edt_search_onkeydown = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.btn_view_onclick();
+        	}
+        };
 
 
         //상품 목록 조회 (조건포함)
@@ -826,6 +852,7 @@
         };
 
 
+
         });
         
         // Regist UI Components Event
@@ -833,6 +860,8 @@
         {
             this.addEventHandler("onload",this.Form_Product_onload,this);
             this.addEventHandler("ontimer",this.Form_Product_ontimer,this);
+            this.Div00_00.form.edt_search.addEventHandler("onchanged",this.Div00_00_edt_search_onchanged,this);
+            this.Div00_00.form.edt_search.addEventHandler("onkeydown",this.Div00_00_edt_search_onkeydown,this);
             this.Div00_00_00_00_00.form.Radio00_00.addEventHandler("onitemchanged",this.Div00_00_00_00_00_Radio00_00_onitemchanged,this);
             this.grid_list.addEventHandler("onkeydown",this.grid_list_onkeydown,this);
             this.grid_list.addEventHandler("onkillfocus",this.grid_list_onkillfocus,this);

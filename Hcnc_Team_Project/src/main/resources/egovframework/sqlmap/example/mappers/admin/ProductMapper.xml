@@ -55,11 +55,11 @@
 			test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
 			<choose>
 				<when test="SEARCH_TYPE == 'PRODUCT_CODE'">
-					AND p.PRODUCT_CODE LIKE CONCAT('%', #{SEARCH_TEXT},
+					AND p.PRODUCT_CODE LIKE CONCAT('%', LOWER(REPLACE(#{SEARCH_TEXT}, ' ', '')),
 					'%')
 				</when>
 				<when test="SEARCH_TYPE == 'PRODUCT_NAME'">
-					AND p.PRODUCT_NAME LIKE CONCAT('%', #{SEARCH_TEXT},
+					AND p.PRODUCT_NAME LIKE CONCAT('%', LOWER(REPLACE(#{SEARCH_TEXT}, ' ', '')),
 					'%')
 				</when>
 			</choose>
