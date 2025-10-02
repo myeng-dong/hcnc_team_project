@@ -14,15 +14,17 @@
 .flex {
   display: flex;
 }
-.f-wrap {
+.flex.f-wrap {
   flex-wrap: wrap;
 }
-.f-nowrap {
+.flex.f-nowrap {
   flex-wrap: nowrap;
 }
-.fd-column {
+.flex.fd-column {
   flex-direction: column;
 }
+.flex.ju-between{justify-content:space-between;}
+.flex.ju-around{justify-content:space-around;}
 
 /* 브레드크럼 */
 .breadcrumb {

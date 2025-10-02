@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user.mapper.UserOrderMapper">
+<!-- 	<select id="selectOrderRequestItemListByUser" parameterType="java.lang.Long" resultType="java.util.HashMap">
+		SELECT CI.CART_ITEM_ID, CI.PRODUCT_ID, CI.PRODUCT_OPTION, CI.PRICE, CI.QUANTITY, CI.SUB_TOTAL
+			 , P.PRODUCT_NAME
+			 , PI.IMAGE_ID, PI.IMAGE_URL, PI.ALT_TEXT
+			FROM CART_ITEMS CI
+    		INNER JOIN PRODUCTS P
+    			ON CI.PRODUCT_ID = P.PRODUCT_ID
+    		INNER JOIN PRODUCT_IMG PI
+    			ON CI.PRODUCT_ID = PI.PRODUCT_ID
+    		WHERE 1=1
+    			AND CI.CART_ID = #{cartId}
+    			AND CI.IS_CHECKED = 'Y' 
+    			AND ( PI.IS_MAIN IS NULL OR PI.IS_MAIN = 'Y')
+	</select>
+	 -->
+	 
+	 
+	<select id="selectOrderRequestItemListByUser" parameterType="java.lang.Long" resultType="java.util.HashMap">
+		SELECT CI.CART_ITEM_ID, CI.PRODUCT_ID, CI.PRODUCT_OPTION, CI.PRICE, CI.QUANTITY, CI.SUB_TOTAL
+			 , P.PRODUCT_NAME, P.COST_PRICE
+			FROM CART_ITEMS CI
+    		INNER JOIN PRODUCTS P
+    			ON CI.PRODUCT_ID = P.PRODUCT_ID
+    		WHERE 1=1
+    			AND CI.CART_ID = #{cartId}
+    			AND CI.IS_CHECKED = 'Y' 
+	</select>
+	
+	<select id="selectItemCntByUser" parameterType="java.lang.Long" resultType="java.util.HashMap">
+		SELECT COUNT(CART_ITEM_ID) AS ITEM_CNT, SUM(SUB_TOTAL) AS TOTAL_PRICE
+			FROM CART_ITEMS
+			WHERE 1=1
+				AND CART_ID = #{cartId}
+				AND IS_CHECKED = 'Y'
+	</select>
+	
+	<select id="selectOrderMemberBasicInfoByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT M.USER_NAME, M.PHONE_NUMBER
+			, G.GRADE_CODE, G.DISCOUNT_RATE 
+			FROM MEMBERS M
+				INNER JOIN GRADES G
+					ON M.GRADE_CODE = G.GRADE_CODE
+			WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectMemberPointByUser" parameterType="java.util.Map" resultType="int">
+		SELECT SUM(P.POINT)
+			FROM POINTS P
+			WHERE P.MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="selectMemberCouponListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT C.COUPON_ID, C.COUPON_NAME, C.COUPON_CODE, C.DISCOUNT_TYPE, C.DISCOUNT_VALUE, C.MIN_ORDER_PRICE, DATE_FORMAT(C.EXPIRY_DT, '%Y-%m-%d') AS EXPIRY_DT
+			FROM COUPONS C
+			WHERE 1=1
+				AND MEMBER_ID = #{memberId}
+				AND C.IS_USED = 'N'
+	</select>
+	
+	<select id="selectMemberAddressListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT A.POST, A.ADDR_1, A.ADDR_2
+			FROM ADDRESS A
+			WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<insert id="orderDataSaveByUser" parameterType="java.util.Map">
+		INSERT INTO ORDERS (ORDER_NUMBER, PHONE_NUMBER, TOTAL_AMOUNT, DISCOUNT_AMOUNT, FINAL_AMOUNT, USER_NAME, SHIPPING_POST, SHIPPING_ADDR_1, SHIPPING_ADDR_2, MEMBER_ID, SHIPPING_COMMENT, PAYMENT_METHOD)
+			VALUES( 
+				#{orderNumber},
+				#{phoneNumber},
+				#{totalAmount},
+				#{discountAmount},
+				#{finalAmount},
+				#{receiver},
+				#{shippingPost},
+				#{shippingAddr1},
+				#{shippingAddr2},
+				#{memberId},
+				#{shippingComment},
+				#{paymentMethod}
+			 )
+	</insert>
+	
+	<select id="getOrderIdByUser" parameterType="java.util.Map" resultType="java.lang.Long">
+		SELECT ORDER_ID
+			FROM ORDERS
+			WHERE ORDER_NUMBER = #{orderNumber}
+	</select>
+	
+	<insert id="insertOrderItemsByUser" parameterType="java.util.Map">
+		INSERT INTO ORDER_ITEMS (ORDER_ID ,PRODUCT_ID, PRODUCT_NAME, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL, COST_PRICE)
+			VALUES(
+				#{orderId},
+				#{productId},
+				#{productName},
+				#{productOption},
+				#{price},
+				#{quantity},
+				#{subTotal},
+				#{costPrice}
+			)
+	</insert>
+	
+	<insert id="insertPointByUser" parameterType="java.util.Map">
+		INSERT INTO POINTS (MEMBER_ID, CHANGE_TYPE, POINT, DESCRIPTION, ORDER_ID)
+			VALUES (
+				#{memberId},
+				'사용',
+				-#{usedPoint},
+				'주문 결제 시 사용',
+				#{orderId}
+			)
+	</insert>
+	
+	<update id="updateCouponByUser" parameterType="java.util.Map">
+		UPDATE COUPONS
+			SET IS_USED = 'Y', USED_DT = NOW(), ORDER_ID = #{orderId}
+			WHERE COUPON_ID = #{couponId}
+	</update>
+	
+	<select id="selectOrderItemOptionListByUser" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT CI.PRODUCT_ID, CI.QUANTITY, CIO.OPTION_ID 
+			FROM CART_ITEMS CI
+				LEFT JOIN CART_ITEM_OPTIONS CIO
+					ON CI.CART_ITEM_ID = CIO.CART_ITEM_ID 
+			WHERE CI.CART_ITEM_ID = #{cartItemId};
+	</select>
+	
+	<update id="updateQuantityByUser" parameterType="java.util.Map">
+		UPDATE INVENTORIES
+			SET QUANTITY = QUANTITY - #{QUANTITY}
+			WHERE 1=1
+				AND PRODUCT_ID = #{PRODUCT_ID}
+				<if test="OPTION_ID != null">
+				AND	OPTION_ID = #{OPTION_ID}
+				</if>
+	</update>
+	
+	<delete id="deleteCartItemByUser" parameterType="java.util.Map">
+		DELETE FROM CART_ITEMS
+			WHERE 1=1
+				AND CART_ITEM_ID = #{cartItemId}
+	</delete>
+	
+	<select id="selectSuccessOrderByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT O.ORDER_NUMBER, O.USER_NAME, O.PHONE_NUMBER, O.SHIPPING_POST, O.SHIPPING_ADDR_1, O.SHIPPING_ADDR_2, O.TOTAL_AMOUNT, O.DISCOUNT_AMOUNT, O.FINAL_AMOUNT, O.PAYMENT_METHOD
+				, P.POINT
+				, C.SHIP_COST
+			FROM ORDERS O
+				LEFT JOIN POINTS P
+					ON O.ORDER_ID = P.ORDER_ID
+				CROSS JOIN COURIER C
+			WHERE 1=1
+				AND O.ORDER_NUMBER = #{orderNumber}
+				AND C.COURIER_ID = 1
+	</select>
+	
+</mapper> 

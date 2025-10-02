@@ -62,9 +62,9 @@
 
     				    html += '<tr>';
     				    if(uniqueList[i].IS_CHECKED == 'N'){
-    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ uniqueList[i].CART_ITEM_ID +'-checkbox" onchange="updateChkBox(' + uniqueList[i].CART_ITEM_ID + ',\'' + uniqueList[i].PRODUCT_OPTION +'\')"></td>';
+    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ uniqueList[i].CART_ITEM_ID +'-checkbox" onchange="updateChkBox(' + uniqueList[i].CART_ITEM_ID + ')"></td>';
     				    } else {
-    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ uniqueList[i].CART_ITEM_ID +'-checkbox" checked onchange="updateChkBox(' + uniqueList[i].CART_ITEM_ID + ',\'' + uniqueList[i].PRODUCT_OPTION +'\')"></td>';
+    				        html += '<td class="col-check"><input type="checkbox" class="check" id="'+ uniqueList[i].CART_ITEM_ID +'-checkbox" checked onchange="updateChkBox(' + uniqueList[i].CART_ITEM_ID + ')"></td>';
     				    }
     				    html += '<td class="col-img"><img src="sample.jpg" width="50"></td>';
     				    html += '<td class="col-name"><span>' + uniqueList[i].PRODUCT_NAME + '</span></td>';
@@ -348,7 +348,7 @@
         }
         
         // 개별 체크박스 수정
-        const updateChkBox = (cart_item_id, option) => {
+        const updateChkBox = (cart_item_id) => {
         	
         	var checkboxValue = $("#"+ cart_item_id + "-checkbox").prop("checked");
    			
@@ -368,7 +368,6 @@
         		cartId : cartId
         		, cartItemId : cart_item_id
         		, isChecked : is_checked	
-        		, option : option
         	};
         	
         	$.ajax({
@@ -640,7 +639,7 @@
             });
         }
         
-        
+
         
         // 주문 번호 생성
         var orderCounter = 0;
@@ -666,6 +665,7 @@
         	var orderNumber = generateUniqueOrderNumber();
         	
         	window.location.href="orderView.do?cartId="+ cartId + "&orderNum=" + orderNumber;
+
         }
     </script>
 

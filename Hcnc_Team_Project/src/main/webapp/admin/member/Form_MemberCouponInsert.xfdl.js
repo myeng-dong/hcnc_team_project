@@ -11,15 +11,15 @@
         {
             this.set_name("Form_MemberCouponInsert");
             this.set_titletext("New Form");
-            this.set_background("lightBlue");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
-                this._setFormPosition(1280,720);
+                this._setFormPosition(560,540);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_insert", this);
-            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"MIN_ORDER_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"EXPIRY_DT\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_TYPE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"DISCOUNT_VALUE\" type=\"STRING\" size=\"256\"/><Column id=\"MIN_ORDER_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"EXPIRY_DT\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"COUPON_CODE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -33,61 +33,63 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("grade_search_box00","20","20","1240","675",null,null,null,null,null,null,this);
+            obj = new Static("grade_search_box00","10","10","538","510",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("white");
             obj.set_text("");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00","25","30","150","55",null,null,null,null,null,null,this);
+            obj = new Static("Static00","20","20","100","30",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("쿠폰 지급");
             obj.set_textAlign("center");
             obj.set_font("20px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static01","436","110","98","32",null,null,null,null,null,null,this);
+            obj = new Static("Static01","50","70","63","32",null,null,null,null,null,null,this);
             obj.set_taborder("2");
-            obj.set_text("쿠폰 번호");
+            obj.set_text("쿠폰 이름");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static02","436","190","56","24",null,null,null,null,null,null,this);
+            obj = new Static("Static02","50","128","56","24",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text("할인 유형");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static03","436","258","63","25",null,null,null,null,null,null,this);
+            obj = new Static("Static03","47","181","67","25",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("할인 정도");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static04","436","336","140","29",null,null,null,null,null,null,this);
+            obj = new Static("Static04","20","236","144","29",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("쿠폰 사용 가능 최소 금액");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static06","436","408","72","24",null,null,null,null,null,null,this);
+            obj = new Static("Static06","42","308","72","24",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_text("쿠폰 만료일");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static07","436","470","60","21",null,null,null,null,null,null,this);
+            obj = new Static("Static07","50","369","60","21",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             obj.set_text("쿠폰 유형");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","597","114","251","32",null,null,null,null,null,null,this);
+            obj = new Edit("Edit00","177","70","251","32",null,null,null,null,null,null,this);
             obj.set_taborder("8");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("Radio00","594","184","246","32",null,null,null,null,null,null,this);
+            obj = new Radio("Radio00","180","124","246","32",null,null,null,null,null,null,this);
             obj.set_taborder("9");
             obj.set_innerdataset("ds_type");
             obj.set_codecolumn("DISCOUNT_TYPE");
@@ -96,40 +98,59 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar00","594","404","249","33",null,null,null,null,null,null,this);
+            obj = new Calendar("Calendar00","171","304","254","33",null,null,null,null,null,null,this);
             obj.set_taborder("10");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("Edit03","593","465","250","30",null,null,null,null,null,null,this);
+            obj = new Edit("Edit03","174","364","250","30",null,null,null,null,null,null,this);
             obj.set_taborder("11");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button00","570","572","158","38",null,null,null,null,null,null,this);
+            obj = new Button("Button00","190","450","158","38",null,null,null,null,null,null,this);
             obj.set_taborder("12");
             obj.set_text("지급하기");
+            obj.set_font("12px/normal \"Noto Sans KR Black\"");
+            obj.set_background("#2563eb");
+            obj.set_borderRadius("4px");
+            obj.set_color("white");
             this.addChild(obj.name, obj);
 
-            obj = new Spin("Spin00","597","254","247","32",null,null,null,null,null,null,this);
+            obj = new Spin("Spin00","175","177","250","32",null,null,null,null,null,null,this);
             obj.set_taborder("13");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             obj.set_min("0");
             obj.set_max("2147483647");
             obj.set_value("");
             this.addChild(obj.name, obj);
 
-            obj = new Spin("Spin01","597","336","246","32",null,null,null,null,null,null,this);
+            obj = new Spin("Spin01","175","238","251","32",null,null,null,null,null,null,this);
             obj.set_taborder("14");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             obj.set_min("0");
             obj.set_max("2147483647");
             obj.set_value("");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00","454","488","66","25",null,null,null,null,null,null,this);
+            obj.set_taborder("15");
+            obj.set_text("ESC[닫기]");
+            obj.set_color("RED");
+            obj.set_font("bold 12px/normal \"Gulim\"");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",1280,720,this,function(p){});
+            obj = new Layout("default","",560,540,this,function(p){});
             obj.set_mobileorientation("landscape");
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item0","Edit00","value","ds_insert","COUPON_CODE");
+            obj = new BindItem("item0","Edit00","value","ds_insert","COUPON_NAME");
             this.addChild(obj.name, obj);
             obj.bind();
 
@@ -163,7 +184,9 @@
         };
         
         // User Script
+        this.addIncludeScript("Form_MemberCouponInsert.xfdl","common::common.xjs");
         this.registerScript("Form_MemberCouponInsert.xfdl", function() {
+        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_MemberCouponInsert_onload = function(obj,e)
         {
         	// 부모 폼으로부터 전달된 파라미터에 직접 접근
@@ -183,7 +206,7 @@
         this.fn_couponInsert=function(){
 
         	var strSvcID = "insertCoupon"
-        	var setURL = "svc::/insertCouponByAdmin.do";
+        	var setURL = "svc::/insertCouponByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_insert=ds_insert";
         	var strOutDatasets = "ds_insCnt=ds_insCnt";
         	var strArg = "";
@@ -212,6 +235,19 @@
         	}
         }
 
+        //esc 누르면 닫힘
+        this.Form_MemberCouponInsert_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 27){
+        		this.close();
+        	}
+        };
+
+        //눌러도 닫힘
+        this.Static00_onclick = function(obj,e)
+        {
+        	this.close();
+        };
 
         });
         
@@ -219,8 +255,10 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_MemberCouponInsert_onload,this);
+            this.addEventHandler("onkeyup",this.Form_MemberCouponInsert_onkeyup,this);
             this.grade_search_box00.addEventHandler("onclick",this.grade_search_box00_onclick,this);
             this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
+            this.Static00_00.addEventHandler("onclick",this.Static00_onclick,this);
         };
         this.loadIncludeScript("Form_MemberCouponInsert.xfdl");
         this.loadPreloadList();

@@ -32,75 +32,139 @@
 				AND	PRODUCT_ID = #{productId}
 	</select>
 	
-
-	<!-- 메인에서 [NEW랑 추천] SORT로 관리하는 LIST용 -->
-	<!-- 근데 별도의 상태박스가 있어야할거같긴함 사유 new인동시에 추천일수있어서? 일단 나중에물어보기 -->
-	<!-- 나중에 PRODUCT IMG랑 할인가 재고여부 같이 조인필요함 -->
-
-	<!-- 메인에서 [NEW랑 추천] SORT로 관리하는 LIST용 : 나중에 PRODUCT IMG -->
-	<select id="selectMNProductListByUser" resultType="java.util.Map">
-	    SELECT  P.PRODUCT_ID
-	           ,P.PRODUCT_CODE
-	           ,P.PRODUCT_NAME
-	           ,P.PRODUCT_PRICE
-	           ,P.COST_PRICE
-	           ,P.SALED_PRICE
-	           ,P.PRODUCT_CONTENT
-	           ,P.PRODUCT_WEIGHT
-	           ,P.IS_VISIBLE
-	           ,P.SORT_NUMBER
-	           ,COALESCE(GROUP_CONCAT(O.OPTION_NAME, ':', O.OPTION_VALUE SEPARATOR ','), '') AS OPTIONS
-	           ,COALESCE(COUNT(R.REVIEW_ID), 0) AS REVIEW_COUNT
-	           ,COALESCE(AVG(R.STAR_POINT), 0) AS AVG_STAR_POINT
-	    FROM PRODUCTS P
-	    LEFT JOIN OPTIONS O
-	      ON P.PRODUCT_ID = O.PRODUCT_ID
-	    LEFT JOIN REVIEWS R
-	      ON P.PRODUCT_ID = R.PRODUCT_ID
-	     AND R.REVIEW_STATUS = '정상'   
-
-	    WHERE P.IS_VISIBLE = 'Y'
-	      <if test="sortNumber != null and sortNumber != ''">
-	        AND P.SORT_NUMBER = #{sortNumber}
-	      </if>
-	    GROUP BY  P.PRODUCT_ID 
-	             ,P.PRODUCT_CODE
-	             ,P.PRODUCT_NAME
-	             ,P.PRODUCT_PRICE
-	             ,P.COST_PRICE
-	             ,P.SALED_PRICE
-	             ,P.PRODUCT_CONTENT
-	             ,P.PRODUCT_WEIGHT
-	             ,P.IS_VISIBLE
-	             ,P.SORT_NUMBER
-	    ORDER BY P.SORT_NUMBER ASC
-	</select>
-	<!-- 메인에서 [NEW랑 추천] SORT로 관리하는 LIST용 -->
-<!-- best SORT로 관리하는 LIST용 -->
-	<select id="selectHotProductListByUser" resultType="java.util.Map">
-	    SELECT 
-	         PRODUCT_ID
-	        ,PRODUCT_NAME
-	        ,PRODUCT_CODE
-	        ,PRODUCT_PRICE
-	        ,COST_PRICE
-	        ,PRODUCT_WEIGHT
-	        ,VIEW_CNT
-	        ,SALED_PRICE
-	        ,SORT_NUMBER
-	        ,IS_VISIBLE
-	        ,INPUT_DT
-	        ,UPDATE_DT
-	    FROM PRODUCTS 
-	    WHERE IS_VISIBLE = 'Y'
-	    ORDER BY VIEW_CNT DESC, PRODUCT_ID DESC
+	<!-- NG: 하나로 할수있겠지만 제가 하나로 못할거같아서 나눴음 -->
+	<select id="selectTypeProductListByUser" resultType="java.util.Map">
+	    SELECT p.PRODUCT_ID AS PRODUCT_ID
+	         , p.PRODUCT_NAME
+	         , p.PRODUCT_CODE
+	         , p.PRODUCT_PRICE
+	         , p.SALED_PRICE
+	         , p.SORT_NUMBER
+	         , p.PRODUCT_TYPE
+	         , pImg.IMAGE_URL AS imageUrl
+	         , pImg.ALT_TEXT AS ALT_TEXT
+	         , COALESCE(r.REVIEW_COUNT, 0) AS REVIEW_COUNT
+	         , COALESCE(r.AVG_RATING, 0) AS AVG_RATING
+	         , COALESCE(inv.TOTAL_QUANTITY, 0) AS STOCK_QUANTITY
+	    FROM PRODUCTS p
+	    LEFT JOIN PRODUCT_IMG pImg 
+           ON p.PRODUCT_ID = pImg.PRODUCT_ID 
+          AND pImg.SORT_NUMBER = 0
+	    LEFT JOIN (
+	        SELECT PRODUCT_ID
+	             , COUNT(*) AS REVIEW_COUNT
+	             , ROUND(AVG(STAR_POINT), 1) AS AVG_RATING
+	        FROM REVIEWS
+	        WHERE REVIEW_STATUS = 'Y'
+	        GROUP BY PRODUCT_ID
+	    ) r ON p.PRODUCT_ID = r.PRODUCT_ID
+	    LEFT JOIN (
+		    SELECT PRODUCT_ID
+		         , SUM(QUANTITY) AS TOTAL_QUANTITY
+		    FROM INVENTORIES
+		    GROUP BY PRODUCT_ID
+		) inv ON p.PRODUCT_ID = inv.PRODUCT_ID
+	    WHERE p.IS_VISIBLE = 'Y'
+	    <if test="productType != null and productType != ''">
+	        AND p.PRODUCT_TYPE = #{productType}
+	    </if>
+	    <if test="sortNumber != null and sortNumber != ''">
+	        AND p.SORT_NUMBER = #{sortNumber}
+	    </if>
+	    ORDER BY p.SORT_NUMBER DESC
+	    <if test="limit != null">
+	        LIMIT #{limit}
+	    </if>
 	</select>
 
+	<select id="selectCategoryProductsListByUser" resultType="java.util.Map">
+	    SELECT p.PRODUCT_ID
+	         , p.PRODUCT_NAME
+	         , p.PRODUCT_CODE
+	         , p.PRODUCT_PRICE
+	         , p.SALED_PRICE
+	         , p.SORT_NUMBER
+	         , p.PRODUCT_TYPE
+	         , p.SUB_CATE_ID
+	         , sc.SUB_CATE_NM AS SUB_CATE_NAME
+	         , sc.MAIN_CATE_ID
+	         , mc.MAIN_CATE_NM AS MAIN_CATE_NAME
+	         , pImg.IMAGE_URL
+	         , pImg.ALT_TEXT
+	         , COALESCE(r.REVIEW_COUNT, 0) AS REVIEW_COUNT
+	         , COALESCE(r.AVG_RATING, 0) AS AVG_RATING
+	         , COALESCE(inv.TOTAL_QUANTITY, 0) AS STOCK_QUANTITY
+	         , CASE WHEN COALESCE(inv.TOTAL_QUANTITY, 0) > 0 THEN 'N' ELSE 'Y' END AS IS_SOLDOUT
+	    FROM PRODUCTS p
+	    LEFT JOIN SUB_CATEGORIES sc ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+	    LEFT JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+	    LEFT JOIN PRODUCT_IMG pImg 
+	           ON p.PRODUCT_ID = pImg.PRODUCT_ID 
+	          AND pImg.IS_MAIN = 'Y'
+	    LEFT JOIN (
+	        SELECT PRODUCT_ID
+	             , COUNT(*) AS REVIEW_COUNT
+	             , ROUND(AVG(STAR_POINT), 1) AS AVG_RATING
+	        FROM REVIEWS
+	        WHERE REVIEW_STATUS = 'Y'
+	        GROUP BY PRODUCT_ID
+	    ) r ON p.PRODUCT_ID = r.PRODUCT_ID
+	    LEFT JOIN (
+	        SELECT PRODUCT_ID
+	             , SUM(QUANTITY) AS TOTAL_QUANTITY
+	        FROM INVENTORIES
+	        GROUP BY PRODUCT_ID
+	    ) inv ON p.PRODUCT_ID = inv.PRODUCT_ID
+	    WHERE p.IS_VISIBLE = 'Y'
+	      AND sc.IS_ACTIVE = 'Y'
+	      AND mc.IS_ACTIVE = 'Y'
+	    <if test="mainCateId != null and mainCateId != ''">
+	        AND sc.MAIN_CATE_ID = #{mainCateId}
+	    </if>
+	    <if test="subCateId != null and subCateId != ''">
+	        AND p.SUB_CATE_ID = #{subCateId}
+	    </if>
+	    <choose>
+	        <when test="sortType == 'name'">
+	            ORDER BY p.PRODUCT_NAME ASC
+	        </when>
+	        <when test="sortType == 'lowPrice'">
+	            ORDER BY p.SALED_PRICE ASC
+	        </when>
+	        <when test="sortType == 'highPrice'">
+	            ORDER BY p.SALED_PRICE DESC
+	        </when>
+	        <otherwise>
+	            ORDER BY p.INPUT_DT DESC, p.SORT_NUMBER DESC
+	        </otherwise>
+	    </choose>
+	    LIMIT #{offset}, #{pageSize}
+	</select>
 	
+	<select id="selectCategoryProductsCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM PRODUCTS p
+	    LEFT JOIN SUB_CATEGORIES sc ON p.SUB_CATE_ID = sc.SUB_CATE_ID
+	    LEFT JOIN MAIN_CATEGORIES mc ON sc.MAIN_CATE_ID = mc.MAIN_CATE_ID
+	    WHERE p.IS_VISIBLE = 'Y'
+	      AND sc.IS_ACTIVE = 'Y'
+	      AND mc.IS_ACTIVE = 'Y'
+	    <if test="mainCateId != null and mainCateId != ''">
+	        AND sc.MAIN_CATE_ID = #{mainCateId}
+	    </if>
+	    <if test="subCateId != null and subCateId != ''">
+	        AND p.SUB_CATE_ID = #{subCateId}
+	    </if>
+	</select>
 
-	<insert id="insertCartItemByUser" parameterType="java.util.Map">
+	<insert id="insertCartItemByUser" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cartItemId">
 		INSERT INTO CART_ITEMS (CART_ID, PRODUCT_ID, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL)
 			VALUES (#{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} )
+	</insert>
+	
+	<insert id="insertCartItemOptionByUser" parameterType="java.util.Map">
+		INSERT INTO CART_ITEM_OPTIONS (CART_ITEM_ID, OPTION_ID)
+			VALUES ( #{cartItemId}, #{optionId} )
 	</insert>
 	
 	
@@ -152,8 +216,5 @@
 			WHERE 1=1
 				AND PRODUCT_QNA_ID = #{qnaId};
 	</delete>
-
-
-
 
 </mapper>

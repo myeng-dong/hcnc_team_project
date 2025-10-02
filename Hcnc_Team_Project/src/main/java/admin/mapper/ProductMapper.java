@@ -7,19 +7,20 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("ProductMapper")
 public interface ProductMapper {
+	
+	//  ----- 상품관리 -----
     List<Map<String,Object>> selectProductListByAdmin(Map<String,Object> p);
     void insertProduct(Map<String,Object> p);
-    void insertOption(Map<String,Object> p);
+
     void insertInventory(Map<String,Object> p);
-    void insertProductImage(Map<String,Object> p);
-    void updateProductImageMapping(Map<String,Object> p);
-    void setMainImage(Map<String,Object> p);
 	List<Map<String, Object>> selectMainCategoryComboByAdmin();
 	List<Map<String, Object>> selectSubCategoryComboByAdmin(int mainCateId);
 	
+	// ----- 재고업데이트 -----
+	void updateInventory(Map<String, Object> p);
 	
 	
-	// ---- 카테고리 ----
+	// ----- 카테고리 -----
 	List<Map<String,Object>> selectMainCategoryByAdmin();
 	List<Map<String,Object>> selectSubCategoryByAdmin();
 	void insertCategoryByAdmin(Map<String,Object> p);
@@ -34,6 +35,15 @@ public interface ProductMapper {
 	void updateProductVisibleByAdmin(Map<String, Object> p);
 	void updateOption(Map<String, Object> option);
 	Map<String, Object> selectOptionOneByAdmin(Long optionId);
+	List<Map<String, Object>> selectProductListOptionByAdmin(Map<String, Object> cond);
+    void insertOption(Map<String,Object> p);
+	
+	
+	
+	
+	// ---- 재고 입출고 리스트 ----
+	List<Map<String, Object>> selectStockMovementsListByAdmin(Map<String, Object> cond);
+
 
 
 
