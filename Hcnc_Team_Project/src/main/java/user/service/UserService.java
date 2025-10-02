@@ -13,7 +13,5 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
-	 public List<Map<String, Object>> selectGradeListByUser(){
-	    	return userMapper.selectGradeListByUser();
-    };
+	
 }

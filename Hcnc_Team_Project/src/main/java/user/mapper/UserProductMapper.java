@@ -28,10 +28,12 @@ public interface UserProductMapper {
 	List<Map<String, Object>> selectTypeProductListByUser();//메인에서 NEW BEST불러가는용 
 
 	List<Map<String, Object>> selectHotProductListByUser();//메인에서 HOT불러가는용 임시
-	
-	List<Map<String, Object>> selectCateGoryProductsListByUser();//카테고리별LIST
 
 	HashMap<String, Object> selectProductDescriptionByUser(Map<String, Object> param);
+
+	int selectCategoryProductsCount(Map<String, Object> params);
+
+	List<Map<String, Object>> selectCategoryProductsListByUser(Map<String, Object> params);
 
 
 }

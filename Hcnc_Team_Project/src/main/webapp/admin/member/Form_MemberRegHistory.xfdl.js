@@ -45,7 +45,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("black_list","500","170",null,"530","20",null,null,null,null,null,this);
+            obj = new Grid("black_list","500","170","760","530",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
@@ -55,7 +55,7 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"52\"/><Column size=\"165\"/><Column size=\"127\"/><Column size=\"185\"/><Column size=\"171\"/><Column size=\"230\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"아이디\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"이름\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"전화번호\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"회원가입 경로\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"회원등록일\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"1\" text=\"bind:MEMBER_ID\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"3\" text=\"bind:PHONE_NUMBER\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\" displaytype=\"mask\" edittype=\"mask\" maskedittype=\"string\" maskeditformat=\"###-####-####\"/><Cell col=\"4\" text=\"bind:LOGIN_NAME\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"5\" text=\"bind:INPUT_DT\" displaytype=\"normal\" edittype=\"none\" combocodecol=\"GRADE_CODE\" combodatacol=\"GRADE_NAME\" combodataset=\"ds_grade\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00","46","36","54","32",null,null,null,null,null,null,this);
+            obj = new Static("Static00","36","36","54","32",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("가입 경로");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
@@ -85,7 +85,7 @@
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("login_type","130","40","220","26",null,null,null,null,null,null,this);
+            obj = new Radio("login_type","113","40","256","26",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             obj.set_innerdataset("ds_loginType");
             obj.set_codecolumn("LOGIN_TYPE");
@@ -246,7 +246,7 @@
         this.fn_selectMemberRegHistoryList = function(){
 
         	var strSvcID = "selectMemberRegHistoryList"
-        	var setURL = "svc::/selectMemberRegHistoryListByAdmin.do";
+        	var setURL = "svc::/selectMemberRegHistoryListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_search=ds_search";
         	var strOutDatasets = "ds_list=ds_list";
         	var strArg = "";
@@ -260,7 +260,7 @@
         this.fn_selectLoginTypeStats = function(){
 
         	var strSvcID = "selectLoginTypeStats"
-        	var setURL = "svc::/selectLoginTypeStatsByAdmin.do";
+        	var setURL = "svc::/selectLoginTypeStatsByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_stats=ds_stats";
         	var strArg = "";

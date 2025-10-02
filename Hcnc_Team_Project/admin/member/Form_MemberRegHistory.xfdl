@@ -4,14 +4,14 @@
     <Layouts>
       <Layout height="720" width="1280">
         <Static id="reg_search_box" taborder="0" left="20" top="17" width="1240" height="143" background="white" text="" borderRadius="8px" onclick="reg_search_box_onclick"/>
-        <Grid id="black_list" taborder="1" left="500" top="170" height="530" background="#FFFFFF" border="0px none" borderRadius="10px" right="20" autofittype="col" binddataset="ds_list" oncellclick="black_list_oncellclick">&gt;
+        <Grid id="black_list" taborder="1" left="500" top="170" height="530" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="black_list_oncellclick" width="760">&gt;
           <Formats><Format id="default"><Columns><Column size="52"/><Column size="165"/><Column size="127"/><Column size="185"/><Column size="171"/><Column size="230"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="아이디" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="전화번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="회원가입 경로" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="회원등록일" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" font="11pt/normal &quot;LG Smart UI Bold&quot;"/></Band><Band id="body"><Cell text="expr:currow + 1" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:MEMBER_ID" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="3" text="bind:PHONE_NUMBER" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center" displaytype="mask" edittype="mask" maskedittype="string" maskeditformat="###-####-####"/><Cell col="4" text="bind:LOGIN_NAME" textAlign="center" font="12px/normal &quot;Noto Sans KR Black&quot;"/><Cell col="5" text="bind:INPUT_DT" displaytype="normal" edittype="none" combocodecol="GRADE_CODE" combodatacol="GRADE_NAME" combodataset="ds_grade" font="12px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/></Band></Format></Formats></Grid>
-        <Static id="Static00" taborder="2" text="가입 경로" left="46" top="36" width="54" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static00_onclick"/>
+        <Static id="Static00" taborder="2" text="가입 경로" left="36" top="36" width="54" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;" onclick="Static00_onclick"/>
         <Static id="Static00_00" taborder="3" text="전화번호" left="430" top="90" width="60" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
         <Static id="Static00_01" taborder="4" text="아이디" left="50" top="90" width="40" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
         <Static id="Static00_01_00" taborder="5" text="이름" left="450" top="37" width="27" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
         <Static id="Static00_00_00" taborder="6" text="회원 등록일" left="820" top="37" width="70" height="32" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Radio id="login_type" taborder="7" left="130" top="40" width="220" height="26" innerdataset="ds_loginType" codecolumn="LOGIN_TYPE" datacolumn="NAME" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;" onitemchanged="login_type_onitemchanged"/>
+        <Radio id="login_type" taborder="7" left="113" top="40" width="256" height="26" innerdataset="ds_loginType" codecolumn="LOGIN_TYPE" datacolumn="NAME" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;" onitemchanged="login_type_onitemchanged"/>
         <Edit id="search_member_id" taborder="8" left="113" top="92" width="256" height="28" borderRadius="8px" border="1px solid black" onchanged="search_member_id_onchanged" onkeyup="search_member_id_onkeyup"/>
         <Edit id="search_user_name" taborder="9" left="510" top="40" width="256" height="28" borderRadius="8px" border="1px solid black" onchanged="search_user_name_onchanged" onkeyup="search_user_name_onkeyup"/>
         <MaskEdit id="search_phoneNumber" taborder="10" left="510" top="91" width="254" height="31" border="1px solid black" borderRadius="8px" format="###-####-####" type="string" onkeyup="search_phoneNumber_onkeyup"/>
@@ -80,7 +80,7 @@
 this.fn_selectMemberRegHistoryList = function(){
 	
 	var strSvcID = "selectMemberRegHistoryList"
-	var setURL = "svc::/selectMemberRegHistoryListByAdmin.do";
+	var setURL = "svc::/selectMemberRegHistoryListByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "ds_search=ds_search";
 	var strOutDatasets = "ds_list=ds_list";
 	var strArg = "";
@@ -94,7 +94,7 @@ this.fn_selectMemberRegHistoryList = function(){
 this.fn_selectLoginTypeStats = function(){
 	
 	var strSvcID = "selectLoginTypeStats"
-	var setURL = "svc::/selectLoginTypeStatsByAdmin.do";
+	var setURL = "svc::/selectLoginTypeStatsByAdmin.do?time=" + new Date().getTime();
 	var strInDatasets = "";
 	var strOutDatasets = "ds_stats=ds_stats";
 	var strArg = "";

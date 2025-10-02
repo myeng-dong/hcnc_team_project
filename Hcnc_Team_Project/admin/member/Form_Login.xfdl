@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Login" width="1280" height="720" titletext="New Form" background="#CACDDC" onload="Form_Login_onload" onkeyup="Form_Login_onkeyup">
+  <Form id="Form_Login" width="1280" height="720" titletext="New Form" background="#CACDDC" onload="Form_Login_onload" onkeyup="Form_Login_onkeyup" visible="true">
     <Layouts>
       <Layout height="720" width="1280">
         <Static id="loginForm" taborder="9" top="33" width="553" height="620" onclick="Static03_onclick" left="365" borderRadius="15px" background="white" boxShadow="6px 6px 12px rgba(0,0,0,0.25)"/>
@@ -12,8 +12,22 @@
         <Button id="admin_login" taborder="5" text="로그인" left="504" top="546" width="272" height="49" borderRadius="15px" background="black" color="white" onclick="admin_login_onclick" font="15px/normal &quot;Noto Sans KR Medium&quot;"/>
         <Static id="Static01_00" taborder="6" text="아이디 및 비밀번호를 입력하세요" left="500" top="240" width="220" height="40" textAlign="center" font="16px/normal &quot;Noto Sans KR Medium&quot;"/>
         <ImageViewer id="h1_logo" taborder="7" left="495" top="110" width="185" height="52" image="url('imagerc::h1_logo.png')" onclick="h1_logo_onclick"/>
-        <CheckBox id="CheckBox00" taborder="8" left="486" top="495" width="88" height="22" text="아이디 기억" font="12px/normal &quot;Noto Sans KR Medium&quot;"/>
-        <Static id="findPw" taborder="10" text="비밀번호 찾기" left="700" top="495" width="70" height="22" font="12px/normal &quot;Noto Sans KR Medium&quot;"/>
+        <CheckBox id="chk_saveId" taborder="8" left="486" top="495" width="88" height="22" text="아이디 기억" font="12px/normal &quot;Noto Sans KR Medium&quot;" canchange="chk_saveId_canchange"/>
+        <Static id="findPw" taborder="10" text="비밀번호 찾기" left="700" top="495" width="70" height="22" font="12px/normal &quot;Noto Sans KR Medium&quot;" onclick="findPw_onclick"/>
+        <Div id="div_findPassword" taborder="11" left="0" top="-4" width="1300" height="729" visible="false" background="rgba(0,0,0,0.5)">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" left="390" top="200" width="500" height="300" background="white"/>
+              <Static id="Static01" taborder="1" text="비밀번호 찾기" left="530" top="210" width="220" height="44" textAlign="center"/>
+              <Edit id="edt_findId" taborder="2" left="484" top="269" width="333" height="42" border="1px solid black" borderRadius="8px"/>
+              <Edit id="edt_findEmail" taborder="3" left="484" top="339" width="331" height="43" border="1px solid black" borderRadius="8px"/>
+              <Button id="btn_findSubmit" taborder="4" text="발급" left="521" top="420" width="99" height="36" onclick="div_findPassword_btn_findSubmit_onclick"/>
+              <Button id="btn_findCancel" taborder="5" text="취소" left="658" top="414" width="105" height="42" onclick="div_findPassword_btn_findCancel_onclick"/>
+              <Static id="Static02" taborder="6" text="아이디" left="420" top="279" width="39" height="23"/>
+              <Static id="Static03" taborder="7" text="이메일" left="423" top="345" width="35" height="30"/>
+            </Layout>
+          </Layouts>
+        </Div>
       </Layout>
     </Layouts>
     <Objects>
@@ -36,157 +50,278 @@
           <Column id="MEMBER_ID" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
+      <Dataset id="ds_findPassword">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_findResult">
+        <ColumnInfo>
+          <Column id="RESULT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
-this.Form_Login_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[this.isWait = false; 
+this.Form_Login_onload = function(obj:nexacro.Form, e:nexacro.LoadEventInfo)
 {
-	// controller에 httpsession
-	var args = this.parent.arguments;
-	console.log(args);
-	console.log(args.isLogout);
-	if(args.isLogout){
-		
-		var glbAd = nexacro.getApplication();
-		
-		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": false};
-		
-		return;
-	}
-	this.checkLogin();
+    var args = this.parent.arguments;
+    
+    // 로그아웃 후 재진입 처리
+    if(args && args.isLogout) {
+        var glbAd = nexacro.getApplication();
+        glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = 
+            { "isLogout": false };
+    }
+    
+    // 로그인 상태 확인 (세션 체크)
+    this.checkLogin();
+    
+    // 저장된 아이디 불러오기 (쿠키 읽기만)
+    this.loadSavedId();
 };
 
-
-//콜백
-this.fn_callBack = function (svcID, errorCode, errorMSG)
+// 로그인 버튼
+this.admin_login_onclick = function(obj:nexacro.Button, e:nexacro.ClickEventInfo)
 {
-    if(errorCode == -1){
-		this.alert(errorMSG);
-		return;
-	}
-	console.log("errorCode= "+errorCode);
-	
-	switch(svcID){
-	case "adminCheckLogin":
-		
-		var isLogin = this.ds_isLogin.getColumn(0,"MEMBER_ID");
-		
-		
-		if(isLogin != null && isLogin !='undefined'){
-			
-			this.loginSet();
-		} 
-		break;
-	case "adminLogin" :
-		if(this.ds_loginChk.getRowCount() == 0){
-			alert("아이디 또는 비밀번호를 확인하세요");
-			return;
-		}
-		this.loginSet();
-		
-		break;
-	}
+    var adminId = this.ds_admin.getColumn(0, "MEMBER_ID");
+    var adminPw = this.ds_admin.getColumn(0, "PASSWORD");
+    
+    if(!adminId || adminId == '') {
+        this.alert('아이디를 입력해 주세요');
+        this.admin_id.setFocus();
+        return;
+    }
+    
+    if(!adminPw || adminPw == '') {
+        this.alert('비밀번호를 입력해 주세요');
+        this.admin_pw.setFocus();
+        return;
+    }
+    
+    // 체크박스 상태를 서버로 전달만
+    var saveId = this.chk_saveId.value == true ? "Y" : "N";
+    
+    var strSvcID = "adminLogin";
+    var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
+    var strInDatasets = "ds_admin=ds_admin";
+    var strOutDatasets = "ds_loginChk=ds_loginChk";
+    var strArg = "SAVE_ID=" + saveId;
+    var callBack = "fn_callBack";
+    var inAsync = true;
+    
+    this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
 };
 
-
-//로그인 버튼 
-this.admin_login_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+// 엔터키 로그인 (중복 코드 제거 - 버튼 클릭 호출)
+this.admin_pw_onkeyup = function(obj:nexacro.Edit, e:nexacro.KeyEventInfo)
 {
-	var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
-	var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
+    if(e.keycode == 13) {
+        this.admin_login_onclick(this.admin_login, null);
+    }
+};
+
+// 콜백
+this.fn_callBack = function(svcID, errorCode, errorMSG)
+{
+    if(errorCode == -1) {
+        this.alert(errorMSG);
+        return;
+    }
+    
+    switch(svcID) {
+        case "adminCheckLogin":
+            var isLogin = this.ds_isLogin.getColumn(0, "MEMBER_ID");
+            if(isLogin != null && isLogin != 'undefined') {
+                this.loginSet();
+            }
+            break;
+            
+        case "adminLogin":
+            if(this.ds_loginChk.getRowCount() == 0) {
+                this.alert("아이디 또는 비밀번호를 확인하세요");
+                return;
+            }
+            this.loginSet();
+            break;
+            
+        case "findPassword":
+            if(this.ds_findResult.getRowCount() > 0) {
+                var result = this.ds_findResult.getColumn(0, "RESULT");
+                if(result == "SUCCESS") {
+                    this.alert("임시 비밀번호가 이메일로 발송되었습니다.\n" +
+                              "(개발 중에는 콘솔 로그를 확인하세요)\n" +
+                              "로그인 후 비밀번호를 변경해주세요.");
+                    this.closePasswordFindPopup();
+                } else if(result == "NOT_FOUND") {
+                    this.alert("일치하는 회원 정보가 없습니다.\n" +
+                              "아이디와 이메일을 확인해주세요.");
+                } else {
+                    this.alert("비밀번호 찾기에 실패했습니다.\n" +
+                              "잠시 후 다시 시도해주세요.");
+                }
+            }
+            break;
+    }
+};
+
+// 세션 확인
+this.checkLogin = function() {
+    var strSvcID = "adminCheckLogin";
+    var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();
+    var strInDatasets = "";
+    var strOutDatasets = "ds_isLogin=ds_isLogin ds_loginChk=ds_loginChk";
+    var strArg = "";
+    var callBack = "fn_callBack";
+    var inAsync = true;
+    
+    this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
+};
+
+// 로그인 완료 처리
+this.loginSet = function() {
+    var glbAd = nexacro.getApplication();
+    
+    // 전역 데이터셋에 저장
+    glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
+    
+    // 상단 프레임에 아이디 표시
+    if(glbAd.gds_adminInfo.rowcount > 0) {
+        var memberId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
+        var topForm = glbAd.mainframe.VFrameSet00.TopFrame.form;
+        topForm.admin_id.set_text(memberId);
+    }
+    
+    // 메뉴 영역 복구
+    nexacro.VFrameSet00.set_separatesize("50,*");
+    nexacro.HFrameSet00.set_separatesize("200,*");
+    nexacro.InnerVFrameSet.set_separatesize("110,*");
+    
+    // 대시보드로 이동
+    glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl(
+        "dash::Form_test.xfdl"
+    );
+};
+
+// 쿠키 읽기 (표시만)
+this.loadSavedId = function()
+{
+    var savedId = this.getCookie("ADMIN_ID");
+    
+    if(savedId && savedId != '' && savedId != 'undefined' && savedId != 'null') {
+        this.ds_admin.setColumn(0, "MEMBER_ID", savedId);
+        this.chk_saveId.set_value(true);
+    } else {
+        this.ds_admin.setColumn(0, "MEMBER_ID", "");
+        this.chk_saveId.set_value(false);
+    }
+};
+
+// 쿠키 읽기 함수
+this.getCookie = function(name)
+{
+    try {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if(parts.length == 2) {
+            return decodeURIComponent(parts.pop().split(";").shift());
+        }
+    } catch(e) {
+        console.log("getCookie error: " + e.message);
+    }
+    return null;
+};
+
+// 비밀번호 찾기 관련 함수들은 그대로 유지...
+
+/************************************************
+* 비밀번호 찾기 기능
+************************************************/
+
+// 비밀번호 찾기 텍스트 클릭
+this.findPw_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+{
+	this.showPasswordFindPopup();
+};
+
+// 비밀번호 찾기 팝업 표시
+this.showPasswordFindPopup = function()
+{
+	// Dataset 초기화
+	this.ds_findPassword.clearData();
+	this.ds_findPassword.addRow();
 	
-	if(adminId == null || adminId ==''){
-		this.alert('아이디를 입력해 주세요')
+	// 팝업 표시
+	this.div_findPassword.set_visible(true);
+	
+	// 첫 번째 입력란에 포커스
+	this.div_findPassword.form.edt_findId.setFocus();
+};
+
+// 비밀번호 찾기 팝업 닫기
+this.closePasswordFindPopup = function()
+{
+	this.div_findPassword.set_visible(false);
+	this.ds_findPassword.clearData();
+	this.ds_findPassword.addRow();
+};
+
+//발급 버튼
+this.div_findPassword_btn_findSubmit_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var memberId = this.ds_findPassword.getColumn(0, "MEMBER_ID");
+	var email = this.ds_findPassword.getColumn(0, "EMAIL");
+	
+	if(memberId == null || memberId == ''){
+		this.alert('아이디를 입력해주세요.');
+		this.div_findPassword.form.edt_findId.setFocus();
 		return;
 	}
 	
-	if(adminPw == null || adminPw ==''){
-		this.alert('비밀번호를 입력해 주새요')
+	if(email == null || email == ''){
+		this.alert('이메일을 입력해주세요.');
+		this.div_findPassword.form.edt_findEmail.setFocus();
 		return;
 	}
 	
-	var strSvcID = "adminLogin"
-	var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
-	var strInDatasets = "ds_admin=ds_admin";
-	var strOutDatasets = "ds_loginChk=ds_loginChk";
+	// 이메일 형식 검증
+	var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+	if(!emailPattern.test(email)){
+		this.alert('올바른 이메일 형식을 입력해주세요.');
+		this.div_findPassword.form.edt_findEmail.setFocus();
+		return;
+	}
+	
+	var strSvcID = "findPassword";
+	var setURL = "svc::/findPasswordByAdmin.do?time=" + new Date().getTime();
+	var strInDatasets = "ds_findPassword=ds_findPassword";
+	var strOutDatasets = "ds_findResult=ds_findResult";
 	var strArg = "";
 	var callBack = "fn_callBack";
 	var inAsync = true;
 	
-	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
-	
+	this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
 };
 
-//ds_loginChk도 다시 업데이트 
-this.checkLogin = function(){
-	var strSvcID = "adminCheckLogin"
-	var setURL = "svc::/adminLoginCheckByAdmin.do?time=" + new Date().getTime();
-	var strInDatasets = "";
-	var strOutDatasets = "ds_isLogin=ds_isLogin ds_loginChk=ds_loginChk";
-	var strArg = "";
-	var callBack = "fn_callBack";
-	var inAsync = true;
-	
-	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
-	
-}
 
-this.loginSet = function () {
-	
-	var glbAd = nexacro.getApplication();
-	
-	// 전역데이터셋 저장( copydata() )
-	glbAd.gds_adminInfo.copyData(this.ds_loginChk, true);
-	
-
-	//직접 탑 프레임에 접근해서 상단에 멤버 id 띄우기(중요!) 
-	if (glbAd.gds_adminInfo.rowcount > 0) {
-		var memberId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
-		var topForm = glbAd.mainframe.VFrameSet00.TopFrame.form;
-		topForm.admin_id.set_text(memberId);
-		trace("로그인한 관리자 ID = " + memberId);
-	}	
-	
-	// 메뉴/타이틀 영역 복구
-	nexacro.VFrameSet00.set_separatesize("50,*");   // TopFrame 높이 복원
-	nexacro.HFrameSet00.set_separatesize("200,*");  // LeftFrame 너비 복원
-	nexacro.InnerVFrameSet.set_separatesize("110,*"); // TitleFrame 높이 복원
-	
-	// 대시보드로 이동
-	glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("dash::Form_test.xfdl");
-	
-}
-
-this.admin_pw_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+// 비밀번호 찾기 취소 버튼
+this.div_findPassword_btn_findCancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	if(e.keycode == 13){
-		var adminId = this.ds_admin.getColumn(0,"MEMBER_ID")
-		var adminPw = this.ds_admin.getColumn(0,"PASSWORD")
-		
-		if(adminId == null || adminId ==''){
-			this.alert('아이디를 입력해 주세요')
-			return;
-		}
-		
-		if(adminPw == null || adminPw ==''){
-			this.alert('비밀번호를 입력해 주새요')
-			return;
-		}
-		
-		var strSvcID = "adminLogin"
-		var setURL = "svc::/adminLoginByAdmin.do?time=" + new Date().getTime();
-		var strInDatasets = "ds_admin=ds_admin";
-		var strOutDatasets = "ds_loginChk=ds_loginChk";
-		var strArg = "";
-		var callBack = "fn_callBack";
-		var inAsync = true;
-		
-		this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
-	}
+	this.closePasswordFindPopup();
 };
+
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="admin_id" propid="value" datasetid="ds_admin" columnid="MEMBER_ID"/>
       <BindItem id="item1" compid="admin_pw" propid="value" datasetid="ds_admin" columnid="PASSWORD"/>
+      <BindItem id="item2" compid="div_findPassword.form.edt_findId" propid="value" datasetid="ds_findPassword" columnid="MEMBER_ID"/>
+      <BindItem id="item3" compid="div_findPassword.form.edt_findEmail" propid="value" datasetid="ds_findPassword" columnid="EMAIL"/>
     </Bind>
   </Form>
 </FDL>

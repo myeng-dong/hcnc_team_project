@@ -3,26 +3,55 @@
 <mapper namespace="user.mapper.UserBoardMapper">
 
 	<select id="selectPostListByUser" parameterType="hashmap" resultType="hashmap">
-	#게시글 리스트 조회 
-          SELECT 
-                 POST_ID
-               , POST_TITLE
-               , DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT
-            FROM POSTS
-           WHERE DELETE_DT IS NULL
-  	<choose>
-  		<when test="category!=null and category!=''">
-  			AND BOARD_ID = #{category}
-  		</when>
-  		<otherwise>
-  			AND BOARD_ID IN (1,2,4)
-  		</otherwise>
-  	</choose>
-    LIMIT #{firstIndex}, #{pageSize}
-    </select>
+    #게시글 리스트 조회 
+    SELECT 
+           POST_ID
+         , BOARD_ID
+         , POST_TITLE
+         , DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT
+         , MEMBER_ID
+      FROM POSTS
+     WHERE DELETE_DT IS NULL
+	    <choose>
+	        <when test="category!=null and category!=''">
+	            AND BOARD_ID = #{category}
+	        </when>
+	        <otherwise>
+	            AND BOARD_ID IN (1,2,4)
+	        </otherwise>
+	    </choose>
+	    <!-- 검색 조건 -->
+	    <if test="searchKeyword != null and searchKeyword != ''">
+	        <choose>
+	            <!-- 전체 검색: 제목 OR 내용 OR 작성자 -->
+	            <when test="searchType == null or searchType == ''">
+	                AND (
+	                    POST_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+	                    OR POST_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+	                    OR MEMBER_ID LIKE CONCAT('%', #{searchKeyword}, '%')
+	                )
+	            </when>
+	            <!-- 제목 검색 -->
+	            <when test="searchType == 'title'">
+	                AND POST_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+	            </when>
+	            <!-- 내용 검색 -->
+	            <when test="searchType == 'content'">
+	                AND POST_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+	            </when>
+	            <!-- 작성자 검색 -->
+	            <when test="searchType == 'writer'">
+	                AND MEMBER_ID LIKE CONCAT('%', #{searchKeyword}, '%')
+	            </when>
+	        </choose>
+	    </if>
+	    ORDER BY POST_ID DESC
+	    LIMIT #{firstIndex}, #{pageSize}
+	</select>
     
-    <!-- 공지사항 총 개수 조회 -->
+    <!-- 게시글 총 개수 조회 -->
     <select id="selectPostTotalCountByUser" parameterType="hashmap" resultType="int">
+    #게시글 개수 총 조회
        SELECT 
              COUNT(*) 
         FROM POSTS 
@@ -33,7 +62,8 @@
     <select id="selectUserPostDetailByUser" parameterType="int" resultType="map">
     #상세 게시글 조회
     	SELECT
-               BOARD_ID
+    		   POST_ID
+             , BOARD_ID
              , MEMBER_ID
              , POST_TYPE
              , DATE_FORMAT(INPUT_DT, '%Y-%m-%d')
@@ -53,6 +83,7 @@
     </update>
     
     <select id="selectUserCommentByUser" parameterType="int" resultType="map">
+    #댓글 조회
     	SELECT
                COMMENT
              , MEMBER_ID
@@ -60,5 +91,40 @@
                AS INPUT_DT
           FROM COMMENTS 
          WHERE POST_ID = #{postId}
+           AND DELETE_DT IS NULL
     </select>
+    
+    <select id="selectUserPostTypeByUser" resultType="map">
+    #게시글 타입 조회
+    	SELECT DISTINCT POST_TYPE
+    	  FROM POSTS 
+    </select>
+    
+    <insert id="insertUserPostByUser" parameterType="map">
+    #게시글 등록
+    	INSERT INTO POSTS(
+    	BOARD_ID, MEMBER_ID, POST_TYPE, POST_TITLE, POST_CONTENT
+    	)
+    	VALUES(
+    	2, #{memberId}, #{postType} , #{postTitle}, #{postContent}
+    	)
+    </insert>
+    
+    <insert id="insertUserCommentByUser" parameterType="map">
+    #댓글 등록 
+    	INSERT INTO COMMENTS(
+    		POST_ID, MEMBER_ID, COMMENT
+    	)
+    	VALUES(
+    	   #{postId}, #{userID}, #{content}
+    	)
+    </insert>
+    
+    <update id="deleteUserCommentByUser" parameterType="map">
+    #댓글 삭제로 업데이트
+    	UPDATE COMMENTS
+    	   SET DELETE_DT = NOW();
+    	 WHERE COMMENT_ID = #{commentId}
+    </update>
+    
 </mapper>

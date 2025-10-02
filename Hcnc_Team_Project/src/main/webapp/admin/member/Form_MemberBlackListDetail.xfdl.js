@@ -14,7 +14,7 @@
             this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
-                this._setFormPosition(660,530);
+                this._setFormPosition(710,530);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
@@ -33,14 +33,14 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("Div00","18","40","622","440",null,null,null,null,null,null,this);
+            obj = new Div("Div00","10","40","690","445",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("lightGray");
             obj.set_borderRadius("12px");
             obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00","574","500","66","25",null,null,null,null,null,null,this);
+            obj = new Static("Static00","630","495","66","25",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("ESC[닫기]");
             obj.set_color("RED");
@@ -53,17 +53,17 @@
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("black_list","30","50",null,"410","30",null,null,null,null,null,this);
+            obj = new Grid("black_list","20","50","670","420",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_list");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"43\"/><Column size=\"78\"/><Column size=\"69\"/><Column size=\"192\"/><Column size=\"102\"/><Column size=\"122\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"아이디\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"신고유형\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"신고내용\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"상태\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"신고일자\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"1\" text=\"bind:MEMBER_ID\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"2\" text=\"bind:REPORT_TYPE\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"3\" text=\"bind:REPORT_CONTENT\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"4\" text=\"bind:REPORT_STATUS\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" displaytype=\"combocontrol\" edittype=\"combo\" combocodecol=\"REPORT_STATUS\" combodatacol=\"REPORT_STATUS\" combodataset=\"ds_status\"/><Cell col=\"5\" text=\"bind:INPUT_DT\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"43\"/><Column size=\"91\"/><Column size=\"74\"/><Column size=\"214\"/><Column size=\"106\"/><Column size=\"144\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"아이디\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"신고유형\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"신고내용\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"상태\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"신고일자\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"1\" text=\"bind:MEMBER_ID\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"2\" text=\"bind:REPORT_TYPE\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"3\" text=\"bind:REPORT_CONTENT\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"4\" text=\"bind:REPORT_STATUS\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" displaytype=\"combocontrol\" edittype=\"combo\" combocodecol=\"REPORT_STATUS\" combodatacol=\"REPORT_STATUS\" combodataset=\"ds_status\"/><Cell col=\"5\" text=\"bind:INPUT_DT\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Button("status_change_btn","282","490","95","28",null,null,null,null,null,null,this);
+            obj = new Button("status_change_btn","304","490","95","30",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("상태 변경");
             obj.set_background("#2563eb");
@@ -73,7 +73,7 @@
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",660,530,this,function(p){});
+            obj = new Layout("default","",710,530,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
@@ -106,7 +106,7 @@
         this.fn_selectBlackListDetail= function(memberId){
 
         	var strSvcID = "selectBlackDetailList"
-        	var setURL = "svc::/selectBlackDetailListByAdmin.do";
+        	var setURL = "svc::/selectBlackDetailListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "";
         	var strOutDatasets = "ds_list=ds_list";
         	//단일값으로 memberId를 보내서 BOARD_WRITER에 담는다
@@ -121,7 +121,7 @@
         this.status_change_btn_onclick = function(obj,e)
         {
         	var strSvcID = "updateMemberBlackStatusList";
-        	var setURL = "svc::/updateMemberBlackStatusListByAdmin.do";
+        	var setURL = "svc::/updateMemberBlackStatusListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_list=ds_list:u"; // 수정된 데이터만 서버로 보냄
         	var strOutDatasets = "ds_upCnt = ds_upCnt";
         	var strArg = "";

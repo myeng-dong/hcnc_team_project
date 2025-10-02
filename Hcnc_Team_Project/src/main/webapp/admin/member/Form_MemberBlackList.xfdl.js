@@ -85,14 +85,16 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("black_list","20","240",null,"440","20",null,null,null,null,null,this);
+            obj = new Grid("black_list","20","237","1240","473",null,null,null,null,null,null,this);
             obj.set_taborder("8");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
-            obj.set_autofittype("col");
+            obj.set_autofittype("none");
             obj.set_binddataset("ds_list");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"52\"/><Column size=\"165\"/><Column size=\"136\"/><Column size=\"147\"/><Column size=\"108\"/><Column size=\"110\"/><Column size=\"186\"/><Column size=\"175\"/><Column size=\"113\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"아이디\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"이름\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"이메일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"전화번호\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"등급\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" text=\"블랙처리일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"가입일\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"8\" text=\"관리\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"1\" text=\"bind:MEMBER_ID\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"3\" text=\"bind:EMAIL_ADDR\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"4\" text=\"bind:PHONE_NUMBER\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\" displaytype=\"mask\" edittype=\"mask\" maskedittype=\"string\" maskeditformat=\"###-####-####\"/><Cell col=\"5\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" text=\"bind:GRADE_NAME\" textAlign=\"center\"/><Cell col=\"6\" text=\"bind:UPDATE_DT\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"7\" text=\"bind:INPUT_DT\" displaytype=\"normal\" edittype=\"none\" combocodecol=\"GRADE_CODE\" combodatacol=\"GRADE_NAME\" combodataset=\"ds_grade\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/><Cell col=\"8\" displaytype=\"buttoncontrol\" edittype=\"button\" text=\"신고 내역\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\" color=\"red\"/></Band></Format></Formats>");
+            obj.set_autosizebandtype("body");
+            obj.set_cellclickbound("control");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"52\"/><Column size=\"165\"/><Column size=\"136\"/><Column size=\"156\"/><Column size=\"108\"/><Column size=\"110\"/><Column size=\"186\"/><Column size=\"222\"/><Column size=\"103\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"아이디\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"이름\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"이메일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"전화번호\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"등급\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" text=\"블랙처리일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"가입일\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"8\" text=\"관리\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"1\" text=\"bind:MEMBER_ID\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"3\" text=\"bind:EMAIL_ADDR\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"4\" text=\"bind:PHONE_NUMBER\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\" displaytype=\"mask\" edittype=\"mask\" maskedittype=\"string\" maskeditformat=\"###-####-####\"/><Cell col=\"5\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" text=\"bind:GRADE_NAME\" textAlign=\"center\"/><Cell col=\"6\" text=\"bind:UPDATE_DT\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"7\" text=\"bind:INPUT_DT\" displaytype=\"normal\" edittype=\"none\" combocodecol=\"GRADE_CODE\" combodatacol=\"GRADE_NAME\" combodataset=\"ds_grade\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/><Cell col=\"8\" displaytype=\"buttoncontrol\" edittype=\"button\" text=\"신고 내역\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\" color=\"red\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new MaskEdit("MaskEdit00","774","54","432","32",null,null,null,null,null,null,this);
@@ -169,7 +171,6 @@
         
         // User Script
         this.registerScript("Form_MemberBlackList.xfdl", function() {
-
         this.Form_MemberBlackList_onload = function(obj,e)
         {
         	this.fn_selectBlackList();
@@ -180,7 +181,7 @@
         this.fn_selectBlackList= function(){
 
         	var strSvcID = "selectBlackList"
-        	var setURL = "svc::/selectBlackListByAdmin.do";
+        	var setURL = "svc::/selectBlackListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_search=ds_search";
         	var strOutDatasets = "ds_list=ds_list";
         	var strArg = "";
@@ -255,16 +256,98 @@
         	}
         };
 
+        //이름 검색하면 바로 조회
+        this.Edit00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_selectBlackList();
+        	}
+        };
+
+        //아이디 검색하면 바로 조회
+        this.Edit00_00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_selectBlackList();
+        	}
+        };
+
+        //전화번호 검색하면 바로 조회
+        this.MaskEdit00_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.fn_selectBlackList();
+        	}
+        };
+
+        //시작일
+        this.Calendar00_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar01.value;
+
+            if (!startDate) return; // 시작일 없으면 처리 중단
+
+            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+            if (endDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar01.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 시작일은 00시 00분
+            this.ds_search.setColumn(0, "START_INPUT_DT", startDate + "000000");
+
+            // 종료일이 있으면 23시 59분까지 설정
+            if (endDate) {
+                this.ds_search.setColumn(0, "END_INPUT_DT", endDate + "235959");
+            }
+
+        	//자동 검색
+        	this.fn_selectBlackList()
+        };
+
+        //종료일
+        this.Calendar01_onchanged = function(obj,e)
+        {
+        	var startDate = this.Calendar00.value;
+            var endDate   = this.Calendar01.value;
+
+            if (!endDate) return; // 종료일 없으면 처리 중단
+
+            // 종료일이 시작일보다 빠른 경우
+            if (startDate && endDate < startDate) {
+                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
+                this.Calendar01.set_value(startDate);
+                endDate = startDate;
+            }
+
+            // 종료일은 23시 59분
+            this.ds_search.setColumn(0, "END_INPUT_DT", endDate + "235959");
+
+            // 시작일이 있으면 00시 00분까지 세팅
+            if (startDate) {
+                this.ds_search.setColumn(0, "START_INPUT_DT", startDate + "000000");
+            }
+
+        	//자동 검색
+        	this.fn_selectBlackList();
+        };
+
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_MemberBlackList_onload,this);
+            this.Edit00.addEventHandler("onkeyup",this.Edit00_onkeyup,this);
+            this.Edit00_00.addEventHandler("onkeyup",this.Edit00_00_onkeyup,this);
             this.search_btn.addEventHandler("onclick",this.search_btn_onclick,this);
             this.Button01.addEventHandler("onclick",this.Button01_onclick,this);
             this.black_list.addEventHandler("oncellclick",this.black_list_oncellclick,this);
-            this.MaskEdit00.addEventHandler("onchanged",this.MaskEdit00_onchanged,this);
+            this.MaskEdit00.addEventHandler("onkeyup",this.MaskEdit00_onkeyup,this);
+            this.Calendar00.addEventHandler("onchanged",this.Calendar00_onchanged,this);
+            this.Calendar01.addEventHandler("onchanged",this.Calendar01_onchanged,this);
         };
         this.loadIncludeScript("Form_MemberBlackList.xfdl");
         this.loadPreloadList();

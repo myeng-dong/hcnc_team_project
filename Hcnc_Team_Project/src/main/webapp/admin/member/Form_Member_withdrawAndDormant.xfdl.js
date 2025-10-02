@@ -106,13 +106,13 @@
             obj.set_font("11px \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","130","60","940","32",null,null,null,null,null,null,this);
+            obj = new Edit("Edit00","130","60","840","32",null,null,null,null,null,null,this);
             obj.set_taborder("8");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00_00","130","108","940","32",null,null,null,null,null,null,this);
+            obj = new Edit("Edit00_00","130","108","840","32",null,null,null,null,null,null,this);
             obj.set_taborder("9");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
@@ -168,15 +168,8 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00","535","257","25",null,null,"440",null,null,null,null,this);
-            obj.set_taborder("18");
-            obj.set_text("~");
-            obj.set_textAlign("center");
-            obj.set_font("bold 12px/normal \"Noto Sans KR Black\"");
-            this.addChild(obj.name, obj);
-
             obj = new Button("Button00","520","300","100","32",null,null,null,null,null,null,this);
-            obj.set_taborder("19");
+            obj.set_taborder("18");
             obj.set_text("검색");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             obj.set_background("#2563eb");
@@ -185,25 +178,25 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("Button00_00","630","301",null,"31","550",null,null,null,null,null,this);
-            obj.set_taborder("20");
+            obj.set_taborder("19");
             obj.set_text("초기화");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","20","350",null,"303","20",null,null,null,null,null,this);
-            obj.set_taborder("21");
+            obj = new Grid("grid_list","20","350","1240","303",null,null,null,null,null,null,this);
+            obj.set_taborder("20");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_list");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"49\"/><Column size=\"52\"/><Column size=\"103\"/><Column size=\"175\"/><Column size=\"161\"/><Column size=\"112\"/><Column size=\"135\"/><Column size=\"147\"/><Column size=\"153\"/><Column size=\"156\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell/><Cell col=\"1\" text=\"NO\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"이름\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"이메일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"전화번호 \" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"상태 \" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" text=\"구매액\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"가입일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"휴면일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"탈퇴일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" edittype=\"checkbox\" text=\"bind:CHK\"/><Cell col=\"1\" text=\"expr:currow + 1\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"3\" text=\"bind:EMAIL_ADDR\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"4\" text=\"bind:PHONE_NUMBER\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"5\" text=\"bind:STATUS_NAME\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"6\" edittype=\"normal\" text=\"bind:PRICE_AMOUNT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"7\" text=\"bind:INPUT_DT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"8\" text=\"bind:LAST_LOGIN_DT\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"9\" text=\"bind:DELETE_DT\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"49\"/><Column size=\"52\"/><Column size=\"103\"/><Column size=\"175\"/><Column size=\"161\"/><Column size=\"112\"/><Column size=\"135\"/><Column size=\"147\"/><Column size=\"153\"/><Column size=\"156\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell/><Cell col=\"1\" text=\"NO\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"이름\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"이메일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"전화번호 \" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"상태 \" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" text=\"구매액\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"가입일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"휴면일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"탈퇴일\" textAlign=\"CENTER\" font=\"11pt/normal &quot;LG Smart UI Bold&quot;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" edittype=\"checkbox\" text=\"bind:CHK\"/><Cell col=\"1\" text=\"expr:currow + 1\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:USER_NAME\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"3\" text=\"bind:EMAIL_ADDR\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"4\" text=\"bind:PHONE_NUMBER\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"5\" text=\"bind:STATUS_NAME\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"6\" edittype=\"normal\" text=\"bind:PRICE_AMOUNT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"7\" text=\"bind:INPUT_DT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"8\" text=\"bind:LAST_LOGIN_DT\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"9\" text=\"bind:DELETE_DT\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Button("withdraw_btn","521","670","129","33",null,null,null,null,null,null,this);
-            obj.set_taborder("22");
+            obj.set_taborder("21");
             obj.set_text("탈퇴처리");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -212,12 +205,19 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("domant_btn","670","670","129","33",null,null,null,null,null,null,this);
-            obj.set_taborder("23");
+            obj.set_taborder("22");
             obj.set_text("휴면복구");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
             obj.set_font("12px \"Noto Sans KR Black\"");
             obj.set_color("white");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00_00","535","259","25","23",null,null,null,null,null,null,this);
+            obj.set_taborder("23");
+            obj.set_text("~");
+            obj.set_textAlign("center");
+            obj.set_font("bold 12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -313,7 +313,7 @@
         this.fn_selectDormantWithdrawnMembers = function(){
 
         	var strSvcID = "selectDormantWithdrawnMembers"
-        	var setURL = "svc::/selectDormantWithdrawnMembersByAdmin.do";
+        	var setURL = "svc::/selectDormantWithdrawnMembersByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_search=ds_search";
         	var strOutDatasets = "ds_list=ds_list";
         	var strArg = "";
@@ -341,7 +341,7 @@
 
         	// 트랜잭션 호출
         	var strSvcID = "withdrawMember"
-        	var setURL = "svc::/withdrawMemberByAdmin.do";
+        	var setURL = "svc::/withdrawMemberByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_list=ds_list";
         	var strOutDatasets = "ds_delCnt=ds_delCnt";
         	var strArg = "";
@@ -369,7 +369,7 @@
 
             // 트랜잭션 호출
         	var strSvcID = "reactivateDormantMember"
-        	var setURL = "svc::/reactivateDormantMemberByAdmin.do";
+        	var setURL = "svc::/reactivateDormantMemberByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_list=ds_list";
         	var strOutDatasets = "ds_upCnt=ds_upCnt ";
         	var strArg = "";

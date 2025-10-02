@@ -39,6 +39,25 @@ public class UserBoardService {
 		userBoardMapper.updateUserPostCntByUser(postId);
 		
 	}
+
+	public List<Map<String, Object>> selectUserPostTypeByUser() {
+		return userBoardMapper.selectUserPostTypeByUser();
+	}
+
+	public void insertUserPostByUser(Map<String, Object> params) {
+		userBoardMapper.insertUserPostByUser(params);
+		
+	}
+
+	public void insertUserCommentByUser(Map<String, Object> params) {
+		userBoardMapper.insertUserCommentByUser(params);
+		
+	}
+
+	public void deleteUserCommentByUser(Map<String, Object> params) {
+		userBoardMapper.deleteUserCommentByUser(params);
+		
+	}
     
     
 

@@ -35,38 +35,20 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00","40","41","52",null,null,"652",null,null,null,null,this);
+            obj = new Edit("member_name","100","33","1093","42",null,null,null,null,null,null,this);
             obj.set_taborder("1");
-            obj.set_text("아이디");
-            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("member_name","100","33","1093","42",null,null,null,null,null,null,this);
+            obj = new Edit("user_name","100","85","1093","45",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00","46","97","40",null,null,"596",null,null,null,null,this);
+            obj = new Grid("pointAndCoupon","20","265","1240","431",null,null,null,null,null,null,this);
             obj.set_taborder("3");
-            obj.set_text("이름");
-            obj.set_font("bold 14px/normal \"Noto Sans KR Black\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Edit("user_name","100","85","1093","45",null,null,null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("Static00_00_00_00","34","152","52",null,null,"541",null,null,null,null,this);
-            obj.set_taborder("5");
-            obj.set_text("전화번호");
-            obj.set_font("14px/normal \"Noto Sans KR Black\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Grid("pointAndCoupon","20","265",null,"431","20",null,null,null,null,null,this);
-            obj.set_taborder("6");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
@@ -76,7 +58,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("select_btn","530","202","100","33",null,null,null,null,null,null,this);
-            obj.set_taborder("7");
+            obj.set_taborder("4");
             obj.set_text("조회하기");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -85,7 +67,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("cancel_btn","648","202","92","33",null,null,null,null,null,null,this);
-            obj.set_taborder("8");
+            obj.set_taborder("5");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
@@ -93,11 +75,29 @@
             this.addChild(obj.name, obj);
 
             obj = new MaskEdit("MaskEdit00","100","143","1090","44",null,null,null,null,null,null,this);
-            obj.set_taborder("9");
+            obj.set_taborder("6");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             obj.set_format("###-####-####");
             obj.set_type("string");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00","42","40","42","28",null,null,null,null,null,null,this);
+            obj.set_taborder("7");
+            obj.set_text("아이디");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00","56","96","28","28",null,null,null,null,null,null,this);
+            obj.set_taborder("8");
+            obj.set_text("이름");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00_00","32","153","57","24",null,null,null,null,null,null,this);
+            obj.set_taborder("9");
+            obj.set_text("전화번호");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -131,9 +131,7 @@
         };
         
         // User Script
-        this.addIncludeScript("Form_MemberPointAndCoupon.xfdl","common::common.xjs");
         this.registerScript("Form_MemberPointAndCoupon.xfdl", function() {
-        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_MemberPointAndCoupon_onload = function(obj,e)
         {
         	this.fn_selectPointAndCoupon();
@@ -144,7 +142,7 @@
         this.fn_selectPointAndCoupon= function(){
 
         	var strSvcID = "selectPointAndCouponList"
-        	var setURL = "svc::/selectPointAndCouponListByAdmin.do";
+        	var setURL = "svc::/selectPointAndCouponListByAdmin.do?time=" + new Date().getTime();
         	var strInDatasets = "ds_search=ds_search";
         	var strOutDatasets = "ds_list=ds_list";
         	var strArg = "";
@@ -186,6 +184,7 @@
         //5 포인트 상세 , 7 쿠폰상세
         this.pointAndCoupon_oncellclick = function(obj,e)
         {
+
         	if(e.cell == 5){
         		var memberId = this.ds_list.getColumn(e.row,"MEMBER_ID")
 
@@ -199,7 +198,7 @@
         		//부모페이지 자식페이지 값 전달하기 arguments
         		this.getOwnerFrame().arguments = {"MEMBER_ID" : memberId}
 
-        		this.getOwnerFrame().set_formurl("member::Form_MemberCouponDetail.xfdl");
+        		this.getOwnerFrame().set_formurl("member::Form_memberCouponDetail.xfdl");
         	}
         };
 
@@ -237,7 +236,6 @@
             this.member_name.addEventHandler("onkeyup",this.member_name_onkeyup,this);
             this.user_name.addEventHandler("onchanged",this.grade_emil_onchanged,this);
             this.user_name.addEventHandler("onkeyup",this.user_name_onkeyup,this);
-            this.Static00_00_00_00.addEventHandler("onclick",this.Static00_00_00_00_onclick,this);
             this.pointAndCoupon.addEventHandler("oncellclick",this.pointAndCoupon_oncellclick,this);
             this.select_btn.addEventHandler("onclick",this.select_btn_onclick,this);
             this.cancel_btn.addEventHandler("onclick",this.cancel_btn_onclick,this);

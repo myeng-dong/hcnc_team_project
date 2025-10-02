@@ -213,6 +213,16 @@ public class MemberService {
 		return memberMapper.selectMemberWithdrawCntByAdmin();
 	}
 
+	public Map<String, Object> findMemberByIdAndEmailByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.findMemberByIdAndEmailByAdmin(param);
+	}
+
+	public int updatePasswordByAdmin(Map<String, Object> param) {
+		
+		return  memberMapper.updatePasswordByAdmin(param);
+	}
+
 
 
 
