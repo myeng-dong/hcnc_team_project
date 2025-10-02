@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +55,16 @@ public class UserOrderController {
 
 	
 	@RequestMapping(value="/orderMemberData.do")
-	public ModelAndView selectRequestedOrderInfoByUser(@RequestParam Map<String, Object> param) {
+	public ModelAndView selectRequestedOrderInfoByUser(@RequestParam Map<String, Object> param, HttpSession session) {
 		ModelAndView mav = new ModelAndView("jsonView");
+		
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+		if(userInfo != null) {
+			String memberId = (String) userInfo.get("MEMBER_ID");
+			param.put("memberId", memberId);
+		} else {
+			String memberId = (String) param.get("guestId");
+		}
 		
 		System.out.println(param);
 		

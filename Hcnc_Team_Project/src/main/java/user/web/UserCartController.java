@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,8 +33,14 @@ public class UserCartController {
 	
 	// 장바구니 리스트 조회 기능을 하는 로직
 	@RequestMapping(value="/selectCartListByUser.do")
-	public ModelAndView selectCartListByUser(@RequestParam HashMap<String, Object> param) {
+	public ModelAndView selectCartListByUser(@RequestParam HashMap<String, Object> param, HttpSession session) {
 		ModelAndView mav = new ModelAndView("jsonView");
+		
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+		if(userInfo != null) {
+			String memberId = (String) userInfo.get("MEMBER_ID");
+			param.put("memberId", memberId);
+		}
 		
 		System.out.println(param);
 		
@@ -132,8 +140,14 @@ public class UserCartController {
 	
 	// 위시리스트 토글 (추가/제거)
 	@RequestMapping(value="/toggleWishlist.do")
-	public ModelAndView toggleWishlist(@RequestParam HashMap<String, Object> param) {
+	public ModelAndView toggleWishlist(@RequestParam HashMap<String, Object> param, HttpSession session) {
 	    ModelAndView mav = new ModelAndView("jsonView");
+	    
+	    Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+	    if(userInfo != null) {
+	    	String memberId = (String) userInfo.get("MEMBER_ID");
+	    	param.put("memberId", memberId);
+	    }
 	    
 	    System.out.println("위시리스트 토글 파라미터: " + param);
 	    

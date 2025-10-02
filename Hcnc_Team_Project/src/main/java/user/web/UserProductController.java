@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.jna.platform.win32.Netapi32Util.UserInfo;
 
 import user.service.UserProductService;
 
@@ -49,7 +51,7 @@ public class UserProductController {
 	///////////////////////////////////////////////////////////////
 	
 	@RequestMapping(value="/insertCartItem.do")
-	public ModelAndView insertCartItemByUser(HttpServletRequest request) {
+	public ModelAndView insertCartItemByUser(HttpServletRequest request, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		
@@ -64,8 +66,15 @@ public class UserProductController {
 		
 		// 나머지 파라미터 데이터 Map으로 처리
 		Map<String, Object> param = new HashMap<>();
-	    param.put("memberId", request.getParameter("memberId"));
-	    param.put("cartId", request.getParameter("cartId"));
+		
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+		if(userInfo != null) {
+			String memberId = (String) userInfo.get("MEMBER_ID");
+			param.put("memberId", memberId);
+		} else {
+			param.put("memberId", request.getParameter("guestId"));
+		}
+		
 	    param.put("productId", request.getParameter("productId"));
 	    param.put("option", request.getParameter("option"));
 	    param.put("price", request.getParameter("price"));
@@ -76,9 +85,9 @@ public class UserProductController {
 	    System.out.println("옵션 IDs: " + optionIds);
 	    System.out.println("파라미터: " + param);
 	    
-	    int insertResult = userProductService.insertCartItemByUser(param, optionIds);
+	    HashMap<String, Object> resultData = userProductService.insertCartItemByUser(param, optionIds);
 	    
-	    mav.addObject("insertResult", insertResult);
+	    mav.addObject("resultData", resultData);
 	    
 		return mav;
 	}

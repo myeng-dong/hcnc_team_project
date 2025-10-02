@@ -10,21 +10,28 @@
 
 <script>
 	$(function(){
-	    var orderNumber = "${orderInfo.ORDER_NUMBER}";  // 문자열 따옴표 추가
-	    var userName = "${orderInfo.USER_NAME}";
-	    var phoneNumber = "${orderInfo.PHONE_NUMBER}";
-	    var post = "${orderInfo.SHIPPING_POST}";
-	    var shippingAddr1 = "${orderInfo.SHIPPING_ADDR_1}";
-	    var shippingAddr2 = "${orderInfo.SHIPPING_ADDR_2}";
+	    // 안전한 값 처리
+	    var orderNumber = "${orderInfo.ORDER_NUMBER}" || "";
+	    var userName = "${orderInfo.USER_NAME}" || "";
+	    var phoneNumber = "${orderInfo.PHONE_NUMBER}" || "";
+	    var post = "${orderInfo.SHIPPING_POST}" || "";
+	    var shippingAddr1 = "${orderInfo.SHIPPING_ADDR_1}" || "";
+	    var shippingAddr2 = "${orderInfo.SHIPPING_ADDR_2}" || "";
 	    
-	    var productAmount = Number(${orderInfo.TOTAL_AMOUNT}) - Number(${orderInfo.SHIP_COST});
-	    var shippingFee = ${orderInfo.SHIP_COST};
-	    var discountAmount = ${orderInfo.DISCOUNT_AMOUNT} + ${orderInfo.POINT};
-	    var pointUsed = ${orderInfo.POINT};
-	    var paymentMethod = "${orderInfo.PAYMENT_METHOD}";  // 문자열 따옴표 추가
-	    var finalAmount = ${orderInfo.FINAL_AMOUNT};
+	    // null 체크 후 숫자 변환
+	    var totalAmount = Number("${orderInfo.TOTAL_AMOUNT}") || 0;
+	    var shipCost = Number("${orderInfo.SHIP_COST}") || 0;
+	    var discountAmount = Number("${orderInfo.DISCOUNT_AMOUNT}") || 0;
+	    var point = Number("${orderInfo.POINT}") || 0;
+	    var finalAmount = Number("${orderInfo.FINAL_AMOUNT}") || 0;
+	    
+	    var productAmount = totalAmount - shipCost;
+	    var shippingFee = shipCost;
+	    var totalDiscount = discountAmount + point;
+	    var pointUsed = point;
+	    var paymentMethod = "${orderInfo.PAYMENT_METHOD}" || "";
 		
-		//주문번호
+		// 주문번호
 		$("#orderNumber").text(orderNumber);
 		
 		// 배송지 정보
@@ -38,12 +45,11 @@
 		// 결제 정보
 		$("#productAmount").text(productAmount.toLocaleString() + "원");
 		$("#shippingFee").text(shippingFee.toLocaleString() + "원");
-		$("#discountAmount").text("-" + discountAmount.toLocaleString() + "원");
-		$("#pointUsed").text((pointUsed || 0).toLocaleString() + "P");
+		$("#discountAmount").text("-" + totalDiscount.toLocaleString() + "원");
+		$("#pointUsed").text(pointUsed.toLocaleString() + "P");
 		$("#paymentMethod").text(paymentMethod);
 		$("#finalAmount").text(finalAmount.toLocaleString() + "원");
 	});
-	
 </script>
 
 <style>

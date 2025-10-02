@@ -16,11 +16,12 @@
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/reset.css'/>"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	
 	<!-- j쿼리를 실행하기 위해 스크립트 선언을 해줘야한다. -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
-		<style>
+	<style>
 		body {
 			font-family: 'Noto Sans KR', Arial, sans-serif;
 			line-height: 1.6;
@@ -529,6 +530,14 @@
 	</style> 
 	
 	<script>
+		$.ajaxSetup({
+			xhrFields: {
+				withCredentials: true
+			}
+		});
+	</script>
+	
+	<script>
 		// 부트스트랩 네비 메뉴 버튼 (즉시 상단 이동 - ㄻ 250925 14:13)
 		const triggerTabList = document.querySelectorAll('#nav-tab button')
 		triggerTabList.forEach(triggerEl => {
@@ -677,9 +686,10 @@
 	<script type="text/javascript" language="javascript" defer="defer">
 		var urlParams = new URLSearchParams(window.location.search);
 	
-		var memberId = "user01";
-		var cartId = 1;
 		var productId = urlParams.get('productId');
+		var guestId = "NoMember" + Date.now() + Math.random().toString(36).substring(2, 9);
+		
+		localStorage.setItem('guestId', guestId);
 	
 
 		// 수량 버튼 (새로운 옵션 시스템과 통합)
@@ -761,10 +771,9 @@
 		    
 		    console.log("최종 optionIds:", optionIds); // 확인용
 		    
-		    if(hasOption && allSelects.length > 0){
+		    if(hasOption && allSelects.length > 0 || allSelects.length <= 0){
 		        var param = {
-		            memberId: memberId,
-		            cartId: cartId,
+		        	guestId: guestId,
 		            productId: productId,
 		            option: option,
 		            optionIds: optionIds,
@@ -782,19 +791,25 @@
 		            traditional: true,
 		            dataType: "json",
 		            success: function(res) {
-		                var result = res.insertResult;
+		                var result = res.resultData.result;
+		                var cartId = res.resultData.cartId;
+		                
+		                console.log(cartId);
+		                
 		                if (result == 1) {
-		                    confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId=1" : null;
+		                    confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId="+ cartId : null;
 		                } else if (result == 2) {
-		                    confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId=1" : null;
+		                    confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId="+ cartId : null;
 		                }
 		            },
 		            error: function() {
 		                alert("장바구니 담기 중 오류가 발생했습니다.");
 		            }
 		        });
-		    } else {
+		    } else if(!hasOption && allSelects.length > 0) {
 		        alert("모든 옵션을 선택해주세요.");
+		    } else {
+		    	return;
 		    }
 		}
 	</script>
@@ -802,6 +817,14 @@
 	<script>
 		$(function(){
 			loadAllData();
+			
+			if(localStorage.getItem("guestId") != null){
+				const guestId = localStorage.getItem("guestId");
+			} else {
+				const guestId = "NoMember" + Date.now() + Math.random().toString(36).substring(2, 9);
+				
+				localStorage.setItem("guestId", guestId);
+			}
 		});
 		
 		// 비동기 처리
