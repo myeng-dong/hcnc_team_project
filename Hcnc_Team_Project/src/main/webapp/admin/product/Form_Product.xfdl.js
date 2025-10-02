@@ -599,8 +599,8 @@
         //상품등록(페이지이동)
         this.btn_reg_onclick = function(obj,e)
         {
-
-        	this.go("product::Form_ProductReg.xfdl");
+        	this.getOwnerFrame().arguments = {"productId" : -1}
+        	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
         };
 
 
@@ -787,6 +787,14 @@
         };
 
 
+
+        this.grid_list_oncelldblclick = function(obj,e)
+        {
+        	var productId = this.ds_out_proList.getColumn(e.row,"PRODUCT_ID");
+        	trace(productId);
+        	this.getOwnerFrame().arguments = {"productId" : productId}
+        	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
+        };
          //콜백
         this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
             if (nErrorCode < 0) {
@@ -837,6 +845,7 @@
             this.grid_list.addEventHandler("onkeydown",this.grid_list_onkeydown,this);
             this.grid_list.addEventHandler("onkillfocus",this.grid_list_onkillfocus,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
+            this.grid_list.addEventHandler("oncelldblclick",this.grid_list_oncelldblclick,this);
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
             this.cmb_searchType.addEventHandler("onitemchanged",this.cmb_searchType_onitemchanged,this);
