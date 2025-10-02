@@ -120,13 +120,54 @@ public class UserOrderService {
 			result = 0;
 			System.out.println("coupons 테이블 데이터 저장실패");
 		}
+		
 		// 6. 재고 차감
+		boolean inventories = true;
+		for(int i=0; i < items.size(); i++) {
+			Map<String, Object> item = items.get(i);
+			
+			List<Map<String, Object>> optionIds = userOrderMapper.selectOrderItemOptionListByUser(item); 
+			for(int j=0;j < optionIds.size(); j++) {
+				Map<String, Object> option = optionIds.get(j);
+				int updateQuantity= userOrderMapper.updateQuantityByUser(option);
+				
+				if(updateQuantity != 1) {
+					inventories = false;
+				}
+			}
+		}
 		
-		// 7. 재고 입출고 관리 테이블 수정 ( 6번에 트리거 걸 예정 )
+		if(inventories) {
+			System.out.println("inventories 테이블 데이터 저장완료!");
+		} else {
+			result = 0;
+			System.out.println("inventories 테이블 데이터 저장실패");
+		}
 		
-		// 8. 회원 카트ID의 체크된 항목 삭제 처리
+		// 7. 회원 카트ID의 체크된 항목 삭제 처리
+		boolean cartItemDelete = true;
+		for(int i = 0; i < items.size(); i++) {
+			Map<String, Object> item = items.get(i);
+			
+			int deleteCartItem = userOrderMapper.deleteCartItemByUser(item);
+			
+			if(deleteCartItem != 1) {
+				cartItemDelete = false;
+			}
+		}
 		
+		if(cartItemDelete) {
+			System.out.println("cartItemDelete 테이블 데이터 저장완료!");
+		} else {
+			result = 0;
+			System.out.println("cartItemDelete 테이블 데이터 저장실패");
+		}
 		
 		return result;
+	}
+
+	public HashMap<String, Object> selectSuccessOrderByUser(String orderNumber) {
+		// TODO Auto-generated method stub
+		return userOrderMapper.selectSuccessOrderByUser(orderNumber);
 	}
 }

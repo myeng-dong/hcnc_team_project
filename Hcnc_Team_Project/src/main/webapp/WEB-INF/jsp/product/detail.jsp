@@ -705,6 +705,8 @@
 			
 			if (quantity <= 1){
 				$('#quantity').val(1);
+			} else if (quantity >= 999999){
+				$('#quantity').val(999999);
 			}
 			
 			updateTotalPrice(newPrice);
@@ -884,7 +886,7 @@
 									<td>수량</td>
 									<td>
 										<button onclick="countDown()">-</button>
-										<input type="number" name="quantity" id="quantity" value="1" min="1" onchange="updateCnt()">
+										<input type="number" name="quantity" id="quantity" value="1" min="1" max="999999" onchange="updateCnt()">
 										<button onclick="countUp()">+</button>
 									</td>
 								</tr>
