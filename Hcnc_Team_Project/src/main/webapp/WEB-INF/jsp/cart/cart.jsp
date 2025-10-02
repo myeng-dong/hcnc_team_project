@@ -1,25 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="../layout/headertop.jsp" />
 <%-- <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/cart.css'/>" /> --%>
-<%-- <jsp:include page="../layout/header.jsp" />
-<jsp:include page="../layout/menu.jsp" /> --%>
+<jsp:include page="../layout/header.jsp" />
+<%-- <jsp:include page="../layout/menu.jsp" /> --%>
+
   
  <script>
     	// 페이지 로드
     	$(function(){
     		selectCartList();
     	})
+
+    	const urlParams = new URLSearchParams(window.location.search);
     	
-    	const memberId = "user01"
-    	const cartId = 1;
+		const cartId = urlParams.get('cartId');
     
     	// 장바구니 리스트 조회
     	const selectCartList = () => {
     		
     		var param = {
-    				memberId : memberId
-    				, cartId : cartId
+    				cartId : cartId
     		};
     		
     		$.ajax({
@@ -90,9 +93,9 @@
     				    // 위시리스트 상태에 따른 하트 아이콘 설정
     				    var heartIcon = '';
     				    if(uniqueList[i].IS_WISHLIST == 'Y'){
-    				        heartIcon = '<i class="bi bi-suit-heart-fill wishlist-heart" style="color: red; cursor: pointer;" onclick="toggleWishlist(' + uniqueList[i].CART_ITEM_ID + ', ' + uniqueList[i].PRODUCT_ID + ')"></i>';
+    				        heartIcon = '<c:if test="${uesrInfo != null}"><i class="bi bi-suit-heart-fill wishlist-heart" style="color: red; cursor: pointer;" onclick="toggleWishlist(' + uniqueList[i].CART_ITEM_ID + ', ' + uniqueList[i].PRODUCT_ID + ')"></i></c:if>';
     				    } else {
-    				        heartIcon = '<i class="bi bi-suit-heart wishlist-heart" style="cursor: pointer;" onclick="toggleWishlist(' + uniqueList[i].CART_ITEM_ID + ', ' + uniqueList[i].PRODUCT_ID + ')"></i>';
+    				        heartIcon = '<c:if test="${uesrInfo != null}"><i class="bi bi-suit-heart wishlist-heart" style="cursor: pointer;" onclick="toggleWishlist(' + uniqueList[i].CART_ITEM_ID + ', ' + uniqueList[i].PRODUCT_ID + ')"></i></c:if>';
     				    }
     				    
     				    html += '<td class="col-actions"><i class="bi bi-x-lg" style="cursor: pointer;" onclick="deleteProduct(' + uniqueList[i].CART_ITEM_ID + ')"></i> ' + heartIcon + '</td>';
@@ -584,7 +587,6 @@
             }
             
             var param = {
-                memberId: memberId,
                 productId: product_id,
                 cartItemId: cart_item_id,
                 action: isCurrentlyInWishlist ? 'remove' : 'add'
@@ -696,7 +698,12 @@
 	              <th class="col-price">가격</th>
 	              <th class="col-qty">수량</th>
 	              <th class="col-total">총금액</th>
-	              <th class="col-actions">삭제/관심</th>
+	              <c:if test="${uesrInfo != null}">
+	              	<th class="col-actions">삭제/관심</th>
+	              </c:if>
+	              <c:if test="${uesrInfo == null}">
+	              	<th class="col-actions">삭제</th>
+	              </c:if>
 	            </tr>
 	          </thead>
 	          <tbody id="cart-body">
