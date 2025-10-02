@@ -39,7 +39,37 @@ public class UserMemberService {
 	}
 
 	public Map<String, Object> selectLoginByUser(Map<String, Object> login) {
-		return userMemberMapper.selectLoginByUser(login);
+		Map<String, Object> loginResult = userMemberMapper.selectLoginByUser(login);
+		System.out.println("로그인 결과: " + loginResult);  // 디버깅용
+	    
+	    if (loginResult != null) {
+	        // id와 MEMBER_ID 둘 다 체크
+	        String memberId = (String) loginResult.get("MEMBER_ID");
+	        if (memberId == null) {
+	            memberId = (String) loginResult.get("id");
+	        }
+	        
+	        System.out.println("회원 ID: " + memberId);  // 디버깅용
+	        
+	        if (memberId != null) {
+	            try {
+	                int issuedCount = userCouponService.insertAutoPromotionCoupon(memberId);
+	                
+	                if (issuedCount == 0) {
+	                    System.out.println("진행중인 프로모션이 없거나 이미 모두 받으셨습니다.");
+	                } else {
+	                    System.out.println("프로모션 쿠폰 " + issuedCount + "개 발급 완료!");
+	                }
+	                
+	            } catch(Exception e) {
+	                System.out.println("프로모션 쿠폰 발급 실패: " + e.getMessage());
+	                e.printStackTrace();
+	            }
+	        } else {
+	            System.out.println("회원 ID를 찾을 수 없습니다.");
+	        }
+	    }
+		return loginResult;
 	}
 	
 	public Map<String, Object> selectFindIdByUser(String email) {
