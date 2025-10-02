@@ -18,7 +18,7 @@
           </Tabpages>
         </Tab>
         <!-- 상품 리스트 Grid -->
-        <Grid id="grid_list" binddataset="ds_out_proList" left="40" top="120" width="1200" height="570" autofittype="col" taborder="2" ondrop="grid_list_ondrop" onlbuttonup="grid_list_onlbuttonup" onlbuttondown="grid_list_onlbuttondown" cellmovingtype="none" onmousemove="grid_list_onmousemove" border="1px solid #000000">
+        <Grid id="grid_list" binddataset="ds_out_proList" left="40" top="120" width="1200" height="570" autofittype="col" taborder="2" ondrop="grid_list_ondrop" onlbuttonup="grid_list_onlbuttonup" onlbuttondown="grid_list_onlbuttondown" cellmovingtype="none" onmousemove="grid_list_onmousemove" border="1px solid #000000" oncellclick="grid_list_oncellclick" useselcolor="false" onmousedown="grid_list_onmousedown">
           <Formats>
             <Format id="default">
               <Columns>
@@ -101,8 +101,6 @@ this.Form_ProductDisplayOrder_onload = function(obj,e){
 //탭부분
 this.tabDisplay_onchanged = function(obj,e){
     
-	
-
     // 기존 조회 로직 유지
     if (obj.tabindex == 0) this.fn_search("new");
     else if (obj.tabindex == 1) this.fn_search("recommend");
@@ -122,9 +120,27 @@ this.fn_search = function(displayType){
     );
 };
 
+
+
+var preRow = -1;
+var dragging = false;	// 드래그 중인지 여부
+var defaultColor = "#FFFFFF" // 원색상
+var draggingColor = "#a1dcff"	// 드래그중색
+var selectedColor = "#6ac7fc" 	// 최종색
+
+
 /***************************************************
- * 드래그앤드롭 구현 (유령 박스 - 상품명만)
+ * 드래그앤드롭 구현 (유령 박스 - 상품명만, 행 색상)
  ***************************************************/
+
+//  this.grid_list_onmousedown = function(obj:nexacro.Grid,e:nexacro.GridMouseEventInfo)
+// {
+// 		var curRow = e.row;
+// 		
+// };
+//  
+ 
+
 // 드래그 시작
 this.grid_list_onlbuttondown = function(obj, e)
 {
@@ -152,7 +168,8 @@ this.grid_list_onlbuttondown = function(obj, e)
         ghost.set_textAlign("center");
         ghost.set_opacity(0.85);
         ghost.set_font("bold 10pt Arial");
-
+		
+		
         this.addChild("st_ghost", ghost);
         ghost.show();
         ghost.bringToFront();
@@ -170,6 +187,8 @@ this.grid_list_onmousemove = function(obj, e)
         var newY = e.canvasy+10;
         this.st_ghost.move(newX, newY, this.st_ghost.width, this.st_ghost.height);
     }
+	
+	
 };
 
 // 드래그 끝 → 행 이동
@@ -203,6 +222,9 @@ this.grid_list_ondrop = function(obj, e)
 
     this._dragRow = null;
 };
+
+
+
 // 저장 버튼 클릭
 this.btn_save_onclick = function(obj,e)
 {
@@ -249,6 +271,11 @@ this.fn_callback = function(svcID, errCode, errMsg){
         this.fn_search(this._displayType);
     }
 };
+
+
+
+
+
 ]]></Script>
   </Form>
 </FDL>
