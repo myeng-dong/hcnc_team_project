@@ -99,7 +99,7 @@ public class ProductCreateController {
 	        Map<String, Object> product = ds_product;
 	        int count = productCreateService.insertProductCreateByAdmin(product);
 	        
-	        Long productId = (Long) product.get("PRODUCT_ID");
+	        String productId = String.valueOf(product.get("PRODUCT_ID"));
 	        
 	        if (count != 1) {
 	        	res.put("status", "PRODUCT");
@@ -139,11 +139,12 @@ public class ProductCreateController {
 	        rs.addDataSet("createStatus", res);
 	        return rs;
 
-	    } catch (Exception e) {
+	    }  catch (Exception e) {
 	        System.out.println(e);
-	    }
-
-	    return rs;
+	        rs.setErrorCode(-1);
+	        rs.setErrorMsg("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도해주십시오.");
+	        return rs;
+	    } 
 	}
 
 	@RequestMapping(value = "/updateProductCreateByAdmin.do")
@@ -214,6 +215,8 @@ public class ProductCreateController {
 
 	    } catch (Exception e) {
 	        System.out.println(e);
+	        rs.setErrorCode(-1);
+	        rs.setErrorMsg("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도해주십시오.");
 	    }
 
 	    return rs;

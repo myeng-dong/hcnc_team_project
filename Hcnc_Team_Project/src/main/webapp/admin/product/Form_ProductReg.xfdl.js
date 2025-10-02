@@ -11,7 +11,7 @@
         {
             this.set_name("Form_ProductReg");
             this.set_titletext("상품등록");
-            this.set_background("#f5f7fa");
+            this.set_background("#f4f7fe");
             this.getSetter("format").set("#00,000,000");
             if (Form == this.constructor)
             {
@@ -256,11 +256,6 @@
             this.addChild(obj.name, obj);
 
 
-            obj = new Dataset("ds_product", this);
-            obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"COST_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_WEIGHT\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"DETAIL_DESCRIPTION\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"STOCK\" type=\"STRING\" size=\"256\"/><Column id=\"MAIN_CATE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
-            this.addChild(obj.name, obj);
-
-
             obj = new Dataset("createStatus", this);
             obj._setContents("");
             this.addChild(obj.name, obj);
@@ -288,6 +283,11 @@
 
             obj = new Dataset("ds_delete_image", this);
             obj._setContents("<ColumnInfo><Column id=\"fileUrl\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_product", this);
+            obj._setContents("<ColumnInfo><Column id=\"SUB_CATE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CODE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_CONTENT\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"COST_PRICE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_WEIGHT\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"PRODUCT_ID\" type=\"STRING\" size=\"256\"/><Column id=\"STOCK\" type=\"STRING\" size=\"256\"/><Column id=\"MAIN_CATE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"UPDATE_ID\" type=\"STRING\" size=\"256\"/><Column id=\"DETAIL_DESCRIPTION\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
@@ -392,7 +392,7 @@
             obj.set_text("자동생성");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_saleinfo","20","540","1240","170",null,null,null,null,null,null,this);
+            obj = new Static("box_saleinfo","20","540","1240","159",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("0px");
@@ -406,7 +406,7 @@
             obj.set_textAlign("right");
             obj.set_displaynulltext("0");
             obj.getSetter("inputtype").set("number");
-            obj.set_format("#00,000,000");
+            obj.set_format("###,###,###");
             obj.set_limitbymask("both");
             this.addChild(obj.name, obj);
 
@@ -417,7 +417,8 @@
             obj = new MaskEdit("edt_costprice","636","589","200","30",null,null,null,null,null,null,this);
             obj.set_textAlign("right");
             obj.set_displaynulltext("0");
-            obj.set_format("#00,000,000");
+            obj.set_format("###,###,###");
+            obj.set_limitbymask("both");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_save","935","1740","150","40",null,null,null,null,null,null,this);
@@ -544,7 +545,7 @@
             obj.set_background("#FAFAFB");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_display00_01_00_00_01","20","619","120","49",null,null,null,null,null,null,this);
+            obj = new Static("sta_display00_01_00_00_01","502","623","120","49",null,null,null,null,null,null,this);
             obj.set_text("수량");
             obj.set_font("normal 500 10pt/normal \"Gulim\"");
             obj.set_color("#222222");
@@ -553,7 +554,7 @@
             obj.set_background("#FAFAFB");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_display00_01_00_00_01_00","20","659","120","49",null,null,null,null,null,null,this);
+            obj = new Static("sta_display00_01_00_00_01_00","20","619","120","49",null,null,null,null,null,null,this);
             obj.set_text("무게");
             obj.set_font("normal 500 10pt/normal \"Gulim\"");
             obj.set_color("#222222");
@@ -562,7 +563,7 @@
             obj.set_background("#FAFAFB");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_weight","160","670","200","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_weight","160","630","200","30",null,null,null,null,null,null,this);
             obj.set_taborder("34");
             obj.set_textAlign("right");
             obj.set_displaynulltext("0");
@@ -579,19 +580,19 @@
             obj.set_text("원");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00","364","672","52","29",null,null,null,null,null,null,this);
+            obj = new Static("Static00_00_00","364","632","52","29",null,null,null,null,null,null,this);
             obj.set_taborder("37");
             obj.set_text("kg");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_saleinfo00","20","710","1240","550",null,null,null,null,null,null,this);
+            obj = new Static("box_saleinfo00","20","700","1240","550",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("0px");
             obj.set_taborder("38");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_display00_00_00_00_00_00","20","710","1240","39",null,null,null,null,null,null,this);
+            obj = new Static("sta_display00_00_00_00_00_00","20","670","1240","29",null,null,null,null,null,null,this);
             obj.set_text("상품 게시글");
             obj.set_font("normal 700 10pt/normal \"Gulim\"");
             obj.set_color("#222222");
@@ -601,11 +602,11 @@
             obj.set_padding("0px 0px 0px 10px");
             this.addChild(obj.name, obj);
 
-            obj = new WebBrowser("web_postContent","20","750","1240","510",null,null,null,null,null,null,this);
+            obj = new WebBrowser("web_postContent","20","700","1240","510",null,null,null,null,null,null,this);
             obj.set_taborder("40");
             this.addChild(obj.name, obj);
 
-            obj = new Static("box_saleinfo01","21","1261","1240","350",null,null,null,null,null,null,this);
+            obj = new Static("box_saleinfo01","21","1251","1240","350",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("0px");
@@ -613,7 +614,7 @@
             obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_display00_00_00_00_00_00_00","21","1261","1240","59",null,null,null,null,null,null,this);
+            obj = new Static("sta_display00_00_00_00_00_00_00","21","1251","1240","59",null,null,null,null,null,null,this);
             obj.set_text("이미지 정보");
             obj.set_font("normal 700 10pt/normal \"Gulim\"");
             obj.set_color("#222222");
@@ -641,19 +642,19 @@
             obj.set_background("#FAFAFB");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edt_stock","160","631","200","30",null,null,null,null,null,null,this);
+            obj = new Edit("edt_stock","637","635","200","30",null,null,null,null,null,null,this);
             obj.set_textAlign("right");
             obj.set_taborder("46");
             obj.set_displaynulltext("0");
             obj.set_maxlength("3");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_01","364","633","52","29",null,null,null,null,null,null,this);
+            obj = new Static("Static00_00_01","841","637","52","29",null,null,null,null,null,null,this);
             obj.set_taborder("47");
             obj.set_text("개");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_selectFile","1115","1268","140","44",null,null,null,null,null,null,this);
+            obj = new Button("btn_selectFile","1115","1258","140","44",null,null,null,null,null,null,this);
             obj.set_taborder("44");
             obj.set_text("파일찾기");
             obj.set_background("#135dae");
@@ -663,7 +664,7 @@
             obj.set_font("normal 10pt/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static01","130","1283","276","20",null,null,null,null,null,null,this);
+            obj = new Static("Static01","130","1273","276","20",null,null,null,null,null,null,this);
             obj.set_taborder("48");
             obj.set_text("* 최대 4개 첨부가능");
             this.addChild(obj.name, obj);
@@ -704,6 +705,9 @@
         		mode = "create";
         	} else {
         		mode = "update"
+        		this.sta_display00_01_00_00_01.resize(0,0);
+        		this.edt_stock.resize(0,0);
+        		this.Static00_00_01.resize(0,0);
         	}
         	trace(mode);
         	this.categories.request("SEARCH", "GET", "http://localhost:8080/selectProductCategoryListByAdmin.do?time=" + new Date().getTime());
@@ -730,6 +734,8 @@
         	// this.setEditorContent(this.ds_product.getColumn(0,"DETAIL_DESCRIPTION"));
         	this.rdo_sale.set_value(this.ds_product.getColumn(0,"PRODUCT_TYPE"));
         	this.edt_stock.set_value("0");
+        	this.fn_allRemoveImageViewer();
+        	this.ds_delete_image.clearData();
 
         	var cnt = this.ds_preview_origin.getRowCount();
         	if(cnt != 0){
@@ -764,7 +770,7 @@
 
 
             // CKEditor 본문 가져오기
-            var desc = this.getEditorContent();
+
 
             // ds_product 구성 (단일행)
             this.ds_product.clearData();
@@ -778,12 +784,15 @@
         	this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
         	this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
         	this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
-        	//this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
+        	//this.ds_product.a(nRow, "INPUT_ID", "admin");
         	this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
+        	var desc = this.getEditorContent();
+        	this.ds_product.addColumn("DETAIL_DESCRIPTION","string");
         	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
             this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
         	this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
 
+        	trace(this.ds_product.saveXML());
 
             // 트랜잭션 호출
         	var strSvcId = "";
@@ -810,7 +819,7 @@
 
         // 취소 버튼
         this.btn_cancel_onclick = function(obj,e) {
-            this.go("product::Form_Product.xfdl");
+        	this.getOwnerFrame().set_formurl("product::Form_Product.xfdl");
         };
 
         // 이미지등록버튼
@@ -836,7 +845,7 @@
         		var status = this.createStatus.getColumn(0,"status");
         		if (status == "SUCCESS"){
         			this.alert("상품등록이 완료되었습니다");
-        			this.go("product::Form_Product.xfdl");
+        			this.getOwnerFrame().set_formurl("product::Form_Product.xfdl");
         		}
         	break;
         	case "updateProductCreateByAdmin":
@@ -845,6 +854,7 @@
         		if (status == "SUCCESS"){
         			this.alert("상품이 수정되었습니다");
         			this.createStatus.clearData();
+        			this.selectProductByAdmin(productId);
         		}
         	break;
             }
@@ -939,7 +949,7 @@
         this.web_postContent_onloadcompleted = function(obj,e)
         {
             trace("에디터 로드 완료");
-            this.setTimer(1, 2000);
+            this.setTimer(1, 1000);
         };
 
         // 타이머 이벤트
@@ -1015,6 +1025,12 @@
 
         this.FileDialog00_onclose = function(obj,e)
         {
+        	var ext = e.virtualfiles[0].filename.split('.').pop().toLowerCase();
+                var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                if (allowedExtensions.indexOf(ext) === -1) {
+                    alert("이미지 파일만 업로드 가능합니다. (jpg, jpeg, png, gif)");
+                    return;
+                }
         	this.productImageTransfer.addFile("file",e.virtualfiles[0]);
         	this.productImageTransfer.upload('http://localhost:8080/previewProductCreateByAdmin.do');
         };
@@ -1132,6 +1148,19 @@
                 trace("ImageViewer 삭제 오류: " + ex.message);
             }
         };
+
+        // ImageViewer 삭제
+        this.fn_allRemoveImageViewer = function()
+        {
+        	var cnt = this.preview.getRowCount();
+        	if (cnt > 0){
+        		for(var i =0; i < cnt; i++){
+        			var delId = this.preview.getColumn(i,"fileName");
+        			this.removeChild(delId);
+        		}
+        		this.preview.clearData();
+        	}
+        };
         // 삭제 후 재배치
         this.fn_rearrangeImageViewers = function()
         {
@@ -1165,6 +1194,12 @@
         };
 
 
+
+        this.ds_product_cancolumnchange = function(obj,e)
+        {
+
+        };
+
         });
         
         // Regist UI Components Event
@@ -1187,6 +1222,7 @@
             this.productImageTransfer.addEventHandler("onerror",this.FileUpTransfer00_onerror,this);
             this.productImageTransfer.addEventHandler("onprogress",this.FileUpTransfer00_onprogress,this);
             this.productImageTransfer.addEventHandler("onsuccess",this.FileUpTransfer00_onsuccess,this);
+            this.ds_product.addEventHandler("cancolumnchange",this.ds_product_cancolumnchange,this);
         };
         this.loadIncludeScript("Form_ProductReg.xfdl");
         this.loadPreloadList();

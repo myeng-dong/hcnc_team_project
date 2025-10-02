@@ -86,7 +86,6 @@ uri="http://www.springframework.org/tags"%>
       const param = { id: id, password: password };
 
       ajaxUtil(param, "selectLoginByUser.do", (response) => {
-        console.log(JSON.stringify(response));
         if (response.status === 200) {
           if ($("input[name='saveId']").is(":checked")) {
             document.cookie =
