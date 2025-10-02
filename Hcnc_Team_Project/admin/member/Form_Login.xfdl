@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Login" width="1280" height="720" titletext="New Form" background="#CACDDC" onload="Form_Login_onload" onkeyup="Form_Login_onkeyup" visible="true">
+  <Form id="Form_Login" width="1280" height="720" titletext="New Form" background="#CACDDC" onload="Form_Login_onload" onkeyup="Form_Login_onkeyup" visible="true" font="14px/normal &quot;Noto Sans KR Black&quot;">
     <Layouts>
       <Layout height="720" width="1280">
         <Static id="loginForm" taborder="9" top="33" width="553" height="620" onclick="Static03_onclick" left="365" borderRadius="15px" background="white" boxShadow="6px 6px 12px rgba(0,0,0,0.25)"/>
@@ -14,17 +14,17 @@
         <ImageViewer id="h1_logo" taborder="7" left="495" top="110" width="185" height="52" image="url('imagerc::h1_logo.png')" onclick="h1_logo_onclick"/>
         <CheckBox id="chk_saveId" taborder="8" left="486" top="495" width="88" height="22" text="아이디 기억" font="12px/normal &quot;Noto Sans KR Medium&quot;" canchange="chk_saveId_canchange"/>
         <Static id="findPw" taborder="10" text="비밀번호 찾기" left="700" top="495" width="70" height="22" font="12px/normal &quot;Noto Sans KR Medium&quot;" onclick="findPw_onclick"/>
-        <Div id="div_findPassword" taborder="11" left="0" top="-4" width="1300" height="729" visible="false" background="rgba(0,0,0,0.5)">
+        <Div id="div_findPassword" taborder="11" left="0" top="0" width="100.00%" height="720" visible="false" background="rgba(0,0,0,0.5)">
           <Layouts>
             <Layout>
-              <Static id="Static00" taborder="0" left="390" top="200" width="500" height="300" background="white"/>
-              <Static id="Static01" taborder="1" text="비밀번호 찾기" left="530" top="210" width="220" height="44" textAlign="center"/>
+              <Static id="Static00" taborder="0" left="390" top="200" width="500" height="300" background="white" borderRadius="16px"/>
+              <Static id="Static01" taborder="1" text="비밀번호 찾기" left="530" top="210" width="220" height="44" textAlign="center" font="20px/normal &quot;Noto Sans KR Black&quot;"/>
               <Edit id="edt_findId" taborder="2" left="484" top="269" width="333" height="42" border="1px solid black" borderRadius="8px"/>
               <Edit id="edt_findEmail" taborder="3" left="484" top="339" width="331" height="43" border="1px solid black" borderRadius="8px"/>
-              <Button id="btn_findSubmit" taborder="4" text="발급" left="521" top="420" width="99" height="36" onclick="div_findPassword_btn_findSubmit_onclick"/>
-              <Button id="btn_findCancel" taborder="5" text="취소" left="658" top="414" width="105" height="42" onclick="div_findPassword_btn_findCancel_onclick"/>
-              <Static id="Static02" taborder="6" text="아이디" left="420" top="279" width="39" height="23"/>
-              <Static id="Static03" taborder="7" text="이메일" left="423" top="345" width="35" height="30"/>
+              <Button id="btn_findSubmit" taborder="4" text="발급" left="521" top="420" width="99" height="36" onclick="div_findPassword_btn_findSubmit_onclick" font="12px/normal &quot;Noto Sans KR Black&quot;" background="#2563eb" borderRadius="4px" color="white"/>
+              <Button id="btn_findCancel" taborder="5" text="취소" left="658" top="420" width="105" height="36" onclick="div_findPassword_btn_findCancel_onclick" font="12px/normal &quot;Noto Sans KR Black&quot;" background=" #9ca3af" borderRadius="4px"/>
+              <Static id="Static02" taborder="6" text="아이디" left="420" top="279" width="39" height="23" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Static id="Static03" taborder="7" text="이메일" left="423" top="345" width="35" height="30" font="12px/normal &quot;Noto Sans KR Black&quot;"/>
             </Layout>
           </Layouts>
         </Div>

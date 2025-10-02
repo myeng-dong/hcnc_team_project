@@ -237,50 +237,43 @@
             obj.set_text("Combo00");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_phoneNumber00","185","296","231","40",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("detail_email00","185","234","231","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("26");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_email00","185","234","231","42",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("dstail_name00","185","175","231","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("27");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("dstail_name00","185","175","231","42",null,null,null,null,null,null,this.detail_box.form);
+            obj = new Edit("detail_id00","184","61","231","41",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
             obj.set_taborder("28");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
-            obj = new Edit("detail_id00","184","61","231","41",null,null,null,null,null,null,this.detail_box.form);
-            obj.set_readonly("true");
-            obj.set_taborder("29");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.detail_box.addChild(obj.name, obj);
-
             obj = new Static("m01","76","122","56","28",null,null,null,null,null,null,this.detail_box.form);
-            obj.set_taborder("30");
+            obj.set_taborder("29");
             obj.set_text("비밀번호");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             this.detail_box.addChild(obj.name, obj);
 
             obj = new Edit("detail_password","185","117","231","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
-            obj.set_taborder("31");
+            obj.set_taborder("30");
             obj.set_password("true");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
             obj = new Button("update_btn","435","566","110","46",null,null,null,null,null,null,this.detail_box.form);
-            obj.set_taborder("32");
+            obj.set_taborder("31");
             obj.set_text("수정하기");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -290,23 +283,32 @@
 
             obj = new Calendar("detail_birth","185","364","231","42",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
-            obj.set_taborder("33");
+            obj.set_taborder("32");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
             obj = new Calendar("detail_first_login_dt","741","184","268","40",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
-            obj.set_taborder("34");
+            obj.set_taborder("33");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.detail_box.addChild(obj.name, obj);
 
             obj = new Calendar("detail_last_login_dt","739","246","270","38",null,null,null,null,null,null,this.detail_box.form);
             obj.set_readonly("true");
+            obj.set_taborder("34");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
+            this.detail_box.addChild(obj.name, obj);
+
+            obj = new MaskEdit("detail_phoneNumber00","185","302","230","39",null,null,null,null,null,null,this.detail_box.form);
             obj.set_taborder("35");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
+            obj.set_readonly("true");
+            obj.set_format("###-####-####");
+            obj.set_type("string");
             this.detail_box.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -346,10 +348,6 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item4","detail_box.form.detail_phoneNumber00","value","ds_memberDt","PHONE_NUMBER");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
             obj = new BindItem("item3","detail_box.form.detail_email00","value","ds_memberDt","EMAIL_ADDR");
             this.addChild(obj.name, obj);
             obj.bind();
@@ -375,6 +373,10 @@
             obj.bind();
 
             obj = new BindItem("item11","detail_box.form.detail_last_login_dt","value","ds_memberDt","LAST_LOGIN_DT");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item4","detail_box.form.detail_phoneNumber00","value","ds_memberDt","PHONE_NUMBER");
             this.addChild(obj.name, obj);
             obj.bind();
             
@@ -434,33 +436,81 @@
         //수정함수
         this.fn_memeberUpdate = function(memberId){
 
-        	//빈값체크
-        	var emailAddr = this.ds_memberDt.getColumn(0,"EMAIL_ADDR")
-        	var phoneNumber = this.ds_memberDt.getColumn(0,"PHONE_NUMBER")
+        	// 1. 값 가져오기 + trim
+        	var userName = (this.ds_memberDt.getColumn(0,"USER_NAME") || "").trim();
+        	var password = (this.ds_memberDt.getColumn(0,"PASSWORD") || "").trim();
+        	var emailAddr = (this.ds_memberDt.getColumn(0,"EMAIL_ADDR") || "").trim();
+        	var phoneNumber = (this.ds_memberDt.getColumn(0,"PHONE_NUMBER") || "").trim();
 
-
-        	if(emailAddr == "" || emailAddr == null){
-        		this.alert("이메일를 입력하세요")
+        	// 2. 필수값 체크
+        	if(!userName) {
+        		this.alert("이름을 입력하세요");
         		return;
         	}
 
-        	if(phoneNumber == "" || phoneNumber == null){
-        		this.alert("전화번호 입력하세요")
+        	if(!emailAddr) {
+        		this.alert("이메일을 입력하세요");
         		return;
         	}
 
+        	if(!phoneNumber) {
+        		this.alert("전화번호를 입력하세요");
+        		return;
+        	}
 
+        	// 3. 이름 검증 varchar(50)
+        	if(userName.length > 50) {
+        		this.alert("이름은 50자 이하로 입력해주세요");
+        		return;
+        	}
+        	// 이름은 중간 공백 허용
+
+        	// 4. 비밀번호 검증 (비밀번호 변경한 경우만)
+        	// 이미 암호화된 값인지 확인 (64자리 hex 문자열)
+        	if(password && !password.match(/^[0-9a-f]{64}$/)) {
+        		// 새로 입력한 비밀번호인 경우
+        		if(password.length < 8 || password.length > 20) {
+        			this.alert("비밀번호는 8~20자로 입력해주세요");
+        			return;
+        		}
+
+        		var pwRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
+        		if(!pwRegex.test(password)) {
+        			this.alert("비밀번호는 영문과 숫자를 포함해야 합니다");
+        			return;
+        		}
+        	}
+
+        	// 5. 이메일 검증 varchar(100)
+        	if(emailAddr.length > 100) {
+        		this.alert("이메일은 100자 이하로 입력해주세요");
+        		return;
+        	}
+
+        	if(emailAddr.indexOf(' ') !== -1) {
+        		this.alert("이메일에 공백을 사용할 수 없습니다");
+        		return;
+        	}
+
+        	var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        	if(!emailRegex.test(emailAddr)) {
+        		this.alert("올바른 이메일 형식이 아닙니다");
+        		return;
+        	}
+
+        	// 6. trim된 값 다시 저장
+        	this.ds_memberDt.setColumn(0, "USER_NAME", userName);
+        	this.ds_memberDt.setColumn(0, "PASSWORD", password);
+        	this.ds_memberDt.setColumn(0, "EMAIL_ADDR", emailAddr);
+        	this.ds_memberDt.setColumn(0, "PHONE_NUMBER", phoneNumber);
+
+        	// 7. 서버 전송
         	var strSvcID = "memberUpdate"
-
         	var setURL = "svc::/memberUpdateByAdmin.do?time=" + new Date().getTime();
-
         	var strInDatasets = "ds_memberDt=ds_memberDt";
-
         	var strOutDatasets = "ds_upCnt=ds_upCnt";
         	var strArg = "memberId="+memberId;
-
         	var callBack = "fn_callBack";
-
         	var inAsync = true;
 
         	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);

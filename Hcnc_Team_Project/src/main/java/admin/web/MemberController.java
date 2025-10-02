@@ -19,12 +19,16 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.MemberService;
 import admin.util.PasswordUtil;
+import user.mail.UserMailService;
 
 @Controller
 public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private UserMailService mailService;
 
 	// 관리자 로그인
 	// By GJ.09.10
@@ -64,8 +68,8 @@ public class MemberController {
 		cookie.setMaxAge("Y".equals(saveId) ? 30 * 24 * 60 * 60 : 0);
 		response.addCookie(cookie);
 	}
-	
-	//로그인 
+
+	// 로그인
 	@RequestMapping(value = "/adminLoginByAdmin.do")
 	public NexacroResult adminLogin(@ParamDataSet(name = "ds_admin") Map<String, Object> param,
 			@ParamVariable(name = "SAVE_ID") String saveId, HttpServletRequest request, HttpServletResponse response) {
@@ -73,7 +77,7 @@ public class MemberController {
 		NexacroResult result = new NexacroResult();
 
 		try {
-			//비밀번호 암호화
+			// 비밀번호 암호화
 			String password = String.valueOf(param.get("PASSWORD"));
 			String crypto = PasswordUtil.encryptSHA256(password);
 			param.put("PASSWORD", crypto);
@@ -97,8 +101,8 @@ public class MemberController {
 		}
 		return result;
 	}
-	
-	//로그아웃
+
+	// 로그아웃
 	@RequestMapping(value = "/adminLogoutByAdmin.do")
 	public NexacroResult adminLogout(HttpServletRequest request, HttpServletResponse response) {
 		NexacroResult result = new NexacroResult();
@@ -712,7 +716,7 @@ public class MemberController {
 		}
 		return result;
 	}
-
+	
 	// 비밀번호 찾기 (임시 비밀번호 발급)
 	// By. PJ 10.01
 	@RequestMapping(value = "/findPasswordByAdmin.do")
@@ -738,15 +742,30 @@ public class MemberController {
 				int updated = memberService.updatePasswordByAdmin(param);
 
 				if (updated > 0) {
-					// 콘솔에 임시 비밀번호 출력 (개발/테스트용)
-					System.out.println("=============================================");
-					System.out.println("[임시 비밀번호 발급]");
-					System.out.println("수신자 이메일: " + param.get("EMAIL"));
-					System.out.println("회원 아이디: " + memberInfo.get("MEMBER_ID"));
-					System.out.println("임시 비밀번호: " + tempPassword);
-					System.out.println("=============================================");
+					// 이메일 발송
+					try {
+						String toEmail = param.get("EMAIL").toString();
+						String memberId = memberInfo.get("MEMBER_ID").toString();
 
-					resultMap.put("RESULT", "SUCCESS");
+						String subject = "DDD.D 관리자 임시 비밀번호 발급";
+						String emailBody = buildPasswordEmailBody(memberId, tempPassword);
+
+						mailService.sendMail(toEmail, subject, emailBody);
+
+						System.out.println("=============================================");
+						System.out.println("[이메일 발송 완료]");
+						System.out.println("수신자: " + toEmail);
+						System.out.println("회원 아이디: " + memberId);
+						System.out.println("임시 비밀번호: " + tempPassword);
+						System.out.println("=============================================");
+
+						resultMap.put("RESULT", "SUCCESS");
+
+					} catch (Exception mailEx) {
+						System.err.println("이메일 발송 실패: " + mailEx.getMessage());
+						mailEx.printStackTrace();
+						resultMap.put("RESULT", "MAIL_FAIL");
+					}
 				} else {
 					resultMap.put("RESULT", "UPDATE_FAIL");
 				}
@@ -799,6 +818,24 @@ public class MemberController {
 		}
 
 		return new String(arr);
+	}
+
+	/**
+	 * 임시 비밀번호 이메일 본문 생성 By. PJ 10.02
+	 */
+	private String buildPasswordEmailBody(String memberId, String tempPassword) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("안녕하세요. DDD.D 관리자 페이지입니다.\n\n");
+		sb.append("임시 비밀번호 발급 요청에 따라 새로운 비밀번호를 발급해드립니다.\n\n");
+		sb.append("━━━━━━━━━━━━━━━━━━━━━━\n");
+		sb.append("아이디: ").append(memberId).append("\n");
+		sb.append("임시 비밀번호: ").append(tempPassword).append("\n");
+		sb.append("━━━━━━━━━━━━━━━━━━━━━━\n\n");
+		sb.append("※ 보안을 위해 로그인 후 반드시 비밀번호를 변경해주세요.\n");
+		sb.append("※ 본인이 요청하지 않은 경우 즉시 관리자에게 문의하세요.\n\n");
+		sb.append("감사합니다.\n");
+		sb.append("DDD.D 관리팀");
+		return sb.toString();
 	}
 
 }
