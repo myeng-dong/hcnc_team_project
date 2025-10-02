@@ -1,21 +1,460 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #fafafa;
+            color: #333;
+            line-height: 1.6;
+        }
 
+        .qna-section {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(220, 6, 48, 0.08);
+            border: 1px solid rgba(220, 6, 48, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        /* 헤더 영역 */
+        .qna-header {
+            padding: 30px 30px 20px 30px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(220, 6, 48, 0.02) 100%);
+            border-bottom: 1px solid rgba(220, 6, 48, 0.1);
+        }
+
+        .qna-header h3 {
+            color: #DC0630;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+		.qna-header h3::before {
+		    content: '';
+		}
+		
+		.qna-header h3 i {
+		    margin-right: 8px;
+		    font-size: 18px;
+		    color: #DC0630;
+		}
+
+        .qna-header p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* 버튼 영역 */
+        .review-btn-area {
+            padding: 20px 30px 20px 30px;
+            display: flex;
+            justify-content: flex-end;
+            background: #ffffff;
+        }
+
+        .review-btn-area button {
+            background: #DC0630;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(220, 6, 48, 0.2);
+        }
+
+        .review-btn-area button:hover {
+            background: #b8052a;
+            box-shadow: 0 4px 16px rgba(220, 6, 48, 0.3);
+        }
+
+        .review-btn-area button:active {
+            transform: translateY(0);
+        }
+
+        /* 테이블 */
+        .qnaTable {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            margin: 0;
+        }
+
+        .qnaTable thead {
+            background: linear-gradient(135deg, #DC0630 0%, #b8052a 100%);
+            display: table-header-group;
+        }
+
+        .qnaTable thead th {
+	        color: white !important;
+		    font-weight: 600;
+		    padding: 18px 20px;
+		    text-align: center;
+		    font-size: 14px;
+		    letter-spacing: 0.3px;
+		    border: none;
+		    display: table-cell;
+		    visibility: visible;
+        }
+        
+        .qnaTable thead tr {
+	    	display: table-row;
+		}
+
+        .qnaTable tbody td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(220, 6, 48, 0.08);
+            vertical-align: middle;
+            font-size: 14px;
+            background: #ffffff;
+            transition: background-color 0.2s ease;
+        }
+
+        .qnaTable tbody tr:hover {
+            background: rgba(220, 6, 48, 0.02);
+        }
+
+        .qnaTable tbody td:first-child {
+            text-align: center;
+            font-weight: 600;
+            color: #DC0630;
+            width: 10%;
+        }
+
+        .qnaTable tbody td:nth-child(2) {
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            width: 60%;
+        }
+
+        .qnaTable tbody td:nth-child(2):hover {
+            color: #DC0630;
+        }
+
+        .qnaTable tbody td:nth-child(3) {
+            text-align: center;
+            color: #666;
+            width: 15%;
+        }
+
+        .qnaTable tbody td:nth-child(4) {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            width: 15%;
+        }
+
+        .qnaTable tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 빈 상태 메시지 */
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px !important;
+        }
+
+        /* 모달 스타일 */
+        .qna-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .qna-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -45%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .qna-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            z-index: 1001;
+            transition: color 0.3s ease;
+        }
+
+        .qna-close:hover {
+            color: #DC0630;
+        }
+
+		/* 작성자 텍스트 스타일 */
+		.author-text {
+		    padding: 14px 16px;
+		    background: #f8f9fa;
+		    border: 2px solid #e9ecef;
+		    border-radius: 8px;
+		    color: #495057;
+		    font-size: 14px;
+		    font-weight: 500;
+		}
+
+        .qna-modal-content h2 {
+            color: #DC0630;
+		    margin: 0;
+		    padding: 30px 40px 40px 40px;
+		    font-size: 25px;
+		    font-weight: 600;
+		    text-align: center;
+		    letter-spacing: 0.5px;
+		    position: relative;
+        }
+        
+        .qna-modal-content h2::after {
+		    content: '';
+		    position: absolute;
+		    bottom: 0;
+		    left: 50%;
+		    transform: translateX(-50%);
+		    width: 60px;
+		    height: 3px;
+		    background: rgba(255, 255, 255, 0.3);
+		    border-radius: 2px;
+		}
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* 폼 스타일 */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #DC0630;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #f1f1f1;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #DC0630;
+            box-shadow: 0 0 0 3px rgba(220, 6, 48, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            max-height: 300px;
+            resize: vertical;
+        }
+
+        .detail-text,
+        .detail-content {
+            background: #f8f9fa !important;
+            border: 2px solid #e9ecef !important;
+            color: #495057 !important;
+            cursor: not-allowed;
+        }
+
+        /* 답변 내용 */
+        .answer-content {
+            background: linear-gradient(135deg, rgba(220, 6, 48, 0.05) 0%, rgba(220, 6, 48, 0.02) 100%);
+            border-left: 4px solid #DC0630;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* 버튼 스타일 */
+        .form-button {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f1f1;
+        }
+
+        .form-button button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-button button[type="submit"],
+        #qnaUpdateBtn {
+            background: #DC0630;
+            color: white;
+        }
+
+        .form-button button[type="submit"]:hover,
+        #qnaUpdateBtn:hover {
+            background: #b8052a;
+            transform: translateY(-2px);
+        }
+
+        #qnaEditBtn {
+            background: #28a745;
+            color: white;
+        }
+
+        #qnaEditBtn:hover {
+            background: #218838;
+        }
+
+        #qnaDeleteBtn {
+            background: #dc3545;
+            color: white;
+        }
+
+        #qnaDeleteBtn:hover {
+            background: #c82333;
+        }
+
+        #qnaCancelBtn,
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+        }
+
+        #qnaCancelBtn:hover,
+        .btn-cancel:hover {
+            background: #545b62;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .qna-header,
+            .review-btn-area,
+            .modal-body {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .qnaTable thead th,
+            .qnaTable tbody td {
+                padding: 12px 8px;
+                font-size: 13px;
+            }
+
+            .qnaTable tbody td:nth-child(2) {
+                width: 50%;
+            }
+
+            .qnaTable tbody td:nth-child(3),
+            .qnaTable tbody td:nth-child(4) {
+                width: 20%;
+            }
+
+            .qna-modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+
+            .form-button {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .form-button button {
+                width: 100%;
+            }
+        }
+
+        /* 로딩 상태 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #DC0630;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #DC0630;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 <!-- QnA 리스트 -->
 <div class="qna-section">
-	<div style="margin: 50px 0px 20px 10px;">
-		<p style="font-weight: bold;">상품 Q&A</p>
-		<p>상품에 대한 문의사항을 남겨주세요.</p>
+	<div class="qna-header">
+	    <h3><i class="bi bi-chat-dots"></i>상품 Q&A</h3>
+	    <p> 상품에 대한 궁금한 점을 문의해 주세요. 빠른 시간 내에 답변드리겠습니다.</p>
 	</div>
 	<div class="review-btn-area" style="display: flex; justify-content: right;">
 		<button type="button" onclick="QnaTab.formModalShow()">상품 문의하기</button>
 	</div>
-	<table class="table">
+	<table class="qnaTable">
 		<thead>
 			<tr>
-				<th scope="col" width="10%">NO</th>
-				<th scope="col" width="60%">TITLE</th>
-				<th scope="col" width="15%">WRITER</th>
-				<th scope="col" width="15%">DATE</th>
+				<th scope="col" width="10%" style="color: white !important; background: transparent !important;">NO</th>
+				<th scope="col" width="60%" style="color: white !important; background: transparent !important;">TITLE</th>
+				<th scope="col" width="15%" style="color: white !important; background: transparent !important;">WRITER</th>
+				<th scope="col" width="15%" style="color: white !important; background: transparent !important;">DATE</th>
 			</tr>
 		</thead>
 		<tbody id="productQnAList">
@@ -30,23 +469,25 @@
   <div class="qna-modal-content">
     <span class="qna-close">&times;</span>
     <h2>상품 문의하기</h2>
-    <form id="qnaForm" action="/insertQnA.do" method="post">
-      <div class="form-group">
-        <input type="text" id="qnaProduct" name="productId" placeholder="상품" required hidden>
-      </div>
-      <div class="form-group">
-        <input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required>
-      </div>
-      <div class="form-group">
-        <input type="text" id="memberId" name="memberId" placeholder="작성자" required hidden>
-      </div>
-      <div class="form-group">
-        <textarea id="qnaContent" name="qnaContent" placeholder="내용" required></textarea>
-      </div>
-      <div class="form-button">
-      	<button type="submit" id="qnaSubmitBtn">문의하기</button>
-      </div>
-    </form>
+    <div class="modal-body">
+	    <form id="qnaForm" action="/insertQnA.do" method="post">
+	      <div class="form-group">
+	        <input type="text" id="qnaProduct" name="productId" placeholder="상품" required hidden>
+	      </div>
+	      <div class="form-group">
+	        <input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required>
+	      </div>
+	      <div class="form-group">
+	        <input type="text" id="memberId" name="memberId" placeholder="작성자" required hidden>
+	      </div>
+	      <div class="form-group">
+	        <textarea id="qnaContent" name="qnaContent" placeholder="내용" required></textarea>
+	      </div>
+	      <div class="form-button">
+	      	<button type="submit" id="qnaSubmitBtn">문의하기</button>
+	      </div>
+	    </form>
+    </div>
   </div>
 </div>
 
@@ -57,18 +498,18 @@
     <h2>상품 문의 상세</h2>
     <div class="qna-detail-content">
       <div class="form-group">
-        <label>제목 : </label>
+        <label>제목</label>
         <input id="qnaDetailTitle" class="detail-text" readonly>
         <input id="qnaTitleInput" style="display: none">
       </div>
       <div class="form-group">
-        <label>작성자 : </label>
-        <div id="qnaDetailWriter" class="detail-text"></div>
+        <label>작성자</label>
+        <div id="qnaDetailWriter" class="author-text"></div>
       </div>
       <div class="form-group">
-        <label>내용 : </label>
+        <label>내용</label>
         <textarea id="qnaDetailContent" class="detail-content" readonly></textarea>
-        <textarea id="qnaContentInput" class="detail-content" style="display: none;"></textarea>
+        <textarea id="qnaContentInput" class="editable-content" style="display: none;"></textarea>
       </div>
       <div class="form-group" id="qnaAnswerDiv">
       
@@ -310,23 +751,24 @@
 		});
 	}
 	
-	function updateQnAList(qnaList){
-		console.log(qnaList);
-		
-		var list = '<tr><td colspan="4">해당 상품의 문의 내역이 없습니다.</td></tr>'
-		if(qnaList.length > 0){
-			for(var i=0; i < qnaList.length; i++){
-				list = 
-					'<tr>' +
-						'<td>' + (i + 1) + '</td>' +
-						'<td onclick="QnaTab.qnaDetail('+ qnaList[i].PRODUCT_QNA_ID +')" style="cursor: pointer;">' + qnaList[i].QNA_TITLE + '</td>' +
-						'<td>' + qnaList[i].MEMBER_ID + '</td>' +
-						'<td>' + qnaList[i].INPUT_DT + '</td>' +
-					'</tr>'		
-			}
-		}	
-		$("#productQnAList").html(list);
-	}
+    // updateQnAList함수 - ㄻ가 건듦 250925 11:31
+    function updateQnAList(qnaList){
+        var list = '';
+        if(qnaList.length === 0){
+            list = '<tr><td colspan="4" class="empty-message">해당 상품의 문의 내역이 없습니다.</td></tr>';
+        } else {
+            for(var i = 0; i < qnaList.length; i++){
+                list += 
+                    '<tr>' +
+                        '<td>' + (i + 1) + '</td>' +
+                        '<td onclick="QnaTab.qnaDetail('+ qnaList[i].PRODUCT_QNA_ID +')" style="cursor: pointer;">' + qnaList[i].QNA_TITLE + '</td>' +
+                        '<td>' + qnaList[i].MEMBER_ID + '</td>' +
+                        '<td>' + qnaList[i].INPUT_DT + '</td>' +
+                    '</tr>';
+            }
+        }    
+        $("#productQnAList").html(list);
+    }
 	
 	function updateQnAListCnt(qnaListCnt){
 		$("#productQnACnt").text('(' + qnaListCnt + ')');

@@ -2,6 +2,7 @@ package admin.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,7 @@ public class MemberService {
 
 	}
 
+
 	// 관리자 제외 등급 조회
 	public List<Map<String, Object>> selectGradeExceptionAdminList() {
 
@@ -124,21 +126,94 @@ public class MemberService {
 		
 		return memberMapper.selectPointAndCouponList(param);
 	}
-
-	public List<Map<String, Object>> selectMemberChageTypeList() {
+	
+	//포인트 사용유형 리스트 조회
+	public List<Map<String, Object>> selectMemberChageTypeList(Map<String, Object> param) {
 		
-		return memberMapper.selectMemberChageTypeList();
+		return memberMapper.selectMemberChageTypeList(param);
 	}
-
+	
+	//회원 포인트 상세보기 리스트 
 	public List<Map<String, Object>> selectPointDetailList(Map<String, Object> param) {
 		
 		return memberMapper.selectPointDetailList(param);
 	}
-
+	
+	//회원 쿠폰 상세보기 리스트
 	public List<Map<String, Object>> selectCouponDetailList(Map<String, Object> param) {
-		// TODO Auto-generated method stub
+		
 		return  memberMapper.selectCouponDetailList(param);
 	}
-   
+	
+	//포인트 적립 및 차감
+	public int insertPoint(Map<String, Object> point) {
+		
+		return memberMapper.insertPoint(point);
+		
+	}
+	
+	//쿠폰 지급
+	public int insertCoupon(Map<String, Object> param) {
+
+		// UUID 기반 쿠폰 코드 생성
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        // 앞 16자리만 사용 (대문자로 변환하면 가독성 ↑)
+        String couponCode = uuid.substring(0, 16).toUpperCase();
+
+        // param에 세팅
+        param.put("COUPON_CODE", couponCode);
+
+        return memberMapper.insertCoupon(param);
+	}
+	
+	//블랙리스트 조회
+	public List<Map<String, Object>> selectBlackListByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.selectBlackListByAdmin(param);
+	}
+	
+	//블랙리스트 상세조회(광고없음)
+	public List<Map<String, Object>> selectBlackDetailListByAdmin(String memberId) {
+		
+		return  memberMapper.selectBlackDetailListByAdmin(memberId);
+	}
+	
+	//블랙리스트 신고취소
+	public int updateMemberBlackStatusListByAdmin(Map<String, Object> row) {
+		
+		return  memberMapper.updateMemberBlackStatusListByAdmin(row);
+	}
+	
+	//회원가입 이력 조회
+	public List<Map<String, Object>> selectMemberRegHistoryListByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.selectMemberRegHistoryListByAdmin(param);
+	}
+	
+	//스케줄러를 통한 회원 등급 자동 
+	public int updateAllMemberGradeAutoByAdmin() {
+		return memberMapper.updateAllMemberGradeAutoByAdmin();
+	}
+	
+	//회원 가입 이력  차트 통계
+	public List<Map<String, Object>> selectLoginTypeStatsByAdmin() {
+		
+		return memberMapper.selectLoginTypeStatsByAdmin();
+	}
+	
+	//회원 탈퇴 이력 조회
+	public List<Map<String, Object>> selectWithdrawMemberListByAdmin(Map<String, Object> param) {
+		
+		return memberMapper.selectWithdrawMemberListByAdmin(param);
+	}
+	
+	//월별 회원 탈퇴 통계
+	public List<Map<String, Object>> selectMemberWithdrawCntByAdmin() {
+		
+		return memberMapper.selectMemberWithdrawCntByAdmin();
+	}
+
+
+
 
 }

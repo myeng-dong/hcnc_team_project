@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user.mapper.UserCategoryMapper">
+	<select id="selectMainCategoryListByUser" resultType="java.util.Map">
+    SELECT MAIN_CATE_ID
+         , MAIN_CATE_NM
+         , SORT_NUMBER
+    FROM MAIN_CATEGORIES
+    WHERE IS_ACTIVE = 'Y'
+    ORDER BY SORT_NUMBER
+  </select>
+
+  <select id="selectSubCategoryListByUser" parameterType="int" resultType="java.util.Map">
+    SELECT SUB_CATE_ID
+         , SUB_CATE_NM
+         , SORT_NUMBER
+    FROM SUB_CATEGORIES
+    WHERE MAIN_CATE_ID = #{mainCateId}
+      AND IS_ACTIVE = 'Y'
+    ORDER BY SORT_NUMBER
+  </select>
+	
+</mapper>

@@ -1,133 +1,167 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- GNB -->
-<nav class="gnb">
-  <div class="inner">
-    <ul class="flex">
-      <li><a href="#">신상품</a></li>
-      <li><a href="#">추천상품</a></li>
-      <li><a href="#">인기상품</a></li>
-      <li><a href="#">이벤트</a></li>
-      <li><a href="#">게시판</a></li>
-    </ul>
-  </div>
-</nav>
-
-<div class="category-bar">
+<nav id="gnb" class="gnb">
+  <!--gnb -->
+  <div class="one-dept">
   	<div class="inner">
-  		<ul class="flex category-onedept-bar">
-		    <li><button id="allCategoryToggle"><i class="xi-list-square"></i>전체메뉴</button></li>
-		    <li class="hover-item"><a href="#">필기구</a></li>
-		    <li class="hover-item"><a href="#">노트/다이어리</a></li>
-		    <li class="hover-item"><a href="#">파일/사무용품</a></li>
-		    <li class="hover-item"><a href="#">디자인/데코</a></li>
-		    <li class="hover-item"><a href="#">학용품/취미</a></li>
-		    <li class="hover-item"><a href="#">화방/제도</a></li>
-		  </ul>
-  	</div>
-  
-  <!-- 카테고리 2차 메뉴 -->
-	<div class="category-menu" id="categoryMenu">
+	    <ul class="flex">
+	      <li><a href="/newProList.do">신상품</a></li>
+	      <li><a href="/recommendProList.do">추천상품</a></li>
+	      <li><a href="/hotProList.do">인기상품</a></li>
+	      <!-- li><a href="/event.do">이벤트</a></li-->
+	      <li><a href="/noticeList.do">게시판</a></li>
+	    </ul>
+	  </div>
+  </div>
+  <div class="category-bar" id="categoryBar">
 	  <div class="inner">
-	    <div class="flex">
-	    	<div class="category-col first">
-	    		<p>
-	    			로고나 이미지
-	    		</p>
-	    	</div>
-	    	<!-- 시작 : 각 1차 카테고리별 2차 메뉴 -->
-	    	<div class="category-col">
-		      <h5>필기구</h5>
-		      <ul>
-		        <li><a href="#">볼펜</a></li>
-		        <li><a href="#">연필/샤프</a></li>
-		        <li><a href="#">형광펜</a></li>
-		        <li><a href="#">만년필</a></li>
-		      </ul>
-		    </div>
-		    <div class="category-col">
-		      <h5>노트/다이어리</h5>
-		      <ul>
-		        <li><a href="#">일반노트</a></li>
-		        <li><a href="#">스프링노트</a></li>
-		        <li><a href="#">플래너</a></li>
-		        <li><a href="#">바인더</a></li>
-		      </ul>
-		    </div>
-		    <div class="category-col">
-		      <h5>파일/사무용품</h5>
-		      <ul>
-		        <li><a href="#">클리어파일</a></li>
-		        <li><a href="#">바인더</a></li>
-		        <li><a href="#">데스크용품</a></li>
-		      </ul>
-		    </div>
-		    <div class="category-col">
-		      <h5>디자인/데코</h5>
-		      <ul>
-		        <li><a href="#">마스킹테이프</a></li>
-		        <li><a href="#">스티커</a></li>
-		        <li><a href="#">데코소품</a></li>
-		      </ul>
-		    </div>
-		    <div class="category-col">
-		      <h5>학용품/취미</h5>
-		      <ul>
-		        <li><a href="#">계산기</a></li>
-		        <li><a href="#">학습교구</a></li>
-		        <li><a href="#">DIY 키트</a></li>
-		      </ul>
-		    </div>
-		    <div class="category-col">
-		      <h5>화방/제도</h5>
-		      <ul>
-		        <li><a href="#">수채화</a></li>
-		        <li><a href="#">아크릴</a></li>
-		        <li><a href="#">캔버스</a></li>
-		        <li><a href="#">제도용품</a></li>
-		      </ul>
-		    </div>
+	    <ul class="category-menu flex">
+	      <li class="category-col">
+	        <button id="allCategoryToggle"><i class="xi-list-square"></i>전체메뉴</button>
+	      </li>
+	      <c:forEach var="mainCategory" items="${categories}">
+		  <li class="category-col">
+		    <h5>
+		      <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}">
+		        ${mainCategory['MAIN_CATE_NM']}
+		      </a>
+		    </h5>
+		    <c:if test="${not empty categories}">
+		    <ul class="subcategory-col">
+		      <li>${mainCategory['MAIN_CATE_NM']}</li>
+		      <c:forEach var="subCategory" items="${mainCategory.subCategories}">
+		        <li>
+		          <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}">
+		            ${subCategory['SUB_CATE_NM']}
+		          </a>
+		        </li>
+		      </c:forEach>
+		    </ul>
+		    </c:if>
+		  </li>
+		</c:forEach>
+		<c:if test="${empty categories}">
+	        <li class="nodata">카테고리 데이터가 비어있습니다.</p>
+	    </c:if>
 	    </div>
 	  </div>
-	</div>
-</div>
-
-
+  <span class="bg"></span>
+</nav>
 
 <script>
-const toggleBtn = document.getElementById("allCategoryToggle");
-const categoryMenu = document.getElementById("categoryMenu");
-
-let fixedOpen = false;
-
-// 버튼 클릭 토글
-toggleBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  fixedOpen = !fixedOpen;
-  if (fixedOpen) {
-    categoryMenu.classList.add("show");
+window.addEventListener("scroll", function () {
+  const gnb = document.getElementById("gnb");
+  if (window.scrollY > 130) {
+    gnb.classList.add("fixed");
   } else {
-    categoryMenu.classList.remove("show");
+    gnb.classList.remove("fixed");
   }
 });
 
-// 밖일때리무부
-document.addEventListener("click", (e) => {
-  if (fixedOpen && !categoryMenu.contains(e.target) && e.target !== toggleBtn) {
-    fixedOpen = false;
-    categoryMenu.classList.remove("show");
-  }
-});
+window.addEventListener("load", function() {
+  var toggleBtn = document.getElementById("allCategoryToggle");
+  var categoryBar = document.getElementById("categoryBar");
+  var categoryMenu = document.querySelector(".category-menu");
+  var categoryCols = categoryMenu.querySelectorAll(".category-col");
+  var isFixedOpen = false;
 
-// hover-item 호버 시 열기/닫기 (고정 상태가 아닐 때만)
-const hoverItems = document.querySelectorAll(".category-onedept-bar");
-hoverItems.forEach(item => {
-  item.addEventListener("mouseenter", () => {
-    if (!fixedOpen) categoryMenu.classList.add("show");
+  function setBeforeHeight() {
+    var wasHidden = !categoryBar.classList.contains("show");
+    if (wasHidden) {
+      categoryBar.classList.add("show");
+    }
+
+    var maxHeight = 0;
+
+    Array.prototype.forEach.call(categoryCols, function(col, colIndex) {
+      if (colIndex === 0) return;
+
+      var subcategoryUl = col.querySelector(".subcategory-col");
+      if (!subcategoryUl) return;
+
+      var ulHeight = subcategoryUl.offsetHeight;
+      if (ulHeight > maxHeight) {
+        maxHeight = ulHeight;
+      }
+
+      var lis = subcategoryUl.querySelectorAll("li");
+      Array.prototype.forEach.call(lis, function(li) {
+        var liHeight = li.offsetHeight;
+        if (liHeight > maxHeight) {
+          maxHeight = liHeight;
+        }
+      });
+    });
+
+    if (wasHidden) {
+      categoryBar.classList.remove("show");
+    }
+
+    if (maxHeight === 0) return;
+
+    var finalHeight = maxHeight+10;
+
+    var existingStyle = document.getElementById("categoryMenuHeight");
+    if (existingStyle) {
+      existingStyle.parentNode.removeChild(existingStyle);
+    }
+
+    var style = document.createElement("style");
+    style.id = "categoryMenuHeight";
+    style.innerHTML =
+      ".category-bar.show .category-menu::before {" +
+      "height: " + finalHeight + "px;" +
+      "content: '';" +
+      "position: absolute;" +
+      "left: 0%;" +
+      "width: 100%;" +
+      "background-color: #fff;" +
+      "top: 45px;" +
+      "z-index: 30;" +
+      "box-shadow: 0 5px 5px 0 rgba(0,0,0,0.3);" +
+      "}";
+    document.head.appendChild(style);
+  }
+
+  // 즉시 실행해서 높이 세팅
+  setTimeout(setBeforeHeight, 500);
+
+  // 버튼 클릭
+  toggleBtn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    isFixedOpen = !isFixedOpen;
+    if (isFixedOpen) {
+      categoryBar.classList.add("show");
+      setTimeout(setBeforeHeight, 50);
+    } else {
+      categoryBar.classList.remove("show");
+    }
   });
-  item.addEventListener("mouseleave", () => {
-    if (!fixedOpen) categoryMenu.classList.remove("show");
+
+  // 외부 클릭 시 닫기
+  document.addEventListener("click", function(e) {
+    if (isFixedOpen && !categoryBar.contains(e.target) && e.target !== toggleBtn) {
+      isFixedOpen = false;
+      categoryBar.classList.remove("show");
+    }
+  });
+
+  // hover 이벤트
+  Array.prototype.forEach.call(categoryCols, function(col) {
+    col.addEventListener("mouseenter", function() {
+      if (!isFixedOpen) {
+        categoryBar.classList.add("show");
+        setTimeout(setBeforeHeight, 50);
+      }
+    });
+
+    col.addEventListener("mouseleave", function() {
+      if (!isFixedOpen) {
+        categoryBar.classList.remove("show");
+      }
+    });
   });
 });
 </script>
-

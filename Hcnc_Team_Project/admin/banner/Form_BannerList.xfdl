@@ -1,14 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_BannerList" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_BannerList_onload">
+  <Form id="Form_BannerList" width="1080" height="720" titletext="New Form" background="#F4F7FE" onload="Form_BannerList_onload">
     <Layouts>
-      <Layout height="720" width="1280">
-        <Grid id="grid_list" taborder="0" left="40" top="33" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_banner" bottom="100">&gt;
+      <Layout height="720" width="1080">
+        <Grid id="grid_list" taborder="0" left="40" top="160" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_banner" bottom="100" oncellclick="grid_list_oncellclick">&gt;
           <Formats><Format id="default"><Columns><Column size="48"/><Column size="48"/><Column size="76"/><Column size="127"/><Column size="83"/><Column size="168"/><Column size="189"/><Column size="129"/><Column size="163"/><Column size="80"/><Column size="84"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol"/><Cell col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="출력순서" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="타입" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" colspan="2" text="제목" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff"/><Cell col="6" text="링크" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="작성자" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="출력여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" text="bind:BANNER_ID"/><Cell col="1" text="expr:currow + 1"/><Cell col="2" text="bind:SORT_NUMBER"/><Cell col="3" text="bind:BANNER_TYPE"/><Cell col="4" text="bind:IMG_PATH" displaytype="imagecontrol" imagestretch="bind:IMG_PATH"/><Cell col="5" text="bind:BANNER_TITLE"/><Cell col="6" edittype="none" text="bind:LINKED_URL"/><Cell col="7" text="bind:INPUT_ID"/><Cell col="8" edittype="none" text="bind:INPUT_DT"/><Cell col="9" edittype="none" text="bind:IS_VISIBLE"/><Cell col="10" displaytype="buttoncontrol" text="관리"/></Band></Format></Formats></Grid>
-        <Static id="txt_h4_00" taborder="1" text="총       개 | 활성화       개" left="40" top="10" width="153" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#333333" onclick="search_area_search_txt01_onclick"/>
-        <Static id="txt_bannertotal" taborder="2" text="0" left="0" top="10" width="70" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" textAlign="right"/>
-        <Static id="txt_bannertotal00" taborder="3" text="0" left="75" top="10" width="70" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" cursor="copy" textAlign="right"/>
-        <Button id="btn_write" taborder="4" text="글쓰기" top="640" background="#1017ac" color="#ffffff" borderRadius="5px" border="0px none" right="40" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_write_onclick" bottom="40"/>
+        <Static id="txt_h4_00" taborder="1" text="총       개 | 활성화       개" left="50" top="130" width="153" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#333333" onclick="search_area_search_txt01_onclick"/>
+        <Static id="txt_bannertotal" taborder="2" text="0" left="10" top="130" width="70" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" textAlign="right"/>
+        <Static id="txt_bannertotal00" taborder="3" text="0" left="85" top="130" width="70" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" cursor="copy" textAlign="right"/>
+        <Button id="btn_write" taborder="4" text="글쓰기" background="#1017ac" color="#ffffff" borderRadius="5px" border="0px none" right="40" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_write_onclick" height="40" bottom="40"/>
+        <Button id="btn_delete" taborder="5" text="선택지우기" top="640" background="#d92d06" color="#ffffff" borderRadius="5px" border="0px none" right="1100" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_write_onclick" bottom="40"/>
+        <Div id="search_area" taborder="6" left="40" top="20" height="90" background="#ffffff" borderRadius="10px" right="40">
+          <Layouts>
+            <Layout>
+              <Static id="search_tit" taborder="0" text="배너종류" left="20" top="3" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Radio id="Radio00" taborder="1" left="95" top="10" width="410" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체" value="all">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">all</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">main</Col>
+                      <Col id="datacolumn">메인배너</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">top</Col>
+                      <Col id="datacolumn">탑배너</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">popup</Col>
+                      <Col id="datacolumn">팝업배너</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="Static00" taborder="2" left="82" top="15" width="2" height="20" background="#cccccc" text=""/>
+              <Radio id="Radio00_00" taborder="3" left="96" top="49" width="304" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체" value="all">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">all</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">1</Col>
+                      <Col id="datacolumn">출력</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">0</Col>
+                      <Col id="datacolumn">미출력</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static id="Static00_00" taborder="4" left="83" top="54" width="2" height="20" background="#cccccc" text=""/>
+              <Static id="search_tit00" taborder="5" text="출력여부" left="21" top="42" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
       </Layout>
     </Layouts>
     <Bind>
@@ -26,6 +85,28 @@ this.btn_write_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 	this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
 };
 
+// 전체 선택/해제
+this.chkAll_onclick = function(obj:nexacro.CheckBox,e:nexacro.ClickEventInfo)
+{
+    var isChecked = obj.value;
+    
+    for(var i = 0; i < this.dsPromotionList.getRowCount(); i++) {
+        this.dsPromotionList.setColumn(i, "chk", isChecked);
+    }
+};
+
+//cell클릭시 argument기억
+this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 10){
+		var BannerId = this.ds_banner.getColumn(e.row,"BANNER_ID")
+		
+		//부모페이지 자식페이지 값 전달하기 arguments 
+		this.getOwnerFrame().arguments = {"BANNER_ID" : BannerId}
+		
+		this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
+	}
+};
 
 // 배너조회
 this.fnSearchBanner = function() {

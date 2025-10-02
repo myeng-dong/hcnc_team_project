@@ -14,7 +14,7 @@
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/layout.css'/>"/>
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/common.css'/>"/>
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/reset.css'/>"/>
-	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 	<!-- j쿼리를 실행하기 위해 스크립트 선언을 해줘야한다. -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -82,7 +82,7 @@
 		}
 
 		#product-image:hover {
-			transform: scale(1.01);
+			/* transform: scale(1.01); */
 			border-color: #DC0630;
 		}
 
@@ -313,7 +313,7 @@
 		#add-to-cart:hover {
 			background-color: #b8052a !important;
 			border-color: #b8052a !important;
-			transform: translateY(-2px);
+			/* transform: translateY(-2px); */
 			box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3);
 		}
 
@@ -326,7 +326,7 @@
 		#buy-now:hover {
 			background-color: #DC0630 !important;
 			color: #ffffff !important;
-			transform: translateY(-2px);
+			/* transform: translateY(-2px); */
 			box-shadow: 0 4px 12px rgba(220, 6, 48, 0.3);
 		}
 
@@ -335,53 +335,80 @@
 			display: flex;
 			justify-content: space-between;
 			gap: 4%;
-			margin-top: 25px;
 			padding-top: 20px;
 			border-top: 1px solid #f1f3f4;
+		}
+		
+		.button-container button {
+			height: 60px;
 		}
 
 		/* 탭 네비게이션 */
 		.nav-tabs {
-			border-bottom: 1px solid rgba(220, 6, 48, 0.3);
-			margin-bottom: 30px;
-			background-color: #ffffff;
-			position: sticky;
-			top: 0;
-			z-index: 100;
-			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+			border-bottom: 2px solid #f8f9fa;
+		    margin-bottom: 0;
+		    background-color: #ffffff;
+		    padding: 0 20px;
 		}
 
 		.nav-tabs .nav-link {
-			color: #666;
-			font-weight: 500;
-			padding: 12px 20px;
-			border: 1px solid #e9ecef;
-			border-radius: 4px 4px 0 0;
-			margin-right: 2px;
-			transition: all 0.3s ease;
-			background-color: #ffffff;
+	    	color: #666;
+		    font-weight: 600;
+		    padding: 16px 24px;
+		    border: none; /* 기존 박스 테두리 제거 */
+		    border-radius: 0;
+		    margin-right: 8px;
+		    transition: all 0.3s ease;
+		    background-color: transparent;
+		    position: relative;
+		    font-size: 15px;
+		    letter-spacing: 0.3px;
+		}
+
+		.nav-tabs .nav-link::after {
+		    content: '';
+		    position: absolute;
+		    bottom: -2px;
+		    left: 0;
+		    width: 0;
+		    height: 3px;
+		    background: linear-gradient(135deg, #DC0630 0%, #b8052a 100%);
+		    border-radius: 2px 2px 0 0;
+		    transition: width 0.3s ease;
 		}
 
 		.nav-tabs .nav-link:hover {
 			color: #DC0630;
-			background-color: rgba(220, 6, 48, 0.03);
-			border-color: rgba(220, 6, 48, 0.2);
+		    background-color: rgba(220, 6, 48, 0.05);
+		    border-color: transparent;
+		    border-radius: 8px 8px 0 0;
 		}
 
 		.nav-tabs .nav-link.active {
-			color: #ffffff !important;
-			background-color: #DC0630 !important;
-			border: 1px solid #DC0630 !important;
+			color: #DC0630 !important;
+		    background-color: rgba(220, 6, 48, 0.08) !important;
+		    border-color: transparent !important;
+		    border-radius: 8px 8px 0 0;
+		    font-weight: 700;
+		}
+		
+		.nav-tabs .nav-link.active::after {
+		    width: 100%;
+		}
+		
+		.nav-tabs .nav-link:hover::after {
+		    width: 100%;
 		}
 
 		/* 탭 네비게이션을 포함하는 섹션 */
 		.tab-navigation-section {
 			position: sticky;
-			top: 0;
-			z-index: 100;
-			background-color: #ffffff;
-			padding-top: 10px;
-			margin-bottom: 0;
+		    top: 0;
+		    z-index: 100;
+		    background-color: #ffffff;
+		    margin-bottom: 0;
+		    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+		    border-bottom: 1px solid #f1f3f4;
 		}
 
 		/* 탭 콘텐츠 */
@@ -396,13 +423,14 @@
 
 		/* 카운트 뱃지 */
 		#productReviewCnt, #productQnACnt {
-			background: #DC0630;
-			color: white;
-			padding: 2px 6px;
-			border-radius: 8px;
-			font-size: 11px;
-			margin-left: 6px;
-			font-weight: 500;
+			background: linear-gradient(135deg, #DC0630 0%, #b8052a 100%);
+		    color: white;
+		    padding: 3px 8px;
+		    border-radius: 12px;
+		    font-size: 11px;
+		    margin-left: 8px;
+		    font-weight: 600;
+		    box-shadow: 0 2px 4px rgba(220, 6, 48, 0.3);
 		}
 
 		/* 반응형 */
@@ -501,16 +529,31 @@
 	</style> 
 	
 	<script>
-		// 부트스트랩 네비 메뉴 버튼
-		const triggerTabList = document.querySelectorAll('#myTab button')
+		// 부트스트랩 네비 메뉴 버튼 (즉시 상단 이동 - ㄻ 250925 14:13)
+		const triggerTabList = document.querySelectorAll('#nav-tab button')
 		triggerTabList.forEach(triggerEl => {
 		  const tabTrigger = new bootstrap.Tab(triggerEl)
 	
 		  triggerEl.addEventListener('click', event => {
 		    event.preventDefault();
 		    tabTrigger.show();
+		    
+		    setTimeout(function() {
+	            // 탭 네비게이션 섹션을 화면 맨 위로 스크롤
+	            const tabNavigationSection = document.querySelector('.tab-navigation-section');
+	            if (tabNavigationSection) {
+	                // 탭이 화면 맨 위에 딱 붙도록 스크롤
+	                tabNavigationSection.scrollIntoView({ 
+	                    behavior: 'smooth', 
+	                    block: 'start' 
+	                });
+	            }
+	        }, 100);
 		  })
 		})
+		
+
+
 	</script>
 	
 <!-- 상품 옵션 처리  -->
@@ -526,7 +569,12 @@
 			console.log("상품 정보:", productDetail);
 			console.log("옵션 정보:", optionInfo);
 			
+			
+			// 선택된 모든 옵션의 추가 요금을 저장할 객체
+			var selectedOptions = {};
+			
 			$(document).ready(function() {
+				
 				// 1단계: 어떤 옵션명들이 있는지 찾기
 				var options = [];
 				for (var i = 0; i < optionInfo.length; i++) {
@@ -544,7 +592,7 @@
 				        options.push(optionName);
 				    }
 				}
-	
+
 				console.log("발견된 옵션명들:", options);
 	
 				// 2단계: HTML 생성
@@ -552,7 +600,7 @@
 				for(var i = 0; i < options.length; i++){
 				    optionContainer += '<div class="option-group">';
 				    optionContainer += '<span class="option-label">' + options[i] + ': </span>';
-				    optionContainer += '<select class="option-select" id="'+ optionInfo[i].OPTION_ID +'_select" onchange="optionSelect(this)")>';
+				    optionContainer += '<select class="option-select" id="'+ optionInfo[i].OPTION_ID +'_select" data-option-name="' + options[i] + '" onchange="optionSelect(this)")>';
 				    optionContainer += '<option value="non-select">옵션을 선택해주세요.</option>';
 				    
 				    // 해당 옵션명의 값들만 추가
@@ -580,22 +628,33 @@
 				$("#options-td").html(optionContainer);
 			});
 			
+			// 옵션 선택 함수
 			const optionSelect = (element) => {
-			    // 선택된 옵션 요소 가져오기
-			    var selectedOption = element.options[element.selectedIndex]; // selectElement → element
+			    // 선택된 옵션 정보 가져오기
+			    var selectedOption = element.options[element.selectedIndex];
+			    var optionName = element.getAttribute('data-option-name'); // 어떤 옵션인지 구분
+			    var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0;
 			    
-			    // data-price 값 가져오기
-			    var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0; // 숫자 변환 추가
+			    // 해당 옵션의 추가 요금 저장
+			    if(selectedOption.value === 'non-select') {
+			        delete selectedOptions[optionName]; // 선택 해제 시 삭제
+			    } else {
+			        selectedOptions[optionName] = optionPrice;
+			    }
 			    
-			    var quantity = parseInt($('#quantity').val()) || 1;
+			    // 모든 옵션의 추가 요금 합산
+			    var totalOptionPrice = 0;
+			    for(var key in selectedOptions) {
+			        totalOptionPrice += selectedOptions[key];
+			    }
 			    
-			    // 현재 가격 가져오기
+			    // 기본 상품 가격 + 모든 옵션 추가 요금
 			    var salaryPrice = getSalaryPrice();
-			    var newPrice = salaryPrice + optionPrice // currentPrice → totalPrice, optoinPrice → optionPrice
+			    var newPrice = salaryPrice + totalOptionPrice;
 			    
-			    
+			    // 수량 초기화
 			    $("#quantity").val(1);
-			    updateTotalPrice(newPrice); // 화면 업데이트
+			    updateTotalPrice(newPrice);
 			    
 			    basePrice = newPrice;
 			}
@@ -604,7 +663,7 @@
 			function getSalaryPrice() {
 			    return parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
 			}
-	
+
 			// 총 가격 업데이트
 			function updateTotalPrice(newPrice) {
 			    var element = document.getElementById("totalPrice");
@@ -646,6 +705,8 @@
 			
 			if (quantity <= 1){
 				$('#quantity').val(1);
+			} else if (quantity >= 999999){
+				$('#quantity').val(999999);
 			}
 			
 			updateTotalPrice(newPrice);
@@ -658,71 +719,82 @@
 		}
     
 		function pushCart() {
-			var option = '';
-			var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
-			var quantity = parseInt($('#quantity').val()) || 1;
-			var subTotal = parseInt(document.getElementById("totalPrice").getAttribute('data-price')) || 0;
-			  
-		    // 모든 옵션 셀렉트박스 확인
-		    var selectedOptions = [];
+		    var option = '';
+		    var optionIds = [];
+		    var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
+		    var quantity = parseInt($('#quantity').val()) || 1;
+		    var subTotal = parseInt(document.getElementById("totalPrice").getAttribute('data-price')) || 0;
+		      
 		    var hasOption = true;
-		    for(var i = 0; i < optionInfo.length; i++){
-		        var selectId = optionInfo[i].OPTION_ID + '_select';
-		        var selectElement = document.getElementById(selectId);
+		    
+		    // 모든 select 요소를 직접 찾기
+		    var allSelects = document.querySelectorAll('.option-select');
+		    
+		    for(var i = 0; i < allSelects.length; i++){
+		        var selectElement = allSelects[i];
 		        
-		        if(selectElement && selectElement.value !== '') {
-		        	
-		        	if(selectElement.value == 'non-select'){
-		        		hasOption = false;
-		        	}
-		        	
-		            var selectedOption = selectElement.options[selectElement.selectedIndex];
-		            var optionData = {
-		                optionId: optionInfo[i].OPTION_ID,
-		                optionName: optionInfo[i].OPTION_NAME,
-		                value: selectElement.value,
-		                displayText: selectedOption.text,
-		                price: selectedOption.getAttribute('data-price')
-		            };
-		            
-		            selectedOptions.push(optionData);
-		            console.log("옵션:", optionData.optionName + " = " + optionData.value + " (+" + optionData.price + "원)");
-		            
-		            option += optionData.value;
+		        if(selectElement.value === 'non-select' || selectElement.value === '') {
+		            hasOption = false;
+		            break;
 		        }
+		        
+		        var selectedOption = selectElement.options[selectElement.selectedIndex];
+		        var optionName = selectElement.getAttribute('data-option-name');
+		        
+		        // 실제 선택된 옵션 정보 추출
+		        // value 형식: "[색상] 블랙"
+		        var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0;
+		        
+		        // optionInfo에서 해당 옵션 찾기
+		        for(var j = 0; j < optionInfo.length; j++){
+		            if(optionInfo[j].OPTION_NAME === optionName && 
+		               selectElement.value.includes(optionInfo[j].OPTION_VALUE)){
+		                optionIds.push(optionInfo[j].OPTION_ID);
+		                break;
+		            }
+		        }
+		        
+		        option += selectElement.value + ' \n';
+		        
+		        console.log("선택된 옵션:", optionName + " = " + selectElement.value);
 		    }
 		    
-		    if(hasOption){
+		    console.log("최종 optionIds:", optionIds); // 확인용
 		    
-				var param = {
-					memberId: memberId,
-					cartId: cartId,
-					productId: productId,
-					option: option, 
-					price: price,
-					quantity: quantity,
-					subTotal: subTotal
-				};
-				
-				$.ajax({
-					url: "/insertCartItem.do",
-					type: "post",
-					data: param,
-					dataType: "json",
-					success: function(res) {
-						var result = res.insertResult;
-						if (result == 1) {
-							confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? null : null;
-						} else if (result == 2) {
-							confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? null : null;
-						}
-					},
-					error: function() {
-						alert("장바구니 담기 중 오류가 발생했습니다.");
-					}
-				});
+		    if(hasOption && allSelects.length > 0){
+		        var param = {
+		            memberId: memberId,
+		            cartId: cartId,
+		            productId: productId,
+		            option: option,
+		            optionIds: optionIds,
+		            price: price,
+		            quantity: quantity,
+		            subTotal: subTotal
+		        };
+		        
+		        console.log("서버에 전송: ", param);
+		        
+		        $.ajax({
+		            url: "/insertCartItem.do",
+		            type: "post",
+		            data: param,
+		            traditional: true,
+		            dataType: "json",
+		            success: function(res) {
+		                var result = res.insertResult;
+		                if (result == 1) {
+		                    confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId=1" : null;
+		                } else if (result == 2) {
+		                    confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId=1" : null;
+		                }
+		            },
+		            error: function() {
+		                alert("장바구니 담기 중 오류가 발생했습니다.");
+		            }
+		        });
 		    } else {
-		    	alert("모든 옵션을 선택해주세요.");
+		        alert("모든 옵션을 선택해주세요.");
 		    }
 		}
 	</script>
@@ -814,7 +886,7 @@
 									<td>수량</td>
 									<td>
 										<button onclick="countDown()">-</button>
-										<input type="number" name="quantity" id="quantity" value="1" min="1" onchange="updateCnt()">
+										<input type="number" name="quantity" id="quantity" value="1" min="1" max="999999" onchange="updateCnt()">
 										<button onclick="countUp()">+</button>
 									</td>
 								</tr>
@@ -831,13 +903,15 @@
 			</div>
 		</div>
     	<div class="inner">
-    		<nav>
-				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
-					<button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
-					<button class="nav-link" id="nav-qna-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
-				</div>
-			</nav>
+    		<div class="tab-navigation-section">
+	    		<nav>
+					<div class="nav nav-tabs" id="nav-tab" role="tablist">
+						<button class="nav-link active" hrer="goDetail" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
+						<button class="nav-link" href="#nav-profile" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
+						<button class="nav-link" href="goQna" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
+					</div>
+				</nav>
+			</div>
 			<div class="tab-content" id="nav-tabContent">
 				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 					<%@ include file="tabs/description.jsp" %>

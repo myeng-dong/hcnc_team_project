@@ -1,5 +1,6 @@
 package user.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,18 +49,37 @@ public class UserProductController {
 	///////////////////////////////////////////////////////////////
 	
 	@RequestMapping(value="/insertCartItem.do")
-	public ModelAndView insertCartItemByUser(@RequestParam Map<String, Object> param) {
+	public ModelAndView insertCartItemByUser(HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView("jsonView");
 		
-		System.out.println(param);
+		// optionIds 배열 따로 받기
+		String[] optionIdsStr = request.getParameterValues("optionIds");
+		List<Long> optionIds = new ArrayList<Long>();
+		if (optionIdsStr != null) {
+			for (String id : optionIdsStr) {
+				optionIds.add(Long.parseLong(id));
+			}
+		}
 		
-		int insertCartItem = userProductService.insertCartItemByUser(param);
+		// 나머지 파라미터 데이터 Map으로 처리
+		Map<String, Object> param = new HashMap<>();
+	    param.put("memberId", request.getParameter("memberId"));
+	    param.put("cartId", request.getParameter("cartId"));
+	    param.put("productId", request.getParameter("productId"));
+	    param.put("option", request.getParameter("option"));
+	    param.put("price", request.getParameter("price"));
+	    param.put("quantity", request.getParameter("quantity"));
+	    param.put("subTotal", request.getParameter("subTotal"));
 		
-		mav.addObject("insertResult", insertCartItem);
 		
-		System.out.println(insertCartItem);
-		
+	    System.out.println("옵션 IDs: " + optionIds);
+	    System.out.println("파라미터: " + param);
+	    
+	    int insertResult = userProductService.insertCartItemByUser(param, optionIds);
+	    
+	    mav.addObject("insertResult", insertResult);
+	    
 		return mav;
 	}
 	
@@ -141,4 +161,56 @@ public class UserProductController {
 		return mav;
 	}
 	
+	private static final int PAGE_SIZE = 16; // 페이지당 상품 수
+    private static final int PAGE_BLOCK_SIZE = 10; // 페이지 블록 크기
+
+    @RequestMapping(value="/list.do")
+    public ModelAndView selectProductListByCategory(@RequestParam Map<String, Object> param) {
+        
+        ModelAndView mav = new ModelAndView();
+        
+        try {
+            // 파라미터 추출
+            String mainCateId = (String) param.get("mainCateId");
+            String subCateId = (String) param.get("subCateId");
+            String sortType = param.get("sortType") != null ? (String) param.get("sortType") : "newest";
+            int page = param.get("page") != null ? Integer.parseInt((String) param.get("page")) : 1;
+
+            // 상품 총 개수 조회
+            int totalCount = userProductService.getCategoryProductsCount(mainCateId, subCateId);
+
+            // 페이징 계산
+            int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
+            int offset = (page - 1) * PAGE_SIZE;
+
+            // 페이지 블록 계산
+            int startPage = ((page - 1) / PAGE_BLOCK_SIZE) * PAGE_BLOCK_SIZE + 1;
+            int endPage = Math.min(startPage + PAGE_BLOCK_SIZE - 1, totalPages);
+
+            // 상품 목록 조회
+            List<Map<String, Object>> productList = userProductService.getCategoryProductsList(
+                    mainCateId, subCateId, sortType, offset, PAGE_SIZE);
+
+            // ModelAndView에 데이터 추가
+            mav.addObject("mainCateId", mainCateId);
+            mav.addObject("subCateId", subCateId);
+            mav.addObject("productList", productList);
+            mav.addObject("totalCount", totalCount);
+            mav.addObject("sortType", sortType);
+            mav.addObject("currentPage", page);
+            mav.addObject("totalPages", totalPages);
+            mav.addObject("startPage", startPage);
+            mav.addObject("endPage", endPage);
+
+            mav.setViewName("product/list");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("errorMessage", "상품 목록을 불러오는 중 오류가 발생했습니다.");
+            mav.setViewName("error/error");
+        }
+        
+        return mav;
+    }
 }
+	

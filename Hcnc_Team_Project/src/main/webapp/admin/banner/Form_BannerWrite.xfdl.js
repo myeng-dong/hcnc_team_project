@@ -134,7 +134,7 @@
 
             obj = new Static("txt_date_td","200","224","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("11");
-            obj.set_text("YYYY.mm.dd");
+            obj.set_text("-");
             obj.set_font("normal 14pt/normal \"Noto Sans KR\"");
             this.addChild(obj.name, obj);
 
@@ -152,7 +152,7 @@
             obj.set_color("#a3aed0");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_date_td00","750","224","372","36",null,null,null,null,null,null,this);
+            obj = new Static("txt_update_td","750","224","372","36",null,null,null,null,null,null,this);
             obj.set_taborder("14");
             obj.set_text("-");
             obj.set_font("normal 14pt/normal \"Noto Sans KR\"");
@@ -167,7 +167,7 @@
 
             obj = new Static("txt_inputid","200","171","250","36",null,null,null,null,null,null,this);
             obj.set_taborder("16");
-            obj.set_text("inputid는 로그인한거");
+            obj.set_text("-");
             obj.set_font("normal 14pt/normal \"Noto Sans KR\"");
             this.addChild(obj.name, obj);
 
@@ -253,7 +253,7 @@
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
             var radio_banner_type_innerdataset = new nexacro.NormalDataset("radio_banner_type_innerdataset", obj);
-            radio_banner_type_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">main</Col><Col id=\"datacolumn\">메인배너</Col></Row><Row><Col id=\"codecolumn\">top</Col><Col id=\"datacolumn\">탑배너</Col></Row></Rows>");
+            radio_banner_type_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">main</Col><Col id=\"datacolumn\">메인배너</Col></Row><Row><Col id=\"codecolumn\">top</Col><Col id=\"datacolumn\">탑배너</Col></Row><Row><Col id=\"codecolumn\">popup</Col><Col id=\"datacolumn\">팝업배너</Col></Row></Rows>");
             obj.set_innerdataset(radio_banner_type_innerdataset);
             obj.set_text("메인배너");
             obj.set_value("main");
@@ -280,10 +280,6 @@
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item0","txt_inputid","text","gds_menu","MEMBER_ID");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
             obj = new BindItem("item1","file_name","value","ds_file","IMG_ORIGIN_NAME");
             this.addChild(obj.name, obj);
             obj.bind();
@@ -315,126 +311,188 @@
         
         // User Script
         this.registerScript("Form_BannerWrite.xfdl", function() {
-        // 오늘 날짜 계산
+        this.memberId="";
+
         var objDate = new nexacro.Date();
         var mm = (objDate.getMonth() + 1).toString().padLeft(2, "0");
         var dd = objDate.getDate().toString().padLeft(2, "0");
         var TODAY = objDate.getFullYear() + "." + mm + "." + dd;
         var TODAYNUM = objDate.getFullYear() + mm + dd;
 
+        // 업로드 상태확인용
+        this.isUploading = false;
+        this.uploadCompleted = false;
+
         this.Form_BannerWrite_onload = function(obj, e) {
             trace("배너 추가페이지 >>>");
 
-            // 기본값은 insert id값 있으면 update되도록 설정
-            this.mode = "insert";
-            if (this.ds_bwrite.getColumn(0, "BANNER_ID")) {
-                this.mode = "update";
+            //arguments
+            var ownerFrame = this.getOwnerFrame();
+            var bannerId = null;
+            var memberId = null;
+
+            if (ownerFrame && ownerFrame.arguments) {
+                bannerId = ownerFrame.arguments["BANNER_ID"];
+                memberId = ownerFrame.arguments["MEMBER_ID"];
             }
 
-            // 수정 모드로 들어온 경우 (예: 기존 배너 데이터가 ds_bwrite에 있음)
-            if (this.ds_bwrite.getColumn(0, "BANNER_ID")) {
-                // 수정 시 기존 값 폼에 세팅
+            // memberId가 없으면 전역 Dataset에서 가져오기 (백업)
+            if (!memberId && nexacro.getApplication().gds_adminInfo && nexacro.getApplication().gds_adminInfo.rowcount > 0) {
+                memberId = nexacro.getApplication().gds_adminInfo.getColumn(0, "MEMBER_ID");
+            }
+
+            this.memberId = memberId;
+
+            // 모드 설정
+            this.mode = bannerId ? "update" : "insert";
+            trace("memberId: " + this.memberId);
+        	trace("TODAY: " + TODAY);
+        	trace("모드확인용임"+this.mode);
+            if (this.mode === "update") {
+        		trace("업데이트모드임");
+        		// 업데이트
+                var sortNumber = this.ds_bwrite.getColumn(0, "SORT_NUMBER");
+                this.check_top.set_value(sortNumber == "1" || sortNumber == 1);
+        		this.radio_view_type.set_value(this.ds_bwrite.getColumn(0, "IS_VISIBLE"));
+                this.radio_banner_type.set_enable(false);//배너 타입 변경 불가
+        		this.radio_banner_type.set_value(this.ds_bwrite.getColumn(0, "BANNER_TYPE"));
                 this.input_title.set_text(this.ds_bwrite.getColumn(0, "BANNER_TITLE"));
-                this.radio_banner_type.set_value(this.ds_bwrite.getColumn(0, "BANNER_TYPE"));
-                this.radio_view_type.set_value(this.ds_bwrite.getColumn(0, "IS_VISIBLE"));
                 this.edit_link.set_text(this.ds_bwrite.getColumn(0, "LINKED_URL"));
-                this.txt_date_td.set_text(this.ds_bwrite.getColumn(0, "INPUT_DT"));
-                this.file_name.set_value(this.ds_bwrite.getColumn(0, "IMG_ORIGIN_NAME"));
-            }
+                this.input_dt.set_text(this.ds_bwrite.getColumn(0, "INPUT_DT"));
+                this.input_id.set_text(this.ds_bwrite.getColumn(0, "INPUT_ID"));
+        		this.txt_update_td.set_text(TODAY);
+        		this.txt_updateid.set_text(this.memberId);
+        		this.ds_bwrite.setColumn(0, "UPDATE_DT", TODAY);
+        		this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
 
-            // 오늘 날짜로 텍스트 세팅
-            this.txt_date_td.set_text(TODAY);
+                this.uploadCompleted = true;
+                this.file_name.set_value(this.ds_bwrite.getColumn(0, "IMG_ORIGIN_NAME"));
+
+                // 업데이트 모드에서 탑배너인 경우 파일 버튼 비활성화
+                if (this.ds_bwrite.getColumn(0, "BANNER_TYPE") === "top") {
+                    this.btn_selectFile.set_enable(false);
+                    this.file_name.set_value("탑배너는 이미지를 사용하지 않습니다.");
+                }
+
+            } else {
+        		trace("Insert모드임");
+                if (this.ds_bwrite.rowcount === 0) {
+                    this.ds_bwrite.addRow();
+                }
+                this.check_top.set_value(true);
+                this.txt_date_td.set_text(TODAY);
+                this.txt_inputid.set_text(this.memberId);
+        		this.txt_update_td.set_text(TODAY);
+                this.txt_updateid.set_text(this.memberId);
+
+                this.ds_bwrite.setColumn(0, "INPUT_DT", TODAY);
+                this.ds_bwrite.setColumn(0, "INPUT_ID", this.memberId);
+        		this.ds_bwrite.setColumn(0, "UPDATE_DT", TODAY);
+                this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
+
+                this.uploadCompleted = false;
+            }
         };
 
-        // 취소 버튼 클릭
+        // 라디오 TOP일때만 디스에이블처리
+        this.radio_banner_type_onitemchanged = function(obj, e) {
+            if (obj.value === "top") {
+                this.btn_selectFile.set_enable(false);
+                this.file_name.set_value("탑배너는 이미지를 사용하지 않습니다.");
+            } else {
+                this.btn_selectFile.set_enable(true);
+                this.file_name.set_value("");
+            }
+        };
+
+        // 취소버튼
         this.btn_cancel_onclick = function(obj,e) {
             this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
         };
-        // 파일 선택 버튼 클릭
+
+        // 넥사파일 선택 버튼 클릭
         this.btn_selectFile_onclick = function(obj, e) {
-            this.FileDialog.open('nexacro17', FileDialog.MULTILOAD);
+            if (this.isUploading) {
+                alert("파일 업로드 중입니다. 잠시 후 다시 시도해주세요.");
+                return;
+            }
+            this.FileDialog.open('nexacro17', FileDialog.LOAD);
         };
 
-        // 파일 선택 후 처리
+        // 넥사 파일 선택 후 처리
         this.FileDialog_onclose = function(obj, e) {
             var files = e.virtualfiles;
             if (files && files.length > 0) {
                 var nexafile = files[files.length - 1];
-                trace("선택파일: " + nexafile.filename);
 
-                // 기존 Dataset 초기화
-                for (var i = this.ds_bwrite.rowcount - 1; i >= 0; i--) {
-                    this.ds_bwrite.deleteRow(i);
+                // 이미지 파일 확장자 검증
+                var ext = nexafile.filename.split('.').pop().toLowerCase();
+                var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                if (allowedExtensions.indexOf(ext) === -1) {
+                    alert("이미지 파일만 업로드 가능합니다. (jpg, jpeg, png, gif)");
+                    return;
                 }
 
-                var row = this.ds_bwrite.addRow();
-                this.ds_bwrite.setColumn(row, "IMG_ORIGIN_NAME", nexafile.filename);
+                // 업로드 상태 설정
+                this.isUploading = true;
+                this.uploadCompleted = false;
 
-                var ext = nexafile.filename.split('.').pop();
-                var attachedName = this.radio_banner_type.value + "_" + nexafile.name + "_" + TODAYNUM + "." + ext;
-                this.ds_bwrite.setColumn(row, "IMG_ATTACHED_NAME", attachedName);
-                this.file_name.set_value(nexafile.filename);
-
-                // FileUpTransfer 설정
                 this.FileUpTransfer.clearFileList();
                 this.FileUpTransfer.addFile("bFile", nexafile);
-                this.FileUpTransfer.setPostData("attachedName", attachedName);
 
-                this.FileUpTransfer.url = "svc::uploadBannerFile.do";
-
-                trace("파일 업로드 시작 - URL: " + this.FileUpTransfer.url);
-                trace("attachedName: " + attachedName);
-
+                this.FileUpTransfer.url = "svc::previewBannerFile.do";
                 this.FileUpTransfer.upload();
 
             } else {
                 this.file_name.set_value("선택된 파일이 없습니다.");
-                trace("선택된 파일이 없습니다.");
             }
-
-            trace("ds_bwrite rowcount: " + this.ds_bwrite.rowcount);
         };
 
-        // 완료 버튼 클릭 시 파일 업로드
+        // 완료 버튼
         this.btn_done_onclick = function(obj, e) {
-            // Dataset에 버튼 클릭 시 필요한 컬럼 세팅
+            if (this.isUploading) {
+                alert("파일 업로드 중입니다. 잠시 후 다시 시도해주세요.");
+                return;
+            }
+
             var sortNumber = this.check_top.value ? 1 : 0;
             this.ds_bwrite.setColumn(0, "SORT_NUMBER", sortNumber);
             this.ds_bwrite.setColumn(0, "BANNER_TYPE", this.radio_banner_type.value);
             this.ds_bwrite.setColumn(0, "BANNER_TITLE", this.input_title.text);
             this.ds_bwrite.setColumn(0, "IS_VISIBLE", this.radio_view_type.value);
             this.ds_bwrite.setColumn(0, "LINKED_URL", this.edit_link.text);
-            this.ds_bwrite.setColumn(0, "INPUT_DT", TODAY);
 
-            // 입력값 검증
+            var finalMode = this.mode;
+            if (!finalMode) {
+                var bannerId = this.ds_bwrite.getColumn(0, "BANNER_ID");
+                finalMode = bannerId ? "update" : "insert";
+                this.mode = finalMode;
+            }
+
+            // top 타입이 아닐 때만 파일 검증
+            if (this.radio_banner_type.value !== "top") {
+                if (finalMode === "insert" && this.ds_file.rowcount === 0) {
+                    alert("이미지를 업로드해주세요.");
+                    return;
+                }
+            }
+
             if (!this.radio_view_type.value || !this.radio_banner_type.value ||
                 !this.input_title.text || this.ds_bwrite.rowcount < 1 || !this.edit_link.text) {
                 alert("모든 항목을 입력해 주세요.");
                 return;
             }
 
-            // IMG_PATH 확인
-            var imgPath = this.ds_bwrite.getColumn(0, "IMG_PATH");
-            if (!imgPath) {
-                alert("이미지 업로드가 완료되지 않았습니다. 잠시 후 다시 시도해주세요.");
-                trace("IMG_PATH가 설정되지 않음");
-                return;
+            if(finalMode === "insert"){
+                if (!this.ds_bwrite.getColumn(0, "INPUT_ID")) {
+                    this.ds_bwrite.setColumn(0, "INPUT_ID", this.memberId);
+                    this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
+                }
+            } else if(finalMode === "update") {
+                this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
             }
 
-            // 디버그 출력
-            trace("=== 완료 버튼 클릭 시 Dataset 값 확인 ===");
-            trace("SORT_NUMBER: " + this.ds_bwrite.getColumn(0, "SORT_NUMBER"));
-            trace("BANNER_TYPE: " + this.ds_bwrite.getColumn(0, "BANNER_TYPE"));
-            trace("BANNER_TITLE: " + this.ds_bwrite.getColumn(0, "BANNER_TITLE"));
-            trace("IS_VISIBLE: " + this.ds_bwrite.getColumn(0, "IS_VISIBLE"));
-            trace("IMG_ORIGIN_NAME: " + this.ds_bwrite.getColumn(0, "IMG_ORIGIN_NAME"));
-            trace("IMG_ATTACHED_NAME: " + this.ds_bwrite.getColumn(0, "IMG_ATTACHED_NAME"));
-            trace("IMG_PATH: " + this.ds_bwrite.getColumn(0, "IMG_PATH"));
-            trace("LINKED_URL: " + this.ds_bwrite.getColumn(0, "LINKED_URL"));
-            trace("INPUT_DT: " + this.ds_bwrite.getColumn(0, "INPUT_DT"));
-            trace("INPUT_ID: " + this.ds_bwrite.getColumn(0, "INPUT_ID"));
-
-            if(this.mode === "insert"){
+            if(finalMode === "insert"){
                 this.fnInsertBanner();
             } else {
                 this.fnUpdateBanner();
@@ -448,82 +506,72 @@
 
         // FileUpTransfer 업로드 성공 시 서버 전송
         this.FileUpTransfer_onsuccess = function(obj, e) {
-            trace("FileUpTransfer 업로드 성공 콜백 시작");
+            if (this.uploadCompleted) {
+                return;
+            }
 
-            // 기본적인 속성만 확인
-            trace("e.datasets 존재: " + (e.datasets ? "YES" : "NO"));
-            trace("e.variables 존재: " + (e.variables ? "YES" : "NO"));
+            var fileUrl = e.datasets[0]._rawRecords[0][1];
+            var originalName = e.datasets[0]._rawRecords[0][0];
 
-            var imgPath = null;
+                trace("fileUrl: " + fileUrl);
+                trace("originalName: " + originalName);
 
-            // Dataset 방식으로 시도
-            if (e.datasets && e.datasets["ds_file"]) {
-                var ds = e.datasets["ds_file"];
-                trace("ds_file Dataset 찾음, rowcount: " + ds.getRowCount());
-
-                if (ds.getRowCount() > 0) {
-                    imgPath = ds.getColumn(0, "IMG_PATH");
-                    trace("Dataset에서 IMG_PATH: " + imgPath);
+            if (fileUrl) {
+                if (this.ds_file.rowcount === 0) {
+                    this.ds_file.addRow();
                 }
-            } else {
-                trace("ds_file Dataset 없음");
-            }
+                this.ds_file.clearData();
 
-            // Variable 방식으로 시도
-            if (!imgPath && e.variables && e.variables["IMG_PATH"]) {
-                imgPath = e.variables["IMG_PATH"];
-                trace("Variable에서 IMG_PATH: " + imgPath);
-            }
+                var nRow = this.ds_file.addRow();
 
-            // 둘 다 안되면 직접 구성
-            if (!imgPath && this.ds_bwrite.rowcount > 0) {
-                var attachedName = this.ds_bwrite.getColumn(0, "IMG_ATTACHED_NAME");
-                if (attachedName) {
-                    imgPath = "/upload/banner/" + attachedName;
-                    trace("직접 구성한 IMG_PATH: " + imgPath);
-                }
-            }
+                this.ds_file.setColumn(nRow, "IMG_PATH", fileUrl);
+                this.ds_file.setColumn(nRow, "IMG_ORIGIN_NAME", originalName);
 
-            // IMG_PATH 설정
-            if (imgPath && this.ds_bwrite.rowcount > 0) {
-                this.ds_bwrite.setColumn(0, "IMG_PATH", imgPath);
-                trace("ds_bwrite에 IMG_PATH 설정 완료: " + imgPath);
-            } else {
-                trace("IMG_PATH 설정 실패");
-            }
+                // 디버깅 로그
+                trace("=== 파일 업로드 완료 ===");
+                trace("ds_file rowcount: " + this.ds_file.rowcount);
+                trace("ds_file RowType: " + this.ds_file.getRowType(nRow));
+                trace("IMG_PATH: " + fileUrl);
+                trace("IMG_ORIGIN_NAME: " + originalName);
 
-            trace("FileUpTransfer_onsuccess 완료");
+                this.file_name.set_value(originalName);
+
+                this.uploadCompleted = true;
+                this.isUploading = false;
+
+                alert("파일 업로드 완료: " + originalName);
+        	}
         };
 
         // 업로드 실패 시 처리
         this.FileUpTransfer_onerror = function(obj, e) {
-            trace("업로드 실패: msg=" + e.errormsg + ", status=" + e.statuscode);
+            this.isUploading = false;
+            this.uploadCompleted = false;
+            alert("파일 업로드에 실패했습니다: " + e.errormsg);
         };
 
         // 서버 전송 - insert
         this.fnInsertBanner = function() {
             var strSvcID = "insertBanner";
             var strURL = "svc::insertBannerByAdmin.do";
-            var strInDatasets = "ds_bwrite=ds_bwrite";
+            var strInDatasets = "ds_bwrite=ds_bwrite ds_file=ds_file";
             var strOutDatasets = "";
             var strArg = "";
             var strCallback = "fnCallback";
 
             this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
-            trace(strSvcID + " : 배너 insert 요청 >>>");
         };
 
         // 서버 전송 - update
         this.fnUpdateBanner = function() {
             var strSvcID = "updateBanner";
             var strURL = "svc::updateBannerByAdmin.do";
-            var strInDatasets = "ds_bwrite=ds_bwrite";
-            var strOutDatasets = "ds_bwrite=ds_bwrite";
+            var strInDatasets = "ds_bwrite=ds_bwrite ds_file=ds_file";
+            var strOutDatasets = ""; // update는 결과 데이터를 받아올 필요 없음
             var strArg = "";
             var strCallback = "fnCallback";
 
             this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
-            trace(strSvcID + " : 배너 update 요청 >>>");
         };
 
         // 서버 콜백
@@ -543,7 +591,6 @@
                     break;
             }
         };
-
         });
         
         // Regist UI Components Event
@@ -560,11 +607,9 @@
             this.txt_date_td.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_date00.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_update_dt.addEventHandler("onclick",this.txt_th00_onclick,this);
-            this.txt_date_td00.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_date02.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_inputid.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_date01_00.addEventHandler("onclick",this.txt_th00_onclick,this);
-            this.txt_updateid.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.radio_banner_type.addEventHandler("onitemchanged",this.radio_banner_type_onitemchanged,this);
             this.btn_selectFile.addEventHandler("onclick",this.btn_selectFile_onclick,this);
             this.FileDialog.addEventHandler("onclose",this.FileDialog_onclose,this);
