@@ -133,7 +133,7 @@
                 <Cell col="12" edittype="none" background="#ffffff" text="bind:OPTION_VALUE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
                 <Cell col="13" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;" textAlign="center" displaytype="date"/>
                 <Cell col="14" edittype="none" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
-                <Cell col="15" edittype="mask" background="#ffffff" text="bind:QUANTITY" font="12px/normal &quot;Gulim&quot;" textAlign="center" displaytype="mask"/>
+                <Cell col="15" edittype="mask" background="#ffffff" text="bind:QUANTITY" font="12px/normal &quot;Gulim&quot;" textAlign="center" displaytype="mask" textareamaxlength="-1" maskeditformat="####"/>
                 <Cell col="16" edittype="none" text="재고변경" font="12px/normal &quot;Gulim&quot;" displaytype="buttoncontrol" background="transparent" cssclass="productCellBtnEdit"/>
               </Band>
             </Format>
@@ -411,19 +411,36 @@ this.cmb_cate1_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEv
 this.fn_updateVisibleProd = function(newState)
 {
     var selRows = [];
-
+	var alreadyCnt = 0; // 이미 같은 상태인 상품 개수
+	
     for (var i=0; i<this.ds_out_proList.getRowCount(); i++) {
         if (this.ds_out_proList.getColumn(i, "chk") == 1) {
-            selRows.push(this.ds_out_proList.getColumn(i, "PRODUCT_ID"));
+			var curState = this.ds_out_proList.getColumn(i,"IS_VISIBLE");
+			
+			//원래 있던상태랑 현재 상태 다르면 넣기
+			if(curState != newState){
+				selRows.push(this.ds_out_proList.getColumn(i, "PRODUCT_ID"));
+			} else { 
+				alreadyCnt++;
+			}
         }
     }
 
+	
+	// 체크했지만 전부 이미 같은 상태인 경우
     if (selRows.length == 0) {
-        this.alert((newState == "Y" ? "진열" : "숨김") + "할 상품을 선택하세요.");
+        this.alert("선택한 상품은 이미 " + (newState == "Y" ? "진열" : "숨김") + " 상태입니다.");
         return;
     }
 
-    if (!this.confirm("총 " + selRows.length + "건을 " + (newState == "Y" ? "진열" : "숨김") + " 상태로 변경하시겠습니까?\n같은 상품계열은 모두 같은상태로 변경됩니다.")) {
+    // 일부는 이미 같은 상태, 일부만 변경 대상일 때 → 안내 후 진행
+    if (alreadyCnt > 0) {
+        this.alert("선택한 상품 중 " + alreadyCnt + "건은 이미 " 
+            + (newState == "Y" ? "진열" : "숨김") + " 상태입니다.\n나머지 상품만 변경합니다.");
+    }
+
+    if (!this.confirm("총 " + selRows.length + "건을 " 
+        + (newState == "Y" ? "진열" : "숨김") + " 상태로 변경하시겠습니까?\n같은 상품계열은 모두 같은 상태로 변경됩니다.")) {
         return;
     }
 
@@ -478,6 +495,19 @@ this.grid_list_oncellclick = function (obj, e) {
 this.ds_out_proList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
 	if(e.columnid == "QUANTITIY"){
+		var n = nexacro.toNumber(e.newvalue);
+		
+		if (n > 9999) {
+            obj.setColumn(e.row, "QUANTITY", 9999);
+            this.alert("수량은 최대 9999까지만 입력 가능합니다.");
+        } else if (n < 0) {
+            obj.setColumn(e.row, "QUANTITY", 0);
+            this.alert("수량은 0 이상이어야 합니다.");
+        }
+	
+	
+	
+	
 		this._updateQuantityByButton (e.row);
 	}
 };
