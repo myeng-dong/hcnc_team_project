@@ -742,6 +742,15 @@
 				return;
 			}
 			
+			var guestId = null;
+			if(localStorage.getItem("guestId") != null){
+				guestId = localStorage.getItem("guestId");
+			} else {
+				guestId = "NoMember" + Date.now() + Math.random().toString(36).substring(2, 9);
+				
+				localStorage.setItem("guestId", guestId);
+			}
+			
 		    var option = '';
 		    var optionIds = [];
 		    var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
@@ -951,13 +960,6 @@
 		$(function(){
 			loadAllData();
 			
-			if(localStorage.getItem("guestId") != null){
-				const guestId = localStorage.getItem("guestId");
-			} else {
-				const guestId = "NoMember" + Date.now() + Math.random().toString(36).substring(2, 9);
-				
-				localStorage.setItem("guestId", guestId);
-			}
 		});
 		
 		// 비동기 처리
