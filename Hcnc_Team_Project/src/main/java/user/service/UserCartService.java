@@ -1,7 +1,10 @@
 package user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -20,7 +23,54 @@ public class UserCartService {
 	private UserCartMapper cartMapper;
 	
 	public List<HashMap<String, Object>> selectCartListByUser(HashMap<String, Object> param){
-		return cartMapper.selectCartListByUser(param);
+		
+		List<HashMap<String, Object>> selectCartItems = cartMapper.selectCartListByUser(param);
+		
+		// cartItemId 기준으로 그룹화
+		Map<Long, HashMap<String, Object>> cartItemMap = new LinkedHashMap<>();
+		
+		for(HashMap<String, Object> row: selectCartItems) {
+			Long cartItemId = (Long) row.get("CART_ITEM_ID");
+			
+			// 해당 cartItemId가 cartItemMap에 없는 경우
+			if(!cartItemMap.containsKey(cartItemId)) {
+				HashMap<String, Object> item = new HashMap<>();
+				
+				item.put("PRODUCT_ID", row.get("PRODUCT_ID"));
+	            item.put("PRODUCT_NAME", row.get("PRODUCT_NAME"));
+	            item.put("PRODUCT_OPTION", row.get("PRODUCT_OPTION"));
+	            item.put("PRICE", row.get("PRICE"));
+	            item.put("QUANTITY", row.get("QUANTITY"));
+	            item.put("SUB_TOTAL", row.get("SUB_TOTAL"));
+	            item.put("IS_CHECKED", row.get("IS_CHECKED"));
+	            item.put("CART_ITEM_ID", cartItemId);
+	            item.put("IS_WISHLIST", row.get("IS_WISHLIST"));
+	            
+	            // 옵션이 있는 경우 담을 리스트 추가해놓기
+	            item.put("options", new ArrayList<HashMap<String, Object>>());
+			
+	            cartItemMap.put(cartItemId, item);
+			}
+			
+			// 옵션 정보 추가 (옵션이 있는 경우만)
+			if(row.get("OPTION_ID") != null) {
+				HashMap<String, Object> option = new HashMap<>();
+				
+				option.put("OPTION_ID", row.get("OPTION_ID"));
+				option.put("OPTION_NAME", row.get("OPTION_NAME"));
+	            option.put("OPTION_VALUE", row.get("OPTION_VALUE"));
+	            option.put("ADDITIONAL_PRICE", row.get("ADDITIONAL_PRICE"));
+	            
+	            @SuppressWarnings("unchecked")
+				List<HashMap<String, Object>> options =
+	            		(List<HashMap<String, Object>>) cartItemMap.get(cartItemId).get("options");
+	            
+	            options.add(option);
+			}
+		}
+		
+		// Map의 values를 List로 반환
+		return new ArrayList<>(cartItemMap.values());
 	}
 
 	public int updateQuantity(HashMap<String, Object> param) {
