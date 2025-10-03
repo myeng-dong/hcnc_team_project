@@ -62,9 +62,7 @@ public class UserOrderController {
 		if(userInfo != null) {
 			String memberId = (String) userInfo.get("MEMBER_ID");
 			param.put("memberId", memberId);
-		} else {
-			String memberId = (String) param.get("guestId");
-		}
+		} 
 		
 		System.out.println(param);
 		

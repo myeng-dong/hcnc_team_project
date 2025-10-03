@@ -165,12 +165,22 @@
 	
 	<insert id="insertCartsByUser" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cartId">
 		INSERT INTO CARTS (MEMBER_ID)
+			<if test="tempId != null">
+			VALUES ( #{tempId} )
+			</if>
+			<if test="tempId == null">
 			VALUES ( #{memberId} )
+			</if>
 	</insert>
 
 	<insert id="insertCartItemByUser" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cartItemId">
-		INSERT INTO CART_ITEMS (CART_ID, PRODUCT_ID, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL)
-			VALUES ( #{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} )
+		INSERT INTO CART_ITEMS (CART_ID, PRODUCT_ID, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL, IS_CHECKED)
+			<if test="tempId != null">
+			VALUES ( #{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} , 'Y')
+			</if>
+			<if test="tempId == null">
+			VALUES ( #{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} , 'N')
+			</if>
 	</insert>
 	
 	<insert id="insertCartItemOptionByUser" parameterType="java.util.Map">

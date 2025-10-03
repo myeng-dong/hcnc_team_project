@@ -10,7 +10,6 @@
 
 <script>
 	$(function(){
-	    // 안전한 값 처리
 	    var orderNumber = "${orderInfo.ORDER_NUMBER}" || "";
 	    var userName = "${orderInfo.USER_NAME}" || "";
 	    var phoneNumber = "${orderInfo.PHONE_NUMBER}" || "";
@@ -18,7 +17,6 @@
 	    var shippingAddr1 = "${orderInfo.SHIPPING_ADDR_1}" || "";
 	    var shippingAddr2 = "${orderInfo.SHIPPING_ADDR_2}" || "";
 	    
-	    // null 체크 후 숫자 변환
 	    var totalAmount = Number("${orderInfo.TOTAL_AMOUNT}") || 0;
 	    var shipCost = Number("${orderInfo.SHIP_COST}") || 0;
 	    var discountAmount = Number("${orderInfo.DISCOUNT_AMOUNT}") || 0;
@@ -49,6 +47,13 @@
 		$("#pointUsed").text(pointUsed.toLocaleString() + "P");
 		$("#paymentMethod").text(paymentMethod);
 		$("#finalAmount").text(finalAmount.toLocaleString() + "원");
+		
+		if(sessionStorage.getItem("tempId") != null){
+			sessionStorage.removeItem("tempId");
+		}
+		if(sessionStorage.getItem("orderData") != null){
+			sessionStorage.removeItem("orderData");
+		}
 	});
 </script>
 

@@ -39,5 +39,7 @@ public interface UserOrderMapper {
 
 	HashMap<String, Object> selectSuccessOrderByUser(String orderNumber);
 
+	int deleteCartByUser(Map<String, Object> order);
+
 
 }

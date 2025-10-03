@@ -538,31 +538,41 @@
 	</script>
 	
 	<script>
-		// 부트스트랩 네비 메뉴 버튼 (즉시 상단 이동 - ㄻ 250925 14:13)
+		// 부트스트랩 네비 메뉴 버튼
 		const triggerTabList = document.querySelectorAll('#nav-tab button')
 		triggerTabList.forEach(triggerEl => {
-		  const tabTrigger = new bootstrap.Tab(triggerEl)
-	
-		  triggerEl.addEventListener('click', event => {
-		    event.preventDefault();
-		    tabTrigger.show();
-		    
-		    setTimeout(function() {
-	            // 탭 네비게이션 섹션을 화면 맨 위로 스크롤
-	            const tabNavigationSection = document.querySelector('.tab-navigation-section');
-	            if (tabNavigationSection) {
-	                // 탭이 화면 맨 위에 딱 붙도록 스크롤
-	                tabNavigationSection.scrollIntoView({ 
-	                    behavior: 'smooth', 
-	                    block: 'start' 
-	                });
-	            }
-	        }, 100);
-		  })
+			const tabTrigger = new bootstrap.Tab(triggerEl)
+			
+			triggerEl.addEventListener('click', event => {
+				event.preventDefault();
+				tabTrigger.show();
+				
+				scrollToTabNavigation();
+			})
 		})
 		
-
-
+		// 탭 네비게이션으로 스크롤하는 함수
+		function scrollToTabNavigation() {
+			const tabNavigationSection = document.querySelector('.tab-navigation-section');
+			if (!tabNavigationSection) return;
+			
+			// 1. sticky 일시 해제
+			tabNavigationSection.style.position = 'static';
+			
+			// 2. 레이아웃 재계산을 위한 짧은 지연
+			setTimeout(function() {
+				// 3. 탭 위치로 스크롤
+				tabNavigationSection.scrollIntoView({ 
+					behavior: 'smooth', 
+					block: 'start' 
+				});
+				
+				// 4. 스크롤 완료 후 sticky 복원
+				setTimeout(function() {
+					tabNavigationSection.style.position = '';
+				}, 500);
+			}, 10);
+		}
 	</script>
 	
 <!-- 상품 옵션 처리  -->
@@ -687,9 +697,6 @@
 		var urlParams = new URLSearchParams(window.location.search);
 	
 		var productId = urlParams.get('productId');
-		var guestId = "NoMember" + Date.now() + Math.random().toString(36).substring(2, 9);
-		
-		localStorage.setItem('guestId', guestId);
 	
 
 		// 수량 버튼 (새로운 옵션 시스템과 통합)
@@ -728,7 +735,13 @@
 			console.log(selected);
 		}
     
-		function pushCart() {
+		var isProcessing = false;
+		function pushCart() {	
+			if(isProcessing){
+				console.log("처리 중 입니다...");
+				return;
+			}
+			
 		    var option = '';
 		    var optionIds = [];
 		    var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
@@ -752,7 +765,6 @@
 		        var optionName = selectElement.getAttribute('data-option-name');
 		        
 		        // 실제 선택된 옵션 정보 추출
-		        // value 형식: "[색상] 블랙"
 		        var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0;
 		        
 		        // optionInfo에서 해당 옵션 찾기
@@ -772,6 +784,8 @@
 		    console.log("최종 optionIds:", optionIds); // 확인용
 		    
 		    if(hasOption && allSelects.length > 0 || allSelects.length <= 0){
+		    	isProcessing = true; // 플래그 설정 (버튼 광클 금지!)
+		    	
 		        var param = {
 		        	guestId: guestId,
 		            productId: productId,
@@ -804,6 +818,125 @@
 		            },
 		            error: function() {
 		                alert("장바구니 담기 중 오류가 발생했습니다.");
+		            },
+		            complete: function() {
+		                // 완료 후 플래그 해제 및 버튼 복원
+		                isProcessing = false;
+		                $('#add-to-cart').prop('disabled', false).text('장바구니 담기');
+		                $('#buy-now').prop('disabled', false).text('바로구매');
+		            }
+		        });
+		    } else if(!hasOption && allSelects.length > 0) {
+		        alert("모든 옵션을 선택해주세요.");
+		    } else {
+		    	return;
+		    }
+		}
+		
+		// 주문 번호 생성
+        var orderCounter = 0;
+        
+        function generateUniqueOrderNumber(){
+        	orderCounter++;
+        	var timestamp = new Date().getTime().toString().slice(-10); //뒤 10자리
+        	var counter = ('0000' + orderCounter).slice(-4); //4자리 카운터
+        	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        	var randomPart = '';
+        	
+        	// 남은 6자리를 랜덤으로 채움
+        	for(var i = 0; i < 6; i++){
+        		var randomIndex = Math.floor(Math.random() * chars.length);
+        		randomPart += chars.charAt(randomIndex);
+        	}
+        	
+        	return timestamp + counter + randomPart; //총 20자
+        }
+		
+		function buyNow(){
+			if(isProcessing){
+				console.log("처리 중 입니다...");
+				return;
+			}
+			
+			var tempId = "Temp" + Date.now() + Math.random().toString(36).substring(2, 9);
+			var orderNumber = generateUniqueOrderNumber();
+			
+			var option = '';
+		    var optionIds = [];
+		    var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
+		    var quantity = parseInt($('#quantity').val()) || 1;
+		    var subTotal = parseInt(document.getElementById("totalPrice").getAttribute('data-price')) || 0;
+		      
+		    var hasOption = true;
+		    
+		    // 모든 select 요소를 직접 찾기
+		    var allSelects = document.querySelectorAll('.option-select');
+		    
+		    for(var i = 0; i < allSelects.length; i++){
+		        var selectElement = allSelects[i];
+		        
+		        if(selectElement.value === 'non-select' || selectElement.value === '') {
+		            hasOption = false;
+		            break;
+		        }
+		        
+		        var selectedOption = selectElement.options[selectElement.selectedIndex];
+		        var optionName = selectElement.getAttribute('data-option-name');
+		        
+		        // 실제 선택된 옵션 정보 추출
+		        var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0;
+		        
+		        // optionInfo에서 해당 옵션 찾기
+		        for(var j = 0; j < optionInfo.length; j++){
+		            if(optionInfo[j].OPTION_NAME === optionName && 
+		               selectElement.value.includes(optionInfo[j].OPTION_VALUE)){
+		                optionIds.push(optionInfo[j].OPTION_ID);
+		                break;
+		            }
+		        }
+		        
+		        option += selectElement.value + ' \n';
+		        
+		        console.log("선택된 옵션:", optionName + " = " + selectElement.value);
+		    }
+		    
+		    console.log("최종 optionIds:", optionIds); // 확인용
+		    
+		    if(hasOption && allSelects.length > 0 || allSelects.length <= 0){
+		    	isProcessing = true; // 플래그 설정 (버튼 광클 금지!)
+		    	
+		        var param = {
+		        	tempId: tempId,
+		            productId: productId,
+		            option: option,
+		            optionIds: optionIds,
+		            price: price,
+		            quantity: quantity,
+		            subTotal: subTotal,
+		        };
+		        
+		        console.log("서버에 전송: ", param);
+		        
+		        $.ajax({
+		            url: "/buyNow.do",
+		            type: "post",
+		            data: param,
+		            traditional: true,
+		            dataType: "json",
+		            success: function(res) {
+		               	var cartId = res.cartId;
+		               	
+		               	window.location.href="orderView.do?cartId=" + cartId + "&orderNum=" + orderNumber;
+		               	
+		               	sessionStorage.setItem("tempId", tempId);
+		               	
+		            },
+		            error: function() {
+		                alert("오류 발생");
+		            },
+		            complete: function() {
+		                // 완료 후 플래그 해제 및 버튼 복원
+		                isProcessing = false;
 		            }
 		        });
 		    } else if(!hasOption && allSelects.length > 0) {
@@ -919,7 +1052,7 @@
 					<div class="product-actions">
 						<div class="button-container">
 							<button id="add-to-cart" onclick="pushCart()">장바구니 담기</button>
-							<button id="buy-now">바로구매</button>
+							<button id="buy-now" onclick="buyNow()">바로구매</button>
 						</div>
 					</div>
 				</div>
