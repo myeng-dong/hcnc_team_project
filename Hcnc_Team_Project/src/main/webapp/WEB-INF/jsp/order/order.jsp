@@ -121,6 +121,10 @@
 	    
 	    var userName = $("#orderName").val();
 	    var finalAmount = $("#finalPrice").data('value');
+	    
+	    if(sessionStorage.getItem("tempId") != null){
+	    	var tempId = sessionStorage.getItem("tempId");
+	    }
 			   
 	    var orderData = {
 			items: items,
@@ -141,6 +145,7 @@
 			   			, couponId: $('input[name="selectedCoupon"]:checked').val() || null
 			   			, couponDiscount: Number( $("#couponSale").data('value') )
 			   			, usedPoint: Number( $("#pointSale").data('value') )
+			   			, tempId: tempId
 			}
 		}
 		
@@ -1038,7 +1043,7 @@
 			$.ajax({
 				url: "/orderMemberData.do"
 				, type: "post"
-				, data: { guestId : guestId }
+				, data: {}
 				, dataType: "json"
 				, success: function(res){
 					console.log(res.resultInfo);

@@ -163,6 +163,15 @@ public class UserOrderService {
 			System.out.println("cartItemDelete 테이블 데이터 저장실패");
 		}
 		
+		// 8. 바로가기 주문이라면 임시 카트 삭제하기
+		if(order.get("tempId") != null) {
+			int deleteCart = userOrderMapper.deleteCartByUser(order);
+			
+			if(deleteCart == 1) {
+				System.out.println("임시카트 삭제 완료!");
+			}
+		}
+		
 		return result;
 	}
 

@@ -92,6 +92,50 @@ public class UserProductController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/buyNow.do")
+	public ModelAndView buyNow(HttpServletRequest request, HttpSession session) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		// optionIds 배열 따로 받기
+		String[] optionIdsStr = request.getParameterValues("optionIds");
+		List<Long> optionIds = new ArrayList<Long>();
+		if (optionIdsStr != null) {
+			for (String id : optionIdsStr) {
+				optionIds.add(Long.parseLong(id));
+			}
+		}
+		
+		// 나머지 파라미터 데이터 Map으로 처리
+		Map<String, Object> param = new HashMap<>();
+		
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+		if(userInfo != null) {
+			String memberId = (String) userInfo.get("MEMBER_ID");
+			param.put("memberId", memberId);
+		} else {
+			
+		}
+		param.put("tempId", request.getParameter("tempId"));
+	    param.put("productId", request.getParameter("productId"));
+	    param.put("option", request.getParameter("option"));
+	    param.put("price", request.getParameter("price"));
+	    param.put("quantity", request.getParameter("quantity"));
+	    param.put("subTotal", request.getParameter("subTotal"));
+		
+		
+	    System.out.println("옵션 IDs: " + optionIds);
+	    System.out.println("파라미터: " + param);
+	    
+	    HashMap<String, Object> resultData = userProductService.insertCartItemByUser(param, optionIds);
+	    
+	    Long cartId = (Long) resultData.get("cartId");
+	    String orderNumber = (String) param.get("orderNumber");
+	    
+	    mav.addObject("cartId", cartId);
+		
+		return mav;
+	}
+	
 	@RequestMapping(value="/selectProductQnAList.do")
 	public ModelAndView selectProductQnAListByUser(@RequestParam Map<String, Object> param) {
 		ModelAndView mav = new ModelAndView("jsonView");
@@ -120,12 +164,25 @@ public class UserProductController {
 	}
 	
 	@RequestMapping(value="/selectQnADetail.do")
-	public ModelAndView selectQnADetailByUser(@RequestParam Map<String, Object> param) {
+	public ModelAndView selectQnADetailByUser(@RequestParam Map<String, Object> param, HttpSession session) {
 		ModelAndView mav = new ModelAndView("jsonView");
+		
+		String memberId = "";
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+		if(userInfo != null) {
+			memberId = (String) userInfo.get("MEMBER_ID");
+		}
 		
 		System.out.println(param);
 		
 		HashMap<String, Object> qnaDetail = userProductService.selectQnADetailByUser(param);
+		String qnaWriter = (String) qnaDetail.get("MEMBER_ID");
+		
+		if(memberId.equals(qnaWriter)) {
+			mav.addObject("sameMember", true);
+		} else {
+			mav.addObject("sameMember", false);
+		}
 		
 		mav.addObject("qnaDetail", qnaDetail);
 		
