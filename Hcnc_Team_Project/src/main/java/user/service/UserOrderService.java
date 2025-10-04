@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import user.mapper.UserOrderMapper;
 
 @Service
-@Transactional(readOnly = true)
 public class UserOrderService {
 
 	@Autowired
@@ -28,7 +27,7 @@ public class UserOrderService {
 		return userOrderMapper.selectItemCntByUser(cartId);
 	}
 
-
+	@Transactional
 	public HashMap<String, Object> selectRequestedOrderInfoByUser(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> result = new HashMap<>();
@@ -50,6 +49,7 @@ public class UserOrderService {
 		return result;
 	}
 
+	@Transactional
 	public int orderDataSaveByUser(Map<String, Object> order, List<Map<String, Object>> items) {
 		int result = 1;
 		

@@ -16,12 +16,13 @@ import user.mapper.UserCartMapper;
 
 
 @Service
-@Transactional
+
 public class UserCartService {
 	
 	@Autowired
 	private UserCartMapper cartMapper;
 	
+	@Transactional
 	public List<HashMap<String, Object>> selectCartListByUser(HashMap<String, Object> param){
 		
 		List<HashMap<String, Object>> selectCartItems = cartMapper.selectCartListByUser(param);
@@ -91,33 +92,53 @@ public class UserCartService {
 		return cartMapper.selectedTotalPriceByUser(param);
 	}
 
-	public HashMap<String, Object> updateOptionByUser(HashMap<String, Object> param) throws Exception {
-	    HashMap<String, Object> result = new HashMap<>();
-	    
-	    try {
-	        int updateResult = cartMapper.updateOptionByUser(param);
-	        
-	        if(updateResult > 0) {
-	            // 성공 시 새로운 가격 정보들 조회
-	        	cartMapper.updateCartItemPriceByUser(param);
-            
-	            result.put("success", true);
-           
-	        } else {
-	            result.put("success", false);
+	@Transactional
+	public HashMap<String, Object> updateOptionByUser(HashMap<String, Object> param, List<Long> optionIds) {
+		HashMap<String, Object> result = new HashMap<>();
+		
+		try {
+			int updateOption = cartMapper.updateOptionByUser(param);
+			
+			if(updateOption > 0) {
+			
+				int deleteCartItemOption = cartMapper.deleteCartItemOptionByUser(param);
+				
+				int insertCartItemOption = 1;
+				if(optionIds != null && optionIds.size() > 0) {
+					for(int i=0; i < optionIds.size(); i++) {
+						Long optionId = optionIds.get(i);
+						
+						param.put("optionId", optionId);
+						int insertResult = cartMapper.insertCartItemOptionByUser(param);
+						
+						if(insertResult == 0) {
+							System.out.println("옵션 ID 등록 실패");
+							insertCartItemOption = 0;
+						}
+					}
+				}
+				
+				if(updateOption == 0 || deleteCartItemOption == 0 || insertCartItemOption == 0) {
+					result.put("success", false);
+		            result.put("message", "옵션 변경 실패");
+				} else {
+					result.put("success", true);
+				}
+			} else {
+				result.put("success", false);
 	            result.put("message", "옵션 변경 실패");
-	        }
-	        
-	    } catch(DuplicateKeyException e) {
+			}
+		} catch(DuplicateKeyException e) {
 	        result.put("success", false);
 	        result.put("message", "이미 동일한 옵션이 장바구니에 있습니다.");
 	        result.put("errorCode", "DUPLICATE");
 	    }
-	    
+		
 	    return result;
 	}
 
 	// 위시리스트 토글 (추가/제거)
+	@Transactional
 	public HashMap<String, Object> toggleWishlist(HashMap<String, Object> param) throws Exception {
 	    HashMap<String, Object> result = new HashMap<>();
 	    
