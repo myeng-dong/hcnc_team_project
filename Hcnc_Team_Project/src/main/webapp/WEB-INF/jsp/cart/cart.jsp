@@ -7,6 +7,183 @@
 <jsp:include page="../layout/header.jsp" />
 <%-- <jsp:include page="../layout/menu.jsp" /> --%>
 
+<style>
+	/* 옵션 변경 모달 */
+	.option-modal {
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background: rgba(0, 0, 0, 0.5);
+	    z-index: 1000;
+	    display: none;
+	}
+	
+	.option-modal-content {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    background: #ffffff;
+	    width: 90%;
+	    max-width: 500px;
+	    border-radius: 12px;
+	    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+	    overflow: hidden;
+	}
+	
+	.option-modal-content h2 {
+	    background: linear-gradient(135deg, #DC0630 0%, #b8052a 100%);
+	    color: white;
+	    margin: 0;
+	    padding: 20px 30px;
+	    font-size: 18px;
+	    font-weight: 600;
+	}
+	
+	.option-close {
+	    position: absolute;
+	    top: 20px;
+	    right: 25px;
+	    font-size: 24px;
+	    color: white;
+	    cursor: pointer;
+	    z-index: 1001;
+	    transition: opacity 0.3s;
+	}
+	
+	.option-close:hover {
+	    opacity: 0.7;
+	}
+	
+	.option-modal-body {
+	    padding: 30px;
+	}
+	
+	#option-selects-container {
+	    margin-bottom: 20px;
+	}
+	
+	.option-group {
+	    margin-bottom: 20px;
+	}
+	
+	.option-group label {
+	    display: block;
+	    color: #DC0630;
+	    font-weight: 600;
+	    margin-bottom: 8px;
+	    font-size: 14px;
+	}
+	
+	.option-group select {
+	    width: 100%;
+	    padding: 12px 15px;
+	    border: 2px solid #f1f1f1;
+	    border-radius: 8px;
+	    font-size: 14px;
+	    transition: all 0.3s ease;
+	    background: #ffffff;
+	    cursor: pointer;
+	}
+	
+	.option-group select:focus {
+	    outline: none;
+	    border-color: #DC0630;
+	    box-shadow: 0 0 0 3px rgba(220, 6, 48, 0.1);
+	}
+	
+	.option-modal-buttons {
+	    display: flex;
+	    gap: 10px;
+	    margin-top: 30px;
+	    padding-top: 20px;
+	    border-top: 1px solid #f1f1f1;
+	}
+	
+	.option-modal-buttons button {
+	    flex: 1;
+	    padding: 12px 20px;
+	    border: none;
+	    border-radius: 8px;
+	    font-size: 14px;
+	    font-weight: 500;
+	    cursor: pointer;
+	    transition: all 0.3s ease;
+	}
+	
+	.btn-option-change {
+	    background: #DC0630;
+	    color: white;
+	}
+	
+	.btn-option-change:hover {
+	    background: #b8052a;
+	}
+	
+	.btn-option-cancel {
+	    background: #6c757d;
+	    color: white;
+	}
+	
+	.btn-option-cancel:hover {
+	    background: #545b62;
+	}
+</style>
+
+<script>
+	//모달 닫기 이벤트
+	$(document).ready(function() {
+	    // X 버튼
+	    $(".option-close").on("click", function() {
+	        $("#optionChangeModal").hide();
+	    });
+	    
+	    // 취소 버튼
+	    $(".btn-option-cancel").on("click", function() {
+	        $("#optionChangeModal").hide();
+	    });
+	    
+	    // 변경 버튼
+	    $(".btn-option-change").on("click", function() {
+	        var selectedOptions = [];
+	        var allSelected = true;
+	        
+	        // 모든 셀렉트박스 확인
+	        $(".option-select-modal").each(function() {
+	            var value = $(this).val();
+	            if(!value) {
+	                allSelected = false;
+	                return false;
+	            }
+	            
+	            selectedOptions.push({
+	                optionId: value,
+	                optionName: $(this).data("option-name"),
+	                optionValue: $(this).find("option:selected").data("option-value"),
+	                additionalPrice: parseInt($(this).find("option:selected").data("price")) || 0
+	            });
+	        });
+	        
+	        if(!allSelected) {
+	            alert("모든 옵션을 선택해주세요.");
+	            return;
+	        }
+	        
+	        // 옵션 변경 서버 요청
+	        changeCartItemOption(currentCartItemId, selectedOptions);
+	    });
+	    
+	    // 배경 클릭 시 모달 닫기
+	    $("#optionChangeModal").on("click", function(e) {
+	        if($(e.target).hasClass("option-modal")) {
+	            $(this).hide();
+	        }
+	    });
+	});
+</script>
+
  <script>
     	// 페이지 로드
     	$(function(){
@@ -49,15 +226,6 @@
     				
     				var allCheck = true;
     				
-/*     				var uniqueList = [];
-    				var seenIds = [];
-    				for(var i = 0; i < list.length; i++) {
-    				    if(seenIds.indexOf(list[i].CART_ITEM_ID) === -1) {
-    				        seenIds.push(list[i].CART_ITEM_ID);
-    				        uniqueList.push(list[i]);
-    				    }
-    				} */
-    				
     				var html = '';
     				for(var i = 0; i < list.length; i++){
     				    if(list[i].IS_CHECKED == 'N'){
@@ -72,14 +240,15 @@
     				    }
     				    html += '<td class="col-img"><img src="sample.jpg" width="50"></td>';
     				    html += '<td class="col-name"><span>' + list[i].PRODUCT_NAME + '</span></td>';
+    				    
     				    if(list[i].options.length > 0){
     				    	html += '<td class="col-option" id="option-cell-' + list[i].CART_ITEM_ID + '" style="text-align: left;">';
     		                for(var j=0; j < list[i].options.length; j++){
-    		                	var optionPrice = list[i].options[j].ADDITIONAL_PRICE;
-    		                	html += '<span class="span-option">['+ list[i].options[j].OPTION_NAME +'] '+ list[i].options[j].OPTION_VALUE + ' (+'+ optionPrice.toLocaleString() +'원)</span></br>';
+    		                	var additionalPrice = list[i].options[j].ADDITIONAL_PRICE;
+    		                	html += '<span class="span-option-'+ list[i].CART_ITEM_ID +'" data-additional-price="'+ additionalPrice +'">['+ list[i].options[j].OPTION_NAME +'] '+ list[i].options[j].OPTION_VALUE + ' (+'+ additionalPrice.toLocaleString() +'원)</span></br>';
     		                }
     		                html += '</td>';
-    		                html += '<td><a style="font-size: 12px; cursor: pointer;" onclick="optionChange('+ list[i].PRODUCT_ID +')">옵션변경</a></td>'
+    		                html += '<td><a style="font-size: 12px; cursor: pointer;" onclick="optionChange('+ list[i].CART_ITEM_ID +', '+ list[i].PRODUCT_ID +')">옵션변경</a></td>'
     				    } else {
     				        html += '<td class="col-option" colspan="2"><span> - </span> </td>';
     				    }
@@ -107,11 +276,6 @@
 
     				$("#cart-body").html(html);
     				
-/*     				// 각 상품별 옵션 조합 생성
-    	            for(var i = 0; i < list.length; i++){
-    	                generateProductOptions(list[i].CART_ITEM_ID, list[i].PRODUCT_ID, list[i].PRODUCT_OPTION, list);
-    	            } */
-    				
     				var checkData = '';
     				if(allCheck){
     					checkData = '<input type="checkbox" class="allCheck" id="headCheck" checked onchange="updateAllCheck()">'
@@ -121,11 +285,13 @@
     				
     				$("#allCheck-box").html(checkData);
     				
-    				if(res.cartTotalPrice != null){
+    				calculateTotalPrice();
+    				
+    				/* if(res.cartTotalPrice != null){
     					$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
     				} else {
     					$("#sum-products").text("0원");
-    				}
+    				} */
     			}
     			, error: function(err){
     				alert("장바구니 리스트 조회 통신 실패");
@@ -169,201 +335,237 @@
     	    window.location.href = "/"; // 메인 페이지로 이동 (또는 상품 목록 페이지)
     	}
     	
-    	const optionChange = (product_id) => {
-    		console.log(product_id);
+    	const optionChange = (cart_item_id, product_id) => {
+    		
+    		// 선택 상품 옵션 조회
+    		$.ajax({
+    			url: "/selectProductOptions.do",
+    			type: "post",
+    			data: { productId: product_id },
+    			dataType: "json",
+    			success: function(res) {
+    		        var optionInfo = res.options;
+    		        console.log(optionInfo);
+    		        
+    		        $("#product-name").text(optionInfo[0].PRODUCT_NAME);
+    		        
+    		     	// 1단계: 어떤 옵션명들이 있는지 찾기
+    				var options = [];
+    				for (var i = 0; i < optionInfo.length; i++) {
+    				    var optionName = optionInfo[i].OPTION_NAME;
+    				    
+    				    // 중복 체크해서 없으면 추가
+    				    var duplicate = false;
+    				    for (var j = 0; j < options.length; j++) {
+    				        if (options[j] == optionName) {
+    				            duplicate = true;
+    				            break;
+    				        }
+    				    }
+    				    if (!duplicate) {
+    				        options.push(optionName);
+    				    }
+    				}
+    	
+    				// 2단계: HTML 생성
+    				var optionContainer = '';
+    				for(var i = 0; i < options.length; i++){
+    				    optionContainer += '<div class="option-group">';
+    				    optionContainer += '<span class="option-label">' + options[i] + ' </span>';
+    				    optionContainer += '<select class="option-select" id="'+ optionInfo[i].OPTION_ID +'_select" data-option-name="' + options[i] + '">';
+    				    optionContainer += '<option value="non-select">옵션을 선택해주세요.</option>';
+    				    
+    				    // 해당 옵션명의 값들만 추가
+    				    for(var j = 0; j < optionInfo.length; j++){
+    				        if(options[i] == optionInfo[j].OPTION_NAME){
+    				        	var optionId = optionInfo[j].OPTION_ID
+    				        	var optionName = options[i];
+    				            var optionValue = optionInfo[j].OPTION_VALUE;
+    				            var additionalPrice = optionInfo[j].ADDITIONAL_PRICE;
+    				            var displayText = optionValue;
+    				            
+    				            if(additionalPrice > 0){
+    				                displayText += ' (+' + additionalPrice + '원)';
+    				            }
+    				            
+    				            optionContainer += '<option value="['+ optionName +'] ' + optionValue + '" data-option-id="'+ optionId +'" data-price="' + additionalPrice + '">';
+    				            optionContainer += displayText + '</option>';
+    				        }
+    				    }
+    				    
+    				    optionContainer += '</select>';
+    				    optionContainer += '</div>';
+    				}
+    				
+    				$("#option-selects-container").html(optionContainer);
+    				
+    				var buttonHtml = '<button type="button" class="btn-option-change" onclick="updateOption('+ cart_item_id +')">변경</button>';
+    				buttonHtml += '<button type="button" class="btn-option-cancel">취소</button>';
+    	                
+    				$("#option-modal-buttons").html(buttonHtml);
+    		        
+    		        $("#optionChangeModal").show();
+    		    },
+    		    error: function(){
+    		    	
+    		    }
+    		})
+    		
+    		
+    		// 모달 표시
+            $("#optionChangeModal").show();
     	}
     	
-    	/* function generateProductOptions(cartItemId, productId, currentOption, fullList) {
-    	    // 해당 상품의 모든 옵션 데이터 추출
-    	    var productOptions = [];
-    	    for(var i = 0; i < fullList.length; i++) {
-    	        if(fullList[i].PRODUCT_ID === productId && fullList[i].CART_ITEM_ID === cartItemId) {
-    	            productOptions.push({
-    	                OPTION_NAME: fullList[i].OPTION_NAME,
-    	                OPTION_VALUE: fullList[i].OPTION_VALUE,
-    	                ADDITIONAL_PRICE: fullList[i].ADDITIONAL_PRICE || 0
-    	            });
-    	        }
-    	    }
-    	    
-    	    if(productOptions.length === 0) return;
-    	    
-    	    // 1. optionData 객체 만들기 (OPTION_NAME별로 그룹화)
-    	    var optionData = {};
-    	    for(var i = 0; i < productOptions.length; i++) {
-    	        var optionName = productOptions[i].OPTION_NAME;
-    	        var optionValue = productOptions[i].OPTION_VALUE;
-    	        var additionalPrice = productOptions[i].ADDITIONAL_PRICE;
-    	        
-    	        if(!optionData[optionName]) {
-    	            optionData[optionName] = [];
-    	        }
-    	        
-    	        // 중복 제거 (같은 옵션값이 있는지 확인)
-    	        var exists = false;
-    	        for(var j = 0; j < optionData[optionName].length; j++) {
-    	            if(optionData[optionName][j].value === optionValue) {
-    	                exists = true;
-    	                break;
-    	            }
-    	        }
-    	        
-    	        if(!exists) {
-    	            optionData[optionName].push({
-    	                value: optionValue,
-    	                additionalPrice: additionalPrice
-    	            });
-    	        }
-    	    }
-    	    
-    	    // 2. 모든 조합 생성 (재귀) - 추가요금 포함
-    	    var keys = Object.keys(optionData);
-    	    var optionCombinations = [];
-    	    
-    	    function generateCombinations(index, currentOptions, totalAdditionalPrice) {
-    	        if (index === keys.length) {
-    	            // 옵션 텍스트 생성 (추가요금 포함)
-    	            var optionTexts = [];
-    	            var totalPrice = 0;
-    	            
-    	            for(var i = 0; i < currentOptions.length; i++) {
-    	                var opt = currentOptions[i];
-    	                var priceText = opt.additionalPrice === 0 ? "(+0원)" : "(+" + opt.additionalPrice.toLocaleString() + "원)";
-    	                optionTexts.push("[" + opt.name + "] " + opt.value + " " + priceText);
-    	                totalPrice += opt.additionalPrice;
-    	            }
-    	            
-    	            var combinationText = optionTexts.join(" , ");
-    	            
-    	            optionCombinations.push({
-    	                text: combinationText,
-    	                value: optionTexts.map(function(text) {
-    	                    return text.split(" (")[0]; // 추가요금 부분 제거한 순수 옵션값
-    	                }).join(" , "),
-    	                totalAdditionalPrice: totalPrice
-    	            });
-    	            return;
-    	        }
-    	        
-    	        var key = keys[index];
-    	        var values = optionData[key];
-    	        for (var i = 0; i < values.length; i++) {
-    	            var currentOpt = {
-    	                name: key,
-    	                value: values[i].value,
-    	                additionalPrice: values[i].additionalPrice
-    	            };
-    	            generateCombinations(index + 1, currentOptions.concat([currentOpt]), totalAdditionalPrice + values[i].additionalPrice);
-    	        }
-    	    }
-    	    
-    	    generateCombinations(0, [], 0);
-    	    
-    	    // 3. 셀렉트박스에 옵션들 추가
-    	    var selectElement = $("#" + cartItemId + "-option");
-    	    selectElement.empty(); // 기존 옵션 제거
-    	    
-    	    // 현재 선택된 옵션 찾기 및 첫 번째로 추가
-    	    var currentFound = false;
-    	    for(var i = 0; i < optionCombinations.length; i++) {
-    	        if(optionCombinations[i].value === currentOption) {
-    	            selectElement.append('<option value="' + optionCombinations[i].value + '" data-additional-price="' + optionCombinations[i].totalAdditionalPrice + '" selected>' + optionCombinations[i].text + '</option>');
-    	            currentFound = true;
-    	            break;
-    	        }
-    	    }
-    	    
-    	    // 현재 옵션을 찾지 못한 경우 (기존 방식으로 추가)
-    	    if(!currentFound) {
-    	        selectElement.append('<option value="' + currentOption + '" data-additional-price="0" selected>' + currentOption + '</option>');
-    	    }
-    	    
-    	    // 나머지 조합들 추가 (현재 선택된 옵션과 다른 것들만)
-    	    for(var i = 0; i < optionCombinations.length; i++) {
-    	        if(optionCombinations[i].value !== currentOption) {
-    	            selectElement.append('<option value="' + optionCombinations[i].value + '" data-additional-price="' + optionCombinations[i].totalAdditionalPrice + '">' + optionCombinations[i].text + '</option>');
-    	        }
-    	    }
-    	} */
+    	
+    	// 옵션 변경 ajax (서버통신)
+		const updateOption = (cart_item_id) => {
+			var option = '';
+		    var optionIds = [];
+		    var optionTotalPrice = 0;
+		      
+		    var hasOption = true;
+		    
+		    // 모든 select 요소를 직접 찾기
+		    var allSelects = document.querySelectorAll('.option-select');
+		    
+		    for(var i = 0; i < allSelects.length; i++){
+		        var selectElement = allSelects[i];
+		        
+		        if(selectElement.value === 'non-select' || selectElement.value === '') {
+		            hasOption = false;
+		            break;
+		        }
+		        
+		        var selectedOption = selectElement.options[selectElement.selectedIndex];
+		        var optionId = selectedOption.getAttribute('data-option-id');
+		        var optionName = selectElement.getAttribute('data-option-name');
+		        
+		        // 실제 선택된 옵션 정보 추출
+		        var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0;
+		        
+		       	console.log("optionID=" + optionId);
+		        
+		     	// optionId가 optionIds 배열에 없으면 추가
+		        if(optionIds.indexOf(optionId) === -1) {
+		            optionIds.push(optionId);
+		            
+		            optionTotalPrice += optionPrice;
+		        }
+		        
+		        option += selectElement.value + ' \n';
+		        
+		    }
+		    
+		    
+		    if(hasOption && allSelects.length > 0 || allSelects.length <= 0){
+		    	isProcessing = true; // 플래그 설정 (버튼 광클 금지!)
+		    	
+		        var param = {
+		    		cartId: cartId,
+					cartItemId: cart_item_id,
+		            option: option,
+		            optionIds: optionIds,
+		            optionPrice : optionTotalPrice
+		        };
+		        
+		        $.ajax({
+			        url: "/updateOption.do"
+			        , type: "post"
+			        , data: param
+			        , dataType: "json"
+			        , traditional: true
+			        , success: function(res){
+			        	if(res.success){
+			                alert("옵션이 적용되었습니다.");
+			                
+			                window.location.reload();
+			            } else {
+			                if(res.errorCode === 'DUPLICATE') {
+			                    alert("이미 동일한 옵션이 장바구니에 있습니다.");
+			                } else {
+			                    alert("옵션 변경에 실패했습니다: " + res.message);
+			                }
+			            }
+			        }
+			        , error: function(err){
+			            alert("옵션 변경 통신 실패");
+			        }
+			    });
+		        
+		        
+		    } else if(!hasOption && allSelects.length > 0) {
+		        alert("모든 옵션을 선택해주세요.");
+		    } else {
+		    	return;
+		    }
+		}
+    	
     
         // 수량 버튼
         const countDown = (cart_item_id) => {
-            var quantity = Number( $("#" + cart_item_id + "-quantity").val() );
-
-            $("#" + cart_item_id + "-quantity").val(quantity - 1);
-			
-            
-            if (quantity > 1) {
-                $("#" + cart_item_id + "-quantity").val(quantity - 1);
-                updateCnt(cart_item_id);
-            }
-
-            // document.getElementById("quantity").value = quantity - 1;
-            
-            updateCnt(cart_item_id);
-        }
-
-        const countUp = (cart_item_id) => {
-            var quantity = Number( $("#" + cart_item_id + "-quantity").val() );
-
-            $("#" + cart_item_id + "-quantity").val(quantity + 1);
-            
-            updateCnt(cart_item_id);
-        }
+		    var quantity = Number($("#" + cart_item_id + "-quantity").val());
+		    
+		    if (quantity > 1) {
+		        $("#" + cart_item_id + "-quantity").val(quantity - 1);
+		        updateCnt(cart_item_id);
+		    }
+		}
+		
+		const countUp = (cart_item_id) => {
+		    var quantity = Number($("#" + cart_item_id + "-quantity").val());
+		    $("#" + cart_item_id + "-quantity").val(quantity + 1);
+		    updateCnt(cart_item_id);
+		}
 
         // 상품 수량 디비 저장
         var updateTimers = {}; // 각 아이템별 타이머 저장
         const updateCnt = (cart_item_id) => {
-            // 기존 타이머가 있으면 취소
             if(updateTimers[cart_item_id]) {
                 clearTimeout(updateTimers[cart_item_id]);
             }
-        	
-        	var selectElement = $("#" + cart_item_id + "-option");
-        	
-            var quantity = Number( $("#" + cart_item_id + "-quantity").val() );
-            var price = Number( $("#" + cart_item_id + "-price").text().replace(/[^\d.-]/g, '') );
-            var additionalPrice = parseInt(selectElement.find('option:selected').data('additional-price')) || 0;
-           	var subTotal = (price + additionalPrice) * quantity;
-           	var option = selectElement.val();
+            
+            var quantity = Number($("#" + cart_item_id + "-quantity").val());
+            
+            if (quantity <= 0) {
+                quantity = 1;
+                $("#" + cart_item_id + "-quantity").val(1);
+            }
+            
+            var totalAdditionalPrice = 0;
+            $('.span-option-' + cart_item_id).each(function() {
+                totalAdditionalPrice += parseInt($(this).data('additional-price')) || 0;
+            });
+            
+            var price = Number($("#" + cart_item_id + "-price").text().replace(/[^\d.-]/g, ''));
+            var subTotal = (price + totalAdditionalPrice) * quantity;
             
             $("#" + cart_item_id + "-total").text(subTotal.toLocaleString());
-            
             calculateTotalPrice();
             
-            if (quantity <= 0){
-            	
-                quantity = Number( $("#" + cart_item_id + "-quantity").val(1) );
+            // DB 업데이트
+            updateTimers[cart_item_id] = setTimeout(function() {
+                var param = {
+                    quantity: quantity,
+                    cartId: cartId,
+                    cartItemId: cart_item_id,
+                    subTotal: subTotal
+                };
                 
-            } else {
-            	// 500ms 후에 DB 업데이트 실행
-                updateTimers[cart_item_id] = setTimeout(function() {
-
-		            var param = {
-		                quantity : quantity
-		                , cartId : cartId
-		                , cartItemId : cart_item_id
-		                , option : option
-		                , subTotal: subTotal
-		            };
-		
-		            $.ajax({
-						url: "/updateQuantity.do"
-						, type: "post"
-						, data: param
-						, dataType: "json"
-						, success: function(res){
-							
-							console.log(res);
-						}
-						, error: function(err){
-							alert("상품 수량 디비 저장 통신 실패");
-						}
-		            });
-		            
-		            delete updateTimers[cart_item_id];
-                }, 500);  // 500ms 후에 DB 업데이트 실행
-            }
+                $.ajax({
+                    url: "/updateQuantity.do",
+                    type: "post",
+                    data: param,
+                    dataType: "json",
+                    success: function(res) {
+                    	
+                    },
+                    error: function(err) {
+                        alert("상품 수량 저장 중 오류가 발생했습니다.");
+                    }
+                });
+                
+                delete updateTimers[cart_item_id];
+            }, 500);
         }
         
         const calculateTotalPrice = () => {
@@ -382,7 +584,7 @@
                 }
             });
             
-            var shippingFee = $("#sum-ship-normal").data('value');
+            var shippingFee = Number( $("#sum-ship-normal").data('value') );
             var sumFinal = sumSubTotal + shippingFee;
             
             // 화면에 표시
@@ -421,12 +623,15 @@
         		, data: param
         		, dataType: "json"
         		, success: function(res){
+        			
+        			calculateTotalPrice();
+        			
         			// 장바구니 전체 금액 조회 결과 //
-        			if(res.cartTotalPrice != null){
+        			/* if(res.cartTotalPrice != null){
         				$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
         			} else {
-        				$("#sum-products").text("0원");
-        			}
+        				$("#sum-products").text("0원"); 
+        			} */
         			
         		}
         		, error: function(){
@@ -504,11 +709,13 @@
         		, data: param
         		, dataType: "json"
         		, success: function(res){
-        			if(res.cartTotalPrice != null){
+        			calculateTotalPrice();
+        			
+        			/* if(res.cartTotalPrice != null){
         				$("#sum-products").text(res.cartTotalPrice.SUM_SUB.toLocaleString() + "원");
         			} else {
         				$("#sum-products").text("0원");
-        			}
+        			} */
         		}
         		, error: function(){
         			
@@ -596,47 +803,7 @@
 			}
 		}
 
-		// 옵션 변경 ajax (서버통신)
-		const updateOption = (cart_item_id) => {
-		    var selectElement = $("#" + cart_item_id + "-option");
-		    var selectedOptionText = selectElement.val();
-		    var price = Number( $("#" + cart_item_id + "-price").text().replace(/[^\d.-]/g, '') );
-		    var quantity = Number( $("#" + cart_item_id + "-quantity").val() );
-		    var additionalPrice = parseInt(selectElement.find('option:selected').data('additional-price')) || 0;
-		    var originalOption = selectElement.find('option:first').val();
-		    
-		    var param = {
-		        cartItemId: cart_item_id,
-		        cartId: cartId,
-		        option: selectedOptionText,
-		        subTotal: (price + additionalPrice) * quantity
-		    };
-		    
-		    $.ajax({
-		        url: "/updateOption.do"
-		        , type: "post"
-		        , data: param
-		        , dataType: "json"
-		        , success: function(res){
-		            if(res.success){
-		                alert("옵션이 변경되었습니다.");
-		                
-		                window.location.reload();
-		            } else {
-		                if(res.errorCode === 'DUPLICATE') {
-		                    alert("이미 동일한 옵션이 장바구니에 있습니다.");
-		                } else {
-		                    alert("옵션 변경에 실패했습니다: " + res.message);
-		                }
-		                selectElement.val(originalOption);
-		            }
-		        }
-		        , error: function(err){
-		            alert("옵션 변경 통신 실패");
-		            selectElement.val(originalOption);
-		        }
-		    });
-		}
+		
 
         // 위시리스트 토글 기능
         const toggleWishlist = (cart_item_id, product_id) => {
@@ -761,6 +928,23 @@
         	isProcessing = false;
         }
     </script>
+    
+<!-- 옵션변경 모달 -->
+<div id="optionChangeModal" class="option-modal" style="display: none;">
+    <div class="option-modal-content">
+        <span class="option-close">&times;</span>
+        <h2>옵션 변경</h2>
+        <div class="option-modal-body">
+        	<div id="product-name"></div>
+            <div id="option-selects-container">
+                <!-- 옵션 셀렉트박스들이 동적으로 생성됩니다 -->
+            </div>
+            <div class="option-modal-buttons" id="option-modal-buttons">
+
+            </div>
+        </div>
+    </div>
+</div>
 
   <div class="container cart">
   	<div class="inner">

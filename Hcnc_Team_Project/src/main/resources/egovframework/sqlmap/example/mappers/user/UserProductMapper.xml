@@ -26,10 +26,14 @@
 	</select>
 	
 	<select id="slectOptionInfoByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT OPTION_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE
-			FROM OPTIONS
+		SELECT O.OPTION_ID, O.OPTION_NAME, O.OPTION_VALUE, O.ADDITIONAL_PRICE
+				, P.PRODUCT_NAME
+			FROM OPTIONS O
+				INNER JOIN PRODUCTS P
+					ON O.PRODUCT_ID = P.PRODUCT_ID
 			WHERE 1=1
-				AND	PRODUCT_ID = #{productId}
+				AND	O.PRODUCT_ID = #{productId}
+				AND O.IS_VISIBLE = 'Y'
 	</select>
 	
 	<!-- NG: 하나로 할수있겠지만 제가 하나로 못할거같아서 나눴음 -->

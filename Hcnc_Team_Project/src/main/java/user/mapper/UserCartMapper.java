@@ -35,4 +35,8 @@ public interface UserCartMapper {
 
 	// WISH 테이블에 회원 위시리스트 생성
 	public int insertWish(HashMap<String, Object> param);
+
+	public int deleteCartItemOptionByUser(HashMap<String, Object> param);
+
+	public int insertCartItemOptionByUser(HashMap<String, Object> param);
 }

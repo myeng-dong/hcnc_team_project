@@ -77,7 +77,6 @@
 			 , CI.SUB_TOTAL = #{subTotal}
 		 WHERE CI.CART_ID = #{cartId}
 		   AND CI.CART_ITEM_ID = #{cartItemId}
-		   AND CI.PRODUCT_OPTION = #{option}
 	</update>
 	
 	<!-- 상품 체크박스 수정  -->
@@ -116,10 +115,23 @@
 	<!-- 옵션 변경 -->
 	<update id="updateOptionByUser" parameterType="java.util.HashMap">
 		UPDATE CART_ITEMS
-			SET PRODUCT_OPTION = #{option}
-			WHERE CART_ID = #{cartId}
+			SET PRODUCT_OPTION = #{option}, SUB_TOTAL = (PRICE + #{optionPrice}) * QUANTITY
+			WHERE 1=1
+				AND CART_ID = #{cartId}
 				AND CART_ITEM_ID = #{cartItemId}
 	</update>
+	
+	<!-- 옵션 변경 시 cartOptions 테이블 delete 후 insert -->
+	<delete id="deleteCartItemOptionByUser" parameterType="java.util.HashMap">
+		DELETE FROM CART_ITEM_OPTIONS
+			WHERE 1=1
+				AND CART_ITEM_ID = #{cartItemId}
+	</delete>
+	
+	<insert id="insertCartItemOptionByUser" parameterType="java.util.Map">
+		INSERT INTO CART_ITEM_OPTIONS (CART_ITEM_ID, OPTION_ID)
+			VALUES ( #{cartItemId}, #{optionId} )
+	</insert>
 	
 	<update id="updateCartItemPriceByUser" parameterType="java.util.HashMap">
 		UPDATE CART_ITEMS
