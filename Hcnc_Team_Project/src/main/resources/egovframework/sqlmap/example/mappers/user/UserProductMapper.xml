@@ -7,24 +7,24 @@
 	</resultMap>
 
 	<!-- 상품 조회 -->
-	<!--
 	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
+		SELECT P.PRODUCT_ID, P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
 					,PI.IMAGE_ID, PI.IMAGE_URL, PI.ALT_TEXT, PI.SORT_NUMBER, PI.IS_MAIN
 			FROM PRODUCTS P
-			INNER JOIN PRODUCT_IMG PI
+			LEFT JOIN PRODUCT_IMG PI
 				ON P.PRODUCT_ID = PI.PRODUCT_ID
 			WHERE P.PRODUCT_ID = #{productId}
+			ORDER BY PI.SORT_NUMBER
 	</select>
-	-->
-	
+
+<!-- 	
 	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
 			FROM PRODUCTS P
 			WHERE 1=1
 				AND P.PRODUCT_ID = #{productId}
 	</select>
-	
+-->
 	<select id="slectOptionInfoByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT O.OPTION_ID, O.OPTION_NAME, O.OPTION_VALUE, O.ADDITIONAL_PRICE
 				, P.PRODUCT_NAME

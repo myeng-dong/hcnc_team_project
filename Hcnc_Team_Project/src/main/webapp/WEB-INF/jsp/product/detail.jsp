@@ -582,12 +582,25 @@
 			var productDetail = ${productDetailJson};
 			var optionInfo = ${optionInfoJson};
 			
+			var productName = productDetail[0].PRODUCT_NAME;
+			var productPrice = productDetail[0].PRODUCT_PRICE;
+			if(productDetail[0].imgs.length > 0){
+				var productImgPath = productDetail[0].imgs[0].IMAGE_URL;
+			}
+			
 			// 기본 가격 설정 (할인가가 있으면 할인가, 없으면 정가)
 			var basePrice = productDetail[0].SAILED_PRICE ? productDetail[0].SAILED_PRICE : productDetail[0].PRODUCT_PRICE;
 			
-			console.log("상품 정보:", productDetail);
-			console.log("옵션 정보:", optionInfo);
+/* 			console.log("상품 정보:", productDetail);
+			console.log("옵션 정보:", optionInfo); */
 			
+			// DOM 로드 후 실행
+	        $(document).ready(function() {
+	            // productId가 정의되어 있는지 확인
+	            if(typeof productId !== 'undefined' && productId) {
+	                addRecentProduct(productId, productName, productImgPath, productPrice);
+	            }
+	        });
 			
 			// 선택된 모든 옵션의 추가 요금을 저장할 객체
 			var selectedOptions = {};
@@ -612,8 +625,6 @@
 				    }
 				}
 
-				console.log("발견된 옵션명들:", options);
-	
 				// 2단계: HTML 생성
 				var optionContainer = '';
 				for(var i = 0; i < options.length; i++){
@@ -805,8 +816,6 @@
 		            subTotal: subTotal
 		        };
 		        
-		        console.log("서버에 전송: ", param);
-		        
 		        $.ajax({
 		            url: "/insertCartItem.do",
 		            type: "post",
@@ -906,10 +915,7 @@
 		        
 		        option += selectElement.value + ' \n';
 		        
-		        console.log("선택된 옵션:", optionName + " = " + selectElement.value);
 		    }
-		    
-		    console.log("최종 optionIds:", optionIds); // 확인용
 		    
 		    if(hasOption && allSelects.length > 0 || allSelects.length <= 0){
 		    	isProcessing = true; // 플래그 설정 (버튼 광클 금지!)
@@ -924,7 +930,6 @@
 		            subTotal: subTotal,
 		        };
 		        
-		        console.log("서버에 전송: ", param);
 		        
 		        $.ajax({
 		            url: "/buyNow.do",
@@ -970,118 +975,149 @@
 			    loadQnAList()
 			).done(function(result1, result2, result3) {
 			    console.log('모든 데이터 로드 완료');
-/* 			    hideLoadingSpinner(); // 로딩 숨기기 */
 			}).fail(function(error) {
 			    console.log('데이터 로드 실패:', error);
-/* 			    hideLoadingSpinner(); */
 			    alert('페이지를 불러오는데 실패했습니다.');
 			});
+		}
+		
+		// 상품 조회 시 로컬스토리지에 저장 (최근 본 상품 표시를 위함)
+		function addRecentProduct(productId, productName, productImage, price) {
+		    var recentProducts = JSON.parse(localStorage.getItem('recentProducts')) || [];
+		    
+		    // 중복 제거 (같은 상품이면 맨 앞으로)
+		    recentProducts = recentProducts.filter(item => item.productId !== productId);
+		    
+		    // 맨 앞에 추가
+		    recentProducts.unshift({
+		        productId: productId,
+		        productName: productName,
+		        productImage: productImage,
+		        price: price,
+		        viewedAt: new Date().toISOString()
+		    });
+		    
+		    // 최대 10개만 유지
+		    if(recentProducts.length > 10) {
+		        recentProducts = recentProducts.slice(0, 10);
+		    }
+		    
+		    localStorage.setItem('recentProducts', JSON.stringify(recentProducts));
 		}
 	</script>
 </head>
 
 <body>
-    <div class="container">
-    	<div class="inner">
-			<div class="product-container" style="display: flex; gap: 50px;">
-				<div class="product-image-container">
-					<img id="product-image" src="https://placehold.co/400x400" alt="Product Image">
-				</div>
-				<div class="product-info">
-					<div class="product-details">
-						<div class="product-title">
-							<h1 id="product-name">${productDetail[0].PRODUCT_NAME}</h1>
-						</div>
-						<table>
-							<tbody>
-								<tr>
-									<td>소비자가</td>
-									<td id="product-price"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-								</tr>
-								<tr>
-									<td>판매가</td>
-									<c:if test="${productDetail[0].SAILED_PRICE != null}">
-										<td id="saled-price" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+    <div class="container" style="display: flex; gap: 10px;">
+    	<div>
+	    	<div class="inner">
+				<div class="product-container" style="display: flex; gap: 50px;">
+					<div class="product-image-container">
+						<c:if test="${not empty productDetail[0].imgs}">
+						    <img id="product-image" src="${productDetail[0].imgs[0].IMAGE_URL}" alt="${productDetail[0].imgs[0].ALT_TEXT}">
+						</c:if>
+						<c:if test="${empty productDetail[0].imgs}">
+						    <img id="product-image" src="https://placehold.co/400x400" alt="Product Image">
+						</c:if>
+					</div>
+					<div class="product-info">
+						<div class="product-details">
+							<div class="product-title">
+								<h1 id="product-name">${productDetail[0].PRODUCT_NAME}</h1>
+							</div>
+							<table>
+								<tbody>
+									<tr>
+										<td>소비자가</td>
+										<td id="product-price"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+									</tr>
+									<tr>
+										<td>판매가</td>
+										<c:if test="${productDetail[0].SAILED_PRICE != null}">
+											<td id="saled-price" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+										</c:if>
+										<c:if test="${productDetail[0].SAILED_PRICE == null}">
+											<td id="saled-price" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+										</c:if>
+									</tr>
+									<tr>
+										<td>상품코드</td>
+										<td id="product-code">${productDetail[0].PRODUCT_CODE}</td>
+									</tr>
+									<tr>
+										<td>상품설명</td>
+										<td id="product-description">${productDetail[0].PRODUCT_CONTENT}</td>
+									</tr>
+									<tr>
+										<td>무게</td>
+										<td id="product-weight">${productDetail[0].PRODUCT_WEIGHT}</td>
+									</tr>
+									<c:if test="${optionInfo[0] != null}">
+										<tr id="product-option">
+											<td>옵션</td>
+											<td id="options-td">
+												<!-- 여기에 옵션 셀렉트 박스가 동적으로 생성됩니다 -->
+											</td>
+										</tr>
 									</c:if>
-									<c:if test="${productDetail[0].SAILED_PRICE == null}">
-										<td id="saled-price" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-									</c:if>
-								</tr>
-								<tr>
-									<td>상품코드</td>
-									<td id="product-code">${productDetail[0].PRODUCT_CODE}</td>
-								</tr>
-								<tr>
-									<td>상품설명</td>
-									<td id="product-description">${productDetail[0].PRODUCT_CONTENT}</td>
-								</tr>
-								<tr>
-									<td>무게</td>
-									<td id="product-weight">${productDetail[0].PRODUCT_WEIGHT}</td>
-								</tr>
-								<c:if test="${optionInfo[0] != null}">
-									<tr id="product-option">
-										<td>옵션</td>
-										<td id="options-td">
-											<!-- 여기에 옵션 셀렉트 박스가 동적으로 생성됩니다 -->
+									<tr id="selected-option-display" style="display: none;">
+										<td>선택된 옵션</td>
+										<td id="selectedCombination">옵션을 선택해주세요.</td>
+									</tr>
+									<tr>
+										<td>총 가격</td>
+										<c:if test="${productDetail[0].SAILED_PRICE != null}">
+										    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+										</c:if>
+										<c:if test="${productDetail[0].SAILED_PRICE == null}">
+										    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+										</c:if>
+									</tr>
+									<tr>
+										<td>수량</td>
+										<td>
+											<button onclick="countDown()">-</button>
+											<input type="number" name="quantity" id="quantity" value="1" min="1" max="999999" onchange="updateCnt()">
+											<button onclick="countUp()">+</button>
 										</td>
 									</tr>
-								</c:if>
-								<tr id="selected-option-display" style="display: none;">
-									<td>선택된 옵션</td>
-									<td id="selectedCombination">옵션을 선택해주세요.</td>
-								</tr>
-								<tr>
-									<td>총 가격</td>
-									<c:if test="${productDetail[0].SAILED_PRICE != null}">
-									    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
-									</c:if>
-									<c:if test="${productDetail[0].SAILED_PRICE == null}">
-									    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-									</c:if>
-								</tr>
-								<tr>
-									<td>수량</td>
-									<td>
-										<button onclick="countDown()">-</button>
-										<input type="number" name="quantity" id="quantity" value="1" min="1" max="999999" onchange="updateCnt()">
-										<button onclick="countUp()">+</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="product-actions">
-						<div class="button-container">
-							<button id="add-to-cart" onclick="pushCart()">장바구니 담기</button>
-							<button id="buy-now" onclick="buyNow()">바로구매</button>
+								</tbody>
+							</table>
+						</div>
+						<div class="product-actions">
+							<div class="button-container">
+								<button id="add-to-cart" onclick="pushCart()">장바구니 담기</button>
+								<button id="buy-now" onclick="buyNow()">바로구매</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-    	<div class="inner">
-    		<div class="tab-navigation-section">
-	    		<nav>
-					<div class="nav nav-tabs" id="nav-tab" role="tablist">
-						<button class="nav-link active" hrer="goDetail" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
-						<button class="nav-link" href="#nav-profile" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
-						<button class="nav-link" href="goQna" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
+	    	<div class="inner">
+	    		<div class="tab-navigation-section">
+		    		<nav>
+						<div class="nav nav-tabs" id="nav-tab" role="tablist">
+							<button class="nav-link active" hrer="goDetail" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
+							<button class="nav-link" href="#nav-profile" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
+							<button class="nav-link" href="goQna" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
+						</div>
+					</nav>
+				</div>
+				<div class="tab-content" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+						<%@ include file="tabs/description.jsp" %>
 					</div>
-				</nav>
-			</div>
-			<div class="tab-content" id="nav-tabContent">
-				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-					<%@ include file="tabs/description.jsp" %>
+					<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+						<%@ include file="tabs/review.jsp" %>
+					</div>
+					<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+						<%@ include file="tabs/productQnA.jsp" %>
+					</div>
 				</div>
-				<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-					<%@ include file="tabs/review.jsp" %>
-				</div>
-				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
-					<%@ include file="tabs/productQnA.jsp" %>
-				</div>
-			</div>
-    	</div>
+	    	</div>
+	    </div>
+    	<!-- 최근 본 상품 컴포넌트 -->
+		<jsp:include page="./recentProduct.jsp" />
     </div>
 </body>
 </html>
