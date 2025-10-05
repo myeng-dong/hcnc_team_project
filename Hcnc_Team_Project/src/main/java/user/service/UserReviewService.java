@@ -57,7 +57,7 @@ public class UserReviewService {
 	                    extension = filename.substring(filename.lastIndexOf("."));
 	                }
 	                // UUID로 새 파일명 생성
-	                String attachedName = UUID.randomUUID().toString() + extension;
+	                String attachedName = "REVIEW" + UUID.randomUUID().toString() + extension;
 	                
 	                System.out.println("파일명: " + filename);
 	                System.out.println("파일 크기: " + fileSize + " bytes");

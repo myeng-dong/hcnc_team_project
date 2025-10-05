@@ -1,6 +1,8 @@
 package user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +21,60 @@ public class UserProductService {
 	@Autowired
 	private UserProductMapper userProductMapper;
 
+	/*
+	 * public List<HashMap<String, Object>> selectProductByUser(Long productId) { //
+	 * TODO Auto-generated method stub return
+	 * userProductMapper.selectProductByUser(productId); }
+	 */
+	
 	public List<HashMap<String, Object>> selectProductByUser(Long productId) {
-		// TODO Auto-generated method stub
-		return userProductMapper.selectProductByUser(productId);
+		
+		List<HashMap<String, Object>> selectProduct = userProductMapper.selectProductByUser(productId);
+		
+		// cartItemId 기준으로 그룹화
+		Map<Long, HashMap<String, Object>> productMap = new LinkedHashMap<>();
+		
+		for(HashMap<String, Object> row: selectProduct) {
+			Long product = (Long) row.get("PRODUCT_ID");
+			
+			// 해당 cartItemId가 cartItemMap에 없는 경우
+			if(!productMap.containsKey(product)) {
+				HashMap<String, Object> item = new HashMap<>();
+				
+				item.put("PRODUCT_CODE", row.get("PRODUCT_CODE"));
+	            item.put("PRODUCT_NAME", row.get("PRODUCT_NAME"));
+	            item.put("PRODUCT_PRICE", row.get("PRODUCT_PRICE"));
+	            item.put("SALED_PRICE", row.get("SALED_PRICE"));
+	            item.put("PRODUCT_CONTENT", row.get("PRODUCT_CONTENT"));
+	            item.put("PRODUCT_WEIGHT", row.get("PRODUCT_WEIGHT"));
+	            item.put("IS_VISIBLE", row.get("IS_VISIBLE"));
+	            
+	            // 옵션이 있는 경우 담을 리스트 추가해놓기
+	            item.put("imgs", new ArrayList<HashMap<String, Object>>());
+			
+	            productMap.put(product, item);
+			}
+			
+			// 옵션 정보 추가 (옵션이 있는 경우만)
+			if(row.get("IMAGE_ID") != null) {
+				HashMap<String, Object> img = new HashMap<>();
+				
+				img.put("IMAGE_ID", row.get("IMAGE_ID"));
+				img.put("IMAGE_URL", row.get("IMAGE_URL"));
+				img.put("ALT_TEXT", row.get("ALT_TEXT"));
+				img.put("SORT_NUMBER", row.get("SORT_NUMBER"));
+				img.put("IS_MAIN", row.get("IS_MAIN"));
+	            
+	            @SuppressWarnings("unchecked")
+				List<HashMap<String, Object>> imgs =
+	            		(List<HashMap<String, Object>>) productMap.get(product).get("imgs");
+	            
+	            imgs.add(img);
+			}
+		}
+		
+		// Map의 values를 List로 반환
+		return new ArrayList<>(productMap.values());
 	}
 
 	public HashMap<String, Object> insertCartItemByUser(Map<String, Object> param, List<Long> optionIds) {
