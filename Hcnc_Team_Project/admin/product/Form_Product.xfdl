@@ -68,7 +68,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="5" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" onkeydown="grid_list_onkeydown" onkillfocus="grid_list_onkillfocus" oncellclick="grid_list_oncellclick">
+        <Grid id="grid_list" taborder="5" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" onkeydown="grid_list_onkeydown" onkillfocus="grid_list_onkillfocus" oncellclick="grid_list_oncellclick" oncelldblclick="grid_list_oncelldblclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -576,8 +576,8 @@ this._updateQuantityByButton = function (row) {
 //상품등록(페이지이동)
 this.btn_reg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	
-	this.go("product::Form_ProductReg.xfdl");
+	this.getOwnerFrame().arguments = {"productId" : -1}
+	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
 };
  
  
@@ -764,6 +764,14 @@ this.btn_excel_onclick = function (obj, e) {
 };
 
 
+
+this.grid_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var productId = this.ds_out_proList.getColumn(e.row,"PRODUCT_ID");
+	trace(productId);
+	this.getOwnerFrame().arguments = {"productId" : productId}
+	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
+};
  //콜백
 this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
     if (nErrorCode < 0) {
