@@ -11,6 +11,7 @@ import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import admin.service.OrderService;
+import common.websocket.WebUtil;
 
 
 @Controller
@@ -54,10 +55,20 @@ public class OrderController {
             @ParamDataSet(name="ds_selected", required=false) List<Map<String, Object>> dsSelected) {
 
         NexacroResult result = new NexacroResult();
-
+        
+        
+        
+        //넥사크로에서 보내는 체크되어있는 것들의 리스트가 있으면 아래 실행
         if (dsSelected != null) {
             for (Map<String,Object> row : dsSelected) {
+            	
+            	// 웹소켓 알람을 보내기 위해서 만든 변수들입니다. dsSelected를  forEach돌려서 row로 빼낸것들임
+            	String paymentStatus = (String)row.get("PAYMENT_STATUS"); 
+            	String orderId = (String)row.get("ORDER_ID");
+            	String userId = (String)row.get("MEMBER_ID");
+            	
                 orderService.updatePaymentListByAdmin(row);
+                WebUtil.sendOrderStatusChangeNotification(userId, orderId, paymentStatus); //웹소켓으로 알람 보내기
             }
         }
 

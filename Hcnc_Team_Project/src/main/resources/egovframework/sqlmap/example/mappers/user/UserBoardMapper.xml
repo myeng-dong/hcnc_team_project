@@ -85,7 +85,8 @@
     <select id="selectUserCommentByUser" parameterType="int" resultType="map">
     #댓글 조회
     	SELECT
-               COMMENT
+    		   COMMENT_ID
+             , COMMENT
              , MEMBER_ID
              , DATE_FORMAT(INPUT_DT, '%Y-%m-%d')
                AS INPUT_DT
@@ -121,10 +122,37 @@
     </insert>
     
     <update id="deleteUserCommentByUser" parameterType="map">
-    #댓글 삭제로 업데이트
+    #댓글 삭제
     	UPDATE COMMENTS
-    	   SET DELETE_DT = NOW();
+    	   SET DELETE_DT = NOW()
     	 WHERE COMMENT_ID = #{commentId}
+    </update>
+    
+    
+  
+    
+    <update id="updateUserCommentByUse" parameterType="map">
+    #댓글 수정 
+   	UPDATE COMMENTS
+   	   SET COMMENT   = #{newContent}
+   	     , UPDATE_DT = NOW()
+     WHERE COMMENT_ID = #{commentId}
+    </update>
+    
+    <update id="updatetUserPostByUser" parameterType="map">
+    UPDATE POSTS
+       SET UPDATE_DT = NOW()
+         , POST_CONTENT = #{postContent}
+         , POST_TITLE = #{postTitle} 
+         , POST_TYPE = #{postType}
+     WHERE POST_ID = #{postId}        
+    </update>
+    
+    <update id="deleteUserPostByUser" parameterType="map">
+    #게시글 삭제
+   	UPDATE POSTS
+   	   SET DELETE_DT = NOW()
+   	 WHERE POST_ID = #{postId}
     </update>
     
 </mapper>

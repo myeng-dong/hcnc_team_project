@@ -97,6 +97,68 @@ public class ProductController {
 	
 	
 	
+	
+	
+	
+	// ----------------- 상품 진열 순서 관리 -----------------
+	
+	// 상품 진열순서관리 리스트
+	@RequestMapping("/productDisplayOrderListByAdmin.do")
+	public NexacroResult productDisplayOrderListByAdmin(
+	        @ParamVariable(name = "displayType", required = false) String displayType) {
+
+		if(displayType == null || displayType.isEmpty()) {
+			displayType = "normal";
+		}
+		
+	    Map<String,Object> cond = new HashMap<>();
+	    cond.put("displayType", displayType);
+
+	    List<Map<String, Object>> list = productService.productDisplayOrderListByAdmin(cond);
+
+	    NexacroResult result = new NexacroResult();
+	    result.addDataSet("ds_out_proList", list);
+	    return result;
+	}
+
+	
+	
+	
+	// 진열순서 변경
+	@RequestMapping("/updateProductSort.do")
+	public NexacroResult updateProductSort(
+	        @ParamDataSet(name="ds_sortSave", required=false) List<Map<String,Object>> list) {
+
+	    if(list != null) {
+	        for(Map<String,Object> row : list) {
+	            productService.updateProductSort(row);
+	        }
+	    }
+	    return new NexacroResult();
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// ---------------- 재고 ------------------
 	
 	//재고저장 관리
@@ -319,6 +381,10 @@ public class ProductController {
 
 	
 	
+	
+	
+	
+
 	
 	
 	

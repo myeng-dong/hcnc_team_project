@@ -4,11 +4,11 @@
     <Layouts>
       <Layout width="1280" height="800">
         <!-- 상단 메뉴 버튼 -->
-        <Button id="btn_goProduct" text="상품목록" left="10" top="10" width="100" height="35" onclick="btn_goProduct_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
-        <Button id="btn_goDisplay" text="상품진열" left="120" top="10" width="100" height="35" onclick="btn_goDisplay_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
-        <Button id="btn_goProductReg" text="상품등록" left="230" top="10" width="100" height="35" onclick="btn_goProductReg_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer"/>
         <!-- 좌측: 카테고리 트리 -->
-        <Grid id="grd_category" binddataset="ds_category" left="10" top="89" width="500" height="590" oncellclick="grd_category_oncellclick" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" font="12px 'Arial'" color="#222222">
+        <Button id="btn_goProduct" text="상품목록" left="10" top="10" width="100" height="35" onclick="btn_goProduct_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer" visible="false"/>
+        <Button id="btn_goDisplay" text="상품진열" left="120" top="10" width="100" height="35" onclick="btn_goDisplay_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer" visible="false"/>
+        <Button id="btn_goProductReg" text="상품등록" left="230" top="10" width="100" height="35" onclick="btn_goProductReg_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer" visible="false"/>
+        <Grid id="grd_category" binddataset="ds_category" left="10" top="50" width="500" height="590" oncellclick="grd_category_oncellclick" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" font="12px 'Arial'" color="#222222">
           <Formats>
             <Format id="default">
               <Columns>
@@ -26,10 +26,10 @@
           </Formats>
         </Grid>
         <!-- 우측: 상세 정보 -->
-        <Div id="div_detail" left="530" top="89" width="730" height="590" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" padding="15px">
+        <Div id="div_detail" left="530" top="50" width="730" height="590" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" padding="15px" text="">
           <Layouts>
             <Layout>
-              <Static id="sta_title" text="상세정보" left="20" top="20" font="bold 14pt 'Gulim'" color="#000000" background="transparent"/>
+              <Static id="sta_title" text="상세정보" left="20" top="20" font="bold 14pt 'Gulim'" color="#000000" background="transparent" height="30" width="169"/>
               <Static id="sta_current" text="ID" left="20" top="60" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
               <Static id="sta_idValue" text="자동생성" left="140" top="60" width="200" height="25" font="10pt 'Gulim'" color="#666666" background="transparent"/>
               <Static id="sta_name" text="분류명" left="20" top="100" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
@@ -60,10 +60,10 @@
           </Layouts>
         </Div>
         <!-- 하단 버튼 영역 -->
-        <Button id="btn_addMain" text="대분류추가" left="10" top="730" width="100" height="35" onclick="btn_addMain_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
-        <Button id="btn_addSub" text="하위추가" left="120" top="730" width="100" height="35" onclick="btn_addSub_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
-        <Button id="btn_edit" text="수정" left="230" top="730" width="100" height="35" onclick="btn_edit_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
-        <Button id="btn_delete" text="삭제" left="340" top="730" width="100" height="35" onclick="btn_delete_onclick" background="#a1162f" color="#ffffff" border="1px solid #a1162f" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
+        <Button id="btn_addMain" text="대분류추가" left="10" top="670" width="100" height="35" onclick="btn_addMain_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
+        <Button id="btn_addSub" text="하위추가" left="120" top="670" width="100" height="35" onclick="btn_addSub_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
+        <Button id="btn_edit" text="수정" left="230" top="670" width="100" height="35" onclick="btn_edit_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer" visible="false"/>
+        <Button id="btn_delete" text="삭제" left="340" top="670" width="100" height="35" onclick="btn_delete_onclick" background="#a1162f" color="#ffffff" border="1px solid #a1162f" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
       </Layout>
     </Layouts>
     <!-- 데이터셋 정의 -->

@@ -198,7 +198,64 @@
         //지급하기 버튼
         this.Button00_onclick = function(obj,e)
         {
-        	this.fn_couponInsert();
+        	// 1. 필수값 체크
+            var couponName = (this.ds_insert.getColumn(0, "COUPON_NAME") || "").trim();
+            var discountType = this.ds_insert.getColumn(0, "DISCOUNT_TYPE");
+            var discountValue = this.ds_insert.getColumn(0, "DISCOUNT_VALUE");
+            var minOrderPrice = this.ds_insert.getColumn(0, "MIN_ORDER_PRICE");
+            var expiryDt = this.ds_insert.getColumn(0, "EXPIRY_DT");
+            var couponType = (this.ds_insert.getColumn(0, "COUPON_TYPE") || "").trim();
+
+            if(!couponName) {
+                this.alert("쿠폰 이름을 입력하세요");
+                return;
+            }
+
+            if(!discountType) {
+                this.alert("할인 유형을 선택하세요");
+                return;
+            }
+
+            if(!discountValue || discountValue <= 0) {
+                this.alert("할인 정도를 입력하세요");
+                return;
+            }
+
+            if(!expiryDt) {
+                this.alert("만료일을 선택하세요");
+                return;
+            }
+
+            if(!couponType) {
+                this.alert("쿠폰 유형을 입력하세요");
+                return;
+            }
+
+            // 2. 만료일 검증 (오늘보다 미래)
+            var today = new Date();
+            var todayStr = today.getFullYear() +
+        	String(today.getMonth() + 1).padStart(2, '0') +
+        	String(today.getDate()).padStart(2, '0');
+
+            var expiryDate = String(expiryDt).substring(0, 8); // yyyyMMdd
+
+            if(expiryDate <= todayStr) {
+                this.alert("만료일은 오늘 이후로 설정해야 합니다");
+                return;
+            }
+
+            // 3. trim된 값 재저장
+            this.ds_insert.setColumn(0, "COUPON_NAME", couponName);
+            this.ds_insert.setColumn(0, "COUPON_TYPE", couponType);
+
+            // 4. 쿠폰 코드 자동 생성 (없으면)
+            if(!this.ds_insert.getColumn(0, "COUPON_CODE")) {
+                var couponCode = "CPN" + new Date().getTime();
+                this.ds_insert.setColumn(0, "COUPON_CODE", couponCode);
+            }
+
+            // 5. 서버 전송
+            this.fn_couponInsert();
         };
 
 

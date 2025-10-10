@@ -785,7 +785,7 @@ textarea::-webkit-scrollbar { display: none; }
 }
 .Tab .tabbuttonitemTab
 {
-	color : #333333;
+	color : #000000;
 	background : #fcfcfc;
 	background : linear-gradient(to top, #fcfcfc, #fafafa);
 	border : 1px solid #c7c7c7;
@@ -1539,8 +1539,8 @@ textarea::-webkit-scrollbar { display: none; }
 }
 #nexacontainer .Tab .tabbuttonitemTab[userstatus=selected]
 {
-	color : #dee4ef;
-	background : #1055a1;
+	color : #ffffff;
+	background : #000000;
 	border : 1px solid #1055a1;
 }
 #nexacontainer .DatePickerControl .body .weekitem[userstatus=saturday]
@@ -1847,8 +1847,8 @@ textarea::-webkit-scrollbar { display: none; }
 }
 #nexacontainer .Tab .tabbuttonitemTab[status=disabled]
 {
-	color : #ababab;
-	background : #e7e7e7;
+	color : #999999;
+	background : #dddddd;
 }
 #nexacontainer .Tab .tabbuttonitemTab .tabbuttonitemtext[status=disabled]
 {
@@ -1959,8 +1959,8 @@ textarea::-webkit-scrollbar { display: none; }
 }
 #nexacontainer .Tab .tabbuttonitemTab[status=focused][userstatus=selected]
 {
-	color : #dee4ef;
-	background : #1055a1;
+	color : #ffffff;
+	background : #000000;
 	border : 1px solid #1055a1;
 }
 #nexacontainer .Tab .tabbuttonitemTab[status=disabled][userstatus=selected]

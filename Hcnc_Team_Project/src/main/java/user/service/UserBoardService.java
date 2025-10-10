@@ -57,6 +57,19 @@ public class UserBoardService {
 		userBoardMapper.deleteUserCommentByUser(params);
 		
 	}
+
+	public void deleteUserPostByUser(Map<String, Object> params) {
+		userBoardMapper.deleteUserPostByUser(params);
+		
+	}
+
+	public void updateUserCommentByUser(Map<String, Object> params) {
+		userBoardMapper.updateUserCommentByUse(params);
+	}
+
+	public void updatetUserPostByUser(Map<String, Object> params) {
+		userBoardMapper.updatetUserPostByUser(params);
+	}
     
     
 

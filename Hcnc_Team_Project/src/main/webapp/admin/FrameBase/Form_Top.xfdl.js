@@ -76,63 +76,158 @@
         
         // User Script
         this.registerScript("Form_Top.xfdl", function() {
+
         this.isWait = false; // 전역변수 선언!
         //로그아웃 버튼 클릭시 세션 끊고 로그아웃
 
-        this.btn_logout_onclick = function(obj,e)
+        //로그인 완료시 실행되게
+        this.fn_initWebSocket = function()
         {
-        	console.log(this.isWait);
-        	if(this.isWait)return;
-        	this.isWait = true;
-        	this.logout();
+            trace("로그인 완료 - 웹소켓 연결 시작");
+            this.connectWebSocket();
         };
 
-        //콜백
-        this.fn_callBack = function (svcID, errorCode, errorMSG)
+
+        this.btn_logout_onclick = function(obj,e)
+        this.btn_logout_onclick = function(obj, e)
         {
-            if(errorCode == -1){
-        		this.alert(errorMSG);
-        	}
+            if(this.isWait) return;
+            this.isWait = true;
+            this.logout();
+        };
 
-        	switch(svcID){
-        	case "adminLogout" :
+        this.fn_callBack = function(svcID, errorCode, errorMSG)
+        {
+            if(errorCode == -1) {
+                this.alert(errorMSG);
+                this.isWait = false;
+                return;
+            }
 
+            switch(svcID) {
+        	case "adminLogout":
         		var glbAd = nexacro.getApplication();
 
-        		//전역변수 초기화
-        		if(glbAd.gds_adminInfo){
+
+        		// 전역 데이터 초기화
+        		if(glbAd.gds_adminInfo) {
         			glbAd.gds_adminInfo.clearData();
         		}
 
-        		//다시 로그인 화면 갔을 때 탑 메뉴, 레프트 메뉴 닫기
-        		nexacro.VFrameSet00.set_separatesize("0,*");     // Top 접기
-        		nexacro.HFrameSet00.set_separatesize("0,*");     // Left 접기
-        		nexacro.InnerVFrameSet.set_separatesize("0,*");  // Title 접기 (쓰는 경우만)
+        		// 프레임 닫기
+        		nexacro.VFrameSet00.set_separatesize("0,*");
+        		nexacro.HFrameSet00.set_separatesize("0,*");
+        		nexacro.InnerVFrameSet.set_separatesize("0,*");
 
-        		//로그아웃 성공시 로그인 페이지로 이동
+        		// 로그인 화면으로
         		this.isWait = false;
-        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": true};
+        		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": true };
         		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("member::Form_Login.xfdl");
 
-        		break;
-        	}
+                break;
+            }
         };
 
-        this.logout = function ()
+        this.logout = function()
         {
-        	var strSvcID = "adminLogout"
-        	var setURL = "svc::/adminLogoutByAdmin.do?time=" + new Date().getTime();;
-        	var strInDatasets = "";
-        	var strOutDatasets = "";
-        	var strArg = "";
-        	var callBack = "fn_callBack";
-        	var inAsync = true;
+            var strSvcID = "adminLogout";
+            var setURL = "svc::/adminLogoutByAdmin.do?time=" + new Date().getTime();
+            var strInDatasets = "";
+            var strOutDatasets = "";
+            var strArg = "";
+            var callBack = "fn_callBack";
+            var inAsync = true;
 
-        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+            this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
         };
 
 
+        //웹소켓 연결 함수
+        this.connectWebSocket = function()
+        {
+            // 사용자 ID 가져오기
+            var userId = application.gds_user.getColumn(0, "MEMBER_ID");
 
+            if (!userId) {
+                trace("❌ 사용자 ID 없음 - 웹소켓 연결 불가");
+                return;
+            }
+
+            // 웹소켓 URL 생성
+            var protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            var host = location.host;  // localhost:8080
+            var wsUrl = protocol + '//' + host + '/notification/' + userId;
+
+            trace("🔌 웹소켓 연결 시도: " + wsUrl);
+
+            // WebSocket 객체 생성
+            this.WebSocketObject = new nexacro.WebSocket();
+
+            // 이벤트 핸들러 등록
+            this.WebSocketObject.addEventHandler("onopen", this.WebSocket_onopen, this);
+            this.WebSocketObject.addEventHandler("onmessage", this.WebSocket_onmessage, this);
+            this.WebSocketObject.addEventHandler("onerror", this.WebSocket_onerror, this);
+            this.WebSocketObject.addEventHandler("onclose", this.WebSocket_onclose, this);
+
+            // 연결 시작
+            this.WebSocketObject.open(wsUrl);
+        };
+
+        /**
+         * 웹소켓 연결 성공
+         */
+        this.WebSocket_onopen = function(obj, e)
+        {
+            trace("✅ 웹소켓 연결 성공");
+        };
+
+        /**
+         * 웹소켓 메시지 수신
+         */
+        this.WebSocket_onmessage = function(obj, e)
+        {
+            trace("📩 알림 수신: " + e.data);
+
+            try {
+                // JSON 파싱
+                var data = JSON.parse(e.data);
+
+                // 알림 표시
+                if (data.type == "ORDER_STATUS_CHANGE") {
+                    // 주문 상태 변경 알림
+                    alert("[알림] " + data.message);
+                }
+                else if (data.type == "NEW_ORDER") {
+                    // 신규 주문 알림
+                    alert("[신규 주문] " + data.message);
+                }
+
+            } catch(err) {
+                trace("❌ 메시지 파싱 에러: " + err.message);
+            }
+        };
+
+        /**
+         * 웹소켓 에러
+         */
+        this.WebSocket_onerror = function(obj, e)
+        {
+            trace("❌ 웹소켓 에러: " + e.errortype);
+        };
+
+        /**
+         * 웹소켓 연결 종료
+         */
+        this.WebSocket_onclose = function(obj, e)
+        {
+            trace("⚠️ 웹소켓 연결 종료 - 3초 후 재연결");
+
+            // 3초 후 자동 재연결
+            var objThis = this;
+            setTimeout(function() {
+                objThis.connectWebSocket();
+            }, 3000);
+        };
         });
         
         // Regist UI Components Event
