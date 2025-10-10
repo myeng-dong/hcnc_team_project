@@ -335,6 +335,93 @@
 	    font-size: 14px;
 	}
 	
+	/* 버튼 영역 레이아웃 */
+.btn-list-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.btn-list {
+    display: inline-block;
+    background: linear-gradient(135deg, #e63946, #d62828);
+    color: white;
+    padding: 12px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+	}
+	
+	.btn-list:hover {
+	    transform: translateY(-2px);
+	    box-shadow: 0 4px 12px rgba(230, 57, 70, 0.4);
+	}
+	
+	/* 게시글 수정/삭제 버튼 영역 */
+	.post-actions {
+	    display: flex;
+	    gap: 10px;
+	}
+	
+	.btn-post-edit,
+	.btn-post-delete {
+	    padding: 12px 24px;
+	    border-radius: 8px;
+	    font-weight: 600;
+	    font-size: 15px;
+	    transition: all 0.3s ease;
+	    cursor: pointer;
+	    border: none;
+	}
+	
+	.btn-post-edit {
+	    background: white;
+	    color: #e63946;
+	    border: 2px solid #e63946;
+	}
+	
+	.btn-post-edit:hover {
+	    background: linear-gradient(135deg, #e63946, #d62828);
+	    color: white;
+	    transform: translateY(-2px);
+	    box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+	}
+	
+	.btn-post-delete {
+	    background: white;
+	    color: #ff4757;
+	    border: 2px solid #ff4757;
+	}
+	
+	.btn-post-delete:hover {
+	    background: linear-gradient(135deg, #ff4757, #d62828);
+	    color: white;
+	    transform: translateY(-2px);
+	    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+	}
+	
+	/* 반응형 */
+	@media (max-width: 768px) {
+	    .btn-list-wrap {
+	        flex-direction: column;
+	        gap: 15px;
+	    }
+	    
+	    .post-actions {
+	        width: 100%;
+	    }
+	    
+	    .btn-list,
+	    .btn-post-edit,
+	    .btn-post-delete {
+	        width: 100%;
+	    }
+	}
 	/* 반응형 */
 	@media (max-width: 768px) {
 	    .container {
@@ -407,6 +494,42 @@
 	        margin-left: 0;
 	    }
 	}
+	.comment-edit-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 2px solid #e63946;
+    border-radius: 8px;
+    font-size: 14px;
+    resize: vertical;
+    font-family: inherit;
+	}
+	
+	.btn-comment-save,
+	.btn-comment-cancel {
+	    background: none;
+	    border: none;
+	    font-size: 13px;
+	    cursor: pointer;
+	    transition: color 0.3s ease;
+	    padding: 4px 8px;
+	}
+	
+	.btn-comment-save {
+	    color: #28a745;
+	}
+	
+	.btn-comment-save:hover {
+	    color: #218838;
+	}
+	
+	.btn-comment-cancel {
+	    color: #6c757d;
+	}
+	
+	.btn-comment-cancel:hover {
+	    color: #5a6268;
+	}
 	
 	@media (max-width: 480px) {
 	    .breadcrumb {
@@ -459,8 +582,16 @@
 
                     <!-- 목록으로 돌아가기 버튼 -->
                     <div class="btn-list-wrap">
-                        <a href="/board/home.do" class="btn-list">목록으로</a>
-                    </div>
+					    <a href="/board/home.do" class="btn-list">목록으로</a>
+					    
+					    <c:if test="${not empty user && user.MEMBER_ID == postDetail.MEMBER_ID}">
+					        <div class="post-actions">
+					            <button type="button" class="btn-post-edit" data-post-id="${postDetail.POST_ID}" onclick="location.href='/board/insert.do?postId=${postDetail.POST_ID}'">수정</button>
+					            <button type="button" class="btn-post-delete" data-post-id="${postDetail.POST_ID}">삭제</button>
+					        </div>
+					    </c:if>
+					</div>
+                    
 
                     <!-- 댓글 영역 -->
                     <div class="comment-area">
@@ -491,16 +622,19 @@
 									            </div>
 									            
 									            <!-- 댓글 내용을 헤더 안으로 이동 -->
-									            <div class="comment-content">
-									                <c:out value="${item.COMMENT}"/>
-									            </div>
-									            
-									            <c:if test="${not empty user && user.MEMBER_ID == item.MEMBER_ID}">
-									                <div class="comment-actions">
-									                    <button type="button" class="btn-comment-edit">수정</button>
-									                    <button type="button" class="btn-comment-delete">삭제</button>
-									                </div>
-									            </c:if>
+									            <div class="comment-content" data-comment-id="${item.COMMENT_ID}">
+												    <span class="comment-text"><c:out value="${item.COMMENT}"/></span>
+												    <textarea class="comment-edit-input" style="display:none;"></textarea>
+												</div>
+												
+												<c:if test="${not empty user && user.MEMBER_ID == item.MEMBER_ID}">
+												    <div class="comment-actions">
+												        <button type="button" class="btn-comment-edit" data-comment-id="${item.COMMENT_ID}">수정</button>
+												        <button type="button" class="btn-comment-save" data-comment-id="${item.COMMENT_ID}" style="display:none;">저장</button>
+												        <button type="button" class="btn-comment-cancel" data-comment-id="${item.COMMENT_ID}" style="display:none;">취소</button>
+												        <button type="button" class="btn-comment-delete" data-comment-id="${item.COMMENT_ID}">삭제</button>
+												    </div>
+												</c:if>
 									        </div>
 									    </li>
 									</c:forEach>
@@ -531,9 +665,64 @@
     $(document).ready(function() {
         setContent('${postDetail.POST_CONTENT}');
         
+        //댓글 삭제 버튼
+        $(".btn-comment-delete").on('click', function(){
+        	var commentId = $(this).data('comment-id');
+        	deleteComment(commentId);
+        });       
         
+        //게시글 삭제 버튼
+        $(".btn-post-delete").on('click',function(){
+        	deletePost(postId);
+        });
         
+        //댓글 수정 버튼 누르면 텍스트 숨기고 인풋 등장
+        $(".btn-comment-edit").on('click', function(){
+            var commentId = $(this).data('comment-id');
+            var $contentDiv = $('.comment-content[data-comment-id="' + commentId + '"]');
+            var $text = $contentDiv.find('.comment-text');
+            var $input = $contentDiv.find('.comment-edit-input');
+            
+            // 현재 텍스트를 textarea에 복사
+            $input.val($text.text());
+            
+            // 텍스트 숨기고 input 보이기
+            $text.hide();
+            $input.show();
+            
+            // 버튼 변경
+            $(this).hide();
+            $(this).siblings('.btn-comment-save, .btn-comment-cancel').show();
+            $(this).siblings('.btn-comment-delete').hide();
+        });
         
+        // 취소 버튼 클릭
+        $(".btn-comment-cancel").on('click', function(){
+            var commentId = $(this).data('comment-id');
+            var $contentDiv = $('.comment-content[data-comment-id="' + commentId + '"]');
+            
+            // 원래대로 되돌리기
+            $contentDiv.find('.comment-text').show();
+            $contentDiv.find('.comment-edit-input').hide();
+            
+            // 버튼 원래대로
+            $(this).hide();
+            $(this).siblings('.btn-comment-save').hide();
+            $(this).siblings('.btn-comment-edit').show();
+            $(this).siblings('.btn-comment-delete').show();
+        });
+        
+        $(".btn-comment-save").on('click', function(){
+            var commentId = $(this).data('comment-id');
+            var $contentDiv = $('.comment-content[data-comment-id="' + commentId + '"]');
+            var newContent = $contentDiv.find('.comment-edit-input').val().trim();
+           
+            if(!newContent) {
+                alert('댓글 내용을 입력해주세요.');
+                return;
+            }
+            updateComment(commentId,newContent);
+        });
     });
     
     
@@ -583,18 +772,67 @@
             url: contextPath + '/board/commentDelete.do',
             type: 'POST',
             data: {
-                commentId: commentId
+            	commentId: commentId
             },
             success: function(response) {
                 alert('댓글이 삭제되었습니다.');
                 location.reload();
             },
-            error: function() {
+            error: function(xhr, status, error) {
+            	 console.log('에러 상세:', xhr.responseText);
+                 console.log('status:', status);
+                 console.log('error:', error);
                 alert('댓글 삭제 중 오류가 발생했습니다.');
             }
         });
     }
     
+ // 댓글 수정
+    function updateComment(commentId,newContent) {
+        
+        $.ajax({
+            url: contextPath + '/board/commentUpdate.do',
+            type: 'POST',
+            data: {
+            	commentId: commentId,
+            	newContent: newContent
+            },
+            success: function(response) {
+                alert('댓글이 수정되었습니다.');
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+            	 console.log('에러 상세:', xhr.responseText);
+                 console.log('status:', status);
+                 console.log('error:', error);
+                alert('댓글 수정 중 오류가 발생했습니다.');
+            }
+        });
+    }
+    
+    //게시글 삭제
+    function deletePost(postId){
+    	 if (!confirm('게시글을 삭제하시겠습니까?')) {
+             return;
+         }
+    	 $.ajax({
+             url: contextPath + '/board/postDelete.do',
+             type: 'POST',
+             data: {
+            	 postId: postId
+             },
+             success: function(response) {
+                 alert('게시글이 삭제되었습니다.');
+                 location.href = contextPath + '/board/home.do';
+             },
+             error: function(xhr, status, error) {
+             	 console.log('에러 상세:', xhr.responseText);
+                  console.log('status:', status);
+                  console.log('error:', error);
+                 alert('게시글 삭제 중 오류가 발생했습니다.');
+             }
+         });
+    }
   	//html코드 불러오는 코드
     function setContent(htmlContent) { 
         document.getElementById('postContent').innerHTML = htmlContent || '내용이 없습니다.';

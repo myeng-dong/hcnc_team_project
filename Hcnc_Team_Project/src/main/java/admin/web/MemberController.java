@@ -37,6 +37,7 @@ public class MemberController {
 			HttpSession session = request.getSession(false);
 			if (session == null) {
 				return result;
+	
 			}
 			Map<String, Object> isLogin = (Map<String, Object>) session.getAttribute("adminInfo");
 			if (isLogin == null) {
