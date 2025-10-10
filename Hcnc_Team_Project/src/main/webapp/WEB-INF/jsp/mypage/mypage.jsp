@@ -15,6 +15,8 @@ uri="http://www.springframework.org/tags"%>
 </head>
 <script language="javascript">
   $(() => {
+    var loginType = "${sessionScope.userInfo['MEMBER_ID']}";
+    console.log(loginType);
     var orders = JSON.parse('<c:out value="${orders}" escapeXml="false"/>');
     shipCalculator(orders);
   });

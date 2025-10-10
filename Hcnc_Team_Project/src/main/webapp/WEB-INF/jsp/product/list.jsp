@@ -8,13 +8,14 @@
     <meta charset="UTF-8">
     <title>상품목록</title>
     <jsp:include page="../layout/headertop.jsp" />
-    <link rel="stylesheet" href="/css/content/board.css">
+    <link rel="stylesheet" href="../../../css/content/board.css">
     <link rel="stylesheet" href="../../../css/component/productItem.css">
     <link rel="stylesheet" href="../../../js/component/productItem.js">
 </head>
 <body>
 <style>
-	.prdList .prdItem {width:31%; margin-bottom:30px;}
+	.prdList .prdItem {width:31%; margin:0 1.1% 30px;}
+	.prdList .prdItem.no-product{width:100%; padding:20% 0; text-align:center;}
 	.sub-search-area{padding:20px 0;}
 </style>
 <div class="container-wrap">
@@ -24,6 +25,10 @@
             <a href="/">홈</a>
             <span>›</span>
             <strong>${mainCategory['MAIN_CATE_NM']}</strong>
+            <c:if test="${not empty subCateId}">
+		        <span>›</span>
+		        <strong>${subCate.SUB_CATE_NM}</strong>
+		    </c:if>
         </div>
         <div class="sub-area">
             <div class="sub-title-area">
@@ -31,19 +36,19 @@
             </div>
             <div class="sub-content-area">
                 <div class="sub-category-area">
-                    <ul class="flex ju-between">
-                        <li><a href="/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}" class="${empty subCateId ? 'active' : ''}">전체</a></li>
+                    <ul class="flex">
+                        <li><a href="/product/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}" class="${empty subCateId ? 'active' : ''}">전체</a></li>
                         <c:forEach var="subCate" items="${subCategories}">
                             <li>
-                                <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}">
-                                   class="${subCateId eq subCate.SUB_CATE_ID ? 'active' : ''}">
-                                    ${subCate.SUB_CATE_NAME}
-                                </a>
+								<a href="/product/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCate['SUB_CATE_ID']}"
+							   class="${subCateId eq subCate.SUB_CATE_ID ? 'active' : ''}">
+							    ${subCate.SUB_CATE_NM}
+							</a>
                             </li>
                         </c:forEach>
                     </ul>
                 </div>
-                <div class="sub-search-area flex">
+                <div class="sub-search-area flex ju-between">
                     <div class="left">총 ${totalCount}개의 상품이 있습니다</div>
                     <div class="right">
                         <select id="sortType" onchange="changeSortType(this.value)">
@@ -56,7 +61,7 @@
                 </div>
                 
                 <div class="prdItem_area">
-                    <div class="flex prdList f-wrap ju-between">
+                    <div class="flex prdList f-wrap">
                         <c:choose>
                             <c:when test="${not empty productList}">
                                 <c:forEach var="product" items="${productList}">
@@ -64,13 +69,13 @@
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <div class="no-product">등록된 상품이 없습니다.</div>
+                                <div class="prdItem no-product">등록된 상품이 없습니다.</div>
                             </c:otherwise>
                         </c:choose>
                     </div>
                 </div>
                 
-                <c:if test="${totalPages > 1}">
+                <c:if test="${totalPages >= 1}">
                     <div class="pagination">
                         <c:if test="${currentPage > 1}">
                             <a href="?mainCateId=${mainCateId}&subCateId=${subCateId}&sortType=${sortType}&page=${currentPage - 1}" class="prev">«</a>

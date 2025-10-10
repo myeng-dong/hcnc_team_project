@@ -42,7 +42,7 @@
 		
 		<if test="POST_ID != null and POST_ID != ''">
 			UPDATE POSTS
-			   SET POST_STATUS = '처리완료'
+			   SET POST_STATUS = '답변완료'
 			 WHERE 1=1       
 		       AND POST_ID = #{POST_ID}		
 		</if>

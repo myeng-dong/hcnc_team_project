@@ -159,6 +159,8 @@
             switch(svcID) {
                 case "fninsertCommentByAdmin":
                     trace("댓글 추가 완료");
+        			alert("댓글 추가 완료");
+        			this.close(); //닫음
                     break;
 
         		case "fnselectOneOnOneByAdmin":

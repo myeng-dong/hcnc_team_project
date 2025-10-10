@@ -4,13 +4,13 @@
     <Layouts>
       <Layout height="630" width="1080">
         <Grid id="grid_list" taborder="0" left="40" top="160" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_review_list" bottom="40" oncellclick="grid_list_oncellclick">&gt;
-          <Formats><Format id="default"><Columns><Column size="48"/><Column size="103"/><Column size="169"/><Column size="140"/><Column size="91"/><Column size="160"/><Column size="110"/><Column size="111"/><Column size="68"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="상품코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="상품명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="회원ID" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="별점" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none"/><Cell col="5" text="리뷰작성일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="포인트지급여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="지급일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="리뷰상세" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" textAlign="center"/><Cell col="1" text="bind:PRODUCT_CODE" textAlign="center"/><Cell col="2" text="bind:PRODUCT_NAME"/><Cell col="3" text="bind:MEMBER_ID" textAlign="center"/><Cell col="4" text="bind:STAR_POINT" textAlign="center"/><Cell col="5" edittype="none" text="bind:INPUT_DT"/><Cell col="6" text="bind:POINT_ISSUED" textAlign="center"/><Cell col="7" edittype="none" text="bind:ISSUED_DT"/><Cell col="8" displaytype="buttoncontrol" text="관리"/></Band></Format></Formats></Grid>
+          <Formats><Format id="default"><Columns><Column size="48"/><Column size="68"/><Column size="103"/><Column size="169"/><Column size="140"/><Column size="55"/><Column size="128"/><Column size="110"/><Column size="111"/><Column size="68"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="주문아이디" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="상품코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="상품명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="회원ID" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="별점" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none"/><Cell col="6" text="리뷰작성일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="포인트지급여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="지급일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="리뷰상세" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" textAlign="center"/><Cell col="1" text="bind:ORDER_ID"/><Cell col="2" text="bind:PRODUCT_CODE" textAlign="center"/><Cell col="3" text="bind:PRODUCT_NAME"/><Cell col="4" text="bind:MEMBER_ID" textAlign="center"/><Cell col="5" text="bind:STAR_POINT" textAlign="center"/><Cell col="6" edittype="none" text="bind:INPUT_DT"/><Cell col="7" text="bind:POINT_ISSUED" textAlign="center"/><Cell col="8" edittype="none" text="bind:ISSUED_DT"/><Cell col="9" displaytype="buttoncontrol" text="관리"/></Band></Format></Formats></Grid>
         <Div id="search_area" taborder="1" left="40" top="20" height="130" background="#ffffff" borderRadius="10px" right="40">
           <Layouts>
             <Layout>
               <Static id="search_tit" taborder="0" text="검색분류" left="20" top="3" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
               <Static id="Static00" taborder="1" left="82" top="15" width="2" height="20" background="#cccccc" text=""/>
-              <Radio id="radio_issued" taborder="2" left="96" top="49" width="304" height="30" innerdataset="ds_issued" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="" value="">
+              <Radio id="radio_issued" taborder="2" left="96" top="49" width="304" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="" value="" onitemchanged="search_area_radio_issued_onitemchanged">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="codecolumn" size="256"/>
@@ -22,11 +22,11 @@
                       <Col id="datacolumn">전체</Col>
                     </Row>
                     <Row>
-                      <Col id="codecolumn">1</Col>
+                      <Col id="codecolumn">Y</Col>
                       <Col id="datacolumn">발급</Col>
                     </Row>
                     <Row>
-                      <Col id="codecolumn">0</Col>
+                      <Col id="codecolumn">N</Col>
                       <Col id="datacolumn">미발급</Col>
                     </Row>
                   </Rows>
@@ -121,20 +121,17 @@ this.fnCallback = function(svc, err, errMsg) {
 		case "selectReview":
             trace("총 행 수: " + this.ds_review_list.rowcount);
             
-            // 처음 몇 행의 POINT_ISSUED 값 확인
-            for(var i = 0; i < Math.min(5, this.ds_review_list.rowcount); i++) {
+            // 1/0을 Y/N으로 변환해서 원본 컬럼에 덮어쓰기
+            for(var i = 0; i < this.ds_review_list.rowcount; i++) {
                 var pointIssued = this.ds_review_list.getColumn(i, "POINT_ISSUED");
-                trace("행 " + i + " POINT_ISSUED: [" + pointIssued + "] (타입: " + typeof pointIssued + ") (길이: " + String(pointIssued).length + ")");
+                var displayValue = (pointIssued == 1) ? "Y" : "N";
+                this.ds_review_list.setColumn(i, "POINT_ISSUED", displayValue);  // 원본에 덮어쓰기
             }
             
-            // 컬럼 존재 여부 확인
-            var colExists = false;
-            for(var j = 0; j < this.ds_review_list.colcount; j++) {
-                var colName = this.ds_review_list.getColID(j);
-                if(colName == "POINT_ISSUED") {
-                    colExists = true;
-                    break;
-                }
+            // 디버깅 로그
+            for(var i = 0; i < Math.min(5, this.ds_review_list.rowcount); i++) {
+                var pointIssued = this.ds_review_list.getColumn(i, "POINT_ISSUED");
+                trace("행 " + i + " POINT_ISSUED: [" + pointIssued + "]");
             }
         return;
 		
@@ -152,6 +149,7 @@ this.fn_popCallback = function(svcID, strVal){
         break;
     }
 };
+
 ]]></Script>
     <Bind>
       <BindItem id="item0" compid="grid_list" propid="binddataset" datasetid="ds_user" columnid=""/>
