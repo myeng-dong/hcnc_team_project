@@ -17,4 +17,7 @@ public interface NotificationMapper {
 	//알람 리스트 업데이트
 	void updateReadStatus(Map<String, Object> params);
 
+	//주문시 알림인서트
+	void insertNotificationByAdmin(Map<String, Object> params);
+
 }

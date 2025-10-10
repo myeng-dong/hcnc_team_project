@@ -55,9 +55,7 @@ public class OrderController {
             @ParamDataSet(name="ds_selected", required=false) List<Map<String, Object>> dsSelected) {
 
         NexacroResult result = new NexacroResult();
-        
-        
-        
+
         //넥사크로에서 보내는 체크되어있는 것들의 리스트가 있으면 아래 실행
         if (dsSelected != null) {
             for (Map<String,Object> row : dsSelected) {
@@ -66,6 +64,8 @@ public class OrderController {
             	String paymentStatus = (String)row.get("PAYMENT_STATUS"); 
             	String orderId = (String)row.get("ORDER_ID");
             	String userId = (String)row.get("MEMBER_ID");
+            	
+            	
             	
                 orderService.updatePaymentListByAdmin(row);
                 WebUtil.sendOrderStatusChangeNotification(userId, orderId, paymentStatus); //웹소켓으로 알람 보내기
