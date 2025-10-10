@@ -555,6 +555,7 @@
 			<img id="review-product-image" alt="상품 이미지" src="">
 			<div class="review-product-details">
 				<span id="review-product-name" class="review-product-name">상품명A</span>
+				<input type="hidden" id="review-product-data" data-orderId-value="" data-productId-value=""></input>
 			</div>
 		</div>
 		
