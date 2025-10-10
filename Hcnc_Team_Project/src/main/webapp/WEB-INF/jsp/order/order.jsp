@@ -2,8 +2,8 @@
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../layout/headertop.jsp" />
-<%-- <jsp:include page="../layout/header.jsp" />
-<jsp:include page="../layout/menu.jsp" /> --%>
+<jsp:include page="../layout/header.jsp" />
+<%-- <jsp:include page="../layout/menu.jsp" /> --%>
 
 <!DOCTYPE html>
 <html>
@@ -59,10 +59,9 @@
 <script>
 	const urlParams = new URLSearchParams(window.location.search);
 	
-	const memberId = "user01";
-	
 	const cartId = urlParams.get("cartId");
 	const orderNumber = urlParams.get("orderNum");
+	const guestId = localStorage.getItem('guestId');
 	
 	const clientKey = "test_ck_Ba5PzR0ArnwNxkAOwR0X8vmYnNeD";
 	const customerKey = "ewvVxcVTXJDPvruNASP_I";
@@ -122,26 +121,31 @@
 	    
 	    var userName = $("#orderName").val();
 	    var finalAmount = $("#finalPrice").data('value');
+	    
+	    if(sessionStorage.getItem("tempId") != null){
+	    	var tempId = sessionStorage.getItem("tempId");
+	    }
 			   
 	    var orderData = {
 			items: items,
 			order: {
 				orderNumber: orderNumber
 				, phoneNumber: phoneNumber
-			   			, totalAmount: Number ( $("#itemTotalPrice").data('value') ) + Number ( $("#shipFee").data('value') )
-			   			, shippingCost: $("#shipFee").data('value')
-			   			, discountAmount: Number( $("#gradeSale").data('value') ) + Number( $("#couponSale").data('value') ) + Number( $("#pointSale").data('value') )
-			   			, finalAmount: finalAmount
-			   			, receiver: $("#receiver").val()
-			   			, shippingPost: $("#orderPost").val()
-			   			, shippingAddr1: $("#orderAddr1").val()
-			   			, shippingAddr2: $("#orderAddr2").val()
-			   			, userName: userName
-			   			, memberId: memberId
-			   			, shippingComment: shippingComment
-			   			, couponId: $('input[name="selectedCoupon"]:checked').val() || null
-			   			, couponDiscount: Number( $("#couponSale").data('value') )
-			   			, usedPoint: Number( $("#pointSale").data('value') )
+				, totalAmount: Number ( $("#itemTotalPrice").data('value') ) + Number ( $("#shipFee").data('value') )
+				, shippingCost: $("#shipFee").data('value')
+				, discountAmount: Number( $("#gradeSale").data('value') ) + Number( $("#couponSale").data('value') ) + Number( $("#pointSale").data('value') )
+				, finalAmount: finalAmount
+				, receiver: $("#receiver").val()
+				, shippingPost: $("#orderPost").val()
+				, shippingAddr1: $("#orderAddr1").val()
+				, shippingAddr2: $("#orderAddr2").val()
+				, userName: userName
+				, guestId: guestId
+				, shippingComment: shippingComment
+				, couponId: $('input[name="selectedCoupon"]:checked').val() || null
+				, couponDiscount: Number( $("#couponSale").data('value') )
+				, usedPoint: Number( $("#pointSale").data('value') )
+				, tempId: tempId
 			}
 		}
 		
@@ -625,7 +629,7 @@
                         
                         <div class="form-group">
                             <label class="form-label">주문자 <span class="required">*</span></label>
-                            <input type="text" class="form-input" id="orderName" placeholder="주문자 성함을 입력하세요" readonly>
+                            <input type="text" class="form-input" id="orderName" placeholder="주문자 성함을 입력하세요" value="비회원" readonly>
                         </div>
                         
                         <div class="form-group">
@@ -636,11 +640,11 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">휴대폰 번호 <span class="required">*</span></label>
-                                <input type="tel" class="form-input" id="phoneNumber" placeholder="휴대폰 번호를 입력해주세요">
+                                <input type="tel" class="form-input" id="phoneNumber" placeholder="휴대폰 번호를 입력해주세요" maxlength="11">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">일반전화</label>
-                                <input type="tel" class="form-input" placeholder="02-123-4567">
+                                <input type="tel" class="form-input" placeholder="02-123-4567" maxlength="12">
                             </div>
                         </div>
 
@@ -721,28 +725,31 @@
                         <h3 class="summary-title">결제정보</h3>
                         
                         <!-- Coupon Section -->
-                        <div class="coupon-section">
-                            <div class="coupon-input">
-                            	<div id="couponList">
-					                <!-- 쿠폰 아이템들이 여기에 생성됩니다 -->
-					            </div>
-                                <!-- <input type="text" class="form-input" placeholder="쿠폰 번호 입력"> -->
-                                <button class="btn-coupon" onclick="openCouponModal()">쿠폰 선택하기</button>
-                            </div>
-                        </div>
+                        <c:if test="${userInfo != null}">
+	                        <div class="coupon-section">
+	                            <div class="coupon-input">
+	                            	<div id="couponList">
+						                <!-- 쿠폰 아이템들이 여기에 생성됩니다 -->
+						            </div>
+	                                <!-- <input type="text" class="form-input" placeholder="쿠폰 번호 입력"> -->
+	                                <button class="btn-coupon" onclick="openCouponModal()">쿠폰 선택하기</button>
+	                            </div>
+	                        </div>
+                        
 
-                        <!-- Points Section -->
-                        <div class="points-section">
-                            <label class="form-label">포인트 사용</label>
-                            <div class="points-info">
-                                <span>보유 포인트</span>
-                                <span id="hasPoint" data-value=0>0P</span>
-                            </div>
-                            <div class="points-input">
-                                <input type="number" class="form-input" id="usePoint" placeholder="사용할 포인트" min="0" onchange="usePointChage()">
-                                <button class="btn-points" onclick="applyPoints()">전액사용</button>
-                            </div>
-                        </div>
+	                        <!-- Points Section -->
+	                        <div class="points-section">
+	                            <label class="form-label">포인트 사용</label>
+	                            <div class="points-info">
+	                                <span>보유 포인트</span>
+	                                <span id="hasPoint" data-value=0>0P</span>
+	                            </div>
+	                            <div class="points-input">
+	                                <input type="number" class="form-input" id="usePoint" placeholder="사용할 포인트" min="0" onchange="usePointChage()">
+	                                <button class="btn-points" onclick="applyPoints()">전액사용</button>
+	                            </div>
+	                        </div>
+                        </c:if>
 
                         <div class="summary-row">
                             <span class="summary-label">상품금액</span>
@@ -1013,8 +1020,15 @@
             }
         });
     </script>
+    
+    <script>
+		var itemToTalPrice = ${itemCnt.TOTAL_PRICE};
+		$("#itemTotalPrice").text(itemToTalPrice.toLocaleString() + '원');
+		$("#itemTotalPrice").data('value', itemToTalPrice);
+    </script>
 
-<!-- 회원 정보 조회 -->    
+<!-- 회원 정보 조회 -->
+<c:if test="${userInfo != null}"> 
 	<script>
 		$(function(){
 			var itemToTalPrice = ${itemCnt.TOTAL_PRICE};
@@ -1029,7 +1043,7 @@
 			$.ajax({
 				url: "/orderMemberData.do"
 				, type: "post"
-				, data: { memberId : memberId }
+				, data: {}
 				, dataType: "json"
 				, success: function(res){
 					console.log(res.resultInfo);
@@ -1115,6 +1129,7 @@
 			});
 		}
 	</script>
+</c:if>
 </body>
 </html>
 

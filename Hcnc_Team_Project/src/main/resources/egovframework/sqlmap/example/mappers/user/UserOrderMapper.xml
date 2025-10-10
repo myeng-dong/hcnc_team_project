@@ -158,4 +158,9 @@
 				AND C.COURIER_ID = 1
 	</select>
 	
+	<delete id="deleteCartByUser" parameterType="java.util.Map">
+		DELETE FROM CARTS
+			WHERE MEMBER_ID = #{tempId}
+	</delete>
+	
 </mapper> 

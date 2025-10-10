@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +55,14 @@ public class UserOrderController {
 
 	
 	@RequestMapping(value="/orderMemberData.do")
-	public ModelAndView selectRequestedOrderInfoByUser(@RequestParam Map<String, Object> param) {
+	public ModelAndView selectRequestedOrderInfoByUser(@RequestParam Map<String, Object> param, HttpSession session) {
 		ModelAndView mav = new ModelAndView("jsonView");
+		
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+		if(userInfo != null) {
+			String memberId = (String) userInfo.get("MEMBER_ID");
+			param.put("memberId", memberId);
+		} 
 		
 		System.out.println(param);
 		
@@ -71,70 +79,82 @@ public class UserOrderController {
 		    @RequestParam("paymentKey") String paymentKey,
 		    @RequestParam("orderId") String orderId,
 		    @RequestParam("amount") String amount,
-			@RequestParam("itemsJson") String itemsJson,
-			@RequestParam("orderJson") String orderJson) {
+				@RequestParam("itemsJson") String itemsJson,
+				@RequestParam("orderJson") String orderJson,
+				HttpSession session
+			) {
 		ModelAndView mav = new ModelAndView("jsonView");
 	    
 	    
 	    try {
-	        // 1. 토스페이먼츠 승인 API 호출
-	        JSONObject paymentData = confirmTossPayment(paymentKey, orderId, amount);
+				// 1. 토스페이먼츠 승인 API 호출
+				JSONObject paymentData = confirmTossPayment(paymentKey, orderId, amount);
+				
+				// 2. 결제 수단 추출 (안전한 방식)
+				String method = paymentData.getString("method");
+				String paymentMethod = method;
+				
+				if (paymentData.has("easyPay")) {
+						try {
+								// easyPay가 JSONObject인 경우
+								JSONObject easyPay = paymentData.getJSONObject("easyPay");
+								
+								if (easyPay.has("provider")) {
+										paymentMethod = easyPay.getString("provider");
+								}
+								
+						} catch (JSONException e) {
+								// easyPay가 String인 경우 (하위 호환)
+								try {
+										paymentMethod = paymentData.getString("easyPay");
+								} catch (Exception ex) {
+										System.err.println("easyPay (간편결제)가 아님");
+								}
+						}
+				}
+				
+				
+				// 디코딩
+				itemsJson = itemsJson.replace("&quot;", "\"");
+				orderJson = orderJson.replace("&quot;", "\"");
+				
+				ObjectMapper mapper = new ObjectMapper();
+				
+				List<Map<String, Object>> items = mapper.readValue(
+						itemsJson, 
+						new TypeReference<List<Map<String, Object>>>() {}
+				);
+				
+				Map<String, Object> order = mapper.readValue(
+						orderJson, 
+						new TypeReference<Map<String, Object>>(){}
+				);
+				
+				order.put("paymentMethod", paymentMethod);
+				
+				System.out.println(order);
+				System.out.println(items);
+
+				String memberId = null;
+				Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+				if(userInfo != null) {
+					memberId = (String) userInfo.get("MEMBER_ID");
+				} else {
+					memberId = (String) order.get("guestId");
+				}
+
+				order.put("memberId", memberId);
 	        
-	        // 2. 결제 수단 추출 (안전한 방식)
-	        String method = paymentData.getString("method");
-	        String paymentMethod = method;
-	        
-	        if (paymentData.has("easyPay")) {
-	            try {
-	                // easyPay가 JSONObject인 경우
-	                JSONObject easyPay = paymentData.getJSONObject("easyPay");
-	                
-	                if (easyPay.has("provider")) {
-	                    paymentMethod = easyPay.getString("provider");
-	                }
-	                
-	            } catch (JSONException e) {
-	                // easyPay가 String인 경우 (하위 호환)
-	                try {
-	                    paymentMethod = paymentData.getString("easyPay");
-	                } catch (Exception ex) {
-	                    System.err.println("easyPay (간편결제)가 아님");
-	                }
-	            }
-	        }
-	        
-	    	 	
-	        // ⭐ 디코딩 (이 한 줄만 추가!)
-	        itemsJson = itemsJson.replace("&quot;", "\"");
-	        orderJson = orderJson.replace("&quot;", "\"");
-	        
-	        ObjectMapper mapper = new ObjectMapper();
-	        
-	        List<Map<String, Object>> items = mapper.readValue(
-	            itemsJson, 
-	            new TypeReference<List<Map<String, Object>>>() {}
-	        );
-	        
-	        Map<String, Object> order = mapper.readValue(
-	            orderJson, 
-	            new TypeReference<Map<String, Object>>(){}
-	        );
-	        
-	        order.put("paymentMethod", paymentMethod);
-	        
-	        System.out.println(order);
-	        System.out.println(items);
-	        
-	        // DB 저장...
-			int result = userOrderService.orderDataSaveByUser(order, items);
-	        
-			if(result == 1) {
-				mav.addObject("message", "주문/결제 완료!!");
-				mav.addObject("result", 1);
-			} else {
-				mav.addObject("message", "주문/결제 중 오류 발생했습니다.");
-				mav.addObject("result", 0);
-			}
+				// DB 저장...
+				int result = userOrderService.orderDataSaveByUser(order, items);
+						
+				if(result == 1) {
+					mav.addObject("message", "주문/결제 완료!!");
+					mav.addObject("result", 1);
+				} else {
+					mav.addObject("message", "주문/결제 중 오류 발생했습니다.");
+					mav.addObject("result", 0);
+				}
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        
