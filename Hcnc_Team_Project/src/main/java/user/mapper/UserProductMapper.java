@@ -50,5 +50,7 @@ public interface UserProductMapper {
     int selectCategoryProductsCountByUser(Map<String, Object> params);
 
 
+	int insertCartItemOptionByUser(Map<String, Object> optionId);
+
 
 }

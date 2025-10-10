@@ -1,15 +1,4 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <script src="https://js.tosspayments.com/v2/standard"></script>
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/xeicon/2.3.0/xeicon.min.css"
-    />
-  </head>
-  <body>
     <!-- 할인 쿠폰 -->
     <!-- <div> -->
     <!-- <input type="checkbox" id="coupon-box" /> -->
@@ -21,16 +10,13 @@
       <!-- 이용약관 UI -->
       <div id="agreement"></div>
       <!-- 결제하기 버튼 -->
-      <button class="button" id="payment-button" style="margin-top: 30px">
-        결제하기
-      </button>
     </div>
 
     <script>
-      const price = "${param.paymentPrice}";
+  /*     const price = "${param.paymentPrice}";
       console.log(price);
-      main(price);
-      async function main(price) {
+      main(price); */
+      function payMain(price) {
         const button = document.getElementById("payment-button");
         // const coupon = document.getElementById("coupon-box");
         // ------  결제위젯 초기화 ------
@@ -45,12 +31,12 @@
         // const widgets = tossPayments.widgets({ customerKey: TossPayments.ANONYMOUS });
 
         // ------ 주문의 결제 금액 설정 ------
-        await widgets.setAmount({
+       	widgets.setAmount({
           currency: "KRW",
           value: parseInt(price),
         });
 
-        await Promise.all([
+        Promise.all([
           // ------  결제 UI 렌더링 ------
           widgets.renderPaymentMethods({
             selector: "#payment-method",
@@ -72,7 +58,7 @@
         // });
 
         // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-        button.addEventListener("click", async function () {
+        async function payBtn() {
           await widgets.requestPayment({
             orderId: "c8vIs-G19eCgHuUNLe7Oe",
             orderName: "토스 티셔츠 외 2건",
@@ -82,8 +68,6 @@
             customerName: "김토스",
             customerMobilePhone: "01012341234",
           });
-        });
+        };
       }
     </script>
-  </body>
-</html>
