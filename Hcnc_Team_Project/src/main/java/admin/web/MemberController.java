@@ -30,8 +30,8 @@ public class MemberController {
 
 	@Autowired
 	private UserMailService mailService;
-	
-	//메모리에 임시비밀번호 
+
+	// 메모리에 임시비밀번호 저장하기 위한 변수
 	private static final Map<String, Long> tempPasswordCache = new ConcurrentHashMap<>();
 
 	// 관리자 로그인
@@ -77,53 +77,83 @@ public class MemberController {
 	// 로그인
 	@RequestMapping(value = "/adminLoginByAdmin.do")
 	public NexacroResult adminLogin(@ParamDataSet(name = "ds_admin") Map<String, Object> param,
-	        @ParamVariable(name = "SAVE_ID") String saveId, 
-	        HttpServletRequest request, HttpServletResponse response) {
+			@ParamVariable(name = "SAVE_ID") String saveId, HttpServletRequest request, HttpServletResponse response) {
 
-	    NexacroResult result = new NexacroResult();
+		NexacroResult result = new NexacroResult();
 
-	    try {
-	        String password = String.valueOf(param.get("PASSWORD"));
-	        String crypto = PasswordUtil.encryptSHA256(password);
-	        param.put("PASSWORD", crypto);
+		try {
+			String memberId = String.valueOf(param.get("MEMBER_ID"));
 
-	        Map<String, Object> adminInfo = memberService.adminLogin(param);
+			// 먼저 만료 체크
+			if (tempPasswordCache.containsKey(memberId)) {
+				long expireTime = tempPasswordCache.get(memberId);
+				long currentTime = System.currentTimeMillis();
 
-	        if (adminInfo != null && "O".equals(adminInfo.get("PASSWORD").toString())) {
-	            String memberId = String.valueOf(adminInfo.get("MEMBER_ID"));
-	            
-	            // 메모리에서 임시 비밀번호 만료시간 확인
-	            if (tempPasswordCache.containsKey(memberId)) {
-	                long expireTime = tempPasswordCache.get(memberId);
-	                long currentTime = System.currentTimeMillis();
-	                
-	                if (currentTime > expireTime) {
-	                    // 만료됨 - 캐시에서 제거
-	                    tempPasswordCache.remove(memberId);
-	                    
-	                    result.setErrorCode(-1);
-	                    result.setErrorMsg("임시 비밀번호가 만료되었습니다.\n비밀번호 찾기를 다시 진행해주세요.");
-	                    return result;
-	                } else {
-	                    // 유효함 - 알림 플래그 설정
-	                    adminInfo.put("TEMP_PW_ALERT", "Y");
-	                }
-	            }
-	            
-	            // 세션 생성
-	            HttpSession session = request.getSession();
-	            session.setAttribute("adminInfo", adminInfo);
+				if (currentTime > expireTime) {
+					// 만료됨 - 캐시에서 제거
+					tempPasswordCache.remove(memberId);
 
-	            handleRememberMeCookie(response, saveId, memberId);
+					// DB에서도 비밀번호 무효화
+					try {
+						// EMAIL 먼저 조회
+						Map<String, Object> memberDetail = memberService.selectMemberDetail(memberId);
 
-	            result.addDataSet("ds_loginChk", adminInfo);
-	        }
-	    } catch (Exception e) {
-	        result.setErrorCode(-1);
-	        result.setErrorMsg("로그인 실패");
-	    }
-	    return result;
+						if (memberDetail != null) {
+							Map<String, Object> invalidateParam = new HashMap<>();
+							invalidateParam.put("MEMBER_ID", memberId);
+							invalidateParam.put("EMAIL", memberDetail.get("EMAIL_ADDR")); // ⭐ EMAIL 추가
+							invalidateParam.put("NEW_PASSWORD",
+									PasswordUtil.encryptSHA256(java.util.UUID.randomUUID().toString()));
+
+							int updated = memberService.updatePasswordByAdmin(invalidateParam);
+
+							if (updated > 0) {
+								System.out.println("=============================================");
+								System.out.println("[임시 비밀번호 만료 처리]");
+								System.out.println("회원 아이디: " + memberId);
+								System.out.println("DB 비밀번호 무효화 완료");
+								System.out.println("=============================================");
+							}
+						}
+					} catch (Exception e) {
+						System.err.println("임시 비밀번호 무효화 실패: " + e.getMessage());
+						e.printStackTrace();
+					}
+					result.setErrorCode(-1);
+					result.setErrorMsg("임시 비밀번호가 만료되었습니다.\n비밀번호 찾기를 다시 진행해주세요.");
+					return result;
+				}
+			}
+
+			// 비밀번호 암호화
+			String password = String.valueOf(param.get("PASSWORD"));
+			String crypto = PasswordUtil.encryptSHA256(password);
+			param.put("PASSWORD", crypto);
+
+			Map<String, Object> adminInfo = memberService.adminLogin(param);
+
+			if (adminInfo != null && "O".equals(adminInfo.get("PASSWORD").toString())) {
+
+				// 로그인 성공 후 임시 비밀번호인지 확인
+				if (tempPasswordCache.containsKey(memberId)) {
+					adminInfo.put("TEMP_PW_ALERT", "Y");
+				}
+
+				// 세션 생성
+				HttpSession session = request.getSession();
+				session.setAttribute("adminInfo", adminInfo);
+
+				handleRememberMeCookie(response, saveId, memberId);
+
+				result.addDataSet("ds_loginChk", adminInfo);
+			}
+		} catch (Exception e) {
+			result.setErrorCode(-1);
+			result.setErrorMsg("로그인 실패");
+		}
+		return result;
 	}
+
 	// 로그아웃
 	@RequestMapping(value = "/adminLogoutByAdmin.do")
 	public NexacroResult adminLogout(HttpServletRequest request, HttpServletResponse response) {
@@ -770,21 +800,15 @@ public class MemberController {
 					try {
 						String toEmail = param.get("EMAIL").toString();
 						String memberId = memberInfo.get("MEMBER_ID").toString();
-						
-		                long expireTime = System.currentTimeMillis() + (1 * 60 * 1000);
-		                tempPasswordCache.put(memberId, expireTime);
+
+						// 임시비밀번호 유효기간 1분
+						long expireTime = System.currentTimeMillis() + (1 * 60 * 1000);
+						tempPasswordCache.put(memberId, expireTime);
 
 						String subject = "DDD.D 관리자 임시 비밀번호 발급";
 						String emailBody = buildPasswordEmailBody(memberId, tempPassword);
 
 						mailService.sendMail(toEmail, subject, emailBody);
-
-						System.out.println("=============================================");
-						System.out.println("[이메일 발송 완료]");
-						System.out.println("수신자: " + toEmail);
-						System.out.println("회원 아이디: " + memberId);
-						System.out.println("임시 비밀번호: " + tempPassword);
-						System.out.println("=============================================");
 
 						resultMap.put("RESULT", "SUCCESS");
 
@@ -857,7 +881,7 @@ public class MemberController {
 		sb.append("━━━━━━━━━━━━━━━━━━━━━━\n");
 		sb.append("아이디: ").append(memberId).append("\n");
 		sb.append("임시 비밀번호: ").append(tempPassword).append("\n");
-		sb.append("유효기간: 5분\n");  
+		sb.append("유효기간: 1분\n");
 		sb.append("━━━━━━━━━━━━━━━━━━━━━━\n\n");
 		sb.append("※ 보안을 위해 로그인 후 반드시 비밀번호를 변경해주세요.\n");
 		sb.append("※ 본인이 요청하지 않은 경우 즉시 관리자에게 문의하세요.\n\n");
