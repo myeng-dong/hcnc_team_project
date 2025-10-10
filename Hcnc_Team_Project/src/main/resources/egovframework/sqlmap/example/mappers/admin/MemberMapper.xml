@@ -31,15 +31,15 @@
 		    ON M.GRADE_CODE = G.GRADE_CODE
 		 WHERE 1=1 
 	     <if test="SEARCH_TYPE == '아이디' and SEARCH_TEXT != null and SEARCH_TEXT != ''">
-           AND M.MEMBER_ID LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+           AND M.MEMBER_ID LIKE CONCAT('%', TRIM(#{SEARCH_TEXT}), '%')
          </if>
          <if test="SEARCH_TYPE == '이름' and SEARCH_TEXT != null and SEARCH_TEXT != ''">
-           AND M.USER_NAME LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+           AND M.USER_NAME LIKE CONCAT('%', TRIM(#{SEARCH_TEXT}), '%')
          </if>
          <if test="SEARCH_TYPE == '이메일' and SEARCH_TEXT != null and SEARCH_TEXT != ''">
-          AND M.EMAIL_ADDR LIKE CONCAT('%', #{SEARCH_TEXT}, '%')
+          AND M.EMAIL_ADDR LIKE CONCAT('%', TRIM(#{SEARCH_TEXT}), '%')
         </if>
-         <if test="GRADE_NAME != null and GRADE_NAME != ''">
+         <if test="GRADE_NAME != null and GRADE_NAME != '' and GRADE_NAME != '전체'">
            AND G.GRADE_NAME = #{GRADE_NAME}
         </if>
         <if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
@@ -59,6 +59,10 @@
 	
 	<!-- 회원등급 조회 -->
 	<select id="selectMemberGradeList" resultType="java.util.Map">
+		SELECT 
+		    '' AS GRADE_CODE
+		   ,'전체' AS GRADE_NAME
+		 UNION
 		SELECT 
 			GRADE_CODE
 			,GRADE_NAME
@@ -84,7 +88,7 @@
         	,#{USER_NAME}
         	,#{PASSWORD}
         	,#{EMAIL_ADDR}
-        	,#{PHONE_NUMBER}
+        	,REPLACE(REPLACE(#{PHONE_NUMBER}, '-', ''), ' ', '') <!-- 하이폰과 공백제거 -->
         	,#{BIRTH}
         	,#{GENDER}
         	,#{GRADE_CODE}
@@ -170,10 +174,10 @@
 		  ON M.GRADE_CODE = G.GRADE_CODE
 		WHERE 1=1 AND M.GRADE_CODE != 9
 		<if test="USER_NAME != null and USER_NAME != ''">
-			AND M.USER_NAME LIKE CONCAT ('%',#{USER_NAME},'%')
+			AND M.USER_NAME LIKE CONCAT ('%',TRIM(#{USER_NAME}),'%')
 		</if>
 		<if test="EMAIL_ADDR != null and EMAIL_ADDR != ''">
-			AND M.EMAIL_ADDR LIKE CONCAT ('%',#{EMAIL_ADDR},'%')
+			AND M.EMAIL_ADDR LIKE CONCAT ('%',TRIM(#{EMAIL_ADDR}),'%')
 		</if>
 		<if test="SDATE != null and EDATE != null">
 			AND M.INPUT_DT BETWEEN #{SDATE} AND DATE_ADD(#{EDATE}, INTERVAL 1 DAY)
@@ -267,11 +271,11 @@
 		</if>
 		<!-- 이름 검색 -->
 		<if test="USER_NAME != null and USER_NAME != ''">
-			AND M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
+			AND M.USER_NAME LIKE CONCAT('%', TRIM(#{USER_NAME}), '%')
 		</if>
 		<!-- 이메일 검색 -->
 		<if test="EMAIL_ADDR != null and EMAIL_ADDR != ''">
-			AND M.EMAIL_ADDR LIKE CONCAT('%', #{EMAIL_ADDR}, '%')
+			AND M.EMAIL_ADDR LIKE CONCAT('%', TRIM(#{EMAIL_ADDR}), '%')
 		</if>
 		<!-- 가입일 범위 검색 -->
 		<if test="JOIN_START_DATE != null and JOIN_END_DATE != null">
@@ -347,10 +351,10 @@
 	      FROM MEMBERS M 
 	     WHERE 1=1 
 	     <if test="MEMBER_ID != '' and MEMBER_ID != null">
-	         AND M.MEMBER_ID LIKE CONCAT('%', #{MEMBER_ID}, '%')
+	         AND M.MEMBER_ID LIKE CONCAT('%', TRIM(#{MEMBER_ID}), '%')
 	     </if>
 	     <if test="USER_NAME != '' and USER_NAME != null">
-	         AND M.USER_NAME LIKE CONCAT('%', #{USER_NAME}, '%')
+	         AND M.USER_NAME LIKE CONCAT('%', TRIM(#{USER_NAME}), '%')
 	     </if>
 	     <if test="PHONE_NUMBER != '' and PHONE_NUMBER != null">
 	         AND M.PHONE_NUMBER LIKE CONCAT('%', TRIM(#{PHONE_NUMBER}), '%')
@@ -392,7 +396,7 @@
 	        AND P.INPUT_DT BETWEEN #{SDATE} AND DATE_ADD(#{EDATE}, INTERVAL 1 DAY)
 	   </if>
 	   <if test="ORDER_NUMBER != null and ORDER_NUMBER != ''">
-	       AND O.ORDER_NUMBER LIKE CONCAT('%',#{ORDER_NUMBER},'%')     
+	       AND O.ORDER_NUMBER LIKE CONCAT('%',TRIM(#{ORDER_NUMBER}),'%')     
 	   </if>
 	   ORDER BY P.INPUT_DT DESC
 	</select>
@@ -429,7 +433,7 @@
        	    AND C.EXPIRY_DT BETWEEN #{EXPIRY_START_DATE} AND DATE_ADD(#{EXPIRY_END_DATE}, INTERVAL 1 DAY)
        </if>
        <if test="COUPON_TYPE != null and COUPON_TYPE != ''">
-			AND C.COUPON_TYPE = #{COUPON_TYPE}       
+			AND C.COUPON_TYPE LIKE CONCAT('%',TRIM(#{COUPON_TYPE}),'%')       
        </if>
        ORDER BY C.ISSUED_DT DESC
     </select>
@@ -506,10 +510,10 @@
 	   ON M.GRADE_CODE = G.GRADE_CODE 
  	WHERE STATUS = 'B'   
 	<if test="MEMBER_ID != '' and MEMBER_ID != null">
-		AND M.MEMBER_ID LIKE CONCAT('%',#{MEMBER_ID},'%')
+		AND M.MEMBER_ID LIKE CONCAT('%',TRIM(#{MEMBER_ID}),'%')
 	</if>
 	<if test="USER_NAME != '' and USER_NAME != null">
-		AND M.USER_NAME LIKE CONCAT('%',#{USER_NAME},'%') 
+		AND M.USER_NAME LIKE CONCAT('%',TRIM(#{USER_NAME}),'%') 
 	</if>
 	<if test="PHONE_NUMBER != '' and PHONE_NUMBER != null">
     	AND M.PHONE_NUMBER LIKE CONCAT('%',TRIM(#{PHONE_NUMBER}),'%') 
@@ -562,10 +566,10 @@
 	  FROM MEMBERS
 	  WHERE 1=1
      <if test="MEMBER_ID != null and MEMBER_ID != ''">
-     	AND MEMBER_ID LIKE CONCAT('%',#{MEMBER_ID},'%') 
+     	AND MEMBER_ID LIKE CONCAT('%',TRIM(#{MEMBER_ID}),'%') 
      </if>
      <if test="USER_NAME != null and USER_NAME != ''">
-     	AND USER_NAME LIKE CONCAT('%',#{USER_NAME},'%')
+     	AND USER_NAME LIKE CONCAT('%',TRIM(#{USER_NAME}),'%')
      </if>
      <if test="PHONE_NUMBER != null and PHONE_NUMBER != ''">
      	AND PHONE_NUMBER LIKE CONCAT('%',TRIM(#{PHONE_NUMBER}),'%')
@@ -610,10 +614,10 @@
 		  FROM MEMBERS 
 		 WHERE STATUS = 'N'
 		 <if test="MEMBER_ID != null and MEMBER_ID != ''">
-		 	AND MEMBER_ID LIKE CONCAT('%',#{MEMBER_ID},'%')
+		 	AND MEMBER_ID LIKE CONCAT('%',TRIM(#{MEMBER_ID}),'%')
 		 </if>
 		 <if test="USER_NAME != null and USER_NAME !=''">
-		 	AND USER_NAME LIKE CONCAT('%',#{USER_NAME},'%')
+		 	AND USER_NAME LIKE CONCAT('%',TRIM(#{USER_NAME}),'%')
 		 </if>
 		 <if test="LOGIN_TYPE != null and LOGIN_TYPE != ''">
 		 	AND LOGIN_TYPE = #{LOGIN_TYPE}

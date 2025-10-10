@@ -13,6 +13,7 @@
             this.set_titletext("New Form");
             this.set_background("#CACDDC");
             this.set_visible("true");
+            this.set_font("14px/normal \"Noto Sans KR Black\"");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -116,7 +117,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new Div("div_findPassword","0","-4","1300","729",null,null,null,null,null,null,this);
+            obj = new Div("div_findPassword","0","0","100.00%","720",null,null,null,null,null,null,this);
             obj.set_taborder("11");
             obj.set_visible("false");
             obj.set_background("rgba(0,0,0,0.5)");
@@ -125,12 +126,14 @@
             obj = new Static("Static00","390","200","500","300",null,null,null,null,null,null,this.div_findPassword.form);
             obj.set_taborder("0");
             obj.set_background("white");
+            obj.set_borderRadius("16px");
             this.div_findPassword.addChild(obj.name, obj);
 
             obj = new Static("Static01","530","210","220","44",null,null,null,null,null,null,this.div_findPassword.form);
             obj.set_taborder("1");
             obj.set_text("비밀번호 찾기");
             obj.set_textAlign("center");
+            obj.set_font("20px/normal \"Noto Sans KR Black\"");
             this.div_findPassword.addChild(obj.name, obj);
 
             obj = new Edit("edt_findId","484","269","333","42",null,null,null,null,null,null,this.div_findPassword.form);
@@ -148,21 +151,30 @@
             obj = new Button("btn_findSubmit","521","420","99","36",null,null,null,null,null,null,this.div_findPassword.form);
             obj.set_taborder("4");
             obj.set_text("발급");
+            obj.set_font("12px/normal \"Noto Sans KR Black\"");
+            obj.set_background("#2563eb");
+            obj.set_borderRadius("4px");
+            obj.set_color("white");
             this.div_findPassword.addChild(obj.name, obj);
 
-            obj = new Button("btn_findCancel","658","414","105","42",null,null,null,null,null,null,this.div_findPassword.form);
+            obj = new Button("btn_findCancel","658","420","105","36",null,null,null,null,null,null,this.div_findPassword.form);
             obj.set_taborder("5");
             obj.set_text("취소");
+            obj.set_font("12px/normal \"Noto Sans KR Black\"");
+            obj.set_background(" #9ca3af");
+            obj.set_borderRadius("4px");
             this.div_findPassword.addChild(obj.name, obj);
 
             obj = new Static("Static02","420","279","39","23",null,null,null,null,null,null,this.div_findPassword.form);
             obj.set_taborder("6");
             obj.set_text("아이디");
+            obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.div_findPassword.addChild(obj.name, obj);
 
             obj = new Static("Static03","423","345","35","30",null,null,null,null,null,null,this.div_findPassword.form);
             obj.set_taborder("7");
             obj.set_text("이메일");
+            obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.div_findPassword.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this

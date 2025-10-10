@@ -13,7 +13,7 @@
         <Button id="Button00" taborder="7" text="검색" left="541" top="174" width="98" height="36" background="#2563eb" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" color="white" onclick="Button00_onclick"/>
         <Button id="Button01" taborder="8" text="초기화" left="650" top="174" width="100" height="36" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
         <Grid id="pointAndCoupon" taborder="9" left="30" top="250" height="371" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick" width="1220">&gt;
-          <Formats><Format id="default"><Columns><Column size="52"/><Column size="99"/><Column size="136"/><Column size="540"/><Column size="170"/><Column size="225"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="유형" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="포인트" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="설명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="발행 시기" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="주문 번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="1" text="bind:CHANGE_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="combotext" edittype="combo" combocodecol="CHANGE_TYPE" combodatacol="CHANGE_TYPE" combodataset="ds_type"/><Cell col="2" text="bind:POINT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="number" edittype="mask"/><Cell col="3" text="bind:DESCRIPTION" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" edittype="normal" displaytype="normal"/><Cell col="4" edittype="none" text="bind:INPUT_DT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="normal" edittype="none" font="12px/normal &quot;LG Smart UI Bold&quot;" text="bind:ORDER_NUMBER"/></Band></Format></Formats></Grid>
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="99"/><Column size="136"/><Column size="540"/><Column size="170"/><Column size="225"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="유형" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="포인트" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="설명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="발행 시기" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="주문 번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="1" text="bind:CHANGE_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="combotext" edittype="combo" combocodecol="CHANGE_TYPE" combodataset="ds_type_edit" combodatacol="LABEL"/><Cell col="2" text="bind:POINT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="number" edittype="mask"/><Cell col="3" text="bind:DESCRIPTION" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" edittype="normal" displaytype="normal"/><Cell col="4" edittype="none" text="bind:INPUT_DT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" displaytype="normal" edittype="none" font="12px/normal &quot;LG Smart UI Bold&quot;" text="bind:ORDER_NUMBER"/></Band></Format></Formats></Grid>
         <Button id="Button02" taborder="10" text="뒤로가기" left="530" top="640" width="110" height="38" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button02_onclick"/>
         <Button id="Button03" taborder="11" text="포인트 적립 및 차감" left="660" top="640" width="110" height="38" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button03_onclick" background=" #9ca3af"/>
         <Button id="plus" taborder="12" text="+" left="29" top="224" width="63" height="22" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="plus_onclick"/>
@@ -58,6 +58,15 @@
       <Dataset id="ds_insCnt">
         <ColumnInfo>
           <Column id="INSERTED" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_type_edit">
+        <ColumnInfo>
+          <Column id="CHANGE_TYPE" type="STRING" size="256"/>
+          <Column id="LABEL" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -159,9 +168,18 @@ this.fn_callBack = function(svcID, errorCode, errorMSG){
 		break;
 		
 	case "selectMemberChageTypeList" :
-		// 포인트 타입 로드 완료
+		// 그리드용: "전체" 제외하고 복사
+		this.ds_type_edit.clearData();
+		for(var i=0; i<this.ds_type.getRowCount(); i++){
+			var changeType = this.ds_type.getColumn(i, "CHANGE_TYPE");
+			if(changeType != "") {  // "전체" 제외
+				var nRow = this.ds_type_edit.addRow();
+				this.ds_type_edit.setColumn(nRow, "CHANGE_TYPE", changeType);
+				this.ds_type_edit.setColumn(nRow, "LABEL", 
+					this.ds_type.getColumn(i, "LABEL"));
+			}
+		}
 		break;
-		
 	}
 }
 
@@ -213,8 +231,8 @@ this.pointAndCoupon_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickE
 	//2가 포인트
 	//3 설명
 	var rowType = this.ds_list.getRowType(e.row)
-		
-	 if (rowType == Dataset.ROWTYPE_INSERT) {
+	
+	if (rowType == Dataset.ROWTYPE_INSERT) {
         // 새로 추가된 행만 편집 가능
         if (e.col == 1) { // 유형
             obj.setCellProperty("body", e.col, "edittype", "combo");
