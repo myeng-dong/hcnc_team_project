@@ -183,41 +183,48 @@
             </div>
 
             <div class="sub-title-area">
-                <h3>게시글 작성</h3>
-            </div>
-
-            <div class="write-area">
-             <form id="writeForm">
-			    <div class="form-group">
-			        <label for="postType">타입</label>
-			        <select class="form-select" id="postType" name="postType" required>
-			            <option value="">타입을 선택하세요</option>
-			            <c:forEach var="item" items="${postType}">
-			                <option value="${item.POST_TYPE}">${item.POST_TYPE}</option>
-			            </c:forEach>
-			        </select>
-			    </div>
-
-                    <div class="form-group">
-                        <label for="postTitle">제목</label>
-                        <input type="text" class="form-input" id="postTitle" name="postTitle" 
-                               placeholder="제목을 입력하세요" maxlength="200" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>내용</label>
-                        <!-- 기존 CKEditor iframe으로 로드 -->
-                        <iframe id="editorFrame" class="editor-frame" 
-                                 src="${pageContext.request.contextPath}/ckedit.do">
-                        </iframe>
-                    </div>
-
-                    <div class="btn-wrap">
-                        <button type="button" class="btn btn-submit" onclick="submitPost()">작성완료</button>
-                        <a href="javascript:history.back();" class="btn btn-cancel">취소</a>
-                    </div>
-                </form>
-            </div>
+			    <h3>${isEdit ? '게시글 수정' : '게시글 작성'}</h3>
+			</div>
+			
+			<div class="write-area">
+			    <form id="writeForm">
+			        <input type="hidden" id="postId" value="${postDetail.POST_ID}">
+			        
+			        <div class="form-group">
+			            <label for="postType">타입</label>
+			            <select class="form-select" id="postType" name="postType" required>
+			                <option value="">타입을 선택하세요</option>
+			                <c:forEach var="item" items="${postType}">
+			                    <option value="${item.POST_TYPE}" 
+			                        ${postDetail.POST_TYPE == item.POST_TYPE ? 'selected' : ''}>
+			                        ${item.POST_TYPE}
+			                    </option>
+			                </c:forEach>
+			            </select>
+			        </div>
+			
+			        <div class="form-group">
+			            <label for="postTitle">제목</label>
+			            <input type="text" class="form-input" id="postTitle" name="postTitle" 
+			                   placeholder="제목을 입력하세요" maxlength="200" 
+			                   value="${postDetail.POST_TITLE}" required>
+			        </div>
+			
+			        <div class="form-group">
+			            <label>내용</label>
+			            <iframe id="editorFrame" class="editor-frame" 
+			                    src="${pageContext.request.contextPath}/ckedit.do">
+			            </iframe>
+			        </div>
+			
+			        <div class="btn-wrap">
+			            <button type="button" class="btn btn-submit" onclick="submitPost()">
+			                ${isEdit ? '수정완료' : '작성완료'}
+			            </button>
+			            <a href="javascript:history.back();" class="btn btn-cancel">취소</a>
+			        </div>
+			    </form>
+			</div>
         </div>
     </div>
     <jsp:include page="../layout/footer.jsp" />
@@ -226,6 +233,17 @@
 <script type="text/javascript">
     var contextPath = '${pageContext.request.contextPath}';
     var editorFrame = document.getElementById('editorFrame');
+    var isEdit = ${isEdit} //에디트모드인지 파악	
+    
+    editorFrame.onload = function() {
+        if(isEdit) {
+            // 수정 모드일 때 기존 내용 설정
+            setTimeout(function() {
+                var postContent = `${postDetail.POST_CONTENT}`;
+                setEditorContent(postContent);
+            }, 500); // iframe 완전히 로드될 때까지 대기
+        }
+    };
     
     
     // iframe에서 에디터 내용 가져오기
@@ -261,6 +279,7 @@
         var postTitle = $('#postTitle').val().trim();
         var postContent = getEditorContent();
         var memberId = '${user.MEMBER_ID}'; 
+        var postId = $('#postId').val();
         
         if(!memberId){
             alert('로그인해주세요');
@@ -282,15 +301,21 @@
             return;
         }
         
-        $.ajax({
-            url: contextPath + '/board/write.do',
-            type: 'POST',
-            data: {
+        var requestData = {
                 memberId : memberId,
                 postType: postType,
                 postTitle: postTitle,
                 postContent: postContent
-            },
+            }
+        
+        if(postId) {
+            requestData.postId = postId;
+        }
+        
+        $.ajax({
+            url: contextPath + '/board/write.do',
+            type: 'POST',
+            data: requestData,
             success: function(response) {
                 alert('게시글이 등록되었습니다.');
                 location.href = contextPath + '/board/home.do';

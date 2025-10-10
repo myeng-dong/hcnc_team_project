@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import user.mapper.UserBoardMapper;
-import user.web.map;
 
 
 @Service
@@ -57,6 +56,19 @@ public class UserBoardService {
 	public void deleteUserCommentByUser(Map<String, Object> params) {
 		userBoardMapper.deleteUserCommentByUser(params);
 		
+	}
+
+	public void deleteUserPostByUser(Map<String, Object> params) {
+		userBoardMapper.deleteUserPostByUser(params);
+		
+	}
+
+	public void updateUserCommentByUser(Map<String, Object> params) {
+		userBoardMapper.updateUserCommentByUse(params);
+	}
+
+	public void updatetUserPostByUser(Map<String, Object> params) {
+		userBoardMapper.updatetUserPostByUser(params);
 	}
     
     

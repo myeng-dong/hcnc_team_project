@@ -11,7 +11,7 @@
 	<mvc:annotation-driven />
 
 	<context:component-scan
-		base-package="admin,user" />
+		base-package="admin,user,common" />
 
 	<!-- /////////////////////////////////// 넥사크로플랫폼 UIADAPTER17 설정 시작 /////////////////////////////////// -->
 	<bean id="nexacroFileView"
