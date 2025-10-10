@@ -100,55 +100,55 @@
 </div>
 
 <script>
-var currentRecentPage = 0;
-var itemsPerPage = 3;
+	var currentRecentPage = 0;
+	var itemsPerPage = 3;
 
 
-// 최근 본 상품 표시
-function displayRecentProducts() {
-    var recentProducts = JSON.parse(localStorage.getItem('recentProducts')) || [];
-    
-    if(recentProducts.length === 0) {
-        $('#recent-products').html('<p style="text-align:center; color:#999; font-size:12px;">최근 본 상품이<br>없습니다</p>');
-        $('#recent-prev').prop('disabled', true);
-        $('#recent-next').prop('disabled', true);
-        return;
-    }
-    
-    var startIdx = currentRecentPage * itemsPerPage;
-    var endIdx = Math.min(startIdx + itemsPerPage, recentProducts.length);
-    
-    var html = '';
-    for(var i = startIdx; i < endIdx; i++) {
-        html += '<div class="recent-item" onclick="location.href=\'/productDetailView.do?productId=' + recentProducts[i].productId + '\'">';
-        html += '<img src="' + recentProducts[i].productImage + '" alt="' + recentProducts[i].productName + '">';
-        html += '<p>' + recentProducts[i].productName + '</p>';
-        html += '<span>' + recentProducts[i].price.toLocaleString() + '원</span>';
-        html += '</div>';
-    }
-    
-    $('#recent-products').html(html);
-    
-    // 버튼 활성화/비활성화
-    $('#recent-prev').prop('disabled', currentRecentPage === 0);
-    $('#recent-next').prop('disabled', endIdx >= recentProducts.length);
-}
+	// 최근 본 상품 표시
+	function displayRecentProducts() {
+			var recentProducts = JSON.parse(localStorage.getItem('recentProducts')) || [];
+			
+			if(recentProducts.length === 0) {
+					$('#recent-products').html('<p style="text-align:center; color:#999; font-size:12px;">최근 본 상품이<br>없습니다</p>');
+					$('#recent-prev').prop('disabled', true);
+					$('#recent-next').prop('disabled', true);
+					return;
+			}
+			
+			var startIdx = currentRecentPage * itemsPerPage;
+			var endIdx = Math.min(startIdx + itemsPerPage, recentProducts.length);
+			
+			var html = '';
+			for(var i = startIdx; i < endIdx; i++) {
+					html += '<div class="recent-item" onclick="location.href=\'/productDetailView.do?productId=' + recentProducts[i].productId + '\'">';
+					html += '<img src="' + recentProducts[i].productImage + '" alt="' + recentProducts[i].productName + '">';
+					html += '<p>' + recentProducts[i].productName + '</p>';
+					html += '<span>' + recentProducts[i].price.toLocaleString() + '원</span>';
+					html += '</div>';
+			}
+			
+			$('#recent-products').html(html);
+			
+			// 버튼 활성화/비활성화
+			$('#recent-prev').prop('disabled', currentRecentPage === 0);
+			$('#recent-next').prop('disabled', endIdx >= recentProducts.length);
+	}
 
-// 페이지 변경
-function changeRecentPage(direction) {
-    var recentProducts = JSON.parse(localStorage.getItem('recentProducts')) || [];
-    var maxPage = Math.ceil(recentProducts.length / itemsPerPage) - 1;
-    
-    currentRecentPage += direction;
-    
-    if(currentRecentPage < 0) currentRecentPage = 0;
-    if(currentRecentPage > maxPage) currentRecentPage = maxPage;
-    
-    displayRecentProducts();
-}
+	// 페이지 변경
+	function changeRecentPage(direction) {
+			var recentProducts = JSON.parse(localStorage.getItem('recentProducts')) || [];
+			var maxPage = Math.ceil(recentProducts.length / itemsPerPage) - 1;
+			
+			currentRecentPage += direction;
+			
+			if(currentRecentPage < 0) currentRecentPage = 0;
+			if(currentRecentPage > maxPage) currentRecentPage = maxPage;
+			
+			displayRecentProducts();
+	}
 
-// 페이지 로드 시 표시
-$(document).ready(function() {
-    displayRecentProducts();
-});
+	// 페이지 로드 시 표시
+	$(document).ready(function() {
+			displayRecentProducts();
+	});
 </script>
