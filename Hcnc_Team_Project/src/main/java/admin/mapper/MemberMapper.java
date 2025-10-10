@@ -99,5 +99,11 @@ public interface MemberMapper {
 	//월별 회원 탈퇴 통계
 	List<Map<String, Object>> selectMemberWithdrawCntByAdmin();
 	
+	
+	Map<String, Object> findMemberByIdAndEmailByAdmin(Map<String, Object> param);
+
+	
+	int updatePasswordByAdmin(Map<String, Object> param);
+	
 
 }

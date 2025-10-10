@@ -212,6 +212,7 @@ this.search_area_Edit00_00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEven
           <Column id="PAYMENT_DT" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
           <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <!-- 선택된 Dataset -->
@@ -225,6 +226,7 @@ this.search_area_Edit00_00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEven
           <Column id="PAYMENT_DT" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
           <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <!-- 결제 상태 콤보 Dataset -->

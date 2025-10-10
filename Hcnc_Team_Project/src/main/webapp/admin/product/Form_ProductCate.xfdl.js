@@ -46,6 +46,7 @@
             obj.set_borderRadius("8px");
             obj.set_border("1px solid #000000");
             obj.set_cursor("pointer");
+            obj.set_visible("false");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_goDisplay","120","10","100","35",null,null,null,null,null,null,this);
@@ -56,6 +57,7 @@
             obj.set_borderRadius("8px");
             obj.set_border("1px solid #000000");
             obj.set_cursor("pointer");
+            obj.set_visible("false");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_goProductReg","230","10","100","35",null,null,null,null,null,null,this);
@@ -66,9 +68,10 @@
             obj.set_borderRadius("8px");
             obj.set_border("1px solid #000000");
             obj.set_cursor("pointer");
+            obj.set_visible("false");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grd_category","10","89","500","590",null,null,null,null,null,null,this);
+            obj = new Grid("grd_category","10","50","500","590",null,null,null,null,null,null,this);
             obj.set_binddataset("ds_category");
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
@@ -78,14 +81,15 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"30\"/><Column size=\"370\"/></Columns><Rows><Row size=\"37\"/></Rows><Band id=\"body\"><Cell text=\"expr:(type==&apos;main&apos; ? (expanded==&apos;Y&apos; ? &apos;-&apos; : &apos;+&apos;) : &apos;&apos;)\" textAlign=\"center\" font=\"14px &apos;Gulim&apos;\" color=\"#000000\"/><Cell col=\"1\" text=\"expr:(level==0 ? cate_name : &apos;   &apos; + cate_name)\" font=\"14px &apos;Gulim&apos;\" color=\"#222222\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Div("div_detail","530","89","730","590",null,null,null,null,null,null,this);
+            obj = new Div("div_detail","530","50","730","590",null,null,null,null,null,null,this);
             obj.set_background("#ffffff");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("12px");
             obj.getSetter("padding").set("15px");
+            obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_title","20","20",null,null,null,null,null,null,null,null,this.div_detail.form);
+            obj = new Static("sta_title","20","20","169","30",null,null,null,null,null,null,this.div_detail.form);
             obj.set_text("상세정보");
             obj.set_font("bold 14pt \'Gulim\'");
             obj.set_color("#000000");
@@ -167,7 +171,7 @@
             obj.set_cursor("pointer");
             this.div_detail.addChild(obj.name, obj);
 
-            obj = new Button("btn_addMain","10","730","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_addMain","10","670","100","35",null,null,null,null,null,null,this);
             obj.set_text("대분류추가");
             obj.set_background("#000000");
             obj.set_color("#ffffff");
@@ -177,7 +181,7 @@
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_addSub","120","730","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_addSub","120","670","100","35",null,null,null,null,null,null,this);
             obj.set_text("하위추가");
             obj.set_background("#000000");
             obj.set_color("#ffffff");
@@ -187,7 +191,7 @@
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_edit","230","730","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_edit","230","670","100","35",null,null,null,null,null,null,this);
             obj.set_text("수정");
             obj.set_background("#000000");
             obj.set_color("#ffffff");
@@ -195,9 +199,10 @@
             obj.set_borderRadius("8px");
             obj.set_font("bold 11pt \'Gulim\'");
             obj.set_cursor("pointer");
+            obj.set_visible("false");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_delete","340","730","100","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_delete","340","670","100","35",null,null,null,null,null,null,this);
             obj.set_text("삭제");
             obj.set_background("#a1162f");
             obj.set_color("#ffffff");
