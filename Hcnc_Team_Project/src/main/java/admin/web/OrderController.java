@@ -67,7 +67,7 @@ public class OrderController {
             	
             	// 웹소켓 알람을 보내기 위해서 만든 변수들입니다. dsSelected를  forEach돌려서 row로 빼낸것들임
             	String orderStatus = (String)row.get("PAYMENT_STATUS"); 
-            	String orderId = (String)row.get("ORDER_ID");
+            	String orderId = (String)row.get("ORDER_NUMBER");
             	String userId = (String)row.get("MEMBER_ID");
             	
             	  // 2. 알림 DB 저장 ⭐
@@ -76,13 +76,13 @@ public class OrderController {
                 params.put("receiverId", userId);
                 params.put("receiverType", "USER");
                 params.put("notiType", "STATUS");
-                params.put("notiMessage", "주문상태 변경: " + orderStatus);
+                params.put("notiMessage", orderId + "\n 주문상태 변경 : " + orderStatus);
                 params.put("orderNo", orderId);
                 params.put("orderStatus", orderStatus);            
             	
                 orderService.updatePaymentListByAdmin(row);
                 
-                notification.insertNotificationByAdmin(params);
+                notification.insertNotificationByAdmin(params);                          //노티피케이션 디비 저장
                 
                 WebUtil.sendOrderStatusChangeNotification(userId, orderId, orderStatus); //웹소켓으로 알람 보내기
                 
@@ -119,6 +119,21 @@ public class OrderController {
         	 for (Map<String, Object> row : dsSelected) {
         	        Object shipmentId = row.get("SHIPMENT_ID");
         	        
+        	        // 웹소켓 알람을 보내기 위해서 만든 변수들입니다. dsSelected를  forEach돌려서 row로 빼낸것들임
+                	String orderStatus = (String)row.get("SHIPMENT_STATUS"); 
+                	String orderId = (String)row.get("ORDER_NUMBER");
+                	String userId = (String)row.get("MEMBER_ID");
+                	
+                	// 노티피케이션을 띄우기 위한 함수
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("senderId", "ADMIN");
+                    params.put("receiverId", userId);
+                    params.put("receiverType", "USER");
+                    params.put("notiType", "STATUS");
+                    params.put("notiMessage", "[" +orderId+ "]" + " <br> 주문상태 변경 : " + orderStatus);
+                    params.put("orderNo", orderId);
+                    params.put("orderStatus", orderStatus);            
+        	        
         	        if (shipmentId == null || "".equals(shipmentId.toString())) { // 배송ID가 없으면 데이터가 없으므로
         	            // INSERT 실행
         	        	orderService.insertShipListByAdmin(row);
@@ -132,7 +147,9 @@ public class OrderController {
         	        	System.out.println("실행된 업데이트문의 갯수 : "+upCnt);
         	        }
         	        
-        	        orderService.updateOrderCommentByAdmin(row);
+        	        orderService.updateOrderCommentByAdmin(row);                               // 주문상태 발송으로 변경
+        	        notification.insertNotificationByAdmin(params);                            // 디비에 저장 
+        	        WebUtil.sendOrderStatusChangeNotification(userId, orderId, orderStatus);   // 웹소켓으로 알람 보내기
         	    }
         }
         

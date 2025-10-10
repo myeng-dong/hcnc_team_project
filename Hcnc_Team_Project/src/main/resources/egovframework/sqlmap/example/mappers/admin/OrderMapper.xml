@@ -73,6 +73,7 @@
 		     , O.USER_NAME                                           -- 주문자
 		     , O.MEMBER_ID                                           -- 주문자ID
 		     , O.PHONE_NUMBER                                        -- 연락처
+		     , O.ORDER_NUMBER                                        -- 주문번호
 		  FROM PAYMENTS P                                -- 결제테이블
 		  LEFT JOIN ORDERS O ON P.ORDER_ID = O.ORDER_ID  -- 주문테이블
 		 WHERE 1=1
@@ -106,6 +107,8 @@
         
 	    SELECT 
 	           O.ORDER_ID                                       -- 주문 ID
+	         , O.ORDER_NUMBER                                   -- 주문 번호
+	         , O.MEMBER_ID                                      -- 주문자 ID
 	         , O.ORDER_DT                                       -- 주문 일자
 	         , O.PHONE_NUMBER                                   -- 연락처
 	         , CONCAT                                           -- 주소
