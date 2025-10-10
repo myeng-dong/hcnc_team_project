@@ -32,7 +32,10 @@ public class UserWishService {
         return userWishMapper.getCategoryCount(param);
     }
     
-
+    // 전체 카테고리 목록 조회
+	public List<HashMap<String, Object>> selectCategoriesListByUser() {
+		return userWishMapper.selectCategoriesListByUser();
+	}
 
     // 장바구니 추가 (증복체크포함)
     @Transactional
