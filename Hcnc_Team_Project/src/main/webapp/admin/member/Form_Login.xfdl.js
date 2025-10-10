@@ -171,7 +171,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.div_findPassword.addChild(obj.name, obj);
 
-            obj = new Static("Static03","423","345","35","30",null,null,null,null,null,null,this.div_findPassword.form);
+            obj = new Static("Static03","420","345","35","30",null,null,null,null,null,null,this.div_findPassword.form);
             obj.set_taborder("7");
             obj.set_text("이메일");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
@@ -218,7 +218,7 @@
             if(args && args.isLogout) {
                 var glbAd = nexacro.getApplication();
                 glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments =
-                    { "isLogout": false };
+        		{ "isLogout": false };
             }
 
             // 로그인 상태 확인 (세션 체크)
@@ -277,38 +277,37 @@
             }
 
             switch(svcID) {
-                case "adminCheckLogin":
-                    var isLogin = this.ds_isLogin.getColumn(0, "MEMBER_ID");
-                    if(isLogin != null && isLogin != 'undefined') {
-                        this.loginSet();
-                    }
-                    break;
+        	case "adminCheckLogin":
+        		var isLogin = this.ds_isLogin.getColumn(0, "MEMBER_ID");
+        		if(isLogin != null && isLogin != 'undefined') {
+        			this.loginSet();
+        		}
+        		break;
 
-                case "adminLogin":
-                    if(this.ds_loginChk.getRowCount() == 0) {
-                        this.alert("아이디 또는 비밀번호를 확인하세요");
-                        return;
-                    }
-                    this.loginSet();
-                    break;
+        	case "adminLogin":
+        		if(this.ds_loginChk.getRowCount() == 0) {
+        			this.alert("아이디 또는 비밀번호를 확인하세요");
+        			return;
+        		}
+        		this.loginSet();
+        		break;
 
-                case "findPassword":
-                    if(this.ds_findResult.getRowCount() > 0) {
-                        var result = this.ds_findResult.getColumn(0, "RESULT");
-                        if(result == "SUCCESS") {
-                            this.alert("임시 비밀번호가 이메일로 발송되었습니다.\n" +
-                                      "(개발 중에는 콘솔 로그를 확인하세요)\n" +
-                                      "로그인 후 비밀번호를 변경해주세요.");
-                            this.closePasswordFindPopup();
-                        } else if(result == "NOT_FOUND") {
-                            this.alert("일치하는 회원 정보가 없습니다.\n" +
-                                      "아이디와 이메일을 확인해주세요.");
-                        } else {
-                            this.alert("비밀번호 찾기에 실패했습니다.\n" +
-                                      "잠시 후 다시 시도해주세요.");
-                        }
-                    }
-                    break;
+        	case "findPassword":
+        		if(this.ds_findResult.getRowCount() > 0) {
+        			var result = this.ds_findResult.getColumn(0, "RESULT");
+        			if(result == "SUCCESS") {
+        				this.alert("임시 비밀번호가 이메일로 발송되었습니다.\n" +
+        					"로그인 후 비밀번호를 변경해주세요.");
+        				this.closePasswordFindPopup();
+        			} else if(result == "NOT_FOUND") {
+        				this.alert("일치하는 회원 정보가 없습니다.\n" +
+        					"아이디와 이메일을 확인해주세요.");
+        			} else {
+        				this.alert("비밀번호 찾기에 실패했습니다.\n" +
+        					"잠시 후 다시 시도해주세요.");
+        			}
+        		}
+        		break;
             }
         };
 
@@ -348,6 +347,10 @@
             glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl(
                 "dash::Form_test.xfdl"
             );
+
+        	var topFrame = glbAd.mainframe.VFrameSet00.TopFrame.form;  // VFrameSet00 사용
+        	topFrame.fn_initWebSocket();
+        	trace("✅ 웹소켓 연결 시작");
         };
 
         // 쿠키 읽기 (표시만)
@@ -378,8 +381,6 @@
             }
             return null;
         };
-
-        // 비밀번호 찾기 관련 함수들은 그대로 유지...
 
         /************************************************
         * 비밀번호 찾기 기능
@@ -457,6 +458,15 @@
         	this.closePasswordFindPopup();
         };
 
+        //엔터 눌러도 발급
+        this.div_findPassword_btn_findSubmit_onkeyup = function(obj,e)
+        {
+        	if(e.keycode == 13){
+        		this.div_findPassword_btn_findSubmit_onclick(this.div_findPassword.form.btn_findSubmit, null);
+        	}
+        };
+
+
 
         });
         
@@ -473,6 +483,7 @@
             this.chk_saveId.addEventHandler("canchange",this.chk_saveId_canchange,this);
             this.findPw.addEventHandler("onclick",this.findPw_onclick,this);
             this.div_findPassword.form.btn_findSubmit.addEventHandler("onclick",this.div_findPassword_btn_findSubmit_onclick,this);
+            this.div_findPassword.form.btn_findSubmit.addEventHandler("onkeyup",this.div_findPassword_btn_findSubmit_onkeyup,this);
             this.div_findPassword.form.btn_findCancel.addEventHandler("onclick",this.div_findPassword_btn_findCancel_onclick,this);
         };
         this.loadIncludeScript("Form_Login.xfdl");
