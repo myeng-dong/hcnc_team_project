@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <title>상품목록</title>
     <jsp:include page="../layout/headertop.jsp" />
-    <link rel="stylesheet" href="/css/content/board.css">
+    <link rel="stylesheet" href="../../../css/content/board.css">
     <link rel="stylesheet" href="../../../css/component/productItem.css">
     <link rel="stylesheet" href="../../../js/component/productItem.js">
 </head>
