@@ -1,5 +1,6 @@
 package admin.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
+import admin.mapper.NotificationMapper;
 import admin.service.OrderService;
 import common.websocket.WebUtil;
 
@@ -19,6 +21,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private NotificationMapper notification;
 	
 	//주문 조회
 	
@@ -61,14 +66,26 @@ public class OrderController {
             for (Map<String,Object> row : dsSelected) {
             	
             	// 웹소켓 알람을 보내기 위해서 만든 변수들입니다. dsSelected를  forEach돌려서 row로 빼낸것들임
-            	String paymentStatus = (String)row.get("PAYMENT_STATUS"); 
+            	String orderStatus = (String)row.get("PAYMENT_STATUS"); 
             	String orderId = (String)row.get("ORDER_ID");
             	String userId = (String)row.get("MEMBER_ID");
             	
-            	
+            	  // 2. 알림 DB 저장 ⭐
+                Map<String, Object> params = new HashMap<>();
+                params.put("senderId", "ADMIN");
+                params.put("receiverId", userId);
+                params.put("receiverType", "USER");
+                params.put("notiType", "STATUS");
+                params.put("notiMessage", "주문상태 변경: " + orderStatus);
+                params.put("orderNo", orderId);
+                params.put("orderStatus", orderStatus);            
             	
                 orderService.updatePaymentListByAdmin(row);
-                WebUtil.sendOrderStatusChangeNotification(userId, orderId, paymentStatus); //웹소켓으로 알람 보내기
+                
+                notification.insertNotificationByAdmin(params);
+                
+                WebUtil.sendOrderStatusChangeNotification(userId, orderId, orderStatus); //웹소켓으로 알람 보내기
+                
             }
         }
 
