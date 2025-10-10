@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
+	var audio = new Audio('sounds/bell.mp3');
+
     const confirmLogout = () => {
         if (confirm("정말 로그아웃 하시겠습니까?")) {
             return true; // true 반환 → a 태그 href 실행 (로그아웃 컨트롤러 이동)
@@ -192,13 +194,14 @@
     // 토스트 알림
     function showToast(message) {
         // Bootstrap Toast 사용
+        audio.play(); // 알림
+        
         const toastHtml = '<div class="toast" role="alert">' +
                           '  <div class="toast-body">' + message + '</div>' +
                           '</div>';
         
         $('body').append(toastHtml);
         // 부트스트랩 토스트가 작동하려면 해당 라이브러리(bootstrap.js)가 로드되어 있어야 합니다.
-        $('.toast').toast({ delay: 3000 });
         $('.toast').toast('show');
     }
     
