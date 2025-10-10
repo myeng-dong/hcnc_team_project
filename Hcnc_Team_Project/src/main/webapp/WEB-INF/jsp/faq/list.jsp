@@ -24,15 +24,6 @@
 	    <div class="sub-area">
 	        <div class="sub-title-area">
 	        	<h3>[ FAQ ]</h3>
-	        	
-	        	<!-- 이름만 탭이고 게시판 이동으로 쓸거임 변수 없이 일단 강제 사유 : 미사용 게시판있음-->
-	        	<div class="tab-area"> 
-	        		<div class="tab-list flex">
-	        			<div class="tab-cont"><a href="/noticeList.do">공지사항</a></div>
-	        			<div class="tab-cont on "><a href="/faqList.do">FAQ</a></div>
-	        			<div class="tab-cont "><a href="/eventList.do">이벤트</a></div>
-	        		</div>
-	        	</div>
 	        </div>
 	        <div class="sub-content-area">
         	

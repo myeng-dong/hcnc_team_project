@@ -68,7 +68,7 @@
 				<div class="inner">
 					<ul class="list flex ju-between">
 						<li>
-							<a href="#">
+							<a href="/product/list.do?mainCateId=3">
 								<dl class="flex fd-column">
 									<dt class="icon-area"></dt>
 									<dd>필기구</dd>
@@ -76,47 +76,47 @@
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="/product/list.do?mainCateId=4">
 							<dl class="flex fd-column">
 								<dt class="icon-area"></dt>
-								<dd>노트/다이어리</dd>
+								<dd>공책류</dd>
 							</dl>
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="/product/list.do?mainCateId=14">
 							<dl class="flex fd-column">
 								<dt class="icon-area"></dt>
-								<dd>파일/사무용품</dd>
+								<dd>화일류</dd>
 							</dl>
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="/product/list.do?mainCateId=1">
 							<dl class="flex fd-column">
 								<dt class="icon-area"></dt>
-								<dd>디자인/데코</dd>
+								<dd>문구류</dd>
 							</dl>
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="/product/list.do?mainCateId=5">
 							<dl class="flex fd-column">
 								<dt class="icon-area"></dt>
-								<dd>학용품/취미</dd>
+								<dd>기타</dd>
 							</dl>
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="/product/list.do?mainCateId=4">
 							<dl class="flex fd-column">
 								<dt class="icon-area"></dt>
-								<dd>화방/제도</dd>
+								<dd>화방</dd>
 							</dl>
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="/recommendlist.do">
 							<dl class="flex fd-column">
 								<dt class="icon-area"></dt>
 								<dd>md 두디픽</dd>
@@ -124,7 +124,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a href="/newlist.do">
 							<dl class="flex fd-column">
 								<dt class="icon-area"></dt>
 								<dd>신제품</dd>
@@ -139,7 +139,7 @@
 			    <div class="inner">
 			        <p class="sub-comment" data-aos="fade-up">DOO.D 신상품</p>
 			        
-			        <div class="prdList new_list swiper-wrapper newSwiper" data-aos="fade-up"  data-aos-delay="300">
+			        <div class="prdList new_list newSwiper" data-aos="fade-up"  data-aos-delay="300">
 					    <div class="swiper-wrapper">
 					      <c:choose>
 					        <c:when test="${not empty newProducts}">
@@ -173,66 +173,108 @@
 					</div>
 				</div>
 			</section>
-			
-			<section class="recommend_area prd_area">
+						
+			<section class="recommend_area prd_area ">
 			    <div class="inner">
 			        <p class="sub-comment"  data-aos="fade-up">DOO.D 추천상품</p>
-			        <div class="prdList recommend_list swiper-wrapper recommendSwiper"  data-aos="fade-up"  data-aos-delay="300">
-					  <div class="swiper-wrapper">
-					  
-					    <!-- 시작:상품리스트 변수 -->
-					    <c:choose>
-					      <c:when test="${not empty recommendProducts}">
-					        <c:forEach var="product" items="${recommendProducts}" begin="0" end="8">
-					          <%@ include file="/WEB-INF/jsp/component/productItem.jsp" %>
-					        </c:forEach>
-					      </c:when>
-					      <c:otherwise>
-					        <div class="swiper-slide prdItem nodata">
-					          <div class="nodata">등록된 추천상품이 없습니다.</div>
-					        </div>
-					      </c:otherwise>
-					    </c:choose>
-					    <!-- 종료:상품리스트 변수 -->
-					  </div>
-					</div>
+			        
+			          <div class="flex ju-between recoSwiper-area">
+			          	<div class="swiper swiper-half recoSwiperSub">
+						    <div class="swiper-wrapper  swiper-right">
+						      <!-- 시작:상품리스트 변수 -->
+							    <c:choose>
+							      <c:when test="${not empty recommendProducts}">
+							        <c:forEach var="product" items="${recommendProducts}" begin="0" end="8">
+							          <%@ include file="/WEB-INF/jsp/component/productItem.jsp" %>
+							        </c:forEach>
+							      </c:when>
+							      <c:otherwise>
+							        <div class="swiper-slide prdItem nodata">
+							          <div class="nodata">등록된 추천상품이 없습니다.</div>
+							        </div>
+							      </c:otherwise>
+							    </c:choose>
+							    <!-- 종료:상품리스트 변수 -->
+						    </div>
+						  </div>
+						  <div thumbsSlider="" class="swiper swiper-half recoSwiper">
+						    <div class="swiper-wrapper swiper-right">
+						      <!-- 시작:상품리스트 변수 -->
+							    <c:choose>
+							      <c:when test="${not empty recommendProducts}">
+							        <c:forEach var="product" items="${recommendProducts}" begin="0" end="3">
+							          <%@ include file="/WEB-INF/jsp/component/productItem.jsp" %>
+							        </c:forEach>
+							      </c:when>
+							      <c:otherwise>
+							        <div class="swiper-slide prdItem nodata">
+							          <div class="nodata">등록된 추천상품이 없습니다.</div>
+							        </div>
+							      </c:otherwise>
+							    </c:choose>
+							    <!-- 종료:상품리스트 변수 -->
+						    </div>
+						  </div>
+			          </div>
 
 			        <div class="btn-view-more-wrap flex ju-center"> <!-- 추천상품리스트바로가기링크 -->
 						<a href="#" class="btn-view-more" data-aos="fade-up" data-aos-delay="150"><span>추천상품 더보기</span></a>
 					</div>
 					<script>
-					  var swiper = new Swiper(".recommendSwiper", {
-					    autoplay: {      
-					      delay: 2500,
-					      disableOnInteraction: false,
-					    },
-					    loop: true,
-					    loopAdditionalSlides: 1,
-					    slidesPerView: 3,       
-					    spaceBetween: 20,       // 슬라이드 사이 여백(px)
-					    pagination: {
-					      el: ".recommend-swiper-pagination",
-					      clickable: true,
-					    },
-					  });
-					</script>
+					    var swiper = new Swiper(".recoSwiper", {
+					      loop: true,
+					      spaceBetween: 20,
+					      slidesPerView: 2,
+					      grid: {
+					    	    rows: 2,        // 세로 2줄
+					    	    fill: "row"     // row 기준으로 채우기
+					    	  },
+					      freeMode: true,
+					      watchSlidesProgress: true,
+					    });
+					    var swiper2 = new Swiper(".recoSwiperSub", {
+					      loop: true,
+					      spaceBetween: 20,
+					      autoplay: {      
+						      delay: 2500,
+						      disableOnInteraction: false,
+						    },
+					      thumbs: {
+					        swiper: swiper,
+					      },
+					    });
+					    
+					    swiper2.on('slideChange', function () {
+					    	  const activeIndex = swiper2.realIndex;
+					    	  // 기존 모든 썸네일에서 'on' 클래스 제거
+					    	  $('.recoSwiper .prdInfo').removeClass('showon');
+					    	  // 현재 활성화된 썸네일에 'on' 클래스 추가
+					    	  $('.recoSwiper .prdInfo').eq(activeIndex).addClass('showon');
+					    	});
+
+					    
+					    document.querySelectorAll('.recoSwiper .prdLink').forEach(link => {
+				    	  link.addEventListener('click', function (e) {
+				    	    e.preventDefault(); // 클릭 막기
+				    	  });
+				    	});
+					  </script>
 			    </div>
 			</section>
 
 			<section class="shortbanner_area">
+				<a href="#">
 				<div class="inner">
-					<a href="#">
-						<div>welcome to Doo.D
-						회원가입 즉시 적립금 2000원 지급
-						</div>
-					</a>
+					<div class="chardood"></div>
+					<div class="banenr-cont"></div>
 				</div>
+				</a>
 			</section>
 			
 			<section class="hot_area prd_area">
 				<div class="inner">
 					<p class="sub-comment" data-aos="fade-up">DOO.D 인기상품</p>
-					<div class="prdList hot_list swiper-wrapper hotSwiper"  data-aos="fade-up" data-aos-delay="300">
+					<div class="prdList hot_list hotSwiper"  data-aos="fade-up" data-aos-delay="300">
 					  <div class="swiper-wrapper">
 					    <!-- 시작:상품리스트 변수 -->
 					    <c:choose>
@@ -273,11 +315,10 @@
 				</div>
 			</section>
 			
-			<!-- 이벤트 영역 3개?이미지카드라서-->
-			<!-- 
-			<section class="review_event_area">
+			<!-- 이벤트 영역 3개?이미지카드라서--> 
+			<!--<section class="review_event_area">
 			    <div class="inner">
-			        <p class="sub-comment">두디 이벤트</p>
+			        <p class="sub-comment">두디 소식</p>
 			        <div class="review_event_list flex">
 			            <div class="event_card">
 			                <p class="event_title">{이벤트게시판타이틀}</p>
@@ -289,7 +330,7 @@
 			            </div>
 			        </div>
 			    </div>
-			</section>-->
+			</section> -->
 
         </main>
     </div>

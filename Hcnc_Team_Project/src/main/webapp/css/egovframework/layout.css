@@ -1,16 +1,8 @@
 @charset "utf-8";
 /* 공통 레이아웃 */
-.inner {
-  width: 1280px;
-  min-width: 1024px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-.container {
-  justify-content: center;
-  width: 100%;
-}
+a{text-decoration: none;}
+.inner {  width: 1280px; min-width: 1024px;  margin: 0 auto;  padding: 0;}
+.container {  justify-content: center;  width: 100%;}
 
 header{z-index:30;}
 
@@ -50,9 +42,9 @@ header .flex.fd-column{flex-direction: column;}
   display: block; 
     width: 140px;
     height: 60px;
-    background-image: url('../../images/egovframework/layout/h1-logo.jpg');
-    background-size: 170% auto;
-    background-position: 42% -13px; 
+    background-image: url('../../images/egovframework/layout/h1-logo.png');
+    background-size: contain;
+    background-position: center center; 
     /*지금 로고 임시로 심어둠 -13px부분 조정하면 다른 이미지 다들어있음*/
 }
 
@@ -116,7 +108,8 @@ header .flex.fd-column{flex-direction: column;}
 .gnb { background:#fff; border-top:1px solid #eee; border-bottom:1px solid #eee; }
 .gnb ul { width:100%; list-style:none; }
 .gnb li{flex:1;}
-.gnb li a { display:block; width:100%; padding:12px 0; text-align:center; font-weight:bold; }
+.gnb li a { display:block; width:100%; padding:12px 0; text-align:center; font-weight:bold; color:#333; transition:0.3s all; }
+.gnb li a:hover{color:#f62e2e}
 
 #gnb.fixed {
   position: fixed;

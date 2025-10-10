@@ -33,7 +33,22 @@ public interface UserProductMapper {
 
 	int selectCategoryProductsCount(Map<String, Object> params);
 
-	List<Map<String, Object>> selectCategoryProductsListByUser(Map<String, Object> params);
+	// 신상 
+    List<Map<String, Object>> selectNewProListByUser(Map<String, Object> params);
+    int selectNewProCountByUser(Map<String, Object> params);
+    
+    // 추천 
+    List<Map<String, Object>> selectRecommendProListByUser(Map<String, Object> params);
+    int selectRecommendProCountByUser(Map<String, Object> params);
+    
+    // 인기
+    List<Map<String, Object>> selectHotProListByUser(Map<String, Object> params);
+    int selectHotProCountByUser(Map<String, Object> params);
+    
+    // 카테고리별
+    List<Map<String, Object>> selectCategoryProductsListByUser(Map<String, Object> params);
+    int selectCategoryProductsCountByUser(Map<String, Object> params);
+
 
 	int insertCartItemOptionByUser(Map<String, Object> optionId);
 

@@ -43,6 +43,13 @@ public interface ProductMapper {
 	
 	// ---- 재고 입출고 리스트 ----
 	List<Map<String, Object>> selectStockMovementsListByAdmin(Map<String, Object> cond);
+	
+	
+	
+	
+	// ---- 상품진열순서리스트 ----
+	List<Map<String, Object>> productDisplayOrderListByAdmin(Map<String, Object> cond);
+	void updateProductSort(Map<String, Object> row);
 
 
 

@@ -9,11 +9,12 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface ProductCreateMapper {
     List<Map<String,Object>> selectProductListByAdmin(Map<String,Object> p);
     int insertProductCreateByAdmin(Map<String,Object> p);
-    void insertOption(Map<String,Object> p);
+    Map<String, Object> selectTargetProductByAdmin(String productId);
     int insertCreateInventoryByAdmin(Map<String,Object> p);
     int insertProductImageByAdmin(Map<String,Object> p);
-    void updateProductImageMapping(Map<String,Object> p);
-    void setMainImage(Map<String,Object> p);
+    List<Map<String,Object>> selectProductImageListByAdmin(String productId);
+    int deleteProductImageListByAdmin(String fileUrl);
+    int updateProductCreateByAdmin(Map<String,Object> p);
 	List<Map<String, Object>> selectMainCategoryComboByAdmin();
 	List<Map<String, Object>> selectSubCategoryComboByAdmin(int mainCateId);
 	
@@ -29,7 +30,7 @@ public interface ProductCreateMapper {
 	
 	// ----- 옵션 -----
 	List<Map<String, Object>> selectOptionByAdmin(Map<String, Object> p);
-	void updateOptionVisibleByAdmin(Map<String,Object> p);
+	int updateProductImageByAdmin(Map<String,Object> p);
 	void updateProductVisibleByAdmin(Map<String, Object> p);
 	void updateOption(Map<String, Object> option);
 	Map<String, Object> selectOptionOneByAdmin(Long optionId);
