@@ -37,4 +37,13 @@ public interface UserBoardMapper {
 	//댓글 삭제
 	void deleteUserCommentByUser(Map<String, Object> params);
 
+	//게시글 삭제
+	void deleteUserPostByUser(Map<String, Object> params);
+
+	//댓글 수정
+	void updateUserCommentByUse(Map<String, Object> params);
+
+	//게시글 수정
+	void updatetUserPostByUser(Map<String, Object> params);
+
 }

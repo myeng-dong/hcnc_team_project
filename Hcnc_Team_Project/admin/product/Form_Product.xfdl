@@ -11,7 +11,7 @@
         <Div id="Div00_00" taborder="4" text="" left="24" top="65" height="40" background="#ffffff" borderRadius="10px 10px 10px 10px" right="26">
           <Layouts>
             <Layout>
-              <Edit id="edt_search" taborder="0" left="325" top="5" width="317" height="30"/>
+              <Edit id="edt_search" taborder="0" left="325" top="5" width="317" height="30" maxlength="50" onchanged="Div00_00_edt_search_onchanged" onkeydown="Div00_00_edt_search_onkeydown"/>
             </Layout>
           </Layouts>
         </Div>
@@ -42,7 +42,7 @@
                   </Rows>
                 </Dataset>
               </Radio>
-              <Static id="sta_sale" text="판매상태" left="537" height="40" right="577" top="0" taborder="1" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
+              <Static id="sta_sale" text="재고상태" left="537" height="40" right="577" top="0" taborder="1" font="normal 700 13px/normal &quot;Gulim&quot;" padding="0px 0px 0px 10px" background="#ffffff" borderRadius="10px 0px 0px 10px" color="#333333"/>
               <Radio id="Radio00_00" taborder="2" left="634" top="5" width="246" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 800 10pt/normal &quot;Arial&quot;" onitemchanged="Div00_00_00_00_00_Radio00_00_onitemchanged" index="0" text="전체" value="allS">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
@@ -56,11 +56,11 @@
                     </Row>
                     <Row>
                       <Col id="codecolumn">sale</Col>
-                      <Col id="datacolumn">판매함</Col>
+                      <Col id="datacolumn">재고있음</Col>
                     </Row>
                     <Row>
                       <Col id="codecolumn">nosale</Col>
-                      <Col id="datacolumn">판매안함</Col>
+                      <Col id="datacolumn">재고없음</Col>
                     </Row>
                   </Rows>
                 </Dataset>
@@ -88,8 +88,7 @@
                 <Column size="103"/>
                 <Column size="41"/>
                 <Column size="41"/>
-                <Column size="71"/>
-                <Column size="37"/>
+                <Column size="88"/>
               </Columns>
               <Rows>
                 <Row size="66" band="head"/>
@@ -98,7 +97,7 @@
                 <Row size="40"/>
               </Rows>
               <Band id="head">
-                <Cell colspan="18" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell colspan="17" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" rowspan="2" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol" edittype="checkbox" text="전체"/>
                 <Cell row="1" col="1" rowspan="2" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="2" rowspan="2" text="상품코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
@@ -112,8 +111,7 @@
                 <Cell row="1" col="11" colspan="2" text="옵션" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="13" rowspan="2" text="등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="1" col="14" rowspan="2" text="진열" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
-                <Cell row="1" col="15" rowspan="2" colspan="2" text="재고" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
-                <Cell row="1" col="17" rowspan="2" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
+                <Cell row="1" col="15" rowspan="2" colspan="2" text="재고수량/관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="2" col="9" text="대분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="2" col="10" text="중분류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
                 <Cell row="2" col="11" text="옵션" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/>
@@ -135,9 +133,8 @@
                 <Cell col="12" edittype="none" background="#ffffff" text="bind:OPTION_VALUE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
                 <Cell col="13" edittype="none" background="#ffffff" text="bind:INPUT_DT" font="12px/normal &quot;Gulim&quot;" textAlign="center" displaytype="date"/>
                 <Cell col="14" edittype="none" background="#ffffff" text="bind:IS_VISIBLE" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
-                <Cell col="15" edittype="mask" background="#ffffff" text="bind:QUANTITY" font="12px/normal &quot;Gulim&quot;" textAlign="center" displaytype="mask"/>
-                <Cell col="16" edittype="none" text="수정" font="12px/normal &quot;Gulim&quot;" displaytype="buttoncontrol" background="transparent" cssclass="productCellBtnEdit"/>
-                <Cell col="17" edittype="none" background="#ffffff" font="12px/normal &quot;Gulim&quot;" textAlign="center"/>
+                <Cell col="15" edittype="mask" background="#ffffff" text="bind:QUANTITY" font="12px/normal &quot;Gulim&quot;" textAlign="center" displaytype="mask" textareamaxlength="-1" maskeditformat="####"/>
+                <Cell col="16" edittype="none" text="재고변경" font="12px/normal &quot;Gulim&quot;" displaytype="buttoncontrol" background="transparent" cssclass="productCellBtnEdit"/>
               </Band>
             </Format>
           </Formats>
@@ -170,7 +167,7 @@
         <Combo id="cmb_cate2" left="349" top="125" width="150" height="30" text="- 중분류 선택 -" taborder="14" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_subCate" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM" displayrowcount="20"/>
         <Calendar id="cal_end" left="349" top="180" height="30" width="150" taborder="15" font="normal 800 10pt/normal &quot;Arial&quot;"/>
         <Static id="sta_dash" text="~" left="334" top="178" height="35" width="20" taborder="16" font="normal bold 10pt/normal &quot;Arial&quot;"/>
-        <Static id="sta_listTitle00" text="재고 클릭시 수정가능" height="61" top="290" font="11pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" taborder="17" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" width="188" right="68"/>
+        <Static id="sta_listTitle00" text="재고 클릭시 수량 수정가능" height="61" top="290" font="11pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" taborder="17" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" width="188" right="68"/>
         <Static id="stc_total" taborder="18" text="" left="39" top="15" width="61" height="30" font="12px/normal &quot;Gulim&quot;,&quot;Arial Black&quot;" borderRadius="0px 10px 10px 0px"/>
         <Button id="btn_reg" text="상품등록" top="70" width="100" height="30" onclick="btn_reg_onclick" right="50" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="6px" font="bold 12px 'Arial'" cursor="pointer" taborder="19"/>
         <Button id="btn_view" text="조회" top="70" width="72" height="30" onclick="btn_view_onclick" left="698" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="6px" font="bold 12px 'Arial'" cursor="pointer" taborder="20"/>
@@ -303,8 +300,26 @@ this._dateOrEmpty = function(cal) {
 this._setCond = function(ds, col, val) {
     // null/undefined만 제외하고 값 세팅
     if (val !== undefined && val !== null) {
-        ds.setColumn(0, col, val);
+		if (typeof val == "string"){
+			val = nexacro.trim(val);
+			
+			if(col == "SEARCH_TEXT"){
+					val = val.replace(/\s+/g, "");                   // 일반 공백 제거
+					val = val.replace(/[\u200B-\u200D\uFEFF]/g,"");  // 특수공백 제거
+					val = val.toLowerCase();                         // 소문자 변환
+			}
+		}
+		ds.setColumn(0, col, val);
     }
+};
+
+
+// =============검색어 가공 함수=============
+this._normalizeSearchText = function(text) {
+    if (!text) return "";
+
+// 모든 공백 제거 후 소문자로 변환
+    return text.replace(/\s+/g, "").toLowerCase();
 };
 
 
@@ -314,7 +329,6 @@ this.fn_makeSearchCond = function() {
     // 1) 초기화 및 한 줄 추가
     this.ds_searchCond.clearData();
     this.ds_searchCond.addRow();
-
     // 2) 콤보/에딧/라디오/달력 값을 ds_searchCond에 넣기
     this._setCond(this.ds_searchCond, "SEARCH_TYPE",     this.cmb_searchType.value);                   // 검색분류 (PRODUCT_CODE/PRODUCT_NAME)
     this._setCond(this.ds_searchCond, "SEARCH_TEXT",     this.Div00_00.form.edt_search.text);          // 검색어
@@ -337,9 +351,17 @@ this.fn_makeSearchCond = function() {
 this.btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
 	this.fn_search();
+
 };
  
- 
+// 검색창
+this.Div00_00_edt_search_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.btn_view_onclick();
+	}
+};
+
  
 //상품 목록 조회 (조건포함)
 this.fn_search = function() {
@@ -389,19 +411,36 @@ this.cmb_cate1_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEv
 this.fn_updateVisibleProd = function(newState)
 {
     var selRows = [];
-
+	var alreadyCnt = 0; // 이미 같은 상태인 상품 개수
+	
     for (var i=0; i<this.ds_out_proList.getRowCount(); i++) {
         if (this.ds_out_proList.getColumn(i, "chk") == 1) {
-            selRows.push(this.ds_out_proList.getColumn(i, "PRODUCT_ID"));
+			var curState = this.ds_out_proList.getColumn(i,"IS_VISIBLE");
+			
+			//원래 있던상태랑 현재 상태 다르면 넣기
+			if(curState != newState){
+				selRows.push(this.ds_out_proList.getColumn(i, "PRODUCT_ID"));
+			} else { 
+				alreadyCnt++;
+			}
         }
     }
 
+	
+	// 체크했지만 전부 이미 같은 상태인 경우
     if (selRows.length == 0) {
-        this.alert((newState == "Y" ? "진열" : "숨김") + "할 상품을 선택하세요.");
+        this.alert("선택한 상품은 이미 " + (newState == "Y" ? "진열" : "숨김") + " 상태입니다.");
         return;
     }
 
-    if (!this.confirm("총 " + selRows.length + "건을 " + (newState == "Y" ? "진열" : "숨김") + " 상태로 변경하시겠습니까?\n같은 상품계열은 모두 같은상태로 변경됩니다.")) {
+    // 일부는 이미 같은 상태, 일부만 변경 대상일 때 → 안내 후 진행
+    if (alreadyCnt > 0) {
+        this.alert("선택한 상품 중 " + alreadyCnt + "건은 이미 " 
+            + (newState == "Y" ? "진열" : "숨김") + " 상태입니다.\n나머지 상품만 변경합니다.");
+    }
+
+    if (!this.confirm("총 " + selRows.length + "건을 " 
+        + (newState == "Y" ? "진열" : "숨김") + " 상태로 변경하시겠습니까?\n같은 상품계열은 모두 같은 상태로 변경됩니다.")) {
         return;
     }
 
@@ -456,6 +495,19 @@ this.grid_list_oncellclick = function (obj, e) {
 this.ds_out_proList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
 	if(e.columnid == "QUANTITIY"){
+		var n = nexacro.toNumber(e.newvalue);
+		
+		if (n > 9999) {
+            obj.setColumn(e.row, "QUANTITY", 9999);
+            this.alert("수량은 최대 9999까지만 입력 가능합니다.");
+        } else if (n < 0) {
+            obj.setColumn(e.row, "QUANTITY", 0);
+            this.alert("수량은 0 이상이어야 합니다.");
+        }
+	
+	
+	
+	
 		this._updateQuantityByButton (e.row);
 	}
 };
@@ -757,6 +809,7 @@ this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
 			
     }
 };
+
 
 ]]></Script>
   </Form>

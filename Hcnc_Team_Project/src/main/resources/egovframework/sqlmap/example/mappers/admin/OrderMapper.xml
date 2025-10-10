@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.mapper.OrderMapper">
 
+	<!-- 주문 내역 조회 쿼리입니다 -->
 	<select id="selectOrderDetailListByAdmin" parameterType="map" resultType="map">
 		# 주문내역 조회 쿼리
 		
@@ -70,6 +71,7 @@
 		     , DATE_FORMAT(P.PAYMENT_DT, '%Y-%m-%d') AS PAYMENT_DT   -- 결제 일자
 		     , P.UPDATE_DT                                           -- 수정 일자
 		     , O.USER_NAME                                           -- 주문자
+		     , O.MEMBER_ID                                           -- 주문자ID
 		     , O.PHONE_NUMBER                                        -- 연락처
 		  FROM PAYMENTS P                                -- 결제테이블
 		  LEFT JOIN ORDERS O ON P.ORDER_ID = O.ORDER_ID  -- 주문테이블
