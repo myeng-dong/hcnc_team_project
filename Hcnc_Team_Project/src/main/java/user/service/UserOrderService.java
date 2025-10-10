@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import user.mapper.UserOrderMapper;
 
 @Service
-@Transactional(readOnly = true)
 public class UserOrderService {
 
 	@Autowired
@@ -28,7 +27,7 @@ public class UserOrderService {
 		return userOrderMapper.selectItemCntByUser(cartId);
 	}
 
-
+	@Transactional
 	public HashMap<String, Object> selectRequestedOrderInfoByUser(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> result = new HashMap<>();
@@ -50,6 +49,7 @@ public class UserOrderService {
 		return result;
 	}
 
+	@Transactional
 	public int orderDataSaveByUser(Map<String, Object> order, List<Map<String, Object>> items) {
 		int result = 1;
 		
@@ -161,6 +161,15 @@ public class UserOrderService {
 		} else {
 			result = 0;
 			System.out.println("cartItemDelete 테이블 데이터 저장실패");
+		}
+		
+		// 8. 바로가기 주문이라면 임시 카트 삭제하기
+		if(order.get("tempId") != null) {
+			int deleteCart = userOrderMapper.deleteCartByUser(order);
+			
+			if(deleteCart == 1) {
+				System.out.println("임시카트 삭제 완료!");
+			}
 		}
 		
 		return result;

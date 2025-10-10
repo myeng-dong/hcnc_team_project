@@ -170,41 +170,47 @@
 
         /* 모달 스타일 */
         .qna-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: none;
-            backdrop-filter: blur(4px);
-        }
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background: rgba(0, 0, 0, 0.5); /* backdrop-filter 제거 */
+		    z-index: 1000;
+		    display: none;
+		    /* backdrop-filter: blur(4px); 제거 - 성능 저하 원인 */
+		}
 
         .qna-modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #ffffff;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            animation: modalSlideIn 0.3s ease-out;
-        }
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+		    background: #ffffff;
+		    width: 90%;
+		    max-width: 600px;
+		    border-radius: 16px;
+		    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+		    overflow: hidden;
+		    /* animation 제거 또는 간소화 */
+		    will-change: transform; /* GPU 가속 */
+		}
 
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -45%);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%);
-            }
-        }
+		@keyframes modalSlideIn {
+		    from {
+		        opacity: 0;
+		        transform: translate(-50%, -48%);
+		    }
+		    to {
+		        opacity: 1;
+		        transform: translate(-50%, -50%);
+		    }
+		}
+		
+		/* 모달이 표시될 때만 애니메이션 적용 */
+		.qna-modal.show .qna-modal-content {
+		    animation: modalSlideIn 0.2s ease-out;
+		}
 
         .qna-close {
             position: absolute;
@@ -475,13 +481,10 @@
 	        <input type="text" id="qnaProduct" name="productId" placeholder="상품" required hidden>
 	      </div>
 	      <div class="form-group">
-	        <input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required>
+	        <input type="text" id="qnaTitle" name="qnaTitle" placeholder="제목" required maxlength="150">
 	      </div>
 	      <div class="form-group">
-	        <input type="text" id="memberId" name="memberId" placeholder="작성자" required hidden>
-	      </div>
-	      <div class="form-group">
-	        <textarea id="qnaContent" name="qnaContent" placeholder="내용" required></textarea>
+	        <textarea id="qnaContent" name="qnaContent" placeholder="내용" required style="max-height: 300px; min-height: 300px" maxlength="9999"></textarea>
 	      </div>
 	      <div class="form-button">
 	      	<button type="submit" id="qnaSubmitBtn">문의하기</button>
@@ -500,7 +503,7 @@
       <div class="form-group">
         <label>제목</label>
         <input id="qnaDetailTitle" class="detail-text" readonly>
-        <input id="qnaTitleInput" style="display: none">
+        <input id="qnaTitleInput" style="display: none" maxlength="150">
       </div>
       <div class="form-group">
         <label>작성자</label>
@@ -508,8 +511,8 @@
       </div>
       <div class="form-group">
         <label>내용</label>
-        <textarea id="qnaDetailContent" class="detail-content" readonly></textarea>
-        <textarea id="qnaContentInput" class="editable-content" style="display: none;"></textarea>
+        <textarea id="qnaDetailContent" class="detail-content" readonly style="max-height: 300px; min-height: 300px;"></textarea>
+        <textarea id="qnaContentInput" class="editable-content" style="display: none;" maxlength="9999"></textarea>
       </div>
       <div class="form-group" id="qnaAnswerDiv">
       
@@ -526,6 +529,75 @@
 </div>
 
 <script>
+	var currentQnaId = null;
+
+	$(document).ready(function() {
+		// 제목 글자 수 도달 시 경고
+		$('#qnaTitle').on('input', function() {
+			var currentLength = $(this).val().length;
+			
+			if(currentLength >= 150) {
+				alert('제목은 최대 150자까지 입력 가능합니다.');
+			}
+		});
+		
+		$('#qnaTitleInput').on('input', function() {
+			var currentLength = $(this).val().length;
+			
+			if(currentLength >= 150) {
+				alert('제목은 최대 150자까지 입력 가능합니다.');
+			}
+		});
+		
+		// 내용 글자 수 제한 경고
+		$('#qnaContent').on('input', function() {
+			var currentLength = $(this).val().length;
+			
+			if(currentLength >= 9999) {
+				alert('입력 가능한 글자 수를 초과하여 작성하였습니다.');
+			}
+		});
+		
+		$('#qnaContentInput').on('input', function() {
+			var currentLength = $(this).val().length;
+			
+			if(currentLength >= 9999) {
+				alert('입력 가능한 글자 수를 초과하여 작성하였습니다.');
+			}
+		});
+		
+		// 수정 버튼
+		$('#qnaEditBtn').on('click', function() {
+			updateTagChange("updateActive");
+		});
+		
+		// 수정완료 버튼
+		$('#qnaUpdateBtn').on('click', function() {
+			if(currentQnaId) {
+				updateProductQnA(currentQnaId);
+			}
+		});
+		
+		// 취소 버튼
+		$('#qnaCancelBtn').on('click', function() {
+			updateTagChange("updateCancel");
+		});
+		
+		// 삭제 버튼
+		$('#qnaDeleteBtn').on('click', function() {
+			if(currentQnaId) {
+				deleteQnA(currentQnaId);
+			}
+		});
+		
+		// 모달 닫기 이벤트
+		$('.qna-close, .btn-cancel').on('click', function(){
+			$('#qnaModal').hide();
+			$('#qnaDetailModal').hide();
+			updateTagChange("");
+		});
+	});
+
 	const QnaTab = {
 			// 문의 작성 모달 열기			
 			formModalShow: function(){
@@ -534,174 +606,145 @@
 			
 			// 상세 모달 열기 (수정/삭제용)
 			qnaDetail: function(qnaId){
-			    
-			    // AJAX로 QnA 상세 정보 가져오기
-			    $.ajax({
-			        url: '/selectQnADetail.do',
-			        type: 'post',
-			        data: { qnaId: qnaId },
-			        dataType: "json",
-			        success: function(res) {
-			        	var qna = res.qnaDetail;
-			            // 모달에 데이터 채우기
-			            $('#qnaDetailTitle').val(qna.QNA_TITLE);
-			            $('#qnaDetailWriter').text(qna.MEMBER_ID);
-			            $('#qnaDetailContent').val(qna.QNA_CONTENT);
-			            
-			            $('#qnaTitleInput').val(qna.QNA_TITLE);
-			            $('#qnaContentInput').val(qna.QNA_CONTENT);
-			            
-			            if(qna.ANSWER_CONTENT != null){
-			            	var qnaAnswerHtml = 
-			            		'<label>답변 내용 :</label>' +
-			            		'<div id="qnaAnswerContent" class="answer-content">' + qna.ANSWER_CONTENT + '</div>'
-			            	
-			            	$("#qnaAnswerDiv").html(qnaAnswerHtml);
-			            }
-			            
-			            // 현재 로그인한 사용자와 작성자가 같은지 확인
-			            if (qna.MEMBER_ID === memberId) {
-			                $('#qnaEditBtn').show();
-			                $('#qnaDeleteBtn').show();
-			                
-			                // 수정/삭제 버튼에 이벤트 추가 (기존 이벤트 제거 후 새로 추가)
-			                $('#qnaEditBtn').off('click').on('click', function() {
-			                	updateTagChange("updateActive");
-			                });
-			                
-			                //수정완료 버튼
-							$('#qnaUpdateBtn').off('click').on('click', function() {
-								updateProductQnA(qnaId);
-			                });
-			                
-			                // 수정 취소 버튼
-							$('#qnaCancelBtn').off('click').on('click', function() {
-								updateTagChange("updateCancel");
-			                });
-			                
-			                $('#qnaDeleteBtn').off('click').on('click', function() {
-			                    deleteQnA(qnaId);
-			                });
-			            } else {
-			                $('#qnaEditBtn').hide();
-			                $('#qnaDeleteBtn').hide();
-			            }
-			            
-			            // 모달 표시
-			            $('#qnaDetailModal').show();
-			        },
-			        error: function() {
-			            alert('QnA 상세 정보를 불러오는데 실패했습니다.');
-			        }
-			    });
-			},
-			
-	}
+				currentQnaId = qnaId; // 현재 QnA ID 저장
+				
+				// AJAX로 QnA 상세 정보 가져오기
+				$.ajax({
+					url: '/selectQnADetail.do',
+					type: 'post',
+					data: { qnaId: qnaId },
+					dataType: "json",
+					success: function(res) {
+						var qna = res.qnaDetail;
+						var memberTF = res.sameMember;
+						
+						// 모달에 데이터 채우기
+						$('#qnaDetailTitle').val(qna.QNA_TITLE);
+						$('#qnaDetailWriter').text(qna.MEMBER_ID);
+						$('#qnaDetailContent').val(qna.QNA_CONTENT);
+						$('#qnaTitleInput').val(qna.QNA_TITLE);
+						$('#qnaContentInput').val(qna.QNA_CONTENT);
+						
+						// 답변 내용 처리
+						if(qna.ANSWER_CONTENT != null){
+							var qnaAnswerHtml = 
+								'<label>답변 내용 :</label>' +
+								'<div id="qnaAnswerContent" class="answer-content">' + qna.ANSWER_CONTENT + '</div>';
+							$("#qnaAnswerDiv").html(qnaAnswerHtml);
+						} else {
+							$("#qnaAnswerDiv").empty();
+						}
+						
+						// 권한에 따른 버튼 표시 (이벤트 재바인딩 제거)
+						if(memberTF) {
+							$('#qnaEditBtn').show();
+							$('#qnaDeleteBtn').show();
+						} else {
+							$('#qnaEditBtn').hide();
+							$('#qnaDeleteBtn').hide();
+						}
+						
+						// 모달 표시 (약간의 지연으로 부드럽게)
+						requestAnimationFrame(function() {
+							$('#qnaDetailModal').show();
+						});
+					},
+					error: function() {
+						alert('QnA 상세 정보를 불러오는데 실패했습니다.');
+					}
+				});
+			}
+		}
 	
 	function updateProductQnA(qnaId) {
-		var title = $("#qnaTitleInput").val();
-       	var content = $("#qnaContentInput").val();
-       	
-       	var param = {
-       			qnaId : qnaId
-       			, title : title
-       			, content : content
-       	};
-       	
-       	$.ajax({
-       		url: "/updateProductQnA.do"
-       		, type: "post"
-       		, data: param
-       		, dataType: "json"
-       		, success: function(){
-       			alert("수정완료되었습니다.");
-       		
-       			$('#qnaDetailTitle').val(title);
-       			$('#qnaDetailContent').val(content);
-       		
-       			
-       			updateTagChange("updateComplete");
-       		}
-       		, error: function(){
-       			alert("QnA수정중 오류가 발생했습니다.");
-       		}
-       	});
+		var title = $("#qnaTitleInput").val().trim();
+		var content = $("#qnaContentInput").val().trim();
+		
+		if(!title || !content) {
+			alert("제목과 내용을 입력해주세요.");
+			return;
+		}
+		
+		var param = {
+			qnaId: qnaId,
+			title: title,
+			content: content
+		};
+		
+		$.ajax({
+			url: "/updateProductQnA.do",
+			type: "post",
+			data: param,
+			dataType: "json",
+			success: function(){
+				alert("수정완료되었습니다.");
+				
+				$('#qnaDetailTitle').val(title);
+				$('#qnaDetailContent').val(content);
+				
+				updateTagChange("updateComplete");
+				
+				// 목록 새로고침
+				loadQnAList();
+			},
+			error: function(){
+				alert("QnA수정중 오류가 발생했습니다.");
+			}
+		});
 	}
 	
 	
 	function deleteQnA(qnaId){
 		if(confirm("상품 문의 내역을 삭제하시겠습니까?")){
 			$.ajax({
-				url: "/deleteProductQnA.do"
-				, type: "post"
-				, data: { qnaId : qnaId, productId : productId }
-				, dataType: "json"
-				, success: function(){
+				url: "/deleteProductQnA.do",
+				type: "post",
+				data: { qnaId: qnaId, productId: productId },
+				dataType: "json",
+				success: function(){
 					alert("상품문의 삭제처리 되었습니다.");
-					
-					window.location.reload();
-				}
-				, error: function(){
-					
+					$('#qnaDetailModal').hide();
+					loadQnAList(); // reload 대신 목록만 갱신
+				},
+				error: function(){
+					alert("삭제 중 오류가 발생했습니다.");
 				}
 			});
 		} 
 	}
-	
-	 // 모달 닫기 이벤트들
-    $('.qna-close').click(function(){
-   	 $('#qnaModal').hide();
-   	 $('#qnaDetailModal').hide();
-   	 updateTagChange("");
-    });
-    
-    $('.btn-cancel').click(function(){
-   	 $('#qnaModal').hide();
-   	 $('#qnaDetailModal').hide();
-   	 updateTagChange("");
-    })
     
     // 태그 동적 변경
     function updateTagChange(type) {
-    	if(type != "updateActive"){
+		if(type === "updateActive"){
+			$("#qnaDetailTitle").hide();
+			$("#qnaTitleInput").show();
+			$('#qnaDetailContent').hide();
+			$('#qnaContentInput').show();
+			$('#qnaEditBtn').hide();
+			$('#qnaUpdateBtn').show();
+			$('#qnaDeleteBtn').hide();
+			$('#qnaCancelBtn').show();
+		} else {
 			$("#qnaDetailTitle").show();
-        	$("#qnaTitleInput").hide();
-        	
-        	$('#qnaDetailContent').show();
-        	$('#qnaContentInput').hide();
-            
-            $('#qnaEditBtn').show();
-            $('#qnaUpdateBtn').hide();
-            
-            $('#qnaDeleteBtn').show();
-            $('#qnaCancelBtn').hide();
-    	} else {
-        	$("#qnaDetailTitle").hide();
-        	$("#qnaTitleInput").show();
-        	
-        	$('#qnaDetailContent').hide();
-        	$('#qnaContentInput').show();
-            
-            $('#qnaEditBtn').hide();
-            $('#qnaUpdateBtn').show();
-            
-            $('#qnaDeleteBtn').hide();
-            $('#qnaCancelBtn').show();
-    	}
+			$("#qnaTitleInput").hide();
+			$('#qnaDetailContent').show();
+			$('#qnaContentInput').hide();
+			$('#qnaEditBtn').show();
+			$('#qnaUpdateBtn').hide();
+			$('#qnaDeleteBtn').show();
+			$('#qnaCancelBtn').hide();
+		}
     }
 </script>
 
 <!-- 상품 QnA 등록시 처리하기 위함 -->
 <c:if test="${not empty message}">
 	<script>
-		$(document).ready(function(){
-			
-			if("${messageType}" === "insertSuccess"){
-				alert("${message}");
-			} else {
-				alert("오류: ${message}");
-			}
-		});
+		if("${messageType}" === "insertSuccess"){
+			alert("${message}");
+		} else {
+			alert("오류: ${message}");
+		}
 	</script>
 </c:if>
 
@@ -710,13 +753,10 @@
 
 	var urlParams = new URLSearchParams(window.location.search);
 	
-	var memberId = "user01";
-	var cartId = 1;
 	var productId = urlParams.get('productId');
 	
 	$(function(){
 		$("#qnaProduct").val(productId);
-		$("#memberId").val(memberId);
 	});
 
 	// QnA 문의하기 버튼 광클 금지
@@ -758,10 +798,14 @@
             list = '<tr><td colspan="4" class="empty-message">해당 상품의 문의 내역이 없습니다.</td></tr>';
         } else {
             for(var i = 0; i < qnaList.length; i++){
+            	// 제목을 30자로 제한
+                var title = qnaList[i].QNA_TITLE;
+                var displayTitle = title.length > 30 ? title.substring(0, 30) + '...' : title;
+            	
                 list += 
                     '<tr>' +
                         '<td>' + (i + 1) + '</td>' +
-                        '<td onclick="QnaTab.qnaDetail('+ qnaList[i].PRODUCT_QNA_ID +')" style="cursor: pointer;">' + qnaList[i].QNA_TITLE + '</td>' +
+                        '<td onclick="QnaTab.qnaDetail('+ qnaList[i].PRODUCT_QNA_ID +')" style="cursor: pointer;">' + displayTitle + '</td>' +
                         '<td>' + qnaList[i].MEMBER_ID + '</td>' +
                         '<td>' + qnaList[i].INPUT_DT + '</td>' +
                     '</tr>';

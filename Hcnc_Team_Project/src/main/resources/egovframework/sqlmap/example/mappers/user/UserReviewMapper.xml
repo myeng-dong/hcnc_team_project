@@ -40,4 +40,64 @@
 		    </choose>
 			LIMIT #{pageSize} OFFSET #{offset}
 	</select>
+
+	<select id="selectOrderProductListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT OI.ORDER_ITEM_ID, OI.ORDER_ID, OI.PRODUCT_ID, OI.PRODUCT_NAME, OI.PRICE, OI.QUANTITY
+			, PI.IMAGE_URL, PI.ALT_TEXT
+			, O.ORDER_ID, O.ORDER_NUMBER, O.TOTAL_AMOUNT, DATE_FORMAT(O.ORDER_DT, '%Y-%m-%d') AS ORDER_DT
+			FROM ORDERS O
+					LEFT JOIN ORDER_ITEMS OI 
+						ON O.ORDER_ID = OI.ORDER_ID
+					LEFT JOIN PRODUCT_IMG PI 
+						ON OI.PRODUCT_ID = PI.PRODUCT_ID AND PI.SORT_NUMBER = 0
+			WHERE 1=1
+				AND O.MEMBER_ID = #{memberId}
+				<!-- AND OI.ORDER_STATUS = '배송완료' -->
+			ORDER BY O.ORDER_DT DESC
+	</select>
+
+	<select id="selectReviewStatusListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT R.REVIEW_ID, R.ORDER_ID, R.PRODUCT_ID, R.MEMBER_ID, R.STAR_POINT, R.REVIEW_CONTENT, DATE_FORMAT(R.INPUT_DT, '%Y-%m-%d') AS INPUT_DT
+			FROM REVIEWS R
+			WHERE 1=1
+				AND R.MEMBER_ID = #{memberId}
+	</select>
+
+	<select id="selectProductInfoForReviewByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT OI.PRODUCT_ID, OI.PRODUCT_NAME, OI.PRICE, OI.QUANTITY
+			, PI.IMAGE_URL, PI.ALT_TEXT
+			, O.ORDER_ID, O.ORDER_NUMBER, O.TOTAL_AMOUNT, DATE_FORMAT(O.ORDER_DT, '%Y-%m-%d') AS ORDER_DT
+			FROM ORDERS O
+					LEFT JOIN ORDER_ITEMS OI 
+						ON O.ORDER_ID = OI.ORDER_ID
+					LEFT JOIN PRODUCT_IMG PI 
+						ON OI.PRODUCT_ID = PI.PRODUCT_ID AND PI.SORT_NUMBER = 0
+			WHERE 1=1
+				AND O.MEMBER_ID = #{memberId}
+				AND O.ORDER_ID = #{orderId}
+				AND OI.PRODUCT_ID = #{productId}
+				<!-- AND OI.ORDER_STATUS = '배송완료' -->
+	</select>
+
+	<insert id="insertReviewByUser" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="reviewId">
+		INSERT INTO REVIEWS (ORDER_ID, PRODUCT_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, STAR_POINT)
+		  VALUES ( 
+				#{orderId}, 
+				#{productId}, 
+				#{memberId}, 
+				#{title}, 
+				#{content}, 
+				#{rating}
+			)
+	</insert>
+
+	<insert id="insertReviewImage" parameterType="java.util.Map">
+		INSERT INTO REVIEW_IMAGES (REVIEW_ID, IMG_ORIGIN_NAME, IMG_ATTACHED_NAME, IMG_PATH)
+		  VALUES ( 
+				#{reviewId}, 
+				#{imgOriginName}, 
+				#{imgAttachedName}, 
+				#{imgPath}
+			)
+	</insert>
 </mapper>

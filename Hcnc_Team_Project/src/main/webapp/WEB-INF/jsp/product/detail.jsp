@@ -16,11 +16,12 @@
 	<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/reset.css'/>"/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	
 	<!-- j쿼리를 실행하기 위해 스크립트 선언을 해줘야한다. -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	
-		<style>
+	<style>
 		body {
 			font-family: 'Noto Sans KR', Arial, sans-serif;
 			line-height: 1.6;
@@ -529,31 +530,49 @@
 	</style> 
 	
 	<script>
-		// 부트스트랩 네비 메뉴 버튼 (즉시 상단 이동 - ㄻ 250925 14:13)
+		$.ajaxSetup({
+			xhrFields: {
+				withCredentials: true
+			}
+		});
+	</script>
+	
+	<script>
+		// 부트스트랩 네비 메뉴 버튼
 		const triggerTabList = document.querySelectorAll('#nav-tab button')
 		triggerTabList.forEach(triggerEl => {
-		  const tabTrigger = new bootstrap.Tab(triggerEl)
-	
-		  triggerEl.addEventListener('click', event => {
-		    event.preventDefault();
-		    tabTrigger.show();
-		    
-		    setTimeout(function() {
-	            // 탭 네비게이션 섹션을 화면 맨 위로 스크롤
-	            const tabNavigationSection = document.querySelector('.tab-navigation-section');
-	            if (tabNavigationSection) {
-	                // 탭이 화면 맨 위에 딱 붙도록 스크롤
-	                tabNavigationSection.scrollIntoView({ 
-	                    behavior: 'smooth', 
-	                    block: 'start' 
-	                });
-	            }
-	        }, 100);
-		  })
+			const tabTrigger = new bootstrap.Tab(triggerEl)
+			
+			triggerEl.addEventListener('click', event => {
+				event.preventDefault();
+				tabTrigger.show();
+				
+				scrollToTabNavigation();
+			})
 		})
 		
-
-
+		// 탭 네비게이션으로 스크롤하는 함수
+		function scrollToTabNavigation() {
+			const tabNavigationSection = document.querySelector('.tab-navigation-section');
+			if (!tabNavigationSection) return;
+			
+			// 1. sticky 일시 해제
+			tabNavigationSection.style.position = 'static';
+			
+			// 2. 레이아웃 재계산을 위한 짧은 지연
+			setTimeout(function() {
+				// 3. 탭 위치로 스크롤
+				tabNavigationSection.scrollIntoView({ 
+					behavior: 'smooth', 
+					block: 'start' 
+				});
+				
+				// 4. 스크롤 완료 후 sticky 복원
+				setTimeout(function() {
+					tabNavigationSection.style.position = '';
+				}, 500);
+			}, 10);
+		}
 	</script>
 	
 <!-- 상품 옵션 처리  -->
@@ -563,12 +582,25 @@
 			var productDetail = ${productDetailJson};
 			var optionInfo = ${optionInfoJson};
 			
+			var productName = productDetail[0].PRODUCT_NAME;
+			var productPrice = productDetail[0].PRODUCT_PRICE;
+			if(productDetail[0].imgs.length > 0){
+				var productImgPath = productDetail[0].imgs[0].IMAGE_URL;
+			}
+			
 			// 기본 가격 설정 (할인가가 있으면 할인가, 없으면 정가)
 			var basePrice = productDetail[0].SAILED_PRICE ? productDetail[0].SAILED_PRICE : productDetail[0].PRODUCT_PRICE;
 			
-			console.log("상품 정보:", productDetail);
-			console.log("옵션 정보:", optionInfo);
+/* 			console.log("상품 정보:", productDetail);
+			console.log("옵션 정보:", optionInfo); */
 			
+			// DOM 로드 후 실행
+	        $(document).ready(function() {
+	            // productId가 정의되어 있는지 확인
+	            if(typeof productId !== 'undefined' && productId) {
+	                addRecentProduct(productId, productName, productImgPath, productPrice);
+	            }
+	        });
 			
 			// 선택된 모든 옵션의 추가 요금을 저장할 객체
 			var selectedOptions = {};
@@ -593,8 +625,6 @@
 				    }
 				}
 
-				console.log("발견된 옵션명들:", options);
-	
 				// 2단계: HTML 생성
 				var optionContainer = '';
 				for(var i = 0; i < options.length; i++){
@@ -677,8 +707,6 @@
 	<script type="text/javascript" language="javascript" defer="defer">
 		var urlParams = new URLSearchParams(window.location.search);
 	
-		var memberId = "user01";
-		var cartId = 1;
 		var productId = urlParams.get('productId');
 	
 
@@ -718,7 +746,22 @@
 			console.log(selected);
 		}
     
-		function pushCart() {
+		var isProcessing = false;
+		function pushCart() {	
+			if(isProcessing){
+				console.log("처리 중 입니다...");
+				return;
+			}
+			
+			var guestId = null;
+			if(localStorage.getItem("guestId") != null){
+				guestId = localStorage.getItem("guestId");
+			} else {
+				guestId = "NoMember" + Date.now() + Math.random().toString(36).substring(2, 9);
+				
+				localStorage.setItem("guestId", guestId);
+			}
+			
 		    var option = '';
 		    var optionIds = [];
 		    var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
@@ -742,7 +785,6 @@
 		        var optionName = selectElement.getAttribute('data-option-name');
 		        
 		        // 실제 선택된 옵션 정보 추출
-		        // value 형식: "[색상] 블랙"
 		        var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0;
 		        
 		        // optionInfo에서 해당 옵션 찾기
@@ -761,10 +803,11 @@
 		    
 		    console.log("최종 optionIds:", optionIds); // 확인용
 		    
-		    if(hasOption && allSelects.length > 0){
+		    if(hasOption && allSelects.length > 0 || allSelects.length <= 0){
+		    	isProcessing = true; // 플래그 설정 (버튼 광클 금지!)
+		    	
 		        var param = {
-		            memberId: memberId,
-		            cartId: cartId,
+		        	guestId: guestId,
 		            productId: productId,
 		            option: option,
 		            optionIds: optionIds,
@@ -773,8 +816,6 @@
 		            subTotal: subTotal
 		        };
 		        
-		        console.log("서버에 전송: ", param);
-		        
 		        $.ajax({
 		            url: "/insertCartItem.do",
 		            type: "post",
@@ -782,19 +823,149 @@
 		            traditional: true,
 		            dataType: "json",
 		            success: function(res) {
-		                var result = res.insertResult;
+		                var result = res.resultData.result;
+		                var cartId = res.resultData.cartId;
+		                
+		                console.log(cartId);
+		                
 		                if (result == 1) {
-		                    confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId=1" : null;
+		                    confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId="+ cartId : null;
 		                } else if (result == 2) {
-		                    confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId=1" : null;
+		                    confirm("이미 장바구니에 담긴 상품입니다. 장바구니로 이동하겠습니까?") ? location.href = "/cartView.do?cartId="+ cartId : null;
 		                }
 		            },
 		            error: function() {
 		                alert("장바구니 담기 중 오류가 발생했습니다.");
+		            },
+		            complete: function() {
+		                // 완료 후 플래그 해제 및 버튼 복원
+		                isProcessing = false;
+		                $('#add-to-cart').prop('disabled', false).text('장바구니 담기');
+		                $('#buy-now').prop('disabled', false).text('바로구매');
 		            }
 		        });
-		    } else {
+		    } else if(!hasOption && allSelects.length > 0) {
 		        alert("모든 옵션을 선택해주세요.");
+		    } else {
+		    	return;
+		    }
+		}
+		
+		// 주문 번호 생성
+        var orderCounter = 0;
+        
+        function generateUniqueOrderNumber(){
+        	orderCounter++;
+        	var timestamp = new Date().getTime().toString().slice(-10); //뒤 10자리
+        	var counter = ('0000' + orderCounter).slice(-4); //4자리 카운터
+        	var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        	var randomPart = '';
+        	
+        	// 남은 6자리를 랜덤으로 채움
+        	for(var i = 0; i < 6; i++){
+        		var randomIndex = Math.floor(Math.random() * chars.length);
+        		randomPart += chars.charAt(randomIndex);
+        	}
+        	
+        	return timestamp + counter + randomPart; //총 20자
+        }
+		
+		function buyNow(){
+			if(isProcessing){
+				console.log("처리 중 입니다...");
+				return;
+			}
+
+			var guestId = null;
+			if(localStorage.getItem("guestId") != null){
+				guestId = localStorage.getItem("guestId");
+			} else {
+				guestId = "NoMember" + Date.now() + Math.random().toString(36).substring(2, 9);
+				
+				localStorage.setItem("guestId", guestId);
+			}
+			
+			var tempId = "Temp" + Date.now() + Math.random().toString(36).substring(2, 9);
+			var orderNumber = generateUniqueOrderNumber();
+			
+			var option = '';
+		    var optionIds = [];
+		    var price = parseInt(document.getElementById("saled-price").getAttribute('data-price')) || 0;
+		    var quantity = parseInt($('#quantity').val()) || 1;
+		    var subTotal = parseInt(document.getElementById("totalPrice").getAttribute('data-price')) || 0;
+		      
+		    var hasOption = true;
+		    
+		    // 모든 select 요소를 직접 찾기
+		    var allSelects = document.querySelectorAll('.option-select');
+		    
+		    for(var i = 0; i < allSelects.length; i++){
+		        var selectElement = allSelects[i];
+		        
+		        if(selectElement.value === 'non-select' || selectElement.value === '') {
+		            hasOption = false;
+		            break;
+		        }
+		        
+		        var selectedOption = selectElement.options[selectElement.selectedIndex];
+		        var optionName = selectElement.getAttribute('data-option-name');
+		        
+		        // 실제 선택된 옵션 정보 추출
+		        var optionPrice = parseInt(selectedOption.getAttribute('data-price')) || 0;
+		        
+		        // optionInfo에서 해당 옵션 찾기
+		        for(var j = 0; j < optionInfo.length; j++){
+		            if(optionInfo[j].OPTION_NAME === optionName && 
+		               selectElement.value.includes(optionInfo[j].OPTION_VALUE)){
+		                optionIds.push(optionInfo[j].OPTION_ID);
+		                break;
+		            }
+		        }
+		        
+		        option += selectElement.value + ' \n';
+		        
+		    }
+		    
+		    if(hasOption && allSelects.length > 0 || allSelects.length <= 0){
+		    	isProcessing = true; // 플래그 설정 (버튼 광클 금지!)
+		    	
+		        var param = {
+		        		tempId: tempId,
+		            productId: productId,
+		            option: option,
+		            optionIds: optionIds,
+		            price: price,
+		            quantity: quantity,
+		            subTotal: subTotal,
+		        };
+		        
+		        
+		        $.ajax({
+		            url: "/buyNow.do",
+		            type: "post",
+		            data: param,
+		            traditional: true,
+		            dataType: "json",
+		            success: function(res) {
+		               	var cartId = res.cartId;
+		               	
+		               	window.location.href="orderView.do?cartId=" + cartId + "&orderNum=" + orderNumber;
+		               	
+		               	sessionStorage.setItem("tempId", tempId);
+		               	
+		            },
+		            error: function() {
+		                alert("오류 발생");
+		            },
+		            complete: function() {
+		                // 완료 후 플래그 해제 및 버튼 복원
+		                isProcessing = false;
+		            }
+		        });
+		    } else if(!hasOption && allSelects.length > 0) {
+		        alert("모든 옵션을 선택해주세요.");
+		    } else {
+		    	return;
 		    }
 		}
 	</script>
@@ -802,6 +973,7 @@
 	<script>
 		$(function(){
 			loadAllData();
+			
 		});
 		
 		// 비동기 처리
@@ -812,118 +984,149 @@
 			    loadQnAList()
 			).done(function(result1, result2, result3) {
 			    console.log('모든 데이터 로드 완료');
-/* 			    hideLoadingSpinner(); // 로딩 숨기기 */
 			}).fail(function(error) {
 			    console.log('데이터 로드 실패:', error);
-/* 			    hideLoadingSpinner(); */
 			    alert('페이지를 불러오는데 실패했습니다.');
 			});
+		}
+		
+		// 상품 조회 시 로컬스토리지에 저장 (최근 본 상품 표시를 위함)
+		function addRecentProduct(productId, productName, productImage, price) {
+		    var recentProducts = JSON.parse(localStorage.getItem('recentProducts')) || [];
+		    
+		    // 중복 제거 (같은 상품이면 맨 앞으로)
+		    recentProducts = recentProducts.filter(item => item.productId !== productId);
+		    
+		    // 맨 앞에 추가
+		    recentProducts.unshift({
+		        productId: productId,
+		        productName: productName,
+		        productImage: productImage,
+		        price: price,
+		        viewedAt: new Date().toISOString()
+		    });
+		    
+		    // 최대 10개만 유지
+		    if(recentProducts.length > 10) {
+		        recentProducts = recentProducts.slice(0, 10);
+		    }
+		    
+		    localStorage.setItem('recentProducts', JSON.stringify(recentProducts));
 		}
 	</script>
 </head>
 
 <body>
-    <div class="container">
-    	<div class="inner">
-			<div class="product-container" style="display: flex; gap: 50px;">
-				<div class="product-image-container">
-					<img id="product-image" src="https://placehold.co/400x400" alt="Product Image">
-				</div>
-				<div class="product-info">
-					<div class="product-details">
-						<div class="product-title">
-							<h1 id="product-name">${productDetail[0].PRODUCT_NAME}</h1>
-						</div>
-						<table>
-							<tbody>
-								<tr>
-									<td>소비자가</td>
-									<td id="product-price"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-								</tr>
-								<tr>
-									<td>판매가</td>
-									<c:if test="${productDetail[0].SAILED_PRICE != null}">
-										<td id="saled-price" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+    <div class="container" style="display: flex; gap: 10px;">
+    	<div>
+	    	<div class="inner">
+				<div class="product-container" style="display: flex; gap: 50px;">
+					<div class="product-image-container">
+						<c:if test="${not empty productDetail[0].imgs}">
+						    <img id="product-image" src="${productDetail[0].imgs[0].IMAGE_URL}" alt="${productDetail[0].imgs[0].ALT_TEXT}">
+						</c:if>
+						<c:if test="${empty productDetail[0].imgs}">
+						    <img id="product-image" src="https://placehold.co/400x400" alt="Product Image">
+						</c:if>
+					</div>
+					<div class="product-info">
+						<div class="product-details">
+							<div class="product-title">
+								<h1 id="product-name">${productDetail[0].PRODUCT_NAME}</h1>
+							</div>
+							<table>
+								<tbody>
+									<tr>
+										<td>소비자가</td>
+										<td id="product-price"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+									</tr>
+									<tr>
+										<td>판매가</td>
+										<c:if test="${productDetail[0].SAILED_PRICE != null}">
+											<td id="saled-price" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+										</c:if>
+										<c:if test="${productDetail[0].SAILED_PRICE == null}">
+											<td id="saled-price" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+										</c:if>
+									</tr>
+									<tr>
+										<td>상품코드</td>
+										<td id="product-code">${productDetail[0].PRODUCT_CODE}</td>
+									</tr>
+									<tr>
+										<td>상품설명</td>
+										<td id="product-description">${productDetail[0].PRODUCT_CONTENT}</td>
+									</tr>
+									<tr>
+										<td>무게</td>
+										<td id="product-weight">${productDetail[0].PRODUCT_WEIGHT}</td>
+									</tr>
+									<c:if test="${optionInfo[0] != null}">
+										<tr id="product-option">
+											<td>옵션</td>
+											<td id="options-td">
+												<!-- 여기에 옵션 셀렉트 박스가 동적으로 생성됩니다 -->
+											</td>
+										</tr>
 									</c:if>
-									<c:if test="${productDetail[0].SAILED_PRICE == null}">
-										<td id="saled-price" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-									</c:if>
-								</tr>
-								<tr>
-									<td>상품코드</td>
-									<td id="product-code">${productDetail[0].PRODUCT_CODE}</td>
-								</tr>
-								<tr>
-									<td>상품설명</td>
-									<td id="product-description">${productDetail[0].PRODUCT_CONTENT}</td>
-								</tr>
-								<tr>
-									<td>무게</td>
-									<td id="product-weight">${productDetail[0].PRODUCT_WEIGHT}</td>
-								</tr>
-								<c:if test="${optionInfo[0] != null}">
-									<tr id="product-option">
-										<td>옵션</td>
-										<td id="options-td">
-											<!-- 여기에 옵션 셀렉트 박스가 동적으로 생성됩니다 -->
+									<tr id="selected-option-display" style="display: none;">
+										<td>선택된 옵션</td>
+										<td id="selectedCombination">옵션을 선택해주세요.</td>
+									</tr>
+									<tr>
+										<td>총 가격</td>
+										<c:if test="${productDetail[0].SAILED_PRICE != null}">
+										    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
+										</c:if>
+										<c:if test="${productDetail[0].SAILED_PRICE == null}">
+										    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
+										</c:if>
+									</tr>
+									<tr>
+										<td>수량</td>
+										<td>
+											<button onclick="countDown()">-</button>
+											<input type="number" name="quantity" id="quantity" value="1" min="1" max="999999" onchange="updateCnt()">
+											<button onclick="countUp()">+</button>
 										</td>
 									</tr>
-								</c:if>
-								<tr id="selected-option-display" style="display: none;">
-									<td>선택된 옵션</td>
-									<td id="selectedCombination">옵션을 선택해주세요.</td>
-								</tr>
-								<tr>
-									<td>총 가격</td>
-									<c:if test="${productDetail[0].SAILED_PRICE != null}">
-									    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].SAILED_PRICE}"><fmt:formatNumber value="${productDetail[0].SAILED_PRICE}" pattern="#,###"/>원</td>
-									</c:if>
-									<c:if test="${productDetail[0].SAILED_PRICE == null}">
-									    <td id="totalPrice" class="total-price-amount" data-price="${productDetail[0].PRODUCT_PRICE}"><fmt:formatNumber value="${productDetail[0].PRODUCT_PRICE}" pattern="#,###"/>원</td>
-									</c:if>
-								</tr>
-								<tr>
-									<td>수량</td>
-									<td>
-										<button onclick="countDown()">-</button>
-										<input type="number" name="quantity" id="quantity" value="1" min="1" max="999999" onchange="updateCnt()">
-										<button onclick="countUp()">+</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="product-actions">
-						<div class="button-container">
-							<button id="add-to-cart" onclick="pushCart()">장바구니 담기</button>
-							<button id="buy-now">바로구매</button>
+								</tbody>
+							</table>
+						</div>
+						<div class="product-actions">
+							<div class="button-container">
+								<button id="add-to-cart" onclick="pushCart()">장바구니 담기</button>
+								<button id="buy-now" onclick="buyNow()">바로구매</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-    	<div class="inner">
-    		<div class="tab-navigation-section">
-	    		<nav>
-					<div class="nav nav-tabs" id="nav-tab" role="tablist">
-						<button class="nav-link active" hrer="goDetail" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
-						<button class="nav-link" href="#nav-profile" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
-						<button class="nav-link" href="goQna" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
+	    	<div class="inner">
+	    		<div class="tab-navigation-section">
+		    		<nav>
+						<div class="nav nav-tabs" id="nav-tab" role="tablist">
+							<button class="nav-link active" hrer="goDetail" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">상품상세정보</button>
+							<button class="nav-link" href="#nav-profile" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">상품 리뷰<span id="productReviewCnt"></span></button>
+							<button class="nav-link" href="goQna" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">상품 Q&A<span id="productQnACnt"></span></button>
+						</div>
+					</nav>
+				</div>
+				<div class="tab-content" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+						<%@ include file="tabs/description.jsp" %>
 					</div>
-				</nav>
-			</div>
-			<div class="tab-content" id="nav-tabContent">
-				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-					<%@ include file="tabs/description.jsp" %>
+					<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+						<%@ include file="tabs/review.jsp" %>
+					</div>
+					<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+						<%@ include file="tabs/productQnA.jsp" %>
+					</div>
 				</div>
-				<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-					<%@ include file="tabs/review.jsp" %>
-				</div>
-				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
-					<%@ include file="tabs/productQnA.jsp" %>
-				</div>
-			</div>
-    	</div>
+	    	</div>
+	    </div>
+    	<!-- 최근 본 상품 컴포넌트 -->
+		<jsp:include page="./recentProduct.jsp" />
     </div>
 </body>
 </html>
