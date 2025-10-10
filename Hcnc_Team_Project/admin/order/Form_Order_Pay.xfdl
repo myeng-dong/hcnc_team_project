@@ -50,7 +50,7 @@
               </Band>
               <Band id="body">
                 <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="1" text="bind:ORDER_ID" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="1" text="bind:ORDER_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
                 <Cell col="2" text="bind:USER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
                 <Cell col="3" text="bind:PHONE_NUMBER" textAlign="right" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
                 <Cell col="4" text="bind:PAYMENT_METHOD" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
@@ -212,6 +212,8 @@ this.search_area_Edit00_00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEven
           <Column id="PAYMENT_DT" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
           <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="ORDER_NUMBER" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <!-- 선택된 Dataset -->
@@ -225,6 +227,8 @@ this.search_area_Edit00_00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEven
           <Column id="PAYMENT_DT" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
           <Column id="PHONE_NUMBER" type="STRING" size="256"/>
+          <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="ORDER_NUMBER" type="STRING" size="256"/>
         </ColumnInfo>
       </Dataset>
       <!-- 결제 상태 콤보 Dataset -->

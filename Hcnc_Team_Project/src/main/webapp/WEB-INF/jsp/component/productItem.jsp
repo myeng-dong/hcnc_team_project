@@ -19,8 +19,15 @@
 			          </c:if>
 			        </div>
 		      	</div>
-		    	<img  src="${product['imageUrl']}"  alt="" />
-		    	<c:if test="${product['STOCK_QUANTITY'] < 0}">
+		      	<c:choose>
+				    <c:when test="${empty product['imageUrl']}">
+				        <img src="/images/egovframework/layout/pro-nodata.png" alt="상품 기본 이미지" />
+				    </c:when>
+				    <c:otherwise>
+				        <img src="${product['imageUrl']}" alt="상품 이미지" />
+				    </c:otherwise>
+				</c:choose>
+		    	<c:if test="${product['STOCK_QUANTITY'] <= 0}">
 			        <span class="soldout">SOLD OUT</span>
 			    </c:if>
 		    </a>
@@ -37,6 +44,7 @@
 		    <div class="description">
 		      <div class="reviews">리뷰 ${product['REVIEW_COUNT']} | <i class="xi-star"></i>${product['AVG_RATING']}/5.0</div>
 		      <p class="name">${product['PRODUCT_NAME']}</p>
+		      <p class="info">${product['DESCRIPTION']}</p>
 		      
 		      <div class="priceArea">
 		        <c:if test="${not empty product['SALED_PRICE'] and product['SALED_PRICE'] > 0}">

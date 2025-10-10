@@ -7,11 +7,10 @@
   <div class="one-dept">
   	<div class="inner">
 	    <ul class="flex">
-	      <li><a href="/newProList.do">신상품</a></li>
-	      <li><a href="/recommendProList.do">추천상품</a></li>
-	      <li><a href="/hotProList.do">인기상품</a></li>
-	      <!-- li><a href="/event.do">이벤트</a></li-->
-	      <li><a href="/noticeList.do">게시판</a></li>
+	      <li><a href="/newlist.do">신상품</a></li>
+	      <li><a href="/recommendlist.do">추천상품</a></li>
+	      <li><a href="/hotlist.do">인기상품</a></li>
+	      <li><a href="/board/home.do">게시판</a></li>
 	    </ul>
 	  </div>
   </div>
@@ -24,7 +23,7 @@
 	      <c:forEach var="mainCategory" items="${categories}">
 		  <li class="category-col">
 		    <h5>
-		      <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}">
+		      <a href="/product/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}">
 		        ${mainCategory['MAIN_CATE_NM']}
 		      </a>
 		    </h5>
@@ -33,7 +32,7 @@
 		      <li>${mainCategory['MAIN_CATE_NM']}</li>
 		      <c:forEach var="subCategory" items="${mainCategory.subCategories}">
 		        <li>
-		          <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}">
+		          <a href="/product/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}">
 		            ${subCategory['SUB_CATE_NM']}
 		          </a>
 		        </li>

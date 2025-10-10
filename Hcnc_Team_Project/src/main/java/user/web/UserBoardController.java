@@ -1,9 +1,12 @@
 package user.web;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,7 +146,9 @@ public class UserBoardController {
 
 	
 	@RequestMapping(value="/insert.do")
-	public ModelAndView insertPage(HttpServletRequest request) {
+	public ModelAndView insertPage(
+			@RequestParam(value="postId", required=false) Integer postId,
+			HttpServletRequest request) {
 	    ModelAndView mav = new ModelAndView();
 	    
 	    try {
@@ -169,6 +174,19 @@ public class UserBoardController {
 	        List<Map<String, Object>> postType = userBoardService.selectUserPostTypeByUser();
 	        mav.addObject("postType", postType);
 	        
+	        //postId가 있으면 수정모드 아니면 그냥 모드
+	        if(postId != null) {
+	            Map<String, Object> params = new HashMap<>();
+	            params.put("postId", postId);
+	            Map<String, Object> postDetail = userBoardService.selectUserPostDetailByUser(postId);
+	            
+	            mav.addObject("postDetail", postDetail);
+	            mav.addObject("isEdit", true);
+	        } else {
+	            mav.addObject("isEdit", false);
+	        }
+	        
+	        
 	    } catch(Exception e) {
 	        System.out.println("===== insert.do 에러 발생 =====");
 	        e.printStackTrace();
@@ -184,22 +202,32 @@ public class UserBoardController {
 	
 	//게시글 작성
 	@RequestMapping(value="/write.do")
-	public ModelAndView insertPost(@RequestParam Map<String, Object> params) {
-	    ModelAndView mav = new ModelAndView();
+	public void writePost(
+	    @RequestParam Map<String, Object> params,
+	    HttpServletResponse response
+	) throws IOException {
+	    response.setContentType("application/json;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
 	    
 	    try {
-	        userBoardService.insertUserPostByUser(params);
+	        Object postIdObj = params.get("postId");
 	        
-	        mav.addObject("success", true);
-	        mav.addObject("message", "등록 완료");
+	        // postId가 있고 비어있지 않으면 UPDATE
+	        if(postIdObj != null && !postIdObj.toString().isEmpty()) {
+	            userBoardService.updatetUserPostByUser(params);
+	        } else {
+	            // postId가 없으면 INSERT
+	            params.put("boardId", 2); // 일반게시판 고정
+	            userBoardService.insertUserPostByUser(params);
+	        }
+	        
+	        out.print("{\"success\":true}");
 	    } catch (Exception e) {
-	        mav.addObject("success", false);
-	        mav.addObject("message", "등록 실패");
+	        out.print("{\"success\":false}");
 	        e.printStackTrace();
 	    }
 	    
-	    mav.setViewName("notice/list");
-	    return mav;
+	    out.flush();
 	}
 	
 	//댓글 작성
@@ -222,22 +250,71 @@ public class UserBoardController {
 	    mav.setViewName("notice/detail");
 	    return mav;
 	}
+	
+	//댓글 삭제
 	@RequestMapping(value="commentDelete.do")
 	public ModelAndView deleteComment(@RequestParam Map<String, Object> params) {
 		ModelAndView mav = new ModelAndView();
 		
 		try {
 			System.out.println("댓글 삭제 실행");
+			System.out.println(params);
 			userBoardService.deleteUserCommentByUser(params);
-			
-			
+			 mav.addObject("success", true);
+		     mav.addObject("message", "삭제 완료");
+
 		}catch(Exception e) {
-			
+			mav.addObject("success", false);
+		    mav.addObject("message", "삭제 실패");
 			e.printStackTrace();
 			
 		}
-		
+		mav.setViewName("jsonView");
 		return mav;
 	}
 	
+	//댓글 수정
+	@RequestMapping(value="commentUpdate.do")
+	public ModelAndView updateComment(@RequestParam Map<String, Object> params) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			System.out.println("댓글 삭제 실행");
+			System.out.println(params);
+			userBoardService.updateUserCommentByUser(params);
+			 mav.addObject("success", true);
+		     mav.addObject("message", "삭제 완료");
+
+		}catch(Exception e) {
+			mav.addObject("success", false);
+		    mav.addObject("message", "삭제 실패");
+			e.printStackTrace();
+			
+		}
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	
+	//게시글 삭제
+	@RequestMapping(value="postDelete.do")
+	public ModelAndView deletePost(@RequestParam Map<String, Object> params) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			System.out.println("댓글 삭제 실행");
+			System.out.println(params);
+			userBoardService.deleteUserPostByUser(params);
+			 mav.addObject("success", true);
+		     mav.addObject("message", "삭제 완료");
+
+		}catch(Exception e) {
+			mav.addObject("success", false);
+		    mav.addObject("message", "삭제 실패");
+			e.printStackTrace();
+			
+		}
+		mav.setViewName("notice/list");
+		return mav;
+	}
 }

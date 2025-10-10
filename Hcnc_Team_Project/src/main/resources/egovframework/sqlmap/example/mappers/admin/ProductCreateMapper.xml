@@ -40,6 +40,29 @@
       M.SORT_NUMBER ASC,
       S.SORT_NUMBER ASC
   </select>
+  <select id="selectTargetProductByAdmin" resultType="java.util.Map">
+	SELECT  P.PRODUCT_ID,
+			P.SUB_CATE_ID,
+			SC.MAIN_CATE_ID,
+	        P.PRODUCT_NAME, 
+	        P.PRODUCT_CODE, 
+	        P.PRODUCT_CONTENT, 
+	        P.PRODUCT_PRICE, 
+	        P.COST_PRICE, 
+	        P.PRODUCT_WEIGHT, 
+	        P.IS_VISIBLE, 
+	        P.SORT_NUMBER, 
+	        P.DETAIL_DESCRIPTION, 
+	        P.PRODUCT_TYPE 
+	FROM    PRODUCTS P, SUB_CATEGORIES SC
+	WHERE   P.SUB_CATE_ID = SC.SUB_CATE_ID
+	  AND   PRODUCT_ID = #{productId};
+  </select>
+  <select id="selectProductImageListByAdmin" resultType="java.util.Map">
+  	SELECT IMAGE_ID, PRODUCT_ID, IMAGE_URL, SORT_NUMBER
+	FROM PRODUCT_IMG
+	WHERE   PRODUCT_ID = #{productId}
+  </select>
   <insert id="insertProductCreateByAdmin" parameterType="java.util.Map" 
         useGeneratedKeys="true" 
         keyProperty="PRODUCT_ID">
@@ -98,4 +121,31 @@ VALUES
 	(PRODUCT_ID, OPTION_ID, QUANTITY, UPDATE_DT, INPUT_DT, INPUT_ID, UPDATE_ID)
 	VALUES(#{PRODUCT_ID}, NULL, #{STOCK}, NULL, current_timestamp(), NULL, NULL)
   </insert>
+  <update id="updateProductCreateByAdmin" parameterType="java.util.Map">
+  	UPDATE
+    PRODUCTS
+	SET
+	    SUB_CATE_ID = #{SUB_CATE_ID},
+	    PRODUCT_NAME = #{PRODUCT_NAME},
+	    PRODUCT_CODE = #{PRODUCT_CODE},
+	    PRODUCT_CONTENT = #{PRODUCT_CONTENT},
+	    PRODUCT_PRICE = #{PRODUCT_PRICE},
+	    COST_PRICE = #{COST_PRICE},
+	    PRODUCT_WEIGHT = #{PRODUCT_WEIGHT},
+	    IS_VISIBLE = #{IS_VISIBLE},
+	    UPDATE_DT = current_timestamp(),
+	    UPDATE_ID = #{UPDATE_ID},
+	    DETAIL_DESCRIPTION = #{DETAIL_DESCRIPTION},
+	    PRODUCT_TYPE = #{PRODUCT_TYPE}
+	WHERE
+	    PRODUCT_ID = #{PRODUCT_ID}
+  </update>
+  <update id="updateProductImageByAdmin" parameterType="java.util.Map">
+  	UPDATE PRODUCT_IMG
+	   SET SORT_NUMBER = #{SORT_NUMBER}
+	 WHERE IMAGE_URL  = #{IMAGE_URL}
+  </update>
+  <delete id="deleteProductImageListByAdmin">
+  	DELETE FROM PRODUCT_IMG WHERE IMAGE_URL = #{fileUrl}
+  </delete>
 </mapper>
