@@ -537,7 +537,7 @@
 }
 .Tab .tabbuttonitemTab
 {
-	color : #333333;
+	color : #000000;
 	background : linear-gradient(to top, #fcfcfc, #fafafa);
 	border : 1px solid #c7c7c7;
 }
@@ -1237,8 +1237,8 @@
 }
 .Tab .tabbuttonitemTab[userstatus=selected]
 {
-	color : #dee4ef;
-	background : #1055a1;
+	color : #ffffff;
+	background : #000000;
 	border : 1px solid #1055a1;
 }
 .DatePickerControl .body .weekitem[userstatus=saturday]
@@ -1542,8 +1542,8 @@
 }
 .Tab .tabbuttonitemTab[status=disabled]
 {
-	color : #ababab;
-	background : #e7e7e7;
+	color : #999999;
+	background : #dddddd;
 }
 .Tab .tabbuttonitemTab .tabbuttonitemtext[status=disabled]
 {
@@ -1654,8 +1654,8 @@
 }
 .Tab .tabbuttonitemTab[status=focused][userstatus=selected]
 {
-	color : #dee4ef;
-	background : #1055a1;
+	color : #ffffff;
+	background : #000000;
 	border : 1px solid #1055a1;
 }
 .Tab .tabbuttonitemTab[status=disabled][userstatus=selected]

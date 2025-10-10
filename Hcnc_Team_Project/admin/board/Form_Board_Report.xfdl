@@ -62,6 +62,7 @@
           </Formats>
         </Grid>
         <Button id="btn_save" taborder="2" text="저장" top="70" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" right="40" width="100"/>
+        <Static id="stc_postType" taborder="3" text="각 ID를 클릭해주세요" left="190" top="95" width="107" height="16" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onclick="search_area_txt_th_onclick" color="red"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[//페이지 온로드시

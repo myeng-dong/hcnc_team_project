@@ -95,8 +95,7 @@
         </Rows>
       </Dataset>
     </Objects>
-    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
-this.Form_MemberList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+    <Script type="xscript5.1"><![CDATA[this.Form_MemberList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 //     var objDate = new nexacro.Date();
 //     var mm = (objDate.getMonth()+1).toString().padLeft(2,"0");
@@ -106,6 +105,9 @@ this.Form_MemberList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 //     this.ds_search.setColumn(0, "FIRST_LOGIN_DT", objDate.getYear() + "0101");
 //     this.ds_search.setColumn(0, "LAST_LOGIN_DT", today);
     
+	//개인정보 검색 콤보값 기본값 세팅
+    this.search_box.form.member_info.set_index(0);
+	
     this.fn_search();
     this.fn_gradeSearch();
 };
@@ -155,6 +157,11 @@ this.fn_callBack = function(svcID, errorCode, errorMSG){
 		
 	case "selectMemberGradeList" :
 		console.log(this.ds_grade.saveXML())
+		
+		//등급 검색 콤보 기본값 세팅
+		//온로드 할때 불러오는게 아니라 경로를 타고 쿼리를 타는게 성공했을때 디폴트 값 설정
+	    this.search_box.form.member_grade.set_index(0);
+		
 		break;
 	}
 }

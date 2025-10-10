@@ -154,6 +154,13 @@
             obj.set_textAlign("center");
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
+
+            obj = new Static("stc_postType","190","95","107","16",null,null,null,null,null,null,this);
+            obj.set_taborder("3");
+            obj.set_text("각 ID를 클릭해주세요");
+            obj.set_font("normal 9pt/normal \"Noto Sans KR\"");
+            obj.set_color("red");
+            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
@@ -393,6 +400,7 @@
             this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
             this.btn_save.addEventHandler("onclick",this.search_area_btn_save_onclick,this);
+            this.stc_postType.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
         };
         this.loadIncludeScript("Form_Board_Report.xfdl");
         this.loadPreloadList();
