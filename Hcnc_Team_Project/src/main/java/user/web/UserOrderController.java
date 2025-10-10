@@ -206,4 +206,9 @@ public class UserOrderController {
 	    
 	    return new JSONObject(response.toString());
 	}
+//	----
+	@RequestMapping(value="/orderHistory.do")
+	public String orderHistory() {
+		return "order/orderHistory";
+	}
 }
