@@ -1,6 +1,9 @@
 /* 썸네일 */
-.prdItem .thumbnail {position:relative; box-shadow:0 0 10px 5px #eee;}
-.prdItem .prdLink.img-link{display:block; position: relative; width: 100%; padding-top: 100%; background: #ccc; overflow: hidden;}
+.prdInfo{}
+.prdItem .thumbnail {position:relative; }
+.prdItem .prdLink.img-link{display:block; position: relative; width: 100%; padding-top: 100%; background: #eee; overflow: hidden; border-radius:15px; border:1px solid #eee; box-shadow: 0 0 5px 2px #ccc; transition:0.5s all;}
+.prdItem:hover .prdLink.img-link{border:1px solid #f62e2e; box-sizing:border-box;}
+.prdItem .prdLink{display:block;}
 .prdItem .thumbnail img {position: absolute; width: 100%; top: 0; left: 0; height: 100%; display: block;}
 .prdItem .thumbnail .soldout {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.6); color: #fff; font-size: 14px; font-weight: bold; padding: 5px 10px; border-radius: 4px; z-index:3;}
 .prdItem .thumbnail.relative .soldout {display: block;}

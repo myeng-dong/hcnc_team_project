@@ -3,6 +3,8 @@ package admin.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("BannerMapper")
@@ -13,5 +15,10 @@ public interface BannerMapper {
 	int insertBannerByAdmin(Map<String, Object> bannerData);
 	//공용 업데이트
 	int updateBannerByAdmin(Map<String, Object> bannerData);
+	
+	Map<String, Object> selectBannerDetailByAdmin(String bannerId);
+	
+	//공용삭제 for문
+//	int deleteBannerByAdmin(Map<String, Object> dsBanner);
 
 }

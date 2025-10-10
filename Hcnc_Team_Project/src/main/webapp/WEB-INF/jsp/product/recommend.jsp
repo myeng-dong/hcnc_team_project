@@ -24,32 +24,15 @@
         <div class="breadcrumb">
             <a href="/">홈</a>
             <span>›</span>
-            <strong>${mainCategory['MAIN_CATE_NM']}</strong>
-            <c:if test="${not empty subCateId}">
-		        <span>›</span>
-		        <strong>${subCate.SUB_CATE_NM}</strong>
-		    </c:if>
+            <strong>추천상품</strong>
         </div>
         <div class="sub-area">
             <div class="sub-title-area">
-                <h3>[ ${mainCategory['MAIN_CATE_NM']} ]</h3>
+                <h3>[ 추천상품 ]</h3>
             </div>
             <div class="sub-content-area">
-                <div class="sub-category-area">
-                    <ul class="flex">
-                        <li><a href="/product/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}" class="${empty subCateId ? 'active' : ''}">전체</a></li>
-                        <c:forEach var="subCate" items="${subCategories}">
-                            <li>
-								<a href="/product/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCate['SUB_CATE_ID']}"
-							   class="${subCateId eq subCate.SUB_CATE_ID ? 'active' : ''}">
-							    ${subCate.SUB_CATE_NM}
-							</a>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </div>
                 <div class="sub-search-area flex ju-between">
-                    <div class="left">총 ${totalCount}개의 상품이 있습니다</div>
+                    <div class="left">총 <span class="bold">${totalCount}</span>개의 상품이 있습니다</div>
                     <div class="right">
                         <select id="sortType" onchange="changeSortType(this.value)">
                             <option value="newest" ${sortType eq 'newest' ? 'selected' : ''}>신상품순</option>
@@ -75,7 +58,7 @@
                     </div>
                 </div>
                 
-                <c:if test="${totalPages >= 1}">
+                <c:if test="${totalPages > 1}">
                     <div class="pagination">
                         <c:if test="${currentPage > 1}">
                             <a href="?mainCateId=${mainCateId}&subCateId=${subCateId}&sortType=${sortType}&page=${currentPage - 1}" class="prev">«</a>
