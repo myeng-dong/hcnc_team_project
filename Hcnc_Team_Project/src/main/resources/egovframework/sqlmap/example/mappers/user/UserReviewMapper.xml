@@ -92,7 +92,7 @@
 	</insert>
 
 	<insert id="insertReviewImage" parameterType="java.util.Map">
-		INSERT INTO REVIEW_IMAGES (REVIEW_ID, IMG_ORIGIN_NAME, IMG_ATTACHED_NAME, IMG_PATH)
+		INSERT INTO REVIEW_IMG (REVIEW_ID, IMG_ORIGIN_NAME, IMG_ATTACHED_NAME, IMG_PATH)
 		  VALUES ( 
 				#{reviewId}, 
 				#{imgOriginName}, 

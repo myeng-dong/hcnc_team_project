@@ -68,10 +68,7 @@ public class UserReviewService {
 	                System.out.println("파일명: " + filename);
 	                System.out.println("파일 크기: " + fileSize + " bytes");
 	                
-	                // TODO: 파일 저장 로직 구현
-	                // String savedPath = saveFile(photo);
-	                
-	                UploadResult ur = uploadFile.uploadToFile(photo, ImageType.PREVIEW);
+	                UploadResult ur = uploadFile.uploadToFile(photo, ImageType.REVIEW);
 	                String fileUrl = ur.getFileName();
 	                
 	                param.put("imgOriginName", filename);
