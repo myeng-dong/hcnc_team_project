@@ -60,13 +60,26 @@ public class ProductController {
 
 		System.out.println(">>> [Controller cond] " + cond);
 
-		List<Map<String, Object>> list = productService.selectProductListByAdmin(cond);
-
 		NexacroResult rs = new NexacroResult();
-		rs.addDataSet("ds_out_proList", list);
+		
+		try {
+			List<Map<String, Object>> list = productService.selectProductListByAdmin(cond);
+			rs.addDataSet("ds_out_proList", list);
+		} catch (IllegalArgumentException e) {
+			rs.setErrorCode(-1);
+			rs.setErrorMsg(e.getMessage());
+		} catch (Exception e) {
+			rs.setErrorCode(-99);
+			rs.setErrorMsg("상품 목록 조회 중 오류가 발생했습니다.");
+			e.printStackTrace();
+		}
+		
 		return rs;
 	}
 
+	
+	
+	
 	// 추가: 'yyyy-MM-dd'만 통과시키는 헬퍼
 	private String normalizeYmd(Object x) {
 		if (x == null)
@@ -75,6 +88,8 @@ public class ProductController {
 		return s.matches("\\d{4}-\\d{2}-\\d{2}") ? s : null;
 	}
 
+	
+	
 	// 대분류 콤보
 	@RequestMapping("/selectMainCategoryComboByAdmin.do")
 	public NexacroResult selectMainCategoryComboByAdmin() {

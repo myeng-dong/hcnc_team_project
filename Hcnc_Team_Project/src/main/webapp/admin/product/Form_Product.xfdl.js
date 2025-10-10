@@ -429,9 +429,53 @@
          //조회버튼
         this.btn_view_onclick = function(obj,e)
         {
+        	//this.fn_validateDateRange(); // 날짜 검증
         	this.fn_search();
-
         };
+
+
+
+        this.fn_validateDateRange = function()
+        {
+            var start = this.cal_start.value;
+            var end   = this.cal_end.value;
+
+        	var now = new Date();
+        	var today = now.getFullYear() + "-"
+                   + String(now.getMonth() + 1).padStart(2, "0") + "-"
+                   + String(now.getDate()).padStart(2, "0");
+
+
+            // 날짜 미선택
+            if (!start || !end) {
+                this.alert("시작일과 종료일을 모두 선택해주세요.");
+                return false;
+            }
+
+            // 시작일 > 종료일
+            if (start > end) {
+                this.alert("시작일은 종료일보다 늦을 수 없습니다.");
+                return false;
+            }
+
+            // 미래 날짜 선택 방지 (원하는 경우)
+            if (end > today) {
+                this.alert("미래 날짜는 선택할 수 없습니다.");
+                return false;
+            }
+
+            // 기간 너무 김 (예: 1년)
+            var diff = (new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24);
+            if (diff > 365) {
+                this.alert("조회 기간은 최대 1년까지만 가능합니다.");
+                return false;
+            }
+
+            return true;
+        };
+
+
+
 
         // 검색창
         this.Div00_00_edt_search_onkeydown = function(obj,e)
@@ -846,15 +890,14 @@
          //콜백
         this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
             if (nErrorCode < 0) {
-                this.alert("오류: "+strErrorMag);
+                this.alert(strErrorMag);
         		return;
             }
 
             switch(strSvcID){
                 case "selectProductListByAdmin":
-                    var ea = this.ds_out_proList.getRowCount();
+                  var ea = this.ds_out_proList.getRowCount();
                     this.stc_total.set_text("총 "+ea+"건");
-
                     break;
                 case "selectMainCategoryComboByAdmin":
                     this.ds_mainCate.insertRow(0);
@@ -900,6 +943,7 @@
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
             this.cmb_searchType.addEventHandler("onitemchanged",this.cmb_searchType_onitemchanged,this);
             this.cmb_cate1.addEventHandler("onitemchanged",this.cmb_cate1_onitemchanged,this);
+            this.cal_end.addEventHandler("onchanged",this.cal_end_onchanged,this);
             this.sta_listTitle00.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.btn_reg.addEventHandler("onclick",this.btn_reg_onclick,this);
             this.btn_view.addEventHandler("onclick",this.btn_view_onclick,this);

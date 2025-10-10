@@ -165,7 +165,7 @@
         <Combo id="cmb_cate1" left="179" top="125" width="150" height="30" text="" taborder="12" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_mainCate" codecolumn="MAIN_CATE_ID" datacolumn="MAIN_CATE_NM" index="-1" value="" displayrowcount="20" onitemchanged="cmb_cate1_onitemchanged"/>
         <Calendar id="cal_start" left="179" top="180" height="30" width="149" taborder="13" font="normal 800 10pt/normal &quot;Arial&quot;"/>
         <Combo id="cmb_cate2" left="349" top="125" width="150" height="30" text="- 중분류 선택 -" taborder="14" font="normal 800 10pt/normal &quot;Arial&quot;" innerdataset="ds_subCate" codecolumn="SUB_CATE_ID" datacolumn="SUB_CATE_NM" displayrowcount="20"/>
-        <Calendar id="cal_end" left="349" top="180" height="30" width="150" taborder="15" font="normal 800 10pt/normal &quot;Arial&quot;"/>
+        <Calendar id="cal_end" left="349" top="180" height="30" width="150" taborder="15" font="normal 800 10pt/normal &quot;Arial&quot;" onchanged="cal_end_onchanged"/>
         <Static id="sta_dash" text="~" left="334" top="178" height="35" width="20" taborder="16" font="normal bold 10pt/normal &quot;Arial&quot;"/>
         <Static id="sta_listTitle00" text="재고 클릭시 수량 수정가능" height="61" top="290" font="11pt/normal &quot;Arial&quot;" onclick="sta_listTitle_onclick" taborder="17" color="#383838" border="0px none,0px none,5px solid #ffa70f,0px solid #ffa70f" textAlign="center" verticalAlign="bottom" width="188" right="68"/>
         <Static id="stc_total" taborder="18" text="" left="39" top="15" width="61" height="30" font="12px/normal &quot;Gulim&quot;,&quot;Arial Black&quot;" borderRadius="0px 10px 10px 0px"/>
@@ -350,10 +350,54 @@ this.fn_makeSearchCond = function() {
  //조회버튼
 this.btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
+	//this.fn_validateDateRange(); // 날짜 검증
 	this.fn_search();
-
 };
  
+ 
+ 
+this.fn_validateDateRange = function()
+{
+    var start = this.cal_start.value;
+    var end   = this.cal_end.value;
+	
+	var now = new Date();
+	var today = now.getFullYear() + "-"
+           + String(now.getMonth() + 1).padStart(2, "0") + "-"
+           + String(now.getDate()).padStart(2, "0");
+
+   
+    // 날짜 미선택
+    if (!start || !end) {
+        this.alert("시작일과 종료일을 모두 선택해주세요.");
+        return false;
+    }
+
+    // 시작일 > 종료일
+    if (start > end) {
+        this.alert("시작일은 종료일보다 늦을 수 없습니다.");
+        return false;
+    }
+
+    // 미래 날짜 선택 방지 (원하는 경우)
+    if (end > today) {
+        this.alert("미래 날짜는 선택할 수 없습니다.");
+        return false;
+    }
+
+    // 기간 너무 김 (예: 1년)
+    var diff = (new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24);
+    if (diff > 365) {
+        this.alert("조회 기간은 최대 1년까지만 가능합니다.");
+        return false;
+    }
+
+    return true;
+};
+
+
+
+
 // 검색창
 this.Div00_00_edt_search_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
 {
@@ -767,15 +811,14 @@ this.btn_excel_onclick = function (obj, e) {
  //콜백
 this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
     if (nErrorCode < 0) {
-        this.alert("오류: "+strErrorMag);
+        this.alert(strErrorMag);
 		return;
     }
 
     switch(strSvcID){
         case "selectProductListByAdmin":
-            var ea = this.ds_out_proList.getRowCount();
+          var ea = this.ds_out_proList.getRowCount();
             this.stc_total.set_text("총 "+ea+"건");
-			
             break;
         case "selectMainCategoryComboByAdmin":
             this.ds_mainCate.insertRow(0);
