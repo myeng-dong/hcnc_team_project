@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import user.service.UserBannerService;
 import user.service.UserProductService;
+import user.service.UserService;
 
 @Controller
 public class UserController {
