@@ -346,52 +346,46 @@
             // 모드 설정
             this.mode = bannerId ? "update" : "insert";
             trace("memberId: " + this.memberId);
-        	trace("TODAY: " + TODAY);
-        	trace("모드확인용임"+this.mode);
+            trace("TODAY: " + TODAY);
+            trace("모드확인용임"+this.mode);
+            trace("bannerId: " + bannerId);
+
             if (this.mode === "update") {
-        		trace("업데이트모드임");
-        		// 업데이트
-                var sortNumber = this.ds_bwrite.getColumn(0, "SORT_NUMBER");
-                this.check_top.set_value(sortNumber == "1" || sortNumber == 1);
-        		this.radio_view_type.set_value(this.ds_bwrite.getColumn(0, "IS_VISIBLE"));
-                this.radio_banner_type.set_enable(false);//배너 타입 변경 불가
-        		this.radio_banner_type.set_value(this.ds_bwrite.getColumn(0, "BANNER_TYPE"));
-                this.input_title.set_text(this.ds_bwrite.getColumn(0, "BANNER_TITLE"));
-                this.edit_link.set_text(this.ds_bwrite.getColumn(0, "LINKED_URL"));
-                this.input_dt.set_text(this.ds_bwrite.getColumn(0, "INPUT_DT"));
-                this.input_id.set_text(this.ds_bwrite.getColumn(0, "INPUT_ID"));
-        		this.txt_update_td.set_text(TODAY);
-        		this.txt_updateid.set_text(this.memberId);
-        		this.ds_bwrite.setColumn(0, "UPDATE_DT", TODAY);
-        		this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
-
-                this.uploadCompleted = true;
-                this.file_name.set_value(this.ds_bwrite.getColumn(0, "IMG_ORIGIN_NAME"));
-
-                // 업데이트 모드에서 탑배너인 경우 파일 버튼 비활성화
-                if (this.ds_bwrite.getColumn(0, "BANNER_TYPE") === "top") {
-                    this.btn_selectFile.set_enable(false);
-                    this.file_name.set_value("탑배너는 이미지를 사용하지 않습니다.");
-                }
+                trace("업데이트모드임 - 배너 데이터 조회 시작");
+                // 서버에서 배너 데이터 가져오기
+                this.fnSelectBannerDetail(bannerId);
 
             } else {
-        		trace("Insert모드임");
+                trace("Insert모드임");
                 if (this.ds_bwrite.rowcount === 0) {
                     this.ds_bwrite.addRow();
                 }
                 this.check_top.set_value(true);
                 this.txt_date_td.set_text(TODAY);
                 this.txt_inputid.set_text(this.memberId);
-        		this.txt_update_td.set_text(TODAY);
+                this.txt_update_td.set_text(TODAY);
                 this.txt_updateid.set_text(this.memberId);
 
                 this.ds_bwrite.setColumn(0, "INPUT_DT", TODAY);
                 this.ds_bwrite.setColumn(0, "INPUT_ID", this.memberId);
-        		this.ds_bwrite.setColumn(0, "UPDATE_DT", TODAY);
+                this.ds_bwrite.setColumn(0, "UPDATE_DT", TODAY);
                 this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
 
                 this.uploadCompleted = false;
             }
+        };
+
+        // 배너 상세 조회 함수
+        this.fnSelectBannerDetail = function(bannerId) {
+            var strSvcID = "selectBannerDetail";
+            var strURL = "svc::selectBannerDetailByAdmin.do";
+            var strInDatasets = "";
+            var strOutDatasets = "ds_bwrite=ds_bwrite";
+            var strArg = "BANNER_ID=" + bannerId;
+            var strCallback = "fnCallback";
+
+
+            this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
         };
 
         // 라디오 TOP일때만 디스에이블처리
@@ -405,9 +399,9 @@
             }
         };
 
-        // 취소버튼
-        this.btn_cancel_onclick = function(obj,e) {
-            this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
+        this.btn_cancle_onclick = function(obj,e)
+        {
+        	this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
         };
 
         // 넥사파일 선택 버튼 클릭
@@ -540,7 +534,7 @@
                 this.isUploading = false;
 
                 alert("파일 업로드 완료: " + originalName);
-        	}
+            }
         };
 
         // 업로드 실패 시 처리
@@ -581,6 +575,35 @@
                 return;
             }
             switch(svc) {
+                case "selectBannerDetail":
+        			trace("배너 상세 조회 완료");
+
+        			var sortNumber = this.ds_bwrite.getColumn(0, "SORT_NUMBER");
+        			this.check_top.set_value(sortNumber == "1" || sortNumber == 1);
+        			this.radio_view_type.set_value(this.ds_bwrite.getColumn(0, "IS_VISIBLE"));
+        			this.radio_banner_type.set_enable(false);
+        			this.radio_banner_type.set_value(this.ds_bwrite.getColumn(0, "BANNER_TYPE"));
+        			this.input_title.set_value(this.ds_bwrite.getColumn(0, "BANNER_TITLE"));
+        			this.edit_link.set_value(this.ds_bwrite.getColumn(0, "LINKED_URL"));
+
+        			// 등록일, 등록자 표시 (컴포넌트 ID 수정)
+        			this.txt_date_td.set_text(this.ds_bwrite.getColumn(0, "INPUT_DT"));
+        			this.txt_inputid.set_text(this.ds_bwrite.getColumn(0, "INPUT_ID"));
+
+        			// 수정일, 수정자
+        			this.txt_update_td.set_text(TODAY);
+        			this.txt_updateid.set_text(this.memberId);
+        			this.ds_bwrite.setColumn(0, "UPDATE_DT", TODAY);
+        			this.ds_bwrite.setColumn(0, "UPDATE_ID", this.memberId);
+
+        			this.uploadCompleted = true;
+        			this.file_name.set_value(this.ds_bwrite.getColumn(0, "IMG_ORIGIN_NAME"));
+
+        			if (this.ds_bwrite.getColumn(0, "BANNER_TYPE") === "top") {
+        				this.btn_selectFile.set_enable(false);
+        				this.file_name.set_value("탑배너는 이미지를 사용하지 않습니다.");
+        			}
+        			break;
                 case "insertBanner":
                     alert("배너 등록 완료");
                     this.getOwnerFrame().set_formurl("banner::Form_BannerList.xfdl");
@@ -591,6 +614,7 @@
                     break;
             }
         };
+
         });
         
         // Regist UI Components Event
