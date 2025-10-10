@@ -24,7 +24,13 @@ public class ProductCreateService {
         return productMapper.insertProductCreateByAdmin(p);
     }
 
-
+    public Map<String,Object> selectTargetProductByAdmin(String productId){
+    	return productMapper.selectTargetProductByAdmin(productId);
+    }
+    
+    public List<Map<String,Object>> selectProductImageListByAdmin(String productId){
+    	return productMapper.selectProductImageListByAdmin(productId);
+    }
 
     public int insertCreateInventoryByAdmin(Map<String,Object> p) {
         return productMapper.insertCreateInventoryByAdmin(p);
@@ -34,12 +40,12 @@ public class ProductCreateService {
         return productMapper.insertProductImageByAdmin(fileInfo);
     }
 
-    public void updateProductImageMapping(Map<String,Object> p) {
-        productMapper.updateProductImageMapping(p);
+    public int updateProductCreateByAdmin(Map<String,Object> p) {
+        return productMapper.updateProductCreateByAdmin(p);
     }
-
-    public void setMainImage(Map<String,Object> p) {
-        productMapper.setMainImage(p);
+    
+    public int deleteProductImageListByAdmin(String fileUrl) {
+        return productMapper.deleteProductImageListByAdmin(fileUrl);
     }
 
 	public List<Map<String, Object>> selectMainCategoryComboByAdmin() {
@@ -77,18 +83,14 @@ public class ProductCreateService {
         return productMapper.selectProductCategoryListByAdmin();
     }
 
-    public void updateOptionVisibleByAdmin(Map<String,Object> p) {
-        productMapper.updateOptionVisibleByAdmin(p);
+    public int updateProductImageByAdmin(Map<String,Object> p) {
+        return productMapper.updateProductImageByAdmin(p);
     }
 
 	public void updateProductVisibleByAdmin(Map<String, Object> p) {
 		productMapper.updateProductVisibleByAdmin(p);
 	}
 	
-    public void insertOption(Map<String,Object> p) {
-        productMapper.insertOption(p);
-    }
-    
 	public void updateOption(Map<String, Object> option) {
 		productMapper.updateOption(option);
 	}
