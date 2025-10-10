@@ -28,13 +28,19 @@
 
 /* 브레드크럼 */
 .breadcrumb {
+  display:flex;
+  justify-content: end;	
   margin-bottom: 30px;
   font-size: 14px;
   color: #666;
 }
 .breadcrumb a {
-  color: #667eea;
+  color: #e63946;
   text-decoration: none;
+  transition: color 0.3s ease;
+}
+.breadcrumb a:hover {
+  color: #d62828;
 }
 .breadcrumb span {
   margin: 0 8px;
@@ -65,7 +71,7 @@
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, #e63946, #d62828);
   border-radius: 2px;
 }
 
@@ -86,17 +92,30 @@
 
 /* 카테고리 필터 영역 */
 .sub-category-area {
-  background: #f8f9ff;
+  background: #fff5f5;
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 30px;
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.1);
 }
 .sub-category-area ul {
   justify-content: center;
   gap: 15px;
   list-style: none;
 }
+.sub-category-area {
+	  background: #fff5f5;
+	  padding: 20px;
+	  border-radius: 12px;
+	  margin-bottom: 30px;
+	  border: 1px solid rgba(230, 57, 70, 0.1);
+	}
+.sub-category-area ul {
+  justify-content: left;
+  gap: 15px;
+  list-style: none;
+}
+.sub-category-area a,
 .sub-category-area button {
   background: white;
   border: 2px solid #e0e0e0;
@@ -109,13 +128,15 @@
   transition: all 0.3s ease;
   min-width: 80px;
 }
+.sub-category-area a:hover,
 .sub-category-area button:hover {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #e63946;
+  color: #e63946;
 }
+.sub-category-area a.active,
 .sub-category-area button.active {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-color: #667eea;
+  background: linear-gradient(135deg, #e63946, #d62828);
+  border-color: #e63946;
   color: white;
 }
 

@@ -114,7 +114,7 @@
                         // DB에서 NOTI_ID와 READ_YN도 가져와야 여기서 에러가 해결됩니다.
                         // 현재 쿼리에서는 NOTI_MESSAGE만 가져오고 있으므로, 백엔드 쿼리도 수정이 필요합니다.
                         // (사진에서 undefined가 뜬 이유: item.notiId와 item.regDate, item.readYn이 없기 때문)
-                        const notiId = item.NOTI_ID || '0'; // 임시 ID
+                        const notiId = item.NOTI_ID || '0'; // 
                         const notiMessage = item.NOTI_MESSAGE || '알림 메시지 없음';
                         const regDate = item.REG_DATE || ''; // 알림 등록일
                         const readYn = item.READ_YN || 'N'; // 읽음 여부

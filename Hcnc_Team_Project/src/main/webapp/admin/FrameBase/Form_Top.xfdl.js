@@ -76,7 +76,6 @@
         
         // User Script
         this.registerScript("Form_Top.xfdl", function() {
-
         this.isWait = false; // 전역변수 선언!
         //로그아웃 버튼 클릭시 세션 끊고 로그아웃
 
@@ -88,9 +87,8 @@
         };
 
 
-        this.btn_logout_onclick = function(obj,e)
-        this.btn_logout_onclick = function(obj, e)
-        {
+        this.btn_logout_onclick = function(obj,e){
+
             if(this.isWait) return;
             this.isWait = true;
             this.logout();
@@ -145,88 +143,72 @@
         //웹소켓 연결 함수
         this.connectWebSocket = function()
         {
-            // 사용자 ID 가져오기
-            var userId = application.gds_user.getColumn(0, "MEMBER_ID");
+            var glbAd = nexacro.getApplication();
+            var userId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
 
             if (!userId) {
                 trace("❌ 사용자 ID 없음 - 웹소켓 연결 불가");
                 return;
             }
 
-            // 웹소켓 URL 생성
-            var protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            var host = location.host;  // localhost:8080
-            var wsUrl = protocol + '//' + host + '/notification/' + userId;
+            var wsUrl = 'ws://localhost:8080/notification/' + userId;
 
             trace("🔌 웹소켓 연결 시도: " + wsUrl);
 
-            // WebSocket 객체 생성
-            this.WebSocketObject = new nexacro.WebSocket();
-
-            // 이벤트 핸들러 등록
-            this.WebSocketObject.addEventHandler("onopen", this.WebSocket_onopen, this);
-            this.WebSocketObject.addEventHandler("onmessage", this.WebSocket_onmessage, this);
-            this.WebSocketObject.addEventHandler("onerror", this.WebSocket_onerror, this);
-            this.WebSocketObject.addEventHandler("onclose", this.WebSocket_onclose, this);
-
-            // 연결 시작
-            this.WebSocketObject.open(wsUrl);
-        };
-
-        /**
-         * 웹소켓 연결 성공
-         */
-        this.WebSocket_onopen = function(obj, e)
-        {
-            trace("✅ 웹소켓 연결 성공");
-        };
-
-        /**
-         * 웹소켓 메시지 수신
-         */
-        this.WebSocket_onmessage = function(obj, e)
-        {
-            trace("📩 알림 수신: " + e.data);
-
             try {
-                // JSON 파싱
-                var data = JSON.parse(e.data);
+                // ⭐ 브라우저 기본 WebSocket 사용
+                this.websocket = new WebSocket(wsUrl);
 
-                // 알림 표시
-                if (data.type == "ORDER_STATUS_CHANGE") {
-                    // 주문 상태 변경 알림
-                    alert("[알림] " + data.message);
-                }
-                else if (data.type == "NEW_ORDER") {
-                    // 신규 주문 알림
-                    alert("[신규 주문] " + data.message);
-                }
+                var objThis = this;
+
+                // onopen 이벤트
+                this.websocket.onopen = function(e) {
+                    trace("✅ 웹소켓 연결 성공");
+                };
+
+                // onmessage 이벤트
+                this.websocket.onmessage = function(e) {
+                    trace("📩 알림 수신: " + e.data);
+
+                    try {
+                        var data = JSON.parse(e.data);
+
+                        if (data.type == "ORDER_STATUS_CHANGE") {
+                            alert("[알림] " + data.message);
+                        }
+                        else if (data.type == "NEW_ORDER") {
+                            alert("[신규 주문] " + data.message);
+                        }
+                        else if (data.type == "NEW_INQUIRY") {
+                            alert("[신규 문의] " + data.message);
+                        }
+                        else if (data.type == "INQUIRY_REPLY") {
+                            alert("[답변 알림] " + data.message);
+                        }
+
+                    } catch(err) {
+                        trace("❌ 메시지 파싱 에러: " + err.message);
+                    }
+                };
+
+                // onerror 이벤트
+                this.websocket.onerror = function(e) {
+                    trace("❌ 웹소켓 에러");
+                };
+
+                // onclose 이벤트
+                this.websocket.onclose = function(e) {
+                    trace("⚠️ 웹소켓 연결 종료 - 3초 후 재연결");
+
+                    // 3초 후 자동 재연결
+                    setTimeout(function() {
+                        objThis.connectWebSocket();
+                    }, 3000);
+                };
 
             } catch(err) {
-                trace("❌ 메시지 파싱 에러: " + err.message);
+                trace("❌ 웹소켓 생성 실패: " + err.message);
             }
-        };
-
-        /**
-         * 웹소켓 에러
-         */
-        this.WebSocket_onerror = function(obj, e)
-        {
-            trace("❌ 웹소켓 에러: " + e.errortype);
-        };
-
-        /**
-         * 웹소켓 연결 종료
-         */
-        this.WebSocket_onclose = function(obj, e)
-        {
-            trace("⚠️ 웹소켓 연결 종료 - 3초 후 재연결");
-
-            // 3초 후 자동 재연결
-            var objThis = this;
-            setTimeout(function() {
-                objThis.connectWebSocket();
-            }, 3000);
         };
         });
         

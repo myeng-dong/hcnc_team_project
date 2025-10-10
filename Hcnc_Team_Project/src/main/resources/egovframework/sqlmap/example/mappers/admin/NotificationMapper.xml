@@ -27,5 +27,21 @@
 		   AND NOTI_ID = #{notiId}
 	</update>
 	
+	<insert id="insertNotificationByAdmin" parameterType="map">
+		INSERT INTO TB_NOTIFICATION
+		(SENDER_ID, RECEIVER_ID, RECEIVER_TYPE, NOTI_TYPE, NOTI_MESSAGE, ORDER_NO, ORDER_STATUS)
+		VALUES
+		(#{senderId}, #{receiverId},#{receiverType}.#{notiType},#)
+	</insert>
+	
+	      Map<String, Object> params = new HashMap<>();
+	        params.put("senderId", "ADMIN");            // 관리자가 보낸 것
+	        params.put("receiverId", userId);           // 특정 고객에게
+	        params.put("receiverType", "USER");         // 받는사람 유저 타입
+	        params.put("notiType", "STATUS");           // 알림 타입
+	        params.put("notiMessage", "주문상태 변경: " + orderStatus);
+	        params.put("orderNo", orderId);
+	        params.put("orderStatus", orderStatus);
+	        
 	
 </mapper>
