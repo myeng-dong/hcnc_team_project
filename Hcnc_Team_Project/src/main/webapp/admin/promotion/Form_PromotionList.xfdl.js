@@ -116,7 +116,7 @@
             this.search_area.addChild(obj.name, obj);
 
             obj = new Combo("grade_combo","506","57","134","37",null,null,null,null,null,null,this.search_area.form);
-            obj.set_readonly("true");
+            obj.set_readonly("false");
             obj.set_taborder("8");
             obj.set_innerdataset("ds_grade");
             obj.set_codecolumn("GRADE_CODE");
@@ -229,6 +229,7 @@
         this.Form_PromoList_onload = function(obj,e)
         {
         	trace("진행중인 프로모션 리스트 확인용>>>>");
+        	this.fn_gradeSearch();
         	this.fnSearchPromo();
         };
 
@@ -269,13 +270,31 @@
 
         this.radio_promo_type_onitemchanged = function(obj,e)
         {
+        	trace("postvalue: " + e.postvalue);
+
             if(e.postvalue == "grade") {
+                this.search_area.form.grade_combo.set_readonly(false); // readonly 해제
                 this.search_area.form.grade_combo.set_enable(true);
             } else {
                 this.search_area.form.grade_combo.set_enable(false);
+                this.search_area.form.grade_combo.set_readonly(true); // readonly 설정
                 this.search_area.form.grade_combo.set_value("");
             }
         };
+
+        //회원 등급 조회
+        this.fn_gradeSearch = function(){
+
+        	var strSvcID = "selectGradeExceptionAdminList"
+        	var setURL = "svc::/selectGradeExceptionAdminListByAdmin.do?time=" + new Date().getTime();
+        	var strInDatasets = "";
+        	var strOutDatasets = "ds_grade=ds_grade";
+        	var strArg = "";
+        	var callBack = "fn_callBack";
+        	var inAsync = true;
+
+        	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+        }
 
         // 프로모션리스트
         this.fnSearchPromo = function() {
