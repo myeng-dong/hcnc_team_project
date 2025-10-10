@@ -24,7 +24,7 @@
 
 
             obj = new Dataset("ds_search", this);
-            obj._setContents("<ColumnInfo><Column id=\"STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"EMAIL_ADDR\" type=\"STRING\" size=\"256\"/><Column id=\"JOIN_START_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"JOIN_END_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"DORMANT_START_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"DORMANT_END_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"DELETE_START_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"DELETE_END_DATE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"STATUS\" type=\"STRING\" size=\"256\"/><Column id=\"USER_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"EMAIL_ADDR\" type=\"STRING\" size=\"256\"/><Column id=\"SEARCH_START_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"SEARCH_END_DATE\" type=\"STRING\" size=\"256\"/><Column id=\"SEARCH_DATE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -46,9 +46,14 @@
             obj = new Dataset("ds_member", this);
             obj._setContents("<ColumnInfo><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"STATUS\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_date", this);
+            obj._setContents("<ColumnInfo><Column id=\"SEARCH_DATE\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"SEARCH_DATE\">가입일</Col></Row><Row><Col id=\"SEARCH_DATE\">휴면일</Col></Row><Row><Col id=\"SEARCH_DATE\">탈퇴일</Col></Row></Rows>");
+            this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("search_box","20","10","1240","330",null,null,null,null,null,null,this);
+            obj = new Static("search_box","20","10","1240","250",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("white");
             obj.set_text("");
@@ -69,36 +74,15 @@
             obj.set_textAlign("center");
             this.addChild(obj.name, obj);
 
-            obj = new Static("status00_00","46","154","48","40",null,null,null,null,null,null,this);
-            obj.set_taborder("3");
-            obj.set_text("가입일");
-            obj.set_font("14px/normal \"Noto Sans KR Black\"");
-            obj.set_textAlign("center");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("status00_00_00","46","201","48","40",null,null,null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_text("휴면일");
-            obj.set_font("14px/normal \"Noto Sans KR Black\"");
-            obj.set_textAlign("center");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("status00_00_00_00","46","251","48","40",null,null,null,null,null,null,this);
-            obj.set_taborder("5");
-            obj.set_text("탈퇴일");
-            obj.set_font("14px/normal \"Noto Sans KR Black\"");
-            obj.set_textAlign("center");
-            this.addChild(obj.name, obj);
-
             obj = new Static("status01","46","58","48","40",null,null,null,null,null,null,this);
-            obj.set_taborder("6");
+            obj.set_taborder("3");
             obj.set_text("이름");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             obj.set_textAlign("center");
             this.addChild(obj.name, obj);
 
             obj = new Radio("Radio00","130","24","210","32",null,null,null,null,null,null,this);
-            obj.set_taborder("7");
+            obj.set_taborder("4");
             obj.set_innerdataset("ds_status");
             obj.set_codecolumn("STATUS_CODE");
             obj.set_datacolumn("STATUS_NAME");
@@ -106,70 +90,39 @@
             obj.set_font("11px \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","130","60","840","32",null,null,null,null,null,null,this);
+            obj = new Edit("Edit00","130","60","859","32",null,null,null,null,null,null,this);
+            obj.set_taborder("5");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
+            this.addChild(obj.name, obj);
+
+            obj = new Edit("Edit00_00","130","108","859","32",null,null,null,null,null,null,this);
+            obj.set_taborder("6");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
+            this.addChild(obj.name, obj);
+
+            obj = new Calendar("Calendar00","150","155","405","35",null,null,null,null,null,null,this);
+            obj.set_taborder("7");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
+            this.addChild(obj.name, obj);
+
+            obj = new Calendar("Calendar00_00","585","155","404","35",null,null,null,null,null,null,this);
             obj.set_taborder("8");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00_00","130","108","840","32",null,null,null,null,null,null,this);
+            obj = new Static("Static00","555","161","30","23",null,null,null,null,null,null,this);
             obj.set_taborder("9");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
+            obj.set_text("~");
+            obj.set_textAlign("center");
+            obj.set_font("bold 12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar00","131","155","404","35",null,null,null,null,null,null,this);
+            obj = new Button("Button00","520","210","100","32",null,null,null,null,null,null,this);
             obj.set_taborder("10");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_00","565","155","404","35",null,null,null,null,null,null,this);
-            obj.set_taborder("11");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("Static00","535","161","30","23",null,null,null,null,null,null,this);
-            obj.set_taborder("12");
-            obj.set_text("~");
-            obj.set_textAlign("center");
-            obj.set_font("bold 12px/normal \"Noto Sans KR Black\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_01","131","204","404","35",null,null,null,null,null,null,this);
-            obj.set_taborder("13");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_00_00","565","205","404","35",null,null,null,null,null,null,this);
-            obj.set_taborder("14");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("Static00_00","535","211","25","23",null,null,null,null,null,null,this);
-            obj.set_taborder("15");
-            obj.set_text("~");
-            obj.set_textAlign("center");
-            obj.set_font("bold 12px/normal \"Noto Sans KR Black\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_01_00","130","251","404","35",null,null,null,null,null,null,this);
-            obj.set_taborder("16");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_00_00_00","565","251","404","35",null,null,null,null,null,null,this);
-            obj.set_taborder("17");
-            obj.set_border("1px solid black");
-            obj.set_borderRadius("8px");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("Button00","520","300","100","32",null,null,null,null,null,null,this);
-            obj.set_taborder("18");
             obj.set_text("검색");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             obj.set_background("#2563eb");
@@ -177,16 +130,16 @@
             obj.set_color("white");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button00_00","630","301",null,"31","550",null,null,null,null,null,this);
-            obj.set_taborder("19");
+            obj = new Button("Button00_00","630","211",null,"31","550",null,null,null,null,null,this);
+            obj.set_taborder("11");
             obj.set_text("초기화");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","20","350","1240","303",null,null,null,null,null,null,this);
-            obj.set_taborder("20");
+            obj = new Grid("grid_list","20","270","1240","383",null,null,null,null,null,null,this);
+            obj.set_taborder("12");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
@@ -196,7 +149,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("withdraw_btn","521","670","129","33",null,null,null,null,null,null,this);
-            obj.set_taborder("21");
+            obj.set_taborder("13");
             obj.set_text("탈퇴처리");
             obj.set_background("#2563eb");
             obj.set_borderRadius("4px");
@@ -205,7 +158,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("domant_btn","670","670","129","33",null,null,null,null,null,null,this);
-            obj.set_taborder("22");
+            obj.set_taborder("14");
             obj.set_text("휴면복구");
             obj.set_background(" #9ca3af");
             obj.set_borderRadius("4px");
@@ -213,11 +166,15 @@
             obj.set_color("white");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00","535","259","25","23",null,null,null,null,null,null,this);
-            obj.set_taborder("23");
-            obj.set_text("~");
-            obj.set_textAlign("center");
-            obj.set_font("bold 12px/normal \"Noto Sans KR Black\"");
+            obj = new Combo("Combo00","40","155","90","35",null,null,null,null,null,null,this);
+            obj.set_taborder("15");
+            obj.set_innerdataset("ds_date");
+            obj.set_codecolumn("SEARCH_DATE");
+            obj.set_datacolumn("SEARCH_DATE");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            obj.set_border("1px solid black");
+            obj.set_borderRadius("8px");
+            obj.set_text("");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -241,27 +198,15 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item4","Calendar00","value","ds_search","JOIN_START_DATE");
+            obj = new BindItem("item4","Calendar00","value","ds_search","SEARCH_START_DATE");
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item5","Calendar00_00","value","ds_search","JOIN_END_DATE");
+            obj = new BindItem("item5","Calendar00_00","value","ds_search","SEARCH_END_DATE");
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item6","Calendar00_01","value","ds_search","DORMANT_START_DATE");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item7","Calendar00_00_00","value","ds_search","DORMANT_END_DATE");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item8","Calendar00_01_00","value","ds_search","DELETE_START_DATE");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item9","Calendar00_00_00_00","value","ds_search","DELETE_END_DATE");
+            obj = new BindItem("item6","Combo00","value","ds_search","SEARCH_DATE");
             this.addChild(obj.name, obj);
             obj.bind();
             
@@ -280,6 +225,8 @@
         this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_Member_withdrawAndDormant_onload = function(obj,e)
         {
+        	//콤보 박스 초기값 설정
+        	this.Combo00.set_index(0);
         	this.fn_selectDormantWithdrawnMembers();
         };
 
@@ -433,7 +380,7 @@
         	}
         };
 
-        //가입일 시작일
+        //날짜 시작일 (Calendar00) - 바인딩으로 SEARCH_START_DATE에 자동 저장됨
         this.Calendar00_onchanged = function(obj,e)
         {
         	var startDate = this.Calendar00.value;
@@ -448,19 +395,19 @@
                 endDate = startDate;
             }
 
-            // 시작일은 00시 00분
-            this.ds_search.setColumn(0, "JOIN_START_DATE", startDate + "000000");
+            // 시작일은 00시 00분 (바인딩된 컬럼명으로 변경)
+            this.ds_search.setColumn(0, "SEARCH_START_DATE", startDate + "000000");
 
             // 종료일이 있으면 23시 59분까지 설정
             if (endDate) {
-                this.ds_search.setColumn(0, "JOIN_END_DATE", endDate + "235959");
+                this.ds_search.setColumn(0, "SEARCH_END_DATE", endDate + "235959");
             }
 
         	//자동 검색
         	this.fn_selectDormantWithdrawnMembers();
         };
 
-        //가입일 종료일
+        //날짜 종료일 (Calendar00_00) - 바인딩으로 SEARCH_END_DATE에 자동 저장됨
         this.Calendar00_00_onchanged = function(obj,e)
         {
         	var startDate = this.Calendar00.value;
@@ -475,123 +422,21 @@
                 endDate = startDate;
             }
 
-            // 종료일은 23시 59분
-            this.ds_search.setColumn(0, "JOIN_END_DATE", endDate + "235959");
+            // 종료일은 23시 59분 (바인딩된 컬럼명으로 변경)
+            this.ds_search.setColumn(0, "SEARCH_END_DATE", endDate + "235959");
 
             // 시작일이 있으면 00시 00분까지 세팅
             if (startDate) {
-                this.ds_search.setColumn(0, "JOIN_START_DATE", startDate + "000000");
+                this.ds_search.setColumn(0, "SEARCH_START_DATE", startDate + "000000");
             }
 
         	//자동 검색
         	this.fn_selectDormantWithdrawnMembers();
         };
 
-        //휴면 시작일
-        this.Calendar00_01_onchanged = function(obj,e)
+        //날짜는 그대로 두고 범위 타입만 바꿔도 바로 검색할 수 있게
+        this.Combo00_onitemchanged = function(obj,e)
         {
-        	var startDate = this.Calendar00_01.value;
-            var endDate   = this.Calendar00_00_00.value;
-
-            if (!startDate) return; // 시작일 없으면 처리 중단
-
-            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
-            if (endDate && endDate < startDate) {
-                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-                this.Calendar00_00_00.set_value(startDate);
-                endDate = startDate;
-            }
-
-            // 시작일은 00시 00분
-            this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
-
-            // 종료일이 있으면 23시 59분까지 설정
-            if (endDate) {
-                this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
-            }
-
-        	//자동 검색
-        	this.fn_selectDormantWithdrawnMembers();
-        };
-
-        //휴면 종료일
-        this.Calendar00_00_00_onchanged = function(obj,e)
-        {
-        	var startDate = this.Calendar00_01.value;
-            var endDate   = this.Calendar00_00_00.value;
-
-            if (!endDate) return; // 종료일 없으면 처리 중단
-
-            // 종료일이 시작일보다 빠른 경우
-            if (startDate && endDate < startDate) {
-                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-                this.Calendar00_00_00.set_value(startDate);
-                endDate = startDate;
-            }
-
-            // 종료일은 23시 59분
-            this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
-
-            // 시작일이 있으면 00시 00분까지 세팅
-            if (startDate) {
-                this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
-            }
-
-        	//자동 검색
-        	this.fn_selectDormantWithdrawnMembers();
-        };
-
-        //탈퇴 시작일
-        this.Calendar00_01_00_onchanged = function(obj,e)
-        {
-        	var startDate = this.Calendar00_01_00.value;
-            var endDate   = this.Calendar00_00_00_00.value;
-
-            if (!startDate) return; // 시작일 없으면 처리 중단
-
-            // 종료일이 있고, 종료일이 시작일보다 빠른 경우
-            if (endDate && endDate < startDate) {
-                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-                this.Calendar00_00_00_00.set_value(startDate);
-                endDate = startDate;
-            }
-
-            // 시작일은 00시 00분
-            this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
-
-            // 종료일이 있으면 23시 59분까지 설정
-            if (endDate) {
-                this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
-            }
-
-        	//자동 검색
-        	this.fn_selectDormantWithdrawnMembers();
-        };
-
-        //탈퇴 종료일
-        this.Calendar00_00_00_00_onchanged = function(obj,e)
-        {
-        	var startDate = this.Calendar00_01_00.value;
-            var endDate   = this.Calendar00_00_00_00.value;
-
-            if (!endDate) return; // 종료일 없으면 처리 중단
-
-            // 종료일이 시작일보다 빠른 경우
-            if (startDate && endDate < startDate) {
-                this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-                this.Calendar00_00_00_00.set_value(startDate);
-                endDate = startDate;
-            }
-
-            // 종료일은 23시 59분
-            this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
-
-            // 시작일이 있으면 00시 00분까지 세팅
-            if (startDate) {
-                this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
-            }
-
-        	//자동 검색
         	this.fn_selectDormantWithdrawnMembers();
         };
 
@@ -603,24 +448,18 @@
             this.addEventHandler("onload",this.Form_Member_withdrawAndDormant_onload,this);
             this.status.addEventHandler("onclick",this.Static00_onclick,this);
             this.status00.addEventHandler("onclick",this.Static00_onclick,this);
-            this.status00_00.addEventHandler("onclick",this.Static00_onclick,this);
-            this.status00_00_00.addEventHandler("onclick",this.Static00_onclick,this);
-            this.status00_00_00_00.addEventHandler("onclick",this.Static00_onclick,this);
             this.status01.addEventHandler("onclick",this.Static00_onclick,this);
             this.Radio00.addEventHandler("onitemchanged",this.Radio00_onitemchanged,this);
             this.Edit00.addEventHandler("onkeyup",this.Edit00_onkeyup,this);
             this.Edit00_00.addEventHandler("onkeyup",this.Edit00_00_onkeyup,this);
             this.Calendar00.addEventHandler("onchanged",this.Calendar00_onchanged,this);
             this.Calendar00_00.addEventHandler("onchanged",this.Calendar00_00_onchanged,this);
-            this.Calendar00_01.addEventHandler("onchanged",this.Calendar00_01_onchanged,this);
-            this.Calendar00_00_00.addEventHandler("onchanged",this.Calendar00_00_00_onchanged,this);
-            this.Calendar00_01_00.addEventHandler("onchanged",this.Calendar00_01_00_onchanged,this);
-            this.Calendar00_00_00_00.addEventHandler("onchanged",this.Calendar00_00_00_00_onchanged,this);
             this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
             this.Button00_00.addEventHandler("onclick",this.Button00_00_onclick,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
             this.withdraw_btn.addEventHandler("onclick",this.withdraw_btn_onclick,this);
             this.domant_btn.addEventHandler("onclick",this.Button01_00_onclick,this);
+            this.Combo00.addEventHandler("onitemchanged",this.Combo00_onitemchanged,this);
         };
         this.loadIncludeScript("Form_Member_withdrawAndDormant.xfdl");
         this.loadPreloadList();

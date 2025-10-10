@@ -3,36 +3,30 @@
   <Form id="Form_Member_withdrawAndDormant" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_Member_withdrawAndDormant_onload">
     <Layouts>
       <Layout height="720" width="1280">
-        <Static id="search_box" taborder="0" left="20" top="10" width="1240" height="330" background="white" text="" borderRadius="8px"/>
+        <Static id="search_box" taborder="0" left="20" top="10" width="1240" height="250" background="white" text="" borderRadius="8px"/>
         <Static id="status" taborder="1" text="상태" left="46" top="20" width="48" height="40" onclick="Static00_onclick" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
         <Static id="status00" taborder="2" text="이메일" left="46" top="104" width="48" height="40" onclick="Static00_onclick" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
-        <Static id="status00_00" taborder="3" text="가입일" left="46" top="154" width="48" height="40" onclick="Static00_onclick" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
-        <Static id="status00_00_00" taborder="4" text="휴면일" left="46" top="201" width="48" height="40" onclick="Static00_onclick" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
-        <Static id="status00_00_00_00" taborder="5" text="탈퇴일" left="46" top="251" width="48" height="40" onclick="Static00_onclick" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
-        <Static id="status01" taborder="6" text="이름" left="46" top="58" width="48" height="40" onclick="Static00_onclick" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
-        <Radio id="Radio00" taborder="7" left="130" top="24" width="210" height="32" innerdataset="ds_status" codecolumn="STATUS_CODE" datacolumn="STATUS_NAME" direction="vertical" font="11px &quot;Noto Sans KR Black&quot;" onitemchanged="Radio00_onitemchanged"/>
-        <Edit id="Edit00" taborder="8" left="130" top="60" width="840" height="32" border="1px solid black" borderRadius="8px" onkeyup="Edit00_onkeyup"/>
-        <Edit id="Edit00_00" taborder="9" left="130" top="108" width="840" height="32" border="1px solid black" borderRadius="8px" onkeyup="Edit00_00_onkeyup"/>
-        <Calendar id="Calendar00" taborder="10" left="131" top="155" width="404" height="35" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
-        <Calendar id="Calendar00_00" taborder="11" left="565" top="155" width="404" height="35" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_onchanged"/>
-        <Static id="Static00" taborder="12" text="~" left="535" top="161" width="30" height="23" textAlign="center" font="bold 12px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Calendar id="Calendar00_01" taborder="13" left="131" top="204" width="404" height="35" border="1px solid black" borderRadius="8px" onchanged="Calendar00_01_onchanged"/>
-        <Calendar id="Calendar00_00_00" taborder="14" left="565" top="205" width="404" height="35" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_00_onchanged"/>
-        <Static id="Static00_00" taborder="15" text="~" left="535" top="211" width="25" height="23" textAlign="center" font="bold 12px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Calendar id="Calendar00_01_00" taborder="16" left="130" top="251" width="404" height="35" border="1px solid black" borderRadius="8px" onchanged="Calendar00_01_00_onchanged"/>
-        <Calendar id="Calendar00_00_00_00" taborder="17" left="565" top="251" width="404" height="35" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_00_00_onchanged"/>
-        <Button id="Button00" taborder="18" text="검색" left="520" top="300" width="100" height="32" font="12px/normal &quot;Noto Sans KR Black&quot;" background="#2563eb" borderRadius="4px" color="white" onclick="Button00_onclick"/>
-        <Button id="Button00_00" taborder="19" text="초기화" left="630" top="301" height="31" right="550" font="12px/normal &quot;Noto Sans KR Black&quot;" background=" #9ca3af" borderRadius="4px" onclick="Button00_00_onclick"/>
-        <Grid id="grid_list" taborder="20" left="20" top="350" height="303" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="grid_list_oncellclick" width="1240">&gt;
+        <Static id="status01" taborder="3" text="이름" left="46" top="58" width="48" height="40" onclick="Static00_onclick" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
+        <Radio id="Radio00" taborder="4" left="130" top="24" width="210" height="32" innerdataset="ds_status" codecolumn="STATUS_CODE" datacolumn="STATUS_NAME" direction="vertical" font="11px &quot;Noto Sans KR Black&quot;" onitemchanged="Radio00_onitemchanged"/>
+        <Edit id="Edit00" taborder="5" left="130" top="60" width="859" height="32" border="1px solid black" borderRadius="8px" onkeyup="Edit00_onkeyup"/>
+        <Edit id="Edit00_00" taborder="6" left="130" top="108" width="859" height="32" border="1px solid black" borderRadius="8px" onkeyup="Edit00_00_onkeyup"/>
+        <Calendar id="Calendar00" taborder="7" left="150" top="155" width="405" height="35" border="1px solid black" borderRadius="8px" onchanged="Calendar00_onchanged"/>
+        <Calendar id="Calendar00_00" taborder="8" left="585" top="155" width="404" height="35" border="1px solid black" borderRadius="8px" onchanged="Calendar00_00_onchanged"/>
+        <Static id="Static00" taborder="9" text="~" left="555" top="161" width="30" height="23" textAlign="center" font="bold 12px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Button id="Button00" taborder="10" text="검색" left="520" top="210" width="100" height="32" font="12px/normal &quot;Noto Sans KR Black&quot;" background="#2563eb" borderRadius="4px" color="white" onclick="Button00_onclick"/>
+        <Button id="Button00_00" taborder="11" text="초기화" left="630" top="211" height="31" right="550" font="12px/normal &quot;Noto Sans KR Black&quot;" background=" #9ca3af" borderRadius="4px" onclick="Button00_00_onclick"/>
+        <Grid id="grid_list" taborder="12" left="20" top="270" height="383" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="grid_list_oncellclick" width="1240">&gt;
           <Formats><Format id="default"><Columns><Column size="49"/><Column size="52"/><Column size="103"/><Column size="175"/><Column size="161"/><Column size="112"/><Column size="135"/><Column size="147"/><Column size="153"/><Column size="156"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell/><Cell col="1" text="NO" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="이름" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="이메일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="전화번호 " textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="상태 " textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="구매액" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="가입일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="휴면일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="탈퇴일" textAlign="CENTER" font="11pt/normal &quot;LG Smart UI Bold&quot;" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" edittype="checkbox" text="bind:CHK"/><Cell col="1" text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="2" text="bind:USER_NAME" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:EMAIL_ADDR" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="4" text="bind:PHONE_NUMBER" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;" displaytype="mask" edittype="mask" maskeditformat="###-####-####" maskedittype="string"/><Cell col="5" text="bind:STATUS_NAME" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="6" edittype="normal" text="bind:PRICE_AMOUNT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="7" text="bind:INPUT_DT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="8" text="bind:LAST_LOGIN_DT" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="9" text="bind:DELETE_DT" font="12px/normal &quot;LG Smart UI Bold&quot;"/></Band></Format></Formats></Grid>
-        <Button id="withdraw_btn" taborder="21" text="탈퇴처리" left="521" top="670" width="129" height="33" background="#2563eb" borderRadius="4px" color="white" font="12px &quot;Noto Sans KR Black&quot;" onclick="withdraw_btn_onclick"/>
-        <Button id="domant_btn" taborder="22" text="휴면복구" left="670" top="670" width="129" height="33" background=" #9ca3af" borderRadius="4px" font="12px &quot;Noto Sans KR Black&quot;" onclick="Button01_00_onclick" color="white"/>
-        <Static id="Static00_00_00" taborder="23" text="~" left="535" top="259" width="25" height="23" textAlign="center" font="bold 12px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Button id="withdraw_btn" taborder="13" text="탈퇴처리" left="521" top="670" width="129" height="33" background="#2563eb" borderRadius="4px" color="white" font="12px &quot;Noto Sans KR Black&quot;" onclick="withdraw_btn_onclick"/>
+        <Button id="domant_btn" taborder="14" text="휴면복구" left="670" top="670" width="129" height="33" background=" #9ca3af" borderRadius="4px" font="12px &quot;Noto Sans KR Black&quot;" onclick="Button01_00_onclick" color="white"/>
+        <Combo id="Combo00" taborder="15" text="" left="40" top="155" width="90" height="35" innerdataset="ds_date" codecolumn="SEARCH_DATE" datacolumn="SEARCH_DATE" font="14px/normal &quot;Noto Sans KR Black&quot;" onitemchanged="Combo00_onitemchanged" border="1px solid black" borderRadius="8px"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
 this.Form_Member_withdrawAndDormant_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
+	//콤보 박스 초기값 설정
+	this.Combo00.set_index(0);
 	this.fn_selectDormantWithdrawnMembers();
 };
 
@@ -186,7 +180,7 @@ this.Edit00_00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
 	}
 };
 
-//가입일 시작일
+//날짜 시작일 (Calendar00) - 바인딩으로 SEARCH_START_DATE에 자동 저장됨
 this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
 {
 	var startDate = this.Calendar00.value;
@@ -201,19 +195,19 @@ this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventI
         endDate = startDate;
     }
     
-    // 시작일은 00시 00분
-    this.ds_search.setColumn(0, "JOIN_START_DATE", startDate + "000000");
+    // 시작일은 00시 00분 (바인딩된 컬럼명으로 변경)
+    this.ds_search.setColumn(0, "SEARCH_START_DATE", startDate + "000000");
     
     // 종료일이 있으면 23시 59분까지 설정
     if (endDate) {
-        this.ds_search.setColumn(0, "JOIN_END_DATE", endDate + "235959");
+        this.ds_search.setColumn(0, "SEARCH_END_DATE", endDate + "235959");
     }
 	
 	//자동 검색 
 	this.fn_selectDormantWithdrawnMembers();
 };
 
-//가입일 종료일
+//날짜 종료일 (Calendar00_00) - 바인딩으로 SEARCH_END_DATE에 자동 저장됨
 this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
 {
 	var startDate = this.Calendar00.value;
@@ -228,123 +222,21 @@ this.Calendar00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEve
         endDate = startDate;
     }
     
-    // 종료일은 23시 59분
-    this.ds_search.setColumn(0, "JOIN_END_DATE", endDate + "235959");
+    // 종료일은 23시 59분 (바인딩된 컬럼명으로 변경)
+    this.ds_search.setColumn(0, "SEARCH_END_DATE", endDate + "235959");
     
     // 시작일이 있으면 00시 00분까지 세팅
     if (startDate) {
-        this.ds_search.setColumn(0, "JOIN_START_DATE", startDate + "000000");
+        this.ds_search.setColumn(0, "SEARCH_START_DATE", startDate + "000000");
     }
 	
 	//자동 검색 
 	this.fn_selectDormantWithdrawnMembers();
 };
 
-//휴면 시작일
-this.Calendar00_01_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+//날짜는 그대로 두고 범위 타입만 바꿔도 바로 검색할 수 있게
+this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
-	var startDate = this.Calendar00_01.value;
-    var endDate   = this.Calendar00_00_00.value;
-    
-    if (!startDate) return; // 시작일 없으면 처리 중단
-    
-    // 종료일이 있고, 종료일이 시작일보다 빠른 경우
-    if (endDate && endDate < startDate) {
-        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-        this.Calendar00_00_00.set_value(startDate);
-        endDate = startDate;
-    }
-    
-    // 시작일은 00시 00분
-    this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
-    
-    // 종료일이 있으면 23시 59분까지 설정
-    if (endDate) {
-        this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
-    }
-	
-	//자동 검색 
-	this.fn_selectDormantWithdrawnMembers();
-};
-
-//휴면 종료일
-this.Calendar00_00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
-{
-	var startDate = this.Calendar00_01.value;
-    var endDate   = this.Calendar00_00_00.value;
-    
-    if (!endDate) return; // 종료일 없으면 처리 중단
-    
-    // 종료일이 시작일보다 빠른 경우
-    if (startDate && endDate < startDate) {
-        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-        this.Calendar00_00_00.set_value(startDate);
-        endDate = startDate;
-    }
-    
-    // 종료일은 23시 59분
-    this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
-    
-    // 시작일이 있으면 00시 00분까지 세팅
-    if (startDate) {
-        this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
-    }
-	
-	//자동 검색 
-	this.fn_selectDormantWithdrawnMembers();
-};
-
-//탈퇴 시작일
-this.Calendar00_01_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
-{
-	var startDate = this.Calendar00_01_00.value;
-    var endDate   = this.Calendar00_00_00_00.value;
-    
-    if (!startDate) return; // 시작일 없으면 처리 중단
-    
-    // 종료일이 있고, 종료일이 시작일보다 빠른 경우
-    if (endDate && endDate < startDate) {
-        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-        this.Calendar00_00_00_00.set_value(startDate);
-        endDate = startDate;
-    }
-    
-    // 시작일은 00시 00분
-    this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
-    
-    // 종료일이 있으면 23시 59분까지 설정
-    if (endDate) {
-        this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
-    }
-	
-	//자동 검색 
-	this.fn_selectDormantWithdrawnMembers();
-};
-
-//탈퇴 종료일
-this.Calendar00_00_00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
-{
-	var startDate = this.Calendar00_01_00.value;
-    var endDate   = this.Calendar00_00_00_00.value;
-    
-    if (!endDate) return; // 종료일 없으면 처리 중단
-    
-    // 종료일이 시작일보다 빠른 경우
-    if (startDate && endDate < startDate) {
-        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-        this.Calendar00_00_00_00.set_value(startDate);
-        endDate = startDate;
-    }
-    
-    // 종료일은 23시 59분
-    this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
-    
-    // 시작일이 있으면 00시 00분까지 세팅
-    if (startDate) {
-        this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
-    }
-	
-	//자동 검색 
 	this.fn_selectDormantWithdrawnMembers();
 };
 ]]></Script>
@@ -353,12 +245,9 @@ this.Calendar00_00_00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.Cha
       <BindItem id="item1" compid="Radio00" propid="value" datasetid="ds_search" columnid="STATUS"/>
       <BindItem id="item2" compid="Edit00" propid="value" datasetid="ds_search" columnid="USER_NAME"/>
       <BindItem id="item3" compid="Edit00_00" propid="value" datasetid="ds_search" columnid="EMAIL_ADDR"/>
-      <BindItem id="item4" compid="Calendar00" propid="value" datasetid="ds_search" columnid="JOIN_START_DATE"/>
-      <BindItem id="item5" compid="Calendar00_00" propid="value" datasetid="ds_search" columnid="JOIN_END_DATE"/>
-      <BindItem id="item6" compid="Calendar00_01" propid="value" datasetid="ds_search" columnid="DORMANT_START_DATE"/>
-      <BindItem id="item7" compid="Calendar00_00_00" propid="value" datasetid="ds_search" columnid="DORMANT_END_DATE"/>
-      <BindItem id="item8" compid="Calendar00_01_00" propid="value" datasetid="ds_search" columnid="DELETE_START_DATE"/>
-      <BindItem id="item9" compid="Calendar00_00_00_00" propid="value" datasetid="ds_search" columnid="DELETE_END_DATE"/>
+      <BindItem id="item4" compid="Calendar00" propid="value" datasetid="ds_search" columnid="SEARCH_START_DATE"/>
+      <BindItem id="item5" compid="Calendar00_00" propid="value" datasetid="ds_search" columnid="SEARCH_END_DATE"/>
+      <BindItem id="item6" compid="Combo00" propid="value" datasetid="ds_search" columnid="SEARCH_DATE"/>
     </Bind>
     <Objects>
       <Dataset id="ds_status">
@@ -386,12 +275,9 @@ this.Calendar00_00_00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.Cha
           <Column id="STATUS" type="STRING" size="256"/>
           <Column id="USER_NAME" type="STRING" size="256"/>
           <Column id="EMAIL_ADDR" type="STRING" size="256"/>
-          <Column id="JOIN_START_DATE" type="STRING" size="256"/>
-          <Column id="JOIN_END_DATE" type="STRING" size="256"/>
-          <Column id="DORMANT_START_DATE" type="STRING" size="256"/>
-          <Column id="DORMANT_END_DATE" type="STRING" size="256"/>
-          <Column id="DELETE_START_DATE" type="STRING" size="256"/>
-          <Column id="DELETE_END_DATE" type="STRING" size="256"/>
+          <Column id="SEARCH_START_DATE" type="STRING" size="256"/>
+          <Column id="SEARCH_END_DATE" type="STRING" size="256"/>
+          <Column id="SEARCH_DATE" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -434,6 +320,22 @@ this.Calendar00_00_00_00_onchanged = function(obj:nexacro.Calendar,e:nexacro.Cha
         </ColumnInfo>
         <Rows>
           <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_date">
+        <ColumnInfo>
+          <Column id="SEARCH_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="SEARCH_DATE">가입일</Col>
+          </Row>
+          <Row>
+            <Col id="SEARCH_DATE">휴면일</Col>
+          </Row>
+          <Row>
+            <Col id="SEARCH_DATE">탈퇴일</Col>
+          </Row>
         </Rows>
       </Dataset>
     </Objects>

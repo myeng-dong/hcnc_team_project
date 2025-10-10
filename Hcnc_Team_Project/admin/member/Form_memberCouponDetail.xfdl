@@ -3,35 +3,30 @@
   <Form id="Form_memberCouponDetail" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_memberCouponDetail_onload">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1280" stepcount="0">
-        <Static id="point_detail_box" taborder="0" left="25" top="14" width="1210" height="221" background="white" text="" borderRadius="8px"/>
-        <Grid id="coupon" taborder="1" left="25" top="245" height="411" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick" width="1210">&gt;
+        <Static id="point_detail_box" taborder="0" left="25" top="14" width="1245" height="206" background="white" text="" borderRadius="8px"/>
+        <Grid id="coupon" taborder="1" left="25" top="230" height="426" background="#FFFFFF" border="0px none" borderRadius="10px" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick" width="1245">&gt;
           <Formats><Format id="default"><Columns><Column size="52"/><Column size="162"/><Column size="160"/><Column size="145"/><Column size="84"/><Column size="83"/><Column size="117"/><Column size="159"/><Column size="144"/><Column size="70"/><Column size="117"/><Column size="164"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="쿠폰코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="쿠폰 명" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="쿠폰종류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="할인방식" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="할인값" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" text="최소주문액"/><Cell col="7" text="발급일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="만료일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="사용여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="사용일자" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="11" text="주문번호" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="1" text="bind:COUPON_CODE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="2" text="bind:COUPON_NAME" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="3" text="bind:COUPON_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="4" text="bind:DISCOUNT_UNIT" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="5" edittype="normal" text="bind:DISCOUNT_VALUE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="6" displaytype="normal" edittype="none" font="12px/normal &quot;LG Smart UI Bold&quot;" text="bind:MIN_ORDER_PRICE" textAlign="center"/><Cell col="7" text="bind:ISSUED_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="8" text="bind:EXPIRY_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="9" text="bind:IS_USED" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="10" text="bind:USED_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center" calendardisplaynulltype="none" displaytype="date"/><Cell col="11" text="bind:ORDER_NUMBER" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/></Band></Format></Formats></Grid>
         <Radio id="Radio00" taborder="2" left="120" top="31" width="204" height="24" innerdataset="ds_use" codecolumn="IS_USED" datacolumn="CODE" direction="vertical" font="12px/normal &quot;Noto Sans KR Black&quot;" onitemchanged="Radio00_onitemchanged"/>
-        <Edit id="Edit00" taborder="3" left="116" top="70" width="897" height="28" border="1px solid black" borderRadius="8px" onkeyup="Edit00_onkeyup"/>
-        <Calendar id="Calendar00" taborder="4" left="119" top="110" width="409" height="32" onchanged="Calendar00_onchanged" border="1px solid black" borderRadius="8px"/>
-        <Calendar id="Calendar01" taborder="5" left="547" top="111" width="466" height="30" border="1px solid black" borderRadius="8px" onchanged="Calendar01_onchanged"/>
-        <Calendar id="Calendar02" taborder="6" left="120" top="155" width="408" height="30" border="1px solid black" borderRadius="8px" onchanged="Calendar02_onchanged"/>
-        <Calendar id="Calendar03" taborder="7" left="546" top="155" width="467" height="30" border="1px solid black" borderRadius="8px" onchanged="Calendar03_onchanged"/>
-        <Button id="back_btn" taborder="8" text="뒤로가기" left="556" top="666" width="104" height="34" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="back_btn_onclick"/>
-        <Button id="Button00" taborder="9" text="조회하기" left="562" top="199" width="78" height="31" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button00_onclick"/>
-        <Button id="Button01" taborder="10" text="초기화" left="660" top="200" width="78" height="30" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
-        <Button id="Button02" taborder="11" text="쿠폰 지급" left="680" top="666" width="98" height="34" borderRadius="4px" color="black" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button02_onclick" background=" #9ca3af"/>
-        <Static id="Static01" taborder="12" text="사용여부" left="53" top="31" width="54" height="24" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static01_00" taborder="13" text="쿠폰종류" left="53" top="73" width="53" height="24" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static01_00_00" taborder="14" text="발급일자" left="53" top="115" width="53" height="24" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static01_00_00_00" taborder="15" text="만료일자" left="53" top="157" width="54" height="24" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static02" taborder="16" text="~" left="532" top="117" width="20" height="21" font="bold 14px/normal &quot;Noto Sans KR Black&quot;"/>
-        <Static id="Static02_00" taborder="17" text="~" left="532" top="159" width="20" height="21" font="bold 14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Edit id="Edit00" taborder="3" left="146" top="70" width="917" height="30" border="1px solid black" borderRadius="8px" onkeyup="Edit00_onkeyup"/>
+        <Calendar id="Calendar00" taborder="4" left="169" top="120" width="409" height="32" onchanged="Calendar00_onchanged" border="1px solid black" borderRadius="8px"/>
+        <Calendar id="Calendar01" taborder="5" left="597" top="121" width="466" height="31" border="1px solid black" borderRadius="8px" onchanged="Calendar01_onchanged"/>
+        <Button id="back_btn" taborder="6" text="뒤로가기" left="556" top="666" width="104" height="34" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="back_btn_onclick"/>
+        <Button id="Button00" taborder="7" text="조회하기" left="562" top="179" width="78" height="31" background="#2563eb" borderRadius="4px" color="white" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="8" text="초기화" left="660" top="180" width="78" height="30" background=" #9ca3af" borderRadius="4px" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button01_onclick"/>
+        <Button id="Button02" taborder="9" text="쿠폰 지급" left="680" top="666" width="98" height="34" borderRadius="4px" color="black" font="12px/normal &quot;Noto Sans KR Black&quot;" onclick="Button02_onclick" background=" #9ca3af"/>
+        <Static id="Static01" taborder="10" text="사용여부" left="53" top="31" width="54" height="24" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static01_00" taborder="11" text="쿠폰종류" left="53" top="73" width="57" height="24" font="14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Static id="Static02" taborder="12" text="~" left="584" top="126" width="19" height="21" font="bold 14px/normal &quot;Noto Sans KR Black&quot;"/>
+        <Combo id="Combo00" taborder="13" text="Combo00" left="46" top="120" width="109" height="32" innerdataset="ds_date" codecolumn="SEARCH_DATE" datacolumn="SEARCH_DATE" font="14px/normal &quot;Noto Sans KR Black&quot;" border="1px solid black" borderRadius="8px" onitemchanged="Combo00_onitemchanged"/>
       </Layout>
     </Layouts>
     <Bind>
       <BindItem id="item0" compid="coupon" propid="binddataset" datasetid="ds_user" columnid=""/>
       <BindItem id="item1" compid="Radio00" propid="value" datasetid="ds_search" columnid="IS_USED"/>
       <BindItem id="item2" compid="Edit00" propid="value" datasetid="ds_search" columnid="COUPON_TYPE"/>
-      <BindItem id="item3" compid="Calendar00" propid="value" datasetid="ds_search" columnid="ISSUED_START_DATE"/>
-      <BindItem id="item4" compid="Calendar01" propid="value" datasetid="ds_search" columnid="ISSUED_END_DATE"/>
-      <BindItem id="item5" compid="Calendar02" propid="value" datasetid="ds_search" columnid="EXPIRY_START_DATE"/>
-      <BindItem id="item6" compid="Calendar03" propid="value" datasetid="ds_search" columnid="EXPIRY_END_DATE"/>
+      <BindItem id="item3" compid="Calendar00" propid="value" datasetid="ds_search" columnid="SEARCH_START_DATE"/>
+      <BindItem id="item4" compid="Calendar01" propid="value" datasetid="ds_search" columnid="SEARCH_END_DATE"/>
+      <BindItem id="item5" compid="Combo00" propid="value" datasetid="ds_search" columnid="SEARCH_DATE"/>
     </Bind>
     <Objects>
       <Dataset id="ds_list">
@@ -56,11 +51,10 @@
         <ColumnInfo>
           <Column id="IS_USED" type="STRING" size="256"/>
           <Column id="COUPON_TYPE" type="STRING" size="256"/>
-          <Column id="EXPIRY_START_DATE" type="STRING" size="256"/>
-          <Column id="EXPIRY_END_DATE" type="STRING" size="256"/>
-          <Column id="ISSUED_START_DATE" type="STRING" size="256"/>
-          <Column id="ISSUED_END_DATE" type="STRING" size="256"/>
           <Column id="MEMBER_ID" type="STRING" size="256"/>
+          <Column id="SEARCH_START_DATE" type="STRING" size="256"/>
+          <Column id="SEARCH_END_DATE" type="STRING" size="256"/>
+          <Column id="SEARCH_DATE" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row/>
@@ -85,6 +79,19 @@
           </Row>
         </Rows>
       </Dataset>
+      <Dataset id="ds_date">
+        <ColumnInfo>
+          <Column id="SEARCH_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="SEARCH_DATE">발급일자</Col>
+          </Row>
+          <Row>
+            <Col id="SEARCH_DATE">만료일자</Col>
+          </Row>
+        </Rows>
+      </Dataset>
     </Objects>
     <Script type="xscript5.1"><![CDATA[this.memberId=""; 
 this.Form_memberCouponDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
@@ -95,6 +102,10 @@ this.Form_memberCouponDetail_onload = function(obj:nexacro.Form,e:nexacro.LoadEv
 	var memberId = ownerFrame.arguments["MEMBER_ID"];
 	
 	this.ds_search.setColumn(0, "MEMBER_ID", memberId);
+	
+	//콤보 박스 초기값 설정
+	this.Combo00.set_index(0);
+	
 	this.fn_selectPointDetailList();
 };
 
@@ -193,34 +204,34 @@ this.Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
 	}
 };
 
-//발급 일자 검색 = 시작
+//날짜 시작일 (Calendar00) - 바인딩으로 SEARCH_START_DATE에 자동 저장됨
 this.Calendar00_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
 {
 	var startDate = this.Calendar00.value;
     var endDate   = this.Calendar01.value;
     
-    if (!endDate) return; // 종료일 없으면 처리 중단
+    if (!startDate) return; // 시작일 없으면 처리 중단
     
-    // 종료일이 시작일보다 빠른 경우
-    if (startDate && endDate < startDate) {
+    // 종료일이 있고, 종료일이 시작일보다 빠른 경우
+    if (endDate && endDate < startDate) {
         this.alert("종료일은 시작일보다 빠를 수 없습니다.");
         this.Calendar01.set_value(startDate);
         endDate = startDate;
     }
     
-    // 종료일은 23시 59분
-    this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
+    // 시작일은 00시 00분 (바인딩된 컬럼명으로 변경)
+    this.ds_search.setColumn(0, "SEARCH_START_DATE", startDate + "000000");
     
-    // 시작일이 있으면 00시 00분까지 세팅
-    if (startDate) {
-        this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
+    // 종료일이 있으면 23시 59분까지 설정
+    if (endDate) {
+        this.ds_search.setColumn(0, "SEARCH_END_DATE", endDate + "235959");
     }
 	
 	//자동 검색 
 	this.fn_selectPointDetailList();
 };
 
-//발급일자 - 종료
+//날짜 종료일 (Calendar01) - 바인딩으로 SEARCH_END_DATE에 자동 저장됨
 this.Calendar01_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
 {
 	var startDate = this.Calendar00.value;
@@ -235,71 +246,22 @@ this.Calendar01_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventI
         endDate = startDate;
     }
     
-    // 종료일은 23시 59분
-    this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
+    // 종료일은 23시 59분 (바인딩된 컬럼명으로 변경)
+    this.ds_search.setColumn(0, "SEARCH_END_DATE", endDate + "235959");
     
     // 시작일이 있으면 00시 00분까지 세팅
     if (startDate) {
-        this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
+        this.ds_search.setColumn(0, "SEARCH_START_DATE", startDate + "000000");
     }
 	
 	//자동 검색 
 	this.fn_selectPointDetailList();
 };
 
-//만료 시작일자
-this.Calendar02_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
+//날짜는 그대로 두고 검색하고 싶은 콤보박스 선택하면 자동 검색됨
+this.Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
 {
-	var startDate = this.Calendar02.value;
-    var endDate   = this.Calendar03.value;
-    
-    if (!endDate) return; // 종료일 없으면 처리 중단
-    
-    // 종료일이 시작일보다 빠른 경우
-    if (startDate && endDate < startDate) {
-        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-        this.Calendar03.set_value(startDate);
-        endDate = startDate;
-    }
-    
-    // 종료일은 23시 59분
-    this.ds_search.setColumn(0, "DORMANT_END_DATE", endDate + "235959");
-    
-    // 시작일이 있으면 00시 00분까지 세팅
-    if (startDate) {
-        this.ds_search.setColumn(0, "DORMANT_START_DATE", startDate + "000000");
-    }
-	
-	//자동 검색 
 	this.fn_selectPointDetailList();
-};
-
-//만료 종료 일자 
-this.Calendar03_onchanged = function(obj:nexacro.Calendar,e:nexacro.ChangeEventInfo)
-{
-	var startDate = this.Calendar02.value;
-    var endDate   = this.Calendar03.value;
-    
-    if (!endDate) return; // 종료일 없으면 처리 중단
-    
-    // 종료일이 시작일보다 빠른 경우
-    if (startDate && endDate < startDate) {
-        this.alert("종료일은 시작일보다 빠를 수 없습니다.");
-        this.Calendar03.set_value(startDate);
-        endDate = startDate;
-    }
-    
-    // 종료일은 23시 59분
-    this.ds_search.setColumn(0, "DELETE_END_DATE", endDate + "235959");
-    
-    // 시작일이 있으면 00시 00분까지 세팅
-    if (startDate) {
-        this.ds_search.setColumn(0, "DELETE_START_DATE", startDate + "000000");
-    }
-	
-	//자동 검색 
-	this.fn_selectPointDetailList();
-};
-]]></Script>
+};]]></Script>
   </Form>
 </FDL>
