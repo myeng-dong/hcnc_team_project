@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import user.service.UserService;
 import user.service.UserBannerService;
@@ -13,6 +14,8 @@ import user.service.UserProductService;
 @Controller
 public class UserController {
 	
+	@Autowired
+	private UserService userService; 
 	@Autowired
 	private UserBannerService userBannerService; 
 	@Autowired
@@ -84,6 +87,26 @@ public class UserController {
 	public ModelAndView userPayCheckout() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("payment/success");
+		return mv;
+	}
+	
+	@RequestMapping("/search.do")
+	public ModelAndView selectProductListSearchByUser(@RequestParam(value="keyword",required=false) String keyword) {
+		ModelAndView mv = new ModelAndView();
+		try {
+			if(keyword != null && keyword != "") {
+				List<Map<String,Object>> list = userService.selectProductListSearchByUser(keyword);
+				mv.addObject("status",200);
+				mv.addObject("list",list);
+			} else {
+				mv.addObject("status",404);	
+			}	
+		} catch (Exception e) {
+			// TODO: handle exception
+			mv.addObject("status",400);
+		}
+		
+		mv.setViewName("search/search");
 		return mv;
 	}
 }

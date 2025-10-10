@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
-import user.service.map;
 
 @Mapper("UserBoardMapper")
 public interface UserBoardMapper {
