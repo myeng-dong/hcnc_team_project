@@ -206,7 +206,7 @@ public class UserOrderController {
 	    
 	    return new JSONObject(response.toString());
 	}
-//	----
+//	----- 주문내역페이지로드 -----
 	@RequestMapping(value="/orderHistory.do")
 	public String orderHistory() {
 		return "order/orderHistory";
