@@ -215,9 +215,7 @@
         };
         
         // User Script
-        this.addIncludeScript("Form_MemberList.xfdl","common::common.xjs");
         this.registerScript("Form_MemberList.xfdl", function() {
-        this.executeIncludeScript("common::common.xjs"); /*include "common::common.xjs"*/;
         this.Form_MemberList_onload = function(obj,e)
         {
         //     var objDate = new nexacro.Date();
@@ -227,6 +225,9 @@
         //
         //     this.ds_search.setColumn(0, "FIRST_LOGIN_DT", objDate.getYear() + "0101");
         //     this.ds_search.setColumn(0, "LAST_LOGIN_DT", today);
+
+        	//개인정보 검색 콤보값 기본값 세팅
+            this.search_box.form.member_info.set_index(0);
 
             this.fn_search();
             this.fn_gradeSearch();
@@ -277,6 +278,11 @@
 
         	case "selectMemberGradeList" :
         		console.log(this.ds_grade.saveXML())
+
+        		//등급 검색 콤보 기본값 세팅
+        		//온로드 할때 불러오는게 아니라 경로를 타고 쿼리를 타는게 성공했을때 디폴트 값 설정
+        	    this.search_box.form.member_grade.set_index(0);
+
         		break;
         	}
         }

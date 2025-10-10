@@ -32,16 +32,16 @@
               <Calendar id="dstail_input_dt00" taborder="23" left="740" top="408" width="265" height="38" border="1px solid black" borderRadius="8px"/>
               <Calendar id="dstail_update_dt" taborder="24" left="742" top="473" width="263" height="38" border="1px solid black" borderRadius="8px"/>
               <Combo id="grade_combo00" taborder="25" text="Combo00" left="184" top="475" width="231" height="37" innerdataset="ds_grade" codecolumn="GRADE_CODE" datacolumn="GRADE_NAME" border="1px solid black" borderRadius="8px"/>
-              <Edit id="detail_phoneNumber00" taborder="26" left="185" top="296" width="231" height="40" border="1px solid black" borderRadius="8px"/>
-              <Edit id="detail_email00" taborder="27" left="185" top="234" width="231" height="42" border="1px solid black" borderRadius="8px"/>
-              <Edit id="dstail_name00" taborder="28" left="185" top="175" width="231" height="42" onchanged="insert_box_insert_name_onchanged" border="1px solid black" borderRadius="8px"/>
-              <Edit id="detail_id00" taborder="29" left="184" top="61" width="231" height="41" border="1px solid black" borderRadius="8px"/>
-              <Static id="m01" taborder="30" text="비밀번호" left="76" top="122" width="56" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
-              <Edit id="detail_password" taborder="31" left="185" top="117" width="231" height="42" password="true" border="1px solid black" borderRadius="8px"/>
-              <Button id="update_btn" taborder="32" text="수정하기" left="435" top="566" width="110" height="46" onclick="detail_box_Button00_onclick" background="#2563eb" borderRadius="4px" color="#fff" font="13px/normal &quot;Noto Sans KR Black&quot;"/>
-              <Calendar id="detail_birth" taborder="33" left="185" top="364" width="231" height="42" border="1px solid black" borderRadius="8px"/>
-              <Calendar id="detail_first_login_dt" taborder="34" left="741" top="184" width="268" height="40" border="1px solid black" borderRadius="8px"/>
-              <Calendar id="detail_last_login_dt" taborder="35" left="739" top="246" width="270" height="38" border="1px solid black" borderRadius="8px"/>
+              <Edit id="detail_email00" taborder="26" left="185" top="234" width="231" height="42" border="1px solid black" borderRadius="8px"/>
+              <Edit id="dstail_name00" taborder="27" left="185" top="175" width="231" height="42" onchanged="insert_box_insert_name_onchanged" border="1px solid black" borderRadius="8px"/>
+              <Edit id="detail_id00" taborder="28" left="184" top="61" width="231" height="41" border="1px solid black" borderRadius="8px"/>
+              <Static id="m01" taborder="29" text="비밀번호" left="76" top="122" width="56" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Edit id="detail_password" taborder="30" left="185" top="117" width="231" height="42" password="true" border="1px solid black" borderRadius="8px"/>
+              <Button id="update_btn" taborder="31" text="수정하기" left="435" top="566" width="110" height="46" onclick="detail_box_Button00_onclick" background="#2563eb" borderRadius="4px" color="#fff" font="13px/normal &quot;Noto Sans KR Black&quot;"/>
+              <Calendar id="detail_birth" taborder="32" left="185" top="364" width="231" height="42" border="1px solid black" borderRadius="8px"/>
+              <Calendar id="detail_first_login_dt" taborder="33" left="741" top="184" width="268" height="40" border="1px solid black" borderRadius="8px"/>
+              <Calendar id="detail_last_login_dt" taborder="34" left="739" top="246" width="270" height="38" border="1px solid black" borderRadius="8px"/>
+              <MaskEdit id="detail_phoneNumber00" taborder="35" left="185" top="302" width="230" height="39" border="1px solid black" borderRadius="8px" readonly="true" format="###-####-####" type="string"/>
             </Layout>
           </Layouts>
           <InitValue>
@@ -53,7 +53,6 @@
             <Calendar id="dstail_input_dt00" readonly="true"/>
             <Calendar id="dstail_update_dt" readonly="true"/>
             <Combo id="grade_combo00" readonly="true"/>
-            <Edit id="detail_phoneNumber00" readonly="true"/>
             <Edit id="detail_email00" readonly="true"/>
             <Edit id="dstail_name00" readonly="true"/>
             <Edit id="detail_id00" readonly="true"/>
@@ -74,7 +73,6 @@
       <BindItem id="item13" compid="detail_box.form.dstail_input_dt00" propid="value" datasetid="ds_memberDt" columnid="INPUT_DT"/>
       <BindItem id="item14" compid="detail_box.form.dstail_update_dt" propid="value" datasetid="ds_memberDt" columnid="UPDATE_DT"/>
       <BindItem id="item6" compid="detail_box.form.grade_combo00" propid="value" datasetid="ds_memberDt" columnid="GRADE_CODE"/>
-      <BindItem id="item4" compid="detail_box.form.detail_phoneNumber00" propid="value" datasetid="ds_memberDt" columnid="PHONE_NUMBER"/>
       <BindItem id="item3" compid="detail_box.form.detail_email00" propid="value" datasetid="ds_memberDt" columnid="EMAIL_ADDR"/>
       <BindItem id="item1" compid="detail_box.form.dstail_name00" propid="value" datasetid="ds_memberDt" columnid="USER_NAME"/>
       <BindItem id="item0" compid="detail_box.form.detail_id00" propid="value" datasetid="ds_memberDt" columnid="MEMBER_ID"/>
@@ -82,6 +80,7 @@
       <BindItem id="item5" compid="detail_box.form.detail_birth" propid="value" datasetid="ds_memberDt" columnid="BIRTH"/>
       <BindItem id="item10" compid="detail_box.form.detail_first_login_dt" propid="value" datasetid="ds_memberDt" columnid="FIRST_LOGIN_DT"/>
       <BindItem id="item11" compid="detail_box.form.detail_last_login_dt" propid="value" datasetid="ds_memberDt" columnid="LAST_LOGIN_DT"/>
+      <BindItem id="item4" compid="detail_box.form.detail_phoneNumber00" propid="value" datasetid="ds_memberDt" columnid="PHONE_NUMBER"/>
     </Bind>
     <Objects>
       <Dataset id="ds_memberDt" useclientlayout="true">
@@ -221,33 +220,81 @@ this.fn_gradeSearch = function(){
 //수정함수
 this.fn_memeberUpdate = function(memberId){
 	
-	//빈값체크
-	var emailAddr = this.ds_memberDt.getColumn(0,"EMAIL_ADDR")
-	var phoneNumber = this.ds_memberDt.getColumn(0,"PHONE_NUMBER")
+	// 1. 값 가져오기 + trim
+	var userName = (this.ds_memberDt.getColumn(0,"USER_NAME") || "").trim();
+	var password = (this.ds_memberDt.getColumn(0,"PASSWORD") || "").trim();
+	var emailAddr = (this.ds_memberDt.getColumn(0,"EMAIL_ADDR") || "").trim();
+	var phoneNumber = (this.ds_memberDt.getColumn(0,"PHONE_NUMBER") || "").trim();
 	
-	
-	if(emailAddr == "" || emailAddr == null){
-		this.alert("이메일를 입력하세요")
+	// 2. 필수값 체크
+	if(!userName) {
+		this.alert("이름을 입력하세요");
 		return;
 	}
 	
-	if(phoneNumber == "" || phoneNumber == null){
-		this.alert("전화번호 입력하세요")
+	if(!emailAddr) {
+		this.alert("이메일을 입력하세요");
 		return;
 	}
 	
+	if(!phoneNumber) {
+		this.alert("전화번호를 입력하세요");
+		return;
+	}
 	
+	// 3. 이름 검증 varchar(50)
+	if(userName.length > 50) {
+		this.alert("이름은 50자 이하로 입력해주세요");
+		return;
+	}
+	// 이름은 중간 공백 허용
+	
+	// 4. 비밀번호 검증 (비밀번호 변경한 경우만)
+	// 이미 암호화된 값인지 확인 (64자리 hex 문자열)
+	if(password && !password.match(/^[0-9a-f]{64}$/)) {
+		// 새로 입력한 비밀번호인 경우
+		if(password.length < 8 || password.length > 20) {
+			this.alert("비밀번호는 8~20자로 입력해주세요");
+			return;
+		}
+		
+		var pwRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
+		if(!pwRegex.test(password)) {
+			this.alert("비밀번호는 영문과 숫자를 포함해야 합니다");
+			return;
+		}
+	}
+	
+	// 5. 이메일 검증 varchar(100)
+	if(emailAddr.length > 100) {
+		this.alert("이메일은 100자 이하로 입력해주세요");
+		return;
+	}
+	
+	if(emailAddr.indexOf(' ') !== -1) {
+		this.alert("이메일에 공백을 사용할 수 없습니다");
+		return;
+	}
+	
+	var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	if(!emailRegex.test(emailAddr)) {
+		this.alert("올바른 이메일 형식이 아닙니다");
+		return;
+	}
+	
+	// 6. trim된 값 다시 저장
+	this.ds_memberDt.setColumn(0, "USER_NAME", userName);
+	this.ds_memberDt.setColumn(0, "PASSWORD", password);
+	this.ds_memberDt.setColumn(0, "EMAIL_ADDR", emailAddr);
+	this.ds_memberDt.setColumn(0, "PHONE_NUMBER", phoneNumber);
+	
+	// 7. 서버 전송
 	var strSvcID = "memberUpdate"
-	
 	var setURL = "svc::/memberUpdateByAdmin.do?time=" + new Date().getTime();
-	
 	var strInDatasets = "ds_memberDt=ds_memberDt"; 
-	
 	var strOutDatasets = "ds_upCnt=ds_upCnt"; 
 	var strArg = "memberId="+memberId;
-	
 	var callBack = "fn_callBack";
-	
 	var inAsync = true;
 	
 	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
