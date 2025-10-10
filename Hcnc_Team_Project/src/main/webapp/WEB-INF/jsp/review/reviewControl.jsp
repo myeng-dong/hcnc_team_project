@@ -77,7 +77,7 @@
 			
 			<!-- 미리보기 영역 -->
 			<div class="review-write-img-area">
-				<label>사진 첨부 (최대 10장)</label>
+				<label id="review-write-photo-label">사진 첨부</label>
 				<div style="display: flex; align-items: flex-start; gap: 10px;">
 					<div id="review-write-preview-container" style="display: flex; flex-wrap: wrap; gap: 10px; flex: 1;"></div>
 					<label for="review-write-photo-upload" class="review-write-upload-button">

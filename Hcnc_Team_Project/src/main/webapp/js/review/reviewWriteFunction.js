@@ -5,7 +5,9 @@ function fileChange(e) {
   const files = Array.from(e.target.files);
   const allowedExtensions = ['jpg', 'jpeg', 'png'];
   const MAX_FILE_SIZE = 5 * 1024 * 1024;
-  const MAX_FILES = 10;
+  const MAX_FILES = 7;
+
+  $("#review-write-photo-label").text('사진 첨부 (최대 ' + MAX_FILES + '장)');
   
   // 중복 체크를 위한 필터링
   const newFiles = [];

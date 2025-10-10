@@ -22,23 +22,23 @@ public class UserReviewController {
 	private UserReviewService userReviewService; 
 	
 	
-	@RequestMapping(value="/selectReviewList.do")
-	public ModelAndView selectReviewListByUser(@RequestParam Map<String, Object> param) {
-		ModelAndView mav = new ModelAndView("jsonView");
+	// @RequestMapping(value="/selectReviewList.do")
+	// public ModelAndView selectReviewListByUser(@RequestParam Map<String, Object> param) {
+	// 	ModelAndView mav = new ModelAndView("jsonView");
 		
-		System.out.println("리뷰 리스트 : " + param);
+	// 	System.out.println("리뷰 리스트 : " + param);
 		
-		// 해당 상품 전체 리뷰 조회
-		List<HashMap<String, Object>> reviews = userReviewService.selectReviewListByUser(param);
+	// 	// 해당 상품 전체 리뷰 조회
+	// 	List<HashMap<String, Object>> reviews = userReviewService.selectReviewListByUser(param);
 		
-		// 해당 상품 리뷰 전체 수 조회
-		HashMap<String, Object> reviewCnt = userReviewService.selectReviewCntByUser(param);
+	// 	// 해당 상품 리뷰 전체 수 조회
+	// 	HashMap<String, Object> reviewCnt = userReviewService.selectReviewCntByUser(param);
 		
-		mav.addObject("reviews", reviews);
-		mav.addObject("reviewCnt", reviewCnt);
+	// 	mav.addObject("reviews", reviews);
+	// 	mav.addObject("reviewCnt", reviewCnt);
 		
-		return mav;
-	}
+	// 	return mav;
+	// }
 	
 	@RequestMapping("/selectReviewListPaged.do")
 	public ModelAndView selectReviewListPagedByUser(@RequestParam Map<String, Object> param) {

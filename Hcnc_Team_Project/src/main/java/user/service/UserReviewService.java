@@ -26,16 +26,52 @@ public class UserReviewService {
 	@Autowired
 	private UploadFile uploadFile;
 	
-	public List<HashMap<String, Object>> selectReviewListByUser(Map<String, Object> param) {
-		return userReviewMapper.selectReviewListByUser(param);
-	}
+	// public List<HashMap<String, Object>> selectReviewListByUser(Map<String, Object> param) {
+	// 	return userReviewMapper.selectReviewListByUser(param);
+	// }
 
 	public HashMap<String, Object> selectReviewCntByUser(Map<String, Object> param) {
 		return userReviewMapper.selectReviewCntByUser(param);
 	}
 
 	public List<HashMap<String, Object>> selectReviewListPagedByUser(Map<String, Object> queryParam) {
-		return userReviewMapper.selectReviewListPagedByUser(queryParam);
+
+		List<HashMap<String, Object>> reviews = userReviewMapper.selectReviewListPagedByUser(queryParam);
+
+		// reviewId 기준으로 그룹화
+		Map<Long, HashMap<String, Object>> reviewMap = new LinkedHashMap<>();
+
+		for (HashMap<String, Object> row : reviews) {
+			Long reviewId = (Long) row.get("REVIEW_ID");
+
+			if(!reviewMap.containsKey(reviewId)) {
+				HashMap<String, Object> review = new HashMap<>();
+
+				review.put("REVIEW_ID", reviewId);
+				review.put("MEMBER_ID", row.get("MEMBER_ID"));
+				review.put("REVIEW_TITLE", row.get("REVIEW_TITLE"));
+				review.put("REVIEW_CONTENT", row.get("REVIEW_CONTENT"));
+				review.put("STAR_POINT", row.get("STAR_POINT"));
+				review.put("INPUT_DT", row.get("INPUT_DT"));
+				review.put("AVG_STAR_POINT", row.get("AVG_STAR_POINT"));
+
+				review.put("reviewImgs", new ArrayList<HashMap<String, Object>>());
+
+				reviewMap.put(reviewId, review);
+			}
+
+			// 리뷰 이미지 추가
+			List<HashMap<String, Object>> reviewImgs = (List<HashMap<String, Object>>) reviewMap.get(reviewId).get("reviewImgs");
+
+			HashMap<String, Object> reviewImg = new HashMap<>();
+
+			reviewImg.put("REVIEW_IMG_ID", row.get("REVIEW_IMG_ID"));
+			reviewImg.put("IMG_PATH", row.get("IMG_PATH"));
+
+			reviewImgs.add(reviewImg);
+		}
+
+		return new ArrayList<>(reviewMap.values());
 	}
 
 	@Transactional
