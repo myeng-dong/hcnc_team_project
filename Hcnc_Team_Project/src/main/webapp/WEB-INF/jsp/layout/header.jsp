@@ -1,225 +1,210 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@
 taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
-  const confirmLogout = () => {
-    if (confirm("정말 로그아웃 하시겠습니까?")) {
-      return true; // true 반환 → a 태그 href 실행 (로그아웃 컨트롤러 이동)
-    } else {
-      return false; // false 반환 → a 태그 이동 취소
-    }
-  };
-  //페이지 로드 시 실행
-  $(document).ready(function () {
-    //웹소켓 연결 함수 실행 밑에 정의 되어있음
-    connectWebSocket();
+	var audio = new Audio('sounds/bell.mp3');
 
-    // 2. 미읽음 알림 개수 조회 함수 실행 밑에 정의 되어있음
-    loadUnreadCount();
-  });
-
-  // 웹소켓 연결
-  let websocket; // 웹소켓이라는 함수 생성
-  //웹소켓 연결 함수 생성
-  function connectWebSocket() {
-    const userId = "${userInfo.MEMBER_ID}"; // 또는 ${userInfo['MEMBER_ID']}
-    const wsUrl = "ws://localhost:8080/notification/" + userId; //wsURL 생성
-
-    // 위에 만들어 놓은 웹소켓 함수에 새로 만든 웹소켓 넣음
-    websocket = new WebSocket(wsUrl);
-
-    //웹소켓 열기 @OnOpen이라는 함수
-    websocket.onopen = function () {
-      console.log("웹소켓 연결됨");
-    };
-
-    //웹소켓 메세지 보내기
-    websocket.onmessage = function (event) {
-      const data = JSON.parse(event.data);
-      console.log("알림 수신:", data);
-
-      // 실시간 알림 받으면 배지 개수 +1
-      loadUnreadCount();
-
-      // 알림 토스트 표시
-      showToast(data.message);
-    };
-
-    //웹소켓 에러시
-    websocket.onerror = function (error) {
-      console.error("웹소켓 에러:", error);
-    };
-
-    //웹소켓 닫을 때
-    websocket.onclose = function () {
-      console.log("웹소켓 연결 종료");
-      // 3초 후 재연결
-      setTimeout(connectWebSocket, 3000);
-    };
-  }
-
-  // 미읽음 개수 조회 ajax
-  function loadUnreadCount() {
-    $.ajax({
-      url: "/notification/unreadCount.do",
-      type: "GET",
-      success: function (response) {
-        const count = response.unreadCount;
-        const badge = $("#notificationBadge");
-
-        if (count > 0) {
-          badge.text(count > 99 ? "99+" : count);
-          badge.show(); // 빨간 점 표시
+    const confirmLogout = () => {
+        if (confirm("정말 로그아웃 하시겠습니까?")) {
+            return true; // true 반환 → a 태그 href 실행 (로그아웃 컨트롤러 이동)
         } else {
-          badge.hide(); // 빨간 점 숨김
+            return false; // false 반환 → a 태그 이동 취소
         }
-      },
-      error: function () {
-        console.error("미읽음 개수 조회 실패");
-      },
-    });
-  }
-
-  // 종 아이콘 클릭 - 알림 팝업 열기/닫기 (***수정된 부분***)
-  function toggleNotificationPopup() {
-    const popup = $("#notificationPopup");
-
-    // 팝업이 열려있는지 확인 (클래스 'open'으로 판단)
-    if (popup.hasClass("open")) {
-      // 닫을 때: 'open' 클래스 제거
-      popup.removeClass("open");
-    } else {
-      // 열 때: 알림 목록 조회 후 'open' 클래스 추가
-      loadNotificationList();
-
-      // 작은 딜레이 후 클래스를 추가하여 transition 효과가 적용되게 함
-      setTimeout(() => {
-        popup.addClass("open");
-      }, 10);
-    }
-  }
-
-  // 알림 목록 조회
-  function loadNotificationList() {
-    $.ajax({
-      url: "/notification/list.do",
-      type: "GET",
-      success: function (response) {
-        const list = response.list;
-        const listHtml = [];
-
-        if (list.length === 0) {
-          listHtml.push(
-            '<div class="notification-body">알림이 없습니다.</div>'
-          );
-        } else {
-          list.forEach(function (item) {
-            // DB에서 NOTI_ID와 READ_YN도 가져와야 여기서 에러가 해결됩니다.
-            // 현재 쿼리에서는 NOTI_MESSAGE만 가져오고 있으므로, 백엔드 쿼리도 수정이 필요합니다.
-            // (사진에서 undefined가 뜬 이유: item.notiId와 item.regDate, item.readYn이 없기 때문)
-            const notiId = item.NOTI_ID || "0"; // 임시 ID
-            const notiMessage = item.NOTI_MESSAGE || "알림 메시지 없음";
-            const regDate = item.REG_DATE || ""; // 알림 등록일
-            const readYn = item.READ_YN || "N"; // 읽음 여부
-
-            const readClass = readYn === "Y" ? "read" : "unread";
-
-            listHtml.push(
-              '<div class="notification_item ' +
-                readClass +
-                '" data-noti-id="' +
-                notiId +
-                '">'
-            );
-            listHtml.push(
-              '  <div class="noti_message">' + notiMessage + "</div>"
-            );
-            listHtml.push('  <div class="noti_date">' + regDate + "</div>");
-
-            if (readYn === "N") {
-              listHtml.push(
-                '  <button class="btn btn-sm btn-primary" onclick="markAsRead(\'' +
-                  notiId +
-                  "')\">읽음</button>"
-              );
-            }
-
-            listHtml.push("</div>");
-          });
-        }
-
-        $("#notificationList").html(listHtml.join(""));
-      },
-      error: function () {
-        console.error("알림 목록 조회 실패");
-      },
-    });
-  }
-
-  // 읽음 처리 업데이트 및 애니메이션 적용 (***수정된 부분***)
-  function markAsRead(notiId) {
-    // 알림 항목 선택 (★ 이 부분을 추가했습니다!)
-    const $item = $('[data-noti-id="' + notiId + '"]');
-
-    $.ajax({
-      url: "/notification/markAsRead.do",
-      type: "POST",
-
-      data: { notiId: notiId }, // key-value 형태로 전송
-      success: function () {
-        // 읽음 처리 성공
-
-        // 1. 읽음 상태 클래스 추가 및 버튼 제거 (즉시 반영)
-        $item.addClass("read").removeClass("unread");
-        $item.find("button").remove();
-
-        // 2. 애니메이션 클래스 추가 (사라지는 애니메이션 시작)
-        $item.addClass("fade-out");
-
-        // 3. 애니메이션 종료 후 요소 제거
-        // CSS transition 시간(0.5초)보다 약간 길게 설정 (750ms)
-        setTimeout(function () {
-          $item.remove(); // DOM에서 알림 항목 제거
-
-          // 알림 목록이 비었는지 확인하고 "알림이 없습니다." 메시지를 표시
-          const $listContainer = $("#notificationList");
-          // 현재 보이는 알림 항목의 개수를 확인
-          if ($listContainer.children(".notification_item").length === 0) {
-            // 알림이 모두 사라진 후 "알림이 없습니다." 메시지 표시
-            $listContainer.html(
-              '<div class="notification-body">알림이 없습니다.</div>'
-            );
-          }
-        }, 750); // 0.75초 후 실행
-
-        // 4. 배지 개수 갱신
+    };
+    //페이지 로드 시 실행
+    $(document).ready(function() {
+        //웹소켓 연결 함수 실행 밑에 정의 되어있음
+        connectWebSocket();
+        
+        // 2. 미읽음 알림 개수 조회 함수 실행 밑에 정의 되어있음
         loadUnreadCount();
-      },
-      error: function () {
-        alert("읽음 처리 실패");
-      },
     });
-  }
+    
+    // 웹소켓 연결
+    let websocket; // 웹소켓이라는 함수 생성
+    //웹소켓 연결 함수 생성
+    function connectWebSocket() { 
+        const userId = '${userInfo.MEMBER_ID}'; // 또는 ${userInfo['MEMBER_ID']}
+        const wsUrl = 'ws://localhost:8080/notification/' + userId; //wsURL 생성
+        
+        // 위에 만들어 놓은 웹소켓 함수에 새로 만든 웹소켓 넣음 
+        websocket = new WebSocket(wsUrl);
+        
+        //웹소켓 열기 @OnOpen이라는 함수
+        websocket.onopen = function() {
+            console.log('웹소켓 연결됨');
+        };
+        
+        //웹소켓 메세지 보내기 
+        websocket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            console.log('알림 수신:', data);
+            
+            // 실시간 알림 받으면 배지 개수 +1
+            loadUnreadCount();
+            
+            // 알림 토스트 표시
+            showToast(data.message);
+        };
+        
+        //웹소켓 에러시
+        websocket.onerror = function(error) {
+            console.error('웹소켓 에러:', error);
+        };
+        
+        //웹소켓 닫을 때
+        websocket.onclose = function() {
+            console.log('웹소켓 연결 종료');
+            // 3초 후 재연결
+            setTimeout(connectWebSocket, 3000);
+        };
+    }
+    
+    // 미읽음 개수 조회 ajax
+    function loadUnreadCount() {
+        $.ajax({
+            url: '/notification/unreadCount.do',
+            type: 'GET',
+            success: function(response) {
+                const count = response.unreadCount;
+                const badge = $('#notificationBadge');
+                
+                if (count > 0) {
+                    badge.text(count > 99 ? '99+' : count);
+                    badge.show(); // 빨간 점 표시
+                } else {
+                    badge.hide(); // 빨간 점 숨김
+                }
+            },
+            error: function() {
+                console.error('미읽음 개수 조회 실패');
+            }
+        });
+    }
+    
+    // 종 아이콘 클릭 - 알림 팝업 열기/닫기 (***수정된 부분***)
+    function toggleNotificationPopup() {
+        const popup = $('#notificationPopup');
+        
+        // 팝업이 열려있는지 확인 (클래스 'open'으로 판단)
+        if (popup.hasClass('open')) {
+            // 닫을 때: 'open' 클래스 제거
+            popup.removeClass('open');
+        } else {
+            // 열 때: 알림 목록 조회 후 'open' 클래스 추가
+            loadNotificationList();
+            
+            // 작은 딜레이 후 클래스를 추가하여 transition 효과가 적용되게 함
+            setTimeout(() => {
+                popup.addClass('open');
+            }, 10); 
+        }
+    }
+    
+    // 알림 목록 조회
+    function loadNotificationList() {
+        $.ajax({
+            url: '/notification/list.do',
+            type: 'GET',
+            success: function(response) {
+                const list = response.list;
+                const listHtml = [];
+                
+                if (list.length === 0) {
+                    listHtml.push('<div class="notification-body">알림이 없습니다.</div>');
+                } else {
+                    list.forEach(function(item) {
+                        // DB에서 NOTI_ID와 READ_YN도 가져와야 여기서 에러가 해결됩니다.
+                        // 현재 쿼리에서는 NOTI_MESSAGE만 가져오고 있으므로, 백엔드 쿼리도 수정이 필요합니다.
+                        // (사진에서 undefined가 뜬 이유: item.notiId와 item.regDate, item.readYn이 없기 때문)
+                        const notiId = item.NOTI_ID || '0'; // 
+                        const notiMessage = item.NOTI_MESSAGE || '알림 메시지 없음';
+                        const regDate = item.REG_DATE || ''; // 알림 등록일
+                        const readYn = item.READ_YN || 'N'; // 읽음 여부
+                        
+                        const readClass = readYn === 'Y' ? 'read' : 'unread';
+                        
+                        listHtml.push('<div class="notification_item ' + readClass + '" data-noti-id="' + notiId + '">');
+                        listHtml.push('  <div class="noti_message">' + notiMessage + '</div>');
+                        listHtml.push('  <div class="noti_date">' + regDate + '</div>');
+                        
+                        if (readYn === 'N') {
+                            listHtml.push('  <button class="btn btn-sm btn-primary" onclick="markAsRead(\'' + notiId + '\')">읽음</button>');
+                        }
+                        
+                        listHtml.push('</div>');
+                    });
+                }
+                
+                $('#notificationList').html(listHtml.join(''));
+            },
+            error: function() {
+                console.error('알림 목록 조회 실패');
+            }
+        });
+    }
+    
+    // 읽음 처리 업데이트 및 애니메이션 적용 (***수정된 부분***)
+    function markAsRead(notiId) {
+        // 알림 항목 선택 (★ 이 부분을 추가했습니다!)
+        const $item = $('[data-noti-id="' + notiId + '"]');
+        
+        $.ajax({
+            url: '/notification/markAsRead.do',
+            type: 'POST',
+        
+            data: { notiId: notiId }, // key-value 형태로 전송
+            success: function() {
+                // 읽음 처리 성공
+                
+                // 1. 읽음 상태 클래스 추가 및 버튼 제거 (즉시 반영)
+                $item.addClass('read').removeClass('unread');
+                $item.find('button').remove();
+                
+                // 2. 애니메이션 클래스 추가 (사라지는 애니메이션 시작)
+                $item.addClass('fade-out');
 
-  // 팝업 닫기 (***수정된 부분***)
-  function closeNotificationPopup() {
-    $("#notificationPopup").removeClass("open");
-  }
-
-  // 토스트 알림
-  function showToast(message) {
-    // Bootstrap Toast 사용
-    const toastHtml =
-      '<div class="toast" role="alert">' +
-      '  <div class="toast-body">' +
-      message +
-      "</div>" +
-      "</div>";
-
-    $("body").append(toastHtml);
-    // 부트스트랩 토스트가 작동하려면 해당 라이브러리(bootstrap.js)가 로드되어 있어야 합니다.
-    $(".toast").toast({ delay: 3000 });
-    $(".toast").toast("show");
-  }
+                // 3. 애니메이션 종료 후 요소 제거
+                // CSS transition 시간(0.5초)보다 약간 길게 설정 (750ms)
+                setTimeout(function() {
+                    $item.remove(); // DOM에서 알림 항목 제거
+                    
+                    // 알림 목록이 비었는지 확인하고 "알림이 없습니다." 메시지를 표시
+                    const $listContainer = $('#notificationList');
+                    // 현재 보이는 알림 항목의 개수를 확인
+                    if ($listContainer.children('.notification_item').length === 0) {
+                        // 알림이 모두 사라진 후 "알림이 없습니다." 메시지 표시
+                        $listContainer.html('<div class="notification-body">알림이 없습니다.</div>');
+                    }
+                }, 750); // 0.75초 후 실행
+                
+                // 4. 배지 개수 갱신
+                loadUnreadCount();
+            },
+            error: function() {
+                alert('읽음 처리 실패');
+            }
+        });
+    }
+    
+    // 팝업 닫기 (***수정된 부분***)
+    function closeNotificationPopup() {
+        $('#notificationPopup').removeClass('open');
+    }
+    
+    // 토스트 알림
+    function showToast(message) {
+        // Bootstrap Toast 사용
+        audio.play(); // 알림
+        
+        const toastHtml = '<div class="toast" role="alert">' +
+                          '  <div class="toast-body">' + message + '</div>' +
+                          '</div>';
+        
+        $('body').append(toastHtml);
+        // 부트스트랩 토스트가 작동하려면 해당 라이브러리(bootstrap.js)가 로드되어 있어야 합니다.
+        $('.toast').toast('show');
+    }
+    
 </script>
 <script>
   function validateSearch(form) {
