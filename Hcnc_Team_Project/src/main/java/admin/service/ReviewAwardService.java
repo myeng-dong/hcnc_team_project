@@ -20,8 +20,7 @@ public class ReviewAwardService {
         return reviewAwardMapper.selectProductReviewListByAdmin(params);
     }
     
-    // 자동 포인트 지급 (스케줄러)
-    @Scheduled(fixedDelay = 10000) // 매일 자정
+    // 자동 포인트 지급 (스케줄러->트리거)
     @Transactional
     public void insertAutoReviewRewardPointsByAdmin() {
         Map<String, Object> params = new HashMap<>();
