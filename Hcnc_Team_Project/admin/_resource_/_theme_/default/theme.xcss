@@ -1932,7 +1932,7 @@ color        : #aaaaaa;
 
 }
 
-
+/*ProductDisplayOrder*/
 .GridCellControl.cls_inbound
 {
 	background : #63b4ff;
@@ -1943,7 +1943,9 @@ color        : #aaaaaa;
 .GridCellControl.cls_addopt {
 		background : #fad898;
 		color : #000000;
-}.GridCellControl.cls_outbound
+}
+
+.GridCellControl.cls_outbound
 {
 	background : #ffa47a;
 	color : #000000;
