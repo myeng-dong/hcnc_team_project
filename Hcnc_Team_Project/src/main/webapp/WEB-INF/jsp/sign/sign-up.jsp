@@ -492,6 +492,9 @@
     }
   </style>
   <style>
+    input::placeholder {
+      color: #c8c8c8;
+    }
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
       -webkit-appearance: none;
@@ -504,7 +507,7 @@
       /* width: 100%; */
       height: 40px;
       border: 0px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 500;
       padding-left: 10px;
       color: #222;
@@ -522,13 +525,14 @@
     input:focus {
       outline: none;
     }
-    [class^="xi"] {
-      font-size: 30px;
+
+    [class*="xi"][class*="sign"] {
+      font-size: 25px;
     }
     .input-name {
-      width: 150px;
+      width: 125px;
       text-align: center;
-      font-size: 22px;
+      font-size: 20px;
 
       font-weight: 700;
       color: #999;
@@ -548,33 +552,31 @@
       border-bottom: 1px solid #999;
     }
     .signbox {
-      width: 628px;
+      width: 828px;
       margin: 0 auto;
       /* display: inline-block; */
       background-color: #fff;
-      border-radius: 16px;
+      border-radius: 6px;
       box-shadow: 0px 0px 30px #ccc;
       padding-left: 40px;
       padding-right: 40px;
       padding-top: 55px;
     }
     .sign-title {
-      display: flex;
       font-weight: bold;
       font-size: 28px;
       padding-bottom: 19px;
-      border-bottom: 1px solid #d9d9d9;
       margin-bottom: 34px;
     }
 
     input[type="radio"] {
-      width: 27px;
-      height: 27px;
+      width: 22px;
+      height: 22px;
     }
     input[type="radio"],
     span {
-      font-size: 24px;
-      font-weight: 400;
+      font-size: 18px;
+      font-weight: 500;
       color: #777;
     }
     .sign-btn {
@@ -594,8 +596,8 @@
       border-radius: 8px;
       border: 1px solid #ea0e25;
       cursor: pointer;
-      width: 100px;
-      height: 50px;
+      width: 90px;
+      height: 45px;
       align-items: center;
       justify-content: center;
       display: flex;
@@ -604,15 +606,29 @@
   <body>
     <div class="container-wrap" style="background-color: #f7f7f7">
       <jsp:include page="../layout/header.jsp" />
-      <div style="height: 20"></div>
+      <div style="height: 20px"></div>
       <div class="container sign">
         <div class="inner">
           <div class="signbox">
-            <div class="sign-title">회원가입</div>
+            <div class="sign-title">
+              <h1 style="font-size: 2rem">회원가입</h1>
+              <br />
+              <p
+                style="
+                  font-size: 1rem; /* 약 16px */
+                  color: #666; /* 부드러운 회색 */
+                  line-height: 1.6;
+                "
+              >
+                DOO.D에 오신걸 환영합니다.<br />회원이 되시면 각종 다양한 혜택과
+                프로모션을 제공 받으실수 있습니다.
+              </p>
+            </div>
+
             <div style="display: flex; flex-direction: column">
               <div id="idpw-Box">
                 <div class="input-parent">
-                  <i class="xi-user-o"></i>
+                  <i class="xi-user-o sign"></i>
                   <div class="input-name">아이디</div>
                   <div class="input-line">|</div>
                   <input
@@ -624,14 +640,14 @@
                   />
                   <div class="btn-verify" onclick="idChkByUser()">
                     <p
-                      style="font-size: 18px; font-weight: 500; color: #ea0e25"
+                      style="font-size: 16px; font-weight: 500; color: #ea0e25"
                     >
                       중복체크
                     </p>
                   </div>
                 </div>
                 <div class="input-parent">
-                  <i class="xi-lock-o"></i>
+                  <i class="xi-lock-o sign"></i>
                   <div class="input-name">비밀번호</div>
                   <div class="input-line">|</div>
                   <input
@@ -643,7 +659,7 @@
                   />
                 </div>
                 <div class="input-parent">
-                  <i class="xi-lock"></i>
+                  <i class="xi-lock sign"></i>
                   <div class="input-name">비밀번호확인</div>
                   <div class="input-line">|</div>
                   <input
@@ -656,7 +672,7 @@
                 </div>
               </div>
               <div class="input-parent">
-                <i class="xi-pen-o"></i>
+                <i class="xi-pen-o sign"></i>
                 <div class="input-name">이름</div>
                 <div class="input-line">|</div>
                 <input
@@ -668,7 +684,7 @@
                 />
               </div>
               <div class="input-parent">
-                <i class="xi-mail-o"></i>
+                <i class="xi-mail-o sign"></i>
                 <div class="input-name">이메일</div>
                 <div class="input-line">|</div>
                 <input
@@ -679,13 +695,13 @@
                   placeholder="example@example.com"
                 />
                 <div class="btn-verify" onclick="emailChkByUser()">
-                  <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                  <p style="font-size: 16px; font-weight: 500; color: #ea0e25">
                     전송
                   </p>
                 </div>
               </div>
               <div class="input-parent">
-                <i class="xi-mail"></i>
+                <i class="xi-mail sign"></i>
 
                 <div class="input-name">인증번호</div>
                 <div class="input-line">|</div>
@@ -697,13 +713,13 @@
                   placeholder="이메일 인증번호 입력"
                 />
                 <div class="btn-verify" onclick="emailCodeCheck()">
-                  <p style="font-size: 18px; font-weight: 500; color: #ea0e25">
+                  <p style="font-size: 16px; font-weight: 500; color: #ea0e25">
                     확인
                   </p>
                 </div>
               </div>
               <div class="input-parent">
-                <i class="xi-call"></i>
+                <i class="xi-call sign"></i>
                 <div class="input-name">휴대폰</div>
                 <div class="input-line">|</div>
                 <input
@@ -715,7 +731,7 @@
                 />
               </div>
               <div class="input-parent">
-                <i class="xi-cake"></i>
+                <i class="xi-cake sign"></i>
                 <div class="input-name">생일</div>
                 <div class="input-line">|</div>
                 <input
@@ -728,7 +744,7 @@
                 />
               </div>
               <div class="input-parent" style="border: 0">
-                <i class="xi-label-o"></i>
+                <i class="xi-label-o sign"></i>
                 <div class="input-name">성별</div>
                 <div class="input-line">|</div>
                 <fieldset
@@ -763,7 +779,7 @@
           </div>
         </div>
       </div>
-      <div style="height: 20"></div>
+      <div style="height: 20px"></div>
       <jsp:include page="../layout/footer.jsp" />
     </div>
   </body>
