@@ -290,7 +290,7 @@
         	var strInDatasets = "";
         	var strOutDatasets = "ds_grade=ds_grade";
         	var strArg = "";
-        	var callBack = "fn_callBack";
+        	var callBack = "fncallBack";
         	var inAsync = true;
 
         	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
