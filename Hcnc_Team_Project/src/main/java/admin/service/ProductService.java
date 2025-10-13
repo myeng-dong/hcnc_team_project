@@ -16,38 +16,44 @@ public class ProductService {
 
     
     //상품목록 조회
+ // ProductService.java
     public List<Map<String,Object>> selectProductListByAdmin(Map<String,Object> p) {
-        
-        
-        // 날짜 검증 (서비스 단)
+
         String startDt = (String) p.get("START_DATE");
         String endDt   = (String) p.get("END_DATE");
-        
-        if (startDt != null && endDt != null) {
-            // 1. 종료일이 시작일보다 빠른 경우
-            if (startDt.compareTo(endDt) > 0) {
-                throw new IllegalArgumentException("검색 조건 오류: 시작일이 종료일보다 늦습니다.");
-            }
+        String today   = java.time.LocalDate.now().toString(); // "yyyy-MM-dd"
 
-            // 2. 미래 날짜 선택 방지 (오늘 이후)
-            String today = java.time.LocalDate.now().toString(); // "yyyy-MM-dd"
+        if (startDt == null && endDt == null) {
+            // 날짜 미입력: 전체 조회 허용
+        } else if (startDt != null && endDt == null) {
+        	throw new IllegalArgumentException("검색일 오류: 시작일과 종료일을 입력해 주십시오.");
+            // 시작일만 있음: 통과 (원하면 startDt > today 방지 로직 추가 가능)
+        } else if (startDt == null && endDt != null) {
+            // 종료일만 있음: 미래 금지
             if (endDt.compareTo(today) > 0) {
                 throw new IllegalArgumentException("검색 조건 오류: 미래 날짜는 선택할 수 없습니다.");
             }
-
-            // 3. 기간 너무 긴 경우 (예: 1년 초과)
+        } else {
+            // 둘 다 있음: 기존 범위 검증
+            if (startDt.compareTo(endDt) > 0) {
+                throw new IllegalArgumentException("검색 조건 오류: 시작일이 종료일보다 늦습니다.");
+            }
+            if (endDt.compareTo(today) > 0) {
+                throw new IllegalArgumentException("검색 조건 오류: 미래 날짜는 선택할 수 없습니다.");
+            }
             java.time.LocalDate s = java.time.LocalDate.parse(startDt);
             java.time.LocalDate e = java.time.LocalDate.parse(endDt);
             long days = java.time.temporal.ChronoUnit.DAYS.between(s, e);
             if (days > 365) {
                 throw new IllegalArgumentException("검색 조건 오류: 조회 기간은 최대 1년까지만 가능합니다.");
             }
-        }else if (startDt == null && endDt == null) {
-			throw new IllegalArgumentException("검색일 오류: 시작일과 종료일을 입력해 주십시오.");
-		}
+        }
+
         return productMapper.selectProductListByAdmin(p);
-        
     }
+
+    
+    
     
     // 상품목록 카테고리 콤보
 	public List<Map<String, Object>> selectMainCategoryComboByAdmin() {

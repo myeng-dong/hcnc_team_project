@@ -285,14 +285,22 @@ this.Form_Product_ontimer = function(obj,e){
 
 
 
-// Calendar 값 → 'yyyy-MM-dd' 또는 빈 문자열
-this._dateOrEmpty = function(cal) {
+// 수정본: 8자리(yyyymmdd)와 10자리(yyyy-MM-dd) 모두 지원
+// 앞단 공용 함수 교체
+this._dateOrEmpty = function (cal) {
     if (!cal) return "";
-    var v = cal.value;                 // 값이 없으면 null/"" 임
-    if (v === undefined || v === null || v === "") return "";
-    v = v.toString();
-    if (v.length !== 8) return "";     // yyyymmdd 형식만 허용
-    return v.substr(0,4) + "-" + v.substr(4,2) + "-" + v.substr(6,2);
+    var v = (cal.text || cal.value || "").toString().trim();
+
+    // 이미 yyyy-MM-dd면 그대로
+    if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+
+    // yyyymmdd → yyyy-MM-dd
+    if (/^\d{8}$/.test(v)) {
+        return v.substr(0,4) + "-" + v.substr(4,2) + "-" + v.substr(6,2);
+    }
+
+    // Date 문자열 등은 버림(조건 안 넣음)
+    return "";
 };
 
 
@@ -358,8 +366,8 @@ this.btn_view_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
  
 this.fn_validateDateRange = function()
 {
-    var start = this.cal_start.value;
-    var end   = this.cal_end.value;
+    var start = this._dateOrEmpty(this.cal_start); // "yyyy-MM-dd"
+	var end   = this._dateOrEmpty(this.cal_end);   // "yyyy-MM-dd"
 	
 	var now = new Date();
 	var today = now.getFullYear() + "-"
@@ -373,27 +381,18 @@ this.fn_validateDateRange = function()
         return false;
     }
 
-    // 시작일 > 종료일
-    if (start > end) {
-        this.alert("시작일은 종료일보다 늦을 수 없습니다.");
-        return false;
-    }
+	if (start && end) {
+		if (new Date(start) > new Date(end)) { this.alert("시작일은 종료일보다 늦을 수 없습니다."); return false; }
+		var diff = (new Date(end) - new Date(start)) / (1000*60*60*24);
+		if (diff > 365) { this.alert("조회 기간은 최대 1년까지만 가능합니다."); return false; }
+	}
 
-    // 미래 날짜 선택 방지 (원하는 경우)
-    if (end > today) {
-        this.alert("미래 날짜는 선택할 수 없습니다.");
-        return false;
-    }
+	var today = (function(d){return d.toISOString().slice(0,10);} )(new Date());
+	if (end && end > today) { this.alert("미래 날짜는 선택할 수 없습니다."); return false; }
+		return true;
+	};
 
-    // 기간 너무 김 (예: 1년)
-    var diff = (new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24);
-    if (diff > 365) {
-        this.alert("조회 기간은 최대 1년까지만 가능합니다.");
-        return false;
-    }
 
-    return true;
-};
 
 
 
@@ -411,7 +410,8 @@ this.Div00_00_edt_search_onkeydown = function(obj:nexacro.Edit,e:nexacro.KeyEven
 this.fn_search = function() {
     // 1) 조회조건 Dataset 구성
     this.fn_makeSearchCond();
-
+	trace(this.ds_searchCond.getColumn(0,"START_DATE"));
+	trace(this.ds_searchCond.getColumn(0,"END_DATE"));
     // 2) 트랜잭션 호출 (검색조건 Dataset 하나로 전달)
     this.transaction(
         "selectProductListByAdmin",            // 서비스 ID (콜백 분기용)
@@ -538,7 +538,7 @@ this.grid_list_oncellclick = function (obj, e) {
 // Dataset 값 변경시 (재고변경감지)
 this.ds_out_proList_oncolumnchanged = function(obj:nexacro.NormalDataset,e:nexacro.DSColChangeEventInfo)
 {
-	if(e.columnid == "QUANTITIY"){
+	if(e.columnid == "QUANTITY"){
 		var n = nexacro.toNumber(e.newvalue);
 		
 		if (n > 9999) {

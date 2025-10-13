@@ -51,8 +51,7 @@
 		NULL))
 		WHERE 1=1
 		<!-- 검색어 -->
-		<if
-			test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
+		<if test="SEARCH_TYPE != null and SEARCH_TEXT != null and SEARCH_TEXT != ''">
 			<choose>
 				<when test="SEARCH_TYPE == 'PRODUCT_CODE'">
 					AND LOWER(REPLACE(p.PRODUCT_CODE, ' ', '')) COLLATE utf8mb4_general_ci
@@ -87,13 +86,12 @@
 
 		<!-- 등록일/수정일 (둘 중 입력된 값 기준으로 필터) -->
 		<if test="START_DATE != null and START_DATE != ''">
-			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) <![CDATA[>]]>=
-			#{START_DATE}
+		    AND DATE(p.INPUT_DT) <![CDATA[>=]]> #{START_DATE}
 		</if>
 		<if test="END_DATE != null and END_DATE != ''">
-			AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) <![CDATA[<]]>=
-			#{END_DATE}
+		    AND DATE(p.INPUT_DT) <![CDATA[<=]]> #{END_DATE}
 		</if>
+
 
 		<!-- 카테고리 -->
 		<if test="MAIN_CATE_ID != null and MAIN_CATE_ID != ''">
@@ -103,7 +101,7 @@
 			AND sc.SUB_CATE_ID = #{SUB_CATE_ID}
 		</if>
 
-		ORDER BY p.PRODUCT_ID, o.OPTION_ID
+		ORDER BY p.PRODUCT_ID ASC, o.OPTION_ID ASC
 	</select>
 
 	<!-- 대분류 콤보 -->
@@ -289,11 +287,12 @@
 
 		<!-- 등록일/수정일 (둘 중 입력된 값 기준으로 필터) -->
 		<if test="START_DATE != null and START_DATE != ''">
-			AND DATE(sm.INPUT_DT) <![CDATA[>]]>= #{START_DATE}
+		    AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) <![CDATA[>=]]> #{START_DATE}, '%Y-%m-%d'
 		</if>
 		<if test="END_DATE != null and END_DATE != ''">
-			AND DATE(sm.INPUT_DT) <![CDATA[<]]>= #{END_DATE}
+		    AND DATE(COALESCE(p.UPDATE_DT, p.INPUT_DT)) <![CDATA[<=]]> #{END_DATE}, '%Y-%m-%d'
 		</if>
+
 
 		<!-- 카테고리 -->
 		<if test="MAIN_CATE_ID != null and MAIN_CATE_ID != ''">

@@ -31,7 +31,7 @@ public class ProductController {
 	@RequestMapping("/selectProductListByAdmin.do")
 	public NexacroResult selectProductListByAdmin(
 			@ParamDataSet(name = "ds_searchCond", required = false) Map<String, Object> cond) {
-
+		System.out.println(cond);
 		// null 방지
 		if (cond == null)
 			cond = new HashMap<>();
