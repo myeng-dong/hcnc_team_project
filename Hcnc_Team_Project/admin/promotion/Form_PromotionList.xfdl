@@ -124,8 +124,8 @@ this.fnSearchPromo = function() {
     if(this.search_area.form.edit_search) {
         var promoName = this.search_area.form.edit_search.value;
         if(promoName != null && promoName.trim() != "") {
-            if(promoName.trim().length > 80) {
-                this.alert("프로모션명은 80자 이내로 입력해주세요.");
+            if(promoName.trim().length > 50) {
+                this.alert("프로모션명은 50자 이내로 입력해주세요.");
                 return;
             }
             this.ds_search.setColumn(0, "PROMOTION_NAME", promoName.trim());

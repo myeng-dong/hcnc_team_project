@@ -9,7 +9,7 @@
 		    c.COUPON_TYPE,
 		    c.ISSUED_DT,
 		    c.EXPIRY_DT,
-		    '발급' AS ISSUED_STATUS,
+		    '지급' AS ISSUED_STATUS,
 		    c.IS_USED,
 		    c.PROMOTION_ID
 		FROM COUPONS c
@@ -72,7 +72,7 @@
 	            </choose>
 	        </if>
 	        <!-- "all"이 아닐 때만 조건 추가 -->
-	        <if test="IS_ACTIVE != null and isActive != '' and IS_ACTIVE != 'all'">
+	        <if test="IS_ACTIVE != null and IS_ACTIVE != '' and IS_ACTIVE != 'all'">
 	            AND p.IS_ACTIVE = #{IS_ACTIVE}
 	        </if>
 	        <if test="START_DT != null and START_DT != ''">
