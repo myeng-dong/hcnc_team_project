@@ -38,24 +38,24 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("point_detail_box","25","14","1245","206",null,null,null,null,null,null,this);
+            obj = new Static("point_detail_box","25","14","1245","156",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("white");
             obj.set_text("");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("coupon","25","230","1245","426",null,null,null,null,null,null,this);
+            obj = new Grid("coupon","25","180","1245","476",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_list");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"52\"/><Column size=\"162\"/><Column size=\"160\"/><Column size=\"145\"/><Column size=\"84\"/><Column size=\"83\"/><Column size=\"117\"/><Column size=\"159\"/><Column size=\"144\"/><Column size=\"70\"/><Column size=\"117\"/><Column size=\"164\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"쿠폰코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"쿠폰 명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"쿠폰종류\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"할인방식\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"할인값\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"최소주문액\"/><Cell col=\"7\" text=\"발급일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"만료일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"사용여부\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"10\" text=\"사용일자\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"11\" text=\"주문번호\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\"/><Cell col=\"1\" text=\"bind:COUPON_CODE\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"2\" text=\"bind:COUPON_NAME\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\"/><Cell col=\"3\" text=\"bind:COUPON_TYPE\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"4\" text=\"bind:DISCOUNT_UNIT\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"5\" edittype=\"normal\" text=\"bind:DISCOUNT_VALUE\" textAlign=\"center\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\"/><Cell col=\"6\" displaytype=\"normal\" edittype=\"none\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" text=\"bind:MIN_ORDER_PRICE\" textAlign=\"center\"/><Cell col=\"7\" text=\"bind:ISSUED_DT\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\"/><Cell col=\"8\" text=\"bind:EXPIRY_DT\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\"/><Cell col=\"9\" text=\"bind:IS_USED\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\"/><Cell col=\"10\" text=\"bind:USED_DT\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\" calendardisplaynulltype=\"none\" displaytype=\"date\"/><Cell col=\"11\" text=\"bind:ORDER_NUMBER\" font=\"12px/normal &quot;LG Smart UI Bold&quot;\" textAlign=\"center\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"52\"/><Column size=\"162\"/><Column size=\"160\"/><Column size=\"145\"/><Column size=\"84\"/><Column size=\"83\"/><Column size=\"117\"/><Column size=\"159\"/><Column size=\"144\"/><Column size=\"70\"/><Column size=\"117\"/><Column size=\"164\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"쿠폰코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"쿠폰 명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"쿠폰종류\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"할인방식\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"할인값\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" text=\"최소주문액\"/><Cell col=\"7\" text=\"발급일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"만료일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"사용여부\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"10\" text=\"사용일자\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"11\" text=\"주문번호\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/><Cell col=\"1\" text=\"bind:COUPON_CODE\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"2\" text=\"bind:COUPON_NAME\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/><Cell col=\"3\" text=\"bind:COUPON_TYPE\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"4\" text=\"bind:DISCOUNT_UNIT\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"5\" edittype=\"normal\" text=\"bind:DISCOUNT_VALUE\" textAlign=\"center\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\"/><Cell col=\"6\" displaytype=\"normal\" edittype=\"none\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" text=\"bind:MIN_ORDER_PRICE\" textAlign=\"center\"/><Cell col=\"7\" text=\"bind:ISSUED_DT\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/><Cell col=\"8\" text=\"bind:EXPIRY_DT\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/><Cell col=\"9\" text=\"bind:IS_USED\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/><Cell col=\"10\" text=\"bind:USED_DT\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\" calendardisplaynulltype=\"none\" displaytype=\"date\"/><Cell col=\"11\" text=\"bind:ORDER_NUMBER\" font=\"12px/normal &quot;Noto Sans KR Black&quot;\" textAlign=\"center\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("Radio00","120","31","204","24",null,null,null,null,null,null,this);
+            obj = new Radio("Radio00","130","31","204","24",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_innerdataset("ds_use");
             obj.set_codecolumn("IS_USED");
@@ -64,25 +64,25 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","146","70","917","30",null,null,null,null,null,null,this);
+            obj = new Edit("Edit00","126","70","324","30",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar00","169","120","409","32",null,null,null,null,null,null,this);
+            obj = new Calendar("Calendar00","607","69","213","32",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar01","597","121","466","31",null,null,null,null,null,null,this);
+            obj = new Calendar("Calendar01","850","69","204","31",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_border("1px solid black");
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("back_btn","556","666","104","34",null,null,null,null,null,null,this);
+            obj = new Button("back_btn","555","670","104","34",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_text("뒤로가기");
             obj.set_background("#2563eb");
@@ -91,7 +91,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button00","562","179","78","31",null,null,null,null,null,null,this);
+            obj = new Button("Button00","562","125","78","31",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             obj.set_text("조회하기");
             obj.set_background("#2563eb");
@@ -100,7 +100,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button01","660","180","78","30",null,null,null,null,null,null,this);
+            obj = new Button("Button01","652","126","78","30",null,null,null,null,null,null,this);
             obj.set_taborder("8");
             obj.set_text("초기화");
             obj.set_background(" #9ca3af");
@@ -108,7 +108,7 @@
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button02","680","666","98","34",null,null,null,null,null,null,this);
+            obj = new Button("Button02","690","670","98","34",null,null,null,null,null,null,this);
             obj.set_taborder("9");
             obj.set_text("쿠폰 지급");
             obj.set_borderRadius("4px");
@@ -129,13 +129,13 @@
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static02","584","126","19","21",null,null,null,null,null,null,this);
+            obj = new Static("Static02","831","75","19","21",null,null,null,null,null,null,this);
             obj.set_taborder("12");
             obj.set_text("~");
             obj.set_font("bold 14px/normal \"Noto Sans KR Black\"");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("Combo00","46","120","109","32",null,null,null,null,null,null,this);
+            obj = new Combo("Combo00","491","70","109","32",null,null,null,null,null,null,this);
             obj.set_taborder("13");
             obj.set_innerdataset("ds_date");
             obj.set_codecolumn("SEARCH_DATE");
