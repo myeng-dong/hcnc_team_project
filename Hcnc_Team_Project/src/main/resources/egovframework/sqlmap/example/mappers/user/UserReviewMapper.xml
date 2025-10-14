@@ -138,7 +138,8 @@
 
 	<delete id="deleteReviewImagesByUser" parameterType="java.util.Map">
 		DELETE FROM REVIEW_IMG 
-			WHERE REVIEW_ID = #{reviewId}
+			WHERE 1=1
+				AND REVIEW_IMG_ID = #{reviewImgId}
 	</delete>
 
 	<delete id="deleteReviewByUser" parameterType="java.util.Map">

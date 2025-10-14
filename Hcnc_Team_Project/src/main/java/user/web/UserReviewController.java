@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import user.service.UserReviewService;
 
 @Controller
@@ -194,14 +199,13 @@ public class UserReviewController {
 			@RequestParam("title") String title,
 			@RequestParam("content") String content,
 			@RequestParam("rating") Double rating,
-			@RequestParam("deletedImageIds") List<Long> deletedImageIds,
+			@RequestParam(value = "deletedImageIds", required = false) List<Long> deletedImageIds,
 			@RequestParam(value = "photos", required = false) List<MultipartFile> photos,
 			HttpSession session
 		) {
 		
 		ModelAndView mav = new ModelAndView("jsonView");
-		
-		
+
 		Map<String, Object> param = new HashMap<String, Object>();
 		
 		@SuppressWarnings("unchecked")
@@ -222,7 +226,7 @@ public class UserReviewController {
 		System.out.println(param);
 		System.out.println(deletedImageIds);
 		
-		int result = userReviewService.updateReviewByUser(param, photos);
+		int result = userReviewService.updateReviewByUser(param, deletedImageIds, photos);
 
 		mav.addObject("result", result);
 						

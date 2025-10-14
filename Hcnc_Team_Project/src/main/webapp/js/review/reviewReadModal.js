@@ -159,6 +159,8 @@ function createImagePreviewItem(imageSrc, type, id) {
         // 새 파일 삭제 - 해당 파일만 배열에서 제거
         reviewReadFiles = reviewReadFiles.filter((file, index) => index !== id);
       }
+
+
       
       // 화면 다시 렌더링
       renderReviewReadImages();
@@ -426,7 +428,9 @@ function updateReview() {
   formData.append('rating', rating);
   
   // 삭제할 이미지 ID 목록
-  formData.append('deletedImageIds', JSON.stringify(deletedImageIds));
+  deletedImageIds.forEach(id => {
+    formData.append('deletedImageIds', id);
+  });
   
   // 새로 추가할 이미지 파일
   reviewReadFiles.forEach((file) => {

@@ -209,7 +209,7 @@ public class UserReviewService {
   }
 
 	@Transactional
-	public int updateReviewByUser(Map<String, Object> param, List<MultipartFile> photos) {
+	public int updateReviewByUser(Map<String, Object> param, List<Long> deletedImageIds, List<MultipartFile> photos) {
 		int result = 1;
 
 		// 리뷰 내용 업데이트
@@ -223,7 +223,14 @@ public class UserReviewService {
 		// 사진 업데이트
 		try {
 				// 기존 사진 삭제
-				userReviewMapper.deleteReviewImagesByUser(param);
+				if(deletedImageIds != null && !deletedImageIds.isEmpty()) {
+					for(Long imgId : deletedImageIds) {
+						Map<String, Object> deleteParam = new HashMap<>();
+						deleteParam.put("reviewImgId", imgId);
+
+						userReviewMapper.deleteReviewImagesByUser(deleteParam);
+					}
+				}
 				
 				if (photos != null && !photos.isEmpty()) {
 						for (MultipartFile photo : photos) {
