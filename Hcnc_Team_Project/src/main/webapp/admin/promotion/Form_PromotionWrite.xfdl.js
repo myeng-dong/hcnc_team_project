@@ -614,9 +614,11 @@
             this.mode = promotionId ? "update" : "insert";
 
             if (this.mode === "update") {
+        	    trace("업데이트");
                 this.fnLoadPromotionData();
 
             } else {
+        		trace("신규");
                 this.ds_promo.addRow();
                 this.txt_date_td.set_text(TODAY);
                 this.txt_inputid.set_text(this.memberId);

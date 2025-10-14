@@ -21,40 +21,42 @@ public class PromotionController {
 	private PromotionService promotionService;
 	
 	
-	//신규회원쿠폰발급확인용 LIST
-//	@RequestMapping(value = "/selectNewMemListByAdmin.do")
-//	public NexacroResult selectNewMemListByAdmin(
-//			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
-//		NexacroResult result = new NexacroResult();
-//		try {
-//			List<Map<String, Object>> selectNewMemList = promotionService.selectNewMemListByAdmin(param);
-//			result.addDataSet("ds_newmem_list", selectNewMemList);
-//		}catch (Exception e){
-//			System.out.println(e);
-//			result.setErrorCode(-1);
-//			result.setErrorMsg("쿠폰받은 신규회원 조회중 오류");
-//		}
-//		return result;
-//	}
-	
-	
+	//신규회원쿠폰발급확인용 LIST WELCOME이라는 쿠폰을 가지고있는 코드를 보여주는 영역
+	@RequestMapping(value = "/selectNewMemListByAdmin.do")
+	public NexacroResult selectNewMemListByAdmin(
+			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+		NexacroResult result = new NexacroResult();
+		try {
+			List<Map<String, Object>> dsNewMemList = promotionService.selectNewMemListByAdmin(param);
+			result.addDataSet("ds_newmem_list", dsNewMemList);
+		}catch (Exception e){
+			System.out.println(e);
+			result.setErrorCode(-1);
+			result.setErrorMsg("쿠폰받은 신규회원 조회중 오류");
+		}
+		return result;
+	}
+		
 	
 	//프로모션들
 	@RequestMapping(value = "/selectPromoListByAdmin.do")
-    public NexacroResult selectPromoListByAdmin(
-            @ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
-        NexacroResult result = new NexacroResult();
-        try {
-            List<Map<String, Object>> selectPromoList = promotionService.selectPromoListByAdmin(param);
-            // 넥사크로에 다시 보낸다!
-            result.addDataSet("ds_promo_list", selectPromoList);
-        } catch (Exception e) {
-            System.out.println(e);
-            result.setErrorCode(-1);
-            result.setErrorMsg("프로모션 조회 중 오류");
-        }
-        return result;
-    }
+	public NexacroResult selectPromoListByAdmin(
+	        @ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
+	    NexacroResult result = new NexacroResult();
+	    try {
+	        System.out.println("받은 param: " + param);
+	        List<Map<String, Object>> selectPromoList = promotionService.selectPromoListByAdmin(param);
+	        System.out.println("조회된 결과 수: " + selectPromoList.size());
+	        
+	        result.addDataSet("ds_promo_list", selectPromoList);
+	    } catch (Exception e) {
+	        System.out.println("에러 발생!");
+	        e.printStackTrace();
+	        result.setErrorCode(-1);
+	        result.setErrorMsg("프로모션 조회 중 오류");
+	    }
+	    return result;
+	}
 	
 	@RequestMapping(value = "/selectPromoViewByAdmin.do")
     public NexacroResult selectPromoViewByAdmin(

@@ -46,18 +46,18 @@
             obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stc_name","512","14","50","36",null,null,null,null,null,null,this.search_area.form);
+            obj = new Static("stc_name","717","14","50","36",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("2");
             obj.set_text("작성자");
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","563","17","105","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Edit("Edit00","768","17","105","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("3");
             obj.set_borderRadius("5px");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Button("Button00","650","17","30","30",null,null,null,null,null,null,this.search_area.form);
+            obj = new Button("Button00","855","17","30","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("4");
             obj.set_text("⌕");
             obj.set_background("#135dae");
@@ -85,12 +85,6 @@
             obj.set_index("0");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("stc_name00","734","14","80","36",null,null,null,null,null,null,this.search_area.form);
-            obj.set_taborder("5");
-            obj.set_text("작성일");
-            obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
-            this.search_area.addChild(obj.name, obj);
-
             obj = new Grid("grid_list","40","85",null,null,"40","40",null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_binddataset("ds_board");
@@ -112,20 +106,6 @@
             obj.set_cursor("pointer");
             obj.set_border("0px none");
             this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_01","836","17","100","30",null,null,null,null,null,null,this);
-            obj.set_taborder("3");
-            this.addChild(obj.name, obj);
-
-            obj = new Static("txt_th00_00_00","950","12","30","36",null,null,null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_text("-");
-            obj.set_font("normal 11pt/normal \"Noto Sans KR\"");
-            this.addChild(obj.name, obj);
-
-            obj = new Calendar("Calendar00_00_00","973","17","100","30",null,null,null,null,null,null,this);
-            obj.set_taborder("5");
-            this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1280,720,this,function(p){});
@@ -134,14 +114,6 @@
             
             // BindItem Information
             obj = new BindItem("item0","search_area.form.Edit00","value","ds_search","USER_NAME");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item1","Calendar00_01","value","ds_search","START_DATE");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item2","Calendar00_00_00","value","ds_search","END_DATE");
             this.addChild(obj.name, obj);
             obj.bind();
             
@@ -269,13 +241,9 @@
             this.search_area.form.Button00.addEventHandler("onclick",this.search_area_Button00_onclick,this);
             this.search_area.form.stc_ship.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
             this.search_area.form.rad_type.addEventHandler("onitemchanged",this.search_area_rad_ship_onitemchanged,this);
-            this.search_area.form.stc_name00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
             this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
             this.grid_list.addEventHandler("oncelldblclick",this.grid_list_oncelldblclick,this);
             this.btn_new.addEventHandler("onclick",this.btn_new_onclick,this);
-            this.Calendar00_01.addEventHandler("onchanged",this.search_area_Calendar00_01_onchanged,this);
-            this.txt_th00_00_00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
-            this.Calendar00_00_00.addEventHandler("onchanged",this.search_area_Calendar00_00_00_onchanged,this);
         };
         this.loadIncludeScript("Form_Board_Notice.xfdl");
         this.loadPreloadList();

@@ -13,5 +13,7 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
-	
+	public List<Map<String,Object>> selectProductListSearchByUser(String keyword){
+		return userMapper.selectProductListSearchByUser(keyword);
+	}
 }
