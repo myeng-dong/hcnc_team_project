@@ -52,5 +52,9 @@ public interface UserProductMapper {
 
 	int insertCartItemOptionByUser(Map<String, Object> optionId);
 
+	Long selectCartIdByUser(Map<String, Object> param);
+
+	int insertCartsByUser(Map<String, Object> param);
+
 
 }

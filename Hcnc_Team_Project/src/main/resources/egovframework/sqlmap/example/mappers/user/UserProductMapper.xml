@@ -7,29 +7,33 @@
 	</resultMap>
 
 	<!-- 상품 조회 -->
-	<!--
 	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
+		SELECT P.PRODUCT_ID, P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
 					,PI.IMAGE_ID, PI.IMAGE_URL, PI.ALT_TEXT, PI.SORT_NUMBER, PI.IS_MAIN
 			FROM PRODUCTS P
-			INNER JOIN PRODUCT_IMG PI
+			LEFT JOIN PRODUCT_IMG PI
 				ON P.PRODUCT_ID = PI.PRODUCT_ID
 			WHERE P.PRODUCT_ID = #{productId}
+			ORDER BY PI.SORT_NUMBER
 	</select>
-	-->
-	
+
+<!-- 	
 	<select id="selectProductByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT P.PRODUCT_CODE, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.SALED_PRICE, P.PRODUCT_CONTENT, P.PRODUCT_WEIGHT, P.IS_VISIBLE
 			FROM PRODUCTS P
 			WHERE 1=1
 				AND P.PRODUCT_ID = #{productId}
 	</select>
-	
+-->
 	<select id="slectOptionInfoByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT OPTION_ID, OPTION_NAME, OPTION_VALUE, ADDITIONAL_PRICE
-			FROM OPTIONS
+		SELECT O.OPTION_ID, O.OPTION_NAME, O.OPTION_VALUE, O.ADDITIONAL_PRICE
+				, P.PRODUCT_NAME
+			FROM OPTIONS O
+				INNER JOIN PRODUCTS P
+					ON O.PRODUCT_ID = P.PRODUCT_ID
 			WHERE 1=1
-				AND	PRODUCT_ID = #{productId}
+				AND	O.PRODUCT_ID = #{productId}
+				AND O.IS_VISIBLE = 'Y'
 	</select>
 	
 	<!-- NG: 하나로 할수있겠지만 제가 하나로 못할거같아서 나눴음 -->
@@ -349,10 +353,31 @@
 	        AND p.SUB_CATE_ID = #{subCateId}
 	    </if>
 	</select>
+	
+	<select id="selectCartIdByUser" parameterType="java.util.Map" resultType="java.lang.Long">
+		SELECT CART_ID
+			FROM CARTS
+			WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<insert id="insertCartsByUser" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cartId">
+		INSERT INTO CARTS (MEMBER_ID)
+			<if test="tempId != null">
+			VALUES ( #{tempId} )
+			</if>
+			<if test="tempId == null">
+			VALUES ( #{memberId} )
+			</if>
+	</insert>
 
 	<insert id="insertCartItemByUser" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="cartItemId">
-		INSERT INTO CART_ITEMS (CART_ID, PRODUCT_ID, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL)
-			VALUES (#{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} )
+		INSERT INTO CART_ITEMS (CART_ID, PRODUCT_ID, PRODUCT_OPTION, PRICE, QUANTITY, SUB_TOTAL, IS_CHECKED)
+			<if test="tempId != null">
+			VALUES ( #{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} , 'Y')
+			</if>
+			<if test="tempId == null">
+			VALUES ( #{cartId} , #{productId}, #{option}, #{price}, #{quantity}, #{subTotal} , 'N')
+			</if>
 	</insert>
 	
 	<insert id="insertCartItemOptionByUser" parameterType="java.util.Map">
