@@ -28,9 +28,10 @@ public class BannerController {
     private UploadFile uploadFile;
     
     @RequestMapping(value="/selectBannerListByAdmin.do")
-    public NexacroResult selectBannerListByAdmin() {
+    public NexacroResult selectBannerListByAdmin(
+            @ParamDataSet(name="ds_search", required=false) Map<String, Object> dsSearch) {
         NexacroResult result = new NexacroResult();
-        List<Map<String, Object>> selectBannerList = bannerService.selectBannerListByAdmin();
+        List<Map<String, Object>> selectBannerList = bannerService.selectBannerListByAdmin(dsSearch);
         result.addDataSet("ds_banner", selectBannerList);
         return result;
     }
@@ -69,9 +70,9 @@ public class BannerController {
         return bannerService.updateBannerByAdmin(dsBUpdate, dsFile);
     }
     
-//    @RequestMapping(value="/deleteBannerByAdmin.do")
-//    public NexacroResult deleteBannerByAdmin(
-//            @ParamDataSet(name="ds_banner", required=false) Map<String, Object> dsBanner) {
-//        return bannerService.deleteBannerByAdmin(dsBanner);
-//    }
+    @RequestMapping(value="/deleteBannerByAdmin.do")
+    public NexacroResult deleteBannerByAdmin(
+            @ParamDataSet(name="ds_banner", required=false) List<Map<String, Object>> bannerList) {
+        return bannerService.deleteBannerByAdmin(bannerList);
+    }
 }
