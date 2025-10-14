@@ -99,18 +99,23 @@
             obj = new Button("search_btn","540","165","97","35",null,null,null,null,null,null,this);
             obj.set_taborder("8");
             obj.set_text("검색");
-            obj.set_background("#2563eb");
+            obj.set_background("#667eea");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
-            obj.set_color("white");
+            obj.set_color("#ffffff");
             obj.set_borderRadius("4px");
+            obj.set_border("0px solid #667eea");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
             obj = new Button("reset_btn","650","165","97","35",null,null,null,null,null,null,this);
             obj.set_taborder("9");
             obj.set_text("초기화");
-            obj.set_background(" #9ca3af");
+            obj.set_background("#f5f5f5");
             obj.set_borderRadius("4px");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_color("#666666");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
             obj = new Grid("grid_list","20","230","1240","480",null,null,null,null,null,null,this);
@@ -126,10 +131,12 @@
             obj = new Button("update_grade","1141","165","99","35",null,null,null,null,null,null,this);
             obj.set_taborder("11");
             obj.set_text("등급 변경");
-            obj.set_background("#2563eb");
+            obj.set_background("#667eea");
             obj.set_borderRadius("4px");
-            obj.set_color("white");
+            obj.set_color("#ffffff");
             obj.set_font("12px/normal \"Noto Sans KR Black\"");
+            obj.set_border("0px solid #667eea");
+            obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00_01","44","110","26","27",null,null,null,null,null,null,this);
