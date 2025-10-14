@@ -153,6 +153,7 @@ function createImagePreviewItem(imageSrc, type, id) {
         // 기존 이미지 삭제 표시 - 해당 이미지만 삭제
         if (!deletedImageIds.includes(id)) {
           deletedImageIds.push(id);
+          originalReviewImages = originalReviewImages.filter(img => img.REVIEW_IMG_ID !== id);
         }
       } else {
         // 새 파일 삭제 - 해당 파일만 배열에서 제거
@@ -408,6 +409,12 @@ function updateReview() {
     alert('별점을 선택해주세요.');
     return;
   }
+
+  if (content.length > 500) {
+    alert('리뷰 내용은 최대 500자까지 입력 가능합니다.');
+    $('#review-read-content').focus();
+    return;
+  }
   
   // FormData 생성
   const formData = new FormData();
@@ -433,10 +440,10 @@ function updateReview() {
     data: formData,
     processData: false,
     contentType: false,
+    cache: false,     
     success: function(res) {
       if (res.result > 0) {
         alert('리뷰가 수정되었습니다!');
-        closeReviewReadModal();
         location.reload();
       } else {
         alert('리뷰 수정에 실패했습니다. 다시 시도해주세요.');
@@ -469,7 +476,6 @@ function deleteReview() {
     success: function(res) {
       if (res.result > 0) {
         alert('리뷰가 삭제되었습니다.');
-        closeReviewReadModal();
         location.reload();
       } else {
         alert('리뷰 삭제에 실패했습니다.');

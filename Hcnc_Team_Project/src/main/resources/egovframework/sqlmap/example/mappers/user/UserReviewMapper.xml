@@ -124,4 +124,27 @@
 				AND O.ORDER_ID = #{orderId}
 				AND OI.PRODUCT_ID = #{productId}
 	</select>
+
+	<update id="updateReviewByUser" parameterType="java.util.Map">
+		UPDATE REVIEWS
+			SET REVIEW_TITLE = #{title}
+				, REVIEW_CONTENT = #{content}
+				, STAR_POINT = #{rating}
+				, UPDATE_DT = NOW()
+			WHERE 1=1
+				AND REVIEW_ID = #{reviewId}
+				AND MEMBER_ID = #{memberId}
+	</update>
+
+	<delete id="deleteReviewImagesByUser" parameterType="java.util.Map">
+		DELETE FROM REVIEW_IMG 
+			WHERE REVIEW_ID = #{reviewId}
+	</delete>
+
+	<delete id="deleteReviewByUser" parameterType="java.util.Map">
+		DELETE FROM REVIEWS 
+			WHERE 1=1
+				AND REVIEW_ID = #{reviewId}
+				AND MEMBER_ID = #{memberId}
+	</delete>
 </mapper>

@@ -27,4 +27,10 @@ public interface UserReviewMapper {
 
   List<HashMap<String, Object>> selectReviewForReadByUser(Map<String, Object> param);
 
+  int deleteReviewImagesByUser(Map<String, Object> param);
+
+	int updateReviewByUser(Map<String, Object> param);
+
+	int deleteReviewByUser(Map<String, Object> param);
+
 }

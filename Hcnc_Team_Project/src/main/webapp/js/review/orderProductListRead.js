@@ -29,11 +29,8 @@ $(function(){
         orderProductHTML += "<div class='card-header'>";
         orderProductHTML += "<p>주문번호: "+orderProductList[i].ORDER_NUMBER+"</p>"
         orderProductHTML += "<span>"+orderProductList[i].ORDER_DT+"</span>"
-        orderProductHTML += "<span>•</span>"
-        orderProductHTML += "<span>"+totalAmount.toLocaleString()+"원</span>"
         orderProductHTML += "</div>";
         
-        orderProductHTML += "<div class='order-product-list'>";
         for(var j=0; j<orderProductList[i].orderItems.length; j++) {
           var orderId = orderProductList[i].ORDER_ID;
           var productId = orderProductList[i].orderItems[j].PRODUCT_ID;
@@ -62,7 +59,6 @@ $(function(){
               // 리뷰 작성 모달 열기 버튼
               orderProductHTML += "<button type='button' onclick='openReviewWriteModal("+ orderId +","+ productId +")'>리뷰 작성</button>";
             }
-            orderProductHTML += "</div>";
             orderProductHTML += "</div>";
             orderProductHTML += "</div>";
           }

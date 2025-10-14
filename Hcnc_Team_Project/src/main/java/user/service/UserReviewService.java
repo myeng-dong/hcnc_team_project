@@ -91,7 +91,6 @@ public class UserReviewService {
 	            
 	            for (MultipartFile photo : photos) {
 	                String filename = photo.getOriginalFilename();
-	                long fileSize = photo.getSize();
 	                
 	                // 확장자 추출
 	                String extension = "";
@@ -100,9 +99,6 @@ public class UserReviewService {
 	                }
 	                // UUID로 새 파일명 생성
 	                String attachedName = "REVIEW" + UUID.randomUUID().toString() + extension;
-	                
-	                System.out.println("파일명: " + filename);
-	                System.out.println("파일 크기: " + fileSize + " bytes");
 	                
 	                UploadResult ur = uploadFile.uploadToFile(photo, ImageType.REVIEW);
 	                String fileUrl = ur.getFileName();
@@ -211,4 +207,60 @@ public class UserReviewService {
 
 		return new HashMap<>();
   }
+
+	@Transactional
+	public int updateReviewByUser(Map<String, Object> param, List<MultipartFile> photos) {
+		int result = 1;
+
+		// 리뷰 내용 업데이트
+		int reviewUpdate = userReviewMapper.updateReviewByUser(param);
+
+		if(reviewUpdate < 1) {
+			System.out.println("리뷰 내용 업데이트 실패");
+			result = 0;
+		}
+
+		// 사진 업데이트
+		try {
+				// 기존 사진 삭제
+				userReviewMapper.deleteReviewImagesByUser(param);
+				
+				if (photos != null && !photos.isEmpty()) {
+						for (MultipartFile photo : photos) {
+								String filename = photo.getOriginalFilename();
+								
+								// 확장자 추출
+								String extension = "";
+								if (filename != null && filename.contains(".")) {
+										extension = filename.substring(filename.lastIndexOf("."));
+								}
+								// UUID로 새 파일명 생성
+								String attachedName = "REVIEW" + UUID.randomUUID().toString() + extension;
+								
+								UploadResult ur = uploadFile.uploadToFile(photo, ImageType.REVIEW);
+								String fileUrl = ur.getFileName();
+								
+								param.put("imgOriginName", filename);
+								param.put("imgAttachedName", attachedName);
+								param.put("imgPath", fileUrl);
+
+								int imageInsert = userReviewMapper.insertReviewImage(param);
+								
+								System.out.println("파일이 성공적으로 업로드되었습니다: " + fileUrl);
+						}
+				} else {
+						System.out.println("업로드된 사진 없음");
+				}
+		} catch(Exception e) {
+			e.printStackTrace();
+			result = 0;
+			System.out.println("사진업로드 중 오류 발생");
+		}
+
+		return result;
+	}
+
+	public int deleteReviewByUser(Map<String, Object> param) {
+		return userReviewMapper.deleteReviewByUser(param);
+	}
 }

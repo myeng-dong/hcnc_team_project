@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
@@ -19,6 +19,7 @@
 
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/review/reviewWriteModal.css'/>"/>
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/review/reviewReadModal.css'/>"/>
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/review/orderProductList.css'/>"/>
 
 <!-- j쿼리를 실행하기 위해 스크립트 선언을 해줘야한다. -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
@@ -166,7 +167,7 @@
 			
 			<div class="review-read-content-area">
 				<label for="review-read-content">리뷰 내용</label>
-				<textarea id="review-read-content" readonly></textarea>
+				<textarea id="review-read-content" readonly maxlength="500"></textarea>
 			</div>
 		</div>
 		
