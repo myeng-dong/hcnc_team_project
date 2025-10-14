@@ -1,12 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> <%@
 taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>\
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-
-	var audioPath = '<c:url value="/sounds/bell.mp3" />';
-	var audio = new Audio(audioPath);
-
+  var audioPath = '<c:url value="/sounds/bell.mp3" />';
+  var audio = new Audio(audioPath);
 
   const confirmLogout = () => {
     if (confirm("정말 로그아웃 하시겠습니까?")) {

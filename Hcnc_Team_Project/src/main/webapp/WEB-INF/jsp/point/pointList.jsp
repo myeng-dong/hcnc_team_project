@@ -1,45 +1,26 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <!DOCTYPE html>
 <head>
   <jsp:include page="../layout/headertop.jsp" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DDD.D - 적립금</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 </head>
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    padding: 20px;
-  }
-
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .inner {
-    width: 100%;
-  }
-
   /* 메인 콘텐츠 레이아웃 */
-  .main-content {
+  /* .main-content {
     display: grid;
     grid-template-columns: 280px 1fr;
     gap: 30px;
-  }
+  } */
 
   /* 사이드바 */
   .sidebar {
@@ -75,17 +56,12 @@
     border-radius: 12px;
     margin-bottom: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
     text-decoration: none;
     color: #4a5568;
     font-weight: 500;
   }
 
-  .menu-item:hover {
-    background: rgba(102, 126, 234, 0.1);
-    transform: translateX(5px);
-    color: #667eea;
-  }
+
 
   .menu-item.active {
     background: linear-gradient(45deg, #667eea, #764ba2);
@@ -163,6 +139,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    
   }
 
   .point-card {
@@ -268,12 +245,6 @@
   .point-table tbody tr {
     background: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-  }
-
-  .point-table tbody tr:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
   }
 
   .point-table tbody td {
@@ -400,7 +371,9 @@
     }
   }
 </style>
-
+<script>
+  
+</script>
 <body>
   <jsp:include page="../layout/header.jsp" />
   <div style="height: 20px"></div>
@@ -409,9 +382,9 @@
     <div class="inner">
       <div class="main-content">
         <!-- 사이드바 -->
-        <div class="sidebar">
+        <!-- <div class="sidebar">
           <div class="sidebar-menu">
-            <h3><i class="fas fa-user-circle"></i> 마이페이지</h3>
+            <h3>
             <a href="/mypage/main.do" class="menu-item">
               <div class="menu-icon">🏠</div>
               <span>대시보드</span>
@@ -441,7 +414,7 @@
               <span>정보 수정</span>
             </a>
           </div>
-        </div>
+        </div> -->
 
         <!-- 메인 패널 -->
         <div class="main-panel">
@@ -451,12 +424,12 @@
               <div class="user-greeting">
                 <div class="user-avatar">✏️</div>
                 <div class="greeting-text">
-                  <h2><span style="color: #667eea;">${user.USER_NAME}</span>님 안녕하세요!</h2>
-                  <p>누적 구매금액: <strong>0원</strong></p>
+                  <h2><span style="color: #667eea;">${userName}</span>님 안녕하세요!</h2>
+                  <p>누적 구매금액: <strong>${spendTotal}원</strong></p>
                 </div>
               </div>
-              <button class="edit-profile-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: 600; cursor: pointer;" onclick="location.href='/mypage/main.do'">
-                <i class="fas fa-arrow-left"></i> 마이페이지로
+              <button class="edit-profile-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: 600; cursor: pointer;" onclick="location.href='/mypage/home.do'">
+                마이페이지로
               </button>
             </div>
 
@@ -464,20 +437,20 @@
               <div class="point-card">
                 <div class="point-card-content">
                   <div class="point-label">
-                    <i class="fas fa-coins"></i>
+                    
                     Point
                   </div>
-                  <div class="point-amount">3,000</div>
+                  <div class="point-amount">${pointTotal}</div>
                   <div class="point-unit">적립금</div>
                 </div>
               </div>
               <div class="point-card coupon">
                 <div class="point-card-content">
                   <div class="point-label">
-                    <i class="fas fa-ticket-alt"></i>
+                    
                     쿠폰
                   </div>
-                  <div class="point-amount">0</div>
+                  <div class="point-amount">${fn:length(couponList)}</div>
                   <div class="point-unit">사용 가능</div>
                 </div>
               </div>
@@ -487,7 +460,7 @@
           <!-- 포인트 내역 -->
           <div class="point-history">
             <h2 class="section-title">
-              <i class="fas fa-history"></i>
+              
               Point 적립/사용 내역
             </h2>
 
@@ -499,40 +472,21 @@
                   <th>Point 내역</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
+              <tbody id="showList">
+                <c:forEach var="item" items="${pointList}">
+                  <tr>
                   <td>
-                    <div class="point-date">2020-11-24</div>
+                    <div class="point-date"><fmt:formatDate value="${item.INPUT_DT}" pattern="yyyy-MM-dd" />
+</div>
                   </td>
                   <td>
-                    <div class="point-reason">신규회원의 추천</div>
+                    <div class="point-reason">${item.DESCRIPTION}</div>
                   </td>
                   <td>
-                    <div class="point-change plus">+1,000 Point</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="point-date">2020-11-24</div>
-                  </td>
-                  <td>
-                    <div class="point-reason">신규회원의 추천</div>
-                  </td>
-                  <td>
-                    <div class="point-change plus">+1,000 Point</div>
+                    <div class="point-change plus">${item.POINT} Point</div>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <div class="point-date">2020-11-24</div>
-                  </td>
-                  <td>
-                    <div class="point-reason">신규회원의 추천</div>
-                  </td>
-                  <td>
-                    <div class="point-change plus">+1,000 Point</div>
-                  </td>
-                </tr>
+                </c:forEach>
               </tbody>
             </table>
 
