@@ -16,7 +16,7 @@
               <Static id="search_tit00_00" taborder="5" text="활성화상태" left="20" top="98" width="60" height="35" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
               <Static id="Static00_00_00" taborder="6" left="90" top="106" width="2" height="20" background="#cccccc" text=""/>
               <Radio id="radio_promo_type" taborder="7" left="110" top="55" width="480" height="40" innerdataset="ds_promo_target" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체회원" value="all" onitemchanged="radio_promo_type_onitemchanged"/>
-              <Combo id="grade_combo" taborder="8" text="" left="506" top="57" width="134" height="37" innerdataset="ds_grade" codecolumn="GRADE_CODE" datacolumn="GRADE_NAME" value="" index="-1" onitemchanged="search_area_grade_combo_onitemchanged"/>
+              <Combo id="grade_combo" taborder="8" text="" left="506" top="57" width="134" height="37" innerdataset="ds_grade" codecolumn="GRADE_CODE" datacolumn="GRADE_NAME" value="" index="-1" onitemchanged="search_area_grade_combo_onitemchanged" readonly="false"/>
               <Static id="search_tit00_00_00" taborder="9" text="이벤트기간" left="20" top="135" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
               <Static id="Static00_00_00_00" taborder="10" left="90" top="147" width="2" height="20" background="#cccccc" text=""/>
               <Radio id="radio_view_type" taborder="11" left="110" top="95" width="479" height="40" innerdataset="ds_promo_active" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체" value="all"/>
@@ -41,6 +41,7 @@
     <Script type="xscript5.1"><![CDATA[this.Form_PromoList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	trace("진행중인 프로모션 리스트 확인용>>>>");
+	this.fn_gradeSearch();
 	this.fnSearchPromo();
 };
 
@@ -81,13 +82,31 @@ this.fnDisplayValue = function()
 
 this.radio_promo_type_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
 {
+	trace("postvalue: " + e.postvalue);
+	
     if(e.postvalue == "grade") {
+        this.search_area.form.grade_combo.set_readonly(false); // readonly 해제
         this.search_area.form.grade_combo.set_enable(true);
     } else {
         this.search_area.form.grade_combo.set_enable(false);
+        this.search_area.form.grade_combo.set_readonly(true); // readonly 설정
         this.search_area.form.grade_combo.set_value("");
     }
 };
+
+//회원 등급 조회
+this.fn_gradeSearch = function(){
+	
+	var strSvcID = "selectGradeExceptionAdminList"
+	var setURL = "svc::/selectGradeExceptionAdminListByAdmin.do?time=" + new Date().getTime();
+	var strInDatasets = "";
+	var strOutDatasets = "ds_grade=ds_grade";
+	var strArg = "";
+	var callBack = "fncallBack";
+	var inAsync = true;
+	
+	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+}
 
 // 프로모션리스트
 this.fnSearchPromo = function() {
@@ -105,8 +124,8 @@ this.fnSearchPromo = function() {
     if(this.search_area.form.edit_search) {
         var promoName = this.search_area.form.edit_search.value;
         if(promoName != null && promoName.trim() != "") {
-            if(promoName.trim().length > 80) {
-                this.alert("프로모션명은 80자 이내로 입력해주세요.");
+            if(promoName.trim().length > 50) {
+                this.alert("프로모션명은 50자 이내로 입력해주세요.");
                 return;
             }
             this.ds_search.setColumn(0, "PROMOTION_NAME", promoName.trim());

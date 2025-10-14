@@ -5,21 +5,21 @@
       <Layout height="720" width="1280">
         <!-- 검색 영역 -->
         <!-- 결제 내역 그리드 -->
-        <Div id="search_area" taborder="1" left="40" top="0" height="60" background="#ffffff" borderRadius="10px" text="" right="40">
+        <Div id="search_area" taborder="1" left="40" top="10" height="60" background="#ffffff" borderRadius="10px" text="" right="40">
           <Layouts>
             <Layout>
-              <Static id="stc_name" taborder="2" text="주문자" left="542" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Edit id="Edit00" taborder="3" left="598" top="13" width="125" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
-              <Button id="Button00" taborder="4" text="⌕" left="705" top="13" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick" border="0px none"/>
+              <Static id="stc_name" taborder="2" text="주문자" left="31.83%" top="9" width="60" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Edit id="Edit00" taborder="3" left="36.33%" top="13" width="94" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
               <Static id="stc_ship" taborder="0" text="배송 상태" left="30" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Radio id="rad_ship" taborder="1" left="130" top="4" width="357" height="45" innerdataset="ds_orderStat" codecolumn="CODE" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onitemchanged="search_area_rad_ship_onitemchanged" index="0" text="전체" value="전체"/>
-              <Static id="stc_name00" taborder="5" text="연락처" left="847" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Edit id="Edit00_00" taborder="7" left="903" top="13" width="262" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
-              <Button id="Button00_00" taborder="6" text="⌕" top="13" width="30" height="30" background="#135dae" borderRadius="5px" color="white" onclick="search_area_Button00_onclick" border="0px none" right="30"/>
+              <Radio id="rad_ship" taborder="1" left="9.17%" top="5" width="217" height="45" innerdataset="ds_orderStat" codecolumn="CODE" datacolumn="NAME" direction="vertical" font="normal 9pt/normal &quot;Noto Sans KR&quot;" onitemchanged="search_area_rad_ship_onitemchanged" index="0" text="전체" value="전체"/>
+              <Static id="stc_name00" taborder="4" text="연락처" left="49.58%" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
+              <Edit id="Edit00_00" taborder="5" left="54.17%" top="13" width="119" height="30" onkeyup="search_area_Edit00_onkeyup" borderRadius="5px"/>
+              <Static id="stc_ship00" taborder="6" text="* 발송 후 저장 버튼을 눌러주세요-&gt;" top="10" width="182" height="36" font="normal 9pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick" textAlign="right" right="12%"/>
+              <Button id="btn_save" taborder="7" text="저장" top="14" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" right="3%" width="8.00%"/>
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="0" left="40" top="118" right="40" bottom="40" binddataset="ds_ship" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
+        <Grid id="grid_list" taborder="0" left="40" top="100" right="40" bottom="40" binddataset="ds_ship" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -49,20 +49,20 @@
                 <Cell col="8" text="송장 번호" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
               </Band>
               <Band id="body">
-                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="1" text="bind:ORDER_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="2" text="bind:USER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
-                <Cell col="3" text="bind:PRODUCT_SHORT" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none" cursor="pointer"/>
-                <Cell col="4" text="bind:PHONE_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
-                <Cell col="5" text="bind:ADDRESS" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
-                <Cell col="6" text="bind:COURIER_ID" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="combo" displaytype="combocontrol" combodataset="ds_courier" combodatacol="NAME" combocodecol="CODE"/>
-                <Cell col="7" text="bind:SHIPMENT_STATUS" displaytype="combocontrol" edittype="combo" combodataset="ds_status" combocodecol="NAME" combodatacol="NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="8" text="bind:TRACKING_NUMBER" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                <Cell text="bind:CHK" displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="1" text="bind:ORDER_NUMBER" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="2" text="bind:USER_NAME" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="3" text="bind:PRODUCT_SHORT" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none" cursor="pointer"/>
+                <Cell col="4" text="bind:PHONE_NUMBER" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="5" text="bind:ADDRESS" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
+                <Cell col="6" text="bind:COURIER_ID" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="combo" displaytype="combocontrol" combodataset="ds_courier" combodatacol="NAME" combocodecol="CODE"/>
+                <Cell col="7" text="bind:SHIPMENT_STATUS" displaytype="combocontrol" edittype="combo" combodataset="ds_status" combocodecol="NAME" combodatacol="NAME" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="8" text="bind:TRACKING_NUMBER" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <Button id="btn_save" taborder="2" text="저장" top="70" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" right="40" width="100"/>
+        <Static id="stc_ship00_00" taborder="2" text="* 주문 상품을 클릭하면 주문한 상품을 상세히 볼 수 있습니다." top="10.00%" width="310" height="28" font="normal 9pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick" textAlign="left" color="#135dae" left="45"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[this.Form_Order_Ship_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)

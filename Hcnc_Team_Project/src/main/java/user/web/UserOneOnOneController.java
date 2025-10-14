@@ -15,22 +15,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import admin.mapper.NotificationMapper;
+import common.websocket.WebUtil;
 import user.service.UserBoardService;
 import user.service.UserMemberService;
 
 @Controller
-@RequestMapping("/board")
-public class UserBoardController {
+@RequestMapping("/one")
+public class UserOneOnOneController {
 	@Autowired
 	UserBoardService userBoardService;
 	
 	@Autowired
 	private UserMemberService userMemberService;
 	
+	@Autowired
+	private NotificationMapper notificationMapper;
 	// 게시글 첫 페이지
 	@RequestMapping(value="/home.do")
 	public String cartView() {
-		return "notice/list";
+		return "ask/askByUser";
 	}
 	
 	@RequestMapping(value="/list.do")
@@ -75,8 +79,8 @@ public class UserBoardController {
 	        //파라미터통에 담은 내용을 쏴서 게시글리스트 조회 조회되는 보드ID = 5임
 	        List<Map<String, Object>> posts = userBoardService.selectPostListByUser(params);
 	        
-	        //게시글의 갯수를 카운팅용
-	        int totalCount = userBoardService.selectPostTotalCountByUser(params);
+	        //문의 갯수를 카운팅용
+	        int totalCount = userBoardService.selectPostTotalCountByUserOne(params);
 	        
 	        mav.addObject("success", true);
 	        mav.addObject("resultList", posts);
@@ -140,7 +144,7 @@ public class UserBoardController {
               mav.setViewName("error/500");
         }
         	
-        mav.setViewName("notice/detail"); 
+        mav.setViewName("ask/detail"); 
         return mav;
     }
 
@@ -158,7 +162,7 @@ public class UserBoardController {
 	        if (session == null || session.getAttribute("userInfo") == null) {
 	            // 게시판 목록 페이지로 리다이렉트하면서 메시지 전달
 	            mav.addObject("alertMessage", "로그인이 필요합니다.");
-	            mav.setViewName("redirect:/board/list.do");
+	            mav.setViewName("redirect:/one/list.do");
 	            return mav;
 	        }
 	        
@@ -192,11 +196,11 @@ public class UserBoardController {
 	        e.printStackTrace();
 	        
 	        mav.addObject("alertMessage", "오류가 발생했습니다. 다시 시도해주세요.");
-	        mav.setViewName("redirect:/board/list.do");
+	        mav.setViewName("redirect:/one/list.do");
 	        return mav;
 	    }
 	    
-	    mav.setViewName("notice/insertPost");
+	    mav.setViewName("ask/insertAsk");
 	    return mav;
 	}
 	
@@ -208,6 +212,7 @@ public class UserBoardController {
 	) throws IOException {
 	    response.setContentType("application/json;charset=UTF-8");
 	    PrintWriter out = response.getWriter();
+	    String userId = (String)params.get("memberId");
 	    
 	    try {
 	        Object postIdObj = params.get("postId");
@@ -215,11 +220,27 @@ public class UserBoardController {
 	        // postId가 있고 비어있지 않으면 UPDATE
 	        if(postIdObj != null && !postIdObj.toString().isEmpty()) {
 	            userBoardService.updatetUserPostByUser(params);
+	            
+	            
 	        } else {
 	            // postId가 없으면 INSERT
-	            params.put("boardId", 2); // 일반게시판 고정
-	            userBoardService.insertUserPostByUser(params);
+	            params.put("boardId", 5); // 문의게시판 고정
+	            userBoardService.insertUserAskByUser(params);
+	            
+	            
 	        }
+	        
+	        Map<String, Object> notiParams = new HashMap<>();
+	        notiParams.put("senderId", userId);          // 문의 작성자
+	        notiParams.put("receiverId", "ADMIN");      // 시스템 (관리자용)
+	        notiParams.put("receiverType", "ADMIN");     // 관리자 타입
+	        notiParams.put("notiType", "INQUIRY");   // 신규 문의
+	        notiParams.put("notiMessage", "신규 1:1 문의가 도착했습니다. (" + userId + ")");
+	        
+	        notificationMapper.insertNotificationOneByUser(notiParams); //알림테이블 추가
+	        
+	        WebUtil.sendNewInquiryNotification(userId); //웹소켓으로 메세지 보내기
+	        
 	        
 	        out.print("{\"success\":true}");
 	    } catch (Exception e) {
@@ -247,7 +268,7 @@ public class UserBoardController {
 	        e.printStackTrace();
 	    }
 	    
-	    mav.setViewName("notice/detail");
+	    mav.setViewName("ask/detail");
 	    return mav;
 	}
 	
@@ -279,15 +300,15 @@ public class UserBoardController {
 		ModelAndView mav = new ModelAndView();
 		
 		try {
-			System.out.println("댓글 삭제 실행");
+			System.out.println("댓글 수정 실행");
 			System.out.println(params);
 			userBoardService.updateUserCommentByUser(params);
 			 mav.addObject("success", true);
-		     mav.addObject("message", "삭제 완료");
+		     mav.addObject("message", "수정 완료");
 
 		}catch(Exception e) {
 			mav.addObject("success", false);
-		    mav.addObject("message", "삭제 실패");
+		    mav.addObject("message", "수정 실패");
 			e.printStackTrace();
 			
 		}
@@ -314,7 +335,7 @@ public class UserBoardController {
 			e.printStackTrace();
 			
 		}
-		mav.setViewName("notice/list");
+		mav.setViewName("ask/askByUser");
 		return mav;
 	}
 }

@@ -5,10 +5,11 @@
 		SELECT *
 		FROM BANNERS
 		WHERE 1=1
-			AND IS_VISIBLE = 1
-		<if test="bannerType != null and bannerType != ''">
-		    AND BANNER_TYPE = #{bannerType}
+			AND IS_VISIBLE = 'Y'
+		<if test="BANNER_TYPE != null and BANNER_TYPE != ''">
+		    AND BANNER_TYPE = #{BANNER_TYPE}
 		</if>
-		ORDER BY INPUT_DT DESC
+		ORDER BY SORT_NUMBER DESC
+			   , INPUT_DT DESC
 	</select>
 </mapper>
