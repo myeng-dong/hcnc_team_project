@@ -27,5 +27,30 @@
 		   AND NOTI_ID = #{notiId}
 	</update>
 	
+	<insert id="insertNotificationByAdmin" parameterType="map">
+		INSERT INTO TB_NOTIFICATION (
+			NOTI_ID,
+			SENDER_ID,
+			RECEIVER_ID,
+			RECEIVER_TYPE,
+			NOTI_TYPE,
+			NOTI_MESSAGE,
+			ORDER_NO,
+			ORDER_STATUS,
+			READ_YN,
+			REG_DATE
+		) VALUES (
+			CONCAT('NOTI_', DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'), LPAD(FLOOR(RAND() * 1000), 3, '0')),
+			#{senderId},
+			#{receiverId},
+			#{receiverType},
+			#{notiType},
+			#{notiMessage},
+			#{orderNo},
+			#{orderStatus},
+			'N',
+			NOW()
+		)
+	</insert>
 	
 </mapper>

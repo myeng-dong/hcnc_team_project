@@ -1,4 +1,5 @@
 package user.web;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -81,9 +82,12 @@ public class UserController {
 		ModelAndView mv = new ModelAndView();
 		try {
 			if(keyword != null && keyword != "") {
-				List<Map<String,Object>> list = userService.selectProductListSearchByUser(keyword);
+				String decodeResult = URLDecoder.decode(keyword,"UTF-8");
+				
+				List<Map<String,Object>> list = userService.selectProductListSearchByUser(decodeResult);
 				mv.addObject("status",200);
-				mv.addObject("list",list);
+				mv.addObject("productList",list);
+				mv.addObject("totalCount",list.size());
 			} else {
 				mv.addObject("status",404);	
 			}	
