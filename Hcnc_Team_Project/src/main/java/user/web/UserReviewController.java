@@ -168,6 +168,23 @@ public class UserReviewController {
 		
 		return mav;
 	}
+
+	@RequestMapping(value="/getReviewForRead.do")
+	public ModelAndView getReviewForRead(@RequestParam Map<String, Object> param, HttpSession session) {
+		ModelAndView mav = new ModelAndView("jsonView");
+
+		@SuppressWarnings("unchecked")
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+		if(userInfo != null) {
+			String memberId = (String) userInfo.get("MEMBER_ID");
+			param.put("memberId", memberId);
+		}
+		
+		HashMap<String, Object> reviewInfo = userReviewService.selectReviewForReadByUser(param);
+		mav.addObject("reviewInfo", reviewInfo);
+		
+		return mav;
+	}
 	
 	@RequestMapping(value="/reviewControl.do")
 	public ModelAndView reviewControl() {

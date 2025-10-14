@@ -684,20 +684,21 @@
 				list += '<li class="review" id="'+ reviews[i].REVIEW_ID +'_list" style="padding: 20px 0; border-top: 1px solid grey; border-bottom: 1px solid grey;">';
 				list +=	'<div class="top-info" id="'+ reviews[i].REVIEW_ID +'_topInfo">';
 				list +=	'<div id="'+ reviews[i].REVIEW_ID +'_starPoint">';
-				/* 아래별점부분 두줄 ㄻ가 건듦 250925 09:50 */
 				list += '<div class="review-star-display">' + formatStarDisplay(reviews[i].STAR_POINT) + '</div>';
 				list += '<span class="starText">' + formatRating(reviews[i].STAR_POINT) + '점</span>';
 				list += '</div>';
 				list +=	'<span>' + reviews[i].MEMBER_ID + ' | <span>';
 				list += '<span>' + reviews[i].INPUT_DT + '<span></div>';
 				list +=	'<div class="body-info" id="'+ reviews[i].REVIEW_ID +'_bodyInfo">';
-				list += '<div class="review-img-list" id="'+ reviews[i].REVIEW_ID +'_imgList" style="display: flex; gap: 10px; margin-bottom: 15px;">';
-				if(reviews[i].reviewImgs && reviews[i].reviewImgs.length > 0){
+
+				if(reviews[i].reviewImgs && reviews[i].reviewImgs.length > 0 && reviews[i].reviewImgs[0] != null){
+					list += '<div class="review-img-list" id="'+ reviews[i].REVIEW_ID +'_imgList" style="display: flex; gap: 10px; margin-bottom: 15px;">';
 					for(var j=0; j < reviews[i].reviewImgs.length; j++){
 						list += '<img src="'+ reviews[i].reviewImgs[j].IMG_PATH +'" alt="Review Image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">';
 					}
+					list += '</div>';
 				}
-				list += '</div>';
+
 				list +=	'<div class="review-title"><span style="font-weight: bold;">'+ reviews[i].REVIEW_TITLE +'</span></div>';
 				list +=	'<div class="review-imgs" id="'+ reviews[i].REVIEW_ID +'_imgs" style="display: flex;"></div>';
 				list +=	'<div class="review-content">'+ reviews[i].REVIEW_CONTENT +'</div>';

@@ -25,4 +25,6 @@ public interface UserReviewMapper {
 
 	int insertReviewImage(Map<String, Object> param);
 
+  List<HashMap<String, Object>> selectReviewForReadByUser(Map<String, Object> param);
+
 }

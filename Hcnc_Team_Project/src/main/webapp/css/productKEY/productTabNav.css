@@ -1,0 +1,108 @@
+/* 탭 네비게이션 */
+.nav-tabs {
+  border-bottom: 2px solid #f8f9fa;
+    margin-bottom: 0;
+    background-color: #ffffff;
+    padding: 0 20px;
+}
+
+.nav-tabs .nav-link {
+    color: #666;
+    font-weight: 600;
+    padding: 16px 24px;
+    border: none; /* 기존 박스 테두리 제거 */
+    border-radius: 0;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    position: relative;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+}
+
+.nav-tabs .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #DC0630 0%, #b8052a 100%);
+    border-radius: 2px 2px 0 0;
+    transition: width 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  color: #DC0630;
+    background-color: rgba(220, 6, 48, 0.05);
+    border-color: transparent;
+    border-radius: 8px 8px 0 0;
+}
+
+.nav-tabs .nav-link.active {
+  color: #DC0630 !important;
+    background-color: rgba(220, 6, 48, 0.08) !important;
+    border-color: transparent !important;
+    border-radius: 8px 8px 0 0;
+    font-weight: 700;
+}
+
+.nav-tabs .nav-link.active::after {
+    width: 100%;
+}
+
+.nav-tabs .nav-link:hover::after {
+    width: 100%;
+}
+
+/* 탭 네비게이션을 포함하는 섹션 */
+.tab-navigation-section {
+  position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #ffffff;
+    margin-bottom: 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border-bottom: 1px solid #f1f3f4;
+}
+
+/* 탭 콘텐츠 */
+.tab-content {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid rgba(220, 6, 48, 0.1);
+  margin-top: 0;
+}
+
+/* 카운트 뱃지 */
+#productReviewCnt, #productQnACnt {
+  background: linear-gradient(135deg, #DC0630 0%, #b8052a 100%);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin-left: 8px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(220, 6, 48, 0.3);
+}
+
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .tab-navigation-section {
+    padding-top: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-tabs .nav-link {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  .tab-navigation-section {
+    padding-top: 5px;
+  }
+}

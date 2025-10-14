@@ -55,12 +55,12 @@ $(function(){
             orderProductHTML += "<span>"+productPrice.toLocaleString()+"원</span>";
             orderProductHTML += "<span>"+orderProductList[i].ORDER_DT+"</span>";
             orderProductHTML += "</div>";
-            orderProductHTML += "<div class='order-product-review' id='order-product-review-"+productId+"'>";
+            orderProductHTML += "<div class='order-product-review' id='order-product-review-"+ productId +"'>";
             if(reviewedSet.has(uniqueKey)) {
-              orderProductHTML += "<span>리뷰 작성 완료</span>";
+              orderProductHTML += "<button type='button' onclick='openReviewReadModal("+ orderId +","+ productId +")'>리뷰 보기</button>";
             } else {
-            // 리뷰 작성 모달 열기 버튼
-            orderProductHTML += "<button type='button' onclick='openReviewWriteModal("+ orderId +","+ productId +")'>리뷰 작성</button>";
+              // 리뷰 작성 모달 열기 버튼
+              orderProductHTML += "<button type='button' onclick='openReviewWriteModal("+ orderId +","+ productId +")'>리뷰 작성</button>";
             }
             orderProductHTML += "</div>";
             orderProductHTML += "</div>";

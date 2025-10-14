@@ -179,4 +179,36 @@ public class UserReviewService {
 	public HashMap<String, Object> selectProductInfoForReviewByUser(Map<String, Object> param) {
 		return userReviewMapper.selectProductInfoForReviewByUser(param);
 	}
+
+  public HashMap<String, Object> selectReviewForReadByUser(Map<String, Object> param) {
+    List<HashMap<String, Object>> targetReview = userReviewMapper.selectReviewForReadByUser(param);
+
+		if(targetReview != null && !targetReview.isEmpty()) {
+			HashMap<String, Object> review = targetReview.get(0);
+
+			System.out.println("조회된 리뷰 데이터: " + review);
+
+			// 리뷰 이미지들
+			List<HashMap<String, Object>> reviewImgs = new ArrayList<>();
+			for (HashMap<String, Object> row : targetReview) {
+				Long reviewImgId = (Long) row.get("REVIEW_IMG_ID");
+				String imgPath = (String) row.get("IMG_PATH");
+				String imgOriginName = (String) row.get("IMG_ORIGIN_NAME");
+
+				if(reviewImgId != null && imgPath != null) {
+					HashMap<String, Object> reviewImg = new HashMap<>();
+					reviewImg.put("REVIEW_IMG_ID", reviewImgId);
+					reviewImg.put("IMG_PATH", imgPath);
+					reviewImg.put("IMG_ORIGIN_NAME", imgOriginName);
+
+					reviewImgs.add(reviewImg);
+				}
+			}
+			review.put("reviewImgs", reviewImgs);
+
+			return review;
+		}
+
+		return new HashMap<>();
+  }
 }

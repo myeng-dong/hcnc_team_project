@@ -21,7 +21,7 @@ function openReviewWriteModal(orderId, productId) {
         alert('상품 정보를 불러오지 못했습니다.');
       }
     },
-    error: function(xhr, status, error) {
+    error: function(error) {
       console.error('상품 정보 조회 실패:', error);
       alert('상품 정보를 불러오는 중 오류가 발생했습니다.');
     }
@@ -82,3 +82,4 @@ function updateStars() {
     }
   });
 }
+
