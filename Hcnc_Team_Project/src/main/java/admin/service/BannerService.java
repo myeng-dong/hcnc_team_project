@@ -27,8 +27,8 @@ public class BannerService {
     @Autowired
     private UploadFile uploadFile;
     
-    public List<Map<String, Object>> selectBannerListByAdmin() {
-        return bannerMapper.selectBannerListByAdmin();
+    public List<Map<String, Object>> selectBannerListByAdmin(Map<String, Object> dsSearch) {
+        return bannerMapper.selectBannerListByAdmin(dsSearch);
     }
     
 
@@ -176,40 +176,44 @@ public class BannerService {
         return bannerMapper.selectBannerDetailByAdmin(bannerId);
     }
 
-//    public NexacroResult deleteBannerByAdmin(Map<String, Object> dsBanner) {
-//    	NexacroResult result = new NexacroResult();
-//    	try {
-//            for (Map<String, Object> banner : dsBanner) {
-//                String bannerId = (String) banner.get("BANNER_ID");
-//                
-//                Map<String, Object> existingBanner = bannerMapper.selectBannerDetailByAdmin(bannerId);
-//                
-//                if (existingBanner != null) {
-//                    // 2. 이미지 파일 삭제
-//                    String imageUrl = (String) existingBanner.get("IMAGE_URL"); // 컬럼명 확인 필요
-//                    if (imageUrl != null && !imageUrl.isEmpty()) {
-//                        try {
-//                        	uploadFile.deleteFile(imageUrl, ImageType.BANNER);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                            // 이미지 삭제 실패해도 DB 삭제는 진행
-//                        }
-//                    }
-//                    
-//                    bannerMapper.deleteBannerByAdmin(banner);
-//                }
-//            }
-//            
-//            result.setErrorCode(0);
-//            result.setErrorMsg("배너 삭제 완료");
-//            
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            result.setErrorCode(-1);
-//            result.setErrorMsg("배너 삭제 실패");
-//        }
-//        return result;
-//    }
+    public NexacroResult deleteBannerByAdmin(List<Map<String, Object>> bannerList) {
+        NexacroResult result = new NexacroResult();
+        try {
+            int deleteCnt = 0;
+            
+            for (Map<String, Object> banner : bannerList) {                
+                
+            	String bannerId = String.valueOf(banner.get("BANNER_ID"));
+                
+                Map<String, Object> existingBanner = bannerMapper.selectBannerDetailByAdmin(bannerId);
+                
+                if (existingBanner != null) {
+                    // 이미지 파일 삭제
+                    String imgPath = (String) existingBanner.get("IMG_PATH"); // 컬럼명 수정
+                    if (imgPath != null && !imgPath.isEmpty()) {
+                        try {
+                            String fileName = uploadFile.extractFileName(imgPath);
+                            uploadFile.deleteFile(fileName, ImageType.BANNER);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    
+                    bannerMapper.deleteBannerByAdmin(banner);
+                    deleteCnt++;
+                }
+            }
+            
+            result.setErrorCode(0);
+            result.setErrorMsg(deleteCnt + "건 삭제 완료");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setErrorCode(-1);
+            result.setErrorMsg("배너 삭제 실패");
+        }
+        return result;
+    }
 	
 
 }

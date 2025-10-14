@@ -20,4 +20,10 @@ public interface NotificationMapper {
 	//주문시 알림인서트
 	void insertNotificationByAdmin(Map<String, Object> params);
 
+	//1대1문의 등록
+	void insertNotificationOneByUser(Map<String, Object> notiParams);
+	
+	//1대1문의 답변
+	void insertNotificationOneByAdmin(Map<String, Object> params);
+
 }

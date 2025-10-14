@@ -94,7 +94,7 @@
 	         , sc.SUB_CATE_NM
 	         , sc.MAIN_CATE_ID
 	         , mc.MAIN_CATE_NM
-	         , pImg.IMAGE_URL
+	         , pImg.IMAGE_URL AS imageUrl
 	         , pImg.ALT_TEXT
 	         , COALESCE(r.REVIEW_COUNT, 0) AS REVIEW_COUNT
 	         , COALESCE(r.AVG_RATING, 0) AS AVG_RATING
@@ -142,7 +142,7 @@
 	         , sc.SUB_CATE_NM
 	         , sc.MAIN_CATE_ID
 	         , mc.MAIN_CATE_NM
-	         , pImg.IMAGE_URL
+	         , pImg.IMAGE_URL AS imageUrl
 	         , pImg.ALT_TEXT
 	         , COALESCE(r.REVIEW_COUNT, 0) AS REVIEW_COUNT
 	         , COALESCE(r.AVG_RATING, 0) AS AVG_RATING
@@ -190,7 +190,7 @@
 	         , sc.SUB_CATE_NM
 	         , sc.MAIN_CATE_ID
 	         , mc.MAIN_CATE_NM
-	         , pImg.IMAGE_URL
+	         , pImg.IMAGE_URL AS imageUrl
 	         , pImg.ALT_TEXT
 	         , COALESCE(r.REVIEW_COUNT, 0) AS REVIEW_COUNT
 	         , COALESCE(r.AVG_RATING, 0) AS AVG_RATING
@@ -237,7 +237,7 @@
 	         , sc.SUB_CATE_NM
 	         , sc.MAIN_CATE_ID
 	         , mc.MAIN_CATE_NM
-	         , pImg.IMAGE_URL
+	         , pImg.IMAGE_URL AS imageUrl
 	         , pImg.ALT_TEXT
 	         , COALESCE(r.REVIEW_COUNT, 0) AS REVIEW_COUNT
 	         , COALESCE(r.AVG_RATING, 0) AS AVG_RATING

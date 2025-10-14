@@ -27,12 +27,15 @@ public class PromotionController {
 			@ParamDataSet(name = "ds_search", required = false) Map<String, Object> param) {
 		NexacroResult result = new NexacroResult();
 		try {
+			System.out.println("받은 param: " + param);
 			List<Map<String, Object>> dsNewMemList = promotionService.selectNewMemListByAdmin(param);
 			result.addDataSet("ds_newmem_list", dsNewMemList);
+			System.out.println("조회된 결과 수: " + dsNewMemList.size());
 		}catch (Exception e){
-			System.out.println(e);
-			result.setErrorCode(-1);
-			result.setErrorMsg("쿠폰받은 신규회원 조회중 오류");
+			System.out.println("에러 발생!");
+	        e.printStackTrace();
+	        result.setErrorCode(-1);
+	        result.setErrorMsg("신규회원쿠폰발급목록 조회 중 오류");
 		}
 		return result;
 	}

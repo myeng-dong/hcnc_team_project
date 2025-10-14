@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -181,6 +182,7 @@ public class UserProductService {
 	}
 	
 	// 신상품 리스트 조회
+	@Cacheable("newProducts")
 	public List<Map<String, Object>> selectNewProductList(int page, int pageSize, String sortType, String mainCateId, String subCateId) {
 	    int offset = (page - 1) * pageSize;
 	    
@@ -195,6 +197,7 @@ public class UserProductService {
 	}
 
 	// 신상품 총 개수 조회
+	@Cacheable("newProductsCnt")
 	public int selectNewProductCount(String sortType, String mainCateId, String subCateId) {
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("sortType", sortType);
@@ -205,6 +208,7 @@ public class UserProductService {
 	}
 
 	// 추천상품 리스트 조회
+	@Cacheable("recommendProducts")
 	public List<Map<String, Object>> selectRecommendProductList(int page, int pageSize, String sortType, String mainCateId, String subCateId) {
 	    int offset = (page - 1) * pageSize;
 	    
@@ -219,6 +223,7 @@ public class UserProductService {
 	}
 
 	// 추천상품 총 개수 조회
+	@Cacheable("recommendProductsCnt")
 	public int selectRecommendProductCount(String sortType, String mainCateId, String subCateId) {
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("sortType", sortType);
@@ -229,6 +234,7 @@ public class UserProductService {
 	}
 
 	// 인기상품 리스트 조회
+	@Cacheable("hotProducts")
 	public List<Map<String, Object>> selectHotProductList(int page, int pageSize, String sortType, String mainCateId, String subCateId) {
 	    int offset = (page - 1) * pageSize;
 	    
@@ -243,6 +249,7 @@ public class UserProductService {
 	}
 
 	// 인기상품 총 개수 조회
+	@Cacheable("hotProductsCnt")
 	public int selectHotProductCount(String sortType, String mainCateId, String subCateId) {
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("sortType", sortType);
