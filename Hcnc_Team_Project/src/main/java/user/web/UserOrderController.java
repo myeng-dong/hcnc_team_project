@@ -226,9 +226,39 @@ public class UserOrderController {
 	    
 	    return new JSONObject(response.toString());
 	}
-//	----- 주문내역페이지로드 -----
+	//	----- 주문내역페이지 조회 로드 -----
 	@RequestMapping(value="/orderHistory.do")
-	public String orderHistory() {
-		return "order/orderHistory";
+	public ModelAndView orderHistory(HttpSession session) {
+	    ModelAndView mav = new ModelAndView();
+	    
+	    Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+	    
+	    System.out.println("====== 주문내역 조회 시작 ======");
+	    System.out.println("세션 정보: " + userInfo);
+	    
+	    if(userInfo != null) {
+	        String memberId = (String) userInfo.get("MEMBER_ID");
+	        System.out.println("회원 ID: " + memberId);
+	        
+	        List<HashMap<String, Object>> orderList = userOrderService.orderHistory(memberId);
+	        
+	        System.out.println("조회된 주문 개수: " + (orderList != null ? orderList.size() : 0));
+	        
+	        if(orderList != null) {
+	            for(int i = 0; i < orderList.size(); i++) {
+	                System.out.println("주문 " + (i+1) + ": " + orderList.get(i));
+	            }
+	        }
+	        
+	        mav.addObject("orderList", orderList);
+	    } else {
+	        System.out.println("세션 정보가 없습니다!");
+	    }
+	    
+	    System.out.println("====== 주문내역 조회 종료 ======");
+	    
+	    mav.setViewName("order/orderHistory");
+	    
+	    return mav;
 	}
 }
