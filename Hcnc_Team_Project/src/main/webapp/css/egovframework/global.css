@@ -1,5 +1,6 @@
 html {
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px white inset;

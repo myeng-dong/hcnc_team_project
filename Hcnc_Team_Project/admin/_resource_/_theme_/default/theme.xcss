@@ -1216,16 +1216,18 @@ color        : #aaaaaa;
 
 .Tab .tabbuttonitem
 {
-	color : #333333;
+	color : #000000;
 	background : linear-gradient(to top, #fcfcfc, #fafafa);
 	-nexa-border : 1px solid #c7c7c7;
 	-nexa-padding : 6px 10px 6px 10px;
 }
-
 .Tab .tabbuttonitem[status=mouseover]
 {
 	-nexa-border : 1px solid #b1b1b1;
 	background : linear-gradient(to top, #dddcdc, #fefefe);
+	
+	
+	
 }
 
 .Tab .tabbuttonitem[status=focused]
@@ -1235,15 +1237,15 @@ color        : #aaaaaa;
 
 .Tab .tabbuttonitem[userstatus=selected],.Tab .tabbuttonitem[status=focused][userstatus=selected]
 {
-	color : #dee4ef;
-	background : #1055a1;
+	color : #ffffff;
+	background : #000000;
 	-nexa-border : 1px solid #1055a1;
 }
 
 .Tab .tabbuttonitem[status=disabled]
 {
-	color : #ababab;
-	background : #e7e7e7;
+	color : #999999;
+	background : #dddddd;
 }
 
 .Tab .tabbuttonitem[status=disabled][userstatus=selected]
@@ -1946,5 +1948,9 @@ color        : #aaaaaa;
 	background : #ffa47a;
 	color : #000000;
 }
+
+
+
+
 
 ]]></XCSS>

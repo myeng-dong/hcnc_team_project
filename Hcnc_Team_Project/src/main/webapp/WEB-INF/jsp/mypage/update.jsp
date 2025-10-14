@@ -134,15 +134,15 @@ uri="http://www.springframework.org/tags"%>
       return num;
     };
     const updateUser = () => {
-      const email = $("#email").val();
-      const name = $("#name").val();
-      const birth = $("#birth").val();
-      const loginType = $("#loginType").val();
-      const phone = $("#phone").val().replace(/-/gi, "");
-      const originEmail = $("#originEmail").val();
-      const originPassword = $("#originPassword").val();
-      const newPassword = $("#newPassword").val();
-      const newPasswordCheck = $("#newPasswordCheck").val();
+      const email = $("#email").val().trim();
+      const name = $("#name").val().trim();
+      const birth = $("#birth").val().trim();
+      const loginType = $("#loginType").val().trim();
+      const phone = $("#phone").val().replace(/-/gi, "").trim();
+      const originEmail = $("#originEmail").val().trim();
+      const originPassword = $("#originPassword").val().trim();
+      const newPassword = $("#newPassword").val().trim();
+      const newPasswordCheck = $("#newPasswordCheck").val().trim();
       if (email !== originEmail) {
         if (sessionStorage.getItem("to") !== email) {
           alert(
@@ -234,6 +234,8 @@ uri="http://www.springframework.org/tags"%>
         if (response.status === 409) {
           alert("이미 존재하는 이메일입니다.");
           init();
+          verifyBtn.disabled = false;
+          verifyBtn.textContent = "발송하기";
         }
       });
     };
@@ -264,6 +266,8 @@ uri="http://www.springframework.org/tags"%>
           codeInput.disabled = true;
         } else {
           alert("인증에 실패하였습니다. 인증번호를 확인해주세요.");
+          verifyBtn.disabled = false;
+          verifyBtn.textContent = "인증하기";
         }
       });
     };
@@ -754,6 +758,7 @@ uri="http://www.springframework.org/tags"%>
                 type="text"
                 class="form-input"
                 placeholder="이름을 입력하세요"
+                maxlength="30"
               />
             </div>
 
@@ -799,7 +804,7 @@ uri="http://www.springframework.org/tags"%>
                   class="verify-btn"
                   onclick="emailCodeCheck()"
                 >
-                  확인
+                  인증하기
                 </button>
               </div>
               <div class="form-help">

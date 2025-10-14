@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.UserMapper">
-
+	<select id="selectProductListSearchByUser" resultType="java.util.Map">
+		SELECT p.PRODUCT_ID AS PRODUCT_ID
+	         , p.PRODUCT_NAME
+	         , p.PRODUCT_CODE
+	         , p.PRODUCT_PRICE
+	         , p.SALED_PRICE
+	         , p.SORT_NUMBER
+	         , p.PRODUCT_TYPE
+	         , pImg.IMAGE_URL AS imageUrl
+	         , pImg.ALT_TEXT AS ALT_TEXT
+	         , COALESCE(r.REVIEW_COUNT, 0) AS REVIEW_COUNT
+	         , COALESCE(r.AVG_RATING, 0) AS AVG_RATING
+	         , COALESCE(inv.TOTAL_QUANTITY, 0) AS STOCK_QUANTITY
+	    FROM PRODUCTS p
+	    LEFT JOIN PRODUCT_IMG pImg 
+           ON p.PRODUCT_ID = pImg.PRODUCT_ID 
+          AND pImg.SORT_NUMBER = 0
+	    LEFT JOIN (
+	        SELECT PRODUCT_ID
+	             , COUNT(*) AS REVIEW_COUNT
+	             , ROUND(AVG(STAR_POINT), 1) AS AVG_RATING
+	        FROM REVIEWS
+	        WHERE REVIEW_STATUS = 'Y'
+	        GROUP BY PRODUCT_ID
+	    ) r ON p.PRODUCT_ID = r.PRODUCT_ID
+	    LEFT JOIN (
+		    SELECT PRODUCT_ID
+		         , SUM(QUANTITY) AS TOTAL_QUANTITY
+		    FROM INVENTORIES
+		    GROUP BY PRODUCT_ID
+		) inv ON p.PRODUCT_ID = inv.PRODUCT_ID
+	    WHERE p.IS_VISIBLE = 'Y'
+ 	      AND p.PRODUCT_NAME LIKE CONCAT('%', #{keyword}, '%')
+	</select>
 </mapper>

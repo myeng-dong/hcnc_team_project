@@ -55,7 +55,7 @@
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_review_list");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"48\"/><Column size=\"103\"/><Column size=\"169\"/><Column size=\"140\"/><Column size=\"91\"/><Column size=\"160\"/><Column size=\"110\"/><Column size=\"111\"/><Column size=\"68\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"상품코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"상품명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"회원ID\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"별점\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\"/><Cell col=\"5\" text=\"리뷰작성일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"6\" text=\"포인트지급여부\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"지급일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"리뷰상세\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" textAlign=\"center\"/><Cell col=\"1\" text=\"bind:PRODUCT_CODE\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:PRODUCT_NAME\"/><Cell col=\"3\" text=\"bind:MEMBER_ID\" textAlign=\"center\"/><Cell col=\"4\" text=\"bind:STAR_POINT\" textAlign=\"center\"/><Cell col=\"5\" edittype=\"none\" text=\"bind:INPUT_DT\"/><Cell col=\"6\" text=\"bind:POINT_ISSUED\" textAlign=\"center\"/><Cell col=\"7\" edittype=\"none\" text=\"bind:ISSUED_DT\"/><Cell col=\"8\" displaytype=\"buttoncontrol\" text=\"관리\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"48\"/><Column size=\"68\"/><Column size=\"103\"/><Column size=\"169\"/><Column size=\"140\"/><Column size=\"55\"/><Column size=\"128\"/><Column size=\"110\"/><Column size=\"111\"/><Column size=\"68\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"1\" text=\"주문아이디\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"상품코드\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"상품명\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" text=\"회원ID\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"5\" text=\"별점\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\"/><Cell col=\"6\" text=\"리뷰작성일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"포인트지급여부\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"지급일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"리뷰상세\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell text=\"expr:currow + 1\" textAlign=\"center\"/><Cell col=\"1\" text=\"bind:ORDER_ID\"/><Cell col=\"2\" text=\"bind:PRODUCT_CODE\" textAlign=\"center\"/><Cell col=\"3\" text=\"bind:PRODUCT_NAME\"/><Cell col=\"4\" text=\"bind:MEMBER_ID\" textAlign=\"center\"/><Cell col=\"5\" text=\"bind:STAR_POINT\" textAlign=\"center\"/><Cell col=\"6\" edittype=\"none\" text=\"bind:INPUT_DT\"/><Cell col=\"7\" text=\"bind:POINT_ISSUED\" textAlign=\"center\"/><Cell col=\"8\" edittype=\"none\" text=\"bind:ISSUED_DT\"/><Cell col=\"9\" displaytype=\"buttoncontrol\" text=\"관리\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Div("search_area","40","20",null,"130","40",null,null,null,null,null,this);
@@ -79,11 +79,13 @@
 
             obj = new Radio("radio_issued","96","49","304","30",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("2");
-            obj.set_innerdataset("ds_issued");
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
             obj.set_direction("vertical");
             obj.set_font("normal 10pt/normal \"Noto Sans KR Medium\"");
+            var search_area_form_radio_issued_innerdataset = new nexacro.NormalDataset("search_area_form_radio_issued_innerdataset", obj);
+            search_area_form_radio_issued_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">all</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">Y</Col><Col id=\"datacolumn\">발급</Col></Row><Row><Col id=\"codecolumn\">N</Col><Col id=\"datacolumn\">미발급</Col></Row></Rows>");
+            obj.set_innerdataset(search_area_form_radio_issued_innerdataset);
             obj.set_text("");
             obj.set_value("");
             obj.set_index("0");
@@ -240,20 +242,17 @@
         		case "selectReview":
                     trace("총 행 수: " + this.ds_review_list.rowcount);
 
-                    // 처음 몇 행의 POINT_ISSUED 값 확인
-                    for(var i = 0; i < Math.min(5, this.ds_review_list.rowcount); i++) {
+                    // 1/0을 Y/N으로 변환해서 원본 컬럼에 덮어쓰기
+                    for(var i = 0; i < this.ds_review_list.rowcount; i++) {
                         var pointIssued = this.ds_review_list.getColumn(i, "POINT_ISSUED");
-                        trace("행 " + i + " POINT_ISSUED: [" + pointIssued + "] (타입: " + typeof pointIssued + ") (길이: " + String(pointIssued).length + ")");
+                        var displayValue = (pointIssued == 1) ? "Y" : "N";
+                        this.ds_review_list.setColumn(i, "POINT_ISSUED", displayValue);  // 원본에 덮어쓰기
                     }
 
-                    // 컬럼 존재 여부 확인
-                    var colExists = false;
-                    for(var j = 0; j < this.ds_review_list.colcount; j++) {
-                        var colName = this.ds_review_list.getColID(j);
-                        if(colName == "POINT_ISSUED") {
-                            colExists = true;
-                            break;
-                        }
+                    // 디버깅 로그
+                    for(var i = 0; i < Math.min(5, this.ds_review_list.rowcount); i++) {
+                        var pointIssued = this.ds_review_list.getColumn(i, "POINT_ISSUED");
+                        trace("행 " + i + " POINT_ISSUED: [" + pointIssued + "]");
                     }
                 return;
 
@@ -272,6 +271,7 @@
             }
         };
 
+
         });
         
         // Regist UI Components Event
@@ -280,6 +280,7 @@
             this.addEventHandler("onload",this.Form_ReviewList_onload,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
             this.search_area.form.search_tit.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
+            this.search_area.form.radio_issued.addEventHandler("onitemchanged",this.search_area_radio_issued_onitemchanged,this);
             this.search_area.form.search_tit00.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
             this.btn_reset.addEventHandler("onclick",this.btn_reset_onclick,this);
             this.btn_search.addEventHandler("onclick",this.btn_search_onclick,this);

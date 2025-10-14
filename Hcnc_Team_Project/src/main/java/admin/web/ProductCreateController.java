@@ -40,11 +40,29 @@ public class ProductCreateController {
     public ResponseEntity<String> getCategories() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
 		List<Map<String,Object>> categorys = productCreateService.selectProductCategoryListByAdmin();
-	   	System.out.println(objectMapper.writeValueAsString(categorys));
         String jsonString = objectMapper.writeValueAsString(categorys);
         
         return ResponseEntity.ok(jsonString);
     }
+	
+	@RequestMapping(value="/selectTargetProductByAdmin.do")
+	public NexacroResult selectTargetProductByAdmin(
+			@ParamVariable(name="productId") String productId
+			){
+		NexacroResult rs = new NexacroResult();
+		try {
+			System.out.println("productId= "+productId);
+			Map<String,Object> product = productCreateService.selectTargetProductByAdmin(productId);
+			List<Map<String,Object>> images = productCreateService.selectProductImageListByAdmin(productId);
+			System.out.println(product);
+			rs.addDataSet("ds_product",product);
+			rs.addDataSet("ds_preview_origin",images);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return rs;
+	}
 	
 	@RequestMapping(value="/previewProductCreateByAdmin.do")
 	public NexacroResult previewProductCreateByAdmin(
@@ -52,7 +70,7 @@ public class ProductCreateController {
 			){
 		NexacroResult rs = new NexacroResult();
 		try {
-			UploadResult ur = uploadFile.uploadToFile(file, ImageType.PREVIEW); 
+			UploadResult ur = uploadFile.uploadToFile(file, ImageType.PREVIEW);
 			String fileName = ur.getFileName();
 			Map<String,Object> res = new HashMap();
 			res.put("fileName",fileName);
@@ -70,9 +88,10 @@ public class ProductCreateController {
 	        @ParamDataSet(name = "preview", required = false) List<Map<String, Object>> preview
 	) {
 	    NexacroResult rs = new NexacroResult();
-
+	    Map<String,Object> res = new HashMap();
 	    try {
 	    	int imageSize = (preview != null) ? preview.size() : 0;
+	    	System.out.println("CREATE");
 	        System.out.println(ds_product);
 	        System.out.println(preview);
 
@@ -80,10 +99,11 @@ public class ProductCreateController {
 	        Map<String, Object> product = ds_product;
 	        int count = productCreateService.insertProductCreateByAdmin(product);
 	        
-	        Long productId = (Long) product.get("PRODUCT_ID");
+	        String productId = String.valueOf(product.get("PRODUCT_ID"));
 	        
 	        if (count != 1) {
-	            rs.addDataSet("createStatus", "PRODUCT");
+	        	res.put("status", "PRODUCT");
+	            rs.addDataSet("createStatus", res);
 	            return rs;
 	        }
 	        int sortNum = 0;
@@ -100,7 +120,8 @@ public class ProductCreateController {
 	        }
 
 	        if (imageSize != sortNum) {
-	            rs.addDataSet("createStatus", "IMAGE");
+	        	res.put("status", "IMAGE");
+	            rs.addDataSet("createStatus", res);
 	            return rs;
 	        }
 
@@ -110,15 +131,92 @@ public class ProductCreateController {
 	        int inventoryCount = productCreateService.insertCreateInventoryByAdmin(insertInven);
 
 	        if (inventoryCount != 1) {
-	            rs.addDataSet("createStatus", "INVEN");
+	        	res.put("status", "INVEN");
+	            rs.addDataSet("createStatus", res);
 	            return rs;
 	        }
+	        res.put("status", "SUCCESS");
+	        rs.addDataSet("createStatus", res);
+	        return rs;
 
-	        rs.addDataSet("createStatus", "SUCCESS");
+	    }  catch (Exception e) {
+	        System.out.println(e);
+	        rs.setErrorCode(-1);
+	        rs.setErrorMsg("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도해주십시오.");
+	        return rs;
+	    } 
+	}
+
+	@RequestMapping(value = "/updateProductCreateByAdmin.do")
+	public NexacroResult updateProductCreateByAdmin(
+	        @ParamDataSet(name = "ds_product", required = false) Map<String, Object> ds_product,
+	        @ParamDataSet(name = "preview", required = false) List<Map<String, Object>> preview,
+	        @ParamDataSet(name = "ds_preview_origin", required = false) List<Map<String, Object>> ds_preview_origin,
+	        @ParamDataSet(name = "ds_delete_image", required = false) List<Map<String, Object>> ds_delete_image
+	) {
+	    NexacroResult rs = new NexacroResult();
+	    Map<String,Object> res = new HashMap();
+	    try {
+	    	int imageSize = (preview != null) ? preview.size() : 0;
+	    	int deleteImageSize = (ds_delete_image != null) ? ds_delete_image.size() : 0;
+	    	System.out.println("UPDATE");
+	        System.out.println("ds_product= " + ds_product);
+	        System.out.println("preview= " + preview);
+	        System.out.println("ds_preview_origin= " + ds_preview_origin);
+	        System.out.println("ds_delete_image= " + ds_delete_image);
+
+	        // 1. 제품 정보 Update
+	        String productId = String.valueOf(ds_product.get("PRODUCT_ID"));
+	        ds_product.put("PRODUCT_ID",productId);
+	        int updateCnt = productCreateService.updateProductCreateByAdmin(ds_product);
+	        if (updateCnt != 1) {
+	        	res.put("status", "PRODUCT");
+	            rs.addDataSet("createStatus", res);
+	            return rs;
+	        }
+	        
+	        // 사진 삭제 후 업로드 처리
+	        if(deleteImageSize != 0) {
+	        	for (Map<String, Object> origin :ds_delete_image) {
+	        		String fileUrl = (String) origin.get("fileUrl"); 
+	        		int delCnt = productCreateService.deleteProductImageListByAdmin(fileUrl);
+	        		uploadFile.deleteFile(fileUrl, ImageType.PRODUCT);
+	        	}
+	        }
+	        int sortNum = 0;
+	        if(imageSize != 0) {
+	 	        for (Map<String, Object> pre : preview) {
+	 	            Map<String, Object> insertPreview = new HashMap<>();
+	 	            String fileName = (String) pre.get("fileUrl");
+	 	            Boolean exist = Boolean.valueOf((String)pre.get("exist"));
+	 	            
+	 	            insertPreview.put("PRODUCT_ID", productId);
+	 	            insertPreview.put("IMAGE_URL", fileName);
+	 	            insertPreview.put("SORT_NUMBER", sortNum);
+	 	            if(exist) {
+	 	            	productCreateService.updateProductImageByAdmin(insertPreview);
+	 	            } else {
+	 	            	productCreateService.insertProductImageByAdmin(insertPreview);
+		 	            uploadFile.moveFile(fileName,ImageType.PRODUCT);
+	 	            }
+	 	            sortNum++;
+	 	        }
+	        }
+	       
+
+	        if (imageSize != sortNum) {
+	        	res.put("status", "IMAGE");
+	            rs.addDataSet("createStatus", res);
+	            return rs;
+	        }
+	        res.put("status", "SUCCESS");
+	        rs.addDataSet("createStatus", res);
 	        return rs;
 
 	    } catch (Exception e) {
 	        System.out.println(e);
+	        rs.setErrorCode(-1);
+	        rs.setErrorMsg("처리중 오류가 발생하였습니다. 새로고침 후 다시 시도해주십시오.");
 	    }
 
 	    return rs;

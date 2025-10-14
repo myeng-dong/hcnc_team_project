@@ -13,60 +13,137 @@
     <Script type="xscript5.1"><![CDATA[this.isWait = false; // 전역변수 선언! 
 //로그아웃 버튼 클릭시 세션 끊고 로그아웃
 
-this.btn_logout_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+//로그인 완료시 실행되게
+this.fn_initWebSocket = function()
 {
-	console.log(this.isWait);
-	if(this.isWait)return;
-	this.isWait = true;
-	this.logout();
+    trace("로그인 완료 - 웹소켓 연결 시작");
+    this.connectWebSocket();
 };
 
-//콜백
-this.fn_callBack = function (svcID, errorCode, errorMSG)
+
+this.btn_logout_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo){
+
+    if(this.isWait) return;
+    this.isWait = true;
+    this.logout();
+};
+
+this.fn_callBack = function(svcID, errorCode, errorMSG)
 {
-    if(errorCode == -1){
-		this.alert(errorMSG);
-	}
-	
-	switch(svcID){
-	case "adminLogout" :
-		
+    if(errorCode == -1) {
+        this.alert(errorMSG);
+        this.isWait = false;
+        return;
+    }
+    
+    switch(svcID) {
+	case "adminLogout":
 		var glbAd = nexacro.getApplication();
 		
-		//전역변수 초기화
-		if(glbAd.gds_adminInfo){
+		
+		// 전역 데이터 초기화
+		if(glbAd.gds_adminInfo) {
 			glbAd.gds_adminInfo.clearData();
 		}
 		
-		//다시 로그인 화면 갔을 때 탑 메뉴, 레프트 메뉴 닫기 
-		nexacro.VFrameSet00.set_separatesize("0,*");     // Top 접기
-		nexacro.HFrameSet00.set_separatesize("0,*");     // Left 접기
-		nexacro.InnerVFrameSet.set_separatesize("0,*");  // Title 접기 (쓰는 경우만)
+		// 프레임 닫기
+		nexacro.VFrameSet00.set_separatesize("0,*");
+		nexacro.HFrameSet00.set_separatesize("0,*");
+		nexacro.InnerVFrameSet.set_separatesize("0,*");
 		
-		//로그아웃 성공시 로그인 페이지로 이동
+		// 로그인 화면으로
 		this.isWait = false;
-		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": true};
+		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": true };
 		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("member::Form_Login.xfdl");
 		
-		break;
-	}
+        break;
+    }
 };
 
-this.logout = function ()
+this.logout = function()
 {
-	var strSvcID = "adminLogout"
-	var setURL = "svc::/adminLogoutByAdmin.do?time=" + new Date().getTime();;
-	var strInDatasets = "";
-	var strOutDatasets = "";
-	var strArg = "";
-	var callBack = "fn_callBack";
-	var inAsync = true;
-	
-	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
+    var strSvcID = "adminLogout";
+    var setURL = "svc::/adminLogoutByAdmin.do?time=" + new Date().getTime();
+    var strInDatasets = "";
+    var strOutDatasets = "";
+    var strArg = "";
+    var callBack = "fn_callBack";
+    var inAsync = true;
+    
+    this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
 };
 
 
-]]></Script>
+//웹소켓 연결 함수
+this.connectWebSocket = function()
+{
+    var glbAd = nexacro.getApplication();
+    var userId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
+    
+    if (!userId) {
+        trace("❌ 사용자 ID 없음 - 웹소켓 연결 불가");
+        return;
+    }
+    
+    var wsUrl = 'ws://localhost:8080/notification/' + userId;
+    
+    trace("🔌 웹소켓 연결 시도: " + wsUrl);
+    
+    try {
+        // ⭐ 브라우저 기본 WebSocket 사용
+        this.websocket = new WebSocket(wsUrl);
+        
+        var objThis = this;
+        
+        // onopen 이벤트
+        this.websocket.onopen = function(e) {
+            trace("✅ 웹소켓 연결 성공");
+        };
+        
+        // onmessage 이벤트
+        this.websocket.onmessage = function(e) {
+            trace("📩 알림 수신: " + e.data);
+            
+            try {
+                var data = JSON.parse(e.data);
+                
+                if (data.type == "ORDER_STATUS_CHANGE") {
+                    alert("[알림] " + data.message);
+                } 
+                else if (data.type == "NEW_ORDER") {
+                    alert("[신규 주문] " + data.message);
+                }
+                else if (data.type == "NEW_INQUIRY") {
+                    alert("[신규 문의] " + data.message);
+                }
+                else if (data.type == "INQUIRY_REPLY") {
+                    alert("[답변 알림] " + data.message);
+                }
+                
+            } catch(err) {
+                trace("❌ 메시지 파싱 에러: " + err.message);
+            }
+        };
+        
+        // onerror 이벤트
+        this.websocket.onerror = function(e) {
+            trace("❌ 웹소켓 에러");
+        };
+        
+        // onclose 이벤트
+        this.websocket.onclose = function(e) {
+            trace("⚠️ 웹소켓 연결 종료 - 3초 후 재연결");
+            
+            // 3초 후 자동 재연결
+            setTimeout(function() {
+                objThis.connectWebSocket();
+            }, 3000);
+        };
+        
+    } catch(err) {
+        trace("❌ 웹소켓 생성 실패: " + err.message);
+    }
+};]]></Script>
     <Objects/>
     <Bind>
       <BindItem id="item0" compid="admin_id" propid="text" datasetid="gds_adminInfo" columnid="MEMBER_ID"/>
