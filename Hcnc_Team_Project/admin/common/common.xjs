@@ -30,7 +30,7 @@ function alertCustom(form, msg, type)
     bg.show();
 
     // 실제 알럿창
-    var div = new Div("div_alertBox", null, null, 400, 180, 0, 0, null, null, null, null, bg);
+    var div = new Div("div_alertBox", null, null, 400, 200, 0, 0, null, null, null, null, bg);
     div.set_background("#ffffff");
     div.set_borderRadius("12px");
     div.set_border("2px solid #056e70");
@@ -54,7 +54,7 @@ function alertCustom(form, msg, type)
     stMsg.set_font("bold 12px 'Gulim'");
     stMsg.set_color("#333333");
     stMsg.set_wordWrap("char");
-	stMsg.set_textAlign("left");
+	stMsg.set_textAlign("center");
     div.addChild("st_msg", stMsg);
 
     // 확인 버튼
@@ -92,7 +92,7 @@ this.fn_confirmCustom = function (msg, callback)
         form.div_confirmBg.destroy();
     }
 
-    // 1️⃣ 배경
+    // 1.배경
     var bg = new Div("div_confirmBg", 0, 0, null, null, 0, 0, null, null, null, null, form);
     bg.set_background("rgba(0,0,0,0.45)");
     bg.set_tabstop(true);
@@ -100,7 +100,7 @@ this.fn_confirmCustom = function (msg, callback)
     form.addChild("div_confirmBg", bg);
     bg.show();
 
-    // 2️⃣ 컨펌창 본체
+    // 2.컨펌창 본체
     var div = new Div("div_confirmBox", null, null, 360, 190, 0, 0, null, null, null, null, bg);
     div.set_background("#ffffff");
     div.set_border("2px solid #056e70");
@@ -115,7 +115,7 @@ this.fn_confirmCustom = function (msg, callback)
     var cy = (form.getOffsetHeight() - div.getOffsetHeight()) / 2;
     div.move(cx, cy);
 
-    // 3️⃣ 메시지 Static
+    // 3.메시지 Static
     var stMsg = new Static("st_msg", 30, 40, 300, 60, null, null, null, null, null, null, div);
     stMsg.set_text(msg);
     stMsg.set_font("bold 12px 'Gulim'");
@@ -127,7 +127,7 @@ this.fn_confirmCustom = function (msg, callback)
     div.addChild("st_msg", stMsg);
     stMsg.show();  // ✅ 중요: 반드시 show() 호출!
 
-    // 4️⃣ 버튼 2개
+    // 4.버튼 2개
     var btnOk = new Button("btn_ok", 65, 120, 100, 35, null, null, null, null, null, null, div);
     btnOk.set_text("확인");
     btnOk.set_background("#056e70");
@@ -146,13 +146,13 @@ this.fn_confirmCustom = function (msg, callback)
     div.addChild("btn_cancel", btnCancel);
     btnCancel.show();
 
-    // 5️⃣ 닫기 함수
+    // 5.닫기 함수
     function closeConfirm(ok) {
         try { if (form.div_confirmBg && form.div_confirmBg.destroy) form.div_confirmBg.destroy(); } catch(e){}
         if (typeof callback === "function") callback(ok);
     }
 
-    // 6️⃣ 이벤트 연결
+    // 6.이벤트 연결
     btnOk.addEventHandler("onclick", function(){ closeConfirm(true); }, form);
     btnCancel.addEventHandler("onclick", function(){ closeConfirm(false); }, form);
 
@@ -161,7 +161,7 @@ this.fn_confirmCustom = function (msg, callback)
         if (e.keycode == 27) closeConfirm(false);  // ESC
     }, form);
 
-    // 7️⃣ 포커스 및 z-index
+    // 7.포커스 및 z-index
     bg.setFocus();
     bg.bringToFront();
 }
@@ -169,19 +169,26 @@ this.fn_confirmCustom = function (msg, callback)
 
 
 
-/*폼에서 컨펌창 테마 사용하기위해서
+	/*폼에서 컨펌창 테마 사용하기위해서
 
-	this.fn_confirmCustom("이 상품을 숨김 처리하시겠습니까?")
-    .then(function(ok){
-        if (!ok) return;
-        this.fn_updateVisibleProd("N");
-    }.bind(this));
-	
-	이런식으로 컨펌창 호출해서 띄우세요.
+   
+    this.fn_confirmCustom(
+        "정보를 수정하시겠습니까?",
+        function (ok) {
+            if (!ok) return;
 
-*/
+            // bind(this)로 Form 컨텍스트 유지
+            this.fn_openOptionForm("UPDATE", {
+                "OPTION_ID": optionId,
+                "OPTION_NAME": optionName,
+                "OPTION_VALUE": optionVal,
+                "ADDITIONAL_PRICE": addPrice
+            });
+        }.bind(this)  
+    );
 
 
+	이런식으로 컨펌창 호출해서 띄우세요. */
 
 
 

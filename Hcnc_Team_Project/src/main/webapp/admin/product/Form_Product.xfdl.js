@@ -582,7 +582,7 @@
             }
 
            // 기존: if (!this.confirm("...")) return;
-        this.fn_confirmCustom(
+        	this.fn_confirmCustom(
         		"총 " + selRows.length + "건을 "
         		+ (newState == "Y" ? "진열" : "숨김")
         		+ " 상태로 변경하시겠습니까?\n같은 상품계열은 모두 같은 상태로 변경됩니다.",
@@ -813,7 +813,7 @@
             // [1] 클릭한 헤더 셀이 체크박스 컬럼(0)일 때만 검사
             if (e.col == 0)
             {
-                // ✅ '목록'(row=0 등) 영역 클릭 시 무시
+                //  '목록'(row=0 등) 영역 클릭 시 무시
                 var dispType = obj.getCellProperty("head", e.cell, "displaytype");
                 if (dispType != "checkboxcontrol") return;
 
