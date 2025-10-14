@@ -61,28 +61,17 @@ public class NotificationWebSocket {
     
     
     
-    // 모든 관리자에게 메세지 전송
+    // ⭐ 모든 관리자에게 메시지 전송 (ADMIN으로 통일)
     public static void sendToAllAdmins(String message) {
-    	//몇명의 관리자에게 보냈는지 담을 변수통
-        int sentCount = 0;
+        Session adminSession = clients.get("ADMIN");
         
-        //맵 돌리면서 모든 관리자에게 메세지 보냄
-        for (Map.Entry<String, Session> entry : clients.entrySet()) {
-            String userId = entry.getKey();
-            Session session = entry.getValue();
-            
-            Boolean isAdmin = adminCache.get(userId);
-            
-            //어드민이 널이 아니고 , 값이 있고, 세션이 열려있을 때 아래 내용 실행
-            if (isAdmin != null && isAdmin && session.isOpen()) {
-                sendMessage(session, message);
-                sentCount++;
-            }
+        if (adminSession != null && adminSession.isOpen()) {
+            sendMessage(adminSession, message);
+            System.out.println("📢 관리자(ADMIN)에게 알림 전송");
+        } else {
+            System.out.println("⚠️ 관리자 세션 없음 (ADMIN)");
         }
-        
-        System.out.println(" 관리자 " + sentCount + "명에게 알림 전송");
     }
-    
 
     //유저에게 메세지 전송
     public static void sendToUser(String userId, String message) {
