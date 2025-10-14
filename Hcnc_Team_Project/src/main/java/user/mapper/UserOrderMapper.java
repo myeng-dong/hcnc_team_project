@@ -41,5 +41,6 @@ public interface UserOrderMapper {
 
 	int deleteCartByUser(Map<String, Object> order);
 
+	List<HashMap<String, Object>> selectOrderHistoryByUser(String memberId);
 
 }

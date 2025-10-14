@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -179,4 +181,10 @@ public class UserOrderService {
 		// TODO Auto-generated method stub
 		return userOrderMapper.selectSuccessOrderByUser(orderNumber);
 	}
+
+	// 주문내역페이지 조회
+	public List<HashMap<String, Object>> orderHistory(String memberId) {
+	    return userOrderMapper.selectOrderHistoryByUser(memberId);
+	}
+
 }
