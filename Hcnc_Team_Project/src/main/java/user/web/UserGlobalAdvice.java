@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import user.service.UserCategoryService;
 
-//공용일때 advice
-@ControllerAdvice
+//layout용 = 공용이지만(랜더링될때) 한번만 불러오면 됨 + 관리자일때 필요없음
+@ControllerAdvice(basePackages = "user.web")
 public class UserGlobalAdvice {
 
     @Autowired

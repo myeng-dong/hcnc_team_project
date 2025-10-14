@@ -34,7 +34,7 @@ public class UserCouponService {
 	    params.put("discountValue", 15);   // 15% 기본값
 	    params.put("minOrderPrice", 5000);    // 5천원이상구매시사용가능
 	    params.put("expiryDt", expiry);
-	    params.put("couponName", "WELCOME");
+	    params.put("couponType", "WELCOME");
 	    
 	    System.out.println("회원 ID: " + memberId);
 	    System.out.println("쿠폰 코드: " + couponCode);
@@ -45,7 +45,14 @@ public class UserCouponService {
 	    System.out.println("만료일: " + params.get("expiryDt"));
 	    System.out.println("쿠폰타입"+params.get("couponType"));
 	    
-	    return userCouponMapper.insertSignUpCoupon(params);
+	    try {
+	        int result = userCouponMapper.insertSignUpCoupon(params);
+	        System.out.println("WELCOME 쿠폰 발급 성공 - 회원ID: " + memberId);
+	        return result;
+	    } catch(Exception e) {
+	        System.err.println("WELCOME 쿠폰 발급 실패 - 회원ID: " + memberId);
+	        return 0;  
+	    }
 	}
 
 	@Transactional

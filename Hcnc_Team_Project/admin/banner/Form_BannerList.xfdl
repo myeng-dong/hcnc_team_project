@@ -4,21 +4,21 @@
     <Layouts>
       <Layout height="720" width="1080">
         <Grid id="grid_list" taborder="0" left="40" top="200" background="#FFFFFF" border="0px none" borderRadius="10px" right="40" autofittype="col" binddataset="ds_banner" bottom="100" oncellclick="grid_list_oncellclick" onheadclick="grid_list_onheadclick">&gt;
-          <Formats><Format id="default"><Columns><Column size="48"/><Column size="48"/><Column size="76"/><Column size="127"/><Column size="83"/><Column size="168"/><Column size="189"/><Column size="129"/><Column size="163"/><Column size="80"/><Column size="84"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol" treecheck="bind:chk"/><Cell col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="출력순서" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="타입" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" colspan="2" text="제목" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none"/><Cell col="6" text="링크" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="작성자" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="출력여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" text="0" edittype="checkbox"/><Cell col="1" text="expr:currow + 1"/><Cell col="2" text="bind:SORT_NUMBER"/><Cell col="3" text="bind:BANNER_TYPE"/><Cell col="4" text="bind:IMG_PATH" displaytype="imagecontrol" imagestretch="bind:IMG_PATH"/><Cell col="5" text="bind:BANNER_TITLE"/><Cell col="6" edittype="none" text="bind:LINKED_URL"/><Cell col="7" text="bind:INPUT_ID"/><Cell col="8" edittype="none" text="bind:INPUT_DT"/><Cell col="9" edittype="none" text="bind:IS_VISIBLE"/><Cell col="10" displaytype="buttoncontrol" text="관리"/></Band></Format></Formats></Grid>
+          <Formats><Format id="default"><Columns><Column size="48"/><Column size="48"/><Column size="62"/><Column size="127"/><Column size="83"/><Column size="168"/><Column size="174"/><Column size="105"/><Column size="110"/><Column size="75"/><Column size="84"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222" displaytype="checkboxcontrol" treecheck="bind:chk"/><Cell col="1" text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="출력순서" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="타입" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" colspan="2" text="제목" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none"/><Cell col="6" text="링크" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="작성자" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="8" text="등록일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="9" text="출력여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="10" text="관리" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell displaytype="checkboxcontrol" text="bind:CHK" edittype="checkbox"/><Cell col="1" text="expr:currow + 1" textAlign="center"/><Cell col="2" text="bind:SORT_NUMBER" textAlign="center"/><Cell col="3" text="bind:BANNER_TYPE" textAlign="center"/><Cell col="4" text="bind:IMG_PATH" displaytype="imagecontrol" imagestretch="bind:IMG_PATH"/><Cell col="5" text="bind:BANNER_TITLE"/><Cell col="6" edittype="none" text="bind:LINKED_URL"/><Cell col="7" text="bind:INPUT_ID"/><Cell col="8" edittype="none" text="bind:INPUT_DT"/><Cell col="9" edittype="none" text="bind:IS_VISIBLE" textAlign="center"/><Cell col="10" displaytype="buttoncontrol" text="관리"/></Band></Format></Formats></Grid>
         <Static id="txt_h4_00" taborder="1" text="총       개 | 활성화       개" left="50" top="170" width="153" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#333333" onclick="search_area_search_txt01_onclick"/>
         <Static id="txt_bannertotal" taborder="2" text="0" left="10" top="170" width="70" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" textAlign="right"/>
-        <Static id="txt_bannertotal00" taborder="3" text="0" left="85" top="170" width="70" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" cursor="copy" textAlign="right"/>
+        <Static id="txt_bannertotal00" taborder="3" text="0" left="140" top="170" width="15" height="20" font="normal 700 10pt/normal &quot;Noto Sans KR Medium&quot;" color="#1017ac" onclick="search_area_search_txt01_onclick" cursor="copy" textAlign="right"/>
         <Button id="btn_write" taborder="4" text="글쓰기" background="#1017ac" color="#ffffff" borderRadius="5px" border="0px none" right="40" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" onclick="btn_write_onclick" height="40" bottom="40"/>
-        <Button id="btn_delete" taborder="5" text="선택지우기" top="640" background="#d92d06" color="#ffffff" borderRadius="5px" border="0px none" right="900" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" bottom="40" onclick="btn_delete_onclick"/>
-        <Div id="search_area" taborder="6" left="40" top="20" height="140" background="#ffffff" borderRadius="10px" text="" width="1000">
+        <Button id="btn_delete" taborder="5" text="선택지우기" background="#d92d06" color="#ffffff" borderRadius="5px" border="0px none" width="140" font="normal bold 10pt/normal &quot;Noto Sans KR Medium&quot;" bottom="40" onclick="btn_delete_onclick" height="40" left="40"/>
+        <Div id="search_area" taborder="6" left="40" top="20" height="140" background="#ffffff" borderRadius="10px" text="" right="40">
           <Layouts>
             <Layout>
               <Static id="Static00" taborder="0" left="82" top="15" width="2" height="20" background="#cccccc" text=""/>
               <Static id="Static00_00" taborder="1" left="83" top="54" width="2" height="20" background="#cccccc" text=""/>
               <Static id="search_tit" taborder="2" text="배너타입" left="20" top="2" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
               <Static id="search_tit00" taborder="3" text="활성화" left="20" top="45" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
-              <Radio id="radio_type" taborder="4" left="110" top="5" width="640" height="40" innerdataset="ds_type" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체회원" value="all" onitemchanged="radio_promo_type_onitemchanged"/>
-              <Radio id="radio_active" taborder="5" left="110" top="45" width="480" height="40" innerdataset="ds_visible" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체회원" value="all" onitemchanged="radio_promo_type_onitemchanged"/>
+              <Radio id="radio_type" taborder="4" left="110" top="5" width="640" height="40" innerdataset="ds_type" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체" value="all"/>
+              <Radio id="radio_active" taborder="5" left="110" top="45" width="480" height="40" innerdataset="ds_visible" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="전체회원" value="all"/>
               <Button id="btn_select" taborder="6" text="조회" left="370" top="90" height="30" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" onclick="search_area_btn_select_onclick" width="100"/>
               <Button id="btn_reset" taborder="7" text="초기화" left="489" top="90" height="30" borderRadius="5px" background="#8e8e8e" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" width="100" onclick="search_area_btn_reset_onclick"/>
             </Layout>
@@ -26,23 +26,26 @@
         </Div>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[
+    <Script type="xscript5.1"><![CDATA[// 폼 로드
 this.Form_BannerList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	this.fnSearchBanner();
-	trace("배너 리스트 출력여부 확인용>>>");
+	this.grid_list.setCellProperty("head", 0, "text", "0");
+    this.fnSearchBanner();
+    trace("배너 리스트 출력여부 확인용>>>");
 };
 
+// 글쓰기 버튼
 this.btn_write_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
+    this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
 };
 
+// 삭제 버튼
 this.btn_delete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	var checkedCount = 0;
+    var checkedCount = 0;
     for(var i = 0; i < this.ds_banner.getRowCount(); i++) {
-        if(this.ds_banner.getColumn(i, "chk") == "1") {
+        if(this.ds_banner.getColumn(i, "CHK") == "1") {
             checkedCount++;
         }
     }
@@ -55,59 +58,99 @@ this.btn_delete_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
     if(confirm(checkedCount + "개의 배너를 삭제하시겠습니까?")) {
         // 체크된 행들을 삭제 상태로 변경
         for(var i = this.ds_banner.getRowCount() - 1; i >= 0; i--) {
-            if(this.ds_banner.getColumn(i, "chk") == "1") {
+            if(this.ds_banner.getColumn(i, "CHK") == "1") {
                 this.ds_banner.setRowType(i, Dataset.ROWTYPE_DELETE);
             }
         }
         this.fnDeleteBanner();
     }
 };
+
 // 전체 선택/해제
 this.grid_list_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-	if(e.cell == 0) {  
+    if(e.cell == 0) {  
         var headChecked = obj.getCellProperty("head", e.cell, "text");
         var newValue = (headChecked == "1") ? "0" : "1";
         
-        // 헤드 체크박스 상태 변경
         obj.setCellProperty("head", e.cell, "text", newValue);
         
-        // 모든 행의 체크박스 상태 변경
         for(var i = 0; i < this.ds_banner.getRowCount(); i++) {
-            this.ds_banner.setColumn(i, "chk", newValue);
+            this.ds_banner.setColumn(i, "CHK", newValue);
         }
     }
 };
 
-//cell클릭시 argument기억
+// 셀 클릭 - 관리 버튼
 this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-	if(e.cell == 10){
-		var BannerId = this.ds_banner.getColumn(e.row,"BANNER_ID")
-		this.getOwnerFrame().arguments = {"BANNER_ID" : BannerId}
-		this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
-	}
+    if(e.cell == 10){
+        var BannerId = this.ds_banner.getColumn(e.row,"BANNER_ID");
+        this.getOwnerFrame().arguments = {"BANNER_ID" : BannerId};
+        this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
+    }
 };
 
-// 배너조회
+
+// 조회 버튼
+this.search_area_btn_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.click_btn = true;
+    this.fnSearchBanner();
+};
+
+// 초기화 버튼
+this.search_area_btn_reset_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    this.search_area.form.radio_type.set_value("all");
+    this.search_area.form.radio_active.set_value("all");
+    this.fnSearchBanner();
+};
+
+// 배너 조회
 this.fnSearchBanner = function() {
     var strSvcID       = "selectBanner";
-    var strURL         = "svc::selectBannerListByAdmin.do";  // Spring Controller 매핑
+    var strURL         = "svc::selectBannerListByAdmin.do";
     var strInDatasets  = "ds_search=ds_search";
     var strOutDatasets = "ds_banner=ds_banner"; 
-    var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
+    var strArg         = "";
     var strCallback    = "fnCallback";
+    
+    this.ds_search.clearData();
+    this.ds_search.addRow();
+    
+    this.ds_search.setColumn(0, "BANNER_TYPE", null);
+    this.ds_search.setColumn(0, "IS_VISIBLE", null);
 	
-	trace(this.ds_search.saveXML());
-	
+    // 배너 타입
+    var typeIndex = this.search_area.form.radio_type.index;
+    if(typeIndex > 0) {
+        var typeValue = this.ds_type.getColumn(typeIndex, "codecolumn");
+        this.ds_search.setColumn(0, "BANNER_TYPE", typeValue);
+    }
+    
+    // 활성화 상태
+    var activeIndex = this.search_area.form.radio_active.index;
+    if(activeIndex > 0) {
+        var activeValue = this.ds_visible.getColumn(activeIndex, "codecolumn");
+        this.ds_search.setColumn(0, "IS_VISIBLE", activeValue);
+    }
+    
+    trace("행 수: " + this.ds_search.getRowCount());
+    for(var i = 0; i < this.ds_search.getColCount(); i++) {
+        var colName = this.ds_search.getColID(i);
+        var colValue = this.ds_search.getColumn(0, colName);
+        trace(colName + " = " + colValue);
+    }
+    
     this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
 };
 
-//삭제
+// 배너 삭제
 this.fnDeleteBanner = function() {
-	var strSvcID       = "deleteBanner";
+    var strSvcID       = "deleteBanner";
     var strURL         = "svc::deleteBannerByAdmin.do";
-    var strInDatasets  = "ds_banner=ds_banner:U"; // :U 추가 (Update된 행만 전송)
+    var strInDatasets  = "ds_banner=ds_banner:U";
     var strOutDatasets = ""; 
     var strArg         = "";
     var strCallback    = "fnCallback";
@@ -115,32 +158,54 @@ this.fnDeleteBanner = function() {
     this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
 };
 
+// 총 개수 및 활성화 개수 표시
+this.fn_setTotal = function()
+{
+    var totalCnt = this.ds_banner.getRowCount();
+    var activeCnt = 0;
+    
+    for(var i = 0; i < totalCnt; i++) {
+        if(this.ds_banner.getColumn(i, "IS_VISIBLE") == "Y") {
+            activeCnt++;
+        }
+    }
+    
+    this.txt_bannertotal.set_text(totalCnt);
+    this.txt_bannertotal00.set_text(activeCnt);
+};
+
 // 공통 콜백
 this.fnCallback = function(svc, err, errMsg) {
     if (err < 0) {
         this.alert("에러 발생: " + errMsg);
-		
         return;
     }
+    
     switch(svc){
-		case "selectBanner"  :
-			for(var i = 0; i < rowCount; i++) {
-				this.ds_banner.setColumn(i, "chk", "0");
-			}
-			var rowCount = this.ds_banner.getRowCount();
-           
-            if(rowCount == 0) {
+        case "selectBanner":
+            var rowCount = this.ds_banner.getRowCount();
+            
+            // 체크박스 초기화
+            for(var i = 0; i < rowCount; i++) {
+                this.ds_banner.setColumn(i, "CHK", "0");
+            }
+            
+            // 총 개수 및 활성화 개수 표시
+            this.fn_setTotal();
+            
+            if(rowCount == 0 && this.click_btn) {
                 this.alert("검색 조건에 맞는 배너가 없습니다.");
             }
-		return;
-		case "deleteBanner"  :
-			alert("삭제되었습니다.");
+			
+			this.click_btn = false;
+            break;
+            
+        case "deleteBanner":
+            alert("삭제되었습니다.");
             this.fnSearchBanner();
             break;
-		return;
-	}
+    }
 };
-
 
 
 
@@ -148,7 +213,7 @@ this.fnCallback = function(svc, err, errMsg) {
     <Objects>
       <Dataset id="ds_banner">
         <ColumnInfo>
-          <ConstColumn id="chk" type="STRING" size="30"/>
+          <ConstColumn id="CHK" type="STRING" size="30"/>
           <ConstColumn id="BANNER_ID" type="STRING" size="30"/>
           <ConstColumn id="BANNER_TYPE" type="STRING" size="30"/>
           <ConstColumn id="BANNER_TITLE" type="STRING" size="30"/>

@@ -29,24 +29,7 @@
         <Div id="Div04" taborder="23" text="Div04" left="80" top="325" height="1" background="#f5f5f5" right="80"/>
         <Div id="Div05" taborder="24" text="Div05" left="80" top="380" height="1" background="#f5f5f5" right="80"/>
         <Div id="Div06" taborder="25" text="Div06" left="80" top="435" height="1" background="#f5f5f5" right="80"/>
-        <Radio id="radio_view_type" taborder="26" left="200" top="120" width="200" height="31" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="출력" value="1">
-          <Dataset id="innerdataset">
-            <ColumnInfo>
-              <Column id="codecolumn" size="256"/>
-              <Column id="datacolumn" size="256"/>
-            </ColumnInfo>
-            <Rows>
-              <Row>
-                <Col id="codecolumn">1</Col>
-                <Col id="datacolumn">출력</Col>
-              </Row>
-              <Row>
-                <Col id="codecolumn">0</Col>
-                <Col id="datacolumn">미출력</Col>
-              </Row>
-            </Rows>
-          </Dataset>
-        </Radio>
+        <Radio id="radio_view_type" taborder="26" left="200" top="120" width="200" height="31" innerdataset="ds_active" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="출력" value="1" onitemchanged="radio_view_type_onitemchanged"/>
         <CheckBox id="check_top" taborder="27" text="체크시 우선 노출" left="200" top="62" width="190" height="38" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;"/>
         <Radio id="radio_banner_type" taborder="28" left="200" top="281" width="560" height="31" innerdataset="innerdataset" direction="vertical" font="normal 12pt/normal &quot;Noto Sans KR Medium&quot;" codecolumn="codecolumn" datacolumn="datacolumn" onitemchanged="radio_banner_type_onitemchanged" index="0" text="메인배너" value="main">
           <Dataset id="innerdataset">
@@ -95,7 +78,6 @@
           <Row/>
         </Rows>
       </Dataset>
-      <Dataset id="ds_radio_view_type"/>
       <Dataset id="ds_view_top"/>
       <Dataset id="ds_banner_type"/>
       <FileDialog id="FileDialog" onclose="FileDialog_onclose"/>
@@ -108,6 +90,22 @@
         </ColumnInfo>
         <Rows>
           <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_active">
+        <ColumnInfo>
+          <Column id="datacolumn" type="STRING" size="256"/>
+          <Column id="codecolumn" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="datacolumn">출력</Col>
+            <Col id="codecolumn">Y</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">미출력</Col>
+            <Col id="codecolumn">N</Col>
+          </Row>
         </Rows>
       </Dataset>
     </Objects>
@@ -272,7 +270,7 @@ this.btn_done_onclick = function(obj, e) {
     }
 
     if (!this.radio_view_type.value || !this.radio_banner_type.value ||
-        !this.input_title.text || this.ds_bwrite.rowcount < 1 || !this.edit_link.text) {
+        !this.input_title.text || this.ds_bwrite.rowcount < 1) {
         alert("모든 항목을 입력해 주세요.");
         return;
     }
