@@ -10,6 +10,7 @@
          , POST_TITLE
          , DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT
          , MEMBER_ID
+         , POST_STATUS
       FROM POSTS
      WHERE DELETE_DT IS NULL
 	    <choose>
@@ -56,7 +57,17 @@
              COUNT(*) 
         FROM POSTS 
        WHERE DELETE_DT IS NULL
-         AND BOARD_ID IN (1,2,4)
+         AND BOARD_ID IN (1,2,4,6)
+    </select>
+    
+    
+    <select id="selectPostTotalCountByUserOne" parameterType="hashmap" resultType="int">
+    #문의 개수 총 조회
+       SELECT 
+             COUNT(*) 
+        FROM POSTS 
+       WHERE DELETE_DT IS NULL
+         AND BOARD_ID IN (5)
     </select>
     
     <select id="selectUserPostDetailByUser" parameterType="int" resultType="map">
@@ -71,6 +82,7 @@
              , POST_TITLE
              , POST_CONTENT
              , VIEW_CNT
+             , POST_STATUS
           FROM POSTS 
          WHERE POST_ID = #{postId}
     </select>
@@ -127,10 +139,7 @@
     	   SET DELETE_DT = NOW()
     	 WHERE COMMENT_ID = #{commentId}
     </update>
-    
-    
-  
-    
+        
     <update id="updateUserCommentByUse" parameterType="map">
     #댓글 수정 
    	UPDATE COMMENTS
@@ -143,7 +152,9 @@
     UPDATE POSTS
        SET UPDATE_DT = NOW()
          , POST_CONTENT = #{postContent}
+         <if test="postTitle!=null and postTitle!=''">
          , POST_TITLE = #{postTitle} 
+         </if>
          , POST_TYPE = #{postType}
      WHERE POST_ID = #{postId}        
     </update>
@@ -154,5 +165,17 @@
    	   SET DELETE_DT = NOW()
    	 WHERE POST_ID = #{postId}
     </update>
+    
+    
+    <insert id="insertUserAskByUser" parameterType="map">
+    #문의 등록
+    INSERT INTO POSTS(
+    	BOARD_ID, MEMBER_ID, POST_TYPE, POST_TITLE, POST_CONTENT, POST_STATUS
+    	)
+    	VALUES(
+    	5, #{memberId}, "문의" , #{postTitle}, #{postContent}, "답변대기"
+    	)
+    </insert>
+    
     
 </mapper>

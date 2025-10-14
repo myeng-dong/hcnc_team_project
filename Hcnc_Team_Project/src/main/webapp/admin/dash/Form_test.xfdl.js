@@ -11,6 +11,7 @@
         {
             this.set_name("Form_test");
             this.set_titletext("New Form");
+            this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -20,9 +21,10 @@
 
             
             // UI Components Initialize
-            obj = new Static("Static00","56","36","110","86",null,null,null,null,null,null,this);
+            obj = new Div("Div00","40","0",null,"240","40",null,null,null,null,null,this);
             obj.set_taborder("0");
-            obj.set_text("123123");
+            obj.set_background("white");
+            obj.set_borderRadius("10px");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
