@@ -31,4 +31,16 @@ public interface UserOrderMapper {
 
 	int updateCouponByUser(Map<String, Object> order);
 
+	List<Map<String, Object>> selectOrderItemOptionListByUser(Map<String, Object> item);
+
+	int updateQuantityByUser(Map<String, Object> option);
+
+	int deleteCartItemByUser(Map<String, Object> item);
+
+	HashMap<String, Object> selectSuccessOrderByUser(String orderNumber);
+
+	int deleteCartByUser(Map<String, Object> order);
+
+	List<HashMap<String, Object>> selectOrderHistoryByUser(String memberId);
+
 }
