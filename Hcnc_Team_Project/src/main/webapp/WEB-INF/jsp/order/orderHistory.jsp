@@ -727,6 +727,17 @@
         }
     </style>
 </head>
+
+<c:if test="not empty orderList">
+	<script>
+		$(function(){
+			var orderList = ${orderList};
+			
+			console.log(orderList);
+		})
+	</script>
+</c:if>
+
 <body>
     <div class="container">
         <!-- 페이지 헤더 -->
@@ -1409,7 +1420,7 @@
                 
                 if (order.status === 'delivered') {
                     html += '<button class="btn">⭐ 리뷰 작성</button>';
-                    html += '<button class="btn" onclick="openRefundModal(\'' + order.id + '\')">💰 환불신청</button>';
+                    
                 }
                 if (order.status === 'shipping') {
                 	html += '<button class="btn btn-primary" onclick="openTrackingModal(\'' + order.id + '\')">🚚 배송조회</button>';
