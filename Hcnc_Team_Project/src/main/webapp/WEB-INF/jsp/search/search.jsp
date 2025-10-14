@@ -24,7 +24,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
     <style>
       .prdList .prdItem {
         width: 31%;
-        margin-bottom: 30px;
+        margin: 0 1.1% 30px;
+      }
+      .prdList .prdItem.no-product {
+        width: 100%;
+        padding: 20% 0;
+        text-align: center;
       }
       .sub-search-area {
         padding: 20px 0;
@@ -68,7 +73,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
             </div>
 
             <div class="prdItem_area">
-              <div class="flex prdList f-wrap ju-between">
+              <div class="flex prdList f-wrap">
                 <c:choose>
                   <c:when test="${not empty productList}">
                     <c:forEach var="product" items="${productList}">
@@ -77,7 +82,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     </c:forEach>
                   </c:when>
                   <c:otherwise>
-                    <div class="no-product">등록된 상품이 없습니다.</div>
+                    <div class="prdItem no-product">
+                      등록된 상품이 없습니다.
+                    </div>
                   </c:otherwise>
                 </c:choose>
               </div>
