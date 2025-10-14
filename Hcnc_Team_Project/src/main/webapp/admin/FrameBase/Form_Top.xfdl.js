@@ -12,6 +12,7 @@
             this.set_name("Form_Top");
             this.set_titletext("Form_Top");
             this.set_background("white");
+            this.set_border("0px none");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,50);
@@ -62,8 +63,8 @@
             obj.set_taborder("5");
             obj.set_text("🔔");
             obj.set_font("normal 18pt/normal \"Pretendard SemiBold\"");
-            obj.set_background("#f8f9fa");
-            obj.set_border("1px solid #dee2e6");
+            obj.set_background("white");
+            obj.set_border("0px");
             obj.set_borderRadius("5px");
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);

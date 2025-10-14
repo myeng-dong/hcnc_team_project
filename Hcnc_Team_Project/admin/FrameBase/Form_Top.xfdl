@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Top" width="1280" height="50" titletext="Form_Top" background="white" onload="Form_Top_onload">
+  <Form id="Form_Top" width="1280" height="50" titletext="Form_Top" background="white" onload="Form_Top_onload" border="0px none">
     <Layouts>
       <Layout width="1280" height="50" screenid="Desktop_screen" stepcount="0">
         <Static id="Static00" taborder="1" text="님 환영합니다" top="5" width="100" height="43" font="normal 12pt/normal &quot;Pretendard SemiBold&quot;" right="90" onclick="Static00_onclick"/>
@@ -9,7 +9,7 @@
         <Div id="div_grayline" taborder="3" left="0" height="1" bottom="0" background="#cccccc" right="0"/>
         <Static id="admin_id" taborder="4" top="14" height="23" background="#f5f5f5" textAlign="center" color="black" font="bold 14px/normal &quot;Noto Sans KR Black&quot;" borderRadius="12px" right="200" width="70"/>
         <!-- ⭐ 알림 버튼 -->
-        <Button id="btn_notification" taborder="5" text="🔔" top="8" height="35" width="40" right="280" onclick="btn_notification_onclick" font="normal 18pt/normal &quot;Pretendard SemiBold&quot;" background="#f8f9fa" border="1px solid #dee2e6" borderRadius="5px" cursor="pointer"/>
+        <Button id="btn_notification" taborder="5" text="🔔" top="8" height="35" width="40" right="280" onclick="btn_notification_onclick" font="normal 18pt/normal &quot;Pretendard SemiBold&quot;" background="white" border="0px" borderRadius="5px" cursor="pointer"/>
         <!-- ⭐ 알림 배지 -->
         <Static id="sta_badge" taborder="6" text="" top="6" height="18" width="18" right="276" background="red" color="white" textAlign="center" font="bold 10px/normal &quot;Pretendard&quot;" borderRadius="9px" visible="false"/>
       </Layout>
