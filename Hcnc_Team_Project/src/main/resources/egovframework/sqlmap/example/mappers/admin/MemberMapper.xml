@@ -277,21 +277,23 @@
 		<if test="EMAIL_ADDR != null and EMAIL_ADDR != ''">
 			AND M.EMAIL_ADDR LIKE CONCAT('%', TRIM(#{EMAIL_ADDR}), '%')
 		</if>
-		<!-- 가입일 범위 검색 -->
-		<if test="JOIN_START_DATE != null and JOIN_END_DATE != null">
-			AND M.INPUT_DT BETWEEN #{JOIN_START_DATE} AND DATE_ADD(#{JOIN_END_DATE},
-			INTERVAL 1 DAY)
-		</if>
-		<!-- 휴면일 범위 검색 (LAST_LOGIN_DT) -->
-		<if test="DORMANT_START_DATE != null and DORMANT_END_DATE != null">
-			AND M.LAST_LOGIN_DT BETWEEN #{DORMANT_START_DATE} AND
-			DATE_ADD(#{DORMANT_END_DATE}, INTERVAL 1 DAY)
-		</if>
-		<!-- 탈퇴일 범위 검색 (DELETE_DT) -->
-		<if test="DELETE_START_DATE != null and DELETE_END_DATE != null">
-			AND M.DELETE_DT BETWEEN #{DELETE_START_DATE} AND
-			DATE_ADD(#{DELETE_END_DATE}, INTERVAL 1 DAY)
-		</if>
+		 <!-- 날짜 검색 (콤보 선택에 따라 분기) -->
+	    <if test="SEARCH_START_DATE != null and SEARCH_END_DATE != null and SEARCH_DATE != null">
+	        <choose>
+	            <when test="SEARCH_DATE == '가입일'">
+	                AND M.INPUT_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	            <when test="SEARCH_DATE == '휴면일'">
+	                AND M.LAST_LOGIN_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	            <when test="SEARCH_DATE == '탈퇴일'">
+	                AND M.DELETE_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	        </choose>
+	    </if>
 		ORDER BY
 		CASE WHEN M.STATUS='R' THEN M.LAST_LOGIN_DT ELSE M.DELETE_DT END DESC
 	</select>
@@ -396,7 +398,7 @@
 	        AND P.INPUT_DT BETWEEN #{SDATE} AND DATE_ADD(#{EDATE}, INTERVAL 1 DAY)
 	   </if>
 	   <if test="ORDER_NUMBER != null and ORDER_NUMBER != ''">
-	       AND O.ORDER_NUMBER LIKE CONCAT('%',TRIM(#{ORDER_NUMBER}),'%')     
+	       AND COALESCE(O.ORDER_NUMBER, '관리자 직접 처리') LIKE CONCAT('%',TRIM(#{ORDER_NUMBER}),'%')          
 	   </if>
 	   ORDER BY P.INPUT_DT DESC
 	</select>
@@ -426,15 +428,22 @@
        <if test="IS_USED != null and IS_USED != ''">
        	 	AND C.IS_USED = #{IS_USED}
        </if>
-       <if test="ISSUED_START_DATE != null and ISSUED_END_DATE != null ">
-       	    AND C.ISSUED_DT BETWEEN #{ISSUED_START_DATE} AND DATE_ADD(#{ISSUED_END_DATE}, INTERVAL 1 DAY)
-       </if>
-        <if test="EXPIRY_START_DATE != null and EXPIRY_END_DATE != null ">
-       	    AND C.EXPIRY_DT BETWEEN #{EXPIRY_START_DATE} AND DATE_ADD(#{EXPIRY_END_DATE}, INTERVAL 1 DAY)
-       </if>
        <if test="COUPON_TYPE != null and COUPON_TYPE != ''">
 			AND C.COUPON_TYPE LIKE CONCAT('%',TRIM(#{COUPON_TYPE}),'%')       
        </if>
+        <!-- 날짜 검색 (콤보 선택에 따라 분기) -->
+	    <if test="SEARCH_START_DATE != null and SEARCH_END_DATE != null and SEARCH_DATE != null">
+	        <choose>
+	            <when test="SEARCH_DATE == '발급일자'">
+	                AND C.ISSUED_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	            <when test="SEARCH_DATE == '만료일자'">
+	                AND C.EXPIRY_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	        </choose>
+	    </if>
        ORDER BY C.ISSUED_DT DESC
     </select>
     
