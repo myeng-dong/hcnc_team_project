@@ -131,8 +131,8 @@ public class UserMemberController {
 	}
 
 	private void sendVerificationEmail(String to, ModelAndView mv) throws Exception {
-		String subject = "DDD.D 이메일 인증번호";
-		String text = "DDD.D 이메일 인증번호: ";
+		String subject = "DOO.D 이메일 인증번호";
+		String text = "DOO.D 이메일 인증번호: ";
 		int code = RandomCode();
 		saveAuthCode(to, code);
 		mailService.sendMail(to, subject, text + code); 
