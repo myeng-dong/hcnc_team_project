@@ -133,6 +133,12 @@
         .period-btn:hover {
             background: #f5f5f5;
         }
+        
+        .period-btn.active {
+            background: #DC0630;
+            color: white;
+            border-color: #DC0630;
+        }
 
         .date-input {
             padding: 10px 14px;
@@ -732,7 +738,7 @@
         <!-- 메인 탭 -->
         <div class="main-tabs">
             <button class="main-tab active" data-tab="orders">주문내역조회 (4)</button>
-            <button class="main-tab" data-tab="cancelled">취소/반품/교환 내역 (0)</button>
+            <button class="main-tab" data-tab="cancelled">취소/환불 내역 (0)</button>
         </div>
         
 		<!-- 주문내역조회 탭 -->
@@ -741,11 +747,11 @@
                 <div class="filter-header">
                     <div class="date-filter">
                         <div class="period-buttons">
-                            <button class="period-btn" onclick="setPeriod(0)">오늘</button>
-                            <button class="period-btn" onclick="setPeriod(7)">1주일</button>
-                            <button class="period-btn" onclick="setPeriod(30)">1개월</button>
-                            <button class="period-btn" onclick="setPeriod(90)">3개월</button>
-                            <button class="period-btn" onclick="setPeriod(180)">6개월</button>
+                            <button class="period-btn" onclick="setPeriod(0, this)">오늘</button>
+                            <button class="period-btn" onclick="setPeriod(7, this)">1주일</button>
+                            <button class="period-btn" onclick="setPeriod(30, this)">1개월</button>
+                            <button class="period-btn" onclick="setPeriod(90, this)">3개월</button>
+                            <button class="period-btn" onclick="setPeriod(180, this)">6개월</button>
                         </div>
                         <input type="date" class="date-input" id="startDate" value="2025-07-01">
                         <span class="date-separator">~</span>
@@ -754,8 +760,8 @@
                     </div>
                 </div>
                 <div class="filter-notice">
-                    · 기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.<br>
-                    · 주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.
+                    · 기간 버튼을 선택하거나 날짜를 직접 입력하여 주문내역을 조회할 수 있습니다.<br>
+                    · 각 주문의 상세 정보는 주문상세 버튼을 통해 확인하실 수 있습니다.
                 </div>
             </div>
 
@@ -763,17 +769,17 @@
             <div id="orderList"></div>
         </div>
 
-        <!-- 취소/반품/교환 내역 탭 -->
+        <!-- 취소/환불 내역 탭 -->
         <div class="tab-content" id="cancelled-content">
             <div class="filter-section">
                 <div class="filter-header">
                     <div class="date-filter">
                         <div class="period-buttons">
-                            <button class="period-btn">오늘</button>
-                            <button class="period-btn">1주일</button>
-                            <button class="period-btn">1개월</button>
-                            <button class="period-btn">3개월</button>
-                            <button class="period-btn">6개월</button>
+                            <button class="period-btn" onclick="setPeriod(0, this)">오늘</button>
+                            <button class="period-btn" onclick="setPeriod(7, this)">1주일</button>
+                            <button class="period-btn" onclick="setPeriod(30, this)">1개월</button>
+                            <button class="period-btn" active" onclick="setPeriod(90, this)">3개월</button>
+                            <button class="period-btn" onclick="setPeriod(180, this)">6개월</button>
                         </div>
                         <input type="date" class="date-input" value="2025-07-01">
                         <span class="date-separator">~</span>
@@ -782,17 +788,17 @@
                     </div>
                 </div>
                 <div class="filter-notice">
-                    · 기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.<br>
-                    · 주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.
+                    · 기간 버튼을 선택하거나 날짜를 직접 입력하여 취소/환불 내역을 조회할 수 있습니다.<br>
+                    · 취소 및 환불 처리 상태는 주문상세 버튼에서 확인하실 수 있습니다.
                 </div>
             </div>
 
-            <div class="section-title">취소/반품/교환</div>
+            <div class="section-title">취소/환불</div>
             <div id="cancelledList"></div>
             <div id="cancelledEmpty" class="empty-state">
                 <div class="empty-icon">📋</div>
-                <h3 class="empty-title">취소/반품/교환 내역이 없습니다</h3>
-                <p class="empty-text">취소하거나 반품/교환한 상품이 없습니다</p>
+                <h3 class="empty-title">취소/환불 내역이 없습니다</h3>
+                <p class="empty-text">취소하거나 환불한 상품이 없습니다</p>
             </div>
         </div>
     </div>
@@ -804,7 +810,7 @@
                 <button class="filter-tab" data-filter="preparing">상품준비중</button>
                 <button class="filter-tab" data-filter="shipping">배송중</button>
                 <button class="filter-tab" data-filter="delivered">배송완료</button>
-                <button class="filter-tab" data-filter="cancelled">취소/반품</button>
+                <button class="filter-tab" data-filter="cancelled">취소/환불</button>
             </div>
         </div>
 
@@ -821,7 +827,7 @@
             </div>
 
             <div class="alert alert-warning">
-                환불 신청 후에는 취소가 불가능합니다. 신중하게 작성해주세요.
+                	환불 신청 후에는 취소가 불가능합니다. 신중하게 작성해주세요.
             </div>
 
             <div class="refund-product" id="refundProductInfo"></div>
@@ -1002,6 +1008,52 @@
     </div>
 
     <script>
+ // 기간 선택 함수
+	    function setPeriod(days, button) {
+	        // 같은 탭 내의 모든 기간 버튼 찾기
+	        var parentFilter = button.closest('.filter-section');
+	        var allButtons = parentFilter.querySelectorAll('.period-btn');
+	        
+	        // 모든 버튼의 active 클래스 제거
+	        for (var i = 0; i < allButtons.length; i++) {
+	            allButtons[i].classList.remove('active');
+	        }
+	        
+	        // 클릭한 버튼에 active 클래스 추가
+	        button.classList.add('active');
+	        
+	        // 날짜 계산
+	        var endDate = new Date();
+	        var startDate = new Date();
+	        startDate.setDate(startDate.getDate() - days);
+	        
+	        // 날짜 형식 변환 (YYYY-MM-DD)
+	        var endDateStr = endDate.toISOString().split('T')[0];
+	        var startDateStr = startDate.toISOString().split('T')[0];
+	        
+	        // 현재 탭에 맞는 input 찾기
+	        var startInput = parentFilter.querySelector('input[type="date"]');
+	        var endInput = parentFilter.querySelectorAll('input[type="date"]')[1];
+	        
+	        // input 값 설정
+	        if (startInput) startInput.value = startDateStr;
+	        if (endInput) endInput.value = endDateStr;
+	    }
+	    
+	    // 조회 버튼 클릭 함수
+	    function searchByDate() {
+	        var startDate = document.getElementById('startDate').value;
+	        var endDate = document.getElementById('endDate').value;
+	        
+	        if (!startDate || !endDate) {
+	            alert('날짜를 선택해주세요.');
+	            return;
+	        }
+	        
+	        console.log('조회 기간:', startDate, '~', endDate);
+	        alert('조회 기간: ' + startDate + ' ~ ' + endDate);
+	    }
+    
 	    var orders = [
 	    	{
 	            id: '20251008001',
@@ -1357,6 +1409,7 @@
                 
                 if (order.status === 'delivered') {
                     html += '<button class="btn">⭐ 리뷰 작성</button>';
+                    html += '<button class="btn" onclick="openRefundModal(\'' + order.id + '\')">💰 환불신청</button>';
                 }
                 if (order.status === 'shipping') {
                 	html += '<button class="btn btn-primary" onclick="openTrackingModal(\'' + order.id + '\')">🚚 배송조회</button>';
@@ -1390,14 +1443,14 @@
                 var tabName = this.getAttribute('data-tab');
                 document.getElementById(tabName + '-content').classList.add('active');
                 
-             	// 취소/반품 탭 클릭 시 렌더링
+             	// 취소/환불 탭 클릭 시 렌더링
                 if (tabName === 'cancelled') {
                     renderCancelledOrders();
                 }
             });
         }
 
-     	// 취소/반품 주문 렌더링
+     	// 취소/환불 주문 렌더링
         function renderCancelledOrders() {
 		    var cancelledList = document.getElementById('cancelledList');
 		    var cancelledEmpty = document.getElementById('cancelledEmpty');
