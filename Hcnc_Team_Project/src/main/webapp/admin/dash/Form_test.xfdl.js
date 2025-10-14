@@ -25,7 +25,7 @@
             obj.set_taborder("0");
             obj.set_text("");
             obj.set_borderRadius("5px");
-            obj.set_boxShadow("inset 0px 0px 10px 15px RGBA(0,0,0,0.39)");
+            obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
             obj.set_cursor("pointer");
             obj.getSetter("onmouseout").set("Div_onmouseout");
             obj.set_background("white");
@@ -34,14 +34,15 @@
             obj = new Static("Static00","22","15","167","23",null,null,null,null,null,null,this.newOrder.form);
             obj.set_taborder("0");
             obj.set_text("신규 주문");
-            obj.set_font("normal 12pt/normal \"Noto Sans KR\"");
+            obj.set_font("normal 12pt/0 \"Noto Sans KR Black\"");
+            obj.set_color("black");
             this.newOrder.addChild(obj.name, obj);
 
             obj = new Div("payStatus","35.16%","20","29.30%","130",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("");
             obj.set_borderRadius("5px");
-            obj.set_boxShadow("inset 0px 0px 10px 15px RGBA(0,0,0,0.39)");
+            obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
             obj.set_cursor("pointer");
             obj.getSetter("onmouseout").set("Div_onmouseout");
             obj.set_background("white");
@@ -50,14 +51,15 @@
             obj = new Static("Static00","22","15","167","23",null,null,null,null,null,null,this.payStatus.form);
             obj.set_taborder("0");
             obj.set_text("결제 대기");
-            obj.set_font("normal 12pt/normal \"Noto Sans KR\"");
+            obj.set_font("normal 12pt/0 \"Noto Sans KR Black\"");
+            obj.set_color("black");
             this.payStatus.addChild(obj.name, obj);
 
             obj = new Div("shipStatus",null,"20","29.30%","130","3.13%",null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("");
             obj.set_borderRadius("5px");
-            obj.set_boxShadow("inset 0px 0px 10px 15px RGBA(0,0,0,0.39)");
+            obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
             obj.set_cursor("pointer");
             obj.getSetter("onmouseout").set("Div_onmouseout");
             obj.set_background("white");
@@ -66,7 +68,8 @@
             obj = new Static("Static00","22","15","167","23",null,null,null,null,null,null,this.shipStatus.form);
             obj.set_taborder("0");
             obj.set_text("발송 대기");
-            obj.set_font("normal 12pt/normal \"Noto Sans KR\"");
+            obj.set_font("normal 12pt/0 \"Noto Sans KR Black\"");
+            obj.set_color("black");
             this.shipStatus.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -94,19 +97,15 @@
 
         };
 
-
         this.Div_onmousemove = function(obj,e)
         {
-            obj.set_boxShadow("inset 0px 0px 15px 20px #d3d3d3");
+            obj.set_boxShadow("0px 0px 5px 5px rgba(200,200,200,0.30)");
         };
-
 
         this.Div_onmouseleave = function(obj,e)
         {
-        	 obj.set_boxShadow("inset 0px 0px 10px 15px #d3d3d3");
+            obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
         };
-
-
         });
         
         // Regist UI Components Event

@@ -30,7 +30,7 @@
             obj.set_font("normal 12pt/normal \"Pretendard SemiBold\"");
             this.addChild(obj.name, obj);
 
-            obj = new ImageViewer("h1_logo","5","3","190","45",null,null,null,null,null,null,this);
+            obj = new ImageViewer("h1_logo","20","3","190","45",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_image("url(\'imagerc::h1_logo.png\')");
             obj.set_border("0px none");
@@ -45,13 +45,8 @@
             obj.set_color("firebrick");
             this.addChild(obj.name, obj);
 
-            obj = new Div("div_grayline","0",null,null,"1","0","0",null,null,null,null,this);
-            obj.set_taborder("3");
-            obj.set_background("#cccccc");
-            this.addChild(obj.name, obj);
-
             obj = new Static("admin_id",null,"14","70","23","200",null,null,null,null,null,this);
-            obj.set_taborder("4");
+            obj.set_taborder("3");
             obj.set_background("#f5f5f5");
             obj.set_textAlign("center");
             obj.set_color("black");
@@ -60,7 +55,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_notification",null,"8","40","35","280",null,null,null,null,null,this);
-            obj.set_taborder("5");
+            obj.set_taborder("4");
             obj.set_text("🔔");
             obj.set_font("normal 18pt/normal \"Pretendard SemiBold\"");
             obj.set_background("white");
@@ -70,7 +65,7 @@
             this.addChild(obj.name, obj);
 
             obj = new Static("sta_badge",null,"6","18","18","276",null,null,null,null,null,this);
-            obj.set_taborder("6");
+            obj.set_taborder("5");
             obj.set_text("");
             obj.set_background("red");
             obj.set_color("white");
@@ -150,6 +145,7 @@
                 // onmessage 이벤트
                 this.websocket.onmessage = function(e) {
                     trace("📩 알림 수신: " + e.data);
+                    objThis.playNotificationSound();
 
                     try {
                         var data = JSON.parse(e.data);
@@ -157,7 +153,8 @@
                         // 배지 개수 갱신
                         objThis.loadUnreadCount();
 
-                        objThis.playNotificationSound();
+
+
                         // 알림 메시지 표시
                         var message = data.message || "새 알림이 도착했습니다.";
 
