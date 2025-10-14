@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import admin.mapper.NotificationMapper;
+import common.websocket.WebUtil;
 import user.service.UserOrderService;
 
 @Controller
@@ -31,6 +34,9 @@ public class UserOrderController {
 	
 	@Autowired
 	private UserOrderService userOrderService;
+
+	@Autowired
+	private NotificationMapper notificationMapper;
 
 	// 페이지 로드
 	@RequestMapping(value="/orderView.do")
@@ -150,6 +156,11 @@ public class UserOrderController {
 						
 				if(result == 1) {
 					mav.addObject("message", "주문/결제 완료!!");
+
+					// 주문 성공 알림 (websocket)
+					// WebUtil.sendNewOrderNotification(orderId, LocalDateTime.now().toString());
+					// notificationMapper.insertNotificationByUser(orderId);
+
 					mav.addObject("result", 1);
 				} else {
 					mav.addObject("message", "주문/결제 중 오류 발생했습니다.");

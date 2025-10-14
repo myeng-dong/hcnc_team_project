@@ -6,10 +6,10 @@
 	.recent-products-container {
 	    position: sticky;
 	    top: 20px;  /* 스크롤 시 상단에서 20px 떨어진 위치에 고정 */
-	    right: 0;
+	    /* right: 0; */
 	    width: 120px !important;
     	min-width: 120px !important;
-    	max-width: 120px !important
+    	max-width: 120px !important;
 	    background: #fff;
 	    border: 1px solid #e0e0e0;
 	    border-radius: 8px;

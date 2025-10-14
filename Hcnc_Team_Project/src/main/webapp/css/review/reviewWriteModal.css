@@ -60,11 +60,11 @@
 }
 
 .star.active {
-  color: #FFD700;
+  color: #DC0630;
 }
 
 .star.hover {
-  color: #FFC400;
+  color: #DC0630;
 }
 
 .rating-text {
@@ -165,7 +165,7 @@
 
 .review-write-title-area input:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #DC0630;
 }
 
 .review-write-img-area {
@@ -194,9 +194,9 @@
 }
 
 .review-write-upload-button:hover {
-  background-color: #e9ecef;
-  border-color: #4CAF50;
-  color: #4CAF50;
+  background-color: #fff0f2;
+  border-color: #DC0630;
+  color: #DC0630;
 }
 
 .review-write-content-area {
@@ -224,7 +224,7 @@
 
 .review-write-content-area textarea:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #DC0630;
 }
 
 .review-write-button-area {
@@ -246,12 +246,12 @@
 }
 
 .review-write-btn-submit {
-  background-color: #4CAF50;
+  background-color: #DC0630;
   color: white;
 }
 
 .review-write-btn-submit:hover {
-  background-color: #45a049;
+  background-color: #b8052a;
 }
 
 .review-write-btn-cancel {
