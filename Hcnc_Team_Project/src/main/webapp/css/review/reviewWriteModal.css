@@ -1,0 +1,271 @@
+/* 상품 정보 영역 */
+.review-product-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.review-product-info img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.review-product-details {
+  flex: 1;
+}
+
+.review-product-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+}
+
+/* 별점 영역 */
+.review-star-rating {
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.review-star-rating > label {
+  display: block;
+  /* margin-bottom: 10px; */
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.star-rating-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.star {
+  font-size: 32px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.1s;
+  user-select: none;
+}
+
+.star:hover {
+  transform: scale(1.1);
+}
+
+.star.active {
+  color: #FFD700;
+}
+
+.star.hover {
+  color: #FFC400;
+}
+
+.rating-text {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.review-write-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.review-write-modal-overlay.active {
+  display: block;
+}
+
+.review-write-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-height: 90vh;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.review-write-modal.active {
+  display: block;
+}
+
+.review-write-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.review-write-modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.review-write-modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #999;
+  line-height: 1;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.review-write-modal-close-btn:hover {
+  color: #333;
+}
+
+.review-write-modal-body {
+  padding: 20px;
+  max-height: calc(90vh - 340px);
+  overflow-y: auto;
+}
+
+.review-write-title-area {
+  margin-bottom: 20px;
+}
+
+.review-write-title-area label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.review-write-title-area input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.review-write-title-area input:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.review-write-img-area {
+  margin-bottom: 20px;
+}
+
+.review-write-img-area > label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.review-write-upload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border: 1px dashed #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.review-write-upload-button:hover {
+  background-color: #e9ecef;
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+.review-write-content-area {
+  margin-bottom: 20px;
+}
+
+.review-write-content-area label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.review-write-content-area textarea {
+  width: 100%;
+  max-height: 300px;
+  min-height: 300px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.review-write-content-area textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.review-write-button-area {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  background-color: #f8f9fa;
+}
+
+.review-write-button-area button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.review-write-btn-submit {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.review-write-btn-submit:hover {
+  background-color: #45a049;
+}
+
+.review-write-btn-cancel {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.review-write-btn-cancel:hover {
+  background-color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
+  .review-write-modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+}

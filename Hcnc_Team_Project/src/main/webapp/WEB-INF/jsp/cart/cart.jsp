@@ -265,9 +265,9 @@
     				    // 위시리스트 상태에 따른 하트 아이콘 설정
     				    var heartIcon = '';
     				    if(list[i].IS_WISHLIST == 'Y'){
-    				        heartIcon = '<c:if test="${uesrInfo != null}"><i class="bi bi-suit-heart-fill wishlist-heart" style="color: red; cursor: pointer;" onclick="toggleWishlist(' + list[i].CART_ITEM_ID + ', ' + list[i].PRODUCT_ID + ')"></i></c:if>';
+    				        heartIcon = '<c:if test="${userInfo != null}"><i class="bi bi-suit-heart-fill wishlist-heart" style="color: red; cursor: pointer;" onclick="toggleWishlist(' + list[i].CART_ITEM_ID + ', ' + list[i].PRODUCT_ID + ')"></i></c:if>';
     				    } else {
-    				        heartIcon = '<c:if test="${uesrInfo != null}"><i class="bi bi-suit-heart wishlist-heart" style="cursor: pointer;" onclick="toggleWishlist(' + list[i].CART_ITEM_ID + ', ' + list[i].PRODUCT_ID + ')"></i></c:if>';
+    				        heartIcon = '<c:if test="${userInfo != null}"><i class="bi bi-suit-heart wishlist-heart" style="cursor: pointer;" onclick="toggleWishlist(' + list[i].CART_ITEM_ID + ', ' + list[i].PRODUCT_ID + ')"></i></c:if>';
     				    }
     				    
     				    html += '<td class="col-actions"><i class="bi bi-x-lg" style="cursor: pointer;" onclick="deleteProduct(' + list[i].CART_ITEM_ID + ')"></i> ' + heartIcon + '</td>';
@@ -973,10 +973,10 @@
 	              <th class="col-price">가격</th>
 	              <th class="col-qty">수량</th>
 	              <th class="col-total">총금액</th>
-	              <c:if test="${uesrInfo != null}">
+	              <c:if test="${userInfo != null}">
 	              	<th class="col-actions">삭제/관심</th>
 	              </c:if>
-	              <c:if test="${uesrInfo == null}">
+	              <c:if test="${userInfo == null}">
 	              	<th class="col-actions">삭제</th>
 	              </c:if>
 	            </tr>

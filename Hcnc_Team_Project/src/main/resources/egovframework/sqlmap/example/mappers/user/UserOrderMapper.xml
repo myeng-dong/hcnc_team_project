@@ -163,4 +163,26 @@
 			WHERE MEMBER_ID = #{tempId}
 	</delete>
 	
+	<!-- 주문내역페이지 -->
+	<select id="selectOrderHistoryByUser" parameterType="String" resultType="java.util.HashMap">
+	    SELECT 
+	        O.ORDER_ID,
+	        DATE_FORMAT(O.ORDER_DT, '%Y.%m.%d') AS ORDER_DATE,
+	        O.ORDER_NUMBER,
+	        OI.PRODUCT_NAME,
+	        OI.PRODUCT_OPTION,
+	        OI.QUANTITY,
+	        O.FINAL_AMOUNT,
+	        IFNULL(O.ORDER_COMMENT, '상품준비중') AS ORDER_STATUS,
+	        IFNULL(PI.IMAGE_URL, '') AS IMAGE_URL
+	    FROM ORDERS O
+	    INNER JOIN ORDER_ITEMS OI
+	        ON O.ORDER_ID = OI.ORDER_ID
+	    LEFT JOIN PRODUCT_IMG PI
+	        ON OI.PRODUCT_ID = PI.PRODUCT_ID
+	        AND PI.SORT_NUMBER = 0
+	    WHERE O.MEMBER_ID = #{memberId}
+	    ORDER BY O.ORDER_DT DESC
+	</select>
+	
 </mapper> 

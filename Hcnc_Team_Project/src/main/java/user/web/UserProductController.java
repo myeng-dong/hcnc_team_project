@@ -98,28 +98,29 @@ public class UserProductController {
 	
 	@RequestMapping(value="/buyNow.do")
 	public ModelAndView buyNow(HttpServletRequest request, HttpSession session) {
-		ModelAndView mav = new ModelAndView("jsonView");
-		
-		// optionIds 배열 따로 받기
-		String[] optionIdsStr = request.getParameterValues("optionIds");
-		List<Long> optionIds = new ArrayList<Long>();
-		if (optionIdsStr != null) {
-			for (String id : optionIdsStr) {
-				optionIds.add(Long.parseLong(id));
-			}
-		}
-		
-		// 나머지 파라미터 데이터 Map으로 처리
-		Map<String, Object> param = new HashMap<>();
-		
-		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
-		if(userInfo != null) {
-			String memberId = (String) userInfo.get("MEMBER_ID");
-			param.put("memberId", memberId);
-		} else {
+			ModelAndView mav = new ModelAndView("jsonView");
 			
-		}
-		param.put("tempId", request.getParameter("tempId"));
+			// optionIds 배열 따로 받기
+			String[] optionIdsStr = request.getParameterValues("optionIds");
+			List<Long> optionIds = new ArrayList<Long>();
+			if (optionIdsStr != null) {
+				for (String id : optionIdsStr) {
+					optionIds.add(Long.parseLong(id));
+				}
+			}
+			
+			// 나머지 파라미터 데이터 Map으로 처리
+			Map<String, Object> param = new HashMap<>();
+			
+			Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+			if(userInfo != null) {
+				String memberId = (String) userInfo.get("MEMBER_ID");
+				param.put("memberId", memberId);
+			} else {
+				param.put("memberId", request.getParameter("guestId"));
+			}
+
+			param.put("tempId", request.getParameter("tempId"));
 	    param.put("productId", request.getParameter("productId"));
 	    param.put("option", request.getParameter("option"));
 	    param.put("price", request.getParameter("price"));
@@ -133,7 +134,6 @@ public class UserProductController {
 	    HashMap<String, Object> resultData = userProductService.insertCartItemByUser(param, optionIds);
 	    
 	    Long cartId = (Long) resultData.get("cartId");
-	    String orderNumber = (String) param.get("orderNumber");
 	    
 	    mav.addObject("cartId", cartId);
 		

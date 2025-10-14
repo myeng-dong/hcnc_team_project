@@ -124,7 +124,6 @@
 	    display: flex;
 	    gap: 0;
 	    overflow-x: auto;
-	    border-bottom: 2px solid #f8f9fa;
 	    position: relative;
 	}
 	
@@ -390,12 +389,75 @@
 	}
 	
 	.wishlist-item {
-	    background: white;
-	    border: 1px solid #e9ecef;
-	    overflow: hidden;
-	    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-	    transition: all 0.3s ease;
 	    position: relative;
+	    background: white;
+	    border-radius: 12px;
+	    overflow: hidden;
+	    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+	    transition: all 0.3s ease;
+	    display: flex;
+	    flex-direction: column;
+	    height: 100%;
+	}
+	
+	/* 품절 상품 */
+	.wishlist-item.soldout {
+	    pointer-events: none;
+	}
+	
+	.wishlist-item.soldout::before {
+	    content: '';
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    right: 0;
+	    bottom: 0;
+	    background: rgba(0, 0, 0, 0.3);
+	    z-index: 5;
+	    pointer-events: none;
+	}
+	
+	/* 품절 상품의 하트 버튼만 활성화 */
+	.wishlist-item.soldout .wish-heart {
+	    pointer-events: auto;
+	    opacity: 1;
+	    z-index: 15;
+	}
+	
+	.soldout-overlay {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%) rotate(-15deg);
+	    background: rgba(220, 6, 48, 0.95);
+	    color: white;
+	    padding: 16px 48px;
+	    font-size: 28px;
+	    font-weight: 900;
+	    letter-spacing: 4px;
+	    z-index: 10;
+	    pointer-events: none;
+	}
+	
+	/* 리스트 뷰 품절 상품 처리 */
+	.wishlist-grid.list-view .wishlist-item.soldout {
+	    pointer-events: none;
+	}
+	
+	.wishlist-grid.list-view .wishlist-item.soldout::before {
+	    background: rgba(0, 0, 0, 0.2);
+   	}
+   	
+   	.wishlist-grid.list-view .wishlist-item.soldout .wish-heart {
+	    pointer-events: auto;
+	    opacity: 1;
+	    z-index: 15;
+	}
+	
+	.wishlist-grid.list-view .soldout-overlay {
+	    font-size: 18px;
+	    padding: 8px 24px;
+	    letter-spacing: 2px;
 	}
 	
 	/* 리스트 뷰에서 하트 위치 조정 */
@@ -825,11 +887,15 @@
 	    .success-message.show {
 	        transform: translateY(0);
 	    }
-	}
-	
-	/* 반응형 하트 버튼 */
-	@media (max-width: 768px) {
-	    .wish-heart {
+	    
+	    .soldout-overlay {
+		    font-size: 20px;
+		    padding: 12px 32px;
+		    letter-spacing: 2px;
+		    border: 3px solid white;
+		}
+		
+		.wish-heart {
 	        width: 32px;
 	        height: 32px;
 	        font-size: 16px;

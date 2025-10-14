@@ -131,21 +131,21 @@
 			order: {
 				orderNumber: orderNumber
 				, phoneNumber: phoneNumber
-			   			, totalAmount: Number ( $("#itemTotalPrice").data('value') ) + Number ( $("#shipFee").data('value') )
-			   			, shippingCost: $("#shipFee").data('value')
-			   			, discountAmount: Number( $("#gradeSale").data('value') ) + Number( $("#couponSale").data('value') ) + Number( $("#pointSale").data('value') )
-			   			, finalAmount: finalAmount
-			   			, receiver: $("#receiver").val()
-			   			, shippingPost: $("#orderPost").val()
-			   			, shippingAddr1: $("#orderAddr1").val()
-			   			, shippingAddr2: $("#orderAddr2").val()
-			   			, userName: userName
-			   			, guestId: guestId
-			   			, shippingComment: shippingComment
-			   			, couponId: $('input[name="selectedCoupon"]:checked').val() || null
-			   			, couponDiscount: Number( $("#couponSale").data('value') )
-			   			, usedPoint: Number( $("#pointSale").data('value') )
-			   			, tempId: tempId
+				, totalAmount: Number ( $("#itemTotalPrice").data('value') ) + Number ( $("#shipFee").data('value') )
+				, shippingCost: $("#shipFee").data('value')
+				, discountAmount: Number( $("#gradeSale").data('value') ) + Number( $("#couponSale").data('value') ) + Number( $("#pointSale").data('value') )
+				, finalAmount: finalAmount
+				, receiver: $("#receiver").val()
+				, shippingPost: $("#orderPost").val()
+				, shippingAddr1: $("#orderAddr1").val()
+				, shippingAddr2: $("#orderAddr2").val()
+				, userName: userName
+				, guestId: guestId
+				, shippingComment: shippingComment
+				, couponId: $('input[name="selectedCoupon"]:checked').val() || null
+				, couponDiscount: Number( $("#couponSale").data('value') )
+				, usedPoint: Number( $("#pointSale").data('value') )
+				, tempId: tempId
 			}
 		}
 		

@@ -122,6 +122,24 @@ public class UserWishController {
 	    
 	    return mav;
 	}
+	
+	// 전체 카테고리 목록 조회
+	@RequestMapping(value="/selectCategoriesListByUser.do")
+	public ModelAndView getCategories() {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		try {
+			List<HashMap<String, Object>> categories = userWishService.selectCategoriesListByUser();
+			mav.addObject("success", true);
+			mav.addObject("categories", categories);
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("success", false);
+			mav.addObject("message", "카테고리 조회 중 오류가 발생했습니다!");
+		}
+		
+		return mav;
+	}
     
     // 장바구니 추가
     @RequestMapping(value="/addToCart.do")

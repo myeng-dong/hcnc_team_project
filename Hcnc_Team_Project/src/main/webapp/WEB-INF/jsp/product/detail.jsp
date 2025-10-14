@@ -875,6 +875,15 @@
 				console.log("처리 중 입니다...");
 				return;
 			}
+
+			var guestId = null;
+			if(localStorage.getItem("guestId") != null){
+				guestId = localStorage.getItem("guestId");
+			} else {
+				guestId = "NoMember" + Date.now() + Math.random().toString(36).substring(2, 9);
+				
+				localStorage.setItem("guestId", guestId);
+			}
 			
 			var tempId = "Temp" + Date.now() + Math.random().toString(36).substring(2, 9);
 			var orderNumber = generateUniqueOrderNumber();
@@ -921,7 +930,7 @@
 		    	isProcessing = true; // 플래그 설정 (버튼 광클 금지!)
 		    	
 		        var param = {
-		        	tempId: tempId,
+		        		tempId: tempId,
 		            productId: productId,
 		            option: option,
 		            optionIds: optionIds,

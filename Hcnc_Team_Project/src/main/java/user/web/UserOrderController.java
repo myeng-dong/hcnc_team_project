@@ -79,70 +79,82 @@ public class UserOrderController {
 		    @RequestParam("paymentKey") String paymentKey,
 		    @RequestParam("orderId") String orderId,
 		    @RequestParam("amount") String amount,
-			@RequestParam("itemsJson") String itemsJson,
-			@RequestParam("orderJson") String orderJson) {
+				@RequestParam("itemsJson") String itemsJson,
+				@RequestParam("orderJson") String orderJson,
+				HttpSession session
+			) {
 		ModelAndView mav = new ModelAndView("jsonView");
 	    
 	    
 	    try {
-	        // 1. 토스페이먼츠 승인 API 호출
-	        JSONObject paymentData = confirmTossPayment(paymentKey, orderId, amount);
+				// 1. 토스페이먼츠 승인 API 호출
+				JSONObject paymentData = confirmTossPayment(paymentKey, orderId, amount);
+				
+				// 2. 결제 수단 추출 (안전한 방식)
+				String method = paymentData.getString("method");
+				String paymentMethod = method;
+				
+				if (paymentData.has("easyPay")) {
+						try {
+								// easyPay가 JSONObject인 경우
+								JSONObject easyPay = paymentData.getJSONObject("easyPay");
+								
+								if (easyPay.has("provider")) {
+										paymentMethod = easyPay.getString("provider");
+								}
+								
+						} catch (JSONException e) {
+								// easyPay가 String인 경우 (하위 호환)
+								try {
+										paymentMethod = paymentData.getString("easyPay");
+								} catch (Exception ex) {
+										System.err.println("easyPay (간편결제)가 아님");
+								}
+						}
+				}
+				
+				
+				// 디코딩
+				itemsJson = itemsJson.replace("&quot;", "\"");
+				orderJson = orderJson.replace("&quot;", "\"");
+				
+				ObjectMapper mapper = new ObjectMapper();
+				
+				List<Map<String, Object>> items = mapper.readValue(
+						itemsJson, 
+						new TypeReference<List<Map<String, Object>>>() {}
+				);
+				
+				Map<String, Object> order = mapper.readValue(
+						orderJson, 
+						new TypeReference<Map<String, Object>>(){}
+				);
+				
+				order.put("paymentMethod", paymentMethod);
+				
+				System.out.println(order);
+				System.out.println(items);
+
+				String memberId = null;
+				Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+				if(userInfo != null) {
+					memberId = (String) userInfo.get("MEMBER_ID");
+				} else {
+					memberId = (String) order.get("guestId");
+				}
+
+				order.put("memberId", memberId);
 	        
-	        // 2. 결제 수단 추출 (안전한 방식)
-	        String method = paymentData.getString("method");
-	        String paymentMethod = method;
-	        
-	        if (paymentData.has("easyPay")) {
-	            try {
-	                // easyPay가 JSONObject인 경우
-	                JSONObject easyPay = paymentData.getJSONObject("easyPay");
-	                
-	                if (easyPay.has("provider")) {
-	                    paymentMethod = easyPay.getString("provider");
-	                }
-	                
-	            } catch (JSONException e) {
-	                // easyPay가 String인 경우 (하위 호환)
-	                try {
-	                    paymentMethod = paymentData.getString("easyPay");
-	                } catch (Exception ex) {
-	                    System.err.println("easyPay (간편결제)가 아님");
-	                }
-	            }
-	        }
-	        
-	    	 	
-	        // ⭐ 디코딩 (이 한 줄만 추가!)
-	        itemsJson = itemsJson.replace("&quot;", "\"");
-	        orderJson = orderJson.replace("&quot;", "\"");
-	        
-	        ObjectMapper mapper = new ObjectMapper();
-	        
-	        List<Map<String, Object>> items = mapper.readValue(
-	            itemsJson, 
-	            new TypeReference<List<Map<String, Object>>>() {}
-	        );
-	        
-	        Map<String, Object> order = mapper.readValue(
-	            orderJson, 
-	            new TypeReference<Map<String, Object>>(){}
-	        );
-	        
-	        order.put("paymentMethod", paymentMethod);
-	        
-	        System.out.println(order);
-	        System.out.println(items);
-	        
-	        // DB 저장...
-			int result = userOrderService.orderDataSaveByUser(order, items);
-	        
-			if(result == 1) {
-				mav.addObject("message", "주문/결제 완료!!");
-				mav.addObject("result", 1);
-			} else {
-				mav.addObject("message", "주문/결제 중 오류 발생했습니다.");
-				mav.addObject("result", 0);
-			}
+				// DB 저장...
+				int result = userOrderService.orderDataSaveByUser(order, items);
+						
+				if(result == 1) {
+					mav.addObject("message", "주문/결제 완료!!");
+					mav.addObject("result", 1);
+				} else {
+					mav.addObject("message", "주문/결제 중 오류 발생했습니다.");
+					mav.addObject("result", 0);
+				}
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        
@@ -213,5 +225,40 @@ public class UserOrderController {
 	    }
 	    
 	    return new JSONObject(response.toString());
+	}
+	//	----- 주문내역페이지 조회 로드 -----
+	@RequestMapping(value="/orderHistory.do")
+	public ModelAndView orderHistory(HttpSession session) {
+	    ModelAndView mav = new ModelAndView();
+	    
+	    Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+	    
+	    System.out.println("====== 주문내역 조회 시작 ======");
+	    System.out.println("세션 정보: " + userInfo);
+	    
+	    if(userInfo != null) {
+	        String memberId = (String) userInfo.get("MEMBER_ID");
+	        System.out.println("회원 ID: " + memberId);
+	        
+	        List<HashMap<String, Object>> orderList = userOrderService.orderHistory(memberId);
+	        
+	        System.out.println("조회된 주문 개수: " + (orderList != null ? orderList.size() : 0));
+	        
+	        if(orderList != null) {
+	            for(int i = 0; i < orderList.size(); i++) {
+	                System.out.println("주문 " + (i+1) + ": " + orderList.get(i));
+	            }
+	        }
+	        
+	        mav.addObject("orderList", orderList);
+	    } else {
+	        System.out.println("세션 정보가 없습니다!");
+	    }
+	    
+	    System.out.println("====== 주문내역 조회 종료 ======");
+	    
+	    mav.setViewName("order/orderHistory");
+	    
+	    return mav;
 	}
 }
