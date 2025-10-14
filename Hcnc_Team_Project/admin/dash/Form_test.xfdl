@@ -5,26 +5,26 @@
       <Layout height="720" mobileorientation="landscape" width="1280">
         <!-- 제목 -->
         <!-- ⭐ 신규 주문 -->
-        <Div id="newOrder" taborder="0" text="" left="3.13%" top="20" width="29.30%" height="130" borderRadius="5px" boxShadow="inset 0px 0px 10px 15px RGBA(0,0,0,0.39)" cursor="pointer" onmousemove="Div_onmousemove" onmouseout="Div_onmouseout" onmouseleave="Div_onmouseleave" background="white">
+        <Div id="newOrder" taborder="0" text="" left="3.13%" top="20" width="29.30%" height="130" borderRadius="5px" boxShadow="0px 0px 2px 2px rgba(229,229,229,0.15)" cursor="pointer" onmousemove="Div_onmousemove" onmouseout="Div_onmouseout" onmouseleave="Div_onmouseleave" background="white">
           <Layouts>
             <Layout>
-              <Static id="Static00" taborder="0" text="신규 주문" left="22" top="15" width="167" height="23" font="normal 12pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="Static00" taborder="0" text="신규 주문" left="22" top="15" width="167" height="23" font="normal 12pt/0 &quot;Noto Sans KR Black&quot;" color="black"/>
             </Layout>
           </Layouts>
         </Div>
         <!-- ⭐ 결제 대기 -->
-        <Div id="payStatus" taborder="1" text="" left="35.16%" top="20" width="29.30%" height="130" borderRadius="5px" boxShadow="inset 0px 0px 10px 15px RGBA(0,0,0,0.39)" cursor="pointer" onmousemove="Div_onmousemove" onmouseout="Div_onmouseout" onmouseleave="Div_onmouseleave" background="white">
+        <Div id="payStatus" taborder="1" text="" left="35.16%" top="20" width="29.30%" height="130" borderRadius="5px" boxShadow="0px 0px 2px 2px rgba(229,229,229,0.15)" cursor="pointer" onmousemove="Div_onmousemove" onmouseout="Div_onmouseout" onmouseleave="Div_onmouseleave" background="white">
           <Layouts>
             <Layout>
-              <Static id="Static00" taborder="0" text="결제 대기" left="22" top="15" width="167" height="23" font="normal 12pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="Static00" taborder="0" text="결제 대기" left="22" top="15" width="167" height="23" font="normal 12pt/0 &quot;Noto Sans KR Black&quot;" color="black"/>
             </Layout>
           </Layouts>
         </Div>
         <!-- ⭐ 발송 대기 -->
-        <Div id="shipStatus" taborder="2" text="" right="3.13%" top="20" width="29.30%" height="130" borderRadius="5px" boxShadow="inset 0px 0px 10px 15px RGBA(0,0,0,0.39)" cursor="pointer" onmousemove="Div_onmousemove" onmouseout="Div_onmouseout" onmouseleave="Div_onmouseleave" background="white">
+        <Div id="shipStatus" taborder="2" text="" right="3.13%" top="20" width="29.30%" height="130" borderRadius="5px" boxShadow="0px 0px 2px 2px rgba(229,229,229,0.15)" cursor="pointer" onmousemove="Div_onmousemove" onmouseout="Div_onmouseout" onmouseleave="Div_onmouseleave" background="white">
           <Layouts>
             <Layout>
-              <Static id="Static00" taborder="0" text="발송 대기" left="22" top="15" width="167" height="23" font="normal 12pt/normal &quot;Noto Sans KR&quot;"/>
+              <Static id="Static00" taborder="0" text="발송 대기" left="22" top="15" width="167" height="23" font="normal 12pt/0 &quot;Noto Sans KR Black&quot;" color="black"/>
             </Layout>
           </Layouts>
         </Div>
@@ -36,18 +36,14 @@ this.Form_test_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
     
 };
 
-
 this.Div_onmousemove = function(obj:nexacro.Div,e:nexacro.MouseEventInfo)
 {
-    obj.set_boxShadow("inset 0px 0px 15px 20px #d3d3d3");
+    obj.set_boxShadow("0px 0px 5px 5px rgba(200,200,200,0.30)");
 };
-
 
 this.Div_onmouseleave = function(obj:nexacro.Div,e:nexacro.MouseEventInfo)
 {
-	 obj.set_boxShadow("inset 0px 0px 10px 15px #d3d3d3");
-};
-
-]]></Script>
+    obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
+};]]></Script>
   </Form>
 </FDL>

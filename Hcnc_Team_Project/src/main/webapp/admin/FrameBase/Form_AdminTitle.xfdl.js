@@ -12,6 +12,7 @@
             this.set_name("Form_AdminTitle");
             this.set_titletext("New Form");
             this.set_background("#F4F7FE");
+            this.set_scrolltype("none");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,70);
@@ -21,18 +22,23 @@
 
             
             // UI Components Initialize
-            obj = new Static("sta_h3","40","15",null,"24","110",null,null,null,null,null,this);
+            obj = new Static("sta_h3","27","17",null,"34","121",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("h3 title area");
             obj.set_font("normal 16pt/normal \"Noto Sans KR Black\"");
             obj.set_color("black");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_location","43","43",null,"12","107",null,null,null,null,null,this);
+            obj = new Static("sta_location","45","49",null,"20","102",null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("⌂ > 회원 > 회원관리");
             obj.set_font("normal 8pt/normal \"Noto Sans KR DemiLight\"");
             obj.set_color("#666666");
+            this.addChild(obj.name, obj);
+
+            obj = new Div("Div00","-40","0",null,null,"-80","0",null,null,null,null,this);
+            obj.set_taborder("2");
+            obj.set_boxShadow("inset 0px 2px 2px 2px rgba(229,229,229,0.15)");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
