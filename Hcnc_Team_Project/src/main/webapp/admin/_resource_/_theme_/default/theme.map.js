@@ -1008,7 +1008,109 @@
             							}
             						}
             					}
-            				}
+            				},
+            				"class" :
+            				[
+            					{
+            						"cell_wait" :
+            						{
+            							"parent" :
+            							{
+            								"row" :
+            								{
+            									"parent" :
+            									{
+            										"body" :
+            										{
+            											"parent" :
+            											{
+            												"Grid" :
+            												{
+            													"self" :
+            													{
+            														"enabled" :
+            														{
+            															"font" : nexacro.FontObject("10pt \"Noto Sans KR Medium\""),
+            															"color" : nexacro.ColorObject("#EF4444"),
+            															"border" : nexacro.BorderObject("1px solid #dbdee2"),
+            															"padding" : nexacro.PaddingObject("4px 4px 4px 4px")
+            														}
+            													}
+            												}
+            											}
+            										}
+            									}
+            								}
+            							}
+            						}
+            					},
+            					{
+            						"cell_done" :
+            						{
+            							"parent" :
+            							{
+            								"row" :
+            								{
+            									"parent" :
+            									{
+            										"body" :
+            										{
+            											"parent" :
+            											{
+            												"Grid" :
+            												{
+            													"self" :
+            													{
+            														"enabled" :
+            														{
+            															"font" : nexacro.FontObject("10pt \"Noto Sans KR Medium\""),
+            															"color" : nexacro.ColorObject("#135dae"),
+            															"border" : nexacro.BorderObject("1px solid #dbdee2"),
+            															"padding" : nexacro.PaddingObject("4px 4px 4px 4px")
+            														}
+            													}
+            												}
+            											}
+            										}
+            									}
+            								}
+            							}
+            						}
+            					},
+            					{
+            						"cell_pending" :
+            						{
+            							"parent" :
+            							{
+            								"row" :
+            								{
+            									"parent" :
+            									{
+            										"body" :
+            										{
+            											"parent" :
+            											{
+            												"Grid" :
+            												{
+            													"self" :
+            													{
+            														"enabled" :
+            														{
+            															"font" : nexacro.FontObject("10pt \"Noto Sans KR Medium\""),
+            															"color" : nexacro.ColorObject("#F59E0B"),
+            															"border" : nexacro.BorderObject("1px solid #dbdee2"),
+            															"padding" : nexacro.PaddingObject("4px 4px 4px 4px")
+            														}
+            													}
+            												}
+            											}
+            										}
+            									}
+            								}
+            							}
+            						}
+            					}
+            				]
             			},
             			"subcell" :
             			{
@@ -1658,16 +1760,21 @@
             							{
             								"self" :
             								{
-            									"enabled" :
-            									{
-            										"font" : nexacro.FontObject("12px \"Gulim\""),
-            										"color" : nexacro.ColorObject("#666666")
-            									},
             									"disabled" :
             									{
             										"color" : nexacro.ColorObject("#999999")
             									}
             								}
+            							}
+            						}
+            					},
+            					"CellTreeItemControl" :
+            					{
+            						"self" :
+            						{
+            							"enabled" :
+            							{
+            								"font" : nexacro.FontObject("10pt \"Noto Sans KR Medium\"")
             							}
             						}
             					}

@@ -28,7 +28,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("black_search_box","20","17","1240","113",null,null,null,null,null,null,this);
+            obj = new Static("black_search_box","40","17",null,"113","40",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("white");
             obj.set_text("");

@@ -56,7 +56,7 @@
                 <Cell col="4" text="bind:PHONE_NUMBER" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
                 <Cell col="5" text="bind:ADDRESS" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
                 <Cell col="6" text="bind:COURIER_ID" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="combo" displaytype="combocontrol" combodataset="ds_courier" combodatacol="NAME" combocodecol="CODE"/>
-                <Cell col="7" text="bind:SHIPMENT_STATUS" displaytype="combocontrol" edittype="combo" combodataset="ds_status" combocodecol="NAME" combodatacol="NAME" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                <Cell col="7" text="bind:SHIPMENT_STATUS" displaytype="combocontrol" edittype="combo" combodataset="ds_status" combocodecol="NAME" combodatacol="NAME" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" cssclass="expr:(SHIPMENT_STATUS=='발송대기'?'cell_wait':(SHIPMENT_STATUS=='발송완료'?'cell_done':''))"/>
                 <Cell col="8" text="bind:TRACKING_NUMBER" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
               </Band>
             </Format>
@@ -225,7 +225,7 @@ this.grid_list_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventI
 		
 		
         var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-		objChildFrame.init("itemPop", absX, absY, 400, 300, null, null, "popup::Pop_ProductDetail.xfdl"); // init
+		objChildFrame.init("itemPop", 250, 150, 400, 300, null, null, "popup::Pop_ProductDetail.xfdl"); // init
 		objChildFrame.showModal(this.getOwnerFrame(), popupArgs, this, "fn_popupCallback"); // 모달 띄어주기
     }
 };
