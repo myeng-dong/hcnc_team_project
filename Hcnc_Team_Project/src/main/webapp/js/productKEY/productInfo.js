@@ -91,10 +91,8 @@ function pushCart() {
         
         option += selectElement.value + ' \n';
         
-        console.log("선택된 옵션:", optionName + " = " + selectElement.value);
     }
     
-    console.log("최종 optionIds:", optionIds); // 확인용
     
     if(hasOption && allSelects.length > 0 || allSelects.length <= 0){
       isProcessing = true; // 플래그 설정 (버튼 광클 금지!)
