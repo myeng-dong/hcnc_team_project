@@ -349,7 +349,7 @@
         // 검색 영역 hover 효과
         this.search_area_onmousemove = function(obj, e)
         {
-            obj.set_boxShadow("0px 0px 3px 4px rgba(200,200,200,0.30)");
+            obj.set_boxShadow("0px 0px 3px 3px rgba(200,200,200,0.30)");
         };
 
         this.search_area_onmouseleave = function(obj, e)
@@ -360,7 +360,7 @@
         // Grid wrapper hover 효과
         this.grid_wrapper_onmousemove = function(obj, e)
         {
-            obj.set_boxShadow("0px 0px 4px 3px rgba(200,200,200,0.30)");
+            obj.set_boxShadow("0px 0px 3px 3px rgba(200,200,200,0.30)");
         };
 
         this.grid_wrapper_onmouseleave = function(obj, e)
