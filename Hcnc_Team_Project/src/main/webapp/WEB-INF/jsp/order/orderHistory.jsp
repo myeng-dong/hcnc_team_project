@@ -245,7 +245,7 @@
             margin-bottom: 10px;
         }
 
-        .product-options {
+        .product-name span {
             font-size: 14px;
             color: #888;
             margin-bottom: 6px;
@@ -740,8 +740,8 @@
         
         <!-- 메인 탭 -->
         <div class="main-tabs">
-            <button class="main-tab active" data-tab="orders">주문내역조회 (4)</button>
-            <button class="main-tab" data-tab="cancelled">취소/환불 내역 (0)</button>
+            <button class="main-tab active" data-tab="orders">주문내역조회</button>
+            <!-- <button class="main-tab" data-tab="cancelled">취소/환불 내역</button> -->
         </div>
         
 		<!-- 주문내역조회 탭 -->
@@ -773,7 +773,7 @@
         </div>
 
         <!-- 취소/환불 내역 탭 -->
-        <div class="tab-content" id="cancelled-content">
+        <!-- <div class="tab-content" id="cancelled-content">
             <div class="filter-section">
                 <div class="filter-header">
                     <div class="date-filter">
@@ -781,7 +781,7 @@
                             <button class="period-btn" onclick="setPeriod(0, this)">오늘</button>
                             <button class="period-btn" onclick="setPeriod(7, this)">1주일</button>
                             <button class="period-btn" onclick="setPeriod(30, this)">1개월</button>
-                            <button class="period-btn" active" onclick="setPeriod(90, this)">3개월</button>
+                            <button class="period-btn" active onclick="setPeriod(90, this)">3개월</button>
                             <button class="period-btn" onclick="setPeriod(180, this)">6개월</button>
                         </div>
                         <input type="date" class="date-input" value="2025-07-01">
@@ -803,14 +803,14 @@
                 <h3 class="empty-title">취소/환불 내역이 없습니다</h3>
                 <p class="empty-text">취소하거나 환불한 상품이 없습니다</p>
             </div>
-        </div>
+        </div> -->
     </div>
         
     <!-- 주문 목록 -->
     <div id="orderList"></div>
 
     <!-- 환불 모달 -->
-    <div class="modal" id="refundModal">
+    <!-- <div class="modal" id="refundModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">환불 신청</h2>
@@ -864,7 +864,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> -->
 
     <!-- 주문상세 모달 -->
     <div class="modal" id="detailModal">
@@ -924,12 +924,16 @@
                     <h3 class="detail-section-title">결제 정보</h3>
                     <div class="price-summary">
                         <div class="price-row">
-                            <span>상품금액</span>
+                            <span>총 상품금액</span>
                             <span id="detailProductPrice"></span>
                         </div>
                         <div class="price-row">
                             <span>배송비</span>
                             <span id="detailShippingPrice"></span>
+                        </div>
+                        <div class="price-row">
+                            <span>총 할인금액</span>
+                            <span id="detailDiscountPrice"></span>
                         </div>
                         <div class="price-row total">
                             <span>총 결제금액</span>
@@ -958,12 +962,6 @@
             </div>
 
             <div id="trackingContent">
-                <!-- 상품 정보 -->
-                <div class="detail-section">
-                    <h3 class="detail-section-title">상품 정보</h3>
-                    <div id="trackingProductInfo"></div>
-                </div>
-
                 <!-- 배송 정보 -->
                 <div class="detail-section">
                     <h3 class="detail-section-title">배송 정보</h3>
@@ -1047,32 +1045,6 @@
 	    
 	    var orders = ${orderListJson};
 	    console.log(orders);
-    
-	    /* var orders = [
-	    	{
-	            id: '20251008001',
-	            date: '2025.10.08',
-	            productName: '무선 블루투스 이어폰 프리미엄',
-	            options: '색상: 화이트 / 케이스 포함',
-	            quantity: 1,
-	            price: 89000,
-	            image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=300&h=300&fit=crop',
-	            status: 'shipping',
-	            statusText: '배송중',
-	            shippingFee: 3000,
-	            recipient: '홍길동',
-	            phone: '010-1234-5678',
-	            address: '서울시 강남구 테헤란로 123',
-	            request: '문 앞에 놓아주세요',
-	            paymentMethod: '신용카드',
-	            deliveryTracking: [
-	                { step: '상품준비중', date: '2025.10.08 14:30', active: false },
-	                { step: '배송시작', date: '2025.10.09 09:15', active: false },
-	                { step: '배송중', date: '2025.10.10 08:30', active: true },
-	                { step: '배송완료', date: '', active: false }
-	            ]
-	        }
-	    ]; */
 
         var currentRefundOrder = null;
 
@@ -1096,22 +1068,15 @@
                 html += '<div class="order-body">';
                 html += '<img src="' + order.IMAGE_URL + '" alt="' + order.PRODUCT_NAME + '" class="product-image">';
                 html += '<div class="product-details">';
-                html += '<h3 class="product-name">' + order.PRODUCT_NAME + ' 외 ' + order.ORDER_ITEM_CNT + '개</h3>';
+                html += '<h3 class="product-name">' + order.PRODUCT_NAME + '<span> 외 ' + (order.ORDER_ITEM_CNT - 1) + '개</span></h3>';
                 html += '<div class="product-price">' + formatPrice(order.FINAL_AMOUNT) + '</div>';
                 html += '</div>';
                 html += '<div class="order-actions">';
                 html += '<span class="status-badge status-' + order.ORDER_STATUS + '">' + order.ORDER_STATUS + '</span>';
                 html += '<div class="action-buttons">';
                 
-                if (order.ORDER_STATUS === '발송완료') {
-                    html += '<button class="btn">⭐ 리뷰 작성</button>';
-                    
-                }
                 if (order.ORDER_STATUS === '배송중') {
                 	html += '<button class="btn btn-primary" onclick="openTrackingModal(' + order.ORDER_ID + ')">🚚 배송조회</button>';
-                }
-                if (order.ORDER_STATUS === '입금대기') {
-                	html += '<button class="btn" onclick="cancelOrder(' + order.ORDER_ID + ')">❌ 주문취소</button>';
                 }
                 
                 html += '<button class="btn" onclick="openDetailModal(' + order.ORDER_ID + ')">📋 주문상세</button>';
@@ -1122,72 +1087,72 @@
         }
         
      	// 메인 탭 전환
-        var mainTabs = document.querySelectorAll('.main-tab');
-        for (var i = 0; i < mainTabs.length; i++) {
-            mainTabs[i].addEventListener('click', function() {
-                var allMainTabs = document.querySelectorAll('.main-tab');
-                for (var j = 0; j < allMainTabs.length; j++) {
-                    allMainTabs[j].classList.remove('active');
-                }
+        // var mainTabs = document.querySelectorAll('.main-tab');
+        // for (var i = 0; i < mainTabs.length; i++) {
+        //     mainTabs[i].addEventListener('click', function() {
+        //         var allMainTabs = document.querySelectorAll('.main-tab');
+        //         for (var j = 0; j < allMainTabs.length; j++) {
+        //             allMainTabs[j].classList.remove('active');
+        //         }
                 
-                var allContents = document.querySelectorAll('.tab-content');
-                for (var k = 0; k < allContents.length; k++) {
-                    allContents[k].classList.remove('active');
-                }
+        //         var allContents = document.querySelectorAll('.tab-content');
+        //         for (var k = 0; k < allContents.length; k++) {
+        //             allContents[k].classList.remove('active');
+        //         }
                 
-                this.classList.add('active');
-                var tabName = this.getAttribute('data-tab');
-                document.getElementById(tabName + '-content').classList.add('active');
+        //         this.classList.add('active');
+        //         var tabName = this.getAttribute('data-tab');
+        //         document.getElementById(tabName + '-content').classList.add('active');
                 
-             	// 취소/환불 탭 클릭 시 렌더링
-                if (tabName === 'cancelled') {
-                    renderCancelledOrders();
-                }
-            });
-        }
+        //      	// 취소/환불 탭 클릭 시 렌더링
+        //         if (tabName === 'cancelled') {
+        //             renderCancelledOrders();
+        //         }
+        //     });
+        // }
 
      	// 취소/환불 주문 렌더링
-        function renderCancelledOrders() {
-		    var cancelledList = document.getElementById('cancelledList');
-		    var cancelledEmpty = document.getElementById('cancelledEmpty');
-		    var cancelledOrders = orders.filter(function(order) { 
-		        return order.status === 'cancelled'; 
-		    });
+        // function renderCancelledOrders() {
+		//     var cancelledList = document.getElementById('cancelledList');
+		//     var cancelledEmpty = document.getElementById('cancelledEmpty');
+		//     var cancelledOrders = orders.filter(function(order) { 
+		//         return order.status === 'cancelled'; 
+		//     });
 		    
-		    if (cancelledOrders.length === 0) {
-		        cancelledList.innerHTML = '';
-		        cancelledEmpty.style.display = 'block';
-		        return;
-		    }
+		//     if (cancelledOrders.length === 0) {
+		//         cancelledList.innerHTML = '';
+		//         cancelledEmpty.style.display = 'block';
+		//         return;
+		//     }
 		    
-		    cancelledEmpty.style.display = 'none';
+		//     cancelledEmpty.style.display = 'none';
             
-            var html = '';
-            for (var i = 0; i < cancelledOrders.length; i++) {
-                var order = cancelledOrders[i];
-                html += '<div class="order-card">';
-                html += '<div class="order-header">';
-                html += '<div class="order-info">';
-                html += '<span class="order-date">📅 ' + order.date + '</span>';
-                html += '<span class="order-number">주문번호: ' + order.id + '</span>';
-                html += '</div></div>';
-                html += '<div class="order-body">';
-                html += '<img src="' + order.image + '" alt="' + order.productName + '" class="product-image">';
-                html += '<div class="product-details">';
-                html += '<h3 class="product-name">' + order.productName + '</h3>';
-                html += '<p class="product-options">' + order.options + '</p>';
-                html += '<p class="product-quantity">수량: ' + order.quantity + '개</p>';
-                html += '<div class="product-price">' + formatPrice(order.price) + '</div>';
-                html += '</div>';
-                html += '<div class="order-actions">';
-                html += '<span class="status-badge status-cancelled">' + order.statusText + '</span>';
-                html += '<div class="action-buttons">';
-                html += '<button class="btn" onclick="openDetailModal(\'' + order.id + '\')">📋 주문상세</button>';
-                html += '</div></div></div></div>';
-            }
+        //     var html = '';
+        //     for (var i = 0; i < cancelledOrders.length; i++) {
+        //         var order = cancelledOrders[i];
+        //         html += '<div class="order-card">';
+        //         html += '<div class="order-header">';
+        //         html += '<div class="order-info">';
+        //         html += '<span class="order-date">📅 ' + order.date + '</span>';
+        //         html += '<span class="order-number">주문번호: ' + order.id + '</span>';
+        //         html += '</div></div>';
+        //         html += '<div class="order-body">';
+        //         html += '<img src="' + order.image + '" alt="' + order.productName + '" class="product-image">';
+        //         html += '<div class="product-details">';
+        //         html += '<h3 class="product-name">' + order.productName + '</h3>';
+        //         html += '<p class="product-options">' + order.options + '</p>';
+        //         html += '<p class="product-quantity">수량: ' + order.quantity + '개</p>';
+        //         html += '<div class="product-price">' + formatPrice(order.price) + '</div>';
+        //         html += '</div>';
+        //         html += '<div class="order-actions">';
+        //         html += '<span class="status-badge status-cancelled">' + order.statusText + '</span>';
+        //         html += '<div class="action-buttons">';
+        //         html += '<button class="btn" onclick="openDetailModal(\'' + order.id + '\')">📋 주문상세</button>';
+        //         html += '</div></div></div></div>';
+        //     }
             
-            cancelledList.innerHTML = html;
-        }
+        //     cancelledList.innerHTML = html;
+        // }
         
         // 필터 탭 이벤트
         var tabs = document.querySelectorAll('.filter-tab');
@@ -1202,145 +1167,148 @@
             });
         }
 
-        // 환불 모달 열기
-        function openRefundModal(orderId) {
-            currentRefundOrder = null;
-            for (var i = 0; i < orders.length; i++) {
-                if (orders[i].id === orderId) {
-                    currentRefundOrder = orders[i];
-                    break;
-                }
-            }
+        // // 환불 모달 열기
+        // function openRefundModal(orderId) {
+        //     currentRefundOrder = null;
+        //     for (var i = 0; i < orders.length; i++) {
+        //         if (orders[i].id === orderId) {
+        //             currentRefundOrder = orders[i];
+        //             break;
+        //         }
+        //     }
             
-            if (!currentRefundOrder) return;
+        //     if (!currentRefundOrder) return;
 
-            var html = '<img src="' + currentRefundOrder.image + '" alt="' + currentRefundOrder.productName + '">';
-            html += '<div class="refund-product-info">';
-            html += '<div class="refund-product-name">' + currentRefundOrder.productName + '</div>';
-            html += '<div class="product-options">' + currentRefundOrder.options + '</div>';
-            html += '<div class="product-quantity">수량: ' + currentRefundOrder.quantity + '개</div>';
-            html += '<div class="refund-product-price">' + formatPrice(currentRefundOrder.price) + '</div>';
-            html += '</div>';
+        //     var html = '<img src="' + currentRefundOrder.image + '" alt="' + currentRefundOrder.productName + '">';
+        //     html += '<div class="refund-product-info">';
+        //     html += '<div class="refund-product-name">' + currentRefundOrder.productName + '</div>';
+        //     html += '<div class="product-options">' + currentRefundOrder.options + '</div>';
+        //     html += '<div class="product-quantity">수량: ' + currentRefundOrder.quantity + '개</div>';
+        //     html += '<div class="refund-product-price">' + formatPrice(currentRefundOrder.price) + '</div>';
+        //     html += '</div>';
             
-            document.getElementById('refundProductInfo').innerHTML = html;
+        //     document.getElementById('refundProductInfo').innerHTML = html;
 
-            var shippingFeeRefund = currentRefundOrder.shippingFee;
-            var totalRefund = currentRefundOrder.price + shippingFeeRefund;
+        //     var shippingFeeRefund = currentRefundOrder.shippingFee;
+        //     var totalRefund = currentRefundOrder.price + shippingFeeRefund;
 
-            document.getElementById('refundOriginalPrice').textContent = formatPrice(currentRefundOrder.price);
-            document.getElementById('refundShippingFee').textContent = formatPrice(shippingFeeRefund);
-            document.getElementById('refundTotalAmount').textContent = formatPrice(totalRefund);
+        //     document.getElementById('refundOriginalPrice').textContent = formatPrice(currentRefundOrder.price);
+        //     document.getElementById('refundShippingFee').textContent = formatPrice(shippingFeeRefund);
+        //     document.getElementById('refundTotalAmount').textContent = formatPrice(totalRefund);
 
-            document.getElementById('refundModal').classList.add('active');
-        }
+        //     document.getElementById('refundModal').classList.add('active');
+        // }
 
-        // 환불 모달 닫기
-        function closeRefundModal() {
-            document.getElementById('refundModal').classList.remove('active');
-            document.getElementById('refundForm').reset();
-            currentRefundOrder = null;
-        }
+        // // 환불 모달 닫기
+        // function closeRefundModal() {
+        //     document.getElementById('refundModal').classList.remove('active');
+        //     document.getElementById('refundForm').reset();
+        //     currentRefundOrder = null;
+        // }
 
-        // 환불 신청 처리
-        document.getElementById('refundForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // // 환불 신청 처리
+        // document.getElementById('refundForm').addEventListener('submit', function(e) {
+        //     e.preventDefault();
 
-            var reason = document.getElementById('refundReason').value;
-            var detail = document.getElementById('refundDetail').value;
+        //     var reason = document.getElementById('refundReason').value;
+        //     var detail = document.getElementById('refundDetail').value;
 
-            if (!reason || !detail) {
-                alert('모든 항목을 입력해주세요.');
-                return;
-            }
+        //     if (!reason || !detail) {
+        //         alert('모든 항목을 입력해주세요.');
+        //         return;
+        //     }
 
-            var refundData = {
-                orderId: currentRefundOrder.id,
-                productName: currentRefundOrder.productName,
-                reason: reason,
-                detail: detail,
-                refundAmount: currentRefundOrder.price + currentRefundOrder.shippingFee,
-                requestDate: new Date().toISOString()
-            };
+        //     var refundData = {
+        //         orderId: currentRefundOrder.id,
+        //         productName: currentRefundOrder.productName,
+        //         reason: reason,
+        //         detail: detail,
+        //         refundAmount: currentRefundOrder.price + currentRefundOrder.shippingFee,
+        //         requestDate: new Date().toISOString()
+        //     };
 
-            console.log('환불 신청 데이터:', refundData);
+        //     console.log('환불 신청 데이터:', refundData);
 
-            for (var i = 0; i < orders.length; i++) {
-                if (orders[i].id === currentRefundOrder.id) {
-                    orders[i].status = 'cancelled';
-                    orders[i].statusText = '환불처리중';
-                    break;
-                }
-            }
+        //     for (var i = 0; i < orders.length; i++) {
+        //         if (orders[i].id === currentRefundOrder.id) {
+        //             orders[i].status = 'cancelled';
+        //             orders[i].statusText = '환불처리중';
+        //             break;
+        //         }
+        //     }
 
-            alert('✅ 환불 신청이 완료되었습니다.\n처리 완료까지 3-5일 정도 소요됩니다.');
-            closeRefundModal();
-            renderOrders('all');
-        });
+        //     alert('✅ 환불 신청이 완료되었습니다.\n처리 완료까지 3-5일 정도 소요됩니다.');
+        //     closeRefundModal();
+        //     renderOrders('all');
+        // });
 
-        // 모달 외부 클릭시 닫기
-        document.getElementById('refundModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeRefundModal();
-            }
-        });
+        // // 모달 외부 클릭시 닫기
+        // document.getElementById('refundModal').addEventListener('click', function(e) {
+        //     if (e.target === this) {
+        //         closeRefundModal();
+        //     }
+        // });
 
         // 주문상세 모달 열기
         function openDetailModal(orderId) {
         	console.log(orderId);
-        	
+
         	$.ajax({
         		url: "/getOrderDetail.do",
         		type: "post",
         		data: {orderId : orderId},
         		dataType: "json",
         		success: function(res){
-        			var orderDetail = res.orderDetail;
+        			var orderDetail = res.orderDetail[orderId];
         			
         			console.log(orderDetail);
+
+                    // 주문 정보
+                    document.getElementById('detailOrderNumber').textContent = orderDetail.ORDER_NUMBER;
+                    document.getElementById('detailOrderDate').textContent = orderDetail.ORDER_DT;
+                    document.getElementById('detailOrderStatus').textContent = orderDetail.ORDER_STATUS;
+
+                    // 상품 정보
+                    var productHtml = '';
+                    var productTotalPrice = 0;
+                    for(var i=0; i < orderDetail.orderItems.length; i++){
+                        productTotalPrice += orderDetail.orderItems[i].SUB_TOTAL;
+                        productHtml += '<div class="detail-product">';
+                        productHtml += '<img src="' + orderDetail.orderItems[i].IMAGE_URL + '" alt="' + orderDetail.orderItems[i].PRODUCT_NAME + '">';
+                        productHtml += '<div class="detail-product-info">';
+                        productHtml += '<div class="detail-product-name">' + orderDetail.orderItems[i].PRODUCT_NAME + '</div>';
+                        productHtml += '<div class="detail-product-option">' + orderDetail.orderItems[i].PRODUCT_OPTION + '</div>';
+                        productHtml += '<div class="detail-product-option">수량: ' + orderDetail.orderItems[i].QUANTITY + '개</div>';
+                        productHtml += '<div class="detail-product-price">' + formatPrice(orderDetail.orderItems[i].SUB_TOTAL) + '</div>';
+                        productHtml += '</div></div>';
+                    }
+
+                    document.getElementById('detailProductInfo').innerHTML = productHtml;
+
+                    var address = orderDetail.SHIPPING_ADDR_1 + (orderDetail.SHIPPING_ADDR_2 ? orderDetail.SHIPPING_ADDR_2 : '');
+                    // 배송 정보
+                    document.getElementById('detailRecipient').textContent = orderDetail.USER_NAME;
+                    document.getElementById('detailPhone').textContent = orderDetail.PHONE_NUMBER;
+                    document.getElementById('detailAddress').textContent = address;
+                    document.getElementById('detailRequest').textContent = orderDetail.SHIPPING_COMMENT;
+
+                    // 결제 정보 (할인내용 포함해야 됨)
+                    var shippingFee = orderDetail.TOTAL_AMOUNT - productTotalPrice;
+                    document.getElementById('detailProductPrice').textContent = formatPrice(productTotalPrice);
+                    document.getElementById('detailShippingPrice').textContent = formatPrice(shippingFee);
+                    if(orderDetail.DISCOUNT_AMOUNT === 0){
+                    	 document.getElementById('detailDiscountPrice').textContent = formatPrice(0);
+                    } else {
+                    	 document.getElementById('detailDiscountPrice').textContent = '- ' + formatPrice(orderDetail.DISCOUNT_AMOUNT);
+                    }
+                    document.getElementById('detailTotalPrice').textContent = formatPrice(orderDetail.FINAL_AMOUNT);
+                    document.getElementById('detailPaymentMethod').textContent = orderDetail.PAYMENT_METHOD;
+                    document.getElementById('detailModal').classList.add('active');
+
+                    document.querySelector("#detailModal .modal-content").scrollTop = 0;
         		},
         		error: function(){}
         	});
-        	
-            var order = null;
-            for (var i = 0; i < orders.length; i++) {
-                if (orders[i].ORDER_ID === orderId) {
-                    order = orders[i];
-                    break;
-                }
-            }
-            
-            if (!order) return;
-
-            // 주문 정보
-            document.getElementById('detailOrderNumber').textContent = order.ORDER_ID;
-            document.getElementById('detailOrderDate').textContent = order.ORDER_DT;
-            document.getElementById('detailOrderStatus').textContent = order.ORDER_STATUS;
-
-            // 상품 정보
-            var productHtml = '<div class="detail-product">';
-            productHtml += '<img src="' + order.IMAGE_URL + '" alt="' + order.PRODUCT_NAME + '">';
-            productHtml += '<div class="detail-product-info">';
-            productHtml += '<div class="detail-product-name">' + order.PRODUCT_NAME + '</div>';
-            productHtml += '<div class="detail-product-option">' + order.options + '</div>';
-            productHtml += '<div class="detail-product-option">수량: ' + order.quantity + '개</div>';
-            productHtml += '<div class="detail-product-price">' + formatPrice(order.price) + '</div>';
-            productHtml += '</div></div>';
-            document.getElementById('detailProductInfo').innerHTML = productHtml;
-
-            // 배송 정보
-            document.getElementById('detailRecipient').textContent = order.recipient;
-            document.getElementById('detailPhone').textContent = order.phone;
-            document.getElementById('detailAddress').textContent = order.address;
-            document.getElementById('detailRequest').textContent = order.request;
-
-            // 결제 정보 (할인내용 포함해야 됨)
-            var totalPrice = order.price + order.shippingFee;
-            document.getElementById('detailProductPrice').textContent = formatPrice(order.price);
-            document.getElementById('detailShippingPrice').textContent = formatPrice(order.shippingFee);
-            document.getElementById('detailTotalPrice').textContent = formatPrice(totalPrice);
-            document.getElementById('detailPaymentMethod').textContent = order.paymentMethod;
-
-            document.getElementById('detailModal').classList.add('active');
         }
 
         // 주문상세 모달 닫기
@@ -1354,94 +1322,52 @@
                 closeDetailModal();
             }
         });
-
-        // 주문 취소 기능
-        function cancelOrder(orderId) {
-            var order = null;
-            for (var i = 0; i < orders.length; i++) {
-                if (orders[i].id === orderId) {
-                    order = orders[i];
-                    break;
-                }
-            }
-            
-            if (!order) return;
-
-            // 취소 확인
-            var confirmMsg = '주문을 취소하시겠습니까?\n\n';
-            confirmMsg += '주문번호: ' + order.id + '\n';
-            confirmMsg += '상품명: ' + order.productName + '\n';
-            confirmMsg += '결제금액: ' + formatPrice(order.price + order.shippingFee);
-            
-            if (!confirm(confirmMsg)) {
-                return;
-            }
-
-            // 주문 취소 처리
-            var cancelData = {
-                orderId: order.id,
-                productName: order.productName,
-                cancelAmount: order.price + order.shippingFee,
-                cancelDate: new Date().toISOString()
-            };
-
-            console.log('주문 취소 데이터:', cancelData);
-
-            // 주문 상태 업데이트
-            for (var i = 0; i < orders.length; i++) {
-                if (orders[i].id === orderId) {
-                    orders[i].status = 'cancelled';
-                    orders[i].statusText = '주문취소';
-                    break;
-                }
-            }
-
-            alert('✅ 주문이 취소되었습니다.\n환불 처리까지 3-5일 정도 소요됩니다.');
-            renderOrders('all');
-        }
         
         // 배송조회 모달 열기
         function openTrackingModal(orderId) {
-            var order = null;
-            for (var i = 0; i < orders.length; i++) {
-                if (orders[i].id === orderId) {
-                    order = orders[i];
-                    break;
-                }
-            }
-            
-            if (!order) return;
 
-            // 상품 정보
-            var productHtml = '<div class="detail-product">';
-            productHtml += '<img src="' + order.image + '" alt="' + order.productName + '">';
-            productHtml += '<div class="detail-product-info">';
-            productHtml += '<div class="detail-product-name">' + order.productName + '</div>';
-            productHtml += '<div class="detail-product-option">' + order.options + '</div>';
-            productHtml += '<div class="detail-product-option">수량: ' + order.quantity + '개</div>';
-            productHtml += '</div></div>';
-            document.getElementById('trackingProductInfo').innerHTML = productHtml;
+            $.ajax({
+                url: "/getDeliveryTracking.do",
+                type: "post",
+                data: {orderId : orderId},
+                dataType: "json",
+                success: function(res){
+                    var deliveryTracking = res.deliveryTracking;
 
-            // 배송 정보
-            document.getElementById('trackingCompany').textContent = order.trackingCompany || '정보 없음';
-            document.getElementById('trackingNumber').textContent = order.trackingNumber || '정보 없음';
-            document.getElementById('trackingRecipient').textContent = order.recipient;
-            document.getElementById('trackingAddress').textContent = order.address;
+                    console.log(deliveryTracking);
 
-            // 배송 추적
-            var trackingHtml = '';
-            for (var i = 0; i < order.deliveryTracking.length; i++) {
-                var track = order.deliveryTracking[i];
-                trackingHtml += '<div class="delivery-step' + (track.active ? ' active' : '') + '">';
-                trackingHtml += '<div class="delivery-step-icon">' + (track.active ? '📍' : '✓') + '</div>';
-                trackingHtml += '<div class="delivery-step-info">';
-                trackingHtml += '<div class="delivery-step-title">' + track.step + '</div>';
-                trackingHtml += '<div class="delivery-step-date">' + (track.date || '예정') + '</div>';
-                trackingHtml += '</div></div>';
-            }
-            document.getElementById('trackingSteps').innerHTML = trackingHtml;
+                    // 배송 정보
+                    var address = deliveryTracking.SHIPPING_ADDR_1 + (deliveryTracking.SHIPPING_ADDR_2 ? deliveryTracking.SHIPPING_ADDR_2 : '');
+                    document.getElementById('trackingCompany').textContent = deliveryTracking.COURIER_NAME || '정보 없음';
+                    document.getElementById('trackingNumber').textContent = deliveryTracking.TRACKING_NUMBER || '정보 없음';
+                    document.getElementById('trackingRecipient').textContent = deliveryTracking.USER_NAME;
+                    document.getElementById('trackingAddress').textContent = address;
 
-            document.getElementById('trackingModal').classList.add('active');
+                    var deliveryTracking = [
+                        { step: '상품준비중', active: false },
+                        { step: '배송시작', active: false },
+                        { step: '배송중', active: true },
+                        { step: '배송완료', active: false }
+	                ];
+
+                    // 배송 추적
+                    var trackingHtml = '';
+                    for (var i = 0; i < deliveryTracking.length; i++) {
+                        var track = deliveryTracking[i];
+                        trackingHtml += '<div class="delivery-step' + (track.active ? ' active' : '') + '">';
+                        trackingHtml += '<div class="delivery-step-icon">' + (track.active ? '📍' : '✓') + '</div>';
+                        trackingHtml += '<div class="delivery-step-info">';
+                        trackingHtml += '<div class="delivery-step-title">' + track.step + '</div>';
+                        trackingHtml += '</div></div>';
+                    }
+                    document.getElementById('trackingSteps').innerHTML = trackingHtml;
+
+                    document.getElementById('trackingModal').classList.add('active');
+
+                    document.querySelector("#trackingModal .modal-content").scrollTop = 0;
+                },
+                error: function(){}
+            });
         }
 
         // 배송조회 모달 닫기

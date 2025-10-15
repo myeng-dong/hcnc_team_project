@@ -47,4 +47,6 @@ public interface UserOrderMapper {
 
 	List<HashMap<String, Object>> selectOrderDetailByUser(HashMap<String, Object> param);
 
+  HashMap<String, Object> selectDeliveryTrackingByUser(HashMap<String, Object> param);
+
 }

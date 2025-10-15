@@ -210,7 +210,7 @@ public class UserOrderService {
 				item.put("ORDER_ID", row.get("ORDER_ID"));
 				item.put("ORDER_NUMBER", row.get("ORDER_NUMBER"));
 				item.put("PHONE_NUMBER", row.get("PHONE_NUMBER"));
-				item.put("ORDER_COMMENT", row.get("ORDER_COMMENT"));
+				item.put("ORDER_STATUS", row.get("ORDER_STATUS"));
 				item.put("ORDER_DT", row.get("ORDER_DT"));
 				item.put("TOTAL_AMOUNT", row.get("TOTAL_AMOUNT"));
 				item.put("DISCOUNT_AMOUNT", row.get("DISCOUNT_AMOUNT"));
@@ -221,9 +221,7 @@ public class UserOrderService {
 				item.put("SHIPPING_ADDR_2", row.get("SHIPPING_ADDR_2"));
 				item.put("USER_NAME", row.get("USER_NAME"));
 				item.put("SHIPPING_COMMENT", row.get("SHIPPING_COMMENT"));
-				item.put("IMAGE_ID", row.get("IMAGE_ID"));
-				item.put("IMAGE_URL", row.get("IMAGE_URL"));
-				
+
 				
 				// 옵션이 있는 경우 담을 리스트 추가해놓기
 				item.put("orderItems", new ArrayList<HashMap<String, Object>>());
@@ -236,13 +234,15 @@ public class UserOrderService {
 				HashMap<String, Object> orderItem = new HashMap<>();
 				
 				orderItem.put("ORDER_ITEM_ID", row.get("ORDER_ITEM_ID"));
+				orderItem.put("IMAGE_ID", row.get("IMAGE_ID"));
+				orderItem.put("IMAGE_URL", row.get("IMAGE_URL"));
 				orderItem.put("PRODUCT_ID", row.get("PRODUCT_ID"));
 				orderItem.put("PRODUCT_NAME", row.get("PRODUCT_NAME"));
 				orderItem.put("PRICE", row.get("PRICE"));
 				orderItem.put("QUANTITY", row.get("QUANTITY"));
 				orderItem.put("SUB_TOTAL", row.get("SUB_TOTAL"));
 				orderItem.put("ORDER_STATUS", row.get("ORDER_STATUS"));
-				orderItem.put("PRODUCT_OPTION", row.get("PRODUCT_OPTION"));			
+				orderItem.put("PRODUCT_OPTION", row.get("PRODUCT_OPTION"));	
 	            
 				@SuppressWarnings("unchecked")
 				List<HashMap<String, Object>> orderItems =
@@ -256,4 +256,8 @@ public class UserOrderService {
 		return orderDetailItemMap;
 	}
 
+	public HashMap<String, Object> selectDeliveryTrackingByUser(HashMap<String, Object> param) {
+
+		return userOrderMapper.selectDeliveryTrackingByUser(param);
+	}
 }
