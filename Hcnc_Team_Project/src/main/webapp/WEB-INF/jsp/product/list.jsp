@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="../layout/headerlink.jsp" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>상품목록</title>
+    <title>상품목록 :: ${mainCategory['MAIN_CATE_NM']}</title>
     <jsp:include page="../layout/headertop.jsp" />
     <link rel="stylesheet" href="../../../css/content/board.css">
     <link rel="stylesheet" href="../../../css/component/productItem.css">

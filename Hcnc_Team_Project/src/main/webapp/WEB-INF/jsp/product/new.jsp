@@ -14,7 +14,7 @@
 </head>
 <body>
 <style>
-	.prdList .prdItem {width:31%; margin:0 1.1% 30px;}
+	.prdList .prdItem {width:23%; margin:0 1% 30px;}
 	.prdList .prdItem.no-product{width:100%; padding:20% 0; text-align:center;}
 	.sub-search-area{padding:20px 0;}
 </style>
