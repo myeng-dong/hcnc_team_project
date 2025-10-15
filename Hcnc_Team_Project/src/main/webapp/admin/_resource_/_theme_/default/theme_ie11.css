@@ -400,12 +400,27 @@ input::-ms-clear,input::-ms-reveal
 	text-align : center;
 	background-position-x : center;
 }
+.Grid .hscrollbar
+{
+	border-top : 1px solid #b1b1b1;
+	border-right : 0px none;
+	border-bottom : 0px none;
+	border-left : 0px none;
+}
+.Grid .vscrollbar
+{
+	border-top : 0px none;
+	border-right : 0px none;
+	border-bottom : 0px none;
+	border-left : 1px solid #b1b1b1;
+}
 .GridCellControl .cellbutton
 {
 	font : 12px "Gulim";
-	color : #111111;
-	background : #ffffff;
-	border : 1px solid #d0d0d0;
+	color : #555555;
+	background : #eaeaea;
+	background : linear-gradient(to top,#eaeaea,#ffffff);
+	border : 1px solid #c2c2c2;
 }
 .GridCellControl .cellcalendar
 {
@@ -434,102 +449,28 @@ input::-ms-clear,input::-ms-reveal
 {
 	padding : 1px 9px 0px 9px;
 }
-.MaskEdit
+.GridCellControl .cellmaskedit
 {
 	font : 12px "Gulim";
 	background : #ffffff;
 	border : 1px solid #d5d5d5;
 }
-.MaskEdit .nexainput
+.GridCellControl .cellmaskedit .nexainput
 {
 	padding : 1px 9px 0px 9px;
 }
-.Menu .menuitem
-{
-	font : bold 13px "Gulim";
-	color : #ffffff;
-	cursor : pointer;
-}
-.PopupMenuControl.popupMenumenupopupmenu.dummy
-{
-	font : 12px "Gulim";
-	color : #555555;
-	background : #0753a5;
-	border : 1px solid #034389;
-}
-.PopupMenu
-{
-	font : 12px "Gulim";
-	color : #555555;
-	background : #ffffff;
-	border : 1px solid #b5b5b5;
-}
-.PopupMenuControl
-{
-	font : 12px "Gulim";
-	color : #555555;
-	background : #ffffff;
-	border : 1px solid #b5b5b5;
-}
-.TitleBarControl
-{
-	font : bold 12px "Gulim";
-	color : #ffffff;
-	background : #003284;
-}
-.DatePickerControl .head .yearstatic
-{
-	font : bold 14px "Tahoma";
-	color : #ffffff;
-}
-.DatePickerControl .head .monthstatic
-{
-	font : bold 14px "Tahoma";
-	color : #ffffff;
-}
-.ListView .body
+.GridCellControl .cellprogressbar
 {
 	font : 12px "Gulim";
 }
-.ListView .detail
+.GridCellControl .celltextarea
 {
 	font : 12px "Gulim";
 }
-.ListViewDetailBandControl.popupListViewdetail
+.GridCellControl .celltreeitem .treeitemtext
 {
-	font : 12px "Gulim";
-}
-.ListViewCellControl .cellbutton
-{
-	font : 12px "Gulim";
-}
-.ListViewCellControl .cellcalendar
-{
-	font : 12px "Gulim";
-}
-.ListViewCellControl .cellcheckbox
-{
-	font : 12px "Gulim";
-}
-.ListViewCellControl .cellcombo
-{
-	font : 12px "Gulim";
-}
-.ListViewCellControl .celledit
-{
-	font : 12px "Gulim";
-}
-.ListViewCellControl .cellmaskedit
-{
-	font : 12px "Gulim";
-}
-.ListViewCellControl .cellprogressbar
-{
-	font : 12px "Gulim";
-}
-.ListViewCellControl .celltextarea
-{
-	font : 12px "Gulim";
+	font : normal 10pt/normal "Noto Sans KR Medium";
+	color : #666666;
 }
 .GridCellControl .celltreeline
 {
@@ -572,6 +513,15 @@ input::-ms-clear,input::-ms-reveal
 {
 	color : #555555;
 }
+.MaskEdit
+{
+	background : #ffffff;
+	border : 1px solid #d5d5d5;
+}
+.MaskEdit .nexainput
+{
+	padding : 1px 9px 0px 9px;
+}
 .MaskEditControl
 {
 	background : transparent;
@@ -593,6 +543,19 @@ input::-ms-clear,input::-ms-reveal
 .Menu .nextbutton
 {
 	cursor : pointer;
+}
+.Menu .menuitem
+{
+	font : bold 13px "Gulim";
+	color : #ffffff;
+	cursor : pointer;
+}
+.PopupMenuControl.popupMenumenupopupmenu.dummy
+{
+	font : 12px "Gulim";
+	color : #555555;
+	background : #0753a5;
+	border : 1px solid #034389;
 }
 .PopupMenuControl.popupMenumenupopupmenu.dummy .prevbutton
 {
@@ -631,6 +594,20 @@ input::-ms-clear,input::-ms-reveal
 {
 	border : 1px solid #d5d5d5;
 }
+.PopupMenu
+{
+	font : 12px "Gulim";
+	color : #555555;
+	background : #ffffff;
+	border : 1px solid #b5b5b5;
+}
+.PopupMenuControl
+{
+	font : 12px "Gulim";
+	color : #555555;
+	background : #ffffff;
+	border : 1px solid #b5b5b5;
+}
 .PopupMenu .popupmenuitem
 {
 	color : #555555;
@@ -641,12 +618,10 @@ input::-ms-clear,input::-ms-reveal
 }
 .PopupMenu .popupmenuitem .popupmenuitemcheckbox
 {
-	background : URL('./images/chk_WF_Box_F.png') no-repeat left center;
 	background : URL('./images/chk_WF_Popupmenu_O.png') no-repeat left center;
 }
 .PopupMenuControl .popupmenuitem .popupmenuitemcheckbox
 {
-	background : URL('./images/chk_WF_Box_F.png') no-repeat left center;
 	background : URL('./images/chk_WF_Popupmenu_O.png') no-repeat left center;
 }
 .PopupMenu .popupmenuitem .popupmenuitemhotkeytext
@@ -774,7 +749,7 @@ input::-ms-clear,input::-ms-reveal
 }
 .Tab .tabbuttonitemTab
 {
-	color : #000000;
+	color : #333333;
 	background : #fcfcfc;
 	background : linear-gradient(to top, #fcfcfc, #fafafa);
 	border : 1px solid #c7c7c7;
@@ -786,6 +761,16 @@ input::-ms-clear,input::-ms-reveal
 .DatePickerControl .head
 {
 	background : #125dae;
+}
+.DatePickerControl .head .yearstatic
+{
+	font : bold 14px "Tahoma";
+	color : #ffffff;
+}
+.DatePickerControl .head .monthstatic
+{
+	font : bold 14px "Tahoma";
+	color : #ffffff;
 }
 .DatePickerControl .head .yearspin .spinedit
 {
@@ -879,11 +864,44 @@ input::-ms-clear,input::-ms-reveal
 	vertical-align : bottom;
 	background-position-y : bottom;
 }
+.TitleBarControl
+{
+	font : bold 12px "Gulim";
+	color : #ffffff;
+	background : #003284;
+}
 .ListView
 {
 	border : 1px solid #d5d5d5;
 	background : #ebecee;
 	color : #666666;
+}
+.ListView .body
+{
+	border-top : 0px none;
+	border-right : 0px none;
+	border-bottom : 1px solid #dbdee2;
+	border-left : 0px none;
+	background : #ffffff;
+	font : 12px "Gulim";
+}
+.ListView .detail
+{
+	border-top : 0px none;
+	border-right : 0px none;
+	border-bottom : 1px solid #dbdee2;
+	border-left : 0px none;
+	background : #f9f9f9;
+	font : 12px "Gulim";
+}
+.ListViewDetailBandControl.popupListViewdetail
+{
+	border-top : 0px none;
+	border-right : 0px none;
+	border-bottom : 1px solid #dbdee2;
+	border-left : 0px none;
+	background : #f9f9f9;
+	font : 12px "Gulim";
 }
 .ListView .body .cell
 {
@@ -897,56 +915,64 @@ input::-ms-clear,input::-ms-reveal
 {
 	border : 1px solid #dbdee2;
 }
+.ListViewCellControl .cellbutton
+{
+	font : 12px "Gulim";
+	color : #555555;
+	background : #eaeaea;
+	background : linear-gradient(to top,#eaeaea,#ffffff);
+	border : 1px solid #c2c2c2;
+}
+.ListViewCellControl .cellcalendar
+{
+	font : 12px "Gulim";
+}
+.ListViewCellControl .cellcheckbox
+{
+	font : 12px "Gulim";
+}
+.ListViewCellControl .cellcombo
+{
+	font : 12px "Gulim";
+}
 .ListBoxControl.popupListViewCellControlcellcombocombolist.dummy.dummy
 {
 	font : 12px "Gulim";
 	color : #555555;
+}
+.ListViewCellControl .celledit
+{
+	font : 12px "Gulim";
+	background : #ffffff;
+	border : 1px solid #d5d5d5;
+}
+.ListViewCellControl .celledit .nexainput
+{
+	padding : 1px 9px 0px 9px;
+}
+.ListViewCellControl .cellmaskedit
+{
+	font : 12px "Gulim";
+	background : #ffffff;
+	border : 1px solid #d5d5d5;
+}
+.ListViewCellControl .cellmaskedit .nexainput
+{
+	padding : 1px 9px 0px 9px;
+}
+.ListViewCellControl .cellprogressbar
+{
+	font : 12px "Gulim";
+}
+.ListViewCellControl .celltextarea
+{
+	font : 12px "Gulim";
 }
 .ListView .body .expandbar
 {
 	background : #eaeaea;
 	background : linear-gradient(to top,#eaeaea,#ffffff);
 	border : 1px solid #c2c2c2;
-}
-.GridCellControl.cls_inbound
-{
-	background : #63b4ff;
-	color : #000000;
-}
-.GridCellControl.cls_addopt
-{
-	background : #fad898;
-	color : #000000;
-}
-.GridCellControl.cls_outbound
-{
-	background : #ffa47a;
-	color : #000000;
-}
-.Grid .body .row .cell.cell_wait.dummy.dummy.dummy
-{
-	font : 10pt "Noto Sans KR Medium";
-	color : #EF4444;
-	border : 1px solid #dbdee2;
-	cursor : pointer;
-}
-.Grid .body .row .cell.cell_done.dummy.dummy.dummy
-{
-	font : 10pt "Noto Sans KR Medium";
-	color : #135dae;
-	border : 1px solid #dbdee2;
-	cursor : pointer;
-}
-.Grid .body .row .cell.cell_pending.dummy.dummy.dummy
-{
-	font : 10pt "Noto Sans KR Medium";
-	color : #F59E0B;
-	border : 1px solid #dbdee2;
-	cursor : pointer;
-}
-.CellTreeItemControl .treeitemtext
-{
-	font : 10pt "Noto Sans KR Medium";
 }
 #nexacontainer .Button[status=mouseover]
 {
@@ -1062,17 +1088,35 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .GridCellControl .cellbutton[status=mouseover]
 {
-	background : #f7f7f7;
-	border : 1px solid #999999;
+	background : #e7e7e7;
+	background : linear-gradient(to top,#e7e7e7,#fefefe);
+	border : 1px solid #a0a0a0;
 }
 #nexacontainer .GridCellControl .cellbutton[status=focused]
 {
-	background : #f7f7f7;
-	border : 1px solid #999999;
+	background : #e7e7e7;
+	background : linear-gradient(to top,#e7e7e7,#fefefe);
+	border : 1px solid #a0a0a0;
 }
 #nexacontainer .ListBoxControl.popupGridCellControlcellcombocombolist.dummy.dummy .listboxitem[status=mouseover]
 {
 	background : #e8e9ed;
+}
+#nexacontainer .GridCellControl .celledit[status=mouseover]
+{
+	border : 1px solid #5a86cd;
+}
+#nexacontainer .GridCellControl .celledit[status=focused]
+{
+	border : 1px solid #5a86cd;
+}
+#nexacontainer .GridCellControl .cellmaskedit[status=mouseover]
+{
+	border : 1px solid #5a86cd;
+}
+#nexacontainer .GridCellControl .cellmaskedit[status=focused]
+{
+	border : 1px solid #5a86cd;
 }
 #nexacontainer .ListBox[status=mouseover]
 {
@@ -1112,7 +1156,7 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .Menu .menuitem[status=mouseover]
 {
-	background : URL('./images/img_WF_Menu_O.png') no-repeat center top;
+	background : #00438b;
 }
 #nexacontainer .PopupMenuControl.popupMenumenupopupmenu.dummy .popupmenuitem[status=mouseover]
 {
@@ -1122,7 +1166,7 @@ input::-ms-clear,input::-ms-reveal
 #nexacontainer .PopupMenuControl.popupMenumenupopupmenu.dummy .popupmenuitem[status=focused]
 {
 	color : #ffffff;
-	background : transparent;
+	background : #00438b;
 }
 #nexacontainer .PopupMenuControl.popupMenumenupopupmenu.dummy .popupmenuitem .popupmenuitemtext[status=mouseover]
 {
@@ -1509,13 +1553,13 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .GridCellControl .cellbutton[userstatus=pushed]
 {
-	background : #efefef;
-	border : 1px solid #777777;
+	background : #fefefe;
+	background : linear-gradient(to top,#fefefe,#e9e9e9);
 }
 #nexacontainer .GridCellControl .cellbutton[userstatus=selected]
 {
-	background : #efefef;
-	border : 1px solid #777777;
+	background : #fefefe;
+	background : linear-gradient(to top,#fefefe,#e9e9e9);
 }
 #nexacontainer .Grid .body .row .cell[userstatus=blinked]
 {
@@ -1534,12 +1578,12 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .Menu .menuitem[userstatus=selected]
 {
-	background : URL('./images/img_WF_Menu_O.png') no-repeat center top;
+	background : #00438b URL('./images/img_WF_Menu_O.png') no-repeat center top;
 }
 #nexacontainer .PopupMenuControl.popupMenumenupopupmenu.dummy .popupmenuitem[userstatus=selected]
 {
 	color : #ffffff;
-	background : transparent;
+	background : #00438b;
 }
 #nexacontainer .PopupMenu .popupmenuitem[userstatus=selected]
 {
@@ -1553,8 +1597,8 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .Tab .tabbuttonitemTab[userstatus=selected]
 {
-	color : #ffffff;
-	background : #000000;
+	color : #dee4ef;
+	background : #1055a1;
 	border : 1px solid #1055a1;
 }
 #nexacontainer .DatePickerControl .body .weekitem[userstatus=saturday]
@@ -1628,16 +1672,6 @@ input::-ms-clear,input::-ms-reveal
 	background : #ebf3f9;
 }
 #nexacontainer .ListViewCellControl .cellbutton[userstatus=pushed]
-{
-	background : #fefefe;
-	background : linear-gradient(to top,#fefefe,#e9e9e9);
-}
-#nexacontainer .ListView .body .expandbar[userstatus=pushed]
-{
-	background : #fefefe;
-	background : linear-gradient(to top,#fefefe,#e9e9e9);
-}
-#nexacontainer .ListView .body .expandbar[userstatus=selected]
 {
 	background : #fefefe;
 	background : linear-gradient(to top,#fefefe,#e9e9e9);
@@ -1728,12 +1762,23 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .GridCellControl .cellbutton[status=disabled]
 {
-	color : #aaaaaa;
-	background : #f2f2f2;
-	border : 1px solid #e0e0e0;
+	color : #bbbbbb;
+	background : #f5f5f5;
+	border : 1px solid #d9d9d9;
+}
+#nexacontainer .GridCellControl .celledit[status=disabled]
+{
+	color : #999999;
+	background : #efefef;
+}
+#nexacontainer .GridCellControl .cellmaskedit[status=disabled]
+{
+	color : #999999;
+	background : #efefef;
 }
 #nexacontainer .GridCellControl .celltreeitem .treeitemtext[status=disabled]
 {
+	font : normal 10pt/normal "Noto Sans KR Medium";
 	color : #999999;
 }
 #nexacontainer .GroupBox .groupboxcontents[status=disabled]
@@ -1805,12 +1850,10 @@ input::-ms-clear,input::-ms-reveal
 #nexacontainer .PopupMenu .popupmenuitem .popupmenuitemcheckbox[status=disabled]
 {
 	background : URL('./images/chk_WF_Popupmenu.png') no-repeat left center;
-	background : URL('./images/chk_WF_Box_D.png') no-repeat left center;
 }
 #nexacontainer .PopupMenuControl .popupmenuitem .popupmenuitemcheckbox[status=disabled]
 {
 	background : URL('./images/chk_WF_Popupmenu.png') no-repeat left center;
-	background : URL('./images/chk_WF_Box_D.png') no-repeat left center;
 }
 #nexacontainer .PopupMenu .popupmenuitem .popupmenuitemhotkeytext[status=disabled]
 {
@@ -1861,8 +1904,8 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .Tab .tabbuttonitemTab[status=disabled]
 {
-	color : #999999;
-	background : #dddddd;
+	color : #ababab;
+	background : #e7e7e7;
 }
 #nexacontainer .Tab .tabbuttonitemTab .tabbuttonitemtext[status=disabled]
 {
@@ -1973,8 +2016,8 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .Tab .tabbuttonitemTab[status=focused][userstatus=selected]
 {
-	color : #ffffff;
-	background : #000000;
+	color : #dee4ef;
+	background : #1055a1;
 	border : 1px solid #1055a1;
 }
 #nexacontainer .Tab .tabbuttonitemTab[status=disabled][userstatus=selected]
