@@ -1072,8 +1072,8 @@
             this.grid_list.addEventHandler("onkeydown",this.grid_list_onkeydown,this);
             this.grid_list.addEventHandler("onkillfocus",this.grid_list_onkillfocus,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
-            this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
             this.grid_list.addEventHandler("oncelldblclick",this.grid_list_oncelldblclick,this);
+            this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
             this.cmb_searchType.addEventHandler("onitemchanged",this.cmb_searchType_onitemchanged,this);

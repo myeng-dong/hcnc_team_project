@@ -12,6 +12,9 @@
             this.set_name("Form_Board_Qna");
             this.set_titletext("New Form");
             this.set_background("#F4F7FE");
+            this.set_scrolltype("none");
+            this.set_scrollbartype("none");
+            this.set_scrollbarsize("0");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -102,16 +105,32 @@
             obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","0","0",null,null,"0","0",null,null,null,null,this.grid_wrapper.form);
+            obj = new Grid("grid_header","0","0",null,"40","10",null,null,null,null,null,this.grid_wrapper.form);
             obj.set_taborder("0");
             obj.set_binddataset("ds_board");
             obj.set_autofittype("col");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
-            obj.set_borderRadius("10px");
+            obj.set_selecttype("row");
+            obj.set_readonly("true");
+            obj.set_enableevent("false");
+            obj.set_scrolltype("none");
+            obj.set_scrollbartype("none");
+            obj.set_scrollpixel("none");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"47\"/><Column size=\"160\"/><Column size=\"74\"/><Column size=\"78\"/></Columns><Rows><Row size=\"40\"/></Rows><Band id=\"body\"><Cell text=\"NO\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/><Cell col=\"1\" text=\"작성자\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/><Cell col=\"2\" text=\"게시글 제목\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/><Cell col=\"3\" text=\"답변상태\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/><Cell col=\"4\" text=\"작성일\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/></Band></Format></Formats>");
+            this.grid_wrapper.addChild(obj.name, obj);
+
+            obj = new Grid("grid_list","0","40",null,null,"0","0",null,null,null,null,this.grid_wrapper.form);
+            obj.set_taborder("1");
+            obj.set_binddataset("ds_board");
+            obj.set_autofittype("col");
+            obj.set_background("#FFFFFF");
+            obj.set_border("0px none");
+            obj.set_borderRadius("0px 0px 10px 10px");
+            obj.set_scrollbartype("auto");
             obj.set_scrollbarsize("10");
             obj.set_scrollbartrackbarsize("40");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"47\"/><Column size=\"160\"/><Column size=\"74\"/><Column size=\"78\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"NO\" displaytype=\"normal\" edittype=\"none\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"작성자\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"게시글 제목\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"답변상태\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"작성일\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell displaytype=\"normal\" edittype=\"none\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" expr=\"currow+1\"/><Cell col=\"1\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:POST_TITLE\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"3\" text=\"bind:POST_STATUS\" displaytype=\"normal\" edittype=\"none\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR Medium&quot;\" cursor=\"pointer\" cssclass=\"expr:(POST_STATUS==&apos;답변대기&apos;?&apos;cell_wait&apos;:(POST_STATUS==&apos;답변완료&apos;?&apos;cell_done&apos;:&apos;&apos;))\"/><Cell col=\"4\" text=\"bind:INPUT_DT\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"26\"/><Column size=\"47\"/><Column size=\"160\"/><Column size=\"74\"/><Column size=\"78\"/></Columns><Rows><Row size=\"34\"/></Rows><Band id=\"body\"><Cell displaytype=\"normal\" edittype=\"none\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" expr=\"currow+1\"/><Cell col=\"1\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:POST_TITLE\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"3\" text=\"bind:POST_STATUS\" displaytype=\"normal\" edittype=\"none\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR Medium&quot;\" cursor=\"pointer\" cssclass=\"expr:(POST_STATUS==&apos;답변대기&apos;?&apos;cell_wait&apos;:(POST_STATUS==&apos;답변완료&apos;?&apos;cell_done&apos;:&apos;&apos;))\"/><Cell col=\"4\" text=\"bind:INPUT_DT\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/></Band></Format></Formats>");
             this.grid_wrapper.addChild(obj.name, obj);
 
             obj = new Static("stc_ship00_00","50","10.28%","200","28",null,null,null,null,null,null,this);
@@ -341,7 +360,6 @@
             this.search_area.form.Calendar00_00_00.addEventHandler("onchanged",this.Calendar00_00_00_onchanged,this);
             this.grid_wrapper.addEventHandler("onmousemove",this.grid_wrapper_onmousemove,this);
             this.grid_wrapper.addEventHandler("onmouseleave",this.grid_wrapper_onmouseleave,this);
-            this.grid_wrapper.form.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
             this.grid_wrapper.form.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
             this.stc_ship00_00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
         };

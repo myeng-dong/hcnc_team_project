@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Board_Notice" width="1280" height="720" titletext="New Form" color="blue" background="#F4F7FE" onload="Form_Board_Notice_onload">
+  <Form id="Form_Board_Notice" width="1280" height="720" titletext="New Form" color="blue" background="#F4F7FE" onload="Form_Board_Notice_onload" scrolltype="none" scrollbartype="none" scrollbarsize="0">
     <Layouts>
       <Layout height="720" mobileorientation="landscape" width="1280">
         <!-- 검색 영역 -->
@@ -20,7 +20,8 @@
         <Div id="grid_wrapper" taborder="3" left="40" top="110" right="40" bottom="40" background="#FFFFFF" borderRadius="10px" boxShadow="0px 0px 2px 2px rgba(229,229,229,0.15)" onmousemove="grid_wrapper_onmousemove" onmouseleave="grid_wrapper_onmouseleave">
           <Layouts>
             <Layout>
-              <Grid id="grid_list" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncelldblclick="grid_list_oncelldblclick" scrollbarsize="10" scrollbartrackbarsize="40">
+              <!-- 헤더 Grid (고정) -->
+              <Grid id="grid_header" taborder="0" left="0" top="0" right="10" height="40" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" selecttype="row" readonly="true" enableevent="false" scrolltype="none" scrollbartype="none">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -30,15 +31,30 @@
                       <Column size="36"/>
                     </Columns>
                     <Rows>
-                      <Row size="40" band="head"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="No" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                      <Cell col="1" text="게시분류" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                      <Cell col="2" text="제목" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                      <Cell col="3" text="작성자" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <!-- Body Grid (스크롤) -->
+              <Grid id="grid_list" taborder="1" left="0" top="40" right="0" bottom="0" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="0px 0px 10px 10px" onheadclick="grid_list_onheadclick" oncelldblclick="grid_list_oncelldblclick" scrollbartype="auto" scrollbarsize="10" scrollbartrackbarsize="40">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="36"/>
+                      <Column size="36"/>
+                      <Column size="152"/>
+                      <Column size="36"/>
+                    </Columns>
+                    <Rows>
                       <Row size="34"/>
                     </Rows>
-                    <Band id="head">
-                      <Cell font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" text="No"/>
-                      <Cell col="1" text="게시분류" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                      <Cell col="2" text="제목" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                      <Cell col="3" text="작성자" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                    </Band>
                     <Band id="body">
                       <Cell text="bind:POST_ID" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
                       <Cell col="1" text="bind:BOARD_NAME" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
@@ -138,15 +154,23 @@ this.search_area_rad_ship_onitemchanged = function(obj:nexacro.Radio,e:nexacro.I
 
 this.fnInsertPost = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {		
-		 // 팝업 크기
-        var popW = 500;
-        var popH = 350;
-
-        var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-		objChildFrame.init("itemPop", 200, 200, popW, popH, null, null, "popup::Pop_BaordInsert.xfdl"); // init
-		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_popupCallback"); // 모달 띄어주기
-    
+		var popW = 500;
+		var popH = 600;
+		
+		// 모니터 화면 기준 중앙 좌표 계산
+		var screenWidth = system.getScreenWidth();
+		var screenHeight = system.getScreenHeight();
+		
+		var absX = (screenWidth - popW) / 2;
+		var absY = (screenHeight - popH) / 2;
+		
+		// 팝업 열기
+		var objChildFrame = new ChildFrame();
+		objChildFrame.init("itemPop", absX, absY, popW, popH, null, null, "popup::Pop_BaordInsert.xfdl");
+		objChildFrame.showModal(this.getOwnerFrame(), '', this, "fn_popupCallback");
 };
+
+
 
 //엔터 눌렀을때 조회되게
 this.search_area_Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventInfo)
@@ -157,26 +181,39 @@ this.search_area_Edit00_onkeyup = function(obj:nexacro.Edit,e:nexacro.KeyEventIn
 };
 
 
-
 this.grid_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
 {
-	 if(e.row < 0) return; // 헤더 클릭 무시
+	if(e.row < 0) return;
     
     var nRow = e.row;
-    var paramPostId = this.ds_board.getColumn(nRow, "POST_ID"); // 실제 컬럼명에 맞게 수정
+    var paramPostId = this.ds_board.getColumn(nRow, "POST_ID");
       
     if(paramPostId) {
-        // 상세보기 팝업 열기
-		
-		var popW = 800;
-        var popH = 700;
-        var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-		objChildFrame.init("detailPop", 0, 0, popW, popH, null, null, "popup::Pop_BoardDetail.xfdl"); // init
-		objChildFrame.paramPostId = paramPostId;
-		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_popupCallback"); // 모달 띄어주기
+        var popW = 500;
+        var popH = 600;
+        
+        // 모니터 화면 기준 중앙
+        var screenWidth = system.getScreenWidth();
+        var screenHeight = system.getScreenHeight();
+        
+        var absX = (screenWidth - popW) / 2;
+        var absY = (screenHeight - popH) / 2;
+        
+        var objChildFrame = new ChildFrame();
+        objChildFrame.init("detailPop", absX, absY, popW, popH, null, null, "popup::Pop_BoardDetail.xfdl");
+        objChildFrame.paramPostId = paramPostId;
+        objChildFrame.showModal(this.getOwnerFrame(), '', this, "fn_popupCallback");
     }
 };
-]]></Script>
+
+
+this.fn_popupCallback = function(strId, strVal)
+{
+    trace("팝업 닫힘 - ID: " + strId + ", 결과: " + strVal);
+    
+    // 목록 새로고침
+    this.fnselectPostListByAdmin();
+};]]></Script>
     <Objects>
       <Dataset id="ds_boardType">
         <ColumnInfo>
