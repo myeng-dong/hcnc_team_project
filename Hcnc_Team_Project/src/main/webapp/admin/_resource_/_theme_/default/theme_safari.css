@@ -1,4 +1,4 @@
-﻿
+
 html, body
 {
   position:absolute;
@@ -525,6 +525,11 @@ textarea::-webkit-scrollbar { display: none; }
 {
 	font : 12px "Gulim";
 }
+.GridCellControl .celltreeitem .treeitemtext
+{
+	font : 12px "Gulim";
+	color : #666666;
+}
 .GridCellControl .celltreeline
 {
 	border : 1px dotted #909090;
@@ -923,31 +928,6 @@ textarea::-webkit-scrollbar { display: none; }
 {
 	background : #ffa47a;
 	color : #000000;
-}
-.Grid .body .row .cell.cell_wait.dummy.dummy.dummy
-{
-	font : 10pt "Noto Sans KR Medium";
-	color : #EF4444;
-	border : 1px solid #dbdee2;
-	cursor : pointer;
-}
-.Grid .body .row .cell.cell_done.dummy.dummy.dummy
-{
-	font : 10pt "Noto Sans KR Medium";
-	color : #135dae;
-	border : 1px solid #dbdee2;
-	cursor : pointer;
-}
-.Grid .body .row .cell.cell_pending.dummy.dummy.dummy
-{
-	font : 10pt "Noto Sans KR Medium";
-	color : #F59E0B;
-	border : 1px solid #dbdee2;
-	cursor : pointer;
-}
-.CellTreeItemControl .treeitemtext
-{
-	font : 10pt "Noto Sans KR Medium";
 }
 #nexacontainer .Button[status=mouseover]
 {
