@@ -12,11 +12,7 @@
     <link rel="stylesheet" href="../../../js/component/productItem.js">
 </head>
 <body>
-<style>
-	.prdList .prdItem {width:31%; margin:0 1.1% 30px;}
-	.prdList .prdItem.no-product{width:100%; padding:20% 0; text-align:center;}
-	.sub-search-area{padding:20px 0;}
-</style>
+
 <div class="container-wrap">
     <jsp:include page="../layout/header.jsp" />
     <div class="container productlist">
