@@ -151,8 +151,15 @@ public class UserProductController {
 	}
 	
 	@RequestMapping(value="/insertQnA.do")
-	public ModelAndView insertQnAByUser(@RequestParam Map<String, Object> param, RedirectAttributes redirectAttributes) {
+	public ModelAndView insertQnAByUser(@RequestParam Map<String, Object> param, RedirectAttributes redirectAttributes, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+
+		@SuppressWarnings("unchecked")
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+	    if(userInfo != null) {
+	    	String memberId = (String) userInfo.get("MEMBER_ID");
+	    	param.put("memberId", memberId);
+	    }
 		
 		String productId = (String) param.get("productId");
 		
@@ -171,6 +178,7 @@ public class UserProductController {
 		ModelAndView mav = new ModelAndView("jsonView");
 		
 		String memberId = "";
+		@SuppressWarnings("unchecked")
 		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
 		if(userInfo != null) {
 			memberId = (String) userInfo.get("MEMBER_ID");
