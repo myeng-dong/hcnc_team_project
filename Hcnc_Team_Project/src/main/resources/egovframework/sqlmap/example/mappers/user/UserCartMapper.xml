@@ -3,7 +3,7 @@
 <mapper namespace="user.mapper.UserCartMapper">
 
 	<!-- 장바구니 리스트 조회 -->
-	<select id="selectCartListByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	<!-- <select id="selectCartListByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT
 			   P.PRODUCT_ID
 			 , P.PRODUCT_NAME
@@ -24,14 +24,48 @@
 			 		AND WI2.PRODUCT_ID = P.PRODUCT_ID
 			   ) THEN 'Y' ELSE 'N' END AS IS_WISHLIST
 		  FROM CARTS C
-		 INNER JOIN CART_ITEMS CI
-			ON C.CART_ID = CI.CART_ID
-		 INNER JOIN PRODUCTS P
-			ON CI.PRODUCT_ID = P.PRODUCT_ID
-		 LEFT JOIN OPTIONS O
-		 	ON CI.PRODUCT_ID = O.PRODUCT_ID
-		 WHERE C.MEMBER_ID = #{memberId}
-		 ORDER BY CI.INPUT_DT DESC
+			 INNER JOIN CART_ITEMS CI
+				ON C.CART_ID = CI.CART_ID
+			 INNER JOIN PRODUCTS P
+				ON CI.PRODUCT_ID = P.PRODUCT_ID
+			 LEFT JOIN OPTIONS O
+			 	ON CI.PRODUCT_ID = O.PRODUCT_ID
+			 WHERE C.CART_ID = #{cartId}
+			 ORDER BY CI.INPUT_DT DESC
+	</select> -->
+	
+	<select id="selectCartListByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT
+	        P.PRODUCT_ID,
+	        P.PRODUCT_NAME,
+	        CI.PRODUCT_OPTION,
+	        CI.PRICE,
+	        CI.QUANTITY,
+	        CI.SUB_TOTAL,
+	        CI.IS_CHECKED,
+	        CI.CART_ITEM_ID,
+	        O.OPTION_ID,
+	        O.OPTION_NAME,
+	        O.OPTION_VALUE,
+	        O.ADDITIONAL_PRICE,
+	        CASE WHEN EXISTS (
+	            SELECT 1 
+	            FROM WISH W2 
+	            INNER JOIN WISH_ITEMS WI2 ON W2.WISH_ID = WI2.WISH_ID 
+	            WHERE W2.MEMBER_ID = #{memberId} 
+	            AND WI2.PRODUCT_ID = P.PRODUCT_ID
+	        ) THEN 'Y' ELSE 'N' END AS IS_WISHLIST
+	    FROM CARTS C
+	        INNER JOIN CART_ITEMS CI 
+	        	ON C.CART_ID = CI.CART_ID
+	        INNER JOIN PRODUCTS P 
+	        	ON CI.PRODUCT_ID = P.PRODUCT_ID
+	        LEFT JOIN CART_ITEM_OPTIONS CIO 
+	        	ON CI.CART_ITEM_ID = CIO.CART_ITEM_ID
+	        LEFT JOIN OPTIONS O 
+	        	ON CIO.OPTION_ID = O.OPTION_ID
+	    WHERE C.CART_ID = #{cartId}
+	    ORDER BY CI.INPUT_DT DESC
 	</select>
 	
 	<!-- 수량 변경 디비 저장 -->
@@ -43,7 +77,6 @@
 			 , CI.SUB_TOTAL = #{subTotal}
 		 WHERE CI.CART_ID = #{cartId}
 		   AND CI.CART_ITEM_ID = #{cartItemId}
-		   AND CI.PRODUCT_OPTION = #{option}
 	</update>
 	
 	<!-- 상품 체크박스 수정  -->
@@ -82,10 +115,23 @@
 	<!-- 옵션 변경 -->
 	<update id="updateOptionByUser" parameterType="java.util.HashMap">
 		UPDATE CART_ITEMS
-			SET PRODUCT_OPTION = #{option}
-			WHERE CART_ID = #{cartId}
+			SET PRODUCT_OPTION = #{option}, SUB_TOTAL = (PRICE + #{optionPrice}) * QUANTITY
+			WHERE 1=1
+				AND CART_ID = #{cartId}
 				AND CART_ITEM_ID = #{cartItemId}
 	</update>
+	
+	<!-- 옵션 변경 시 cartOptions 테이블 delete 후 insert -->
+	<delete id="deleteCartItemOptionByUser" parameterType="java.util.HashMap">
+		DELETE FROM CART_ITEM_OPTIONS
+			WHERE 1=1
+				AND CART_ITEM_ID = #{cartItemId}
+	</delete>
+	
+	<insert id="insertCartItemOptionByUser" parameterType="java.util.Map">
+		INSERT INTO CART_ITEM_OPTIONS (CART_ITEM_ID, OPTION_ID)
+			VALUES ( #{cartItemId}, #{optionId} )
+	</insert>
 	
 	<update id="updateCartItemPriceByUser" parameterType="java.util.HashMap">
 		UPDATE CART_ITEMS

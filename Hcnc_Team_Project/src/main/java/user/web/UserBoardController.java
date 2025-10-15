@@ -72,7 +72,7 @@ public class UserBoardController {
 	        
 	        System.out.println(params);
 	        
-	        //파라미터통에 담은 내용을 쏴서 게시글리스트 조회 조회되는 보드ID = 1,2,4임
+	        //파라미터통에 담은 내용을 쏴서 게시글리스트 조회 조회되는 보드ID = 5임
 	        List<Map<String, Object>> posts = userBoardService.selectPostListByUser(params);
 	        
 	        //게시글의 갯수를 카운팅용

@@ -15,4 +15,22 @@ public interface UserReviewMapper {
 
 	List<HashMap<String, Object>> selectReviewListPagedByUser(Map<String, Object> queryParam);
 
+  List<HashMap<String, Object>> selectOrderProductListByUser(Map<String, Object> param);
+
+  List<HashMap<String, Object>> selectReviewStatusListByUser(Map<String, Object> param);
+
+	HashMap<String, Object> selectProductInfoForReviewByUser(Map<String, Object> param);
+
+  int insertReviewByUser(Map<String, Object> param);
+
+	int insertReviewImage(Map<String, Object> param);
+
+  List<HashMap<String, Object>> selectReviewForReadByUser(Map<String, Object> param);
+
+  int deleteReviewImagesByUser(Map<String, Object> deleteParam);
+
+	int updateReviewByUser(Map<String, Object> param);
+
+	int deleteReviewByUser(Map<String, Object> param);
+
 }

@@ -6,6 +6,96 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/wish/wish.css'/>" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <style>
+	.category-tabs {
+	    margin: 24px 0;
+	    overflow: visible;
+	}
+	
+	.tab-list {
+	    display: flex;
+	    flex-wrap: wrap;
+	    gap: 8px;
+	    justify-content: flex-start;
+	    align-items: center;
+	}
+	
+	.tab-btn {
+	    display: inline-flex;
+	    align-items: center;
+	    gap: 6px;
+	    padding: 10px 16px;
+	    border: 2px solid #e5e7eb;
+	    background: white;
+	    border-radius: 12px;
+	    font-size: 14px;
+	    font-weight: 500;
+	    color: #6b7280;
+	    cursor: pointer;
+	    transition: all 0.2s ease;
+	    white-space: nowrap;
+	    flex-shrink: 0;
+	}
+	
+	.tab-btn:hover {
+	    border-color: #DC0630;
+	    color: #DC0630;
+	    background: #fff5f7;
+	}
+	
+	.tab-btn.active {
+	    border-color: #DC0630;
+	    background: #DC0630;
+	    color: white;
+	}
+	
+	.tab-btn.active:hover {
+	    background: #B8052A;
+	    border-color: #B8052A;
+	}
+	
+	.tab-count {
+	    display: inline-flex;
+	    align-items: center;
+	    justify-content: center;
+	    min-width: 24px;
+	    height: 24px;
+	    padding: 0 8px;
+	    background: rgba(0, 0, 0, 0.1);
+	    border-radius: 12px;
+	    font-size: 12px;
+	    font-weight: 700;
+	}
+	
+	.tab-btn.active .tab-count {
+	    background: rgba(255, 255, 255, 0.25);
+	}
+	
+	/* 반응형 디자인 */
+	@media (max-width: 768px) {
+	    .tab-btn {
+	        padding: 8px 12px;
+	        font-size: 13px;
+	    }
+	    
+	    .tab-count {
+	        min-width: 20px;
+	        height: 20px;
+	        padding: 0 6px;
+	        font-size: 11px;
+	    }
+	}
+	
+	@media (max-width: 480px) {
+	    .tab-list {
+	        gap: 6px;
+	    }
+	    
+	    .tab-btn {
+	        padding: 6px 10px;
+	        font-size: 12px;
+	    }
+	}
+
 	.wishlist-item {
 	    position: relative;
 	    background: white;
@@ -407,10 +497,7 @@
 	} */
 </style>
 <jsp:include page="../layout/header.jsp" />
-<jsp:include page="../layout/menu.jsp" />
-
 <script>
-    var memberId = "user01";
     var categories = []; // 카테고리 데이터를 저장할 전역 변수
 
     // 페이지 로드
@@ -420,64 +507,61 @@
   
     var currentCategory = '';
     
-    // 카테고리 로드 함수 (추가)
+    // 카테고리 전체 목록 조회
     var loadCategories = function() {
         $.ajax({
-            url: "/getCategories.do",
+            url: "/selectCategoriesListByUser.do",
             type: "post",
             dataType: "json",
             success: function(res){
-                if(res.success && res.categories) {
+            	if(res.success && res.categories) {
                     categories = res.categories;
-                    renderCategoryTabs();
-                    // 카테고리 로드 완료 후 위시리스트와 카운트 조회
-                    selectWishlist();
+                    // 위시리스트와 카테고리 개수를 먼저 조회한 후 렌더링
                     updateCategoryCount();
                 } else {
                     console.log("카테고리 조회 실패:", res.message);
-                    // 기본 카테고리로 대체하고 계속 진행
-                    categories = [
-                        {MAIN_CATE_ID: '1', MAIN_CATE_NM: '문구류', ICON: '📝'},
-                        {MAIN_CATE_ID: '2', MAIN_CATE_NM: '사무용품', ICON: '📄'}
-                    ];
-                    renderCategoryTabs();
+                    categories = [];
                     selectWishlist();
-                    updateCategoryCount();
                 }
             },
             error: function(err){
-                console.log("카테고리 조회 통신 실패:", err);
-                // 기본 카테고리로 대체하고 계속 진행
-                categories = [
-                    {MAIN_CATE_ID: '1', MAIN_CATE_NM: '문구류', ICON: '📝'},
-                    {MAIN_CATE_ID: '2', MAIN_CATE_NM: '사무용품', ICON: '📄'}
-                ];
-                renderCategoryTabs();
+            	console.log("카테고리 조회 통신 실패:", err);
+                categories = [];
                 selectWishlist();
-                updateCategoryCount();
             }
         });
     };
     
-    // 카테고리 탭 렌더링 함수 (추가)
-    var renderCategoryTabs = function() {
-        var html = '';
+    // 카테고리 탭 렌더링 함수
+    var renderCategoryTabs = function(categoryCountMap) {
+    	var html = '';
+        var totalCount = 0;
         
+     // 전체 개수 계산
+        for(var catId in categoryCountMap) {
+            totalCount += categoryCountMap[catId];
+        }
+     
         // 전체 탭
         html += '<button class="tab-btn active" onclick="filterByCategory(\'\')" data-category="">';
-        html += '🌟 전체 <span class="tab-count">0</span>';
+        html += '🌟 전체 <span class="tab-count">' + totalCount + '</span>';
         html += '</button>';
         
-        // 카테고리 탭들
+        // 위시리스트에 있는 카테고리만 표시
         for(var i = 0; i < categories.length; i++) {
             var category = categories[i];
-            var icon = category.ICON || '📦'; // 기본 아이콘
             var categoryId = category.MAIN_CATE_ID;
-            var categoryName = category.MAIN_CATE_NM;
+            var count = categoryCountMap[categoryId] || 0;
             
-            html += '<button class="tab-btn" onclick="filterByCategory(\'' + categoryId + '\')" data-category="' + categoryId + '">';
-            html += icon + ' ' + categoryName + ' <span class="tab-count">0</span>';
-            html += '</button>';
+            // 개수가 0보다 큰 카테고리만 표시
+            if(count > 0) {
+                var icon = category.ICON || '✨';
+                var categoryName = category.MAIN_CATE_NM;
+                
+                html += '<button class="tab-btn" onclick="filterByCategory(\'' + categoryId + '\')" data-category="' + categoryId + '">';
+                html += icon + ' ' + categoryName + ' <span class="tab-count">' + count + '</span>';
+                html += '</button>';
+            }
         }
         
         $('.tab-list').html(html);
@@ -497,7 +581,6 @@
     var toggleWishlist = function(productId, heartElement) {
         var param = {
             productId: productId,
-            memberId: memberId
         };
         
         // 하트 로딩 상태
@@ -558,11 +641,10 @@
         $(heartElement).attr('data-wished', isWished);
     };
     
-    // 상품 목록에서 여러 하트 상태 확인
+    /* // 상품 목록에서 여러 하트 상태 확인
     var checkMultipleWishStatus = function(productIds) {
         var param = {
             productIds: productIds.join(','),
-            memberId: memberId
         };
         
         $.ajax({
@@ -584,7 +666,7 @@
                 console.log("위시리스트 상태 확인 실패:", err);
             }
         });
-    };
+    }; */
     
     // 위시리스트 렌더링 (카테고리 이름 동적 표시로 수정)
     var renderWishlist = function(wishlist) {
@@ -597,12 +679,18 @@
             html += '<div class="empty-subtitle">마음에 드는 상품의 하트를 눌러보세요</div>';
             html += '</div>';
         } else {
-            for(var i = 0; i < wishlist.length; i++){
-                var item = wishlist[i];
-                html += '<div class="wishlist-item" data-category="' + item.MAIN_CATE_ID + '">';
-                
-                // 이미지와 하트 버튼
-                html += '<div class="item-image">';
+        	for(var i = 0; i < wishlist.length; i++){
+        	    var item = wishlist[i];
+        	    var isSoldout = (item.TOTAL_QUANTITY === 0 || item.TOTAL_QUANTITY === '0');
+        	    html += '<div class="wishlist-item' + (isSoldout ? ' soldout' : '') + '" data-category="' + item.MAIN_CATE_ID + '">';
+        	    
+        	    // 품절 오버레이
+        	    if(isSoldout) {
+        	        html += '<div class="soldout-overlay">품절</div>';
+        	    }
+        	    
+        	    // 이미지와 하트 버튼
+        	    html += '<div class="item-image">';
                 var imageUrl = item.IMAGE_URL || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
                 html += '<img src="' + imageUrl + '" alt="' + item.PRODUCT_NAME + '" style="width:100%; height:100%; object-fit:cover;">';
                 html += '<button class="wish-heart heart-filled" data-product-id="' + item.PRODUCT_ID + '" onclick="toggleWishlist(' + item.PRODUCT_ID + ', this)">';
@@ -632,18 +720,15 @@
                 }
                 html += '</div>';
                 
-                html += '<div class="item-status">';
-                if(item.IS_VISIBLE === 'Y') {
-                    html += '판매중';
-                } else {
-                    html += '품절';
-                }
-                html += '</div>';
-                
-                html += '<div class="item-actions">';
-                /* html += '<button class="btn-cart" onclick="addToCart(' + item.PRODUCT_ID + ')">장바구니</button>'; */
-                html += '<button class="btn-detail" onclick="viewDetail(' + item.PRODUCT_ID + ')">상세보기</button>';
-                html += '</div>';
+                html += '<div class="item-bottom">';
+				html += '<div class="item-status ' + (isSoldout ? 'soldout' : 'available') + '">';
+				html += isSoldout ? '품절' : '판매중';
+				html += '</div>';
+				
+				html += '<div class="item-actions">';
+				html += '<button class="btn-detail" onclick="viewDetail(' + item.PRODUCT_ID + ')">상세보기</button>';
+				html += '</div>';
+				html += '</div>';
                 
                 html += '</div>'; // item-info 끝
                 html += '</div>'; // wishlist-item 끝
@@ -679,7 +764,6 @@
     // 위시리스트 조회
     var selectWishlist = function() {
         var param = {
-            memberId: memberId,
             category: currentCategory,
             sortType: $("#sortFilter").val() || 'newest',
             priceRange: $("#priceRangeFilter").val() || '',
@@ -774,7 +858,7 @@
             case 'sale':
                 return item.SALED_PRICE && item.SALED_PRICE > 0 && item.SALED_PRICE < item.PRODUCT_PRICE;
             case 'soldout':
-                return item.IS_VISIBLE === 'N';
+            	return item.TOTAL_QUANTITY === 0 || item.TOTAL_QUANTITY === '0';
             case 'new':
                 return true;
             default:
@@ -787,7 +871,7 @@
         switch(sortType) {
             case 'newest':
                 return list.sort(function(a, b) {
-                    return b.PRODUCT_ID - a.PRODUCT_ID;
+                    return b.WISH_ITEM_ID - a.WISH_ITEM_ID;
                 });
             case 'price-low':
                 return list.sort(function(a, b) {
@@ -827,11 +911,10 @@
         selectWishlist();
     };
     
-    // 장바구니 추가
+    /* // 장바구니 추가
     var addToCart = function(productId) {
         var param = {
             productId: productId,
-            memberId: memberId,
             quantity: 1
         };
         
@@ -868,7 +951,8 @@
             }
         });
     };
-    
+     */
+     
     var viewDetail = function(productId) {
         window.open('/productDetailView.do?productId=' + productId, '_blank');
     };
@@ -898,29 +982,29 @@
         }
     };
     
+    // 카테고리 개수 업데이트 함수
     var updateCategoryCount = function() {
         $.ajax({
             url: "/getCategoryCount.do",
             type: "post",
-            data: { memberId: memberId },
+            data: {},
             dataType: "json",
             success: function(res){
                 if(res.success && res.categoryCount) {
-                    var totalCount = 0;
-                    
-                    // 각 카테고리별 개수 업데이트
-                    for(var category in res.categoryCount) {
-                        var count = res.categoryCount[category];
-                        $('[data-category="' + category + '"] .tab-count').text(count);
-                        totalCount += count;
-                    }
-                    
-                    // 전체 카테고리 개수 업데이트
-                    $('[data-category=""] .tab-count').text(totalCount);
+                    // 카테고리 탭 렌더링 (개수 정보와 함께)
+                    renderCategoryTabs(res.categoryCount);
+                    // 위시리스트 조회
+                    selectWishlist();
+                } else {
+                    // 개수 정보가 없으면 빈 객체로 렌더링
+                    renderCategoryTabs({});
+                    selectWishlist();
                 }
             },
             error: function(err){
                 console.log("카테고리 개수 조회 실패");
+                renderCategoryTabs({});
+                selectWishlist();
             }
         });
     };

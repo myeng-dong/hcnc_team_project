@@ -341,7 +341,7 @@
             // 메뉴 영역 복구
             nexacro.VFrameSet00.set_separatesize("50,*");
             nexacro.HFrameSet00.set_separatesize("200,*");
-            nexacro.InnerVFrameSet.set_separatesize("110,*");
+            nexacro.InnerVFrameSet.set_separatesize("70,*");
 
             // 대시보드로 이동
             glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl(

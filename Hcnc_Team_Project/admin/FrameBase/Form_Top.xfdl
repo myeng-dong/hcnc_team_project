@@ -1,30 +1,200 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Top" width="1280" height="50" titletext="Form_Top" background="white" onload="Form_Top_onload">
+  <Form id="Form_Top" width="1280" height="50" titletext="Form_Top" background="white" onload="Form_Top_onload" border="0px none">
     <Layouts>
       <Layout width="1280" height="50" screenid="Desktop_screen" stepcount="0">
         <Static id="Static00" taborder="1" text="님 환영합니다" top="5" width="100" height="43" font="normal 12pt/normal &quot;Pretendard SemiBold&quot;" right="90" onclick="Static00_onclick"/>
-        <ImageViewer id="h1_logo" taborder="0" left="5" top="3" width="190" height="45" image="url('imagerc::h1_logo.png')" onclick="h1_logo_onclick"/>
+        <ImageViewer id="h1_logo" taborder="0" left="22" top="9" width="138" height="33" image="url('imagerc::h1_logo.png')" onclick="h1_logo_onclick" border="0px none" stretch="fixaspectratio" cursor="pointer"/>
         <Button id="btn_logout" taborder="2" text="로그아웃" top="11" height="31" right="10" width="80" onclick="btn_logout_onclick" font="normal 10pt/normal &quot;Pretendard SemiBold&quot;" background="transition" border="0px none" color="firebrick"/>
-        <Div id="div_grayline" taborder="3" left="0" height="1" bottom="0" background="#cccccc" right="0"/>
-        <Static id="admin_id" taborder="4" top="14" height="23" background="#f5f5f5" textAlign="center" color="black" font="bold 14px/normal &quot;Noto Sans KR Black&quot;" borderRadius="12px" right="200" width="70"/>
+        <Static id="admin_id" taborder="3" top="14" height="23" background="#f5f5f5" textAlign="center" color="black" font="bold 14px/normal &quot;Noto Sans KR Black&quot;" borderRadius="12px" right="200" width="70"/>
+        <!-- ⭐ 알림 버튼 -->
+        <Button id="btn_notification" taborder="4" text="🔔" top="8" height="35" width="40" right="280" onclick="btn_notification_onclick" font="normal 18pt/normal &quot;Pretendard SemiBold&quot;" background="white" border="0px" borderRadius="5px" cursor="pointer"/>
+        <!-- ⭐ 알림 배지 -->
+        <Static id="sta_badge" taborder="5" text="" top="6" height="18" width="18" right="276" background="red" color="white" textAlign="center" font="bold 10px/normal &quot;Pretendard&quot;" borderRadius="9px" visible="false"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[this.isWait = false; // 전역변수 선언! 
-//로그아웃 버튼 클릭시 세션 끊고 로그아웃
+    <Script type="xscript5.1"><![CDATA[this.isWait = false;
+this.websocket = null;
 
-//로그인 완료시 실행되게
-this.fn_initWebSocket = function()
+
+this.Form_Top_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-    trace("로그인 완료 - 웹소켓 연결 시작");
-    this.connectWebSocket();
+
 };
 
 
-this.btn_logout_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo){
+this.fn_initWebSocket = function()
+{
+    trace("🔐 로그인 완료 - 웹소켓 및 알림 초기화 시작");
+    
+    // 1. 웹소켓 연결
+    this.connectWebSocket();
+    
+    // 2. 미읽음 알림 개수 조회
+    this.loadUnreadCount();
+};
 
+
+this.connectWebSocket = function()
+{
+    var glbAd = nexacro.getApplication();
+    var userId = "ADMIN"
+    
+    if (!userId) {
+        trace("❌ 사용자 ID 없음 - 웹소켓 연결 불가");
+        return;
+    }
+    
+    var wsUrl = 'ws://localhost:8080/notification/' + userId;
+    
+    trace("🔌 웹소켓 연결 시도: " + wsUrl);
+    
+    try {
+        this.websocket = new WebSocket(wsUrl);
+        
+        var objThis = this;
+        
+        // onopen 이벤트
+        this.websocket.onopen = function(e) {
+            trace("✅ 웹소켓 연결 성공");
+        };
+        
+        // onmessage 이벤트
+        this.websocket.onmessage = function(e) {
+            trace("📩 알림 수신: " + e.data);
+            objThis.playNotificationSound();
+			
+            try {
+                var data = JSON.parse(e.data);
+                
+                // 배지 개수 갱신
+                objThis.loadUnreadCount();
+				
+                
+				
+                // 알림 메시지 표시
+                var message = data.message || "새 알림이 도착했습니다.";
+				
+                alert("[알림] " + message);
+				
+                
+            } catch(err) {
+                trace("❌ 메시지 파싱 에러: " + err.message);
+            }
+        };
+        
+        // onerror 이벤트
+        this.websocket.onerror = function(e) {
+            trace("❌ 웹소켓 에러");
+        };
+        
+        // onclose 이벤트
+        this.websocket.onclose = function(e) {
+            trace("⚠️ 웹소켓 연결 종료");
+            
+            // 로그아웃이 아닌 경우만 재연결
+            if (objThis.websocket !== null) {
+                trace("3초 후 재연결 시도...");
+                setTimeout(function() {
+                    objThis.connectWebSocket();
+                }, 3000);
+            }
+        };
+        
+    } catch(err) {
+        trace("❌ 웹소켓 생성 실패: " + err.message);
+    }
+};
+
+
+this.loadUnreadCount = function()
+{
+    var strSvcId    = "selectUnreadCount";
+    var strSvcUrl   = "svc::/notification/unreadCountNexa.do?time=" + new Date().getTime();
+    var inData      = "";
+    var outData     = "ds_count=ds_count";
+    var strArg      = "";
+    var callBackFnc = "fn_callback_unreadCount";
+    var isAsync     = true;
+    
+    this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, callBackFnc, isAsync);
+};
+
+
+// 미읽음 개수 조회 콜백
+this.fn_callback_unreadCount = function(strSvcId, nErrorCode, strErrorMsg)
+{
+    if (nErrorCode < 0) {
+        trace("미읽음 개수 조회 실패: " + strErrorMsg);
+        return;
+    }
+    switch(strSvcId){
+		case "selectUnreadCount" : 
+		if(this.ds_count.getRowCount()>0){
+			var count = this.ds_count.getColumn(0,"COUNT");
+			trace("미읽음 개수는 : " + count);
+			
+			if(count>0){
+				var displayText = count > 99? "99+" : count.toString();
+				 this.sta_badge.set_text(displayText);
+                 this.sta_badge.set_visible(true);
+			}else{
+				trace("데이터 없음");
+				this.sta_badge.set_visible(false);
+			}			
+		}		
+		break;
+	}
+};
+
+// ========================================
+// 알림 버튼 클릭
+// ========================================
+this.btn_notification_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    // 알림 팝업 열기
+    var objChildFrame = new nexacro.ChildFrame;
+    objChildFrame.init("NotificationPopup", 0, 0, 500, 600, null, null, "popup::Pop_Notification.xfdl");
+    
+    objChildFrame.set_dragmovetype("all");
+    objChildFrame.set_showtitlebar(true);
+    objChildFrame.set_titletext("알림");
+    objChildFrame.set_resizable(false);
+    objChildFrame.set_openalign("center middle");
+    
+    objChildFrame.showModal(
+        this.getOwnerFrame(),
+        {},
+        this,
+        "fn_popupCallback"
+    );
+};
+
+// 팝업 콜백
+this.fn_popupCallback = function(strPopupId, strReturn)
+{
+    if (strReturn == "refresh") {
+        // 배지 개수 갱신
+        this.loadUnreadCount();
+    }
+};
+
+// ========================================
+// 로그아웃
+// ========================================
+this.btn_logout_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
     if(this.isWait) return;
     this.isWait = true;
+    
+    // 웹소켓 종료 (재연결 방지)
+    if (this.websocket) {
+        trace("🔌 웹소켓 연결 종료");
+        var ws = this.websocket;
+        this.websocket = null; // null로 설정하여 재연결 방지
+        ws.close();
+    }
+    
     this.logout();
 };
 
@@ -37,26 +207,27 @@ this.fn_callBack = function(svcID, errorCode, errorMSG)
     }
     
     switch(svcID) {
-	case "adminLogout":
-		var glbAd = nexacro.getApplication();
-		
-		
-		// 전역 데이터 초기화
-		if(glbAd.gds_adminInfo) {
-			glbAd.gds_adminInfo.clearData();
-		}
-		
-		// 프레임 닫기
-		nexacro.VFrameSet00.set_separatesize("0,*");
-		nexacro.HFrameSet00.set_separatesize("0,*");
-		nexacro.InnerVFrameSet.set_separatesize("0,*");
-		
-		// 로그인 화면으로
-		this.isWait = false;
-		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": true };
-		glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("member::Form_Login.xfdl");
-		
-        break;
+        case "adminLogout":
+            var glbAd = nexacro.getApplication();
+            
+            // 전역 데이터 초기화
+            if(glbAd.gds_adminInfo) {
+                glbAd.gds_adminInfo.clearData();
+            }
+            
+            // 프레임 닫기
+            nexacro.VFrameSet00.set_separatesize("0,*");
+            nexacro.HFrameSet00.set_separatesize("0,*");
+            nexacro.InnerVFrameSet.set_separatesize("0,*");
+            
+            // 로그인 화면으로
+            this.isWait = false;
+            glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.arguments = { "isLogout": true };
+            glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("member::Form_Login.xfdl");
+            
+            break;
+		case "selectUnreadCount":
+		break;
     }
 };
 
@@ -73,80 +244,43 @@ this.logout = function()
     this.transaction(strSvcID, setURL, strInDatasets, strOutDatasets, strArg, callBack, inAsync);
 };
 
-
-//웹소켓 연결 함수
-this.connectWebSocket = function()
+// ========================================
+// 로고 클릭
+// ========================================
+this.h1_logo_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
 {
     var glbAd = nexacro.getApplication();
-    var userId = glbAd.gds_adminInfo.getColumn(0, "MEMBER_ID");
-    
-    if (!userId) {
-        trace("❌ 사용자 ID 없음 - 웹소켓 연결 불가");
-        return;
-    }
-    
-    var wsUrl = 'ws://localhost:8080/notification/' + userId;
-    
-    trace("🔌 웹소켓 연결 시도: " + wsUrl);
-    
+    glbAd.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame.set_formurl("admin::Form_Main.xfdl");
+};
+
+this.playNotificationSound = function()
+{
     try {
-        // ⭐ 브라우저 기본 WebSocket 사용
-        this.websocket = new WebSocket(wsUrl);
+        // 방법 1: nexacro API 사용
+        var soundUrl = "http://localhost:8080/sounds/bell.mp3";
         
-        var objThis = this;
+        // Audio 객체 생성 (브라우저 환경)
+        var audio = new Audio(soundUrl);
+        audio.play();
         
-        // onopen 이벤트
-        this.websocket.onopen = function(e) {
-            trace("✅ 웹소켓 연결 성공");
-        };
-        
-        // onmessage 이벤트
-        this.websocket.onmessage = function(e) {
-            trace("📩 알림 수신: " + e.data);
-            
-            try {
-                var data = JSON.parse(e.data);
-                
-                if (data.type == "ORDER_STATUS_CHANGE") {
-                    alert("[알림] " + data.message);
-                } 
-                else if (data.type == "NEW_ORDER") {
-                    alert("[신규 주문] " + data.message);
-                }
-                else if (data.type == "NEW_INQUIRY") {
-                    alert("[신규 문의] " + data.message);
-                }
-                else if (data.type == "INQUIRY_REPLY") {
-                    alert("[답변 알림] " + data.message);
-                }
-                
-            } catch(err) {
-                trace("❌ 메시지 파싱 에러: " + err.message);
-            }
-        };
-        
-        // onerror 이벤트
-        this.websocket.onerror = function(e) {
-            trace("❌ 웹소켓 에러");
-        };
-        
-        // onclose 이벤트
-        this.websocket.onclose = function(e) {
-            trace("⚠️ 웹소켓 연결 종료 - 3초 후 재연결");
-            
-            // 3초 후 자동 재연결
-            setTimeout(function() {
-                objThis.connectWebSocket();
-            }, 3000);
-        };
+        trace("🔔 알림음 재생: " + soundUrl);
         
     } catch(err) {
-        trace("❌ 웹소켓 생성 실패: " + err.message);
+        trace("❌ 알림음 재생 실패: " + err.message);
     }
 };]]></Script>
-    <Objects/>
     <Bind>
       <BindItem id="item0" compid="admin_id" propid="text" datasetid="gds_adminInfo" columnid="MEMBER_ID"/>
     </Bind>
+    <Objects>
+      <Dataset id="ds_count">
+        <ColumnInfo>
+          <Column id="COUNT" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
   </Form>
 </FDL>

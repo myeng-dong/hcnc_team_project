@@ -56,18 +56,18 @@ public class WebUtil {
      * @param postNo 게시글번호
      * @param inputDt 작성일시
      */
-    public static void sendNewInquiryNotification(String postNo, String inputDt) {
-        String message = "신규 1:1 문의! " + inputDt;
+    public static void sendNewInquiryNotification(String userId) {
+        String message = "신규 1:1 문의! " + getCurrentDateTime();
         
         JsonObject notification = new JsonObject();
         notification.addProperty("type", "NEW_INQUIRY");
         notification.addProperty("message", message);
-        notification.addProperty("postNo", postNo);
+        notification.addProperty("senderId", userId);
         notification.addProperty("regDate", getCurrentDateTime());
         
         NotificationWebSocket.sendToAllAdmins(gson.toJson(notification));
         
-        System.out.println("📢 신규 문의 알림 전송: " + postNo);
+        System.out.println("📢 신규 문의 알림 전송: " + userId);
     }
     
     /**
@@ -76,14 +76,13 @@ public class WebUtil {
      * @param postNo 게시글번호
      * @param commentNo 댓글번호
      */
-    public static void sendInquiryReplyNotification(String customerId, String postNo, String commentNo) {
+    public static void sendInquiryReplyNotification(String customerId, String postNo) {
         String message = "1:1 문의 답변이 등록되었습니다.";
         
         JsonObject notification = new JsonObject();
         notification.addProperty("type", "INQUIRY_REPLY");
         notification.addProperty("message", message);
         notification.addProperty("postNo", postNo);
-        notification.addProperty("commentNo", commentNo);
         notification.addProperty("regDate", getCurrentDateTime());
         
         NotificationWebSocket.sendToUser(customerId, gson.toJson(notification));

@@ -19,42 +19,37 @@
             mc.MAIN_CATE_NM,
             pi.IMAGE_URL,
             pi.ALT_TEXT,
-            pi.IS_MAIN
+            pi.IS_MAIN,
+            COALESCE(SUM(i.QUANTITY), 0) AS TOTAL_QUANTITY
         FROM WISH_ITEMS wi
         INNER JOIN WISH w ON wi.WISH_ID = w.WISH_ID
         INNER JOIN PRODUCTS p ON wi.PRODUCT_ID = p.PRODUCT_ID
         INNER JOIN MAIN_CATEGORIES mc ON wi.MAIN_CATE_ID = mc.MAIN_CATE_ID
         LEFT JOIN PRODUCT_IMG pi ON p.PRODUCT_ID = pi.PRODUCT_ID AND pi.IS_MAIN = 'Y'
+        LEFT JOIN INVENTORIES i ON p.PRODUCT_ID = i.PRODUCT_ID
         WHERE w.MEMBER_ID = #{memberId}
+        AND p.IS_VISIBLE = 'Y'
         <if test="category != null and category != ''">
             AND wi.MAIN_CATE_ID = #{category}
         </if>
+        GROUP BY 
+            wi.WISH_ITEM_ID, w.WISH_ID, w.MEMBER_ID, wi.MAIN_CATE_ID, wi.PRODUCT_ID,
+            p.PRODUCT_NAME, p.PRODUCT_CODE, p.PRODUCT_CONTENT, p.PRODUCT_PRICE, 
+            p.SALED_PRICE, p.VIEW_CNT, p.IS_VISIBLE, mc.MAIN_CATE_NM, 
+            pi.IMAGE_URL, pi.ALT_TEXT, pi.IS_MAIN
         <if test="priceRange != null and priceRange != ''">
-		    <choose>
-		        <when test="priceRange == '0-1000'">
-		            AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &lt;= 1000
-		        </when>
-		        <when test="priceRange == '1000-3000'">
-		            AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 1000 AND 3000
-		        </when>
-		        <when test="priceRange == '3000-5000'">
-		            AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 3000 AND 5000
-		        </when>
-		        <when test="priceRange == '5000-'">
-		            AND COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &gt; 5000
-		        </when>
-		    </choose>
-		</if>
-        <if test="status != null and status != ''">
             <choose>
-                <when test="status == 'sale'">
-                    AND p.SALED_PRICE IS NOT NULL AND p.SALED_PRICE &lt; p.PRODUCT_PRICE
+                <when test="priceRange == '0-1000'">
+                    HAVING COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &lt;= 1000
                 </when>
-                <when test="status == 'soldout'">
-                    AND p.IS_VISIBLE = 'N'
+                <when test="priceRange == '1000-3000'">
+                    HAVING COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 1000 AND 3000
                 </when>
-                <when test="status == 'new'">
-                    AND p.INPUT_DT &gt;= DATE_SUB(NOW(), INTERVAL 30 DAY)
+                <when test="priceRange == '3000-5000'">
+                    HAVING COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) BETWEEN 3000 AND 5000
+                </when>
+                <when test="priceRange == '5000-'">
+                    HAVING COALESCE(p.SALED_PRICE, p.PRODUCT_PRICE) &gt; 5000
                 </when>
             </choose>
         </if>
@@ -86,18 +81,29 @@
     <select id="getCategoryCount" parameterType="java.util.HashMap" resultType="java.util.HashMap">
         SELECT 
             wi.MAIN_CATE_ID as category,
-
-            COUNT(0) as count,
-
+            COUNT(DISTINCT wi.WISH_ITEM_ID) as count,
             mc.MAIN_CATE_NM as categoryName
         FROM WISH_ITEMS wi
         INNER JOIN WISH w ON wi.WISH_ID = w.WISH_ID
+        INNER JOIN PRODUCTS p ON wi.PRODUCT_ID = p.PRODUCT_ID
         INNER JOIN MAIN_CATEGORIES mc ON wi.MAIN_CATE_ID = mc.MAIN_CATE_ID
         WHERE w.MEMBER_ID = #{memberId}
+        AND p.IS_VISIBLE = 'Y'
         GROUP BY wi.MAIN_CATE_ID, mc.MAIN_CATE_NM
         ORDER BY wi.MAIN_CATE_ID
     </select>
 
+    <!-- 전체 카테고리 목록 조회 -->
+    <select id="selectCategoriesListByUser" resultType="java.util.HashMap">
+    	SELECT
+            MAIN_CATE_ID,
+            MAIN_CATE_NM,
+            SORT_NUMBER,
+            IS_ACTIVE
+        FROM MAIN_CATEGORIES
+        WHERE IS_ACTIVE = 'Y'
+        ORDER BY SORT_NUMBER ASC, MAIN_CATE_ID ASC
+    </select>
     
     <!-- 장바구니 아이템 존재 확인 -->
 	<select id="checkCartItem" parameterType="java.util.HashMap" resultType="java.util.HashMap">

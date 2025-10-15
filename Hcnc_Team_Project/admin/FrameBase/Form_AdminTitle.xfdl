@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_AdminTitle" width="1280" height="70" titletext="New Form" onload="Form_AdminTitle_onload" background="#F4F7FE">
+  <Form id="Form_AdminTitle" width="1280" height="70" titletext="New Form" onload="Form_AdminTitle_onload" background="#F4F7FE" scrolltype="none">
     <Layouts>
+      <!-- ⭐ height: 70 → 50 변경 -->
       <Layout height="70" width="1280">
-        <Static id="sta_h3" taborder="0" text="h3 title area" left="40" top="10" height="40" onclick="static_board_onclick" font="normal 20pt/normal &quot;Noto Sans KR Black&quot;" color="black" right="110"/>
-        <Static id="sta_location" taborder="1" text="⌂&gt;회원&gt;회원관리" left="40" top="50" height="18" onclick="static_board_onclick" font="normal 9pt/normal &quot;Noto Sans KR DemiLight&quot;" right="110"/>
+        <!-- ⭐ h3 제목 크기 조정 -->
+        <Static id="sta_h3" taborder="0" text="h3 title area" left="27" top="17" height="34" onclick="static_board_onclick" font="normal 16pt/normal &quot;Noto Sans KR Black&quot;" color="black" right="121"/>
+        <!-- ⭐ 위치 표시 제거 또는 작게 -->
+        <Static id="sta_location" taborder="1" left="45" top="49" height="20" onclick="static_board_onclick" font="normal 8pt/normal &quot;Noto Sans KR DemiLight&quot;" color="#666666" right="102"/>
+        <Div id="Div00" taborder="2" left="-40" top="0" right="-80" bottom="0" boxShadow="inset 0px 2px 2px 2px rgba(229,229,229,0.15)"/>
       </Layout>
     </Layouts>
     <Bind>
@@ -27,6 +31,13 @@
     }
     
     this.sta_location.set_text(sBreadcrumb);
-};]]></Script>
+};
+
+this.static_board_onclick = function(obj:nexacro.Static,e:nexacro.ClickEventInfo)
+{
+	alert("📏 Form_Title 현재 높이: " + this.getOffsetHeight());
+    alert("📏 Form_Title 설정 높이: " + this.height);
+};
+]]></Script>
   </Form>
 </FDL>

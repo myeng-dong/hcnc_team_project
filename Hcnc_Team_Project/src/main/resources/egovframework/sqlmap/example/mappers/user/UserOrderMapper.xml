@@ -16,8 +16,7 @@
     			AND ( PI.IS_MAIN IS NULL OR PI.IS_MAIN = 'Y')
 	</select>
 	 -->
-	 
-	 
+
 	<select id="selectOrderRequestItemListByUser" parameterType="java.lang.Long" resultType="java.util.HashMap">
 		SELECT CI.CART_ITEM_ID, CI.PRODUCT_ID, CI.PRODUCT_OPTION, CI.PRICE, CI.QUANTITY, CI.SUB_TOTAL
 			 , P.PRODUCT_NAME, P.COST_PRICE
@@ -55,7 +54,9 @@
 	<select id="selectMemberCouponListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
 		SELECT C.COUPON_ID, C.COUPON_NAME, C.COUPON_CODE, C.DISCOUNT_TYPE, C.DISCOUNT_VALUE, C.MIN_ORDER_PRICE, DATE_FORMAT(C.EXPIRY_DT, '%Y-%m-%d') AS EXPIRY_DT
 			FROM COUPONS C
-			WHERE MEMBER_ID = #{memberId}
+			WHERE 1=1
+				AND MEMBER_ID = #{memberId}
+				AND C.IS_USED = 'N'
 	</select>
 	
 	<select id="selectMemberAddressListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
@@ -118,4 +119,103 @@
 			SET IS_USED = 'Y', USED_DT = NOW(), ORDER_ID = #{orderId}
 			WHERE COUPON_ID = #{couponId}
 	</update>
+	
+	<select id="selectOrderItemOptionListByUser" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT CI.PRODUCT_ID, CI.QUANTITY, CIO.OPTION_ID 
+			FROM CART_ITEMS CI
+				LEFT JOIN CART_ITEM_OPTIONS CIO
+					ON CI.CART_ITEM_ID = CIO.CART_ITEM_ID 
+			WHERE CI.CART_ITEM_ID = #{cartItemId};
+	</select>
+	
+	<update id="updateQuantityByUser" parameterType="java.util.Map">
+		UPDATE INVENTORIES
+			SET QUANTITY = QUANTITY - #{QUANTITY}
+			WHERE 1=1
+				AND PRODUCT_ID = #{PRODUCT_ID}
+				<if test="OPTION_ID != null">
+				AND	OPTION_ID = #{OPTION_ID}
+				</if>
+	</update>
+	
+	<delete id="deleteCartItemByUser" parameterType="java.util.Map">
+		DELETE FROM CART_ITEMS
+			WHERE 1=1
+				AND CART_ITEM_ID = #{cartItemId}
+	</delete>
+	
+	<select id="selectSuccessOrderByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT O.ORDER_NUMBER, O.USER_NAME, O.PHONE_NUMBER, O.SHIPPING_POST, O.SHIPPING_ADDR_1, O.SHIPPING_ADDR_2, O.TOTAL_AMOUNT, O.DISCOUNT_AMOUNT, O.FINAL_AMOUNT, O.PAYMENT_METHOD
+				, P.POINT
+				, C.SHIP_COST
+			FROM ORDERS O
+				LEFT JOIN POINTS P
+					ON O.ORDER_ID = P.ORDER_ID
+				CROSS JOIN COURIER C
+			WHERE 1=1
+				AND O.ORDER_NUMBER = #{orderNumber}
+				AND C.COURIER_ID = 1
+	</select>
+	
+	<delete id="deleteCartByUser" parameterType="java.util.Map">
+		DELETE FROM CARTS
+			WHERE MEMBER_ID = #{tempId}
+	</delete>
+	
+	<!-- 주문내역페이지 -->
+	<select id="selectOrderHistoryByUser" parameterType="String" resultType="java.util.HashMap">
+	    SELECT 
+	        O.ORDER_ID,
+	        DATE_FORMAT(O.ORDER_DT, '%Y.%m.%d') AS ORDER_DT,
+	        O.ORDER_NUMBER,
+	        OI.PRODUCT_NAME,
+	        O.FINAL_AMOUNT,
+	        IFNULL(O.ORDER_COMMENT, '상품준비중') AS ORDER_STATUS,
+	        IFNULL(PI.IMAGE_URL, '') AS IMAGE_URL
+	    FROM ORDERS O
+	    INNER JOIN ORDER_ITEMS OI
+	        ON O.ORDER_ID = OI.ORDER_ID
+	    LEFT JOIN PRODUCT_IMG PI
+	        ON OI.PRODUCT_ID = PI.PRODUCT_ID
+	        AND PI.SORT_NUMBER = 0
+	    WHERE O.MEMBER_ID = #{memberId}
+	    GROUP BY O.ORDER_ID
+	    ORDER BY O.ORDER_DT DESC
+	</select>
+	
+	<select id="orderItemCountByUser" parameterType="String" resultType="java.util.HashMap">
+		SELECT O.ORDER_ID, O.ORDER_NUMBER, COUNT(OI.ORDER_ITEM_ID) AS ORDER_ITEM_CNT
+			FROM ORDERS O
+				LEFT JOIN ORDER_ITEMS OI
+					ON O.ORDER_ID = OI.ORDER_ID
+			WHERE O.MEMBER_ID = #{memberId}
+			GROUP BY O.ORDER_ID, O.ORDER_NUMBER
+			ORDER BY O.ORDER_DT DESC
+	</select>
+	
+	<select id="selectOrderDetailByUser" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT O.ORDER_ID, O.ORDER_NUMBER, O.PHONE_NUMBER, IFNULL(O.ORDER_COMMENT, '상품준비중') AS ORDER_STATUS, DATE_FORMAT(O.ORDER_DT, '%Y.%m.%d') AS ORDER_DT, O.TOTAL_AMOUNT, O.DISCOUNT_AMOUNT, O.FINAL_AMOUNT, O.PAYMENT_METHOD, O.SHIPPING_POST, O.SHIPPING_ADDR_1, O.SHIPPING_ADDR_2, O.USER_NAME, O.SHIPPING_COMMENT
+			, OI.ORDER_ITEM_ID, OI.PRODUCT_ID, OI.PRODUCT_NAME, OI.PRICE, OI.QUANTITY, OI.SUB_TOTAL, OI.ORDER_STATUS, OI.PRODUCT_OPTION
+			, PI.IMAGE_ID, IFNULL(PI.IMAGE_URL, '') AS IMAGE_URL
+			FROM ORDERS O
+				INNER JOIN ORDER_ITEMS OI
+				ON O.ORDER_ID = OI.ORDER_ID
+				LEFT JOIN PRODUCT_IMG PI
+				ON OI.PRODUCT_ID = PI.PRODUCT_ID AND PI.SORT_NUMBER = 0
+			WHERE O.ORDER_ID = #{orderId}
+	</select>
+	
+
+	<select id="selectDeliveryTrackingByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT O.ORDER_ID, O.USER_NAME, O.PHONE_NUMBER, O.SHIPPING_POST, O.SHIPPING_ADDR_1, O.SHIPPING_ADDR_2
+			, S.TRACKING_NUMBER
+			, C.COURIER_NAME
+			FROM ORDERS O
+				LEFT JOIN SHIPS S
+					ON O.ORDER_ID = S.ORDER_ID
+				INNER JOIN COURIER C
+					ON S.COURIER_ID = C.COURIER_ID
+			WHERE 1=1
+				AND O.ORDER_ID = #{orderId}
+	</select>			
 </mapper> 

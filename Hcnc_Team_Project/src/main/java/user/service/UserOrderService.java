@@ -1,9 +1,13 @@
 package user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import user.mapper.UserOrderMapper;
 
 @Service
-@Transactional(readOnly = true)
 public class UserOrderService {
 
 	@Autowired
@@ -28,7 +31,7 @@ public class UserOrderService {
 		return userOrderMapper.selectItemCntByUser(cartId);
 	}
 
-
+	@Transactional
 	public HashMap<String, Object> selectRequestedOrderInfoByUser(Map<String, Object> param) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> result = new HashMap<>();
@@ -50,6 +53,7 @@ public class UserOrderService {
 		return result;
 	}
 
+	@Transactional
 	public int orderDataSaveByUser(Map<String, Object> order, List<Map<String, Object>> items) {
 		int result = 1;
 		
@@ -120,13 +124,140 @@ public class UserOrderService {
 			result = 0;
 			System.out.println("coupons 테이블 데이터 저장실패");
 		}
+		
 		// 6. 재고 차감
+		boolean inventories = true;
+		for(int i=0; i < items.size(); i++) {
+			Map<String, Object> item = items.get(i);
+			
+			List<Map<String, Object>> optionIds = userOrderMapper.selectOrderItemOptionListByUser(item); 
+			for(int j=0;j < optionIds.size(); j++) {
+				Map<String, Object> option = optionIds.get(j);
+				int updateQuantity= userOrderMapper.updateQuantityByUser(option);
+				
+				if(updateQuantity != 1) {
+					inventories = false;
+				}
+			}
+		}
 		
-		// 7. 재고 입출고 관리 테이블 수정 ( 6번에 트리거 걸 예정 )
+		if(inventories) {
+			System.out.println("inventories 테이블 데이터 저장완료!");
+		} else {
+			result = 0;
+			System.out.println("inventories 테이블 데이터 저장실패");
+		}
 		
-		// 8. 회원 카트ID의 체크된 항목 삭제 처리
+		// 7. 회원 카트ID의 체크된 항목 삭제 처리
+		boolean cartItemDelete = true;
+		for(int i = 0; i < items.size(); i++) {
+			Map<String, Object> item = items.get(i);
+			
+			int deleteCartItem = userOrderMapper.deleteCartItemByUser(item);
+			
+			if(deleteCartItem != 1) {
+				cartItemDelete = false;
+			}
+		}
 		
+		if(cartItemDelete) {
+			System.out.println("cartItemDelete 테이블 데이터 저장완료!");
+		} else {
+			result = 0;
+			System.out.println("cartItemDelete 테이블 데이터 저장실패");
+		}
+		
+		// 8. 바로가기 주문이라면 임시 카트 삭제하기
+		if(order.get("tempId") != null) {
+			int deleteCart = userOrderMapper.deleteCartByUser(order);
+			
+			if(deleteCart == 1) {
+				System.out.println("임시카트 삭제 완료!");
+			}
+		}
 		
 		return result;
+	}
+
+	public HashMap<String, Object> selectSuccessOrderByUser(String orderNumber) {
+		// TODO Auto-generated method stub
+		return userOrderMapper.selectSuccessOrderByUser(orderNumber);
+	}
+
+	// 주문내역페이지 조회
+	public List<HashMap<String, Object>> orderHistory(String memberId) {
+	    return userOrderMapper.selectOrderHistoryByUser(memberId);
+	}
+
+	public List<HashMap<String, Object>> orderItemCountByUser(String memberId) {
+		return userOrderMapper.orderItemCountByUser(memberId);
+	}
+
+	public Map<Long, HashMap<String, Object>> selectOrderDetailByUser(HashMap<String, Object> param) {
+		
+		List<HashMap<String, Object>> selectOrderDetail = userOrderMapper.selectOrderDetailByUser(param);
+		
+		// orderId 기준으로 그룹화
+		Map<Long, HashMap<String, Object>> orderDetailItemMap = new LinkedHashMap<>();
+		
+		for(HashMap<String, Object> row: selectOrderDetail) {
+			Long orderId = (Long) row.get("ORDER_ID");
+			
+			// 해당 orderId가 orderDetailItemMap에 없는 경우
+			if(!orderDetailItemMap.containsKey(orderId)) {
+				HashMap<String, Object> item = new HashMap<>();
+				
+				item.put("ORDER_ID", row.get("ORDER_ID"));
+				item.put("ORDER_NUMBER", row.get("ORDER_NUMBER"));
+				item.put("PHONE_NUMBER", row.get("PHONE_NUMBER"));
+				item.put("ORDER_STATUS", row.get("ORDER_STATUS"));
+				item.put("ORDER_DT", row.get("ORDER_DT"));
+				item.put("TOTAL_AMOUNT", row.get("TOTAL_AMOUNT"));
+				item.put("DISCOUNT_AMOUNT", row.get("DISCOUNT_AMOUNT"));
+				item.put("FINAL_AMOUNT", row.get("FINAL_AMOUNT"));
+				item.put("PAYMENT_METHOD", row.get("PAYMENT_METHOD"));
+				item.put("SHIPPING_POST", row.get("SHIPPING_POST"));
+				item.put("SHIPPING_ADDR_1", row.get("SHIPPING_ADDR_1"));
+				item.put("SHIPPING_ADDR_2", row.get("SHIPPING_ADDR_2"));
+				item.put("USER_NAME", row.get("USER_NAME"));
+				item.put("SHIPPING_COMMENT", row.get("SHIPPING_COMMENT"));
+
+				
+				// 옵션이 있는 경우 담을 리스트 추가해놓기
+				item.put("orderItems", new ArrayList<HashMap<String, Object>>());
+
+				orderDetailItemMap.put(orderId, item);
+			}
+			
+			// 주문 상품 목록 추가!
+			if(row.get("ORDER_ITEM_ID") != null) {
+				HashMap<String, Object> orderItem = new HashMap<>();
+				
+				orderItem.put("ORDER_ITEM_ID", row.get("ORDER_ITEM_ID"));
+				orderItem.put("IMAGE_ID", row.get("IMAGE_ID"));
+				orderItem.put("IMAGE_URL", row.get("IMAGE_URL"));
+				orderItem.put("PRODUCT_ID", row.get("PRODUCT_ID"));
+				orderItem.put("PRODUCT_NAME", row.get("PRODUCT_NAME"));
+				orderItem.put("PRICE", row.get("PRICE"));
+				orderItem.put("QUANTITY", row.get("QUANTITY"));
+				orderItem.put("SUB_TOTAL", row.get("SUB_TOTAL"));
+				orderItem.put("ORDER_STATUS", row.get("ORDER_STATUS"));
+				orderItem.put("PRODUCT_OPTION", row.get("PRODUCT_OPTION"));	
+	            
+				@SuppressWarnings("unchecked")
+				List<HashMap<String, Object>> orderItems =
+	            		(List<HashMap<String, Object>>) orderDetailItemMap.get(orderId).get("orderItems");
+	            
+				orderItems.add(orderItem);
+			}
+		}
+		
+		// Map의 values를 List로 반환
+		return orderDetailItemMap;
+	}
+
+	public HashMap<String, Object> selectDeliveryTrackingByUser(HashMap<String, Object> param) {
+
+		return userOrderMapper.selectDeliveryTrackingByUser(param);
 	}
 }
