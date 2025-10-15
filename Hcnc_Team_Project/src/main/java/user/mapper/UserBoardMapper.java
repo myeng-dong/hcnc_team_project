@@ -46,4 +46,13 @@ public interface UserBoardMapper {
 	//게시글 수정
 	void updatetUserPostByUser(Map<String, Object> params);
 
+	
+	/**여기서부터 1대1 문의**/
+	
+	//1대1 문의 총 갯수
+	int selectPostTotalCountByUserOne(Map<String, Object> params);
+
+	//1대1 문의 접수
+	void insertUserAskByUser(Map<String, Object> params);
+
 }

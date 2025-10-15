@@ -1,5 +1,6 @@
 package admin.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,13 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
+import admin.mapper.NotificationMapper;
 import admin.service.BoardService;
+import common.websocket.WebUtil;
 
 @Controller
 public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private NotificationMapper notification;
 	
 	//1대1 문의 게시판 조회
 	@RequestMapping(value="/selectOneOnOneByAdmin.do")
@@ -45,7 +51,22 @@ public class BoardController {
 		if(postId != null && !"".equals(postId)){
 			boardService.updatePostStatusByAdmin(dsComment); //코멘트 단 원 게시물의 게시상태 변경
 		}
-
+		
+		// dsComment에서 정보 빼오기
+    	String userId = (String)dsComment.get("RECEIVER_ID");
+    	
+    	  // 2. 알림 DB 저장 ⭐
+        Map<String, Object> params = new HashMap<>();
+        params.put("senderId", "ADMIN");
+        params.put("receiverId", userId);
+        params.put("receiverType", "USER");
+        params.put("notiType", "REPLY");
+        params.put("notiMessage", postId + "\n 1대1 문의 답변이 달렸습니다.");    
+		
+		notification.insertNotificationOneByAdmin(params);     
+		
+		WebUtil.sendInquiryReplyNotification(userId, postId);
+		
 		return result;
 	}
 	

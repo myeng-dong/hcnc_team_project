@@ -277,21 +277,23 @@
 		<if test="EMAIL_ADDR != null and EMAIL_ADDR != ''">
 			AND M.EMAIL_ADDR LIKE CONCAT('%', TRIM(#{EMAIL_ADDR}), '%')
 		</if>
-		<!-- 가입일 범위 검색 -->
-		<if test="JOIN_START_DATE != null and JOIN_END_DATE != null">
-			AND M.INPUT_DT BETWEEN #{JOIN_START_DATE} AND DATE_ADD(#{JOIN_END_DATE},
-			INTERVAL 1 DAY)
-		</if>
-		<!-- 휴면일 범위 검색 (LAST_LOGIN_DT) -->
-		<if test="DORMANT_START_DATE != null and DORMANT_END_DATE != null">
-			AND M.LAST_LOGIN_DT BETWEEN #{DORMANT_START_DATE} AND
-			DATE_ADD(#{DORMANT_END_DATE}, INTERVAL 1 DAY)
-		</if>
-		<!-- 탈퇴일 범위 검색 (DELETE_DT) -->
-		<if test="DELETE_START_DATE != null and DELETE_END_DATE != null">
-			AND M.DELETE_DT BETWEEN #{DELETE_START_DATE} AND
-			DATE_ADD(#{DELETE_END_DATE}, INTERVAL 1 DAY)
-		</if>
+		 <!-- 날짜 검색 (콤보 선택에 따라 분기) -->
+	    <if test="SEARCH_START_DATE != null and SEARCH_END_DATE != null and SEARCH_DATE != null">
+	        <choose>
+	            <when test="SEARCH_DATE == '가입일'">
+	                AND M.INPUT_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	            <when test="SEARCH_DATE == '휴면일'">
+	                AND M.LAST_LOGIN_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	            <when test="SEARCH_DATE == '탈퇴일'">
+	                AND M.DELETE_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	        </choose>
+	    </if>
 		ORDER BY
 		CASE WHEN M.STATUS='R' THEN M.LAST_LOGIN_DT ELSE M.DELETE_DT END DESC
 	</select>
@@ -335,34 +337,34 @@
         AND STATUS = 'R'  
     </update>
     
-	<!-- 포인트/쿠폰 관리 : 회원 관리 -->
-	<select id="selectPointAndCouponList" resultType="java.util.Map" parameterType="java.util.Map">
-	    SELECT M.MEMBER_ID
-	          ,M.USER_NAME
-	          ,M.PHONE_NUMBER
-	          <!-- null값 처리 COALESCE -->
-	          ,COALESCE((SELECT SUM(P.POINT) 
-	              FROM POINTS P
-	             WHERE M.MEMBER_ID = P.MEMBER_ID), 0) AS POINT
-	          ,COALESCE((SELECT COUNT(0) 
-	              FROM COUPONS C
-	             WHERE C.MEMBER_ID = M.MEMBER_ID 
-	               AND C.IS_USED = 'N'), 0) AS COUPON_CNT
-	      FROM MEMBERS M 
-	     WHERE 1=1 
-	     <if test="MEMBER_ID != '' and MEMBER_ID != null">
-	         AND M.MEMBER_ID LIKE CONCAT('%', TRIM(#{MEMBER_ID}), '%')
-	     </if>
-	     <if test="USER_NAME != '' and USER_NAME != null">
-	         AND M.USER_NAME LIKE CONCAT('%', TRIM(#{USER_NAME}), '%')
-	     </if>
-	     <if test="PHONE_NUMBER != '' and PHONE_NUMBER != null">
-	         AND M.PHONE_NUMBER LIKE CONCAT('%', TRIM(#{PHONE_NUMBER}), '%')
-	     </if>
-	     <!-- 포인트 많은 순, 쿠폰 갯수 많은 순 -->
-	      ORDER BY POINT DESC, COUPON_CNT DESC
+	<!-- 포인트/쿠폰 관리 : 회원 조회 관리  -->
+	<select id="selectPointAndCouponList">
+	    SELECT 
+	        M.MEMBER_ID,
+	        M.USER_NAME,
+	        M.PHONE_NUMBER,
+	        COALESCE(SUM(P.POINT), 0) AS POINT,
+	        COALESCE(SUM(CASE WHEN C.IS_USED = 'N' THEN 1 ELSE 0 END), 0) AS COUPON_CNT
+	    FROM MEMBERS M 
+	    <!-- LEFT JOIN으로 포인트나 쿠폰이 없는 사람도 조회 -->
+	    <!-- FROM절에 있는게 왼쪽 테이블 LEFT JOIN에 있는 테이블이 오른쪽 테이블 -->
+	    LEFT JOIN POINTS P ON M.MEMBER_ID = P.MEMBER_ID
+	    LEFT JOIN COUPONS C ON M.MEMBER_ID = C.MEMBER_ID
+	    WHERE M.STATUS NOT IN('N', 'R', 'B')
+	    <if test="MEMBER_ID != '' and MEMBER_ID != null">
+	        AND M.MEMBER_ID LIKE CONCAT('%', TRIM(#{MEMBER_ID}), '%')
+	    </if>
+	    <if test="USER_NAME != '' and USER_NAME != null">
+	        AND M.USER_NAME LIKE CONCAT('%', TRIM(#{USER_NAME}), '%')
+	    </if>
+	    <if test="PHONE_NUMBER != '' and PHONE_NUMBER != null">
+	        AND M.PHONE_NUMBER LIKE CONCAT('%', TRIM(#{PHONE_NUMBER}), '%')
+	    </if>
+	    <!-- GROUP BY를 쓰면 집계함수가 포함된 컬럼을 제외한 모든 컬럼이 GROUP BY에 들어가야함 -->
+	    GROUP BY M.MEMBER_ID, M.USER_NAME, M.PHONE_NUMBER
+	    ORDER BY POINT DESC, COUPON_CNT DESC
 	</select>
-    
+	    
     <!-- 포인트 유형 조회  -->
     <select id="selectMemberChageTypeList" parameterType="java.util.Map" resultType="java.util.Map" >
 	    SELECT 
@@ -396,7 +398,7 @@
 	        AND P.INPUT_DT BETWEEN #{SDATE} AND DATE_ADD(#{EDATE}, INTERVAL 1 DAY)
 	   </if>
 	   <if test="ORDER_NUMBER != null and ORDER_NUMBER != ''">
-	       AND O.ORDER_NUMBER LIKE CONCAT('%',TRIM(#{ORDER_NUMBER}),'%')     
+	       AND COALESCE(O.ORDER_NUMBER, '관리자 직접 처리') LIKE CONCAT('%',TRIM(#{ORDER_NUMBER}),'%')          
 	   </if>
 	   ORDER BY P.INPUT_DT DESC
 	</select>
@@ -426,15 +428,22 @@
        <if test="IS_USED != null and IS_USED != ''">
        	 	AND C.IS_USED = #{IS_USED}
        </if>
-       <if test="ISSUED_START_DATE != null and ISSUED_END_DATE != null ">
-       	    AND C.ISSUED_DT BETWEEN #{ISSUED_START_DATE} AND DATE_ADD(#{ISSUED_END_DATE}, INTERVAL 1 DAY)
-       </if>
-        <if test="EXPIRY_START_DATE != null and EXPIRY_END_DATE != null ">
-       	    AND C.EXPIRY_DT BETWEEN #{EXPIRY_START_DATE} AND DATE_ADD(#{EXPIRY_END_DATE}, INTERVAL 1 DAY)
-       </if>
        <if test="COUPON_TYPE != null and COUPON_TYPE != ''">
 			AND C.COUPON_TYPE LIKE CONCAT('%',TRIM(#{COUPON_TYPE}),'%')       
        </if>
+        <!-- 날짜 검색 (콤보 선택에 따라 분기) -->
+	    <if test="SEARCH_START_DATE != null and SEARCH_END_DATE != null and SEARCH_DATE != null">
+	        <choose>
+	            <when test="SEARCH_DATE == '발급일자'">
+	                AND C.ISSUED_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	            <when test="SEARCH_DATE == '만료일자'">
+	                AND C.EXPIRY_DT BETWEEN #{SEARCH_START_DATE} 
+	                AND DATE_ADD(#{SEARCH_END_DATE}, INTERVAL 1 DAY)
+	            </when>
+	        </choose>
+	    </if>
        ORDER BY C.ISSUED_DT DESC
     </select>
     

@@ -26,16 +26,52 @@ public class UserReviewService {
 	@Autowired
 	private UploadFile uploadFile;
 	
-	public List<HashMap<String, Object>> selectReviewListByUser(Map<String, Object> param) {
-		return userReviewMapper.selectReviewListByUser(param);
-	}
+	// public List<HashMap<String, Object>> selectReviewListByUser(Map<String, Object> param) {
+	// 	return userReviewMapper.selectReviewListByUser(param);
+	// }
 
 	public HashMap<String, Object> selectReviewCntByUser(Map<String, Object> param) {
 		return userReviewMapper.selectReviewCntByUser(param);
 	}
 
 	public List<HashMap<String, Object>> selectReviewListPagedByUser(Map<String, Object> queryParam) {
-		return userReviewMapper.selectReviewListPagedByUser(queryParam);
+
+		List<HashMap<String, Object>> reviews = userReviewMapper.selectReviewListPagedByUser(queryParam);
+
+		// reviewId 기준으로 그룹화
+		Map<Long, HashMap<String, Object>> reviewMap = new LinkedHashMap<>();
+
+		for (HashMap<String, Object> row : reviews) {
+			Long reviewId = (Long) row.get("REVIEW_ID");
+
+			if(!reviewMap.containsKey(reviewId)) {
+				HashMap<String, Object> review = new HashMap<>();
+
+				review.put("REVIEW_ID", reviewId);
+				review.put("MEMBER_ID", row.get("MEMBER_ID"));
+				review.put("REVIEW_TITLE", row.get("REVIEW_TITLE"));
+				review.put("REVIEW_CONTENT", row.get("REVIEW_CONTENT"));
+				review.put("STAR_POINT", row.get("STAR_POINT"));
+				review.put("INPUT_DT", row.get("INPUT_DT"));
+				review.put("AVG_STAR_POINT", row.get("AVG_STAR_POINT"));
+
+				review.put("reviewImgs", new ArrayList<HashMap<String, Object>>());
+
+				reviewMap.put(reviewId, review);
+			}
+
+			// 리뷰 이미지 추가
+			List<HashMap<String, Object>> reviewImgs = (List<HashMap<String, Object>>) reviewMap.get(reviewId).get("reviewImgs");
+
+			HashMap<String, Object> reviewImg = new HashMap<>();
+
+			reviewImg.put("REVIEW_IMG_ID", row.get("REVIEW_IMG_ID"));
+			reviewImg.put("IMG_PATH", row.get("IMG_PATH"));
+
+			reviewImgs.add(reviewImg);
+		}
+
+		return new ArrayList<>(reviewMap.values());
 	}
 
 	@Transactional
@@ -55,7 +91,6 @@ public class UserReviewService {
 	            
 	            for (MultipartFile photo : photos) {
 	                String filename = photo.getOriginalFilename();
-	                long fileSize = photo.getSize();
 	                
 	                // 확장자 추출
 	                String extension = "";
@@ -65,13 +100,7 @@ public class UserReviewService {
 	                // UUID로 새 파일명 생성
 	                String attachedName = "REVIEW" + UUID.randomUUID().toString() + extension;
 	                
-	                System.out.println("파일명: " + filename);
-	                System.out.println("파일 크기: " + fileSize + " bytes");
-	                
-	                // TODO: 파일 저장 로직 구현
-	                // String savedPath = saveFile(photo);
-	                
-	                UploadResult ur = uploadFile.uploadToFile(photo, ImageType.PREVIEW);
+	                UploadResult ur = uploadFile.uploadToFile(photo, ImageType.REVIEW);
 	                String fileUrl = ur.getFileName();
 	                
 	                param.put("imgOriginName", filename);
@@ -145,5 +174,100 @@ public class UserReviewService {
 
 	public HashMap<String, Object> selectProductInfoForReviewByUser(Map<String, Object> param) {
 		return userReviewMapper.selectProductInfoForReviewByUser(param);
+	}
+
+  public HashMap<String, Object> selectReviewForReadByUser(Map<String, Object> param) {
+    List<HashMap<String, Object>> targetReview = userReviewMapper.selectReviewForReadByUser(param);
+
+		if(targetReview != null && !targetReview.isEmpty()) {
+			HashMap<String, Object> review = targetReview.get(0);
+
+			System.out.println("조회된 리뷰 데이터: " + review);
+
+			// 리뷰 이미지들
+			List<HashMap<String, Object>> reviewImgs = new ArrayList<>();
+			for (HashMap<String, Object> row : targetReview) {
+				Long reviewImgId = (Long) row.get("REVIEW_IMG_ID");
+				String imgPath = (String) row.get("IMG_PATH");
+				String imgOriginName = (String) row.get("IMG_ORIGIN_NAME");
+
+				if(reviewImgId != null && imgPath != null) {
+					HashMap<String, Object> reviewImg = new HashMap<>();
+					reviewImg.put("REVIEW_IMG_ID", reviewImgId);
+					reviewImg.put("IMG_PATH", imgPath);
+					reviewImg.put("IMG_ORIGIN_NAME", imgOriginName);
+
+					reviewImgs.add(reviewImg);
+				}
+			}
+			review.put("reviewImgs", reviewImgs);
+
+			return review;
+		}
+
+		return new HashMap<>();
+  }
+
+	@Transactional
+	public int updateReviewByUser(Map<String, Object> param, List<Long> deletedImageIds, List<MultipartFile> photos) {
+		int result = 1;
+
+		// 리뷰 내용 업데이트
+		int reviewUpdate = userReviewMapper.updateReviewByUser(param);
+
+		if(reviewUpdate < 1) {
+			System.out.println("리뷰 내용 업데이트 실패");
+			result = 0;
+		}
+
+		// 사진 업데이트
+		try {
+				// 기존 사진 삭제
+				if(deletedImageIds != null && !deletedImageIds.isEmpty()) {
+					for(Long imgId : deletedImageIds) {
+						Map<String, Object> deleteParam = new HashMap<>();
+						deleteParam.put("reviewImgId", imgId);
+
+						userReviewMapper.deleteReviewImagesByUser(deleteParam);
+					}
+				}
+				
+				if (photos != null && !photos.isEmpty()) {
+						for (MultipartFile photo : photos) {
+								String filename = photo.getOriginalFilename();
+								
+								// 확장자 추출
+								String extension = "";
+								if (filename != null && filename.contains(".")) {
+										extension = filename.substring(filename.lastIndexOf("."));
+								}
+								// UUID로 새 파일명 생성
+								String attachedName = "REVIEW" + UUID.randomUUID().toString() + extension;
+								
+								UploadResult ur = uploadFile.uploadToFile(photo, ImageType.REVIEW);
+								String fileUrl = ur.getFileName();
+								
+								param.put("imgOriginName", filename);
+								param.put("imgAttachedName", attachedName);
+								param.put("imgPath", fileUrl);
+
+								int imageInsert = userReviewMapper.insertReviewImage(param);
+								
+								System.out.println("파일이 성공적으로 업로드되었습니다: " + fileUrl);
+						}
+				} else {
+						System.out.println("업로드된 사진 없음");
+				}
+		} catch(Exception e) {
+			e.printStackTrace();
+			result = 0;
+			System.out.println("사진업로드 중 오류 발생");
+		}
+
+		return result;
+	}
+
+	public int deleteReviewByUser(Map<String, Object> param) {
+		return userReviewMapper.deleteReviewByUser(param);
 	}
 }

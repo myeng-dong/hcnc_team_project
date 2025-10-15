@@ -70,6 +70,17 @@ public class UserBoardService {
 	public void updatetUserPostByUser(Map<String, Object> params) {
 		userBoardMapper.updatetUserPostByUser(params);
 	}
+
+	public int selectPostTotalCountByUserOne(Map<String, Object> params) {
+		return userBoardMapper.selectPostTotalCountByUserOne(params);
+	}
+
+	public void insertUserAskByUser(Map<String, Object> params) {
+		userBoardMapper.insertUserAskByUser(params);
+		
+	}
+
+
     
     
 

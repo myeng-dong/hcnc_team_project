@@ -635,6 +635,8 @@
 			success: function(res){
 				var reviews = res.reviews;
 				var reviewCnt = res.reviewCnt.REVIEW_CNT;
+
+				console.log('리뷰 리스트 로드 성공:', reviews);
 				
 				// 중요: currentPage를 먼저 업데이트
 				currentPage = page;
@@ -682,13 +684,21 @@
 				list += '<li class="review" id="'+ reviews[i].REVIEW_ID +'_list" style="padding: 20px 0; border-top: 1px solid grey; border-bottom: 1px solid grey;">';
 				list +=	'<div class="top-info" id="'+ reviews[i].REVIEW_ID +'_topInfo">';
 				list +=	'<div id="'+ reviews[i].REVIEW_ID +'_starPoint">';
-				/* 아래별점부분 두줄 ㄻ가 건듦 250925 09:50 */
 				list += '<div class="review-star-display">' + formatStarDisplay(reviews[i].STAR_POINT) + '</div>';
 				list += '<span class="starText">' + formatRating(reviews[i].STAR_POINT) + '점</span>';
 				list += '</div>';
 				list +=	'<span>' + reviews[i].MEMBER_ID + ' | <span>';
 				list += '<span>' + reviews[i].INPUT_DT + '<span></div>';
 				list +=	'<div class="body-info" id="'+ reviews[i].REVIEW_ID +'_bodyInfo">';
+
+				if(reviews[i].reviewImgs && reviews[i].reviewImgs.length > 0 && reviews[i].reviewImgs[0] != null){
+					list += '<div class="review-img-list" id="'+ reviews[i].REVIEW_ID +'_imgList" style="display: flex; gap: 10px; margin-bottom: 15px;">';
+					for(var j=0; j < reviews[i].reviewImgs.length; j++){
+						list += '<img src="'+ reviews[i].reviewImgs[j].IMG_PATH +'" alt="Review Image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">';
+					}
+					list += '</div>';
+				}
+
 				list +=	'<div class="review-title"><span style="font-weight: bold;">'+ reviews[i].REVIEW_TITLE +'</span></div>';
 				list +=	'<div class="review-imgs" id="'+ reviews[i].REVIEW_ID +'_imgs" style="display: flex;"></div>';
 				list +=	'<div class="review-content">'+ reviews[i].REVIEW_CONTENT +'</div>';
@@ -709,18 +719,14 @@
 		var ratingCounts = [0, 0, 0, 0, 0]; // 1점부터 5점까지 개수
 		var totalReviews = reviews.length;
 		
-		console.log('updateRatingStats 호출됨, 리뷰 개수:', totalReviews);
-		
 		// 각 별점별 개수 계산
 		reviews.forEach(function(review) {
 			var rating = Math.floor(parseFloat(review.STAR_POINT) || 0);
-			console.log('리뷰 별점:', review.STAR_POINT, '-> 정수:', rating);
 			if (rating >= 1 && rating <= 5) {
 				ratingCounts[rating - 1]++;
 			}
 		});
 		
-		console.log('별점별 개수:', ratingCounts);
 		
 		// 게이지 바 업데이트
 		for (var i = 0; i < 5; i++) {
@@ -728,7 +734,6 @@
 			var count = ratingCounts[starLevel - 1];
 			var percentage = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
 			
-			console.log(starLevel + '점: ' + count + '개 (' + percentage + '%)');
 			
 			// 게이지 바 너비 업데이트
 			var barFill = document.querySelector('.rating-row:nth-child(' + (i + 1) + ') .rating-bar-fill');
@@ -736,7 +741,6 @@
 			
 			if (barFill) {
 				barFill.style.width = percentage + '%';
-				console.log(starLevel + '점 게이지 바 너비 설정:', percentage + '%');
 			}
 			if (countSpan) {
 				countSpan.textContent = count;
@@ -750,7 +754,6 @@
 		var fullStars = Math.floor(rating);
 		var partialStar = rating - fullStars;
 		
-		console.log('별점 표시 업데이트:', rating, '완전별:', fullStars, '부분별:', partialStar);
 		
 		stars.forEach(function(star, index) {
 			var starNumber = index + 1;

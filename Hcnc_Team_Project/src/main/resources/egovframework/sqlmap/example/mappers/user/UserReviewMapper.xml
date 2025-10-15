@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user.mapper.UserReviewMapper">
 	<select id="selectReviewListByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT REVIEW_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, STAR_POINT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, 
+		SELECT R.REVIEW_ID, R.MEMBER_ID, R.REVIEW_TITLE, R.REVIEW_CONTENT, R.STAR_POINT, DATE_FORMAT(R.INPUT_DT, '%Y-%m-%d') AS INPUT_DT
 			(SELECT AVG(STAR_POINT) FROM REVIEWS WHERE 1=1 AND PRODUCT_ID = #{productId}) AS AVG_STAR_POINT
-			FROM REVIEWS
+			FROM REVIEWS R
 			WHERE 1=1
-				AND PRODUCT_ID = #{productId}
+				AND R.PRODUCT_ID = #{productId}
 			<if test="byReview">
-				ORDER BY STAR_POINT DESC
+				ORDER BY R.STAR_POINT DESC
 			</if>
 			<if test="byInputDT">
-				ORDER BY INPUT_DT DESC
+				ORDER BY R.INPUT_DT DESC
 			</if>
 	</select>
 	
@@ -19,12 +19,15 @@
 		SELECT COUNT(REVIEW_ID) AS REVIEW_CNT 
 			FROM REVIEWS 
 			WHERE PRODUCT_ID = #{productId}
-	</select>
+	</select> 
 	
 	<select id="selectReviewListPagedByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
-		SELECT REVIEW_ID, MEMBER_ID, REVIEW_TITLE, REVIEW_CONTENT, STAR_POINT, DATE_FORMAT(INPUT_DT, '%Y-%m-%d') AS INPUT_DT, 
-			(SELECT AVG(STAR_POINT) FROM REVIEWS WHERE PRODUCT_ID = #{productId}) AS AVG_STAR_POINT
-			FROM REVIEWS
+		SELECT R.REVIEW_ID, R.MEMBER_ID, R.REVIEW_TITLE, R.REVIEW_CONTENT, R.STAR_POINT, DATE_FORMAT(R.INPUT_DT, '%Y-%m-%d') AS INPUT_DT
+			, RI.REVIEW_IMG_ID, RI.IMG_PATH
+			, (SELECT AVG(STAR_POINT) FROM REVIEWS WHERE PRODUCT_ID = #{productId}) AS AVG_STAR_POINT
+			FROM REVIEWS R
+			LEFT JOIN REVIEW_IMG RI
+					ON R.REVIEW_ID = RI.REVIEW_ID
 			WHERE 1=1
 				AND PRODUCT_ID = #{productId}
 			<choose>
@@ -92,7 +95,7 @@
 	</insert>
 
 	<insert id="insertReviewImage" parameterType="java.util.Map">
-		INSERT INTO REVIEW_IMAGES (REVIEW_ID, IMG_ORIGIN_NAME, IMG_ATTACHED_NAME, IMG_PATH)
+		INSERT INTO REVIEW_IMG (REVIEW_ID, IMG_ORIGIN_NAME, IMG_ATTACHED_NAME, IMG_PATH)
 		  VALUES ( 
 				#{reviewId}, 
 				#{imgOriginName}, 
@@ -100,4 +103,49 @@
 				#{imgPath}
 			)
 	</insert>
+
+	<select id="selectReviewForReadByUser" parameterType="java.util.Map" resultType="java.util.HashMap">
+		SELECT OI.PRODUCT_ID, OI.PRODUCT_NAME, OI.PRICE, OI.QUANTITY
+			, PI.IMAGE_URL, PI.ALT_TEXT
+			, O.ORDER_ID, O.ORDER_NUMBER, O.TOTAL_AMOUNT, DATE_FORMAT(O.ORDER_DT, '%Y-%m-%d') AS ORDER_DT
+			, R.REVIEW_ID, R.REVIEW_TITLE, R.REVIEW_CONTENT, R.STAR_POINT, DATE_FORMAT(R.INPUT_DT, '%Y-%m-%d') AS INPUT_DT
+			, RI.REVIEW_IMG_ID, RI.IMG_PATH, RI.IMG_ORIGIN_NAME
+			FROM ORDERS O
+					LEFT JOIN ORDER_ITEMS OI 
+						ON O.ORDER_ID = OI.ORDER_ID
+					LEFT JOIN PRODUCT_IMG PI 
+						ON OI.PRODUCT_ID = PI.PRODUCT_ID AND PI.SORT_NUMBER = 0
+					LEFT JOIN REVIEWS R
+						ON OI.PRODUCT_ID = R.PRODUCT_ID AND O.ORDER_ID = R.ORDER_ID
+					LEFT JOIN REVIEW_IMG RI
+						ON R.REVIEW_ID = RI.REVIEW_ID
+			WHERE 1=1
+				AND O.MEMBER_ID = #{memberId}
+				AND O.ORDER_ID = #{orderId}
+				AND OI.PRODUCT_ID = #{productId}
+	</select>
+
+	<update id="updateReviewByUser" parameterType="java.util.Map">
+		UPDATE REVIEWS
+			SET REVIEW_TITLE = #{title}
+				, REVIEW_CONTENT = #{content}
+				, STAR_POINT = #{rating}
+				, UPDATE_DT = NOW()
+			WHERE 1=1
+				AND REVIEW_ID = #{reviewId}
+				AND MEMBER_ID = #{memberId}
+	</update>
+
+	<delete id="deleteReviewImagesByUser" parameterType="java.util.Map">
+		DELETE FROM REVIEW_IMG 
+			WHERE 1=1
+				AND REVIEW_IMG_ID = #{reviewImgId}
+	</delete>
+
+	<delete id="deleteReviewByUser" parameterType="java.util.Map">
+		DELETE FROM REVIEWS 
+			WHERE 1=1
+				AND REVIEW_ID = #{reviewId}
+				AND MEMBER_ID = #{memberId}
+	</delete>
 </mapper>
