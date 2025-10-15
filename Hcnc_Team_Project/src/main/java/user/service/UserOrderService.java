@@ -1,6 +1,8 @@
 package user.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -187,4 +189,75 @@ public class UserOrderService {
 	    return userOrderMapper.selectOrderHistoryByUser(memberId);
 	}
 
+	public List<HashMap<String, Object>> orderItemCountByUser(String memberId) {
+		return userOrderMapper.orderItemCountByUser(memberId);
+	}
+
+	public Map<Long, HashMap<String, Object>> selectOrderDetailByUser(HashMap<String, Object> param) {
+		
+		List<HashMap<String, Object>> selectOrderDetail = userOrderMapper.selectOrderDetailByUser(param);
+		
+		// orderId 기준으로 그룹화
+		Map<Long, HashMap<String, Object>> orderDetailItemMap = new LinkedHashMap<>();
+		
+		for(HashMap<String, Object> row: selectOrderDetail) {
+			Long orderId = (Long) row.get("ORDER_ID");
+			
+			// 해당 orderId가 orderDetailItemMap에 없는 경우
+			if(!orderDetailItemMap.containsKey(orderId)) {
+				HashMap<String, Object> item = new HashMap<>();
+				
+				item.put("ORDER_ID", row.get("ORDER_ID"));
+				item.put("ORDER_NUMBER", row.get("ORDER_NUMBER"));
+				item.put("PHONE_NUMBER", row.get("PHONE_NUMBER"));
+				item.put("ORDER_STATUS", row.get("ORDER_STATUS"));
+				item.put("ORDER_DT", row.get("ORDER_DT"));
+				item.put("TOTAL_AMOUNT", row.get("TOTAL_AMOUNT"));
+				item.put("DISCOUNT_AMOUNT", row.get("DISCOUNT_AMOUNT"));
+				item.put("FINAL_AMOUNT", row.get("FINAL_AMOUNT"));
+				item.put("PAYMENT_METHOD", row.get("PAYMENT_METHOD"));
+				item.put("SHIPPING_POST", row.get("SHIPPING_POST"));
+				item.put("SHIPPING_ADDR_1", row.get("SHIPPING_ADDR_1"));
+				item.put("SHIPPING_ADDR_2", row.get("SHIPPING_ADDR_2"));
+				item.put("USER_NAME", row.get("USER_NAME"));
+				item.put("SHIPPING_COMMENT", row.get("SHIPPING_COMMENT"));
+
+				
+				// 옵션이 있는 경우 담을 리스트 추가해놓기
+				item.put("orderItems", new ArrayList<HashMap<String, Object>>());
+
+				orderDetailItemMap.put(orderId, item);
+			}
+			
+			// 주문 상품 목록 추가!
+			if(row.get("ORDER_ITEM_ID") != null) {
+				HashMap<String, Object> orderItem = new HashMap<>();
+				
+				orderItem.put("ORDER_ITEM_ID", row.get("ORDER_ITEM_ID"));
+				orderItem.put("IMAGE_ID", row.get("IMAGE_ID"));
+				orderItem.put("IMAGE_URL", row.get("IMAGE_URL"));
+				orderItem.put("PRODUCT_ID", row.get("PRODUCT_ID"));
+				orderItem.put("PRODUCT_NAME", row.get("PRODUCT_NAME"));
+				orderItem.put("PRICE", row.get("PRICE"));
+				orderItem.put("QUANTITY", row.get("QUANTITY"));
+				orderItem.put("SUB_TOTAL", row.get("SUB_TOTAL"));
+				orderItem.put("ORDER_STATUS", row.get("ORDER_STATUS"));
+				orderItem.put("PRODUCT_OPTION", row.get("PRODUCT_OPTION"));	
+	            
+				@SuppressWarnings("unchecked")
+				List<HashMap<String, Object>> orderItems =
+	            		(List<HashMap<String, Object>>) orderDetailItemMap.get(orderId).get("orderItems");
+	            
+				orderItems.add(orderItem);
+			}
+		}
+		
+		// Map의 values를 List로 반환
+		return orderDetailItemMap;
+	}
+
+	public HashMap<String, Object> selectDeliveryTrackingByUser(HashMap<String, Object> param) {
+
+		return userOrderMapper.selectDeliveryTrackingByUser(param);
+	}
 }

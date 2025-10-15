@@ -16,13 +16,25 @@ public class PromotionService {
 	private PromotionMapper promotionMapper;
 	
 	public List<Map<String, Object>> selectNewMemListByAdmin(Map<String, Object> param) {
-		return promotionMapper.selectNewMemListByAdmin(param);
+		if(param.get("IS_USED") != null) {
+	        param.put("IS_USED", String.valueOf(param.get("IS_USED")));
+	    }
+	    
+	    if(param.get("SEARCH_COMBO") != null) {
+	        param.put("SEARCH_COMBO", String.valueOf(param.get("SEARCH_COMBO")));
+	    }
+	    
+	    if(param.get("SEARCH_DATA") != null) {
+	        param.put("SEARCH_DATA", String.valueOf(param.get("SEARCH_DATA")));
+	    }
+	    
+	    return promotionMapper.selectNewMemListByAdmin(param);
 	}
 	
 	public List<Map<String, Object>> selectPromoListByAdmin(Map<String, Object> param) {
 	    List<Map<String, Object>> list = promotionMapper.selectPromoListByAdmin(param);
 	    
-	    for(Map<String, Object> item : list) {
+	    for(Map<String, Object> item : list) { //grid출력용
 	        String targetValue = (String) item.get("TARGET_VALUE");
 	        String targetDisplay = "";
 	        
@@ -81,7 +93,7 @@ public class PromotionService {
 	    } catch (Exception e) {
 	        System.out.println("오류 발생: " + e.getMessage());
 	        e.printStackTrace();
-	        throw e; // 트랜잭션 롤백
+	        throw e; // 롤백
 	    }
 	}
 	

@@ -23,11 +23,6 @@
             this.addChild(obj.name, obj);
 
 
-            obj = new Dataset("ds_radio_view_type", this);
-            obj._setContents("");
-            this.addChild(obj.name, obj);
-
-
             obj = new Dataset("ds_view_top", this);
             obj._setContents("");
             this.addChild(obj.name, obj);
@@ -40,6 +35,11 @@
 
             obj = new Dataset("ds_file", this);
             obj._setContents("<ColumnInfo><Column id=\"IMG_ORIGIN_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_ATTACHED_NAME\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_PATH\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_active", this);
+            obj._setContents("<ColumnInfo><Column id=\"datacolumn\" type=\"STRING\" size=\"256\"/><Column id=\"codecolumn\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"datacolumn\">출력</Col><Col id=\"codecolumn\">Y</Col></Row><Row><Col id=\"datacolumn\">미출력</Col><Col id=\"codecolumn\">N</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -228,13 +228,11 @@
 
             obj = new Radio("radio_view_type","200","120","200","31",null,null,null,null,null,null,this);
             obj.set_taborder("26");
+            obj.set_innerdataset("ds_active");
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
             obj.set_direction("vertical");
             obj.set_font("normal 12pt/normal \"Noto Sans KR Medium\"");
-            var radio_view_type_innerdataset = new nexacro.NormalDataset("radio_view_type_innerdataset", obj);
-            radio_view_type_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">1</Col><Col id=\"datacolumn\">출력</Col></Row><Row><Col id=\"codecolumn\">0</Col><Col id=\"datacolumn\">미출력</Col></Row></Rows>");
-            obj.set_innerdataset(radio_view_type_innerdataset);
             obj.set_text("출력");
             obj.set_value("1");
             obj.set_index("0");
@@ -472,7 +470,7 @@
             }
 
             if (!this.radio_view_type.value || !this.radio_banner_type.value ||
-                !this.input_title.text || this.ds_bwrite.rowcount < 1 || !this.edit_link.text) {
+                !this.input_title.text || this.ds_bwrite.rowcount < 1) {
                 alert("모든 항목을 입력해 주세요.");
                 return;
             }
@@ -634,6 +632,7 @@
             this.txt_date02.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_inputid.addEventHandler("onclick",this.txt_th00_onclick,this);
             this.txt_date01_00.addEventHandler("onclick",this.txt_th00_onclick,this);
+            this.radio_view_type.addEventHandler("onitemchanged",this.radio_view_type_onitemchanged,this);
             this.radio_banner_type.addEventHandler("onitemchanged",this.radio_banner_type_onitemchanged,this);
             this.btn_selectFile.addEventHandler("onclick",this.btn_selectFile_onclick,this);
             this.FileDialog.addEventHandler("onclose",this.FileDialog_onclose,this);

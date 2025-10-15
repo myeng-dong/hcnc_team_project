@@ -4,56 +4,65 @@
     <Layouts>
       <Layout height="720" width="1280">
         <!-- 검색 영역 -->
-        <Div id="search_area" taborder="1" left="40" top="0" height="60" background="#ffffff" borderRadius="10px" right="40">
+        <Div id="search_area" taborder="0" left="40" top="10" height="60" background="#ffffff" borderRadius="10px" right="40" boxShadow="0px 0px 2px 2px rgba(229,229,229,0.15)" onmousemove="search_area_onmousemove" onmouseleave="search_area_onmouseleave">
           <Layouts>
             <Layout>
               <Static id="stc_ship" taborder="0" text="택배사" left="30" top="9" width="80" height="36" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick"/>
-              <Combo id="Combo00" taborder="1" text="" left="94" top="13" width="160" height="32" innerdataset="ds_cate" codecolumn="COURIER_NAME" datacolumn="COURIER_NAME" onitemchanged="search_area_Combo00_onitemchanged" index="0" value=""/>
+              <Combo id="Combo00" taborder="1" text="" left="7.83%" top="13" width="160" height="32" innerdataset="ds_cate" codecolumn="COURIER_NAME" datacolumn="COURIER_NAME" onitemchanged="search_area_Combo00_onitemchanged" index="0" value=""/>
+              <Static id="stc_ship00" taborder="2" text="택배비, 무료배송조건, 추가사유, 추가금 수정후 저장버튼을 눌러주세요 -&gt;" top="10" width="460" height="36" font="normal 9pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick" textAlign="right" right="12%"/>
+              <Button id="btn_save" taborder="3" text="저장" top="14" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" right="3.00%" width="8.00%"/>
             </Layout>
           </Layouts>
         </Div>
-        <!-- 결제 내역 그리드 -->
-        <Grid id="grid_list" taborder="0" left="40" top="110" right="40" bottom="40" binddataset="ds_post" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
-          <Formats>
-            <Format id="default">
-              <Columns>
-                <Column size="40"/>
-                <Column size="90"/>
-                <Column size="90"/>
-                <Column size="115"/>
-                <Column size="53"/>
-                <Column size="115"/>
-              </Columns>
-              <Rows>
-                <Row size="40" band="head"/>
-                <Row size="34"/>
-              </Rows>
-              <Band id="head">
-                <Cell text="chk" displaytype="checkboxcontrol" edittype="checkbox" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="1" text="택배사" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="2" text="택배비" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="3" text="무료배송" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="4" text="추가사유" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                <Cell col="5" text="추가금" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-              </Band>
-              <Band id="body">
-                <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" text="bind:CHK"/>
-                <Cell col="1" text="bind:COURIER_NAME" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
-                <Cell col="2" text="bind:SHIP_COST" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
-                <Cell col="3" text="bind:FREE_SHIPPING_PRICE" textAlign="right" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
-                <Cell col="4" text="bind:ADDITIONAL_TYPE" textAlign="center" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
-                <Cell col="5" text="bind:ADDITIONAL_PRICE" textAlign="right" border="0px none,0px none,0.5px solid #eeeeee" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
-              </Band>
-            </Format>
-          </Formats>
-        </Grid>
-        <Button id="btn_save" taborder="2" text="저장" top="70" height="30" onclick="search_area_btn_save_onclick" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" right="40" width="100"/>
+        <!-- Grid를 감싸는 Div (그림자 적용용) -->
+        <Div id="grid_wrapper" taborder="1" left="40" top="110" right="40" bottom="40" background="#FFFFFF" borderRadius="10px" boxShadow="0px 0px 2px 2px rgba(229,229,229,0.15)" onmousemove="grid_wrapper_onmousemove" onmouseleave="grid_wrapper_onmouseleave">
+          <Layouts>
+            <Layout>
+              <!-- 결제 내역 그리드 -->
+              <Grid id="grid_list" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="ds_post" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="115"/>
+                      <Column size="53"/>
+                      <Column size="115"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="40" band="head"/>
+                      <Row size="34"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="chk" displaytype="checkboxcontrol" edittype="checkbox" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                      <Cell col="1" text="택배사" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                      <Cell col="2" text="택배비" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                      <Cell col="3" text="무료배송조건" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                      <Cell col="4" text="추가사유" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                      <Cell col="5" text="추가금" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkboxcontrol" edittype="checkbox" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" text="bind:CHK"/>
+                      <Cell col="1" text="bind:COURIER_NAME" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
+                      <Cell col="2" text="bind:SHIP_COST" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                      <Cell col="3" text="bind:FREE_SHIPPING_PRICE" textAlign="right" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                      <Cell col="4" text="bind:ADDITIONAL_TYPE" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                      <Cell col="5" text="bind:ADDITIONAL_PRICE" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="text"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="stc_ship00_00" taborder="2" text="* 더블클릭하면 수정 가능합니다" top="80" width="173" height="28" font="normal 9pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick" textAlign="left" color="#135dae" left="46"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[// 온로드
 this.Form_Order_PostPrice_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	this.grid_list.setCellProperty("head", 0, "text", "0");	
+	this.grid_wrapper.form.grid_list.setCellProperty("head", 0, "text", "0");	
     this.fnSearchPostPrice();
 };
 
@@ -163,6 +172,28 @@ this.search_area_Combo00_onitemchanged = function(obj:nexacro.Combo,e:nexacro.It
 };
 
 
+
+// 검색 영역 hover 효과
+this.search_area_onmousemove = function(obj:nexacro.Div, e:nexacro.MouseEventInfo)
+{
+    obj.set_boxShadow("0px 0px 3px 3px rgba(200,200,200,0.30)");
+};
+
+this.search_area_onmouseleave = function(obj:nexacro.Div, e:nexacro.MouseEventInfo)
+{
+    obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
+};
+
+// Grid wrapper hover 효과
+this.grid_wrapper_onmousemove = function(obj:nexacro.Div, e:nexacro.MouseEventInfo)
+{
+    obj.set_boxShadow("0px 0px 4px 3px rgba(200,200,200,0.30)");
+};
+
+this.grid_wrapper_onmouseleave = function(obj:nexacro.Div, e:nexacro.MouseEventInfo)
+{
+    obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
+};
 ]]></Script>
     <Objects>
       <!-- 결제내역 Dataset -->

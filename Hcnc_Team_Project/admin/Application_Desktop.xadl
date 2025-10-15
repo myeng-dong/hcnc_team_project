@@ -16,11 +16,11 @@
                 <!-- LeftFrame -->
                 <ChildFrame id="LeftFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_Left.xfdl" width="200" height="570"/>
                 <!-- VFrameSet01 : TitleFrame + WorkFrame -->
-                <VFrameSet id="VFrameSet01" separatesize="70,*">
-                  <!-- TitleFrame=70px -->
+                <VFrameSet id="VFrameSet01" separatesize="50,*">
+                  <!-- TitleFrame=50px -->
                   <Frames>
                     <!-- TitleFrame -->
-                    <ChildFrame id="TitleFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_AdminTitle.xfdl" height="70"/>
+                    <ChildFrame id="TitleFrame" showtitlebar="false" showstatusbar="false" formurl="FrameBase::Form_AdminTitle.xfdl" height="50"/>
                     <!-- WorkFrame -->
                     <ChildFrame id="WorkFrame" showtitlebar="false" showstatusbar="false"/>
                   </Frames>

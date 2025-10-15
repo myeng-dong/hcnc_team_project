@@ -38,10 +38,11 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("search_area","40","0",null,"60","40",null,null,null,null,null,this);
-            obj.set_taborder("1");
+            obj = new Div("search_area","40","10",null,"60","40",null,null,null,null,null,this);
+            obj.set_taborder("0");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
+            obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
             this.addChild(obj.name, obj);
 
             obj = new Static("stc_ship","30","9","80","36",null,null,null,null,null,null,this.search_area.form);
@@ -50,7 +51,7 @@
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Combo("Combo00","94","13","160","32",null,null,null,null,null,null,this.search_area.form);
+            obj = new Combo("Combo00","7.83%","13","160","32",null,null,null,null,null,null,this.search_area.form);
             obj.set_taborder("1");
             obj.set_innerdataset("ds_cate");
             obj.set_codecolumn("COURIER_NAME");
@@ -60,18 +61,15 @@
             obj.set_index("0");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","40","110",null,null,"40","40",null,null,null,null,this);
-            obj.set_taborder("0");
-            obj.set_binddataset("ds_post");
-            obj.set_autofittype("col");
-            obj.set_background("#FFFFFF");
-            obj.set_border("0px none");
-            obj.set_borderRadius("10px");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"40\"/><Column size=\"90\"/><Column size=\"90\"/><Column size=\"115\"/><Column size=\"53\"/><Column size=\"115\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"택배사\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"택배비\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"무료배송\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"추가사유\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"5\" text=\"추가금\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" edittype=\"checkbox\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" text=\"bind:CHK\"/><Cell col=\"1\" text=\"bind:COURIER_NAME\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:SHIP_COST\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"3\" text=\"bind:FREE_SHIPPING_PRICE\" textAlign=\"right\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"4\" text=\"bind:ADDITIONAL_TYPE\" textAlign=\"center\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"5\" text=\"bind:ADDITIONAL_PRICE\" textAlign=\"right\" border=\"0px none,0px none,0.5px solid #eeeeee\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/></Band></Format></Formats>");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_save",null,"70","100","30","40",null,null,null,null,null,this);
+            obj = new Static("stc_ship00",null,"10","460","36","12%",null,null,null,null,null,this.search_area.form);
             obj.set_taborder("2");
+            obj.set_text("택배비, 무료배송조건, 추가사유, 추가금 수정후 저장버튼을 눌러주세요 ->");
+            obj.set_font("normal 9pt/normal \"Noto Sans KR Medium\"");
+            obj.set_textAlign("right");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Button("btn_save",null,"14","8.00%","30","3.00%",null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("3");
             obj.set_text("저장");
             obj.set_borderRadius("5px");
             obj.set_background("#135dae");
@@ -79,6 +77,31 @@
             obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
             obj.set_textAlign("center");
             obj.set_cursor("pointer");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Div("grid_wrapper","40","110",null,null,"40","40",null,null,null,null,this);
+            obj.set_taborder("1");
+            obj.set_background("#FFFFFF");
+            obj.set_borderRadius("10px");
+            obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
+            this.addChild(obj.name, obj);
+
+            obj = new Grid("grid_list","0","0",null,null,"0","0",null,null,null,null,this.grid_wrapper.form);
+            obj.set_taborder("0");
+            obj.set_binddataset("ds_post");
+            obj.set_autofittype("col");
+            obj.set_background("#FFFFFF");
+            obj.set_border("0px none");
+            obj.set_borderRadius("10px");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"40\"/><Column size=\"90\"/><Column size=\"90\"/><Column size=\"115\"/><Column size=\"53\"/><Column size=\"115\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell text=\"chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"1\" text=\"택배사\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"택배비\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"무료배송조건\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"4\" text=\"추가사유\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"5\" text=\"추가금\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" edittype=\"checkbox\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" text=\"bind:CHK\"/><Cell col=\"1\" text=\"bind:COURIER_NAME\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:SHIP_COST\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"3\" text=\"bind:FREE_SHIPPING_PRICE\" textAlign=\"right\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"4\" text=\"bind:ADDITIONAL_TYPE\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/><Cell col=\"5\" text=\"bind:ADDITIONAL_PRICE\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"text\"/></Band></Format></Formats>");
+            this.grid_wrapper.addChild(obj.name, obj);
+
+            obj = new Static("stc_ship00_00","46","80","173","28",null,null,null,null,null,null,this);
+            obj.set_taborder("2");
+            obj.set_text("* 더블클릭하면 수정 가능합니다");
+            obj.set_font("normal 9pt/normal \"Noto Sans KR Medium\"");
+            obj.set_textAlign("left");
+            obj.set_color("#135dae");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -102,7 +125,7 @@
         // 온로드
         this.Form_Order_PostPrice_onload = function(obj,e)
         {
-        	this.grid_list.setCellProperty("head", 0, "text", "0");
+        	this.grid_wrapper.form.grid_list.setCellProperty("head", 0, "text", "0");
             this.fnSearchPostPrice();
         };
 
@@ -213,17 +236,45 @@
 
 
 
+        // 검색 영역 hover 효과
+        this.search_area_onmousemove = function(obj, e)
+        {
+            obj.set_boxShadow("0px 0px 3px 3px rgba(200,200,200,0.30)");
+        };
+
+        this.search_area_onmouseleave = function(obj, e)
+        {
+            obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
+        };
+
+        // Grid wrapper hover 효과
+        this.grid_wrapper_onmousemove = function(obj, e)
+        {
+            obj.set_boxShadow("0px 0px 4px 3px rgba(200,200,200,0.30)");
+        };
+
+        this.grid_wrapper_onmouseleave = function(obj, e)
+        {
+            obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
+        };
+
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.Form_Order_PostPrice_onload,this);
+            this.search_area.addEventHandler("onmousemove",this.search_area_onmousemove,this);
+            this.search_area.addEventHandler("onmouseleave",this.search_area_onmouseleave,this);
             this.search_area.form.stc_ship.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
             this.search_area.form.Combo00.addEventHandler("onitemchanged",this.search_area_Combo00_onitemchanged,this);
-            this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
-            this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
-            this.btn_save.addEventHandler("onclick",this.search_area_btn_save_onclick,this);
+            this.search_area.form.stc_ship00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
+            this.search_area.form.btn_save.addEventHandler("onclick",this.search_area_btn_save_onclick,this);
+            this.grid_wrapper.addEventHandler("onmousemove",this.grid_wrapper_onmousemove,this);
+            this.grid_wrapper.addEventHandler("onmouseleave",this.grid_wrapper_onmouseleave,this);
+            this.grid_wrapper.form.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
+            this.grid_wrapper.form.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
+            this.stc_ship00_00.addEventHandler("onclick",this.search_area_txt_th_onclick,this);
         };
         this.loadIncludeScript("Form_Order_PostPrice.xfdl");
         this.loadPreloadList();
