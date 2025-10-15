@@ -291,7 +291,7 @@
             }
 
             if (this.ds_sortSave.getRowCount() == 0) {
-                alert("변경된 내용이 없습니다.");
+                this.alert("변경된 내용이 없습니다.");
                 return;
             }
 
@@ -306,14 +306,16 @@
         };
 
 
+
+
         // 콜백
         this.fn_callback = function(svcID, errCode, errMsg){
             if (errCode < 0) {
-                alert("오류: " + errMsg);
+                this.alert("오류: " + errMsg);
                 return;
             }
             if (svcID == "updateProductSort") {
-                alert("진열순서 변경 완료!");
+                this.alert("진열순서 변경 완료!");
                 this.fn_search(this._displayType);
             }
         };

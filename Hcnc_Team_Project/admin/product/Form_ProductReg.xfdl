@@ -62,7 +62,10 @@
         <Static id="Static01" taborder="48" text="* 최대 4개 첨부가능" left="130" top="1283" width="276" height="20"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[var mode = "create";
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+
+
+var mode = "create";
 this.Form_ProductReg_onload = function(obj,e)
 {
 	this.categories.request("SEARCH", "GET", "http://localhost:8080/selectProductCategoryListByAdmin.do");  
@@ -75,6 +78,7 @@ this.Form_ProductReg_onload = function(obj,e)
 // 저장 버튼 클릭
 this.btn_save_onclick = function(obj,e)
 {
+
 	function emptyCheck(value,errorMsg) {
 		if(value == null || value == ""){
 			this.alert(errorMsg);
@@ -82,6 +86,8 @@ this.btn_save_onclick = function(obj,e)
 		}
 		return false;
 	}
+	
+	
 	if(emptyCheck(this.cmb_subcate.value, "중분류를 선택해주세요."))return;
 	if(emptyCheck(this.edt_name.value,"상품명을 입력하세요."))return;
 	if(emptyCheck(this.edt_code.value,"상품 코드를 입력하세요."))return;
@@ -91,41 +97,51 @@ this.btn_save_onclick = function(obj,e)
 	if(emptyCheck(this.edt_weight.value,"상품무게를 입력하세요."))return;
 	if(emptyCheck(this.edt_stock.value,"수량을 입력하세요."))return;
 	
+	
+	this.fn_confirmCustom("상품을 등록하시겠습니까?",
+	
+		function(ok){
+			if(!ok) return;
+			
+			
+		// CKEditor 본문 가져오기
+		var desc = this.getEditorContent();
 
-    // CKEditor 본문 가져오기
-    var desc = this.getEditorContent();
-
-    // ds_product 구성 (단일행)
-    this.ds_product.clearData();
-    var nRow = this.ds_product.addRow();
-	this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
-	this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
-	this.ds_product.setColumn(nRow, "PRODUCT_CODE", this.edt_code.value);
-	this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", this.edt_content.value);
-	this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
-	this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
-	this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
-	this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
-	//this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
-	this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
-	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
-    this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
-	this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
+		// ds_product 구성 (단일행)
+		this.ds_product.clearData();
+		var nRow = this.ds_product.addRow();
+		
+		this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
+		this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
+		this.ds_product.setColumn(nRow, "PRODUCT_CODE", this.edt_code.value);
+		this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", this.edt_content.value);
+		this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
+		this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
+		this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
+		this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
+		//this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
+		this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
+		this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
+		this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
+		this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
 
 
-    // 트랜잭션 호출
-    var strSvcId = "insertProductCreateByAdmin";
-    var strUrl = "svc::insertProductCreateByAdmin.do";
+		// 트랜잭션 호출
+		var strSvcId = "insertProductCreateByAdmin";
+		var strUrl = "svc::insertProductCreateByAdmin.do";
 
-    // IN/OUT Dataset 매핑
-    var strIn  = "ds_product=ds_product preview=preview";
-    var strOut = "createStatus=createStatus";
+		// IN/OUT Dataset 매핑
+		var strIn  = "ds_product=ds_product preview=preview";
+		var strOut = "createStatus=createStatus";
 
-    var strArg = "";
-    var callBack = "fn_callback";
-    var bAsync = true;
+		var strArg = "";
+		var callBack = "fn_callback";
+		var bAsync = true;
 
-    this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
+		this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
+	
+		}.bind(this)
+	);
 };
 
 // 취소 버튼
@@ -433,11 +449,6 @@ this.fn_rearrangeImageViewers = function()
     }
 };
 
-
-this.web_postContent_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
-{
-	
-};
 ]]></Script>
     <Objects>
       <!-- 표시 여부 -->
