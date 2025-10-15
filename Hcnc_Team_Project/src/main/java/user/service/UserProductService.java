@@ -79,13 +79,12 @@ public class UserProductService {
 	}
 
 	public HashMap<String, Object> insertCartItemByUser(Map<String, Object> param, List<Long> optionIds) {
-		// TODO Auto-generated method stub
 		HashMap<String, Object> resultData = new HashMap<String, Object>();
 		int result = 0;
+		// 1. CART_ID 조회
+		Long  cartIdSelect = userProductMapper.selectCartIdByUser(param);
 		try {
-			// 1. CART_ID 조회
-			Long  cartIdSelect = userProductMapper.selectCartIdByUser(param);
-			if(cartIdSelect != null) {
+			if(cartIdSelect != null && param.get("tempId") == null) {
 				param.put("cartId", cartIdSelect);
 			} else {
 				userProductMapper.insertCartsByUser(param);
@@ -130,6 +129,7 @@ public class UserProductService {
 		} catch(DuplicateKeyException e) {
 			result = 2;
 			resultData.put("result", result);
+			resultData.put("cartId", cartIdSelect);
 		}
 		return resultData;
 	}

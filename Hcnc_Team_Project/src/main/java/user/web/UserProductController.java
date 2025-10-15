@@ -71,6 +71,7 @@ public class UserProductController {
 		// 나머지 파라미터 데이터 Map으로 처리
 		Map<String, Object> param = new HashMap<>();
 		
+		@SuppressWarnings("unchecked")
 		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
 		if(userInfo != null) {
 			String memberId = (String) userInfo.get("MEMBER_ID");
@@ -112,6 +113,7 @@ public class UserProductController {
 			// 나머지 파라미터 데이터 Map으로 처리
 			Map<String, Object> param = new HashMap<>();
 			
+			@SuppressWarnings("unchecked")
 			Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
 			if(userInfo != null) {
 				String memberId = (String) userInfo.get("MEMBER_ID");
@@ -127,9 +129,6 @@ public class UserProductController {
 	    param.put("quantity", request.getParameter("quantity"));
 	    param.put("subTotal", request.getParameter("subTotal"));
 		
-		
-	    System.out.println("옵션 IDs: " + optionIds);
-	    System.out.println("파라미터: " + param);
 	    
 	    HashMap<String, Object> resultData = userProductService.insertCartItemByUser(param, optionIds);
 	    
