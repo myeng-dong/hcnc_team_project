@@ -731,6 +731,7 @@
 </head>
 
 <body>
+    <jsp:include page="../layout/header.jsp" />
     <div class="container">
         <!-- 페이지 헤더 -->
         <div class="page-header">
@@ -756,9 +757,9 @@
                             <button class="period-btn" onclick="setPeriod(90, this)">3개월</button>
                             <button class="period-btn" onclick="setPeriod(180, this)">6개월</button>
                         </div>
-                        <input type="date" class="date-input" id="startDate" value="2025-07-01">
+                        <input type="date" class="date-input" id="startDate">
                         <span class="date-separator">~</span>
-                        <input type="date" class="date-input" id="endDate" value="2025-10-10">
+                        <input type="date" class="date-input" id="endDate">
                         <button class="btn-search" onclick="searchByDate()">조회</button>
                     </div>
                 </div>
@@ -906,6 +907,8 @@
         </div>
     </div>
 
+    <jsp:include page="../layout/footer.jsp" />
+
     <script>
  // 기간 선택 함수
 	    function setPeriod(days, button) {
@@ -963,6 +966,8 @@
         }
 
         function renderOrders() {
+            $("#startDate")
+
             var orderList = document.getElementById('orderList');
             var html = '';
             
@@ -1145,5 +1150,6 @@
         // 초기 렌더링
         renderOrders('all');
     </script>
+    
 </body>
 </html>
