@@ -527,6 +527,20 @@
 					</li>
 				</ul>
 			</div>
+			<!-- <div class="review-filter-right">
+				<div class="dropdown-center">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<span>별점전체보기</span>
+						<span>(100)</span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Action</a></li>
+						<li><a class="dropdown-item" href="#">Action two</a></li>
+						<li><a class="dropdown-item" href="#">Action three</a></li>
+					</ul>
+				</div>
+			</div> -->
+		</div>
 		<div class="review-content-list">
 			<ul class="reviews" style="padding: 0;">
 				
