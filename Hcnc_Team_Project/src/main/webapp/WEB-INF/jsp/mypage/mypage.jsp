@@ -796,7 +796,7 @@ uri="http://www.springframework.org/tags"%>
           <!-- 퀵 메뉴 -->
           <div class="quick-menu">
             <h3><i class="fas fa-bolt"></i> 빠른 메뉴</h3>
-            <a href="#" class="menu-item">
+            <a href="/orderHistory.do" class="menu-item">
               <div class="menu-icon">📦</div>
               <span>주문/배송 조회</span>
             </a>
@@ -808,7 +808,7 @@ uri="http://www.springframework.org/tags"%>
               <div class="menu-icon">💳</div>
               <span>적립금/쿠폰</span>
             </a>
-            <a href="#" class="menu-item">
+            <a href="/reviewControl.do" class="menu-item">
               <div class="menu-icon">📝</div>
               <span>상품 후기</span>
             </a>
