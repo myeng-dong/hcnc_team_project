@@ -48,7 +48,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("insert_box","13","10","1247","460",null,null,null,null,null,null,this);
+            obj = new Div("insert_box","40","10","1190","460",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("");
             obj.set_borderRadius("8px");
@@ -102,35 +102,35 @@
             obj.set_font("20px/normal \"Noto Sans KR Black\"");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00","431","86","59","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00_00_00","421","86","59","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("6");
             obj.set_text("휴대전화");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
             obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00","458","160","29","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00_00_00_00","448","160","29","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("7");
             obj.set_text("생일");
             obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
             obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00","897","236","29","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00_00_00_00_00","867","236","29","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("8");
             obj.set_text("성별");
             obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
             obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00_00","456","236","31","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00_00_00_00_00_00","446","236","31","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("9");
             obj.set_text("등급");
             obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
             obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00_00_00","870","86","57","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00_00_00_00_00_00_00","840","86","57","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("10");
             obj.set_text("회원타입");
             obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
@@ -170,7 +170,7 @@
             obj.set_padding("12px 16px 12px 16px");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Combo("Combo00","511","230","286","46",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Combo("Combo00","501","230","286","46",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("14");
             obj.set_innerdataset("ds_grade");
             obj.set_codecolumn("GRADE_CODE");
@@ -183,7 +183,7 @@
             obj.set_text("Combo00");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar01","511","155","288","44",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Calendar("Calendar01","501","155","288","44",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("15");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
@@ -205,7 +205,7 @@
             obj.set_cursor("pointer");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Radio("gender_radio","947","236","259","34",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Radio("gender_radio","917","236","259","34",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("17");
             obj.set_innerdataset("ds_gender");
             obj.set_codecolumn("GENDER");
@@ -218,7 +218,7 @@
             obj.set_wordSpacing("24px");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Radio("type_radio","947","86","260","34",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Radio("type_radio","917","86","260","34",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("18");
             obj.set_innerdataset("ds_type");
             obj.set_codecolumn("MEMBER_TYPE");
@@ -243,14 +243,14 @@
             obj.set_cursor("pointer");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00_00_00_00","855","161","72","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00_00_00_00_00_00_00_00","825","161","72","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("20");
             obj.set_text("로그인 타입");
             obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
             obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Radio("Radio00","946","161","261","34",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Radio("Radio00","916","161","261","34",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("21");
             obj.set_innerdataset("ds_loginType");
             obj.set_codecolumn("LOGIN_TYPE");
@@ -263,7 +263,7 @@
             obj.set_background("#f8f9fa");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new MaskEdit("insert_password00_00","511","80","288","44",null,null,null,null,null,null,this.insert_box.form);
+            obj = new MaskEdit("insert_password00_00","501","80","288","44",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("22");
             obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
@@ -307,7 +307,7 @@
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_01_00_00","492","94","11","17",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_01_00_00","482","94","11","17",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("27");
             obj.set_text("*");
             obj.set_color("RED");
@@ -315,7 +315,7 @@
             obj.set_font("14px/normal \"Noto Sans KR Black\"");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_01_00_01","487","242","11","17",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_01_00_01","477","242","11","17",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("28");
             obj.set_text("*");
             obj.set_color("RED");

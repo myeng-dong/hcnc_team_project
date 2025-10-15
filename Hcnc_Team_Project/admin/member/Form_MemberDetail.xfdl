@@ -3,7 +3,7 @@
   <Form id="Form_MemberDetail" width="1350" height="700" titletext="New Form" onload="Form_MemberDetail_onload" background="#F4F7FE">
     <Layouts>
       <Layout height="700" width="1350">
-        <Div id="detail_box" taborder="0" text="" left="15" top="18" width="1325" height="662" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)">
+        <Div id="detail_box" taborder="0" text="" left="40" top="18" height="662" borderRadius="8px" background="#fff" boxShadow="0 2px 6px rgba(0,0,0,0.05)" width="1270">
           <Layouts>
             <Layout>
               <Static id="m" taborder="0" text="아이디" left="84" top="85" width="40" height="28" font="15px/normal &quot;Noto Sans KR Black&quot;"/>

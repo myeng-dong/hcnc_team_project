@@ -49,7 +49,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("detail_box","15","18","1325","662",null,null,null,null,null,null,this);
+            obj = new Div("detail_box","40","18","1270","662",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("");
             obj.set_borderRadius("8px");

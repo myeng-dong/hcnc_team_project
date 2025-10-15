@@ -338,7 +338,6 @@
     </update>
     
 	<!-- 포인트/쿠폰 관리 : 회원 조회 관리  -->
-	<!-- 포인트/쿠폰 관리 : 회원 조회 관리  -->
 	<select id="selectPointAndCouponList" resultType="java.util.Map">
 	    SELECT 
 	        M.MEMBER_ID,
