@@ -257,8 +257,8 @@
 this.Form_Product_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
 	this.setTimer(1, 10); //10ms 후 실행
-
-
+	
+	
 };
 
 this.Form_Product_ontimer = function(obj,e){
@@ -504,21 +504,21 @@ this.fn_updateVisibleProd = function(newState)
             + (newState == "Y" ? "진열" : "숨김") + " 상태입니다.\n나머지 상품만 변경합니다.");
     }
 	
-   // 기존: if (!this.confirm("...")) return;
+	// 기존: if (!this.confirm("...")) return;
 	this.fn_confirmCustom(
 		"총 " + selRows.length + "건을 " 
 		+ (newState == "Y" ? "진열" : "숨김")
 		+ " 상태로 변경하시겠습니까?\n같은 상품계열은 모두 같은 상태로 변경됩니다.",
 		function(ok){
 			if (!ok) return;   // 취소
-
+			
 			this.ds_in.clearData();
 			for (var j=0; j<selRows.length; j++) {
 				var row = this.ds_in.addRow();
 				this.ds_in.setColumn(row, "PRODUCT_ID", selRows[j]);
 				this.ds_in.setColumn(row, "IS_VISIBLE", newState);
 			}
-
+			
 			this.transaction(
 				"updateProductVisibleByAdmin",
 				"svc::updateProductVisibleByAdmin.do",
@@ -526,7 +526,7 @@ this.fn_updateVisibleProd = function(newState)
 			);
 		}.bind(this)
 	);
-
+	
 };
 
 // 버튼 이벤트 연결
@@ -606,27 +606,27 @@ this._updateQuantityByButton = function (row) {
 	var sUserId = this.getUserId();
 	
     this.fn_confirmCustom(
-    "상품: " + productName + "\n옵션: " + optionName + "/" + optionValue +
-    "\n재고를 " + oldVal + "개로 저장하시겠습니까?",
-    function(ok){
-        if (!ok) return;
-
-        this.ds_qu.clearData();
-        var r = this.ds_qu.addRow();
-        this.ds_qu.setColumn(r, "PRODUCT_ID", productId);
-        this.ds_qu.setColumn(r, "OPTION_ID", optionId);
-        this.ds_qu.setColumn(r, "QUANTITY", oldVal);
-        this.ds_qu.setColumn(r, "INPUT_ID", sUserId);
-        this.ds_qu.setColumn(r, "UPDATE_ID", sUserId);
-
-        this.transaction(
-            "updateInventory",
-            "svc::updateInventory.do?time=" + new Date().getTime(),
-            "ds_qu=ds_qu","", "", "fn_callback", true
-        );
-    }.bind(this)
-);
-
+		"상품: " + productName + "\n옵션: " + optionName + "/" + optionValue +
+		"\n재고를 " + oldVal + "개로 저장하시겠습니까?",
+		function(ok){
+			if (!ok) return;
+			
+			this.ds_qu.clearData();
+			var r = this.ds_qu.addRow();
+			this.ds_qu.setColumn(r, "PRODUCT_ID", productId);
+			this.ds_qu.setColumn(r, "OPTION_ID", optionId);
+			this.ds_qu.setColumn(r, "QUANTITY", oldVal);
+			this.ds_qu.setColumn(r, "INPUT_ID", sUserId);
+			this.ds_qu.setColumn(r, "UPDATE_ID", sUserId);
+			
+			this.transaction(
+				"updateInventory",
+				"svc::updateInventory.do?time=" + new Date().getTime(),
+				"ds_qu=ds_qu","", "", "fn_callback", true
+			);
+		}.bind(this)
+	);
+	
 };
 
 
@@ -732,21 +732,21 @@ this.grid_list_onheadclick = function (obj, e)
     var ds = this.ds_out_proList;
     var chkCol = "chk";
     var rowCount = ds.getRowCount();
-
+	
     // [1] 클릭한 헤더 셀이 체크박스 컬럼(0)일 때만 검사
     if (e.col == 0)
     {
         //  '목록'(row=0 등) 영역 클릭 시 무시
         var dispType = obj.getCellProperty("head", e.cell, "displaytype");
         if (dispType != "checkboxcontrol") return;
-
+		
         // [2] 현재 헤더 체크 상태 읽기
         var headVal = obj.getCellProperty("head", e.cell, "text");
         var newVal = (headVal == "1" ? "0" : "1");
-
+		
         // [3] 헤더 표시 갱신
         obj.setCellProperty("head", e.cell, "text", newVal);
-
+		
         // [4] 전체 행 데이터셋에 반영
         for (var i = 0; i < rowCount; i++) {
             ds.setColumn(i, chkCol, newVal);

@@ -189,7 +189,7 @@
 
             if (oArgs && oArgs.REFRESH == "Y") {
         		this.fn_search();
-         // 🔹 전달받은 메시지가 있으면 출력
+        		// 🔹 전달받은 메시지가 있으면 출력
                 if (oArgs.MESSAGE) {
                     this.alert(oArgs.MESSAGE);
                 }
@@ -280,15 +280,15 @@
 
             switch (svcID)
             {
-                case "selectOptionByAdmin":
-                    var ea = this.ds_out_opList.getRowCount();
-                    this.stc_total_value.set_text(ea );
-                    break;
+        	case "selectOptionByAdmin":
+        		var ea = this.ds_out_opList.getRowCount();
+        		this.stc_total_value.set_text(ea );
+        		break;
 
-                case "updateOptionVisibleByAdmin":
-                    this.alert("옵션 진열상태 변경이 완료되었습니다.");
-                    this.fn_search();
-                    break;
+        	case "updateOptionVisibleByAdmin":
+        		this.alert("옵션 진열상태 변경이 완료되었습니다.");
+        		this.fn_search();
+        		break;
             }
         };
 
@@ -306,7 +306,7 @@
 
         			this.fn_openOptionForm("INSERT"); // 등록 모드
         		}.bind(this)
-        		);
+        	);
 
         };
 
@@ -441,8 +441,8 @@
 
 
         /***************************************************
-         * Grid 헤더 클릭 시 이벤트 (전체선택 / 전체해제)
-         ***************************************************/
+        * Grid 헤더 클릭 시 이벤트 (전체선택 / 전체해제)
+        ***************************************************/
         this.grid_list_onheadclick = function (obj, e)
         {
             // 1) 체크박스 컬럼이 아니면 무시
@@ -506,11 +506,11 @@
 
                     // bind(this)로 Form 컨텍스트 유지
                     this.fn_openOptionForm("UPDATE", {
-                        "OPTION_ID": optionId,
-                        "OPTION_NAME": optionName,
-                        "OPTION_VALUE": optionVal,
-                        "ADDITIONAL_PRICE": addPrice
-                    });
+        					"OPTION_ID": optionId,
+        					"OPTION_NAME": optionName,
+        					"OPTION_VALUE": optionVal,
+        					"ADDITIONAL_PRICE": addPrice
+        				});
                 }.bind(this)
             );
         };

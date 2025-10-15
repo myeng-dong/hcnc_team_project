@@ -11,7 +11,7 @@
         {
             this.set_name("Form_ProductReg");
             this.set_titletext("상품등록");
-            this.set_background("#f5f7fa");
+            this.set_background("#f4f7fe");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,2070);
@@ -289,7 +289,7 @@
             
             // UI Components Initialize
             obj = new Static("sta_title","20","10","220","40",null,null,null,null,null,null,this);
-            obj.set_text("상품관리 || 상품등록");
+            obj.set_text("상품 등록");
             obj.set_font("bold 16pt \'Gulim\'");
             obj.set_color("#111111");
             this.addChild(obj.name, obj);
@@ -1044,6 +1044,11 @@
         };
 
 
+        this.web_postContent_onusernotify = function(obj,e)
+        {
+
+        };
+
         });
         
         // Regist UI Components Event
@@ -1051,6 +1056,7 @@
         {
             this.addEventHandler("onload",this.Form_ProductReg_onload,this);
             this.addEventHandler("ontimer",this.ProductReg_ontimer,this);
+            this.sta_title.addEventHandler("onclick",this.sta_title_onclick,this);
             this.rdo_display.addEventHandler("onitemchanged",this.rdo_display_onitemchanged,this);
             this.rdo_sale.addEventHandler("onitemchanged",this.rdo_sale_onitemchanged,this);
             this.cmb_maincate.addEventHandler("onitemchanged",this.cmb_maincate_onitemchanged,this);
@@ -1058,6 +1064,7 @@
             this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);
             this.btn_cancel.addEventHandler("onclick",this.btn_cancel_onclick,this);
             this.web_postContent.addEventHandler("onloadcompleted",this.web_postContent_onloadcompleted,this);
+            this.web_postContent.addEventHandler("onusernotify",this.web_postContent_onusernotify,this);
             this.btn_selectFile.addEventHandler("onclick",this.btn_selectFile_onclick,this);
             this.categories.addEventHandler("onsuccess",this.categoriesJsonSuccess,this);
             this.categories.addEventHandler("onerror",this.categoriesJsonError,this);

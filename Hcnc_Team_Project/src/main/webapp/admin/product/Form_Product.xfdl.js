@@ -581,7 +581,7 @@
                     + (newState == "Y" ? "진열" : "숨김") + " 상태입니다.\n나머지 상품만 변경합니다.");
             }
 
-           // 기존: if (!this.confirm("...")) return;
+        	// 기존: if (!this.confirm("...")) return;
         	this.fn_confirmCustom(
         		"총 " + selRows.length + "건을 "
         		+ (newState == "Y" ? "진열" : "숨김")
@@ -683,26 +683,26 @@
         	var sUserId = this.getUserId();
 
             this.fn_confirmCustom(
-            "상품: " + productName + "\n옵션: " + optionName + "/" + optionValue +
-            "\n재고를 " + oldVal + "개로 저장하시겠습니까?",
-            function(ok){
-                if (!ok) return;
+        		"상품: " + productName + "\n옵션: " + optionName + "/" + optionValue +
+        		"\n재고를 " + oldVal + "개로 저장하시겠습니까?",
+        		function(ok){
+        			if (!ok) return;
 
-                this.ds_qu.clearData();
-                var r = this.ds_qu.addRow();
-                this.ds_qu.setColumn(r, "PRODUCT_ID", productId);
-                this.ds_qu.setColumn(r, "OPTION_ID", optionId);
-                this.ds_qu.setColumn(r, "QUANTITY", oldVal);
-                this.ds_qu.setColumn(r, "INPUT_ID", sUserId);
-                this.ds_qu.setColumn(r, "UPDATE_ID", sUserId);
+        			this.ds_qu.clearData();
+        			var r = this.ds_qu.addRow();
+        			this.ds_qu.setColumn(r, "PRODUCT_ID", productId);
+        			this.ds_qu.setColumn(r, "OPTION_ID", optionId);
+        			this.ds_qu.setColumn(r, "QUANTITY", oldVal);
+        			this.ds_qu.setColumn(r, "INPUT_ID", sUserId);
+        			this.ds_qu.setColumn(r, "UPDATE_ID", sUserId);
 
-                this.transaction(
-                    "updateInventory",
-                    "svc::updateInventory.do?time=" + new Date().getTime(),
-                    "ds_qu=ds_qu","", "", "fn_callback", true
-                );
-            }.bind(this)
-        );
+        			this.transaction(
+        				"updateInventory",
+        				"svc::updateInventory.do?time=" + new Date().getTime(),
+        				"ds_qu=ds_qu","", "", "fn_callback", true
+        			);
+        		}.bind(this)
+        	);
 
         };
 

@@ -367,14 +367,16 @@
         			val = nexacro.trim(val);
 
         			if(col == "SEARCH_TEXT"){
-        					val = val.replace(/\s+/g, "");                   // 일반 공백 제거
-        					val = val.replace(/[\u200B-\u200D\uFEFF]/g,"");  // 특수공백 제거
-        					val = val.toLowerCase();                         // 소문자 변환
+        				val = val.replace(/\s+/g, "");                   // 일반 공백 제거
+        				val = val.replace(/[\u200B-\u200D\uFEFF]/g,"");  // 특수공백 제거
+        				val = val.toLowerCase();                         // 소문자 변환
         			}
         		}
         		ds.setColumn(0, col, val);
             }
         };
+
+
 
         /***** 조회조건 Dataset 구성 *****/
         this.fn_makeSearchCond = function() {
@@ -485,9 +487,6 @@
         		this.ds_subCate.setColumn(0,"SUB_CATE_ID","");
         		this.ds_subCate.setColumn(0,"SUB_CATE_NM","- 전체 -");
         		break;
-
-
-
 
             }
         };

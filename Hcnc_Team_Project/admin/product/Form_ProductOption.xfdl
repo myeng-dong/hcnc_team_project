@@ -139,7 +139,7 @@ this.Form_ProductOption_onload = function(obj,e)
 	
     if (oArgs && oArgs.REFRESH == "Y") {
 		this.fn_search();
- // 🔹 전달받은 메시지가 있으면 출력
+		// 🔹 전달받은 메시지가 있으면 출력
         if (oArgs.MESSAGE) {
             this.alert(oArgs.MESSAGE);
         }
@@ -227,18 +227,18 @@ this.fn_callback = function (svcID, errCode, errMsg)
         this.alert("오류: " + errMsg);
         return;
     }
-
+	
     switch (svcID)
     {
-        case "selectOptionByAdmin":
-            var ea = this.ds_out_opList.getRowCount();
-            this.stc_total_value.set_text(ea );
-            break;
-
-        case "updateOptionVisibleByAdmin":
-            this.alert("옵션 진열상태 변경이 완료되었습니다.");
-            this.fn_search();
-            break;
+	case "selectOptionByAdmin":
+		var ea = this.ds_out_opList.getRowCount();
+		this.stc_total_value.set_text(ea );
+		break;
+		
+	case "updateOptionVisibleByAdmin":
+		this.alert("옵션 진열상태 변경이 완료되었습니다.");
+		this.fn_search();
+		break;
     }
 };
 
@@ -249,14 +249,14 @@ this.fn_callback = function (svcID, errCode, errMsg)
 // 옵션등록 버튼 클릭 시 (무조건 신규 등록)
 this.btn_reg_onclick = function(obj,e)
 {
-
+	
 	this.fn_confirmCustom("옵션 등록을 하시겠습니까?\n확인 시 등록 사이트로 이동합니다.",
 		function(ok){
 			if(!ok) return;
 			
 			this.fn_openOptionForm("INSERT"); // 등록 모드
 		}.bind(this)
-		);
+	);
 	
 };
 
@@ -270,24 +270,24 @@ this.btn_toggle_onclick = function (obj, e)
         this.alert("변경할 옵션을 선택하세요.");
         return;
     }
-
+	
     this.fn_confirmCustom("총 " + selRows.length + "건의 옵션 진열상태를 반전하시겠습니까?",
         function (ok) {
             if (!ok) return;
-
+			
             this.ds_in.clearData();
-
+			
             for (var i = 0; i < selRows.length; i++) {
                 var row = selRows[i];
                 var id = this.ds_out_opList.getColumn(row, "OPTION_ID");
                 var state = this.ds_out_opList.getColumn(row, "IS_VISIBLE");
                 var newState = (state == "Y" ? "N" : "Y");
-
+				
                 var r = this.ds_in.addRow();
                 this.ds_in.setColumn(r, "OPTION_ID", id);
                 this.ds_in.setColumn(r, "IS_VISIBLE", newState);
             }
-
+			
             this.transaction(
                 "updateOptionVisibleByAdmin",
                 "svc::updateOptionVisibleByAdmin.do",
@@ -323,12 +323,12 @@ this.fn_updateVisible = function (newState)
         this.alert((newState == "Y" ? "진열" : "숨김") + "할 옵션을 선택하세요.");
         return;
     }
-
+	
     // 이미 같은 상태인 건 제외
     var ds = this.ds_out_opList;
     var realChange = [];
     var alreadyCnt = 0;
-
+	
     for (var i = 0; i < selRows.length; i++) {
         var row = selRows[i];
         var curState = ds.getColumn(row, "IS_VISIBLE");
@@ -338,31 +338,31 @@ this.fn_updateVisible = function (newState)
             alreadyCnt++;
         }
     }
-
+	
     if (realChange.length == 0) {
         this.alert("선택한 옵션은 이미 " + (newState == "Y" ? "진열" : "숨김") + " 상태입니다.");
         return;
     }
-
+	
     if (alreadyCnt > 0) {
         this.alert("선택한 옵션 중 " + alreadyCnt + "건은 이미 "
             + (newState == "Y" ? "진열" : "숨김") + " 상태입니다.\n나머지만 변경합니다.");
     }
-
+	
     // 컨펌창 (공통 confirm)
     this.fn_confirmCustom(
         "총 " + realChange.length + "건의 옵션을 "
         + (newState == "Y" ? "진열" : "숨김") + " 상태로 변경하시겠습니까?",
         function (ok) {
             if (!ok) return;
-
+			
             this.ds_in.clearData();
             for (var j = 0; j < realChange.length; j++) {
                 var r = this.ds_in.addRow();
                 this.ds_in.setColumn(r, "OPTION_ID", realChange[j]);
                 this.ds_in.setColumn(r, "IS_VISIBLE", newState);
             }
-
+			
             this.transaction(
                 "updateOptionVisibleByAdmin",
                 "svc::updateOptionVisibleByAdmin.do",
@@ -391,20 +391,20 @@ this.btn_hide_onclick = function(obj, e) {
 
 
 /***************************************************
- * Grid 헤더 클릭 시 이벤트 (전체선택 / 전체해제)
- ***************************************************/
+* Grid 헤더 클릭 시 이벤트 (전체선택 / 전체해제)
+***************************************************/
 this.grid_list_onheadclick = function (obj, e)
 {
     // 1) 체크박스 컬럼이 아니면 무시
     if (e.col != 0) return;
-
+	
     // 2) 멀티헤더의 '목록' 등 상단 셀 클릭 시 무시
     var dispType = obj.getCellProperty("head", e.cell, "displaytype");
     if (dispType != "checkboxcontrol") return;
-
+	
     var ds = this.ds_out_opList;
     var rowCount = ds.getRowCount();
-
+	
     // 3) 전체 체크 여부 확인
     var allChecked = true;
     for (var i = 0; i < rowCount; i++) {
@@ -413,14 +413,14 @@ this.grid_list_onheadclick = function (obj, e)
             break;
         }
     }
-
+	
     // 4) 전체가 이미 체크되어 있으면 → 전체 해제, 아니면 전체 선택
     var newVal = allChecked ? 0 : 1;
-
+	
     for (var j = 0; j < rowCount; j++) {
         ds.setColumn(j, "chk", newVal);
     }
-
+	
     // 5) 헤더 체크박스 표시 갱신
     obj.setCellProperty("head", e.cell, "text", newVal.toString());
 };
@@ -440,27 +440,27 @@ this.grid_list_oncelldblclick = function (obj, e)
 {
     var nRow = e.row;
     if (nRow < 0) return;
-
+	
     // 선택된 행의 데이터 추출
 	var productName = this.ds_out_opList.getColumn(nRow, "PRODUCT_NAME");
     var optionId   = this.ds_out_opList.getColumn(nRow, "OPTION_ID");
     var optionName = this.ds_out_opList.getColumn(nRow, "OPTION_NAME");
     var optionVal  = this.ds_out_opList.getColumn(nRow, "OPTION_VALUE");
     var addPrice   = this.ds_out_opList.getColumn(nRow, "ADDITIONAL_PRICE");
-
+	
     // 사용자에게 확인창 표시
     this.fn_confirmCustom(
         "해당 상품: "+productName+"\n옵션: [옵션명: " + optionName + " / 세부사항: " + optionVal + "] \n정보를 수정하시겠습니까?",
         function (ok) {
             if (!ok) return;
-
+			
             // bind(this)로 Form 컨텍스트 유지
             this.fn_openOptionForm("UPDATE", {
-                "OPTION_ID": optionId,
-                "OPTION_NAME": optionName,
-                "OPTION_VALUE": optionVal,
-                "ADDITIONAL_PRICE": addPrice
-            });
+					"OPTION_ID": optionId,
+					"OPTION_NAME": optionName,
+					"OPTION_VALUE": optionVal,
+					"ADDITIONAL_PRICE": addPrice
+				});
         }.bind(this)  
     );
 };

@@ -309,6 +309,9 @@ this.btn_addSub_onclick = function()
     this.fn_notify("신규 중분류명을 입력 후 [등록] 버튼을 누르세요.", "success");
 };
 
+
+
+
 /***************************************************
 * 저장(등록/수정)
 ***************************************************/
@@ -635,70 +638,67 @@ this.fn_callback = function (svcID, errCode, errMsg)
 				}
 			}
 			
+			
 			/***********************
 			* UPDATE (insert 방식 동일하게 처리)
 			***********************/
-			/***********************
- /***********************
- * UPDATE (insert 방식 동일하게 처리)
- ***********************/
-else if (this._pendingAction === "update") {
-    this.fn_notify("수정이 완료되었습니다.", "success");
-
-    var type   = this._pendingType;
-    var mainId = this.ds_in.getColumn(0, "MAIN_CATE_ID");
-    var subId  = this.ds_in.getColumn(0, "SUB_CATE_ID");
-
-    // 🔹 중분류 수정 시 누락된 mainId 보정
-    if (!mainId && type === "sub") {
-        var sRow = this.ds_subCate.findRow("SUB_CATE_ID", subId);
-        if (sRow >= 0) {
-            mainId = this.ds_subCate.getColumn(sRow, "MAIN_CATE_ID");
-        }
-    }
-
-    // ✅ 대분류 수정 또는 중분류 수정 모두 '펼치기' 처리
-    var mainRow = this.ds_category.findRow("cate_id", "M" + mainId);
-    if (mainRow >= 0) {
-        // 부모 대분류 펼치기
-        this.ds_category.setColumn(mainRow, "expanded", "Y");
-
-        // 하위 중분류 재구성 (모든 update에서 공통)
-        var insertPos = mainRow;
-        for (var k = 0; k < this.ds_subCate.getRowCount(); k++) {
-            if (String(this.ds_subCate.getColumn(k, "MAIN_CATE_ID")) === String(mainId)) {
-                insertPos++;
-                var r2 = this.ds_category.insertRow(insertPos);
-                this.ds_category.setColumn(r2, "cate_id", "S" + this.ds_subCate.getColumn(k, "SUB_CATE_ID"));
-                this.ds_category.setColumn(r2, "parent_id", "M" + mainId);
-                this.ds_category.setColumn(r2, "cate_name", "   📁 " + this.ds_subCate.getColumn(k, "SUB_CATE_NM"));
-                this.ds_category.setColumn(r2, "type", "sub");
-            }
-        }
-
-        // 중분류 수정 시
-        if (type === "sub") {
-            var subRow = this.ds_category.findRow("cate_id", "S" + subId);
-            if (subRow >= 0) {
-                this.grd_category.selectRow(subRow);
-                this.fn_showDetail(subRow);
-
-                var mainName = this.ds_mainCate.lookup("MAIN_CATE_ID", mainId, "MAIN_CATE_NM");
-                var subName  = this.ds_in.getColumn(0, "SUB_CATE_NM");
-                this.st_path.set_text("대분류 > " + mainName + " > " + subName);
-            }
-        }
-        // 대분류 수정 시
-        else if (type === "main") {
-            this.grd_category.selectRow(mainRow);
-            this.fn_showDetail(mainRow);
-
-            var mainName = this.ds_in.getColumn(0, "MAIN_CATE_NM");
-            this.st_path.set_text("대분류 > " + mainName);
-        }
-    }
-}
-
+			else if (this._pendingAction === "update") {
+				this.fn_notify("수정이 완료되었습니다.", "success");
+				
+				var type   = this._pendingType;
+				var mainId = this.ds_in.getColumn(0, "MAIN_CATE_ID");
+				var subId  = this.ds_in.getColumn(0, "SUB_CATE_ID");
+				
+				// 🔹 중분류 수정 시 누락된 mainId 보정
+				if (!mainId && type === "sub") {
+					var sRow = this.ds_subCate.findRow("SUB_CATE_ID", subId);
+					if (sRow >= 0) {
+						mainId = this.ds_subCate.getColumn(sRow, "MAIN_CATE_ID");
+					}
+				}
+				
+				// 대분류 수정 또는 중분류 수정 모두 '펼치기' 처리
+				var mainRow = this.ds_category.findRow("cate_id", "M" + mainId);
+				if (mainRow >= 0) {
+					// 부모 대분류 펼치기
+					this.ds_category.setColumn(mainRow, "expanded", "Y");
+					
+					// 하위 중분류 재구성 (모든 update에서 공통)
+					var insertPos = mainRow;
+					for (var k = 0; k < this.ds_subCate.getRowCount(); k++) {
+						if (String(this.ds_subCate.getColumn(k, "MAIN_CATE_ID")) === String(mainId)) {
+							insertPos++;
+							var r2 = this.ds_category.insertRow(insertPos);
+							this.ds_category.setColumn(r2, "cate_id", "S" + this.ds_subCate.getColumn(k, "SUB_CATE_ID"));
+							this.ds_category.setColumn(r2, "parent_id", "M" + mainId);
+							this.ds_category.setColumn(r2, "cate_name", "   📁 " + this.ds_subCate.getColumn(k, "SUB_CATE_NM"));
+							this.ds_category.setColumn(r2, "type", "sub");
+						}
+					}
+					
+					// 중분류 수정 시
+					if (type === "sub") {
+						var subRow = this.ds_category.findRow("cate_id", "S" + subId);
+						if (subRow >= 0) {
+							this.grd_category.selectRow(subRow);
+							this.fn_showDetail(subRow);
+							
+							var mainName = this.ds_mainCate.lookup("MAIN_CATE_ID", mainId, "MAIN_CATE_NM");
+							var subName  = this.ds_in.getColumn(0, "SUB_CATE_NM");
+							this.st_path.set_text("대분류 > " + mainName + " > " + subName);
+						}
+					}
+					// 대분류 수정 시
+					else if (type === "main") {
+						this.grd_category.selectRow(mainRow);
+						this.fn_showDetail(mainRow);
+						
+						var mainName = this.ds_in.getColumn(0, "MAIN_CATE_NM");
+						this.st_path.set_text("대분류 > " + mainName);
+					}
+				}
+			}
+			
 			
 			/***********************
 			* DELETE
@@ -726,10 +726,6 @@ else if (this._pendingAction === "update") {
 
 
 
-
-
-
-
 /***************************************************
 * 재조회
 ***************************************************/
@@ -745,6 +741,8 @@ this.fn_reloadTree = function()
         true
     );
 };
+
+
 
 
 /***************************************************

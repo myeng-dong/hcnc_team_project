@@ -51,7 +51,7 @@ this.Form_ProductOptionReg_onload = function(obj,e)
 {
     this.ds_optionReg.clearData();
     this.ds_selectedProd.clearData();
-
+	
     
     var oArgs = this.getOwnerFrame().arguments;
     if (oArgs && oArgs.MODE == "UPDATE") {
@@ -90,7 +90,7 @@ this.getUserId = function()
 {
     var app = nexacro.getApplication();
     var sUserId = app.gds_adminInfo.getColumn(0, "MEMBER_ID");
-
+	
     if (sUserId && sUserId != "undefined") {
         trace("현재 로그인 사용자 ID: " + sUserId);
         return sUserId;
@@ -194,66 +194,66 @@ this.btn_save_onclick = function()
 {
     var oArgs = this.getOwnerFrame().arguments;
     var mode = (oArgs && oArgs.MODE) ? oArgs.MODE : "INSERT"; // 등록 or 수정 구분
-
+	
     // 상품 선택 여부 검사 (등록 모드일 때만)
     if (mode != "UPDATE" && this.ds_selectedProd.getRowCount() == 0) {
         this.alert("상품을 먼저 선택하세요.");
         return;
     }
-
+	
     var prodId = this.ds_selectedProd.getRowCount() > 0
-               ? this.ds_selectedProd.getColumn(0, "PRODUCT_ID")
-               : this.ds_optionReg.getColumn(0, "PRODUCT_ID");
-
+	? this.ds_selectedProd.getColumn(0, "PRODUCT_ID")
+	: this.ds_optionReg.getColumn(0, "PRODUCT_ID");
+	
     var sUserId = this.getUserId();
-
+	
     // 데이터 세팅 및 검증
     for (var i = 0; i < this.ds_optionReg.getRowCount(); i++) {
         this.ds_optionReg.setColumn(i, "PRODUCT_ID", prodId);
-
+		
         var name = this.ds_optionReg.getColumn(i, "OPTION_NAME");
         var val  = this.ds_optionReg.getColumn(i, "OPTION_VALUE");
 		
         var price = this.ds_optionReg.getColumn(i, "ADDITIONAL_PRICE");
-
+		
         if (!name || name.trim() == "") { this.alert("옵션명을 입력하세요."); return; }
         if (!val || val.trim() == "") { this.alert("옵션값을 입력하세요."); return; }
         if (!price || isNaN(price)) { this.ds_optionReg.setColumn(i, "ADDITIONAL_PRICE", 0); }
-
+		
         // 등록자 / 수정자 세팅
         if (this.ds_optionReg.getColumn(i, "OPTION_ID"))
-            this.ds_optionReg.setColumn(i, "UPDATE_ID", sUserId);
+		this.ds_optionReg.setColumn(i, "UPDATE_ID", sUserId);
         else
-            this.ds_optionReg.setColumn(i, "INPUT_ID", sUserId);
+		this.ds_optionReg.setColumn(i, "INPUT_ID", sUserId);
     }
-
+	
     // 모드별 메시지
     var confirmMsg = (mode == "UPDATE")
-        ? "옵션을 수정하시겠습니까?"
-        : "옵션을 등록하시겠습니까?";
-
+	? "옵션을 수정하시겠습니까?"
+	: "옵션을 등록하시겠습니까?";
+	
     var successMsg = (mode == "UPDATE")
-        ? "옵션 수정이 완료되었습니다."
-        : "옵션 등록이 완료되었습니다.";
-
+	? "옵션 수정이 완료되었습니다."
+	: "옵션 등록이 완료되었습니다.";
+	
     // 컨펌창 띄우기
     this.fn_confirmCustom(confirmMsg, function(ok){
-        if (!ok) return;
-		
-        // 저장 트랜잭션
-        this._successMsg = successMsg;
-		this.transaction(
-			"saveOptionByAdmin",
-			"svc::saveOptionByAdmin.do?time=" + new Date().getTime(),
-			"ds_optionReg=ds_optionReg:U",
-			"",
-			"",
-			"fn_callback",
-			true
-        );
-        
-    }.bind(this));
-
+			if (!ok) return;
+			
+			// 저장 트랜잭션
+			this._successMsg = successMsg;
+			this.transaction(
+				"saveOptionByAdmin",
+				"svc::saveOptionByAdmin.do?time=" + new Date().getTime(),
+				"ds_optionReg=ds_optionReg:U",
+				"",
+				"",
+				"fn_callback",
+				true
+			);
+			
+		}.bind(this));
+	
 };
 
 
@@ -272,7 +272,7 @@ this.btn_cancel_onclick = function()
 // 콜백
 this.fn_callback = function(svcID, errCode, errMsg)
 {
-
+	
 	
     if (errCode < 0) {
         this.alert("에러: " + errMsg);
@@ -282,7 +282,7 @@ this.fn_callback = function(svcID, errCode, errMsg)
 	if (svcID == "saveOptionByAdmin") {
 		var app = nexacro.getApplication();
         var workFrame = app.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.WorkFrame;
-
+		
         workFrame.arguments = {
             REFRESH: "Y",
             MESSAGE: this._successMsg  // 메시지 전달
@@ -290,7 +290,7 @@ this.fn_callback = function(svcID, errCode, errMsg)
         workFrame.set_formurl("product::Form_ProductOption.xfdl");
     }
 	
-
+	
 	if (svcID == "selectOptionOneByAdmin") {
         console.log(this.ds_optionReg.saveXML());
     }

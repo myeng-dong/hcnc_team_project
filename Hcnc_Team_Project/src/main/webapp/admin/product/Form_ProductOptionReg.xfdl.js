@@ -282,8 +282,8 @@
             }
 
             var prodId = this.ds_selectedProd.getRowCount() > 0
-                       ? this.ds_selectedProd.getColumn(0, "PRODUCT_ID")
-                       : this.ds_optionReg.getColumn(0, "PRODUCT_ID");
+        	? this.ds_selectedProd.getColumn(0, "PRODUCT_ID")
+        	: this.ds_optionReg.getColumn(0, "PRODUCT_ID");
 
             var sUserId = this.getUserId();
 
@@ -302,37 +302,37 @@
 
                 // 등록자 / 수정자 세팅
                 if (this.ds_optionReg.getColumn(i, "OPTION_ID"))
-                    this.ds_optionReg.setColumn(i, "UPDATE_ID", sUserId);
+        		this.ds_optionReg.setColumn(i, "UPDATE_ID", sUserId);
                 else
-                    this.ds_optionReg.setColumn(i, "INPUT_ID", sUserId);
+        		this.ds_optionReg.setColumn(i, "INPUT_ID", sUserId);
             }
 
             // 모드별 메시지
             var confirmMsg = (mode == "UPDATE")
-                ? "옵션을 수정하시겠습니까?"
-                : "옵션을 등록하시겠습니까?";
+        	? "옵션을 수정하시겠습니까?"
+        	: "옵션을 등록하시겠습니까?";
 
             var successMsg = (mode == "UPDATE")
-                ? "옵션 수정이 완료되었습니다."
-                : "옵션 등록이 완료되었습니다.";
+        	? "옵션 수정이 완료되었습니다."
+        	: "옵션 등록이 완료되었습니다.";
 
             // 컨펌창 띄우기
             this.fn_confirmCustom(confirmMsg, function(ok){
-                if (!ok) return;
+        			if (!ok) return;
 
-                // 저장 트랜잭션
-                this._successMsg = successMsg;
-        		this.transaction(
-        			"saveOptionByAdmin",
-        			"svc::saveOptionByAdmin.do?time=" + new Date().getTime(),
-        			"ds_optionReg=ds_optionReg:U",
-        			"",
-        			"",
-        			"fn_callback",
-        			true
-                );
+        			// 저장 트랜잭션
+        			this._successMsg = successMsg;
+        			this.transaction(
+        				"saveOptionByAdmin",
+        				"svc::saveOptionByAdmin.do?time=" + new Date().getTime(),
+        				"ds_optionReg=ds_optionReg:U",
+        				"",
+        				"",
+        				"fn_callback",
+        				true
+        			);
 
-            }.bind(this));
+        		}.bind(this));
 
         };
 
