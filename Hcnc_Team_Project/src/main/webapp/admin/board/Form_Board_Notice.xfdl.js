@@ -13,6 +13,9 @@
             this.set_titletext("New Form");
             this.set_color("blue");
             this.set_background("#F4F7FE");
+            this.set_scrolltype("none");
+            this.set_scrollbartype("none");
+            this.set_scrollbarsize("0");
             if (Form == this.constructor)
             {
                 this._setFormPosition(1280,720);
@@ -103,16 +106,31 @@
             obj.set_boxShadow("0px 0px 2px 2px rgba(229,229,229,0.15)");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_list","0","0",null,null,"0","0",null,null,null,null,this.grid_wrapper.form);
+            obj = new Grid("grid_header","0","0",null,"40","10",null,null,null,null,null,this.grid_wrapper.form);
             obj.set_taborder("0");
             obj.set_binddataset("ds_board");
             obj.set_autofittype("col");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
-            obj.set_borderRadius("10px");
+            obj.set_selecttype("row");
+            obj.set_readonly("true");
+            obj.set_enableevent("false");
+            obj.set_scrolltype("none");
+            obj.set_scrollbartype("none");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"36\"/><Column size=\"36\"/><Column size=\"152\"/><Column size=\"36\"/></Columns><Rows><Row size=\"40\"/></Rows><Band id=\"body\"><Cell text=\"No\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/><Cell col=\"1\" text=\"게시분류\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/><Cell col=\"2\" text=\"제목\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/><Cell col=\"3\" text=\"작성자\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" textAlign=\"center\"/></Band></Format></Formats>");
+            this.grid_wrapper.addChild(obj.name, obj);
+
+            obj = new Grid("grid_list","0","40",null,null,"0","0",null,null,null,null,this.grid_wrapper.form);
+            obj.set_taborder("1");
+            obj.set_binddataset("ds_board");
+            obj.set_autofittype("col");
+            obj.set_background("#FFFFFF");
+            obj.set_border("0px none");
+            obj.set_borderRadius("0px 0px 10px 10px");
+            obj.set_scrollbartype("auto");
             obj.set_scrollbarsize("10");
             obj.set_scrollbartrackbarsize("40");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"36\"/><Column size=\"36\"/><Column size=\"152\"/><Column size=\"36\"/></Columns><Rows><Row size=\"40\" band=\"head\"/><Row size=\"34\"/></Rows><Band id=\"head\"><Cell font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\" text=\"No\"/><Cell col=\"1\" text=\"게시분류\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"2\" text=\"제목\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/><Cell col=\"3\" text=\"작성자\" font=\"normal 11pt/normal &quot;Noto Sans KR Medium&quot;\" background=\"white\" border=\"0px none,0px none,1px solid #eeeeee\"/></Band><Band id=\"body\"><Cell text=\"bind:POST_ID\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"1\" text=\"bind:BOARD_NAME\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:POST_TITLE\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"3\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"36\"/><Column size=\"36\"/><Column size=\"152\"/><Column size=\"36\"/></Columns><Rows><Row size=\"34\"/></Rows><Band id=\"body\"><Cell text=\"bind:POST_ID\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"1\" text=\"bind:BOARD_NAME\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\"/><Cell col=\"2\" text=\"bind:POST_TITLE\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/><Cell col=\"3\" text=\"bind:USER_NAME\" textAlign=\"center\" border=\"0px,0px,2px solid rgba(229,229,229,0.15)\" font=\"normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;\" edittype=\"none\"/></Band></Format></Formats>");
             this.grid_wrapper.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -221,15 +239,23 @@
 
         this.fnInsertPost = function(obj,e)
         {
-        		 // 팝업 크기
-                var popW = 500;
-                var popH = 350;
+        		var popW = 500;
+        		var popH = 600;
 
-                var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-        		objChildFrame.init("itemPop", 200, 200, popW, popH, null, null, "popup::Pop_BaordInsert.xfdl"); // init
-        		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_popupCallback"); // 모달 띄어주기
+        		// 모니터 화면 기준 중앙 좌표 계산
+        		var screenWidth = system.getScreenWidth();
+        		var screenHeight = system.getScreenHeight();
 
+        		var absX = (screenWidth - popW) / 2;
+        		var absY = (screenHeight - popH) / 2;
+
+        		// 팝업 열기
+        		var objChildFrame = new ChildFrame();
+        		objChildFrame.init("itemPop", absX, absY, popW, popH, null, null, "popup::Pop_BaordInsert.xfdl");
+        		objChildFrame.showModal(this.getOwnerFrame(), '', this, "fn_popupCallback");
         };
+
+
 
         //엔터 눌렀을때 조회되게
         this.search_area_Edit00_onkeyup = function(obj,e)
@@ -240,26 +266,39 @@
         };
 
 
-
         this.grid_list_oncelldblclick = function(obj,e)
         {
-        	 if(e.row < 0) return; // 헤더 클릭 무시
+        	if(e.row < 0) return;
 
             var nRow = e.row;
-            var paramPostId = this.ds_board.getColumn(nRow, "POST_ID"); // 실제 컬럼명에 맞게 수정
+            var paramPostId = this.ds_board.getColumn(nRow, "POST_ID");
 
             if(paramPostId) {
-                // 상세보기 팝업 열기
+                var popW = 500;
+                var popH = 600;
 
-        		var popW = 800;
-                var popH = 700;
-                var objChildFrame = new ChildFrame(); // 하나의 새 폼 만들고
-        		objChildFrame.init("detailPop", 0, 0, popW, popH, null, null, "popup::Pop_BoardDetail.xfdl"); // init
-        		objChildFrame.paramPostId = paramPostId;
-        		objChildFrame.showModal(this.getOwnerFrame(),'', this, "fn_popupCallback"); // 모달 띄어주기
+                // 모니터 화면 기준 중앙
+                var screenWidth = system.getScreenWidth();
+                var screenHeight = system.getScreenHeight();
+
+                var absX = (screenWidth - popW) / 2;
+                var absY = (screenHeight - popH) / 2;
+
+                var objChildFrame = new ChildFrame();
+                objChildFrame.init("detailPop", absX, absY, popW, popH, null, null, "popup::Pop_BoardDetail.xfdl");
+                objChildFrame.paramPostId = paramPostId;
+                objChildFrame.showModal(this.getOwnerFrame(), '', this, "fn_popupCallback");
             }
         };
 
+
+        this.fn_popupCallback = function(strId, strVal)
+        {
+            trace("팝업 닫힘 - ID: " + strId + ", 결과: " + strVal);
+
+            // 목록 새로고침
+            this.fnselectPostListByAdmin();
+        };
         });
         
         // Regist UI Components Event
