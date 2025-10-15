@@ -84,7 +84,6 @@
             </Layout>
           </Layouts>
         </Div>
-        <Static id="stc_ship00_00" taborder="2" text="* 더블클릭하면 상세조회가 가능합니다." top="33.61%" width="200" height="28" font="normal 9pt/normal &quot;Noto Sans KR Medium&quot;" onclick="search_area_txt_th_onclick" textAlign="left" color="#135dae" left="46"/>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[// 온로드시

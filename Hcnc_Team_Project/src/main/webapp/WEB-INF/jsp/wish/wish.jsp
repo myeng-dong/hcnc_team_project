@@ -497,10 +497,7 @@
 	} */
 </style>
 <jsp:include page="../layout/header.jsp" />
-<jsp:include page="../layout/menu.jsp" />
-
 <script>
-    var memberId = "user01";
     var categories = []; // 카테고리 데이터를 저장할 전역 변수
 
     // 페이지 로드
@@ -584,7 +581,6 @@
     var toggleWishlist = function(productId, heartElement) {
         var param = {
             productId: productId,
-            memberId: memberId
         };
         
         // 하트 로딩 상태
@@ -645,11 +641,10 @@
         $(heartElement).attr('data-wished', isWished);
     };
     
-    // 상품 목록에서 여러 하트 상태 확인
+    /* // 상품 목록에서 여러 하트 상태 확인
     var checkMultipleWishStatus = function(productIds) {
         var param = {
             productIds: productIds.join(','),
-            memberId: memberId
         };
         
         $.ajax({
@@ -671,7 +666,7 @@
                 console.log("위시리스트 상태 확인 실패:", err);
             }
         });
-    };
+    }; */
     
     // 위시리스트 렌더링 (카테고리 이름 동적 표시로 수정)
     var renderWishlist = function(wishlist) {
@@ -769,7 +764,6 @@
     // 위시리스트 조회
     var selectWishlist = function() {
         var param = {
-            memberId: memberId,
             category: currentCategory,
             sortType: $("#sortFilter").val() || 'newest',
             priceRange: $("#priceRangeFilter").val() || '',
@@ -917,11 +911,10 @@
         selectWishlist();
     };
     
-    // 장바구니 추가
+    /* // 장바구니 추가
     var addToCart = function(productId) {
         var param = {
             productId: productId,
-            memberId: memberId,
             quantity: 1
         };
         
@@ -958,7 +951,8 @@
             }
         });
     };
-    
+     */
+     
     var viewDetail = function(productId) {
         window.open('/productDetailView.do?productId=' + productId, '_blank');
     };
@@ -993,7 +987,7 @@
         $.ajax({
             url: "/getCategoryCount.do",
             type: "post",
-            data: { memberId: memberId },
+            data: {},
             dataType: "json",
             success: function(res){
                 if(res.success && res.categoryCount) {
