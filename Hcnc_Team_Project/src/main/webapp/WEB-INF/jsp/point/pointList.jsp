@@ -148,6 +148,17 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+        transition: all 0.3s ease;
+
+  }
+  .point-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  }
+
+  .point-card .coupon:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
   }
 
   .point-card::before {
@@ -226,7 +237,7 @@
 
   .point-table thead th {
     padding: 15px 20px;
-    text-align: left;
+    text-align: center;
     font-weight: 600;
     color: #4a5568;
     font-size: 14px;
@@ -251,12 +262,13 @@
     padding: 20px;
     border: none;
     color: #4a5568;
+    text-align: center;
   }
 
   .point-table tbody td:first-child {
     border-radius: 10px 0 0 10px;
-    font-weight: 500;
   }
+  
 
   .point-table tbody td:last-child {
     border-radius: 0 10px 10px 0;
@@ -372,7 +384,17 @@
   }
 </style>
 <script>
-  
+  $(()=>{
+    $("#coupon-list").hide();
+  })
+  const showPoint = () => {
+    $("#point-list").show();
+    $("#coupon-list").hide();
+  }
+  const showCoupon = () => {
+    $("#point-list").hide();
+    $("#coupon-list").show();
+  }
 </script>
 <body>
   <jsp:include page="../layout/header.jsp" />
@@ -424,8 +446,9 @@
               <div class="user-greeting">
                 <div class="user-avatar">✏️</div>
                 <div class="greeting-text">
-                  <h2><span style="color: #667eea;">${userName}</span>님 안녕하세요!</h2>
-                  <p>누적 구매금액: <strong>${spendTotal}원</strong></p>
+                  <h2><span style="color: #667eea; font-size: 26px;">${userName}</span>님 안녕하세요!</h2>
+                  <p>누적 구매금액: <strong><fmt:formatNumber value="${spendTotal}" type="number" />원</strong>
+</p>
                 </div>
               </div>
               <button class="edit-profile-btn" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; padding: 12px 24px; border-radius: 25px; font-weight: 600; cursor: pointer;" onclick="location.href='/mypage/home.do'">
@@ -434,7 +457,7 @@
             </div>
 
             <div class="point-cards">
-              <div class="point-card">
+              <div class="point-card" onclick="showPoint();">
                 <div class="point-card-content">
                   <div class="point-label">
                     
@@ -444,13 +467,21 @@
                   <div class="point-unit">적립금</div>
                 </div>
               </div>
-              <div class="point-card coupon">
+              <div class="point-card coupon" onclick="showCoupon();">
                 <div class="point-card-content">
                   <div class="point-label">
                     
                     쿠폰
                   </div>
-                  <div class="point-amount">${fn:length(couponList)}</div>
+                  <c:set var="usedCount" value="0" />
+                  <jsp:useBean id="nowDate" class="java.util.Date" />
+                  <c:forEach var="item" items="${couponList}">
+
+                    <c:if test="${item.IS_USED == 'N' && item.EXPIRY_DT gt nowDate}">
+                      <c:set var="usedCount" value="${usedCount + 1}" />
+                    </c:if>
+                  </c:forEach>
+                  <div class="point-amount">${usedCount}</div>
                   <div class="point-unit">사용 가능</div>
                 </div>
               </div>
@@ -458,9 +489,8 @@
           </div>
 
           <!-- 포인트 내역 -->
-          <div class="point-history">
+          <div id="point-list" class="point-history">
             <h2 class="section-title">
-              
               Point 적립/사용 내역
             </h2>
 
@@ -483,7 +513,78 @@
                     <div class="point-reason">${item.DESCRIPTION}</div>
                   </td>
                   <td>
-                    <div class="point-change plus">${item.POINT} Point</div>
+                    <c:choose>
+                    <c:when test="${fn:startsWith(item.POINT, '-')}">
+                      <div class="point-change minus" >${item.POINT} Point</div>
+                    </c:when>
+                    <c:otherwise>
+                      <div class="point-change plus">${item.POINT} Point</div>
+                    </c:otherwise>
+                  </c:choose>
+                  </td>
+                </tr>
+                </c:forEach>
+              </tbody>
+            </table>
+
+            <!-- 빈 상태 (데이터가 없을 때) -->
+            <!-- 
+            <div class="empty-state">
+              <div class="empty-icon">📝</div>
+              <div class="empty-text">아직 적립금 내역이 없습니다.</div>
+            </div>
+            -->
+          </div>
+          <div id="coupon-list" class="point-history">
+            <h2 class="section-title">
+              
+              쿠폰 사용/지급 내역
+            </h2>
+
+            <table class="point-table">
+              <thead>
+                <tr>
+                  <th>지급날짜</th>
+                  <th>유효기간</th>
+                  <th>쿠폰이름</th>
+                  <th>쿠폰코드</th>
+                  <th>사용여부</th>
+                </tr>
+              </thead>
+              <tbody id="showList">
+                <c:forEach var="item" items="${couponList}">
+                  <tr>
+                  <td>
+                    <div class="point-date"><fmt:formatDate value="${item.ISSUED_DT}" pattern="yyyy-MM-dd" />
+</div>
+                  </td>
+                  <td>
+                    <div class="point-date"><fmt:formatDate value="${item.EXPIRY_DT}" pattern="yyyy-MM-dd" />
+</div>
+                  </td>
+                  <td>
+                    <div class="point-reason">${item.COUPON_NAME}</div>
+                  </td>
+                  <td>
+                    <div class="point-reason">${item.COUPON_CODE}</div>
+                  </td>
+                  <td>
+                    <jsp:useBean id="now" class="java.util.Date" />
+                    <c:choose>
+                      <c:when test="${item.IS_USED == 'Y'}">
+                        <div class="point-change minus">사용완료</div>
+                      </c:when>
+                      <c:otherwise>
+                        <c:choose>
+                          <c:when test="${item.EXPIRY_DT lt now}">
+                            <div class="point-change minus">기간만료</div>
+                          </c:when>
+                          <c:otherwise>
+                            <div class="point-change plus">사용가능</div>
+                          </c:otherwise>
+                        </c:choose>  <!-- 이 태그가 누락되어 있었습니다 -->
+                      </c:otherwise>
+                    </c:choose>
                   </td>
                 </tr>
                 </c:forEach>
