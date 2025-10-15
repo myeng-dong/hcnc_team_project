@@ -838,4 +838,92 @@ public class MemberController {
 		return sb.toString();
 	}
 
+	// 비밀번호 찾기 (임시 비밀번호 발급)
+	// By. PJ 10.01
+	@RequestMapping(value = "/findPasswordByAdmin.do")
+	public NexacroResult findPassword(
+			@ParamDataSet(name = "ds_findPassword", required = false) Map<String, Object> param) {
+
+		NexacroResult result = new NexacroResult();
+		Map<String, Object> resultMap = new HashMap<>();
+
+		try {
+			// 회원 정보 확인 (아이디와 이메일 일치 여부)
+			Map<String, Object> memberInfo = memberService.findMemberByIdAndEmailByAdmin(param);
+
+			if (memberInfo != null) {
+				// 임시 비밀번호 생성
+				String tempPassword = generateTempPassword();
+
+				// 임시 비밀번호 암호화
+				String encryptedPassword = PasswordUtil.encryptSHA256(tempPassword);
+
+				// DB에 임시 비밀번호 저장
+				param.put("NEW_PASSWORD", encryptedPassword);
+				int updated = memberService.updatePasswordByAdmin(param);
+
+				if (updated > 0) {
+					// 콘솔에 임시 비밀번호 출력 (개발/테스트용)
+					System.out.println("=============================================");
+					System.out.println("[임시 비밀번호 발급]");
+					System.out.println("수신자 이메일: " + param.get("EMAIL"));
+					System.out.println("회원 아이디: " + memberInfo.get("MEMBER_ID"));
+					System.out.println("임시 비밀번호: " + tempPassword);
+					System.out.println("=============================================");
+
+					resultMap.put("RESULT", "SUCCESS");
+				} else {
+					resultMap.put("RESULT", "UPDATE_FAIL");
+				}
+			} else {
+				resultMap.put("RESULT", "NOT_FOUND");
+			}
+
+			result.addDataSet("ds_findResult", resultMap);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setErrorCode(-1);
+			result.setErrorMsg("비밀번호 찾기 중 오류 발생: " + e.getMessage());
+		}
+
+		return result;
+	}
+
+	/**
+	 * 임시 비밀번호 생성 (10자리) //by.Pj 10.01
+	 */
+	private String generateTempPassword() {
+		String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+		String numbers = "0123456789";
+		String special = "!@#$";
+		String allChars = upperCase + lowerCase + numbers + special;
+
+		StringBuilder tempPassword = new StringBuilder();
+		java.util.Random random = new java.util.Random();
+
+		// 각 카테고리에서 최소 1개씩
+		tempPassword.append(upperCase.charAt(random.nextInt(upperCase.length())));
+		tempPassword.append(lowerCase.charAt(random.nextInt(lowerCase.length())));
+		tempPassword.append(numbers.charAt(random.nextInt(numbers.length())));
+		tempPassword.append(special.charAt(random.nextInt(special.length())));
+
+		// 나머지 6자리
+		for (int i = 0; i < 6; i++) {
+			tempPassword.append(allChars.charAt(random.nextInt(allChars.length())));
+		}
+
+		// 문자 섞기
+		char[] arr = tempPassword.toString().toCharArray();
+		for (int i = arr.length - 1; i > 0; i--) {
+			int j = random.nextInt(i + 1);
+			char temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
+		}
+
+		return new String(arr);
+	}
+
 }
