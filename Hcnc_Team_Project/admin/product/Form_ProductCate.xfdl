@@ -1,43 +1,815 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_ProductCate" width="1280" height="800" titletext="카테고리관리" onload="Form_ProductCate_onload" background="#f4f7fe">
+  <Form id="Form_ProductCate" width="1280" height="800" titletext="카테고리 관리" background="#f7f8fa" font="14px 'Arial'" color="#222222" onload="Form_ProductCate_onload" ontimer="Form_ProductCate_ontimer">
+    <Objects>
+      <Dataset id="ds_mainCate">
+        <ColumnInfo>
+          <Column id="MAIN_CATE_ID" type="BIGDECIMAL"/>
+          <Column id="MAIN_CATE_NM" type="STRING" size="100"/>
+          <Column id="SORT_NUMBER" type="INT"/>
+          <Column id="IS_ACTIVE" type="STRING" size="1"/>
+          <Column id="INPUT_DT" type="DATETIME"/>
+          <Column id="UPDATE_DT" type="DATETIME"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_subCate">
+        <ColumnInfo>
+          <Column id="SUB_CATE_ID" type="BIGDECIMAL"/>
+          <Column id="MAIN_CATE_ID" type="BIGDECIMAL"/>
+          <Column id="SUB_CATE_NM" type="STRING" size="100"/>
+          <Column id="SORT_NUMBER" type="INT"/>
+          <Column id="IS_ACTIVE" type="STRING" size="1"/>
+          <Column id="INPUT_DT" type="DATETIME"/>
+          <Column id="UPDATE_DT" type="DATETIME"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_in">
+        <ColumnInfo>
+          <Column id="TYPE" type="STRING" size="10"/>
+          <Column id="MAIN_CATE_ID" type="BIGDECIMAL"/>
+          <Column id="SUB_CATE_ID" type="BIGDECIMAL"/>
+          <Column id="MAIN_CATE_NM" type="STRING" size="100"/>
+          <Column id="SUB_CATE_NM" type="STRING" size="100"/>
+          <Column id="SORT_NUMBER" type="INT"/>
+          <Column id="IS_ACTIVE" type="STRING" size="1"/>
+          <Column id="INPUT_ID" type="STRING" size="255"/>
+          <Column id="UPDATE_ID" type="STRING" size="255"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_category">
+        <ColumnInfo>
+          <Column id="cate_id" type="STRING" size="256"/>
+          <Column id="parent_id" type="STRING" size="256"/>
+          <Column id="cate_name" type="STRING" size="256"/>
+          <Column id="level" type="INT" size="8"/>
+          <Column id="type" type="STRING" size="10"/>
+          <Column id="expanded" type="STRING" size="2"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
+
+this._mode = "view";
+this._insertMode = null;
+this._pendingAction = null;
+this._pendingType = null;
+this._needRefresh = false;
+
+/***************************************************
+* onload : 대/중분류 조회
+***************************************************/
+this.Form_ProductCate_onload = function(obj, e)
+{
+    this.grd_category.addEventHandler("oncellclick", this.grd_category_oncellclick, this);
+	
+    // 통신 타임아웃 (무한대기 방지)
+    try { nexacro.getEnvironment().set_httptimeout(30); } catch(e) {}
+	
+    // 상단 초기화
+    this.sta_msg.set_text("카테고리 정보를 조회 중입니다...");
+    this.sta_msg.set_color("#000000");
+    this.st_path.set_text("     대분류 > (선택 안됨 -> 대분류를 선택해 주세요.)");
+	
+    // 최초 조회 (main -> sub 체인)
+    this.transaction(
+        "selectMainCategoryByAdmin",
+        "svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
+        "",
+        "ds_mainCate=ds_mainCate",
+        "",
+        "fn_callback",
+        true
+    );
+	
+	
+};
+
+/***************************************************
+* 모드 변경(view/insert/edit)
+***************************************************/
+this.fn_setMode = function(mode)
+{
+    this._mode = mode;
+	
+    if (mode === "insert") {
+        this.btn_saveDetail.set_text("등록");
+        this.div_detail.set_background("#fffbe6");
+    } else if (mode === "edit") {
+        this.btn_saveDetail.set_text("수정");
+        this.div_detail.set_background("#e6f7ff");
+    } else {
+        this.btn_saveDetail.set_text("저장");
+        this.div_detail.set_background("#ffffff");
+    }
+};
+
+/***************************************************
+* 알림 메시지 표시
+***************************************************/
+this.fn_notify = function(msg, type)
+{
+    if (!this.sta_msg) return;
+    this.sta_msg.set_text(msg);
+    this.sta_msg.set_color(type === "error" ? "#ff4d4f" : "#52c41a");
+};
+
+/***************************************************
+* 정렬순번 계산
+***************************************************/
+this.fn_getNextSortNumber = function(type, mainId)
+{
+    var maxSort = 0;
+    if (type === "main") {
+        for (var i = 0; i < this.ds_mainCate.getRowCount(); i++) {
+            var v = Number(this.ds_mainCate.getColumn(i, "SORT_NUMBER"));
+            if (v > maxSort) maxSort = v;
+        }
+    } else {
+        for (var j = 0; j < this.ds_subCate.getRowCount(); j++) {
+            if (String(this.ds_subCate.getColumn(j, "MAIN_CATE_ID")) === String(mainId)) {
+                var v2 = Number(this.ds_subCate.getColumn(j, "SORT_NUMBER"));
+                if (v2 > maxSort) maxSort = v2;
+            }
+        }
+    }
+    return maxSort + 1;
+};
+
+/***************************************************
+* 트리 구성
+***************************************************/
+this.fn_makeTree = function()
+{
+    var dsTree = this.ds_category;
+    dsTree.clearData();
+	
+    for (var i = 0; i < this.ds_mainCate.getRowCount(); i++) {
+        var mid = this.ds_mainCate.getColumn(i, "MAIN_CATE_ID");
+        var name = this.ds_mainCate.getColumn(i, "MAIN_CATE_NM");
+        var r = dsTree.addRow();
+        dsTree.setColumn(r, "cate_id", "M" + mid);
+        dsTree.setColumn(r, "parent_id", "");
+        dsTree.setColumn(r, "cate_name", "🗂 " + name);
+        dsTree.setColumn(r, "type", "main");
+        dsTree.setColumn(r, "expanded", "N");
+    }
+	
+    this.fn_notify("카테고리 목록이 갱신되었습니다.", "success");
+};
+
+
+
+
+
+/***************************************************
+* 트리 클릭 (펼침/접힘 + 자동 선택 보정)
+***************************************************/
+this.grd_category_oncellclick = function(obj, e)
+{
+    var row = e.row;
+    if (row < 0) return;
+	
+    var type = this.ds_category.getColumn(row, "type");
+    var cateId = this.ds_category.getColumn(row, "cate_id");
+	
+    // 항상 클릭한 행을 선택상태로 고정
+    this.ds_category.set_rowposition(row);
+    this.grd_category.selectRow(row);
+	
+    if (type === "main") {
+        var expanded = this.ds_category.getColumn(row, "expanded");
+        var mainId = cateId.replace("M", "");
+		
+        if (expanded === "Y") {
+            // 접기
+            this.ds_category.setColumn(row, "expanded", "N");
+            for (var i = this.ds_category.getRowCount() - 1; i >= 0; i--) {
+                if (this.ds_category.getColumn(i, "parent_id") == cateId)
+				this.ds_category.deleteRow(i);
+            }
+        } else {
+            // 펼치기
+            this.ds_category.setColumn(row, "expanded", "Y");
+            var insertPos = row;
+            for (var k = 0; k < this.ds_subCate.getRowCount(); k++) {
+                if (String(this.ds_subCate.getColumn(k, "MAIN_CATE_ID")) == String(mainId)) {
+                    insertPos++;
+                    var r2 = this.ds_category.insertRow(insertPos);
+                    this.ds_category.setColumn(r2, "cate_id", "S" + this.ds_subCate.getColumn(k, "SUB_CATE_ID"));
+                    this.ds_category.setColumn(r2, "parent_id", "M" + mainId);
+                    this.ds_category.setColumn(r2, "cate_name", "   📁 " + this.ds_subCate.getColumn(k, "SUB_CATE_NM"));
+                    this.ds_category.setColumn(r2, "type", "sub");
+                }
+            }
+			
+            // 🔸 펼친 직후 자동으로 대분류를 다시 선택 상태로 고정
+            this.ds_category.set_rowposition(row);
+            this.grd_category.selectRow(row);
+        }
+    }
+	
+    // 클릭된 항목 기준으로 상세 표시
+    this.fn_showDetail(row);
+};
+
+
+
+
+
+
+/***************************************************
+* 상세 표시 + 상단 경로 갱신
+***************************************************/
+this.fn_showDetail = function(row)
+{
+    if (row < 0) return;
+	
+    var id = this.ds_category.getColumn(row, "cate_id");
+    var name = (this.ds_category.getColumn(row, "cate_name") || "").replace(/[🗂📁\s]+/g, "").trim();
+    var type = this.ds_category.getColumn(row, "type");
+    var active = "Y", sort = "";
+	
+    if (type === "main") {
+        var mainId = id.replace("M", "");
+        var mrow = this.ds_mainCate.findRow("MAIN_CATE_ID", mainId);
+        if (mrow >= 0) {
+            active = this.ds_mainCate.getColumn(mrow, "IS_ACTIVE");
+            sort = this.ds_mainCate.getColumn(mrow, "SORT_NUMBER");
+        }
+		
+        // 상단 경로 텍스트 갱신 (대분류 선택 시)
+        this.st_path.set_text("     대분류 > " + name);
+    }
+    else {
+        var subId = id.replace("S", "");
+        var srow = this.ds_subCate.findRow("SUB_CATE_ID", subId);
+        var parentName = "";
+        if (srow >= 0) {
+            active = this.ds_subCate.getColumn(srow, "IS_ACTIVE");
+            sort = this.ds_subCate.getColumn(srow, "SORT_NUMBER");
+			
+            // 부모 대분류명 조회
+            var mainId = this.ds_subCate.getColumn(srow, "MAIN_CATE_ID");
+            var mrow2 = this.ds_mainCate.findRow("MAIN_CATE_ID", mainId);
+            if (mrow2 >= 0)
+			parentName = this.ds_mainCate.getColumn(mrow2, "MAIN_CATE_NM");
+        }
+		
+        // 상단 경로 텍스트 갱신 (중분류 선택 시)
+        this.st_path.set_text("     대분류 > " + parentName + " > " + name);
+    }
+	
+    // 상세값 세팅
+    this.div_detail.form.sta_idValue.set_text(id ? id : "자동생성");
+    this.div_detail.form.edt_cateName.set_value(name);
+    this.div_detail.form.edt_sort.set_value(sort);
+    this.div_detail.form.rdo_display.set_value(active);
+    this.fn_setMode("view");
+};
+
+
+
+
+
+
+
+
+
+
+
+/***************************************************
+* 신규 추가 버튼
+***************************************************/
+this.btn_addMain_onclick = function()
+{
+    this._insertMode = { type: "main" };
+    this.fn_setMode("insert");
+    this.div_detail.form.sta_idValue.set_text("자동생성");
+    this.div_detail.form.edt_cateName.set_value("");
+    this.div_detail.form.edt_sort.set_value(this.fn_getNextSortNumber("main"));
+    this.div_detail.form.rdo_display.set_value("Y");
+    this.fn_notify("신규 대분류명을 입력 후 [등록]을 누르세요.", "success");
+};
+
+this.btn_addSub_onclick = function()
+{
+    var row = this.grd_category.currentrow;
+    if (row < 0) { this.alert("대분류나 중분류를 선택하세요."); return; }
+	
+    var type = this.ds_category.getColumn(row, "type");
+    var mainId = (type === "main") ? this.ds_category.getColumn(row, "cate_id").replace("M", "") :
+	this.ds_category.getColumn(row, "parent_id").replace("M", "");
+	
+    this._insertMode = { type: "sub", mainId: mainId };
+    this.fn_setMode("insert");
+    this.div_detail.form.sta_idValue.set_text("자동생성");
+    this.div_detail.form.edt_cateName.set_value("");
+    this.div_detail.form.edt_sort.set_value(this.fn_getNextSortNumber("sub", mainId));
+    this.div_detail.form.rdo_display.set_value("Y");
+    this.fn_notify("신규 중분류명을 입력 후 [등록] 버튼을 누르세요.", "success");
+};
+
+/***************************************************
+* 저장(등록/수정)
+***************************************************/
+this.btn_saveDetail_onclick = function()
+{
+    var name = this.div_detail.form.edt_cateName.value;
+    var sort = this.div_detail.form.edt_sort.value;
+    var display = this.div_detail.form.rdo_display.value;
+    if (!name) { this.alert("분류명을 입력하세요."); return; }
+	
+    var msg = this._insertMode ?
+	"새로운 " + (this._insertMode.type === "main" ? "대분류" : "중분류") + "를 등록하시겠습니까?" :
+	"현재 내용을 저장(수정)하시겠습니까?";
+	
+    // this context 유지(bind)
+    this.fn_confirmCustom(msg, function(ok){
+			if (!ok) return;
+			
+			this.ds_in.clearData();
+			var nRow = this.ds_in.addRow();
+			var sUserId = this.getUserId ? this.getUserId() : "admin";
+			
+			if (this._insertMode) {
+				if (this._insertMode.type === "main") {
+					this.ds_in.setColumn(nRow, "TYPE", "main");
+					this.ds_in.setColumn(nRow, "MAIN_CATE_NM", name);
+					this.ds_in.setColumn(nRow, "SORT_NUMBER", this.fn_getNextSortNumber("main"));
+				} else {
+					this.ds_in.setColumn(nRow, "TYPE", "sub");
+					this.ds_in.setColumn(nRow, "MAIN_CATE_ID", this._insertMode.mainId);
+					this.ds_in.setColumn(nRow, "SUB_CATE_NM", name);
+					this.ds_in.setColumn(nRow, "SORT_NUMBER", this.fn_getNextSortNumber("sub", this._insertMode.mainId));
+				}
+				this.ds_in.setColumn(nRow, "IS_ACTIVE", display);
+				this.ds_in.setColumn(nRow, "INPUT_ID", sUserId);
+				this.ds_in.setColumn(nRow, "UPDATE_ID", sUserId);
+				
+				this._pendingAction = "insert";
+				this._pendingType = this._insertMode.type;
+				
+				this.transaction(
+					"insertCategoryByAdmin",
+					"svc::insertCategoryByAdmin.do?time=" + new Date().getTime(),
+					"ds_in=ds_in", "", "", "fn_callback", true
+				);
+			} else {
+				var row = this.grd_category.currentrow;
+				if (row < 0) { this.alert("수정할 항목을 선택하세요."); return; }
+				
+				var id = this.ds_category.getColumn(row, "cate_id");
+				var type = this.ds_category.getColumn(row, "type");
+				var cateId = id.substring(1);
+				
+				
+				// [btn_saveDetail_onclick] 수정 직전에 추가
+				trace(">>> UPDATE 준비: row=" + row 
+					+ " type=" + type 
+					+ " id=" + id 
+					+ " name=" + name);
+				
+				
+				
+				this.ds_in.setColumn(nRow, "TYPE", type);
+				if (type === "main") {
+					this.ds_in.setColumn(nRow, "MAIN_CATE_ID", cateId);
+					this.ds_in.setColumn(nRow, "MAIN_CATE_NM", name);
+				} else {
+					this.ds_in.setColumn(nRow, "SUB_CATE_ID", cateId);
+					this.ds_in.setColumn(nRow, "SUB_CATE_NM", name);
+				}
+				this.ds_in.setColumn(nRow, "SORT_NUMBER", Number(sort) || 1);
+				this.ds_in.setColumn(nRow, "IS_ACTIVE", display);
+				this.ds_in.setColumn(nRow, "UPDATE_ID", sUserId);
+				
+				this._pendingAction = "update";
+				this._pendingType = type;
+				
+				this.transaction(
+					"updateCategoryByAdmin",
+					"svc::updateCategoryByAdmin.do?time=" + new Date().getTime(),
+					"ds_in=ds_in", "", "", "fn_callback", true
+				);
+			}
+		}.bind(this));  // this 바인딩 중요
+};
+
+
+
+/***************************************************
+* 삭제 (대분류-중분류 안전검사 포함, 무한로딩 방지)
+***************************************************/
+this.btn_delete_onclick = function()
+{
+    var row = this.grd_category.currentrow;
+    if (row < 0) {
+        this.alert("삭제할 항목을 선택하세요.");
+        return;
+    }
+	
+    var type = this.ds_category.getColumn(row, "type");
+    var cateId = this.ds_category.getColumn(row, "cate_id");
+    if (!cateId) return;
+	
+    cateId = cateId.replace(/^[MS]/, ""); // M,S 접두 제거
+	
+    // 대분류 삭제 시 — 하위 중분류 존재 검사
+    if (type === "main") {
+        var hasSub = false;
+		
+        // 1.ds_subCate 기준 검사 (DB 기준)
+        for (var i = 0; i < this.ds_subCate.getRowCount(); i++) {
+            if (String(this.ds_subCate.getColumn(i, "MAIN_CATE_ID")) === String(cateId)) {
+                hasSub = true;
+                break;
+            }
+        }
+		
+        // 2.트리(ds_category) 기준 검사 (화면 기준)
+        if (!hasSub) {
+            for (var j = 0; j < this.ds_category.getRowCount(); j++) {
+                var parentId = this.ds_category.getColumn(j, "parent_id");
+                if (parentId === "M" + cateId) {
+                    hasSub = true;
+                    break;
+                }
+            }
+        }
+		
+        // 하위 중분류 존재 시 안내 후 중단
+        if (hasSub) {
+            this.alert("이 대분류에는 중분류가 존재합니다.\n먼저 중분류를 모두 삭제한 후\n다시 시도해주세요.");
+            return;
+        }
+    }
+	
+    // 삭제 확인
+    this.fn_confirmCustom("정말 삭제하시겠습니까?", function(ok){
+			if (!ok) return;
+			
+			this.ds_in.clearData();
+			var nRow = this.ds_in.addRow();
+			this.ds_in.setColumn(nRow, "TYPE", type);
+			
+			if (type === "main") {
+				this.ds_in.setColumn(nRow, "MAIN_CATE_ID", cateId);
+			} else {
+				this.ds_in.setColumn(nRow, "SUB_CATE_ID", cateId);
+				
+				// 🔹 부모 ID 저장 (삭제 후 자동 펼침용)
+				var parentId = this.ds_category.getColumn(row, "parent_id");
+				if (parentId)
+                this.ds_in.setColumn(nRow, "MAIN_CATE_ID", parentId.replace("M", ""));
+			}
+			
+			this._pendingAction = "delete";
+			this._pendingType = type;
+			
+			try { this.setWaitCursor(true); } catch(e) {}
+			
+			trace("TX >> deleteCategoryByAdmin (" + type + ") cateId=" + cateId);
+			this.transaction(
+				"deleteCategoryByAdmin",
+				"svc::deleteCategoryByAdmin.do?time=" + new Date().getTime(),
+				"ds_in=ds_in", "", "", "fn_callback", true
+			);
+		}.bind(this));
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************************************
+* 상단 경로 텍스트 업데이트
+***************************************************/
+this.fn_updatePath = function(row)
+{
+    if (row < 0) return;
+	
+    var type = this.ds_category.getColumn(row, "type");
+    var cateName = (this.ds_category.getColumn(row, "cate_name") || "").replace(/[🗂📁\s]+/g, "").trim();
+    var pathText = "";
+	
+    if (type === "main") {
+        // 대분류만 선택된 상태
+        pathText = "대분류 > " + cateName;
+    } 
+    else if (type === "sub") {
+        // 중분류일 때 부모 대분류명까지 찾아서 표시
+        var parentId = this.ds_category.getColumn(row, "parent_id");
+        var parentName = "";
+        var pRow = this.ds_category.findRow("cate_id", parentId);
+        if (pRow >= 0)
+		parentName = (this.ds_category.getColumn(pRow, "cate_name") || "").replace(/[🗂📁\s]+/g, "").trim();
+        else {
+            // 트리에 안 떠 있으면 메인 카테고리 dataset에서 직접 검색
+            var mainId = parentId ? parentId.replace("M", "") : "";
+            var mRow = this.ds_mainCate.findRow("MAIN_CATE_ID", mainId);
+            if (mRow >= 0)
+			parentName = this.ds_mainCate.getColumn(mRow, "MAIN_CATE_NM");
+        }
+        pathText = "대분류 > " + parentName + " > " + cateName;
+    }
+	
+    this.st_path.set_text(pathText);
+};
+
+
+
+/***************************************************
+* 콜백 (insert/update/delete 공통)
+***************************************************/
+this.fn_callback = function (svcID, errCode, errMsg)
+{
+    try { this.setWaitCursor(false); } catch(e) {}   // 무한로딩 방지
+	
+    if (errCode < 0) {
+        this.fn_notify("실행 실패: " + (errMsg || "서버 오류"), "error");
+        return;
+    }
+	
+    trace("CALLBACK: " + svcID + " / errCode=" + errCode);
+	
+    switch (svcID) {
+		
+        // 등록 / 수정 / 삭제 완료 시 → 메인 카테고리 재조회
+	case "insertCategoryByAdmin":
+	case "updateCategoryByAdmin":
+	case "deleteCategoryByAdmin":
+		this._needRefresh = true;
+		this.transaction(
+			"selectMainCategoryByAdmin",
+			"svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
+			"",
+			"ds_mainCate=ds_mainCate",
+			"",
+			"fn_callback",
+			true
+		);
+		break;
+		
+        // 메인 조회 완료 → 서브 조회 이어가기
+	case "selectMainCategoryByAdmin":
+		this.transaction(
+			"selectSubCategoryByAdmin",
+			"svc::selectSubCategoryByAdmin.do?time=" + new Date().getTime(),
+			"",
+			"ds_subCate=ds_subCate",
+			"",
+			"fn_callback",
+			true
+		);
+		break;
+		
+        // 서브 조회 완료 → 트리 갱신 + 후처리
+	case "selectSubCategoryByAdmin":
+		this.fn_makeTree();
+		
+		if (this._needRefresh)
+		{
+			/***********************
+			* INSERT
+			***********************/
+			if (this._pendingAction === "insert")
+			{
+				if (this._pendingType === "main")
+				{
+					var newMainId = this.ds_mainCate.getColumn(this.ds_mainCate.getRowCount() - 1, "MAIN_CATE_ID");
+					var mainRow = this.ds_category.findRow("cate_id", "M" + newMainId);
+					if (mainRow >= 0)
+					{
+						this.grd_category.selectRow(mainRow);
+						this.fn_showDetail(mainRow);
+						
+						var mainName = this.ds_mainCate.lookup("MAIN_CATE_ID", newMainId, "MAIN_CATE_NM");
+						this.st_path.set_text("대분류 > " + mainName);
+					}
+					this.fn_notify("대분류가 등록되었습니다.", "success");
+				}
+				else if (this._pendingType === "sub")
+				{
+					var mainId = this.ds_in.getColumn(0, "MAIN_CATE_ID");
+					var mainRow = this.ds_category.findRow("cate_id", "M" + mainId);
+					if (mainRow >= 0)
+					{
+						this.ds_category.setColumn(mainRow, "expanded", "Y");
+						
+						// 하위 중분류 재구성
+						var insertPos = mainRow;
+						for (var k = 0; k < this.ds_subCate.getRowCount(); k++) {
+							if (String(this.ds_subCate.getColumn(k, "MAIN_CATE_ID")) === String(mainId)) {
+								insertPos++;
+								var r2 = this.ds_category.insertRow(insertPos);
+								this.ds_category.setColumn(r2, "cate_id", "S" + this.ds_subCate.getColumn(k, "SUB_CATE_ID"));
+								this.ds_category.setColumn(r2, "parent_id", "M" + mainId);
+								this.ds_category.setColumn(r2, "cate_name", "   📁 " + this.ds_subCate.getColumn(k, "SUB_CATE_NM"));
+								this.ds_category.setColumn(r2, "type", "sub");
+							}
+						}
+						
+						var newSubId = this.ds_subCate.getColumn(this.ds_subCate.getRowCount() - 1, "SUB_CATE_ID");
+						var subRow = this.ds_category.findRow("cate_id", "S" + newSubId);
+						if (subRow >= 0) {
+							this.grd_category.selectRow(subRow);
+							this.fn_showDetail(subRow);
+							
+							var mainName = this.ds_mainCate.lookup("MAIN_CATE_ID", mainId, "MAIN_CATE_NM");
+							var subName  = this.ds_subCate.lookup("SUB_CATE_ID", newSubId, "SUB_CATE_NM");
+							this.st_path.set_text("대분류 > " + mainName + " > " + subName);
+						}
+					}
+					this.fn_notify("중분류가 등록되었습니다.", "success");
+				}
+			}
+			
+			/***********************
+			* UPDATE (insert 방식 동일하게 처리)
+			***********************/
+			/***********************
+ /***********************
+ * UPDATE (insert 방식 동일하게 처리)
+ ***********************/
+else if (this._pendingAction === "update") {
+    this.fn_notify("수정이 완료되었습니다.", "success");
+
+    var type   = this._pendingType;
+    var mainId = this.ds_in.getColumn(0, "MAIN_CATE_ID");
+    var subId  = this.ds_in.getColumn(0, "SUB_CATE_ID");
+
+    // 🔹 중분류 수정 시 누락된 mainId 보정
+    if (!mainId && type === "sub") {
+        var sRow = this.ds_subCate.findRow("SUB_CATE_ID", subId);
+        if (sRow >= 0) {
+            mainId = this.ds_subCate.getColumn(sRow, "MAIN_CATE_ID");
+        }
+    }
+
+    // ✅ 대분류 수정 또는 중분류 수정 모두 '펼치기' 처리
+    var mainRow = this.ds_category.findRow("cate_id", "M" + mainId);
+    if (mainRow >= 0) {
+        // 부모 대분류 펼치기
+        this.ds_category.setColumn(mainRow, "expanded", "Y");
+
+        // 하위 중분류 재구성 (모든 update에서 공통)
+        var insertPos = mainRow;
+        for (var k = 0; k < this.ds_subCate.getRowCount(); k++) {
+            if (String(this.ds_subCate.getColumn(k, "MAIN_CATE_ID")) === String(mainId)) {
+                insertPos++;
+                var r2 = this.ds_category.insertRow(insertPos);
+                this.ds_category.setColumn(r2, "cate_id", "S" + this.ds_subCate.getColumn(k, "SUB_CATE_ID"));
+                this.ds_category.setColumn(r2, "parent_id", "M" + mainId);
+                this.ds_category.setColumn(r2, "cate_name", "   📁 " + this.ds_subCate.getColumn(k, "SUB_CATE_NM"));
+                this.ds_category.setColumn(r2, "type", "sub");
+            }
+        }
+
+        // 중분류 수정 시
+        if (type === "sub") {
+            var subRow = this.ds_category.findRow("cate_id", "S" + subId);
+            if (subRow >= 0) {
+                this.grd_category.selectRow(subRow);
+                this.fn_showDetail(subRow);
+
+                var mainName = this.ds_mainCate.lookup("MAIN_CATE_ID", mainId, "MAIN_CATE_NM");
+                var subName  = this.ds_in.getColumn(0, "SUB_CATE_NM");
+                this.st_path.set_text("대분류 > " + mainName + " > " + subName);
+            }
+        }
+        // 대분류 수정 시
+        else if (type === "main") {
+            this.grd_category.selectRow(mainRow);
+            this.fn_showDetail(mainRow);
+
+            var mainName = this.ds_in.getColumn(0, "MAIN_CATE_NM");
+            this.st_path.set_text("대분류 > " + mainName);
+        }
+    }
+}
+
+			
+			/***********************
+			* DELETE
+			***********************/
+			else if (this._pendingAction === "delete")
+			{
+				this.fn_notify("삭제가 완료되었습니다.", "success");
+				this.st_path.set_text("카테고리를 선택하세요.");
+			}
+			
+			/***********************
+			* 상태 초기화
+			***********************/
+			this._needRefresh = false;
+			this._insertMode = null;
+			this._pendingAction = null;
+			this._pendingType = null;
+		}
+		break;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+/***************************************************
+* 재조회
+***************************************************/
+this.fn_reloadTree = function()
+{
+    this.transaction(
+        "selectMainCategoryByAdmin",
+        "svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
+        "",
+        "ds_mainCate=ds_mainCate",
+        "",
+        "fn_callback",
+        true
+    );
+};
+
+
+/***************************************************
+* 수정 버튼 클릭
+***************************************************/
+this.btn_edit_onclick = function()
+{
+    var row = this.grd_category.currentrow;
+    if (row < 0) {
+        this.alert("수정할 항목을 선택하세요.");
+        return;
+    }
+	
+    // 현재 선택된 카테고리의 상세정보를 수정 모드로 전환
+    this.fn_setMode("edit");
+    this.fn_notify("분류명을 수정 후 [저장]을 누르세요.", "success");
+};
+
+]]></Script>
     <Layouts>
       <Layout width="1280" height="800">
-        <!-- 상단 메뉴 버튼 -->
-        <!-- 좌측: 카테고리 트리 -->
-        <Button id="btn_goProduct" text="상품목록" left="10" top="10" width="100" height="35" onclick="btn_goProduct_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer" visible="false"/>
-        <Button id="btn_goDisplay" text="상품진열" left="120" top="10" width="100" height="35" onclick="btn_goDisplay_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer" visible="false"/>
-        <Button id="btn_goProductReg" text="상품등록" left="230" top="10" width="100" height="35" onclick="btn_goProductReg_onclick" background="#000000" color="#ffffff" font="bold 10pt 'Gulim'" borderRadius="8px" border="1px solid #000000" cursor="pointer" visible="false"/>
-        <Grid id="grd_category" binddataset="ds_category" left="10" top="50" width="500" height="590" oncellclick="grd_category_oncellclick" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" font="12px 'Arial'" color="#222222">
+        <!-- 🔹 상단 경로 -->
+        <Static id="st_path" text="     대분류 &gt; (선택 안됨 - 대분류를 선택해주세요.)" left="55" top="11" width="485" height="40" font="bold 15px 'Arial'" color="#111111" background="#ffffff" border="1px solid #dddddd" borderRadius="6px" padding="8px"/>
+        <!-- 🔹 상단 버튼 -->
+        <Button id="btn_addMain" text="대분류 추가" left="80" top="60" width="110" height="34" background="#000000" color="#ffffff" font="bold 12px 'Arial'" borderRadius="6px" onclick="btn_addMain_onclick" cursor="pointer" hoverbackground="#ffffff" hovercolor="#000000"/>
+        <Button id="btn_addSub" text="중분류 추가" left="200" top="60" width="110" height="34" background="#333333" color="#ffffff" font="bold 12px 'Arial'" borderRadius="6px" onclick="btn_addSub_onclick" cursor="pointer" hoverbackground="#ffffff" hovercolor="#333333"/>
+        <Button id="btn_edit" text="수정" left="360" top="60" width="70" height="34" background="#555555" color="#ffffff" font="bold 12px 'Arial'" borderRadius="6px" onclick="btn_edit_onclick" cursor="pointer" hoverbackground="#ffffff" hovercolor="#555555"/>
+        <Button id="btn_delete" text="삭제" left="440" top="60" width="70" height="34" background="#999999" color="#ffffff" font="bold 12px 'Arial'" borderRadius="6px" onclick="btn_delete_onclick" cursor="pointer" hoverbackground="#ffffff" hovercolor="#999999"/>
+        <!-- 🔹 좌측 트리 그리드 -->
+        <Grid id="grd_category" binddataset="ds_category" left="55" top="104" width="485" height="607" useselcolor="true" selecttype="row" border="1px solid #d0d0d0" borderRadius="6px" background="#ffffff" color="#111111" font="14px 'Arial'" oncellclick="grd_category_oncellclick">
           <Formats>
             <Format id="default">
               <Columns>
-                <Column size="30"/>
-                <Column size="370"/>
+                <Column size="420"/>
               </Columns>
               <Rows>
-                <Row size="37"/>
+                <Row size="38"/>
               </Rows>
               <Band id="body">
-                <Cell text="expr:(type=='main' ? (expanded=='Y' ? '-' : '+') : '')" textAlign="center" font="14px 'Gulim'" color="#000000"/>
-                <Cell col="1" text="expr:(level==0 ? cate_name : '   ' + cate_name)" font="14px 'Gulim'" color="#222222"/>
+                <Cell text="bind:cate_name" textAlign="left" padding="10px" font="expr:type=='main' ? 'bold 14px Arial' : '13px Arial'" color="expr:type=='main' ? '#111111' : '#555555'" background="expr:currow==rowposition ? '#e6e6e6' : (mouseover ? '#f2f2f2' : '#ffffff')"/>
               </Band>
             </Format>
           </Formats>
         </Grid>
-        <!-- 우측: 상세 정보 -->
-        <Div id="div_detail" left="530" top="50" width="730" height="590" background="#ffffff" border="1px solid #e0e0e0" borderRadius="12px" padding="15px" text="">
+        <!-- 🔹 우측 상세정보 영역 -->
+        <Div id="div_detail" left="640" top="104" width="570" height="607" background="#ffffff" border="1px solid #d9d9d9" borderRadius="12px" font="14px 'Arial'" color="#111111">
           <Layouts>
             <Layout>
-              <Static id="sta_title" text="상세정보" left="20" top="20" font="bold 14pt 'Gulim'" color="#000000" background="transparent" height="30" width="169"/>
-              <Static id="sta_current" text="ID" left="20" top="60" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
-              <Static id="sta_idValue" text="자동생성" left="140" top="60" width="200" height="25" font="10pt 'Gulim'" color="#666666" background="transparent"/>
-              <Static id="sta_name" text="분류명" left="20" top="100" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
-              <Edit id="edt_cateName" left="140" top="100" width="400" height="25" background="#ffffff" border="1px solid #cccccc" borderRadius="6px" font="12px 'Arial'" color="#222222"/>
-              <Static id="sta_sort" text="정렬순번" left="20" top="140" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
-              <Edit id="edt_sort" left="140" top="140" width="100" height="25" background="#ffffff" border="1px solid #cccccc" borderRadius="6px" font="12px 'Arial'" color="#222222"/>
-              <Static id="sta_display" text="진열상태" left="20" top="180" width="100" height="25" font="10pt 'Gulim'" color="#000000" background="transparent"/>
-              <Radio id="rdo_display" taborder="10" left="140" top="175" width="359" height="35" index="0" value="Y" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="12px 'Arial'" color="#222222">
+              <!-- 타이틀 -->
+              <Static id="sta_title" text="카테고리 상세정보" left="0" top="26" width="100.00%" height="35" textAlign="center" font="bold 18px 'Arial'" color="#000000"/>
+              <Static id="line_top" text="" left="40" top="80" width="490" height="1" background="#e0e0e0"/>
+              <!-- 🟢 기본 정보 -->
+              <Static id="sta_section1" text="기본 정보" left="50" top="96" width="440" height="25" font="bold 14px 'Arial'" color="#111111"/>
+              <Static id="line_1" left="50" top="133" width="440" height="1" background="#dddddd"/>
+              <Static id="sta_id" text="ID" left="80" top="160" width="100" height="25" textAlign="right" font="bold 13px 'Arial'" color="#333333"/>
+              <Static id="sta_idValue" text="자동생성" left="200" top="160" width="240" height="25" textAlign="left" font="13px 'Arial'" color="#666666"/>
+              <Static id="sta_name" text="분류명" left="80" top="205" width="100" height="25" textAlign="right" font="bold 13px 'Arial'" color="#333333"/>
+              <Edit id="edt_cateName" left="200" top="200" width="260" height="34" border="1px solid #cccccc" borderRadius="6px" font="13px 'Arial'" color="#000000" background="#fafafa" textAlign="left" padding="6px" focusborder="1px solid #000000"/>
+              <Static id="sta_sort" text="정렬순번" left="80" top="255" width="100" height="25" textAlign="right" font="bold 13px 'Arial'" color="#333333"/>
+              <Edit id="edt_sort" left="200" top="250" width="120" height="34" border="1px solid #cccccc" borderRadius="6px" font="13px 'Arial'" color="#000000" background="#fafafa" textAlign="left" padding="6px" focusborder="1px solid #000000"/>
+              <!-- 🟣 표시 설정 -->
+              <Static id="sta_section2" text="표시 설정" left="50" top="310" width="440" height="25" font="bold 14px 'Arial'" color="#111111"/>
+              <Static id="line_2" left="50" top="338" width="440" height="1" background="#dddddd"/>
+              <Static id="sta_display" text="노출여부" left="80" top="370" width="100" height="25" textAlign="right" font="bold 13px 'Arial'" color="#333333"/>
+              <Radio id="rdo_display" left="200" top="365" width="240" height="35" direction="vertical" font="13px 'Arial'" color="#111111" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" value="Y">
                 <Dataset id="innerdataset">
                   <ColumnInfo>
                     <Column id="codecolumn" size="256"/>
@@ -55,554 +827,16 @@
                   </Rows>
                 </Dataset>
               </Radio>
-              <Button id="btn_saveDetail" text="저장" left="140" top="230" width="100" height="30" onclick="btn_saveDetail_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
+              <Static id="sta_hint" text="※ 정보를 수정한 후 반드시 [저장] 버튼을 눌러주세요." left="60" top="435" width="440" height="40" color="#999999" font="12px 'Arial'" textAlign="center"/>
             </Layout>
           </Layouts>
         </Div>
-        <!-- 하단 버튼 영역 -->
-        <Button id="btn_addMain" text="대분류추가" left="10" top="670" width="100" height="35" onclick="btn_addMain_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
-        <Button id="btn_addSub" text="하위추가" left="120" top="670" width="100" height="35" onclick="btn_addSub_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
-        <Button id="btn_edit" text="수정" left="230" top="670" width="100" height="35" onclick="btn_edit_onclick" background="#000000" color="#ffffff" border="1px solid #000000" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer" visible="false"/>
-        <Button id="btn_delete" text="삭제" left="340" top="670" width="100" height="35" onclick="btn_delete_onclick" background="#a1162f" color="#ffffff" border="1px solid #a1162f" borderRadius="8px" font="bold 11pt 'Gulim'" cursor="pointer"/>
+        <!-- 🔹 하단 버튼 -->
+        <Button id="btn_saveDetail" text="저장" width="100" height="38" left="826" top="626" background="#000000" color="#ffffff" font="bold 12px 'Arial'" borderRadius="6px" onclick="btn_saveDetail_onclick" cursor="pointer" hoverbackground="#ffffff" hovercolor="#000000"/>
+        <Button id="btn_cancel" text="취소" width="100" height="38" left="940" top="626" background="#444444" color="#ffffff" font="bold 12px 'Arial'" borderRadius="6px" onclick="btn_cancel_onclick" cursor="pointer" hoverbackground="#666666"/>
+        <!-- 🔹 상태 메시지 -->
+        <Static id="sta_msg" text="" left="640" top="11" width="570" height="83" background="#ffffff" border="1px solid #dddddd" color="#000000" font="bold 18px/normal &quot;Arial&quot;" textAlign="center" borderRadius="6px"/>
       </Layout>
     </Layouts>
-    <!-- 데이터셋 정의 -->
-    <Script type="xscript5.1"><![CDATA[/***************************************************
-* onload : 메인/서브 카테고리 조회
-***************************************************/
-this.Form_ProductCate_onload = function(obj,e)
-{
-    this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
-        "", "ds_mainCate=ds_mainCate", "", "fn_callback", true);
-    
-    this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do?time=" + new Date().getTime(),
-        "", "ds_subCate=ds_subCate", "", "fn_callback", true);
-};
-
-
-/***************************************************
-* 공통 콜백
-***************************************************/
-this.fn_callback = function(svcID, errCode, errMsg)
-{
-    if (errCode < 0) {
-		// 삭제 서비스에서 에러났을 경우만 다른 문구 출력
-		if (svcID == "deleteCategoryByAdmion")
-		{
-			alert("해당 대분류에 하위 분류가 있어서 삭제할 수 없습니다.")
-		}
-		else
-		{
-			alert("실행을 실패 했습니다" + errMsg );
-		}
-        return;
-    }
-
-    // 저장/수정/삭제 성공 후 → 재조회 시작
-    if (svcID=="insertCategoryByAdmin" || svcID=="updateCategoryByAdmin" || svcID=="deleteCategoryByAdmin") {
-        if (svcID=="insertCategoryByAdmin") {
-            if (this._insertMode && this._insertMode.type=="main") {
-                this._lastAction = "insertMain";
-            } else {
-                this._lastAction = "insertSub";
-                this._lastMainId = this._insertMode ? this._insertMode.mainId : null;
-            }
-        }
-        else if (svcID=="updateCategoryByAdmin") {
-            this._lastAction = "update";
-            this._lastCateType = this.ds_in.getColumn(0,"TYPE"); // main/sub 구분 저장
-            this._lastCateId   = this.ds_in.getColumn(0, this._lastCateType=="main" ? "MAIN_CATE_ID" : "SUB_CATE_ID");
-        }
-        else if (svcID=="deleteCategoryByAdmin") {
-            this._lastAction = "delete";
-            this._lastCateType = this.ds_in.getColumn(0,"TYPE");
-            if (this._lastCateType=="sub") {
-                this._lastMainId = this.ds_subCate.getColumn(
-                    this.ds_subCate.findRow("SUB_CATE_ID", this.ds_in.getColumn(0,"SUB_CATE_ID")),
-                    "MAIN_CATE_ID"
-                );
-            }
-        }
-
-        // 공통 재조회 실행
-        this.fn_reloadTree();
-    }
-
-    // 메인 조회 끝나면 → 서브 조회
-    else if (svcID=="selectMainCategoryByAdmin") {
-        this.transaction("selectSubCategoryByAdmin", "svc::selectSubCategoryByAdmin.do?time=" + new Date().getTime(),
-            "", "ds_subCate=ds_subCate", "", "fn_callback", true);
-    }
-
-    // 서브 조회 끝나면 최종 처리
-    else if (svcID=="selectSubCategoryByAdmin") {
-        if (this.ds_mainCate.rowcount > 0 && this.ds_subCate.rowcount > 0) {
-            this.fn_makeTree();
-
-            // 작업별 알림 + 선택 처리
-            if (this._lastAction == "insertMain") {
-                alert("대분류가 추가되었습니다.");
-                var newId = this.ds_mainCate.getColumn(this.ds_mainCate.rowcount-1,"MAIN_CATE_ID");
-                var row = this.ds_category.findRow("cate_id","M"+newId);
-                if (row >= 0) {
-                    this.grd_category.selectRow(row);
-                    this.fn_showDetail(row);
-                }
-            }
-            else if (this._lastAction == "insertSub") {
-                alert("하위 분류가 추가되었습니다.");
-                var newId = this.ds_subCate.getColumn(this.ds_subCate.rowcount-1,"SUB_CATE_ID");
-                var mainRow = this.ds_category.findRow("cate_id","M"+this._lastMainId);
-
-                if (mainRow >= 0) {
-                    // 부모 대분류 펼치기
-                    this.grd_category.selectRow(mainRow);
-                    this.grd_category_oncellclick(this.grd_category, {row:mainRow});
-
-                    // 새 하위 분류 선택
-                    var subRow = this.ds_category.findRow("cate_id","S"+newId);
-                    if (subRow >= 0) {
-                        this.grd_category.selectRow(subRow);
-                        this.fn_showDetail(subRow);
-                    }
-                }
-            }
-            else if (this._lastAction == "update") {
-                alert("수정이 완료되었습니다.");
-                var prefix = (this._lastCateType=="main" ? "M" : "S");
-                var row = this.ds_category.findRow("cate_id", prefix+this._lastCateId);
-                if (row >= 0) {
-                    this.grd_category.selectRow(row);
-                    this.fn_showDetail(row);
-                }
-            }
-            else if (this._lastAction == "delete") {
-                alert("삭제가 완료되었습니다.");
-                if (this._lastCateType=="sub" && this._lastMainId) {
-                    // 부모 대분류 선택 + 펼치기
-                    var mainRow = this.ds_category.findRow("cate_id","M"+this._lastMainId);
-                    if (mainRow >= 0) {
-                        this.grd_category.selectRow(mainRow);
-                        this.grd_category_oncellclick(this.grd_category, {row:mainRow});
-                    }
-                }
-            }
-
-            // 우측 입력창 초기화
-            this.fn_clearDetail();
-
-            // 상태값 리셋
-            this._insertMode = null;
-            this._lastAction = null;
-            this._lastMainId = null;
-            this._lastCateId = null;
-            this._lastCateType = null;
-        }
-    }
-};
-
-
-
-/***************************************************
-* 공통 재조회 함수 : 메인 → 서브 순차 조회
-***************************************************/
-this.fn_reloadTree = function()
-{
-    this.transaction("selectMainCategoryByAdmin", "svc::selectMainCategoryByAdmin.do?time=" + new Date().getTime(),
-        "", "ds_mainCate=ds_mainCate", "", "fn_callback", true);
-};
-
-
-//우측 초기화 함수
-this.fn_clearDetail = function()
-{
-    this.div_detail.form.sta_idValue.set_text("자동생성");
-    this.div_detail.form.edt_cateName.set_value("");
-    this.div_detail.form.edt_sort.set_value("");
-    this.div_detail.form.rdo_display.set_value("Y");  // 기본 진열함
-};
-
-
-
-/***************************************************
-* 트리 데이터 구성 (처음에는 대분류만)
-***************************************************/
-this.fn_makeTree = function()
-{
-    var dsTree = this.ds_category;
-    dsTree.clearData();
-    
-    for (var i=0; i<this.ds_mainCate.getRowCount(); i++) {
-        var mid = String(this.ds_mainCate.getColumn(i,"MAIN_CATE_ID"));
-        var r = dsTree.addRow();
-        dsTree.setColumn(r,"cate_id","M"+mid);
-        dsTree.setColumn(r,"parent_id","");
-        dsTree.setColumn(r,"cate_name",this.ds_mainCate.getColumn(i,"MAIN_CATE_NM"));
-        dsTree.setColumn(r,"level",0);
-        dsTree.setColumn(r,"type","main");
-        dsTree.setColumn(r,"expanded","N");
-    }
-};
-
-/***************************************************
-* 그리드 클릭 (대분류: sub 삽입 / 중분류: 상세표시)
-***************************************************/
-this.grd_category_oncellclick = function(obj,e)
-{
-    var row = e.row;
-    if (row < 0) return;
-    
-    var type   = this.ds_category.getColumn(row,"type");
-    var cateId = this.ds_category.getColumn(row,"cate_id");
-    
-    // 대분류 클릭
-    if (type=="main") {
-        var expanded = this.ds_category.getColumn(row,"expanded");
-        
-        if (expanded=="Y") {
-            // 닫기 → 자식 삭제
-            this.ds_category.setColumn(row,"expanded","N");
-            for (var i=this.ds_category.getRowCount()-1; i>=0; i--) {
-                if (this.ds_category.getColumn(i,"parent_id")==cateId) {
-                    this.ds_category.deleteRow(i);
-                }
-            }
-        }
-        else {
-            // 다른 대분류의 sub 전부 삭제
-            for (var j=this.ds_category.getRowCount()-1; j>=0; j--) {
-                if (this.ds_category.getColumn(j,"type")=="sub") {
-                    this.ds_category.deleteRow(j);
-                } else {
-                    this.ds_category.setColumn(j,"expanded","N");
-                }
-            }
-            
-            // 클릭한 대분류 펼치기
-            this.ds_category.setColumn(row,"expanded","Y");
-            
-            // 클릭한 row 바로 밑에 sub 삽입
-            var mainId = cateId.replace("M","");
-            var insertPos = row;
-            for (var k=0; k<this.ds_subCate.getRowCount(); k++) {
-                if (String(this.ds_subCate.getColumn(k,"MAIN_CATE_ID"))==mainId) {
-                    insertPos++;
-                    var r2 = this.ds_category.insertRow(insertPos);
-                    this.ds_category.setColumn(r2,"cate_id","S"+this.ds_subCate.getColumn(k,"SUB_CATE_ID"));
-                    this.ds_category.setColumn(r2,"parent_id",cateId);
-                    this.ds_category.setColumn(r2,"cate_name","   "+this.ds_subCate.getColumn(k,"SUB_CATE_NM"));
-                    this.ds_category.setColumn(r2,"level",1);
-                    this.ds_category.setColumn(r2,"type","sub");
-                    this.ds_category.setColumn(r2,"expanded","N");
-                }
-            }
-
-            // 클릭한 대분류 선택 유지
-            this.ds_category.set_rowposition(row);
-        }
-        
-        this.fn_showDetail(row);
-        
-    }
-    else {
-        // 중분류 클릭 → 상세표시
-        this.fn_showDetail(row);
-    }
-};
-
-/***************************************************
-* 상세정보 표시
-***************************************************/
-this.fn_showDetail = function(row)
-{
-    var id   = this.ds_category.getColumn(row,"cate_id");
-    var name = this.ds_category.getColumn(row,"cate_name").trim();
-    var type = this.ds_category.getColumn(row,"type");
-    
-    var active = "Y";
-    var sort   = "";
-
-    if (type=="main") {
-        var mainId = id.replace("M","");
-        var mainRow = this.ds_mainCate.findRow("MAIN_CATE_ID", mainId);
-        if (mainRow >= 0) {
-            active = this.ds_mainCate.getColumn(mainRow,"IS_ACTIVE");
-            sort   = this.ds_mainCate.getColumn(mainRow,"SORT_NUMBER");
-        }
-    } else {
-        var subId = id.replace("S","");
-        var subRow = this.ds_subCate.findRow("SUB_CATE_ID", subId);
-        if (subRow >= 0) {
-            active = this.ds_subCate.getColumn(subRow,"IS_ACTIVE");
-            sort   = this.ds_subCate.getColumn(subRow,"SORT_NUMBER");
-        }
-    }
-    
-    this.div_detail.form.sta_idValue.set_text(id ? id : "자동생성");
-    this.div_detail.form.edt_cateName.set_value(name);
-    this.div_detail.form.edt_sort.set_value(sort);
-    this.div_detail.form.rdo_display.set_value(active);
-
-    this._insertMode = null;
-};
-
-/***************************************************
-* 정렬순번 자동 계산 함수
-***************************************************/
-this.fn_getNextSortNumber = function(type, mainId)
-{
-    var maxSort = 0;
-
-    if (type=="main") {
-        for (var i=0; i<this.ds_mainCate.getRowCount(); i++) {
-            var v = this.ds_mainCate.getColumn(i,"SORT_NUMBER");
-            if (v && v > maxSort) maxSort = v;
-        }
-    } else if (type=="sub") {
-        for (var j=0; j<this.ds_subCate.getRowCount(); j++) {
-            if (String(this.ds_subCate.getColumn(j,"MAIN_CATE_ID")) == String(mainId)) {
-                var v2 = this.ds_subCate.getColumn(j,"SORT_NUMBER");
-                if (v2 && v2 > maxSort) maxSort = v2;
-            }
-        }
-    }
-    return maxSort + 1;
-};
-
-/***************************************************
-* 대분류 추가 버튼
-***************************************************/
-this.btn_addMain_onclick = function(obj,e)
-{
-    this._insertMode = { type:"main" };
-    this.div_detail.form.sta_idValue.set_text("자동생성");
-    this.div_detail.form.edt_cateName.set_value("");
-    this.div_detail.form.edt_sort.set_value(this.fn_getNextSortNumber("main"));
-    this.div_detail.form.rdo_display.set_value("Y");
-
-    alert("우측 신규 대분류 정보를 입력 후 [저장]을 누르세요.");
-};
-
-/***************************************************
-* 하위 분류 추가 버튼
-***************************************************/
-this.btn_addSub_onclick = function(obj,e)
-{
-    var row = this.grd_category.currentrow;
-    if (row < 0) {
-        alert("하위 분류를 추가할 대분류를 선택하세요.");
-        return;
-    }
-    var type = this.ds_category.getColumn(row,"type");
-    if (type!="main") {
-        alert("대분류를 선택해야 하위 분류를 추가할 수 있습니다.");
-        return;
-    }
-
-    var mainId = this.ds_category.getColumn(row,"cate_id").replace("M","");
-
-    this._insertMode = { type:"sub", mainId:mainId };
-    this.div_detail.form.sta_idValue.set_text("자동생성");
-    this.div_detail.form.edt_cateName.set_value("");
-    this.div_detail.form.edt_sort.set_value(this.fn_getNextSortNumber("sub", mainId));
-    this.div_detail.form.rdo_display.set_value("Y");
-
-    alert("우측 신규 중분류 정보를 입력 후 [저장]을 누르세요.");
-};
-
-/***************************************************
-* 수정 버튼
-***************************************************/
-this.btn_edit_onclick = function(obj,e)
-{
-    var row = this.grd_category.currentrow;
-    if (row < 0) {
-        alert("수정할 항목을 선택하세요.");
-        return;
-    }
-    this.fn_showDetail(row);
-    this._insertMode = null;
-    alert("선택한 항목 정보를 우측 화면에서 수정 후 [저장] 버튼을 누르세요.");
-};
-
-/***************************************************
-* 삭제 버튼
-***************************************************/
-this.btn_delete_onclick = function(obj,e)
-{
-    var row = this.grd_category.currentrow;
-    if (row < 0) {
-        alert("삭제할 항목을 선택하세요.");
-        return;
-    }
-    if (!confirm("정말 삭제하시겠습니까?")) return;
-
-    var type = this.ds_category.getColumn(row,"type");
-    var cateId = this.ds_category.getColumn(row,"cate_id").substring(1);
-
-    this.ds_in.clearData();
-    var nRow = this.ds_in.addRow();
-    this.ds_in.setColumn(nRow,"TYPE", type);
-    if (type=="main") this.ds_in.setColumn(nRow,"MAIN_CATE_ID",cateId);
-    else this.ds_in.setColumn(nRow,"SUB_CATE_ID",cateId);
-
-    this.transaction("deleteCategoryByAdmin","svc::deleteCategoryByAdmin.do?time=" + new Date().getTime(),
-        "ds_in=ds_in","","","fn_callback",true);
-		
-		
-	
-};
-
-// 사용자 ID 반환 함수
-this.getUserId = function()
-{
-    var app = nexacro.getApplication();
-    var sUserId = app.gds_adminInfo.getColumn(0, "MEMBER_ID");
-
-    if (sUserId && sUserId != "undefined") {
-        trace("현재 로그인 사용자 ID: " + sUserId);
-        return sUserId;
-    } else {
-        trace("⚠ 사용자 ID를 가져올 수 없습니다. gds_adminInfo 상태 확인 필요");
-        return null;
-    }
-};
-
-
-
-/***************************************************
-* 저장 버튼 (신규/수정 통합)
-***************************************************/
-this.btn_saveDetail_onclick = function(obj,e)
-{
-    var name    = this.div_detail.form.edt_cateName.value;
-    var sort    = this.div_detail.form.edt_sort.value;
-    var display = this.div_detail.form.rdo_display.value;
-
-    if (!name) {
-        alert("분류명을 입력하세요.");
-        return;
-    }
-    if (!sort) sort = 0;
-    if (isNaN(Number(sort))) {
-        alert("정렬순번은 숫자만 입력하세요.");
-        return;
-    }
-    sort = parseInt(sort);
-
-    this.ds_in.clearData();
-    var nRow = this.ds_in.addRow();
-	
-	var sUserId = this.getUserId();
-	
-    // 신규
-    if (this._insertMode) {
-        if (this._insertMode.type=="main") {
-            this.ds_in.setColumn(nRow,"TYPE","main");
-            this.ds_in.setColumn(nRow,"MAIN_CATE_NM", name);
-        } else {
-            this.ds_in.setColumn(nRow,"TYPE","sub");
-            this.ds_in.setColumn(nRow,"MAIN_CATE_ID", this._insertMode.mainId);
-            this.ds_in.setColumn(nRow,"SUB_CATE_NM", name);
-        }
-        this.ds_in.setColumn(nRow,"SORT_NUMBER", sort);
-        this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
-        this.ds_in.setColumn(nRow,"INPUT_ID", sUserId);
-		this.ds_in.setColumn(nRow,"UPDATE_ID", sUserId);
-
-        this.transaction("insertCategoryByAdmin","svc::insertCategoryByAdmin.do?time=" + new Date().getTime(),
-            "ds_in=ds_in","","","fn_callback",true);
-    }
-    // 수정
-    else {
-        var row = this.grd_category.currentrow;
-        if (row < 0) {
-            alert("수정할 항목을 선택하세요.");
-            return;
-        }
-        var id   = this.ds_category.getColumn(row,"cate_id");
-        var type = this.ds_category.getColumn(row,"type");
-        var cateId = id.substring(1);
-
-        this.ds_in.setColumn(nRow,"TYPE", type);
-        if (type=="main") {
-            this.ds_in.setColumn(nRow,"MAIN_CATE_ID", cateId);
-            this.ds_in.setColumn(nRow,"MAIN_CATE_NM", name);
-        } else {
-            this.ds_in.setColumn(nRow,"SUB_CATE_ID", cateId);
-            this.ds_in.setColumn(nRow,"SUB_CATE_NM", name);
-        }
-        this.ds_in.setColumn(nRow,"SORT_NUMBER", sort);
-        this.ds_in.setColumn(nRow,"IS_ACTIVE", display);
-        this.ds_in.setColumn(nRow,"UPDATE_ID", sUserId);
-
-        this.transaction("updateCategoryByAdmin","svc::updateCategoryByAdmin.do?time=" + new Date().getTime(),
-            "ds_in=ds_in","","","fn_callback",true);
-    }
-    // this._insertMode 는 콜백에서 초기화
-};
-
-
-
-/***************************************************
-* 상단 메뉴 버튼 이벤트
-***************************************************/
-this.btn_goProduct_onclick = function(obj,e)
-{
-    this.go("product::Form_Product.xfdl");   // 상품목록
-};
-
-this.btn_goDisplay_onclick = function(obj,e)
-{
-    alert("상품진열 페이지는 준비중입니다.");  // 아직 없음
-};
-
-this.btn_goProductReg_onclick = function(obj,e)
-{
-    this.go("product::Form_ProductReg.xfdl");   // 상품등록
-};
-]]></Script>
-    <Objects>
-      <Dataset id="ds_mainCate">
-        <ColumnInfo>
-          <Column id="MAIN_CATE_ID" type="INT"/>
-          <Column id="MAIN_CATE_NM" type="STRING"/>
-          <Column id="SORT_NUMBER" type="INT"/>
-          <Column id="IS_ACTIVE" type="STRING"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="ds_subCate">
-        <ColumnInfo>
-          <Column id="SUB_CATE_ID" type="INT"/>
-          <Column id="MAIN_CATE_ID" type="INT"/>
-          <Column id="SUB_CATE_NM" type="STRING"/>
-          <Column id="SORT_NUMBER" type="INT"/>
-          <Column id="IS_ACTIVE" type="STRING"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="ds_in">
-        <ColumnInfo>
-          <Column id="TYPE" type="STRING"/>
-          <Column id="MAIN_CATE_ID" type="INT"/>
-          <Column id="SUB_CATE_ID" type="INT"/>
-          <Column id="MAIN_CATE_NM" type="STRING"/>
-          <Column id="SUB_CATE_NM" type="STRING"/>
-          <Column id="SORT_NUMBER" type="INT"/>
-          <Column id="IS_ACTIVE" type="STRING"/>
-          <Column id="INPUT_ID" type="STRING"/>
-          <Column id="UPDATE_ID" type="STRING"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="ds_category">
-        <ColumnInfo>
-          <Column id="cate_id" type="string"/>
-          <Column id="parent_id" type="string"/>
-          <Column id="cate_name" type="string"/>
-          <Column id="level" type="int"/>
-          <Column id="expanded" type="string"/>
-          <Column id="type" type="string"/>
-        </ColumnInfo>
-      </Dataset>
-    </Objects>
   </Form>
 </FDL>

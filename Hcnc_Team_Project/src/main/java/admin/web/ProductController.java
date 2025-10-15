@@ -266,15 +266,39 @@ public class ProductController {
 	// 추가
 	@RequestMapping("/insertCategoryByAdmin.do")
 	public NexacroResult insertCategoryByAdmin(@ParamDataSet(name = "ds_in") Map<String, Object> param) {
-		productService.insertCategoryByAdmin(param);
-		return new NexacroResult();
+		NexacroResult result = new NexacroResult();
+		try {
+			productService.insertCategoryByAdmin(param);
+			result.setErrorCode(0);
+			result.setErrorMsg("등록이 완료되었습니다.");
+		} catch (IllegalArgumentException e) {
+			result.setErrorCode(-1);
+			result.setErrorMsg(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setErrorCode(-1);
+			result.setErrorMsg("등록 중 오류가 발생했습니다.");
+		}
+		return result;
 	}
 
 	// 수정
 	@RequestMapping("/updateCategoryByAdmin.do")
 	public NexacroResult updateCategoryByAdmin(@ParamDataSet(name = "ds_in") Map<String, Object> param) {
-		productService.updateCategoryByAdmin(param);
-		return new NexacroResult();
+		NexacroResult result = new NexacroResult();
+		try {
+			productService.updateCategoryByAdmin(param);
+			result.setErrorCode(0);
+			result.setErrorMsg("수정이 완료되었습니다.");
+		} catch (IllegalArgumentException e) {
+			result.setErrorCode(-1);
+			result.setErrorMsg(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setErrorCode(-1);
+			result.setErrorMsg("수정 중 오류가 발생했습니다.");
+		}
+		return result;
 	}
 
 	// 삭제

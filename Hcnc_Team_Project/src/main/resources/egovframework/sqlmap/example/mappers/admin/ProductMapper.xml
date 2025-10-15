@@ -321,6 +321,21 @@
 
 
 	<!-- ___________카테고리 관리___________ -->
+	
+	<!-- 대분류명 중복 체크 -->
+	<select id="checkDuplicateMainCateNm" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*)
+		FROM MAIN_CATEGORIES
+		WHERE MAIN_CATE_NM = #{MAIN_CATE_NM}
+	</select>
+	
+	<!-- 중분류명 중복 체크 -->
+	<select id="checkDuplicateSubCateNm" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*)
+		FROM SUB_CATEGORIES
+		WHERE SUB_CATE_NM = #{SUB_CATE_NM}
+	</select>
+	
 	<!-- 대분류 -->
 	<select id="selectMainCategoryByAdmin"
 		resultType="java.util.Map">
@@ -360,7 +375,7 @@
 
 	<update id="updateCategoryByAdmin" parameterType="java.util.Map">
 		<choose>
-			<when test="TYPE == 'main'">
+			<when test="TYPE eq 'main'">
 				UPDATE MAIN_CATEGORIES
 				SET MAIN_CATE_NM =
 				#{MAIN_CATE_NM},

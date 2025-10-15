@@ -76,9 +76,38 @@ public class ProductService {
 	    return productMapper.selectSubCategoryByAdmin();
 	}
 	public void insertCategoryByAdmin(Map<String,Object> p) {
-	    productMapper.insertCategoryByAdmin(p);
+		  String type = (String)p.get("TYPE");
+
+		    if ("main".equals(type)) {
+		        int dupCnt = productMapper.checkDuplicateMainCateNm(p);
+		        if (dupCnt > 0) {
+		            throw new IllegalArgumentException("이미 존재하는 대분류명입니다.");
+		        }
+		    } else {
+		        int dupCnt = productMapper.checkDuplicateSubCateNm(p);
+		        if (dupCnt > 0) {
+		            throw new IllegalArgumentException("이미 존재하는 중분류명입니다.");
+		        }
+		    }
+
+		    productMapper.insertCategoryByAdmin(p);
 	}
 	public void updateCategoryByAdmin(Map<String,Object> p) {
+
+	    String type = (String)p.get("TYPE");
+
+	    if ("main".equals(type)) {
+	        int dupCnt = productMapper.checkDuplicateMainCateNm(p);
+	        if (dupCnt > 0) {
+	            throw new IllegalArgumentException("이미 존재하는 대분류명입니다.");
+	        }
+	    } else {
+	        int dupCnt = productMapper.checkDuplicateSubCateNm(p);
+	        if (dupCnt > 0) {
+	            throw new IllegalArgumentException("이미 존재하는 중분류명입니다.");
+	        }
+	    }
+
 	    productMapper.updateCategoryByAdmin(p);
 	}
 	public void deleteCategoryByAdmin(Map<String,Object> p) {
