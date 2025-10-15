@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FDL version="2.1">
-  <Form id="Form_Board_Qna" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_Board_Qna_onload">
+  <Form id="Form_Board_Qna" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_Board_Qna_onload" scrolltype="none" scrollbartype="none" scrollbarsize="0">
     <Layouts>
       <Layout height="720" width="1280">
         <!-- 검색 영역 -->
@@ -22,7 +22,8 @@
         <Div id="grid_wrapper" taborder="1" left="40" top="100" right="40" bottom="40" background="#FFFFFF" borderRadius="10px" boxShadow="0px 0px 2px 2px rgba(229,229,229,0.15)" onmousemove="grid_wrapper_onmousemove" onmouseleave="grid_wrapper_onmouseleave">
           <Layouts>
             <Layout>
-              <Grid id="grid_list" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="10px" onheadclick="grid_list_onheadclick" oncellclick="grid_list_oncellclick" scrollbarsize="10" scrollbartrackbarsize="40">
+              <!-- 헤더 Grid (고정) -->
+              <Grid id="grid_header" taborder="0" left="0" top="0" right="10" height="40" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" selecttype="row" readonly="true" enableevent="false" scrolltype="none" scrollbartype="none" scrollpixel="none">
                 <Formats>
                   <Format id="default">
                     <Columns>
@@ -33,18 +34,34 @@
                       <Column size="78"/>
                     </Columns>
                     <Rows>
-                      <Row size="40" band="head"/>
+                      <Row size="40"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell text="NO" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                      <Cell col="1" text="작성자" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                      <Cell col="2" text="게시글 제목" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                      <Cell col="3" text="답변상태" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                      <Cell col="4" text="작성일" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee" textAlign="center"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <!-- Body Grid (스크롤) -->
+              <Grid id="grid_list" taborder="1" left="0" top="40" right="0" bottom="0" binddataset="ds_board" autofittype="col" background="#FFFFFF" border="0px none" borderRadius="0px 0px 10px 10px" oncellclick="grid_list_oncellclick" scrollbartype="auto" scrollbarsize="10" scrollbartrackbarsize="40">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="26"/>
+                      <Column size="47"/>
+                      <Column size="160"/>
+                      <Column size="74"/>
+                      <Column size="78"/>
+                    </Columns>
+                    <Rows>
                       <Row size="34"/>
                     </Rows>
-                    <Band id="head">
-                      <Cell text="NO" displaytype="normal" edittype="none" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                      <Cell col="1" text="작성자" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                      <Cell col="2" text="게시글 제목" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                      <Cell col="3" text="답변상태" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                      <Cell col="4" text="작성일" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" background="white" border="0px none,0px none,1px solid #eeeeee"/>
-                    </Band>
                     <Band id="body">
-                      <Cell displaytype="normal" edittype="none" checkboxtruevalue="1" checkboxfalsevalue="0" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" expr="currow+1"/>
+                      <Cell displaytype="normal" edittype="none" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" expr="currow+1"/>
                       <Cell col="1" text="bind:USER_NAME" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;"/>
                       <Cell col="2" text="bind:POST_TITLE" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR DemiLight&quot;" edittype="none"/>
                       <Cell col="3" text="bind:POST_STATUS" displaytype="normal" edittype="none" textAlign="center" border="0px,0px,2px solid rgba(229,229,229,0.15)" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" cursor="pointer" cssclass="expr:(POST_STATUS=='답변대기'?'cell_wait':(POST_STATUS=='답변완료'?'cell_done':''))"/>

@@ -2,6 +2,9 @@ package user.web;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,10 +28,17 @@ public class UserWishController {
 
     // 위시리스트 리스트 조회
 	@RequestMapping(value="/selectWishlistByUser.do")
-	public ModelAndView selectWishlistByUser(@RequestParam HashMap<String, Object> param) {
+	public ModelAndView selectWishlistByUser(@RequestParam HashMap<String, Object> param, HttpSession session) {
 	    ModelAndView mav = new ModelAndView("jsonView");
 	    
 	    System.out.println("위시리스트 조회 파라미터: " + param);
+	    
+	    @SuppressWarnings("unchecked")
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+	    if(userInfo != null) {
+	    	String memberId = (String) userInfo.get("MEMBER_ID");
+	    	param.put("memberId", memberId);
+	    }
 	    
 	    try {
 	        List<HashMap<String, Object>> wishlist = userWishService.selectWishlistByUser(param);
@@ -85,10 +95,17 @@ public class UserWishController {
     
     // 카테고리별 개수 조회
 	@RequestMapping(value="/getCategoryCount.do")
-	public ModelAndView getCategoryCount(@RequestParam HashMap<String, Object> param) {
+	public ModelAndView getCategoryCount(@RequestParam HashMap<String, Object> param, HttpSession session) {
 	    ModelAndView mav = new ModelAndView("jsonView");
 	    
 	    System.out.println("카테고리 개수 조회 파라미터: " + param);
+	    
+	    @SuppressWarnings("unchecked")
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+	    if(userInfo != null) {
+	    	String memberId = (String) userInfo.get("MEMBER_ID");
+	    	param.put("memberId", memberId);
+	    }
 	    
 	    try {
 	        List<HashMap<String, Object>> categoryList = userWishService.getCategoryCount(param);
