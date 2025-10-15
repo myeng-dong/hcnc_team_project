@@ -2,15 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.mapper.BannerMapper">
 	<select id="selectBannerListByAdmin" resultType="java.util.Map">
-		SELECT *
+		SELECT 
+			'0' AS CHK
+			,BANNER_ID
+	        ,BANNER_TYPE
+	        ,BANNER_TITLE
+	        ,IMG_ORIGIN_NAME
+	        ,IMG_ATTACHED_NAME
+	        ,IMG_PATH
+	        ,IS_VISIBLE
+	        ,LINKED_URL
+	        ,SORT_NUMBER
+	        ,DATE_FORMAT(INPUT_DT, '%Y.%m.%d') AS INPUT_DT
+	        ,INPUT_ID
 		FROM BANNERS
 		WHERE 1=1
-		<if test="BANNER_TYPE != null and BANNER_TYPE != ''">
+		<if test="IS_VISIBLE != null and IS_VISIBLE != '' and IS_VISIBLE != 'all'">
+			AND IS_VISIBLE = #{IS_VISIBLE}
+		</if>
+		<if test="BANNER_TYPE != null and BANNER_TYPE != '' and BANNER_TYPE != 'all'">
 	        AND BANNER_TYPE = #{BANNER_TYPE}
 	    </if>
+	    ORDER BY SORT_NUMBER DESC
+			   , INPUT_DT DESC
 	</select>
 	
-	<!-- 배너작성 -->
+	<!-- 배너 상세 조회 -->
+	<select id="selectBannerDetailByAdmin" parameterType="String" resultType="map">
+	    SELECT 
+	        BANNER_ID,
+	        BANNER_TYPE,
+	        BANNER_TITLE,
+	        IMG_ORIGIN_NAME,
+	        IMG_ATTACHED_NAME,
+	        IMG_PATH,
+	        IS_VISIBLE,
+	        LINKED_URL,
+	        SORT_NUMBER,
+	        DATE_FORMAT(INPUT_DT, '%Y.%m.%d') AS INPUT_DT,
+	        INPUT_ID,
+	        DATE_FORMAT(UPDATE_DT, '%Y.%m.%d') AS UPDATE_DT,
+	        UPDATE_ID
+	    FROM 
+	        BANNERS
+	    WHERE 
+	        BANNER_ID = #{bannerId}
+	</select>
+	
+	<!-- 배너 등록 -->
 	<insert id="insertBannerByAdmin" parameterType="map">
 	    INSERT INTO BANNERS (
 	        BANNER_TYPE
@@ -24,7 +63,7 @@
 	        ,INPUT_DT
 	        ,INPUT_ID
 	        ,UPDATE_DT
-	        ,UPDATE_ID
+            ,UPDATE_ID
 	    ) VALUES (
 	        #{BANNER_TYPE}
 	        ,#{BANNER_TITLE}
@@ -41,7 +80,7 @@
 	    )
 	</insert>
 	
-	<!-- 배너수정 -->
+	<!-- 배너 수정 -->
 	<update id="updateBannerByAdmin" parameterType="map">
         UPDATE BANNERS
         SET
@@ -56,4 +95,9 @@
             ,UPDATE_ID        = #{UPDATE_ID}
         WHERE BANNER_ID = #{BANNER_ID}
     </update>
+    
+    <delete id="deleteBannerByAdmin" parameterType="map">
+	    DELETE FROM BANNERS
+	    WHERE BANNER_ID = #{BANNER_ID}
+	</delete>
 </mapper>

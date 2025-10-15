@@ -19,7 +19,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_comment", this);
-            obj._setContents("<ColumnInfo><Column id=\"POST_ID\" type=\"STRING\" size=\"256\"/><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"COMMENT_CONTENT\" type=\"STRING\" size=\"1000\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"POST_ID\" type=\"STRING\" size=\"256\"/><Column id=\"MEMBER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"COMMENT_CONTENT\" type=\"STRING\" size=\"1000\"/><Column id=\"RECEIVER_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -159,6 +159,8 @@
             switch(svcID) {
                 case "fninsertCommentByAdmin":
                     trace("댓글 추가 완료");
+        			alert("댓글 추가 완료");
+        			this.close(); //닫음
                     break;
 
         		case "fnselectOneOnOneByAdmin":
@@ -167,6 +169,8 @@
         				var postTitle = this.ds_board.getColumn(0,"POST_TITLE");
         				var postContent = this.ds_board.getColumn(0,"POST_CONTENT");
         				var postUser = this.ds_board.getColumn(0,"USER_NAME");
+        				var userId = this.ds_board.getColumn(0,"MEMBER_ID");
+        				this.ds_comment.setColumn(0,"RECEIVER_ID",userId); //웹소켓 받는사람
 
         				this.stc_title.set_text(postTitle);
 

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
-import user.service.map;
 
 @Mapper("UserBoardMapper")
 public interface UserBoardMapper {
@@ -37,5 +36,23 @@ public interface UserBoardMapper {
 
 	//댓글 삭제
 	void deleteUserCommentByUser(Map<String, Object> params);
+
+	//게시글 삭제
+	void deleteUserPostByUser(Map<String, Object> params);
+
+	//댓글 수정
+	void updateUserCommentByUse(Map<String, Object> params);
+
+	//게시글 수정
+	void updatetUserPostByUser(Map<String, Object> params);
+
+	
+	/**여기서부터 1대1 문의**/
+	
+	//1대1 문의 총 갯수
+	int selectPostTotalCountByUserOne(Map<String, Object> params);
+
+	//1대1 문의 접수
+	void insertUserAskByUser(Map<String, Object> params);
 
 }

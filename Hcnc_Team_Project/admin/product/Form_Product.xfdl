@@ -71,7 +71,7 @@
             </Layout>
           </Layouts>
         </Div>
-        <Grid id="grid_list" taborder="5" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" onkeydown="grid_list_onkeydown" onkillfocus="grid_list_onkillfocus" oncellclick="grid_list_oncellclick" onheadclick="grid_list_onheadclick">
+        <Grid id="grid_list" taborder="5" left="24" top="285" height="465" background="#FFFFFF" border="0px none" borderRadius="10px" right="26" autofittype="col" binddataset="ds_out_proList" onkeydown="grid_list_onkeydown" onkillfocus="grid_list_onkillfocus" oncellclick="grid_list_oncellclick" oncelldblclick="grid_list_oncelldblclick" onheadclick="grid_list_onheadclick">
           <Formats>
             <Format id="default">
               <Columns>
@@ -633,8 +633,8 @@ this._updateQuantityByButton = function (row) {
 //상품등록(페이지이동)
 this.btn_reg_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
 {
-	
-	this.go("product::Form_ProductReg.xfdl");
+	this.getOwnerFrame().arguments = {"productId" : -1}
+	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
 };
 
 
@@ -932,6 +932,54 @@ this.btn_excel_onclick = function (obj, e) {
     // 5) xmlData를 x-www-form-urlencoded 본문으로 전송
     xhr.send("xmlData=" + encodeURIComponent(xmlStr));
 };
+
+
+
+this.grid_list_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	var productId = this.ds_out_proList.getColumn(e.row,"PRODUCT_ID");
+	trace(productId);
+	this.getOwnerFrame().arguments = {"productId" : productId}
+	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
+};
+ //콜백
+this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+    if (nErrorCode < 0) {
+        this.alert("오류: "+strErrorMag);
+		return;
+    }
+
+    switch(strSvcID){
+        case "selectProductListByAdmin":
+            var ea = this.ds_out_proList.getRowCount();
+            this.stc_total.set_text("총 "+ea+"건");
+			
+            break;
+        case "selectMainCategoryComboByAdmin":
+            this.ds_mainCate.insertRow(0);
+            this.ds_mainCate.setColumn(0,"MAIN_CATE_ID","");
+            this.ds_mainCate.setColumn(0,"MAIN_CATE_NM","- 전체 -");
+            break;
+        case "selectSubCategoryComboByAdmin":
+            this.ds_subCate.insertRow(0);
+            this.ds_subCate.setColumn(0,"SUB_CATE_ID","");
+            this.ds_subCate.setColumn(0,"SUB_CATE_NM","- 전체 -");
+            break;
+			
+		case "updateProductVisibleByAdmin" :
+			alert("상품 진열상태가 변경되었습니다.");
+			this.fn_search();
+			break;
+			
+		case "updateInventory":
+			this.alert("재고 변경이 완료되었습니다.")
+			this.fn_search();
+			break;	
+			
+			
+    }
+};
+
 
 ]]></Script>
   </Form>

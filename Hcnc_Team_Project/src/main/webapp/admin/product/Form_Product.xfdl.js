@@ -710,8 +710,8 @@
         //상품등록(페이지이동)
         this.btn_reg_onclick = function(obj,e)
         {
-
-        	this.go("product::Form_ProductReg.xfdl");
+        	this.getOwnerFrame().arguments = {"productId" : -1}
+        	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
         };
 
 
@@ -1011,6 +1011,54 @@
         };
 
 
+
+        this.grid_list_oncelldblclick = function(obj,e)
+        {
+        	var productId = this.ds_out_proList.getColumn(e.row,"PRODUCT_ID");
+        	trace(productId);
+        	this.getOwnerFrame().arguments = {"productId" : productId}
+        	this.getOwnerFrame().set_formurl("product::Form_ProductReg.xfdl");
+        };
+         //콜백
+        this.fn_callback = function(strSvcID, nErrorCode, strErrorMag){
+            if (nErrorCode < 0) {
+                this.alert("오류: "+strErrorMag);
+        		return;
+            }
+
+            switch(strSvcID){
+                case "selectProductListByAdmin":
+                    var ea = this.ds_out_proList.getRowCount();
+                    this.stc_total.set_text("총 "+ea+"건");
+
+                    break;
+                case "selectMainCategoryComboByAdmin":
+                    this.ds_mainCate.insertRow(0);
+                    this.ds_mainCate.setColumn(0,"MAIN_CATE_ID","");
+                    this.ds_mainCate.setColumn(0,"MAIN_CATE_NM","- 전체 -");
+                    break;
+                case "selectSubCategoryComboByAdmin":
+                    this.ds_subCate.insertRow(0);
+                    this.ds_subCate.setColumn(0,"SUB_CATE_ID","");
+                    this.ds_subCate.setColumn(0,"SUB_CATE_NM","- 전체 -");
+                    break;
+
+        		case "updateProductVisibleByAdmin" :
+        			alert("상품 진열상태가 변경되었습니다.");
+        			this.fn_search();
+        			break;
+
+        		case "updateInventory":
+        			this.alert("재고 변경이 완료되었습니다.")
+        			this.fn_search();
+        			break;
+
+
+            }
+        };
+
+
+
         });
         
         // Regist UI Components Event
@@ -1025,6 +1073,7 @@
             this.grid_list.addEventHandler("onkillfocus",this.grid_list_onkillfocus,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
             this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
+            this.grid_list.addEventHandler("oncelldblclick",this.grid_list_oncelldblclick,this);
             this.sta_listTitle.addEventHandler("onclick",this.sta_listTitle_onclick,this);
             this.sta_prodType.addEventHandler("onclick",this.sta_prodType_onclick,this);
             this.cmb_searchType.addEventHandler("onitemchanged",this.cmb_searchType_onitemchanged,this);

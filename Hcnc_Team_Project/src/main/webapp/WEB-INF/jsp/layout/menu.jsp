@@ -2,29 +2,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- GNB -->
-<nav id="gnb" class="gnb">
+<nav id="gnb" class="gnb" style="flex-direction: column;">
   <!--gnb -->
   <div class="one-dept">
   	<div class="inner">
-	    <ul class="flex">
-	      <li><a href="/newProList.do">신상품</a></li>
-	      <li><a href="/recommendProList.do">추천상품</a></li>
-	      <li><a href="/hotProList.do">인기상품</a></li>
-	      <!-- li><a href="/event.do">이벤트</a></li-->
-	      <li><a href="/noticeList.do">게시판</a></li>
+	    <ul class="flex" style="display: flex;">
+	      <li><a href="/newlist.do">신상품</a></li>
+	      <li><a href="/recommendlist.do">추천상품</a></li>
+	      <li><a href="/hotlist.do">인기상품</a></li>
+	      <li><a href="/board/home.do">게시판</a></li>
 	    </ul>
 	  </div>
   </div>
   <div class="category-bar" id="categoryBar">
 	  <div class="inner">
-	    <ul class="category-menu flex">
+	    <ul class="category-menu flex" style="display: flex;">
 	      <li class="category-col">
 	        <button id="allCategoryToggle"><i class="xi-list-square"></i>전체메뉴</button>
 	      </li>
-	      <c:forEach var="mainCategory" items="${categories}">
+    <c:forEach var="mainCategory" items="${categories}">
 		  <li class="category-col">
 		    <h5>
-		      <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}">
+		      <a href="/product/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}">
 		        ${mainCategory['MAIN_CATE_NM']}
 		      </a>
 		    </h5>
@@ -33,7 +32,7 @@
 		      <li>${mainCategory['MAIN_CATE_NM']}</li>
 		      <c:forEach var="subCategory" items="${mainCategory.subCategories}">
 		        <li>
-		          <a href="/list.do?categoryCode=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}">
+		          <a href="/product/list.do?mainCateId=${mainCategory['MAIN_CATE_ID']}&subCateId=${subCategory['SUB_CATE_ID']}" style="text-align: center; color:#333">
 		            ${subCategory['SUB_CATE_NM']}
 		          </a>
 		        </li>
@@ -51,20 +50,22 @@
 </nav>
 
 <script>
-window.addEventListener("scroll", function () {
-  const gnb = document.getElementById("gnb");
-  if (window.scrollY > 130) {
-    gnb.classList.add("fixed");
-  } else {
-    gnb.classList.remove("fixed");
-  }
-});
+// window.addEventListener("scroll", function () {
+//   const gnb = document.getElementById("gnb");
+//   if (window.scrollY > 130) {
+//     gnb.classList.add("fixed");
+//   } else {
+//     gnb.classList.remove("fixed");
+//   }
+// });
 
 window.addEventListener("load", function() {
   var toggleBtn = document.getElementById("allCategoryToggle");
   var categoryBar = document.getElementById("categoryBar");
   var categoryMenu = document.querySelector(".category-menu");
   var categoryCols = categoryMenu.querySelectorAll(".category-col");
+  var subCategoryCols = document.querySelector(".subcategory-col");
+  
   var isFixedOpen = false;
 
   function setBeforeHeight() {
@@ -157,7 +158,7 @@ window.addEventListener("load", function() {
       }
     });
 
-    col.addEventListener("mouseleave", function() {
+    categoryMenu.addEventListener("mouseleave", function() {
       if (!isFixedOpen) {
         categoryBar.classList.remove("show");
       }
@@ -165,3 +166,10 @@ window.addEventListener("load", function() {
   });
 });
 </script>
+<style>
+  .subcategory-col a:hover{
+    background-color: #fff5f5;
+    border-radius: 4px;
+    color:#e63946 !important;
+  }
+</style>

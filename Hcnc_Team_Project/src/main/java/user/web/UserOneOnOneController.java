@@ -1,0 +1,341 @@
+package user.web;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import admin.mapper.NotificationMapper;
+import common.websocket.WebUtil;
+import user.service.UserBoardService;
+import user.service.UserMemberService;
+
+@Controller
+@RequestMapping("/one")
+public class UserOneOnOneController {
+	@Autowired
+	UserBoardService userBoardService;
+	
+	@Autowired
+	private UserMemberService userMemberService;
+	
+	@Autowired
+	private NotificationMapper notificationMapper;
+	// 게시글 첫 페이지
+	@RequestMapping(value="/home.do")
+	public String cartView() {
+		return "ask/askByUser";
+	}
+	
+	@RequestMapping(value="/list.do")
+	public ModelAndView listPage(
+	    @RequestParam(value="alertMessage", required=false) String alertMessage,
+	    HttpServletRequest request) {
+	    
+	    ModelAndView mav = new ModelAndView();
+	    
+	    // alert 메시지가 있으면 전달
+	    if(alertMessage != null && !alertMessage.isEmpty()) {
+	        mav.addObject("alertMessage", alertMessage);
+	    }
+	    
+	    mav.setViewName("notice/list");
+	    return mav;
+	}
+  
+	//게시글 조회 위의 (게시글 첫 페이지) 실행시 페이지 온로드때 실행된다..
+	@RequestMapping(value="/noticeListData.do")
+	public ModelAndView getNoticeList(
+	        @RequestParam(defaultValue = "1") int pageIndex,       //페이지 인덱스값 설정 : 1
+	        @RequestParam(defaultValue = "5") int pageSize,        //한페이지당 조회될 게시글 설정  : 5
+	        @RequestParam(required = false) String category,       //카테고리 설정 : jsp에서 기본값을 ''로 설정
+	        @RequestParam(required = false) String searchKeyword,  //서치할 키워드 설정
+	        @RequestParam(required = false) String searchType      //서치할 타입 설정
+	        ) {
+	    
+	    ModelAndView mav = new ModelAndView("jsonView");  // jsonView로 설정
+	    
+	    try {
+	        Map<String, Object> params = new HashMap<>();           //파라미터통을 위한 해쉬맵 생성
+	        params.put("pageIndex", pageIndex);                     //파라미터통에 페이지 인덱스 담음
+	        params.put("pageSize", pageSize);                       //파라미터통에 페이지 사이즈 담음
+	        params.put("firstIndex", (pageIndex - 1) * pageSize);   //파라미터통에 첫페이지 담음
+	        params.put("category", category);                       //파라미터통에 카테고리 담음 초기값 ''
+	        params.put("searchKeyword", searchKeyword);             //파라미터통에 검색할 키워드 담음
+	        params.put("searchType", searchType);                   //파라미터통에 검색할 타입을 담음
+	        
+	        System.out.println(params);
+	        
+	        //파라미터통에 담은 내용을 쏴서 게시글리스트 조회 조회되는 보드ID = 5임
+	        List<Map<String, Object>> posts = userBoardService.selectPostListByUser(params);
+	        
+	        //문의 갯수를 카운팅용
+	        int totalCount = userBoardService.selectPostTotalCountByUserOne(params);
+	        
+	        mav.addObject("success", true);
+	        mav.addObject("resultList", posts);
+	        mav.addObject("pageIndex", pageIndex);
+	        mav.addObject("totalCount", totalCount);
+	        mav.addObject("totalPages", (int) Math.ceil((double) totalCount / pageSize));
+	        
+	    } catch (Exception e) {
+	        System.out.println("에러 발생: " + e.getMessage());
+	        e.printStackTrace();
+	        mav.addObject("success", false);
+	        mav.addObject("message", "데이터 조회 중 오류: " + e.getMessage());
+	    }
+	    
+	    return mav;
+	}
+	
+	
+	//게시글 상세 조회시 링크 
+	@RequestMapping(value="/detail.do")
+    public ModelAndView boardDetail(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        
+        try {
+        	//포스트아이디를 넘기면 서블렛 리퀘스트로 받아옴
+        	int postId = Integer.parseInt(request.getParameter("postId"));
+        	
+			//유저인포와  별개로 일단 게시글 상세 mav에 담아줌
+            Map<String, Object> postDetail = userBoardService.selectUserPostDetailByUser(postId);
+			mav.addObject("postDetail", postDetail);
+			
+			//게시글에 달린 댓글 mav에 담아줌
+			List<Map<String, Object>> comment = userBoardService.selectUserCommentByUser(postId);
+			mav.addObject("comment", comment);
+			
+		    HttpSession session = request.getSession(false);
+		  //세션이 있으면 아래 내용 실행
+		    if (session != null) {
+	            Map<String, Object> info = (Map<String, Object>) session.getAttribute("userInfo");
+	            
+	            // info가 null이 아닐 때만 처리
+	            if (info != null) {
+	                String loginUser = (String) info.get("MEMBER_ID");
+	                String writer = (String) postDetail.get("MEMBER_ID");
+	                
+	                // 두 값이 모두 null이 아니고, 다를 때만 조회수 증가
+	                if (loginUser != null && writer != null && !loginUser.equals(writer)) {
+	                    userBoardService.updateUserPostCntByUser(postId);
+	                }
+	                
+	                // 유저 정보
+	                mav.addObject("status", 200);
+	                Map<String, Object> user = userMemberService.selectUserInfoByUser(loginUser);
+	                mav.addObject("user", user);
+	            }else {
+	            }
+	        }
+        }catch(Exception e){
+        	  System.out.println("===== detail.do 에러 발생 =====");
+              e.printStackTrace();
+              mav.setViewName("error/500");
+        }
+        	
+        mav.setViewName("ask/detail"); 
+        return mav;
+    }
+
+	
+	@RequestMapping(value="/insert.do")
+	public ModelAndView insertPage(
+			@RequestParam(value="postId", required=false) Integer postId,
+			HttpServletRequest request) {
+	    ModelAndView mav = new ModelAndView();
+	    
+	    try {
+	        HttpSession session = request.getSession(false);
+	        
+	        // 세션이 없거나 userInfo가 없으면
+	        if (session == null || session.getAttribute("userInfo") == null) {
+	            // 게시판 목록 페이지로 리다이렉트하면서 메시지 전달
+	            mav.addObject("alertMessage", "로그인이 필요합니다.");
+	            mav.setViewName("redirect:/one/list.do");
+	            return mav;
+	        }
+	        
+	        Map<String, Object> info = (Map<String, Object>) session.getAttribute("userInfo");
+	        String loginUser = (String) info.get("MEMBER_ID");
+	        
+	        // 유저 정보 조회
+	        Map<String, Object> user = userMemberService.selectUserInfoByUser(loginUser);
+	        
+	        mav.addObject("status", 200);
+	        mav.addObject("user", user);
+	        
+	        List<Map<String, Object>> postType = userBoardService.selectUserPostTypeByUser();
+	        mav.addObject("postType", postType);
+	        
+	        //postId가 있으면 수정모드 아니면 그냥 모드
+	        if(postId != null) {
+	            Map<String, Object> params = new HashMap<>();
+	            params.put("postId", postId);
+	            Map<String, Object> postDetail = userBoardService.selectUserPostDetailByUser(postId);
+	            
+	            mav.addObject("postDetail", postDetail);
+	            mav.addObject("isEdit", true);
+	        } else {
+	            mav.addObject("isEdit", false);
+	        }
+	        
+	        
+	    } catch(Exception e) {
+	        System.out.println("===== insert.do 에러 발생 =====");
+	        e.printStackTrace();
+	        
+	        mav.addObject("alertMessage", "오류가 발생했습니다. 다시 시도해주세요.");
+	        mav.setViewName("redirect:/one/list.do");
+	        return mav;
+	    }
+	    
+	    mav.setViewName("ask/insertAsk");
+	    return mav;
+	}
+	
+	//게시글 작성
+	@RequestMapping(value="/write.do")
+	public void writePost(
+	    @RequestParam Map<String, Object> params,
+	    HttpServletResponse response
+	) throws IOException {
+	    response.setContentType("application/json;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+	    String userId = (String)params.get("memberId");
+	    
+	    try {
+	        Object postIdObj = params.get("postId");
+	        
+	        // postId가 있고 비어있지 않으면 UPDATE
+	        if(postIdObj != null && !postIdObj.toString().isEmpty()) {
+	            userBoardService.updatetUserPostByUser(params);
+	            
+	            
+	        } else {
+	            // postId가 없으면 INSERT
+	            params.put("boardId", 5); // 문의게시판 고정
+	            userBoardService.insertUserAskByUser(params);
+	            
+	            
+	        }
+	        
+	        Map<String, Object> notiParams = new HashMap<>();
+	        notiParams.put("senderId", userId);          // 문의 작성자
+	        notiParams.put("receiverId", "ADMIN");      // 시스템 (관리자용)
+	        notiParams.put("receiverType", "ADMIN");     // 관리자 타입
+	        notiParams.put("notiType", "INQUIRY");   // 신규 문의
+	        notiParams.put("notiMessage", "신규 1:1 문의가 도착했습니다. (" + userId + ")");
+	        
+	        notificationMapper.insertNotificationOneByUser(notiParams); //알림테이블 추가
+	        
+	        WebUtil.sendNewInquiryNotification(userId); //웹소켓으로 메세지 보내기
+	        
+	        
+	        out.print("{\"success\":true}");
+	    } catch (Exception e) {
+	        out.print("{\"success\":false}");
+	        e.printStackTrace();
+	    }
+	    
+	    out.flush();
+	}
+	
+	//댓글 작성
+	@RequestMapping(value="/commentWrite.do")
+	public ModelAndView insertComment(@RequestParam Map<String, Object> params) {
+	    ModelAndView mav = new ModelAndView();
+	    
+	    try {
+	    	System.out.println("댓글 달기 실행");
+	        userBoardService.insertUserCommentByUser(params);
+	        
+	        mav.addObject("success", true);
+	        mav.addObject("message", "등록 완료");
+	    } catch (Exception e) {
+	        mav.addObject("success", false);
+	        mav.addObject("message", "등록 실패");
+	        e.printStackTrace();
+	    }
+	    
+	    mav.setViewName("ask/detail");
+	    return mav;
+	}
+	
+	//댓글 삭제
+	@RequestMapping(value="commentDelete.do")
+	public ModelAndView deleteComment(@RequestParam Map<String, Object> params) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			System.out.println("댓글 삭제 실행");
+			System.out.println(params);
+			userBoardService.deleteUserCommentByUser(params);
+			 mav.addObject("success", true);
+		     mav.addObject("message", "삭제 완료");
+
+		}catch(Exception e) {
+			mav.addObject("success", false);
+		    mav.addObject("message", "삭제 실패");
+			e.printStackTrace();
+			
+		}
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//댓글 수정
+	@RequestMapping(value="commentUpdate.do")
+	public ModelAndView updateComment(@RequestParam Map<String, Object> params) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			System.out.println("댓글 수정 실행");
+			System.out.println(params);
+			userBoardService.updateUserCommentByUser(params);
+			 mav.addObject("success", true);
+		     mav.addObject("message", "수정 완료");
+
+		}catch(Exception e) {
+			mav.addObject("success", false);
+		    mav.addObject("message", "수정 실패");
+			e.printStackTrace();
+			
+		}
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	
+	//게시글 삭제
+	@RequestMapping(value="postDelete.do")
+	public ModelAndView deletePost(@RequestParam Map<String, Object> params) {
+		ModelAndView mav = new ModelAndView();
+		
+		try {
+			System.out.println("댓글 삭제 실행");
+			System.out.println(params);
+			userBoardService.deleteUserPostByUser(params);
+			 mav.addObject("success", true);
+		     mav.addObject("message", "삭제 완료");
+
+		}catch(Exception e) {
+			mav.addObject("success", false);
+		    mav.addObject("message", "삭제 실패");
+			e.printStackTrace();
+			
+		}
+		mav.setViewName("ask/askByUser");
+		return mav;
+	}
+}

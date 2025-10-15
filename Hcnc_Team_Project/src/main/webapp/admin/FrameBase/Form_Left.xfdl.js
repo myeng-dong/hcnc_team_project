@@ -11,6 +11,7 @@
         {
             this.set_name("Form_Left");
             this.set_titletext("Form_Left");
+            this.set_scrolltype("none");
             if (Form == this.constructor)
             {
                 this._setFormPosition(200,570);
@@ -31,7 +32,12 @@
             obj.set_treeuseimage("false");
             obj.set_autofittype("col");
             obj.set_border("0px");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"206\"/></Columns><Rows><Row size=\"10\" band=\"head\"/><Row size=\"41\"/></Rows><Band id=\"head\"><Cell border=\"0px\" background=\"white\"/></Band><Band id=\"body\"><Cell text=\"bind:MENU_NM\" displaytype=\"treeitemcontrol\" edittype=\"tree\" treelevel=\"bind:MENU_LEVEL\" cssclass=\"bind:CSSCLASS\" border=\"0px\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"206\"/></Columns><Rows><Row size=\"41\"/></Rows><Band id=\"body\"><Cell text=\"bind:MENU_NM\" displaytype=\"treeitemcontrol\" edittype=\"tree\" treelevel=\"bind:MENU_LEVEL\" cssclass=\"expr:(MENU_LEVEL==0?&apos;parent&apos;:(MENU_LEVEL==1?&apos;child&apos;:&apos;&apos;))\" border=\"0px\"/></Band></Format></Formats>");
+            this.addChild(obj.name, obj);
+
+            obj = new Div("Div00","-40","0",null,"3","-60",null,null,null,null,null,this);
+            obj.set_taborder("1");
+            obj.set_boxShadow("inset 0px 2px 2px 2px rgba(229,229,229,0.15)");
             this.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -67,19 +73,16 @@
             this.ds_left.copyData(objDsMenu, true);
 
             // 트리 뷰어용 TreeLevel 컬럼 값 강제 세팅
-          for (var i = 0; i < this.ds_left.getRowCount(); i++) {
-        		var sMenuId = this.ds_left.getColumn(i, "MENU_ID");
-
-        		if (sMenuId.length == 2) {
-        			this.ds_left.setColumn(i, "MENU_LEVEL", 0);   // 루트
-        			this.ds_left.setColumn(i, "CSSCLASS", "menuRoot"+i);
-
-        		} else if (sMenuId.length == 4) {
-        			this.ds_left.setColumn(i, "MENU_LEVEL", 1);   // 자식
-        			/*this.ds_left.setColumn(i, "CSSCLASS", "menuChild");   */
-        		}
-        	}
-
+            for (var i = 0; i < this.ds_left.getRowCount(); i++) {
+                var sMenuId = this.ds_left.getColumn(i, "MENU_ID");
+                if (sMenuId.length == 2) {
+                    this.ds_left.setColumn(i, "MENU_LEVEL", 0);   // 루트
+                    this.ds_left.setColumn(i, "CSSCLASS", "parent");
+                } else if (sMenuId.length == 4) {
+                    this.ds_left.setColumn(i, "MENU_LEVEL", 1);   // 자식
+        			this.ds_left.setColumn(i, "CSSCLASS", "child");
+                }
+            }
         };
 
         // 그리드 셀 클릭 이벤트
@@ -100,14 +103,8 @@
                 }
 
                 if (hasChild) {
-                    // 트리 토글
-                    var rowTree   = obj.getTreeRow(e.row);
-                    var currState = obj.getTreeStatus(rowTree);
-
-                    if (currState != 3) {
-                        var newState = (currState == 0 ? 1 : 0);
-                        obj.setTreeStatus(rowTree, newState);
-                    }
+                    // ⭐ 트리 토글 (아코디언 방식)
+                    this.fnToggleTreeAccordion(obj, e.row, sMenuId);
                 } else {
                     // 자식이 없으면 바로 메뉴 실행
                     this.fnOpenMenu(sMenuId);
@@ -116,6 +113,43 @@
             // 자식 (4자리) → 화면 실행
             else if (sMenuId.length == 4) {
                 this.fnOpenMenu(sMenuId);
+            }
+        };
+
+        // ⭐ 아코디언 방식 트리 토글
+        this.fnToggleTreeAccordion = function(obj, nRow, sMenuId)
+        {
+            var rowTree   = obj.getTreeRow(nRow);
+            var currState = obj.getTreeStatus(rowTree);
+
+            if (currState == 3) return; // leaf 노드면 무시
+
+            var bWasOpen = (currState == 1); // 현재 열려있는지 확인
+
+            // 클릭한 메뉴가 원래 닫혀있었으면 먼저 열기
+            if (!bWasOpen) {
+                obj.setTreeStatus(rowTree, 1);
+            }
+
+            // 다른 부모 메뉴들만 닫기 (현재 클릭한 것 제외!)
+            for (var i = 0; i < this.ds_left.getRowCount(); i++) {
+                var checkMenuId = this.ds_left.getColumn(i, "MENU_ID");
+
+                // 2자리 메뉴(부모)이고, 현재 클릭한 메뉴가 아닌 것만
+                if (checkMenuId.length == 2 && checkMenuId != sMenuId) {
+                    var checkRow = obj.getTreeRow(i);
+                    var checkState = obj.getTreeStatus(checkRow);
+
+                    // 열려있으면 닫기
+                    if (checkState == 1) {
+                        obj.setTreeStatus(checkRow, 0);
+                    }
+                }
+            }
+
+            // 같은 메뉴를 다시 클릭했으면 닫기
+            if (bWasOpen) {
+                obj.setTreeStatus(rowTree, 0);
             }
         };
 
@@ -154,9 +188,6 @@
                 objApp.mainframe.VFrameSet00.HFrameSet00.VFrameSet01.TitleFrame.form.fn_setTitle(sMenuNm, sParentMenuNm);
             }
         };
-
-
-
         });
         
         // Regist UI Components Event

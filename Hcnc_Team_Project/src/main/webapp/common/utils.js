@@ -63,7 +63,7 @@ const sendMailByUser = (param, successCallBack, failCallBack) => {
   }
   ajaxUtil(
     param,
-    "selectEmailCheckByUser.do",
+    "http://localhost:8080/selectEmailCheckByUser.do",
     (response) => {
       if (successCallBack) successCallBack(response);
     },
@@ -84,7 +84,7 @@ const mailCodeCheckByUser = (param, successCallBack, failCallBack) => {
   }
   ajaxUtil(
     param,
-    "selectVerifyAuthByUser.do",
+    "http://localhost:8080/selectVerifyAuthByUser.do",
     (response) => {
       if (successCallBack) successCallBack(response);
     },

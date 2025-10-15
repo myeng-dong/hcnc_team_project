@@ -2,70 +2,120 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.mapper.PromotionMapper">
 
+	<!-- wlecome쿠폰 조회 : 신규회원용 내나 프로모션이랑 같지않나? -->
+	<select id="selectNewMemListByAdmin" parameterType="map" resultType="map">
+	    SELECT
+	        c.MEMBER_ID,
+	        c.COUPON_CODE,
+	        c.COUPON_TYPE,
+	        c.ISSUED_DT,
+	        c.EXPIRY_DT,
+	        '지급' AS ISSUED_STATUS,
+	        CASE 
+	            WHEN c.IS_USED = 'Y' THEN '사용'
+	            WHEN c.EXPIRY_DT &lt; CURDATE() THEN '기간만료'
+	            ELSE '미사용'
+	        END AS IS_USED,
+	        c.PROMOTION_ID
+	    FROM COUPONS c
+	    LEFT JOIN PROMOTIONS p
+	        ON c.PROMOTION_ID = p.PROMOTION_ID
+	    WHERE c.COUPON_TYPE = 'WELCOME'
+	        <if test="IS_USED != null and IS_USED != '' and IS_USED != 'all'">
+			    <if test='IS_USED == "Y"'>
+			        AND c.IS_USED = 'Y'
+			    </if>
+			    <if test='IS_USED == "N"'>
+			        AND c.IS_USED = 'N' AND c.EXPIRY_DT &gt;= CURDATE()
+			    </if>
+			    <if test='IS_USED == "D"'>
+			        AND c.IS_USED = 'N' AND c.EXPIRY_DT &lt; CURDATE()
+			    </if>
+			</if>
+	        <if test="SEARCH_COMBO != null and SEARCH_COMBO != '' and SEARCH_COMBO != '검색분류' and SEARCH_DATA != null and SEARCH_DATA != ''">
+	            <choose>
+	                <when test="SEARCH_COMBO == '회원ID'">
+	                    AND c.MEMBER_ID LIKE CONCAT('%', #{SEARCH_DATA}, '%')
+	                </when>
+	                <when test="SEARCH_COMBO == '쿠폰코드'">
+	                    AND c.COUPON_CODE LIKE CONCAT('%', #{SEARCH_DATA}, '%')
+	                </when>
+	            </choose>
+	        </if>
+	        <if test="START_DT != null and START_DT != ''">
+	            AND c.ISSUED_DT &gt;= #{START_DT}
+	        </if>
+	        <if test="END_DT != null and END_DT != ''">
+	            AND c.ISSUED_DT &lt;= #{END_DT}
+	        </if>
+	    ORDER BY c.ISSUED_DT DESC
+	</select>
+
     <!-- 프로모션 목록 조회 -->
     <select id="selectPromoListByAdmin" parameterType="map" resultType="map">
-        SELECT 
-             p.PROMOTION_ID
-            ,p.PROMOTION_NAME
-            ,p.PROMOTION_TYPE
-            ,p.DESCRIPTION
-            ,p.START_DT
-            ,p.END_DT
-            ,p.IS_ACTIVE
-            ,p.INPUT_DT
-            ,p.UPDATE_DT
-            ,p.INPUT_ID
-            ,p.UPDATE_ID
-            ,p.AUTO_ISSUED
-            ,pc.P_COUPON_CODE
-            ,pc.ISSUED_DT
-            ,pc.EXPIRY_DT
-            ,pc.IS_USED
-            ,pc.PERIOD_SETTING
-            ,pd.DISCOUNT_ID
-            ,pd.DISCOUNT_TYPE
-            ,pd.DISCOUNT_VALUE
-            ,pd.MIN_ORDER_PRICE
-            ,pt.TARGET_ID
-            ,pt.TARGET_TYPE
-            ,pt.TARGET_VALUE
-            ,pt.TARGET_AMOUNT
-        FROM PROMOTIONS p
-        LEFT JOIN PROMOTION_COUPON pc ON p.PROMOTION_ID = pc.PROMOTION_ID
-        LEFT JOIN PROMOTION_DISCOUNT pd ON p.PROMOTION_ID = pd.PROMOTION_ID  
-        LEFT JOIN PROMOTION_TARGET pt ON p.PROMOTION_ID = pt.PROMOTION_ID
-        <where>
-            <if test="promotionName != null and promotionName != ''">
-                AND p.PROMOTION_NAME LIKE CONCAT('%', #{promotionName}, '%')
-            </if>
-            <if test="promotionType != null and promotionType != ''">
-                AND p.PROMOTION_TYPE = #{promotionType}
-            </if>
-            <if test="targetValue != null and targetValue != ''">
-                AND pt.TARGET_VALUE = #{targetValue}
-            </if>
-            <if test="progressStatus != null and progressStatus != ''">
-                <choose>
-                    <when test="progressStatus == 'Y'">
-                        AND NOW() BETWEEN p.START_DT AND p.END_DT
-                    </when>
-                    <when test="progressStatus == 'N'">
-                        AND (NOW() &lt; p.START_DT OR NOW() &gt; p.END_DT)
-                    </when>
-                </choose>
-            </if>
-            <if test="isActive != null and isActive != ''">
-                AND p.IS_ACTIVE = #{isActive}
-            </if>
-            <if test="startDate != null and startDate != ''">
-                AND p.START_DT &gt;= #{startDate}
-            </if>
-            <if test="endDate != null and endDate != ''">
-                AND p.END_DT &lt;= #{endDate}
-            </if>
-        </where>
-        ORDER BY p.PROMOTION_ID DESC
-    </select>
+	    SELECT 
+	         p.PROMOTION_ID
+	        ,p.PROMOTION_NAME
+	        ,p.PROMOTION_TYPE
+	        ,p.DESCRIPTION
+	        ,p.START_DT
+	        ,p.END_DT
+	        ,p.IS_ACTIVE
+	        ,p.INPUT_DT
+	        ,p.UPDATE_DT
+	        ,p.INPUT_ID
+	        ,p.UPDATE_ID
+	        ,p.AUTO_ISSUED
+	        ,pc.P_COUPON_CODE
+	        ,pc.ISSUED_DT
+	        ,pc.EXPIRY_DT
+	        ,pc.IS_USED
+	        ,pc.PERIOD_SETTING
+	        ,pd.DISCOUNT_ID
+	        ,pd.DISCOUNT_TYPE
+	        ,pd.DISCOUNT_VALUE
+	        ,pd.MIN_ORDER_PRICE
+	        ,pt.TARGET_ID
+	        ,pt.TARGET_TYPE
+	        ,pt.TARGET_VALUE
+	        ,pt.TARGET_AMOUNT
+	    FROM PROMOTIONS p
+	    LEFT JOIN PROMOTION_COUPON pc ON p.PROMOTION_ID = pc.PROMOTION_ID
+	    LEFT JOIN PROMOTION_DISCOUNT pd ON p.PROMOTION_ID = pd.PROMOTION_ID  
+	    LEFT JOIN PROMOTION_TARGET pt ON p.PROMOTION_ID = pt.PROMOTION_ID
+	    <where>
+	        <if test="PROMOTION_NAME != null and PROMOTION_NAME != ''">
+	            AND p.PROMOTION_NAME LIKE CONCAT('%', #{PROMOTION_NAME}, '%')
+	        </if>
+	        <if test="PROMOTION_TYPE != null and PROMOTION_TYPE != ''">
+	            AND p.PROMOTION_TYPE = #{PROMOTION_TYPE}
+	        </if>
+	        <if test="TARGET_VALUE != null and TARGET_VALUE != '' and TARGET_VALUE != 'all'">
+	            AND pt.TARGET_VALUE = #{TARGET_VALUE}
+	        </if>
+	        <if test="progressStatus != null and progressStatus != ''">
+	            <choose>
+	                <when test="progressStatus == 'Y'">
+	                    AND NOW() BETWEEN p.START_DT AND p.END_DT
+	                </when>
+	                <when test="progressStatus == 'N'">
+	                    AND (NOW() &lt; p.START_DT OR NOW() &gt; p.END_DT)
+	                </when>
+	            </choose>
+	        </if>
+	        <!-- "all"이 아닐 때만 조건 추가 -->
+	        <if test="IS_ACTIVE != null and IS_ACTIVE != '' and IS_ACTIVE != 'all'">
+	            AND p.IS_ACTIVE = #{IS_ACTIVE}
+	        </if>
+	        <if test="START_DT != null and START_DT != ''">
+	            AND p.START_DT &gt;= #{START_DT}
+	        </if>
+	        <if test="END_DT != null and END_DT != ''">
+	            AND p.END_DT &lt;= #{END_DT}
+	        </if>
+	    </where>
+	    ORDER BY p.PROMOTION_ID DESC
+	</select>
 
 	<select id="selectPromoViewByAdmin" parameterType="String" resultType="map">
 	    SELECT 

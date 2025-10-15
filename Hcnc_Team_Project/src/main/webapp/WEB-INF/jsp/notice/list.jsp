@@ -545,6 +545,9 @@
                   <li>
                     <button type="button" class="category-btn" data-category="1">공지사항</button>
                   </li>
+                   <li>
+                    <button type="button" class="category-btn" data-category="6">이벤트</button>
+                  </li>
                   <li>
                     <button type="button" class="category-btn" data-category="4">질문</button>
                   </li>
@@ -718,7 +721,7 @@
                          '<ul>' +
                          '<li>' + item.POST_ID + '</li>' +
                          '<li>' + (item.POST_TITLE || '') + '</li>' +
-                         '<li>' + (item.MEMBER_NAME || '관리자') + '</li>' +
+                         '<li>' + (item.MEMBER_ID || '관리자') + '</li>' +
                          '<li>' + (item.INPUT_DT || '') + '</li>' +
                          '</ul>' +
                          '</a>' +

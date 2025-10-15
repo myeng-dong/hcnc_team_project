@@ -1,30 +1,40 @@
 package admin.service;
 
-
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import admin.mapper.PromotionMapper;
 
-
-
 @Service
 public class PromotionService {
+	
 	@Autowired
 	private PromotionMapper promotionMapper;
-
+	
+	public List<Map<String, Object>> selectNewMemListByAdmin(Map<String, Object> param) {
+		if(param.get("IS_USED") != null) {
+	        param.put("IS_USED", String.valueOf(param.get("IS_USED")));
+	    }
+	    
+	    if(param.get("SEARCH_COMBO") != null) {
+	        param.put("SEARCH_COMBO", String.valueOf(param.get("SEARCH_COMBO")));
+	    }
+	    
+	    if(param.get("SEARCH_DATA") != null) {
+	        param.put("SEARCH_DATA", String.valueOf(param.get("SEARCH_DATA")));
+	    }
+	    
+	    return promotionMapper.selectNewMemListByAdmin(param);
+	}
+	
 	public List<Map<String, Object>> selectPromoListByAdmin(Map<String, Object> param) {
 	    List<Map<String, Object>> list = promotionMapper.selectPromoListByAdmin(param);
 	    
-	    // 화면 표시용 데이터 변환
-	    for(Map<String, Object> item : list) {
-	        // TARGET_VALUE 변환 (null 체크 추가)
+	    for(Map<String, Object> item : list) { //grid출력용
 	        String targetValue = (String) item.get("TARGET_VALUE");
 	        String targetDisplay = "";
 	        
@@ -42,52 +52,75 @@ public class PromotionService {
 	                default: targetDisplay = targetValue; break;
 	            }
 	        } else {
-	            targetDisplay = "-"; // null인 경우 기본값
+	            targetDisplay = "-";
 	        }
 	        item.put("TARGET_VALUE_DISPLAY", targetDisplay);
 	    }
 	    
 	    return list;
 	}
-
+	
 	public Map<String, Object> selectPromoViewByAdmin(String promotionId) {
-		// TODO Auto-generated method stub
 		return promotionMapper.selectPromoViewByAdmin(promotionId);
 	}
-
-	@Transactional
+	
+	@Transactional(rollbackFor = Exception.class)
 	public int insertPromotionByAdmin(Map<String, Object> param) {
-	    //기본 프로모션 정보 등록 (selectKey로 promotionId 받아옴)
-	    int result1 = promotionMapper.insertPromoBaseByAdmin(param);
-	    
-	    // 생성된 promotionId를 사용해서 나머지 테이블들 등록
-	    Long promotionId = (Long) param.get("promotionId");
-	    param.put("promotionId", promotionId);
-	    
-	    //할인 정보 등록
-	    int result2 = promotionMapper.insertPromoDiscountByAdmin(param);
-	    //대상 정보 등록
-	    int result3 = promotionMapper.insertPromoTargetByAdmin(param); 
-	    //쿠폰 정보 등록
-	    int result4 = promotionMapper.insertPromoCouponByAdmin(param);
-	    
-	    return result1 + result2 + result3 + result4; // 총 영향받은 행 수
+	    try {
+	        System.out.println("[1/4] 기본 프로모션 정보 등록");
+	        int result1 = promotionMapper.insertPromoBaseByAdmin(param);
+	        
+	        Long promotionId = (Long) param.get("promotionId");
+	        if (promotionId == null) {
+	            throw new RuntimeException("promotionId 생성 실패");
+	        }
+	        param.put("promotionId", promotionId);
+	        
+	        System.out.println("[2/4] 할인 정보 등록");
+	        int result2 = promotionMapper.insertPromoDiscountByAdmin(param);
+	        
+	        System.out.println("[3/4] 대상 정보 등록");
+	        int result3 = promotionMapper.insertPromoTargetByAdmin(param);
+	        
+	        System.out.println("[4/4] 쿠폰 정보 등록");
+	        int result4 = promotionMapper.insertPromoCouponByAdmin(param);
+	        
+	        int totalResult = result1 + result2 + result3 + result4;
+	        System.out.println("총 등록 행 수: " + totalResult);
+	        
+	        return totalResult;
+	        
+	    } catch (Exception e) {
+	        System.out.println("오류 발생: " + e.getMessage());
+	        e.printStackTrace();
+	        throw e; // 롤백
+	    }
 	}
-
 	
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public int updatePromotionByAdmin(Map<String, Object> param) {
-	    // 기본 프로모션 정보 수정
-	    int result1 = promotionMapper.updatePromoBaseByAdmin(param); 
-	    // 할인 정보 수정
-	    int result2 = promotionMapper.updatePromoDiscountByAdmin(param);
-	    // 대상 정보 수정
-	    int result3 = promotionMapper.updatePromoTargetByAdmin(param);
-	    // 쿠폰 정보 수정
-	    int result4 = promotionMapper.updatePromoCouponByAdmin(param);
-	    
-	    return result1 + result2 + result3 + result4;
+	    try {
+	        System.out.println("[1/4] 기본 프로모션 정보 수정");
+	        int result1 = promotionMapper.updatePromoBaseByAdmin(param);
+	        
+	        System.out.println("[2/4] 할인 정보 수정");
+	        int result2 = promotionMapper.updatePromoDiscountByAdmin(param);
+	        
+	        System.out.println("[3/4] 대상 정보 수정");
+	        int result3 = promotionMapper.updatePromoTargetByAdmin(param);
+	        
+	        System.out.println("[4/4] 쿠폰 정보 수정");
+	        int result4 = promotionMapper.updatePromoCouponByAdmin(param);
+	        
+	        int totalResult = result1 + result2 + result3 + result4;
+	        System.out.println("총 수정 행 수: " + totalResult);
+	        
+	        return totalResult;
+	        
+	    } catch (Exception e) {
+	        System.out.println("수정 오류 발생: " + e.getMessage());
+	        e.printStackTrace();
+	        throw e; // 트랜잭션 롤백
+	    }
 	}
-	
-
 }

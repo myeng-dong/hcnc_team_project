@@ -563,13 +563,6 @@ color        : #aaaaaa;
 }
 
 
-/* celltreeitem: */
-.GridCellControl .celltreeitem .treeitemtext
-{
-	font : 12px "Gulim";
-	color : #666666;
-}
-
 .GridCellControl .celltreeitem .treeitemtext[status=disabled]
 {
 	color : #999999;
@@ -1965,7 +1958,34 @@ color        : #aaaaaa;
 }
 
 
+.Grid .body .row .cell.cell_wait
+{
+	font: 10pt "Noto Sans KR Medium";
+	color : #EF4444;
+	-nexa-border : 1px solid #dbdee2;
+	-nexa-padding : 4px 4px 4px 4px;
+	cursor : pointer;
+}
 
+.Grid .body .row .cell.cell_done
+{
+	font: 10pt "Noto Sans KR Medium";
+	color : #135dae;
+	-nexa-border : 1px solid #dbdee2;
+	-nexa-padding : 4px 4px 4px 4px;
+	cursor : pointer;
+}
+.Grid .body .row .cell.cell_pending
+{
+	font: 10pt "Noto Sans KR Medium";
+	color : #F59E0B;
+	-nexa-border : 1px solid #dbdee2;
+	-nexa-padding : 4px 4px 4px 4px;
+	cursor : pointer;
+}
 
-
+.CellTreeItemControl .treeitemtext
+{
+	font: 10pt "Noto Sans KR Medium";
+}
 ]]></XCSS>

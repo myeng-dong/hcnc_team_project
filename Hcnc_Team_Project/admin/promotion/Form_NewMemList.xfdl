@@ -3,61 +3,125 @@
   <Form id="Form_ReviewList" width="1080" height="630" titletext="New Form" background="#F4F7FE" onload="Form_ReviewList_onload">
     <Layouts>
       <Layout height="630" width="1080">
-        <Div id="search_area" taborder="0" left="40" top="30" height="130" background="#ffffff" borderRadius="10px" right="40">
+        <Div id="search_area" taborder="0" left="40" top="30" height="190" background="#ffffff" borderRadius="10px" text="" width="1000">
           <Layouts>
             <Layout>
-              <Static id="search_tit" taborder="0" text="검색분류" left="20" top="3" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
-              <Static id="Static00" taborder="1" left="82" top="15" width="2" height="20" background="#cccccc" text=""/>
-              <Radio id="radio_issued" taborder="2" left="96" top="49" width="304" height="30" innerdataset="ds_issued" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;" index="0" text="지급" value="Y">
-                <Dataset id="innerdataset">
-                  <ColumnInfo>
-                    <Column id="codecolumn" size="256"/>
-                    <Column id="datacolumn" size="256"/>
-                  </ColumnInfo>
-                  <Rows>
-                    <Row>
-                      <Col id="codecolumn">all</Col>
-                      <Col id="datacolumn">전체</Col>
-                    </Row>
-                    <Row>
-                      <Col id="codecolumn">1</Col>
-                      <Col id="datacolumn">발급</Col>
-                    </Row>
-                    <Row>
-                      <Col id="codecolumn">0</Col>
-                      <Col id="datacolumn">미발급</Col>
-                    </Row>
-                  </Rows>
-                </Dataset>
-              </Radio>
-              <Static id="Static00_00" taborder="3" left="83" top="54" width="2" height="20" background="#cccccc" text=""/>
-              <Static id="search_tit00" taborder="4" text="지급유무" left="21" top="42" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
-              <Combo id="review_info" taborder="5" text="상품코드" left="96" top="14" width="114" height="25" value="상품코드" index="0" innerdataset="ds_search_combo" codecolumn="SEARCH_TYPE" datacolumn="SEARCH_TYPE"/>
-              <Edit id="edit_search" taborder="6" left="220" top="14" width="161" height="25"/>
+              <Static id="search_tit" taborder="0" text="검색분류" left="20" top="53" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Static id="Static00" taborder="1" left="82" top="64" width="2" height="20" background="#cccccc" text=""/>
+              <Static id="Static00_00" taborder="2" left="83" top="22" width="2" height="20" background="#cccccc" text=""/>
+              <Static id="search_tit00" taborder="3" text="사용유무" left="20" top="12" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Combo id="search_combo" taborder="4" text="검색분류" left="110" top="56" width="114" height="36" value="검색분류" index="0" innerdataset="ds_search_combo" codecolumn="SEARCH_TYPE" datacolumn="SEARCH_TYPE" borderRadius="5px" onitemchanged="search_area_search_combo_onitemchanged"/>
+              <Edit id="edit_search" taborder="5" left="234" top="56" width="161" height="36" borderRadius="5px"/>
+              <Button id="btn_select" taborder="6" text="조회" left="390" top="145" height="30" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" width="100" onclick="search_area_btn_select_onclick"/>
+              <Button id="btn_reset" taborder="7" text="초기화" left="509" top="145" height="30" borderRadius="5px" background="#8e8e8e" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" width="100" onclick="search_area_btn_reset_onclick"/>
+              <Calendar id="cal_start_day" taborder="8" left="110" top="99" width="230" height="36" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+              <Static id="search_tit00_00_00" taborder="9" text="발급일" left="20" top="94" width="60" height="41" font="normal 700 10pt/normal &quot;Noto Sans KR Bold&quot;" color="#2b3674" onclick="search_area_search_txt01_onclick"/>
+              <Calendar id="cal_end_day" taborder="10" left="375" top="99" width="230" height="36" borderRadius="5px" font="normal 10pt/normal &quot;Noto Sans KR Medium&quot;"/>
+              <Static id="txt_update_td" taborder="11" text="~" left="347" top="99" width="27" height="36" font="normal 14pt/normal &quot;Noto Sans KR&quot;" onclick="txt_th00_onclick"/>
+              <Static id="Static00_00_00_00" taborder="12" left="83" top="107" width="2" height="20" background="#cccccc" text=""/>
+              <Radio id="radio_state" taborder="13" left="115" top="6" width="280" height="50" innerdataset="ds_use_state" codecolumn="codecolumn" datacolumn="datacolumn" index="0" text="전체" value="" direction="vertical"/>
             </Layout>
           </Layouts>
         </Div>
-        <Button id="btn_reset" taborder="1" text="초기화" left="559" top="105" height="30" borderRadius="5px" background="#8e8e8e" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" width="100" onclick="search_area_btn_reset_onclick"/>
-        <Button id="btn_select" taborder="2" text="조회" left="440" top="105" height="30" borderRadius="5px" background="#135dae" color="white" font="normal 11pt/normal &quot;Noto Sans KR Medium&quot;" textAlign="center" cursor="pointer" onclick="search_area_btn_select_onclick" width="100"/>
-        <Grid id="pointAndCoupon" taborder="3" left="35" top="200" background="#FFFFFF" border="0px none" borderRadius="10px" right="30" autofittype="col" binddataset="ds_list" oncellclick="pointAndCoupon_oncellclick" bottom="30">&gt;
-          <Formats><Format id="default"><Columns><Column size="52"/><Column size="175"/><Column size="207"/><Column size="166"/><Column size="134"/><Column size="127"/><Column size="74"/><Column size="81"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="회원ID" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="쿠폰코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="쿠폰종류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="발급일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="만료일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="지급여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="사용여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1"/><Cell col="2" text="bind:COUPON_CODE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:COUPON_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="4" text="bind:ISSUED_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="5" text="bind:EXPIRY_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="6"/><Cell col="7" text="bind:IS_USED" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/></Band></Format></Formats></Grid>
+        <Grid id="pointAndCoupon" taborder="1" left="35" top="230" background="#FFFFFF" border="0px none" borderRadius="10px" right="30" autofittype="col" binddataset="ds_newmem_list" oncellclick="pointAndCoupon_oncellclick" bottom="30">&gt;
+          <Formats><Format id="default"><Columns><Column size="52"/><Column size="100"/><Column size="119"/><Column size="265"/><Column size="150"/><Column size="148"/><Column size="88"/><Column size="94"/></Columns><Rows><Row size="48" band="head"/><Row size="40"/></Rows><Band id="head"><Cell text="NO" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="1" text="쿠폰종류" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="2" text="회원ID" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="3" text="쿠폰코드" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="4" text="발급일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="5" text="만료일" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="6" text="지급여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/><Cell col="7" text="사용여부" textAlign="CENTER" font="bold 11pt 'LG Smart UI Bold'" background="#ffffff" border="0px none, 0px none, 1px solid #eeeeee, 0px none" color="#222222"/></Band><Band id="body"><Cell text="expr:currow + 1" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="1" text="bind:COUPON_TYPE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="2" text="bind:MEMBER_ID" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="3" text="bind:COUPON_CODE" textAlign="center" font="12px/normal &quot;LG Smart UI Bold&quot;"/><Cell col="4" text="bind:ISSUED_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="5" text="bind:EXPIRY_DT" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="6" text="bind:ISSUED_STATUS" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/><Cell col="7" text="bind:IS_USED" font="12px/normal &quot;LG Smart UI Bold&quot;" textAlign="center"/></Band></Format></Formats></Grid>
       </Layout>
     </Layouts>
     <Script type="xscript5.1"><![CDATA[this.Form_ReviewList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
 {
-	this.fnSearchNewMem();
-	trace("신규회원 쿠폰 출력여부 확인용>>>");
+    this.search_area.form.edit_search.set_enable(false);
+    this.fnSearchNewMem();
+    trace("신규회원 쿠폰 출력여부 확인용>>>");
+};
+
+this.search_area_btn_select_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    this.fnSearchNewMem();
+};
+
+this.search_area_btn_reset_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    this.reload();
+};
+
+this.search_area_search_combo_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+    var searchCombo = this.search_area.form.search_combo.value;
+    if(searchCombo == "검색분류") {
+        this.search_area.form.edit_search.set_enable(false);
+        this.search_area.form.edit_search.set_value("");
+    } else {
+        this.search_area.form.edit_search.set_enable(true);
+    }
 };
 
 // 신규회원쿠폰발행리스트
 this.fnSearchNewMem = function() {
     var strSvcID       = "selectNewMem";
-    var strURL         = "svc::selectProductReviewListByAdmin.do";
-    var strInDatasets  = "";
-    var strOutDatasets = "ds_review_list=ds_review_list"; 
-    var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
+    var strURL         = "svc::selectNewMemListByAdmin.do";
+    var strInDatasets  = "ds_search=ds_search";
+    var strOutDatasets = "ds_newmem_list=ds_newmem_list"; 
+    var strArg         = "";
     var strCallback    = "fnCallback";
-
+	
+	var searchCombo = this.search_area.form.search_combo.value;
+    var editSearch = this.search_area.form.edit_search.value;
+    var isUsed = this.search_area.form.radio_state.value;
+    var startDate = this.search_area.form.cal_start_day.value;
+    var endDate = this.search_area.form.cal_end_day.value;
+    
+    // 먼저 ds_search 초기화
+    this.ds_search.clearData();
+    this.ds_search.addRow();
+    
+    // 검색 분류 & 검색어
+    var searchCombo = this.search_area.form.search_combo.value;
+    if(searchCombo && searchCombo != "검색분류") {
+        var editSearch = this.search_area.form.edit_search.value;
+        
+        if(!editSearch || editSearch.trim() == "") {
+            this.alert("검색어를 입력해주세요.");
+            return;
+        }
+        
+        editSearch = editSearch.trim();
+        
+        if(editSearch.length > 50) {
+            this.alert("검색어는 50자 이내로 입력해주세요.");
+            return;
+        }
+        
+        this.ds_search.setColumn(0, "SEARCH_COMBO", searchCombo);
+        this.ds_search.setColumn(0, "SEARCH_DATA", editSearch);
+    }
+    
+    // 사용유무
+    var isUsed = this.search_area.form.radio_state.value;
+    if(isUsed && isUsed != "" && isUsed != "all") {
+        this.ds_search.setColumn(0, "IS_USED", isUsed);
+    }
+    
+    // 발급일
+    var startDate = this.search_area.form.cal_start_day.value;
+    var endDate = this.search_area.form.cal_end_day.value;
+    
+    if(startDate && endDate && startDate != "" && endDate != "") {
+        if(startDate > endDate) {
+            this.alert("발급시작일은 발급종료일보다 이전이어야 합니다.");
+            return;
+        }
+    }
+    
+    if(startDate && startDate != "") {
+        this.ds_search.setColumn(0, "START_DT", startDate);
+        trace("발급시작일: " + startDate);
+    }
+    
+    if(endDate && endDate != "") {
+        this.ds_search.setColumn(0, "END_DT", endDate);
+        trace("발급종료일: " + endDate);
+    }
+    
     this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
 };
 
@@ -65,34 +129,19 @@ this.fnSearchNewMem = function() {
 this.fnCallback = function(svc, err, errMsg) {
     if (err < 0) {
         this.alert("에러 발생: " + errMsg);
-		
         return;
     }
-    switch(svc){
-		case "selectNewMem"  :
-
-		return;
-		
-	}
-};
-
-// 팝업공통 콜백
-this.fn_popCallback = function(svcID, strVal){
-	switch(svcID){
-		case "openReviewPop":
-			if(strVal){ 
-				this._selectedReview = strVal;
-				trace("팝업에서 선택된 리뷰: " + JSON.stringify(this._selectedReview));
-				// Dataset 준비
-				this.fn_prepareAddPointDataset();
-				// 서버 전송
-				this.fn_callAddPointTransaction();
-			}
-		break;
-	}
+    
+    switch(svc) {
+        case "selectNewMem":
+            var rowCount = this.ds_newmem_list.getRowCount();
+            if(rowCount == 0) {
+                this.alert("검색 조건에 맞는 신규회원 쿠폰이 없습니다.");
+            }
+            return;
+    }
 };]]></Script>
     <Bind>
-      <BindItem id="item1" compid="search_area.form.edit_search" propid="value" datasetid="ds_search" columnid="SEARCH_TEXT"/>
       <BindItem id="item2" compid="pointAndCoupon" propid="binddataset" datasetid="ds_user" columnid=""/>
     </Bind>
     <Objects>
@@ -102,46 +151,59 @@ this.fn_popCallback = function(svcID, strVal){
         </ColumnInfo>
         <Rows>
           <Row>
+            <Col id="SEARCH_TYPE">검색분류</Col>
+          </Row>
+          <Row>
             <Col id="SEARCH_TYPE">회원ID</Col>
           </Row>
           <Row>
             <Col id="SEARCH_TYPE">쿠폰코드</Col>
           </Row>
-          <Row>
-            <Col id="SEARCH_TYPE">쿠폰종류</Col>
-          </Row>
         </Rows>
       </Dataset>
-      <Dataset id="ds_issued">
+      <Dataset id="ds_newmem_list">
+        <ColumnInfo>
+          <Column id="MEMBER_ID" type="STRING" size="30"/>
+          <Column id="COUPON_CODE" type="STRING" size="30"/>
+          <Column id="COUPON_TYPE" type="STRING" size="30"/>
+          <Column id="ISSUED_DT" type="STRING" size="30"/>
+          <Column id="EXPIRY_DT" type="STRING" size="30"/>
+          <Column id="ISSUED_STATUS" type="STRING" size="30"/>
+          <Column id="IS_USED" type="STRING" size="30"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_search">
+        <ColumnInfo>
+          <Column id="IS_USED" type="STRING" size="30"/>
+          <Column id="SEARCH_COMBO" type="STRING" size="30"/>
+          <Column id="SEARCH_DATA" type="STRING" size="30"/>
+          <Column id="START_DT" type="STRING" size="30"/>
+          <Column id="END_DT" type="STRING" size="30"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_use_state">
         <ColumnInfo>
           <Column id="datacolumn" type="STRING" size="256"/>
           <Column id="codecolumn" type="STRING" size="256"/>
         </ColumnInfo>
         <Rows>
           <Row>
-            <Col id="datacolumn">지급</Col>
-            <Col id="codecolumn">Y</Col>
-          </Row>
-          <Row>
-            <Col id="codecolumn">N</Col>
-            <Col id="datacolumn">미지급</Col>
-          </Row>
-          <Row>
             <Col id="datacolumn">전체</Col>
             <Col id="codecolumn">all</Col>
           </Row>
+          <Row>
+            <Col id="datacolumn">사용</Col>
+            <Col id="codecolumn">Y</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">미사용</Col>
+            <Col id="codecolumn">N</Col>
+          </Row>
+          <Row>
+            <Col id="datacolumn">기간만료</Col>
+            <Col id="codecolumn">D</Col>
+          </Row>
         </Rows>
-      </Dataset>
-      <Dataset id="ds_newmem_list">
-        <ColumnInfo>
-          <ConstColumn id="MEMBER_ID" type="STRING" size="30"/>
-          <ConstColumn id="COUPON_CODE" type="STRING" size="30"/>
-          <ConstColumn id="COUPON_TYPE" type="STRING" size="30"/>
-          <ConstColumn id="ISSUED_DT" type="STRING" size="30"/>
-          <ConstColumn id="EXPIRY_DT" type="STRING" size="30"/>
-          <ConstColumn id="ConstColumn1" type="STRING" size="30"/>
-          <ConstColumn id="ConstColumn2" type="STRING" size="30"/>
-        </ColumnInfo>
       </Dataset>
     </Objects>
   </Form>

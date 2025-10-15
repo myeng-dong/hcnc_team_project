@@ -14,7 +14,7 @@
             this.set_background("#F4F7FE");
             if (Form == this.constructor)
             {
-                this._setFormPosition(1370,720);
+                this._setFormPosition(1270,490);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
@@ -48,7 +48,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("insert_box","13","10","1337","688",null,null,null,null,null,null,this);
+            obj = new Div("insert_box","40","10","1190","460",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("");
             obj.set_borderRadius("8px");
@@ -56,177 +56,282 @@
             obj.set_boxShadow("0 2px 6px rgba(0,0,0,0.05)");
             this.addChild(obj.name, obj);
 
-            obj = new Static("m","269","77","60","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("m","17","86","48","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("0");
             obj.set_text("아이디");
-            obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("m2","269","140","59","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("m2","17","161","30","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("1");
             obj.set_text("이름");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00","269","196","60","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00","11","236","60","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("2");
             obj.set_text("비밀번호");
-            obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00","269","256","50","28",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static00_00_00_00","17","311","50","28",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("3");
             obj.set_text("이메일");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Edit("insert_id","347","74","260","34",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Edit("insert_id","88","80","289","44",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("4");
-            obj.set_border("1px solid black");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
             obj.set_displaynulltext("영문, 숫자 포함 16자");
+            obj.set_background("#fafafa");
+            obj.set_padding("12px 16px 12px 16px");
+            obj.set_font("14px/normal \"맑은 고딕\"");
+            obj.set_color("#333333");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00","1109","159","34","16",null,null,null,null,null,null,this.insert_box.form);
+            obj = new Static("Static01","11","2","170","38",null,null,null,null,null,null,this.insert_box.form);
             obj.set_taborder("5");
-            obj.set_text("~");
-            this.insert_box.addChild(obj.name, obj);
-
-            obj = new Static("Static01","27","12","170","38",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("6");
             obj.set_text("회원 및 관리자 등록");
             obj.set_textAlign("center");
             obj.set_font("20px/normal \"Noto Sans KR Black\"");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00","269","322","59","28",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("7");
+            obj = new Static("Static00_00_00_00_00","421","86","59","28",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("6");
             obj.set_text("휴대전화");
             obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00","269","376","38","28",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("8");
+            obj = new Static("Static00_00_00_00_00_00","448","160","29","28",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("7");
             obj.set_text("생일");
-            obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00","269","436","38","28",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("9");
+            obj = new Static("Static00_00_00_00_00_00_00","867","236","29","28",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("8");
             obj.set_text("성별");
-            obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00_00","746","63","38","28",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("10");
+            obj = new Static("Static00_00_00_00_00_00_00_00","446","236","31","28",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("9");
             obj.set_text("등급");
-            obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00_00_00","727","132","57","28",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("11");
+            obj = new Static("Static00_00_00_00_00_00_00_00_00","840","86","57","28",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("10");
             obj.set_text("회원타입");
-            obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Edit("insert_name","348","137","259","34",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("12");
-            obj.set_border("1px solid black");
+            obj = new Edit("insert_name","87","154","290","44",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("11");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
+            obj.set_background("#fafafa");
+            obj.set_font("14px/normal \"맑은 고딕\"");
+            obj.set_padding("12px 16px 12px 16px");
+            obj.set_color("#333333");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Edit("insert_password","348","193","259","34",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("13");
-            obj.set_border("1px solid black");
+            obj = new Edit("insert_password","87","228","290","44",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("12");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
             obj.set_displaynulltext("영문+숫자 포함 8~20자");
             obj.set_password("true");
+            obj.set_background("#fafafa");
+            obj.set_color("#333333");
+            obj.set_font("14px/normal \"맑은 고딕\"");
+            obj.set_padding("12px 16px 12px 16px");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Edit("insert_password00","347","250","260","34",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("14");
-            obj.set_border("1px solid black");
+            obj = new Edit("insert_password00","87","302","290","44",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("13");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
             obj.set_displaynulltext("example@email.com");
+            obj.set_background("#fafafa");
+            obj.set_color("#333333");
+            obj.set_font("14px/normal \"맑은 고딕\"");
+            obj.set_padding("12px 16px 12px 16px");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Combo("Combo00","826","59","262","36",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("15");
+            obj = new Combo("Combo00","501","230","286","46",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("14");
             obj.set_innerdataset("ds_grade");
             obj.set_codecolumn("GRADE_CODE");
             obj.set_datacolumn("GRADE_NAME");
-            obj.set_border("1px solid black");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            obj.set_background("#fafafa");
+            obj.set_padding("12px 16px 12px 16px");
             obj.set_text("Combo00");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Calendar("Calendar01","348","373","259","34",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("16");
-            obj.set_border("1px solid black");
+            obj = new Calendar("Calendar01","501","155","288","44",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("15");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
+            obj.set_background("#fafafa");
+            obj.set_color("#333333");
+            obj.set_font("14px/normal \"맑은 고딕\"");
+            obj.set_padding("12px 16px 12px 16px");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Button("close_btn","697","590","129","41",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("17");
+            obj = new Button("close_btn","634","390","127","50",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("16");
             obj.set_text("취소");
-            obj.set_background(" #9ca3af");
-            obj.set_borderRadius("4px");
-            obj.set_color("#fff");
-            obj.set_font("13px/normal \"Noto Sans KR Black\"");
+            obj.set_background("#f5f5f5");
+            obj.set_borderRadius("8px");
+            obj.set_color("#666666");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            obj.set_border("1px solid #e0e0e0");
+            obj.set_padding("14px 32px 14px 32px");
+            obj.set_cursor("pointer");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Radio("gender_radio","348","433","259","34",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("18");
+            obj = new Radio("gender_radio","917","236","259","34",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("17");
             obj.set_innerdataset("ds_gender");
             obj.set_codecolumn("GENDER");
             obj.set_datacolumn("CODE");
-            obj.set_font("16px/normal \"Noto Sans KR Black\"");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
             obj.set_direction("vertical");
+            obj.set_background("#f8f9fa");
+            obj.set_borderRadius("8px");
+            obj.set_padding("8px 16px 8px 16px");
+            obj.set_wordSpacing("24px");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Radio("type_radio","827","132","261","28",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("19");
+            obj = new Radio("type_radio","917","86","260","34",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("18");
             obj.set_innerdataset("ds_type");
             obj.set_codecolumn("MEMBER_TYPE");
             obj.set_datacolumn("CODE");
-            obj.set_font("16px/normal \"Noto Sans KR Black\"");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
             obj.set_direction("vertical");
+            obj.set_background("#f8f9fa");
+            obj.set_borderRadius("8px");
+            obj.set_padding("8px 16px 8px 16px");
+            obj.set_wordSpacing("24px");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Button("insert_btn","535","590","132","41",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("20");
+            obj = new Button("insert_btn","500","390","117","50",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("19");
             obj.set_text("등록하기");
-            obj.set_background("#2563eb");
-            obj.set_borderRadius("4px");
-            obj.set_color("#fff");
-            obj.set_font("13px/normal \"Noto Sans KR Black\"");
+            obj.set_background("#667eea");
+            obj.set_borderRadius("8px");
+            obj.set_color("#ffffff");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            obj.set_border("0px solid #667eea");
+            obj.set_padding("14px 32px 14px 32px");
+            obj.set_cursor("pointer");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00_00_00_00_00_00_00_00","712","203","72","28",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("21");
+            obj = new Static("Static00_00_00_00_00_00_00_00_00_00","825","161","72","28",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("20");
             obj.set_text("로그인 타입");
-            obj.set_font("15px/normal \"Noto Sans KR Black\"");
+            obj.set_font("bold 15px/normal \"Noto Sans KR Black\"");
+            obj.set_color("#444444");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new Radio("Radio00","832","205","256","30",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("22");
+            obj = new Radio("Radio00","916","161","261","34",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("21");
             obj.set_innerdataset("ds_loginType");
             obj.set_codecolumn("LOGIN_TYPE");
             obj.set_datacolumn("NAME");
             obj.set_direction("vertical");
-            obj.set_font("16px/normal \"Noto Sans KR Black\"");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            obj.set_borderRadius("8px");
+            obj.set_padding("8px 16px 8px 16px");
+            obj.set_wordSpacing("24px");
+            obj.set_background("#f8f9fa");
             this.insert_box.addChild(obj.name, obj);
 
-            obj = new MaskEdit("insert_password00_00","348","316","259","34",null,null,null,null,null,null,this.insert_box.form);
-            obj.set_taborder("23");
-            obj.set_border("1px solid black");
+            obj = new MaskEdit("insert_password00_00","501","80","288","44",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("22");
+            obj.set_border("1px solid #e0e0e0");
             obj.set_borderRadius("8px");
             obj.set_format("###-####-####");
             obj.set_type("string");
+            obj.set_background("#fafafa");
+            obj.set_color("#333333");
+            obj.set_font("14px/normal \"맑은 고딕\"");
+            obj.set_padding("12px 16px 12px 16px");
+            this.insert_box.addChild(obj.name, obj);
+
+            obj = new Static("Static00","60","92","11","17",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("23");
+            obj.set_text("*");
+            obj.set_color("RED");
+            obj.set_textAlign("center");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.insert_box.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00","46","167","11","17",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("24");
+            obj.set_text("*");
+            obj.set_color("RED");
+            obj.set_textAlign("center");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.insert_box.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00_01","67","242","11","17",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("25");
+            obj.set_text("*");
+            obj.set_color("RED");
+            obj.set_textAlign("center");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.insert_box.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00_01_00","17","48","11","17",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("26");
+            obj.set_text("*");
+            obj.set_color("RED");
+            obj.set_textAlign("center");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.insert_box.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00_01_00_00","482","94","11","17",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("27");
+            obj.set_text("*");
+            obj.set_color("RED");
+            obj.set_textAlign("center");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.insert_box.addChild(obj.name, obj);
+
+            obj = new Static("Static00_00_01_00_01","477","242","11","17",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("28");
+            obj.set_text("*");
+            obj.set_color("RED");
+            obj.set_textAlign("center");
+            obj.set_font("14px/normal \"Noto Sans KR Black\"");
+            this.insert_box.addChild(obj.name, obj);
+
+            obj = new Static("Static02","28","48","46","18",null,null,null,null,null,null,this.insert_box.form);
+            obj.set_taborder("29");
+            obj.set_text("필수입력");
+            obj.set_color("#444444");
+            obj.set_font("12px/normal \"Noto Sans KR Black\"");
             this.insert_box.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",1370,720,this,function(p){});
+            obj = new Layout("default","",1270,490,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
@@ -413,6 +518,31 @@
         	this.transaction(strSvcID,setURL,strInDatasets,strOutDatasets,strArg,callBack,inAsync);
         };
 
+        // '전체' 제외하고 등급 목록
+        this.fn_filterGradeList = function()
+        {
+            var filteredData = [];
+
+            for(var i=0; i<this.ds_grade.getRowCount(); i++){
+                var gradeCode = this.ds_grade.getColumn(i, "GRADE_CODE");
+
+                if(gradeCode != "") {
+                    filteredData.push({
+                        GRADE_CODE: gradeCode,
+                        GRADE_NAME: this.ds_grade.getColumn(i, "GRADE_NAME")
+                    });
+                }
+            }
+
+            this.ds_grade.clearData();
+
+            for(var i=0; i<filteredData.length; i++){
+                var nRow = this.ds_grade.addRow();
+                this.ds_grade.setColumn(nRow, "GRADE_CODE", filteredData[i].GRADE_CODE);
+                this.ds_grade.setColumn(nRow, "GRADE_NAME", filteredData[i].GRADE_NAME);
+            }
+        };
+
         // 공통 콜백
         this.fn_callBack = function(svcID, errorCode, errorMSG){
 
@@ -428,6 +558,7 @@
 
         		case "selectMemberGradeList" :
         			console.log(this.ds_grade.saveXML());
+        			this.fn_filterGradeList();
         			break;
 
         		case "insertMember" :

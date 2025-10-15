@@ -8,7 +8,7 @@ uri="http://www.springframework.org/tags"%>
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>DDD.D 로그인</title>
+    <title>DOO.D 로그인</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <jsp:include page="../layout/headertop.jsp" />
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -86,7 +86,6 @@ uri="http://www.springframework.org/tags"%>
       const param = { id: id, password: password };
 
       ajaxUtil(param, "selectLoginByUser.do", (response) => {
-        console.log(JSON.stringify(response));
         if (response.status === 200) {
           if ($("input[name='saveId']").is(":checked")) {
             document.cookie =
@@ -245,12 +244,19 @@ uri="http://www.springframework.org/tags"%>
               </div>
               <div class="login-main">
                 <div class="login-input-container">
-                  <input id="id" name="id" type="text" placeholder="아이디" />
+                  <input
+                    id="id"
+                    name="id"
+                    type="text"
+                    placeholder="아이디"
+                    maxlength="250"
+                  />
                   <div style="height: 6px"></div>
                   <input
                     id="password"
                     name="password"
                     type="password"
+                    maxlength="50"
                     placeholder="비밀번호"
                     onkeyup="enterkey()"
                   />

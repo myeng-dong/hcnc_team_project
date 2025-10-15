@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,43 @@ public class UserProductService {
 		return userProductMapper.selectProductByUser(productId);
 	}
 
-	public int insertCartItemByUser(Map<String, Object> param) {
+	public int insertCartItemByUser(Map<String, Object> param, List<Long> optionIds) {
 		// TODO Auto-generated method stub
 		int result = 0;
 		try {
-			result = userProductMapper.insertCartItemByUser(param);
+			// CART_ITEMS 데이터 insert
+			// INSERT 후 param Map에 cartItemId가 자동으로 추가됨
+			userProductMapper.insertCartItemByUser(param);
+			Long cartItemId = Long.parseLong(param.get("cartItemId").toString());
+			
+			System.out.println("cartItemId : " + cartItemId);
+			
+			// CART_ITEM_OPTIONS 데이터 insert
+			boolean cartItemOptions = true;
+			if(optionIds.size() > 0) {
+				Map<String, Object> optionId = new HashMap<String, Object>();
+				
+				optionId.put("cartItemId", cartItemId);
+				
+				for(int i=0; i < optionIds.size(); i++) {
+					
+					optionId.put("optionId", optionIds.get(i));
+					
+					int optionInsert =  userProductMapper.insertCartItemOptionByUser(optionId);
+					
+					if(optionInsert != 1) {
+						cartItemOptions = false;
+					}
+				}
+			}
+			
+			if(cartItemOptions) {
+				result = 1;
+				System.out.println("옵션처리 성공!");
+			} else {
+				result = 0;
+				System.out.println("옵션처리 실패x");
+			}
 			
 		} catch(DuplicateKeyException e) {
 			result = 2;
@@ -83,28 +116,107 @@ public class UserProductService {
 		return userProductMapper.selectHotProductListByUser(); // 인기상품불러가능용
 	}
 	
-	public int getCategoryProductsCount(String mainCateId, String subCateId) {
-		// TODO Auto-generated method stub
-        Map<String, Object> params = new HashMap<>();
-        params.put("mainCateId", mainCateId);
-        params.put("subCateId", subCateId);
-        return userProductMapper.selectCategoryProductsCount(params);
-    }
+	// 신상품 리스트 조회
+	@Cacheable("newProducts")
+	public List<Map<String, Object>> selectNewProductList(int page, int pageSize, String sortType, String mainCateId, String subCateId) {
+	    int offset = (page - 1) * pageSize;
+	    
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("offset", offset);
+	    params.put("pageSize", pageSize);
+	    params.put("sortType", sortType);
+	    params.put("mainCateId", mainCateId);
+	    params.put("subCateId", subCateId);
+	    
+	    return userProductMapper.selectNewProListByUser(params);
+	}
 
-    public List<Map<String, Object>> getCategoryProductsList(
-    	// TODO Auto-generated method stub
-        String mainCateId, String subCateId, String sortType, int offset, int pageSize) {
-        
-        Map<String, Object> params = new HashMap<>();
-        params.put("mainCateId", mainCateId);
-        params.put("subCateId", subCateId);
-        params.put("sortType", sortType);
-        params.put("offset", offset);
-        params.put("pageSize", pageSize);
-        
-        return userProductMapper.selectCategoryProductsListByUser(params);
-    }
+	// 신상품 총 개수 조회
+	@Cacheable("newProductsCnt")
+	public int selectNewProductCount(String sortType, String mainCateId, String subCateId) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("sortType", sortType);
+	    params.put("mainCateId", mainCateId);
+	    params.put("subCateId", subCateId);
+	    
+	    return userProductMapper.selectNewProCountByUser(params);
+	}
+
+	// 추천상품 리스트 조회
+	@Cacheable("recommendProducts")
+	public List<Map<String, Object>> selectRecommendProductList(int page, int pageSize, String sortType, String mainCateId, String subCateId) {
+	    int offset = (page - 1) * pageSize;
+	    
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("offset", offset);
+	    params.put("pageSize", pageSize);
+	    params.put("sortType", sortType);
+	    params.put("mainCateId", mainCateId);
+	    params.put("subCateId", subCateId);
+	    
+	    return userProductMapper.selectRecommendProListByUser(params);
+	}
+
+	// 추천상품 총 개수 조회
+	@Cacheable("recommendProductsCnt")
+	public int selectRecommendProductCount(String sortType, String mainCateId, String subCateId) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("sortType", sortType);
+	    params.put("mainCateId", mainCateId);
+	    params.put("subCateId", subCateId);
+	    
+	    return userProductMapper.selectRecommendProCountByUser(params);
+	}
+
+	// 인기상품 리스트 조회
+	@Cacheable("hotProducts")
+	public List<Map<String, Object>> selectHotProductList(int page, int pageSize, String sortType, String mainCateId, String subCateId) {
+	    int offset = (page - 1) * pageSize;
+	    
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("offset", offset);
+	    params.put("pageSize", pageSize);
+	    params.put("sortType", sortType);
+	    params.put("mainCateId", mainCateId);
+	    params.put("subCateId", subCateId);
+	    
+	    return userProductMapper.selectHotProListByUser(params);
+	}
+
+	// 인기상품 총 개수 조회
+	@Cacheable("hotProductsCnt")
+	public int selectHotProductCount(String sortType, String mainCateId, String subCateId) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("sortType", sortType);
+	    params.put("mainCateId", mainCateId);
+	    params.put("subCateId", subCateId);
+	    
+	    return userProductMapper.selectHotProCountByUser(params);
+	}
+
+	// 카테고리별 리스트 조회
+	public List<Map<String, Object>> selectCategoryProductList(int page, int pageSize, String sortType, String mainCateId, String subCateId) {
+	    int offset = (page - 1) * pageSize;
+	    
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("offset", offset);
+	    params.put("pageSize", pageSize);
+	    params.put("sortType", sortType);
+	    params.put("mainCateId", mainCateId);
+	    params.put("subCateId", subCateId);
+	    
+	    return userProductMapper.selectCategoryProductsListByUser(params);
+	}
+
+	// 카테고리별 총 개수 조회
+	public int selectCategoryProductCount(String sortType, String mainCateId, String subCateId) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("sortType", sortType);
+	    params.put("mainCateId", mainCateId);
+	    params.put("subCateId", subCateId);
+	    
+	    return userProductMapper.selectCategoryProductsCountByUser(params);
+	}
 	
 
-	
 }

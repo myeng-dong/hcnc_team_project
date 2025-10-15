@@ -19,28 +19,43 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_banner", this);
-            obj._setContents("<ColumnInfo><Column id=\"BANNER_ID\" type=\"STRING\" size=\"256\"/><Column id=\"BANNER_TYPE\" type=\"STRING\" size=\"256\"/><Column id=\"BANNER_TITLE\" type=\"STRING\" size=\"256\"/><Column id=\"IMG_PATH\" type=\"STRING\" size=\"256\"/><Column id=\"IS_VISIBLE\" type=\"STRING\" size=\"256\"/><Column id=\"LINKED_URL\" type=\"STRING\" size=\"256\"/><Column id=\"SORT_NUMBER\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_DT\" type=\"STRING\" size=\"256\"/><Column id=\"INPUT_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><ConstColumn id=\"CHK\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"BANNER_ID\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"BANNER_TYPE\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"BANNER_TITLE\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"IMG_PATH\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"IS_VISIBLE\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"LINKED_URL\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"SORT_NUMBER\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"INPUT_DT\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"INPUT_ID\" type=\"STRING\" size=\"30\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_search", this);
+            obj._setContents("<ColumnInfo><ConstColumn id=\"BANNER_TYPE\" type=\"STRING\" size=\"30\"/><ConstColumn id=\"IS_VISIBLE\" type=\"STRING\" size=\"30\"/><Column id=\"Column0\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_type", this);
+            obj._setContents("<ColumnInfo><Column id=\"datacolumn\" type=\"STRING\" size=\"256\"/><Column id=\"codecolumn\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"datacolumn\">전체</Col><Col id=\"codecolumn\">all</Col></Row><Row><Col id=\"datacolumn\">메인배너</Col><Col id=\"codecolumn\">main</Col></Row><Row><Col id=\"datacolumn\">탑배너</Col><Col id=\"codecolumn\">top</Col></Row><Row><Col id=\"datacolumn\">팝업</Col><Col id=\"codecolumn\">popup</Col></Row></Rows>");
+            this.addChild(obj.name, obj);
+
+
+            obj = new Dataset("ds_visible", this);
+            obj._setContents("<ColumnInfo><Column id=\"datacolumn\" type=\"STRING\" size=\"256\"/><Column id=\"codecolumn\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"datacolumn\">전체</Col><Col id=\"codecolumn\">all</Col></Row><Row><Col id=\"datacolumn\">출력</Col><Col id=\"codecolumn\">Y</Col></Row><Row><Col id=\"datacolumn\">미출력</Col><Col id=\"codecolumn\">N</Col></Row></Rows>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Grid("grid_list","40","160",null,null,"40","100",null,null,null,null,this);
+            obj = new Grid("grid_list","40","200",null,null,"40","100",null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
             obj.set_borderRadius("10px");
             obj.set_autofittype("col");
             obj.set_binddataset("ds_banner");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"48\"/><Column size=\"48\"/><Column size=\"76\"/><Column size=\"127\"/><Column size=\"83\"/><Column size=\"168\"/><Column size=\"189\"/><Column size=\"129\"/><Column size=\"163\"/><Column size=\"80\"/><Column size=\"84\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\"/><Cell col=\"1\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"출력순서\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"타입\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" colspan=\"2\" text=\"제목\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\"/><Cell col=\"6\" text=\"링크\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"작성자\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"출력여부\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"10\" text=\"관리\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" text=\"bind:BANNER_ID\"/><Cell col=\"1\" text=\"expr:currow + 1\"/><Cell col=\"2\" text=\"bind:SORT_NUMBER\"/><Cell col=\"3\" text=\"bind:BANNER_TYPE\"/><Cell col=\"4\" text=\"bind:IMG_PATH\" displaytype=\"imagecontrol\" imagestretch=\"bind:IMG_PATH\"/><Cell col=\"5\" text=\"bind:BANNER_TITLE\"/><Cell col=\"6\" edittype=\"none\" text=\"bind:LINKED_URL\"/><Cell col=\"7\" text=\"bind:INPUT_ID\"/><Cell col=\"8\" edittype=\"none\" text=\"bind:INPUT_DT\"/><Cell col=\"9\" edittype=\"none\" text=\"bind:IS_VISIBLE\"/><Cell col=\"10\" displaytype=\"buttoncontrol\" text=\"관리\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"48\"/><Column size=\"48\"/><Column size=\"62\"/><Column size=\"127\"/><Column size=\"83\"/><Column size=\"168\"/><Column size=\"174\"/><Column size=\"105\"/><Column size=\"110\"/><Column size=\"75\"/><Column size=\"84\"/></Columns><Rows><Row size=\"48\" band=\"head\"/><Row size=\"40\"/></Rows><Band id=\"head\"><Cell textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\" displaytype=\"checkboxcontrol\" treecheck=\"bind:chk\"/><Cell col=\"1\" text=\"NO\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"2\" text=\"출력순서\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"3\" text=\"타입\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"4\" colspan=\"2\" text=\"제목\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\"/><Cell col=\"6\" text=\"링크\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"7\" text=\"작성자\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"8\" text=\"등록일\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"9\" text=\"출력여부\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/><Cell col=\"10\" text=\"관리\" textAlign=\"CENTER\" font=\"bold 11pt &apos;LG Smart UI Bold&apos;\" background=\"#ffffff\" border=\"0px none, 0px none, 1px solid #eeeeee, 0px none\" color=\"#222222\"/></Band><Band id=\"body\"><Cell displaytype=\"checkboxcontrol\" text=\"bind:CHK\" edittype=\"checkbox\"/><Cell col=\"1\" text=\"expr:currow + 1\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:SORT_NUMBER\" textAlign=\"center\"/><Cell col=\"3\" text=\"bind:BANNER_TYPE\" textAlign=\"center\"/><Cell col=\"4\" text=\"bind:IMG_PATH\" displaytype=\"imagecontrol\" imagestretch=\"bind:IMG_PATH\"/><Cell col=\"5\" text=\"bind:BANNER_TITLE\"/><Cell col=\"6\" edittype=\"none\" text=\"bind:LINKED_URL\"/><Cell col=\"7\" text=\"bind:INPUT_ID\"/><Cell col=\"8\" edittype=\"none\" text=\"bind:INPUT_DT\"/><Cell col=\"9\" edittype=\"none\" text=\"bind:IS_VISIBLE\" textAlign=\"center\"/><Cell col=\"10\" displaytype=\"buttoncontrol\" text=\"관리\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_h4_00","50","130","153","20",null,null,null,null,null,null,this);
+            obj = new Static("txt_h4_00","50","170","153","20",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("총       개 | 활성화       개");
             obj.set_font("normal 700 10pt/normal \"Noto Sans KR Medium\"");
             obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_bannertotal","10","130","70","20",null,null,null,null,null,null,this);
+            obj = new Static("txt_bannertotal","10","170","70","20",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("0");
             obj.set_font("normal 700 10pt/normal \"Noto Sans KR Medium\"");
@@ -48,7 +63,7 @@
             obj.set_textAlign("right");
             this.addChild(obj.name, obj);
 
-            obj = new Static("txt_bannertotal00","85","130","70","20",null,null,null,null,null,null,this);
+            obj = new Static("txt_bannertotal00","140","170","15","20",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text("0");
             obj.set_font("normal 700 10pt/normal \"Noto Sans KR Medium\"");
@@ -67,7 +82,7 @@
             obj.set_font("normal bold 10pt/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_delete",null,"640","140",null,"1100","40",null,null,null,null,this);
+            obj = new Button("btn_delete","40",null,"140","40",null,"40",null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("선택지우기");
             obj.set_background("#d92d06");
@@ -77,64 +92,83 @@
             obj.set_font("normal bold 10pt/normal \"Noto Sans KR Medium\"");
             this.addChild(obj.name, obj);
 
-            obj = new Div("search_area","40","20",null,"90","40",null,null,null,null,null,this);
+            obj = new Div("search_area","40","20",null,"140","40",null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
+            obj.set_text("");
             this.addChild(obj.name, obj);
 
-            obj = new Static("search_tit","20","3","60","41",null,null,null,null,null,null,this.search_area.form);
-            obj.set_taborder("0");
-            obj.set_text("배너종류");
-            obj.set_font("normal 700 10pt/normal \"Noto Sans KR Bold\"");
-            obj.set_color("#2b3674");
-            this.search_area.addChild(obj.name, obj);
-
-            obj = new Radio("Radio00","95","10","410","30",null,null,null,null,null,null,this.search_area.form);
-            obj.set_taborder("1");
-            obj.set_codecolumn("codecolumn");
-            obj.set_datacolumn("datacolumn");
-            obj.set_direction("vertical");
-            obj.set_font("normal 10pt/normal \"Noto Sans KR Medium\"");
-            var search_area_form_Radio00_innerdataset = new nexacro.NormalDataset("search_area_form_Radio00_innerdataset", obj);
-            search_area_form_Radio00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">all</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">main</Col><Col id=\"datacolumn\">메인배너</Col></Row><Row><Col id=\"codecolumn\">top</Col><Col id=\"datacolumn\">탑배너</Col></Row><Row><Col id=\"codecolumn\">popup</Col><Col id=\"datacolumn\">팝업배너</Col></Row></Rows>");
-            obj.set_innerdataset(search_area_form_Radio00_innerdataset);
-            obj.set_text("전체");
-            obj.set_value("all");
-            obj.set_index("0");
-            this.search_area.addChild(obj.name, obj);
-
             obj = new Static("Static00","82","15","2","20",null,null,null,null,null,null,this.search_area.form);
-            obj.set_taborder("2");
+            obj.set_taborder("0");
             obj.set_background("#cccccc");
             obj.set_text("");
-            this.search_area.addChild(obj.name, obj);
-
-            obj = new Radio("Radio00_00","96","49","304","30",null,null,null,null,null,null,this.search_area.form);
-            obj.set_taborder("3");
-            obj.set_codecolumn("codecolumn");
-            obj.set_datacolumn("datacolumn");
-            obj.set_direction("vertical");
-            obj.set_font("normal 10pt/normal \"Noto Sans KR Medium\"");
-            var search_area_form_Radio00_00_innerdataset = new nexacro.NormalDataset("search_area_form_Radio00_00_innerdataset", obj);
-            search_area_form_Radio00_00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">all</Col><Col id=\"datacolumn\">전체</Col></Row><Row><Col id=\"codecolumn\">1</Col><Col id=\"datacolumn\">출력</Col></Row><Row><Col id=\"codecolumn\">0</Col><Col id=\"datacolumn\">미출력</Col></Row></Rows>");
-            obj.set_innerdataset(search_area_form_Radio00_00_innerdataset);
-            obj.set_text("전체");
-            obj.set_value("all");
-            obj.set_index("0");
             this.search_area.addChild(obj.name, obj);
 
             obj = new Static("Static00_00","83","54","2","20",null,null,null,null,null,null,this.search_area.form);
-            obj.set_taborder("4");
+            obj.set_taborder("1");
             obj.set_background("#cccccc");
             obj.set_text("");
             this.search_area.addChild(obj.name, obj);
 
-            obj = new Static("search_tit00","21","42","60","41",null,null,null,null,null,null,this.search_area.form);
-            obj.set_taborder("5");
-            obj.set_text("출력여부");
+            obj = new Static("search_tit","20","2","60","41",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("2");
+            obj.set_text("배너타입");
             obj.set_font("normal 700 10pt/normal \"Noto Sans KR Bold\"");
             obj.set_color("#2b3674");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Static("search_tit00","20","45","60","41",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("3");
+            obj.set_text("활성화");
+            obj.set_font("normal 700 10pt/normal \"Noto Sans KR Bold\"");
+            obj.set_color("#2b3674");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Radio("radio_type","110","5","640","40",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("4");
+            obj.set_innerdataset("ds_type");
+            obj.set_codecolumn("codecolumn");
+            obj.set_datacolumn("datacolumn");
+            obj.set_direction("vertical");
+            obj.set_font("normal 12pt/normal \"Noto Sans KR Medium\"");
+            obj.set_text("전체");
+            obj.set_value("all");
+            obj.set_index("0");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Radio("radio_active","110","45","480","40",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("5");
+            obj.set_innerdataset("ds_visible");
+            obj.set_codecolumn("codecolumn");
+            obj.set_datacolumn("datacolumn");
+            obj.set_direction("vertical");
+            obj.set_font("normal 12pt/normal \"Noto Sans KR Medium\"");
+            obj.set_text("전체회원");
+            obj.set_value("all");
+            obj.set_index("0");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Button("btn_select","370","90","100","30",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("6");
+            obj.set_text("조회");
+            obj.set_borderRadius("5px");
+            obj.set_background("#135dae");
+            obj.set_color("white");
+            obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
+            obj.set_textAlign("center");
+            obj.set_cursor("pointer");
+            this.search_area.addChild(obj.name, obj);
+
+            obj = new Button("btn_reset","489","90","100","30",null,null,null,null,null,null,this.search_area.form);
+            obj.set_taborder("7");
+            obj.set_text("초기화");
+            obj.set_borderRadius("5px");
+            obj.set_background("#8e8e8e");
+            obj.set_color("white");
+            obj.set_font("normal 11pt/normal \"Noto Sans KR Medium\"");
+            obj.set_textAlign("center");
+            obj.set_cursor("pointer");
             this.search_area.addChild(obj.name, obj);
             // Layout Functions
             //-- Default Layout : this
@@ -142,9 +176,7 @@
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item0","grid_list","binddataset","ds_user","");
-            this.addChild(obj.name, obj);
-            obj.bind();
+
             
             // TriggerItem Information
 
@@ -157,66 +189,189 @@
         
         // User Script
         this.registerScript("Form_BannerList.xfdl", function() {
-
+        // 폼 로드
         this.Form_BannerList_onload = function(obj,e)
         {
-        	this.fnSearchBanner();
-        	trace("배너 리스트 출력여부 확인용>>>");
+        	this.grid_list.setCellProperty("head", 0, "text", "0");
+            this.fnSearchBanner();
+            trace("배너 리스트 출력여부 확인용>>>");
         };
 
+        // 글쓰기 버튼
         this.btn_write_onclick = function(obj,e)
         {
-        	this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
+            this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
         };
 
-        // 전체 선택/해제
-        this.chkAll_onclick = function(obj,e)
+        // 삭제 버튼
+        this.btn_delete_onclick = function(obj,e)
         {
-            var isChecked = obj.value;
+            var checkedCount = 0;
+            for(var i = 0; i < this.ds_banner.getRowCount(); i++) {
+                if(this.ds_banner.getColumn(i, "CHK") == "1") {
+                    checkedCount++;
+                }
+            }
 
-            for(var i = 0; i < this.dsPromotionList.getRowCount(); i++) {
-                this.dsPromotionList.setColumn(i, "chk", isChecked);
+            if(checkedCount == 0) {
+                alert("삭제할 배너를 선택하세요.");
+                return;
+            }
+
+            if(confirm(checkedCount + "개의 배너를 삭제하시겠습니까?")) {
+                // 체크된 행들을 삭제 상태로 변경
+                for(var i = this.ds_banner.getRowCount() - 1; i >= 0; i--) {
+                    if(this.ds_banner.getColumn(i, "CHK") == "1") {
+                        this.ds_banner.setRowType(i, Dataset.ROWTYPE_DELETE);
+                    }
+                }
+                this.fnDeleteBanner();
             }
         };
 
-        //cell클릭시 argument기억
-        this.grid_list_oncellclick = function(obj,e)
+        // 전체 선택/해제
+        this.grid_list_onheadclick = function(obj,e)
         {
-        	if(e.cell == 10){
-        		var BannerId = this.ds_banner.getColumn(e.row,"BANNER_ID")
+            if(e.cell == 0) {
+                var headChecked = obj.getCellProperty("head", e.cell, "text");
+                var newValue = (headChecked == "1") ? "0" : "1";
 
-        		//부모페이지 자식페이지 값 전달하기 arguments
-        		this.getOwnerFrame().arguments = {"BANNER_ID" : BannerId}
+                obj.setCellProperty("head", e.cell, "text", newValue);
 
-        		this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
-        	}
+                for(var i = 0; i < this.ds_banner.getRowCount(); i++) {
+                    this.ds_banner.setColumn(i, "CHK", newValue);
+                }
+            }
         };
 
-        // 배너조회
+        // 셀 클릭 - 관리 버튼
+        this.grid_list_oncellclick = function(obj,e)
+        {
+            if(e.cell == 10){
+                var BannerId = this.ds_banner.getColumn(e.row,"BANNER_ID");
+                this.getOwnerFrame().arguments = {"BANNER_ID" : BannerId};
+                this.getOwnerFrame().set_formurl("banner::Form_BannerWrite.xfdl");
+            }
+        };
+
+
+        // 조회 버튼
+        this.search_area_btn_select_onclick = function(obj,e)
+        {
+        	this.click_btn = true;
+            this.fnSearchBanner();
+        };
+
+        // 초기화 버튼
+        this.search_area_btn_reset_onclick = function(obj,e)
+        {
+            this.search_area.form.radio_type.set_value("all");
+            this.search_area.form.radio_active.set_value("all");
+            this.fnSearchBanner();
+        };
+
+        // 배너 조회
         this.fnSearchBanner = function() {
             var strSvcID       = "selectBanner";
-            var strURL         = "svc::selectBannerListByAdmin.do";  // Spring Controller 매핑
-            var strInDatasets  = "";
+            var strURL         = "svc::selectBannerListByAdmin.do";
+            var strInDatasets  = "ds_search=ds_search";
             var strOutDatasets = "ds_banner=ds_banner";
-            var strArg         = ""; // 필요 시 조건 전달 (예: USER_ID=xxx)
+            var strArg         = "";
+            var strCallback    = "fnCallback";
+
+            this.ds_search.clearData();
+            this.ds_search.addRow();
+
+            this.ds_search.setColumn(0, "BANNER_TYPE", null);
+            this.ds_search.setColumn(0, "IS_VISIBLE", null);
+
+            // 배너 타입
+            var typeIndex = this.search_area.form.radio_type.index;
+            if(typeIndex > 0) {
+                var typeValue = this.ds_type.getColumn(typeIndex, "codecolumn");
+                this.ds_search.setColumn(0, "BANNER_TYPE", typeValue);
+            }
+
+            // 활성화 상태
+            var activeIndex = this.search_area.form.radio_active.index;
+            if(activeIndex > 0) {
+                var activeValue = this.ds_visible.getColumn(activeIndex, "codecolumn");
+                this.ds_search.setColumn(0, "IS_VISIBLE", activeValue);
+            }
+
+            trace("행 수: " + this.ds_search.getRowCount());
+            for(var i = 0; i < this.ds_search.getColCount(); i++) {
+                var colName = this.ds_search.getColID(i);
+                var colValue = this.ds_search.getColumn(0, colName);
+                trace(colName + " = " + colValue);
+            }
+
+            this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+        };
+
+        // 배너 삭제
+        this.fnDeleteBanner = function() {
+            var strSvcID       = "deleteBanner";
+            var strURL         = "svc::deleteBannerByAdmin.do";
+            var strInDatasets  = "ds_banner=ds_banner:U";
+            var strOutDatasets = "";
+            var strArg         = "";
             var strCallback    = "fnCallback";
 
             this.transaction(strSvcID, strURL, strInDatasets, strOutDatasets, strArg, strCallback);
+        };
+
+        // 총 개수 및 활성화 개수 표시
+        this.fn_setTotal = function()
+        {
+            var totalCnt = this.ds_banner.getRowCount();
+            var activeCnt = 0;
+
+            for(var i = 0; i < totalCnt; i++) {
+                if(this.ds_banner.getColumn(i, "IS_VISIBLE") == "Y") {
+                    activeCnt++;
+                }
+            }
+
+            this.txt_bannertotal.set_text(totalCnt);
+            this.txt_bannertotal00.set_text(activeCnt);
         };
 
         // 공통 콜백
         this.fnCallback = function(svc, err, errMsg) {
             if (err < 0) {
                 this.alert("에러 발생: " + errMsg);
-
                 return;
             }
-            switch(svc){
-        		case "selectBanner"  :
-        		return;
 
-        	}
+            switch(svc){
+                case "selectBanner":
+                    var rowCount = this.ds_banner.getRowCount();
+
+                    // 체크박스 초기화
+                    for(var i = 0; i < rowCount; i++) {
+                        this.ds_banner.setColumn(i, "CHK", "0");
+                    }
+
+                    // 총 개수 및 활성화 개수 표시
+                    this.fn_setTotal();
+
+                    if(rowCount == 0 && this.click_btn) {
+                        this.alert("검색 조건에 맞는 배너가 없습니다.");
+                    }
+
+        			this.click_btn = false;
+                    break;
+
+                case "deleteBanner":
+                    alert("삭제되었습니다.");
+                    this.fnSearchBanner();
+                    break;
+            }
         };
+
+
+
 
         });
         
@@ -225,13 +380,16 @@
         {
             this.addEventHandler("onload",this.Form_BannerList_onload,this);
             this.grid_list.addEventHandler("oncellclick",this.grid_list_oncellclick,this);
+            this.grid_list.addEventHandler("onheadclick",this.grid_list_onheadclick,this);
             this.txt_h4_00.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
             this.txt_bannertotal.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
             this.txt_bannertotal00.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
             this.btn_write.addEventHandler("onclick",this.btn_write_onclick,this);
-            this.btn_delete.addEventHandler("onclick",this.btn_write_onclick,this);
+            this.btn_delete.addEventHandler("onclick",this.btn_delete_onclick,this);
             this.search_area.form.search_tit.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
             this.search_area.form.search_tit00.addEventHandler("onclick",this.search_area_search_txt01_onclick,this);
+            this.search_area.form.btn_select.addEventHandler("onclick",this.search_area_btn_select_onclick,this);
+            this.search_area.form.btn_reset.addEventHandler("onclick",this.search_area_btn_reset_onclick,this);
         };
         this.loadIncludeScript("Form_BannerList.xfdl");
         this.loadPreloadList();
