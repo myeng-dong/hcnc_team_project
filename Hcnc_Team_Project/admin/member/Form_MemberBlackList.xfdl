@@ -3,11 +3,9 @@
   <Form id="Form_MemberBlackList" width="1280" height="720" titletext="New Form" background="#F4F7FE" onload="Form_MemberBlackList_onload">
     <Layouts>
       <Layout height="720" width="1280">
-
-        <Static id="black_search_box" taborder="0" left="40" top="17" height="113" background="white" text="" borderRadius="8px" right="40"/>
+        <Static id="black_search_box" taborder="0" left="40" top="17" height="113" background="white" text="" borderRadius="8px" width="1200"/>
         <Static id="Static00_00" taborder="1" text="아이디" left="273" top="36" width="46" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
-        <Static id="Static00_00_00" taborder="2" text="이름" left="35" top="35" width="32" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
-
+        <Static id="Static00_00_00" taborder="2" text="이름" left="55" top="35" width="32" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
         <Static id="Static00_00_00_00" taborder="3" text="전화번호" left="520" top="35" width="60" height="27" font="14px/normal &quot;Noto Sans KR Black&quot;" textAlign="center"/>
         <Edit id="Edit00" taborder="4" left="98" top="36" width="172" height="29" borderRadius="8px" border="1px solid black" onkeyup="Edit00_onkeyup"/>
         <Edit id="Edit00_00" taborder="5" left="340" top="36" width="170" height="28" borderRadius="8px" border="1px solid black" onkeyup="Edit00_00_onkeyup"/>

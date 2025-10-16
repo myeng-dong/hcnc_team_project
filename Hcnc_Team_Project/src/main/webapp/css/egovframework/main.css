@@ -36,7 +36,7 @@ main section{padding:100px 0;}
 /* 메인 배너 */
 .main_banner_area .swiper { width: 100%;  background: #CDDEFC url('../../images/egovframework/main/bg.png') center center / contain no-repeat; overflow: hidden;  posoition:relative;}
 main section.main_banner_area{padding:0; border-bottom:1px solid #ccc;}
-.main_banner_area .img-area {  width: 100%;  padding-top:36.25%;   background-size: cover;  background-position: center center;}
+.main_banner_area .img-area {  width: 100%;  padding-top:36.25%;   background-size: cover !important;  background-position: center center;}
 .main-swiper-pagination{position:absolute; bottom:1px; z-index:1; dispaly:flex; justify-content:center;}
 .main_banner_area .img-area .full-link { display:block;  width: 100%; height: 100%;}
 
