@@ -454,9 +454,7 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         <ul class="header_menu_list flex">
           <c:if test="${userInfo == null}">
             <li><a href="/login.do?type=list">비회원 주문조회</a></li>
-            <li><a style="margin: 0">|</a></li>
             <li><a href="/login.do">로그인</a></li>
-            <li><a style="margin: 0">|</a></li>
             <li><a href="/sign.do">회원가입</a></li>
           </c:if>
 

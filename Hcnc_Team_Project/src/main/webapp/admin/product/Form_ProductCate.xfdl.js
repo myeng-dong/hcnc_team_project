@@ -986,7 +986,15 @@
             this.fn_notify("분류명을 수정 후 [저장]을 누르세요.", "success");
         };
 
+        //취소
+        this.btn_cancel_onclick = function(obj,e)
+        {
+           this.alert("저장이 취소 되었습니다.");
+           this.div_detail.form.edt_cateName.set_value("");
+           this.div_detail.form.edt_sort.set_value("");
+           this.fn_notify("취소 완료", "success");
 
+        };
         });
         
         // Regist UI Components Event

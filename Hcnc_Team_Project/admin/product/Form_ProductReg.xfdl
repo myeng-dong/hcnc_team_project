@@ -4,7 +4,7 @@
     <Layouts>
       <Layout width="1280" height="2070">
         <!-- 타이틀 -->
-        <Static id="sta_title" text="상품 등록" left="20" top="10" width="220" height="40" font="bold 16pt 'Gulim'" color="#111111" onclick="sta_title_onclick"/>
+        <Static id="sta_title" text="상품관리 || 상품등록" left="20" top="10" width="220" height="40" font="bold 16pt 'Gulim'" color="#111111"/>
         <!-- 표시 설정 -->
         <Static id="box_display" left="20" top="60" width="1240" height="40" background="#ffffff" border="1px solid #e0e0e0,1px solid #e0e0e0," borderRadius="0px" text=""/>
         <Static id="box_display00" left="20" top="98" width="1240" height="40" background="#ffffff" border="1px solid #e0e0e0,1px solid #e0e0e0" borderRadius="0px" text="" taborder="34"/>
@@ -48,12 +48,12 @@
         <Edit id="edt_weight" left="160" top="630" width="200" height="30" taborder="34" textAlign="right" displaynulltext="0" maxlength="4"/>
         <Static id="Static00" taborder="35" text="원" left="364" top="592" width="52" height="29"/>
         <Static id="Static00_00" taborder="36" text="원" left="840" top="591" width="52" height="29"/>
-        <Static id="Static00_00_00" taborder="37" text="kg" left="364" top="672" width="52" height="29"/>
-        <Static id="box_saleinfo00" left="20" top="710" width="1240" height="550" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="38"/>
-        <Static id="sta_display00_00_00_00_00_00" text="상품 게시글" left="20" top="710" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="39" taborder="39" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
-        <WebBrowser id="web_postContent" taborder="40" left="20" top="750" width="1240" height="510" onloadcompleted="web_postContent_onloadcompleted" onusernotify="web_postContent_onusernotify"/>
-        <Static id="box_saleinfo01" left="21" top="1261" width="1240" height="350" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="41" text=""/>
-        <Static id="sta_display00_00_00_00_00_00_00" text="이미지 정보" left="21" top="1261" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="59" taborder="45" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
+        <Static id="Static00_00_00" taborder="37" text="kg" left="364" top="632" width="52" height="29"/>
+        <Static id="box_saleinfo00" left="20" top="700" width="1240" height="550" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="38"/>
+        <Static id="sta_display00_00_00_00_00_00" text="상품 게시글" left="20" top="670" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="29" taborder="39" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
+        <WebBrowser id="web_postContent" taborder="40" left="20" top="700" width="1240" height="510" onloadcompleted="web_postContent_onloadcompleted"/>
+        <Static id="box_saleinfo01" left="21" top="1251" width="1240" height="350" background="#ffffff" border="1px solid #e0e0e0" borderRadius="0px" taborder="41" text=""/>
+        <Static id="sta_display00_00_00_00_00_00_00" text="이미지 정보" left="21" top="1251" font="normal 700 10pt/normal &quot;Gulim&quot;" color="#222222" width="1240" height="59" taborder="45" textAlign="left" border="1px solid #e0e0e0" padding="0px 0px 0px 10px"/>
         <Static id="sta_display00_02_00_00_00" text="이미지등록" left="23" top="1320" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="290" taborder="45" textAlign="center" background="#FAFAFB"/>
         <Static id="sta_display00_01_00_00_01_01" text="원가" left="500" top="579" font="normal 500 10pt/normal &quot;Gulim&quot;" color="#222222" width="120" height="49" taborder="45" textAlign="center" background="#FAFAFB"/>
         <Edit id="edt_stock" left="637" top="635" width="200" height="30" textAlign="right" taborder="46" displaynulltext="0" maxlength="3"/>
@@ -62,10 +62,6 @@
         <Static id="Static01" taborder="48" text="* 최대 4개 첨부가능" left="130" top="1273" width="276" height="20"/>
       </Layout>
     </Layouts>
-    <Script type="xscript5.1"><![CDATA[include "common::common.xjs";
-
-
-var mode = "create";
     <Objects>
       <!-- 표시 여부 -->
       <Dataset id="ds_display">
@@ -446,7 +442,6 @@ this.updateInit = function(){
 // 저장 버튼 클릭
 this.btn_save_onclick = function(obj,e)
 {
-
 	function emptyCheck(value,errorMsg) {
 		if(value == null || value == ""){
 			this.alert(errorMsg);
@@ -454,8 +449,6 @@ this.btn_save_onclick = function(obj,e)
 		}
 		return false;
 	}
-	
-	
 	if(emptyCheck(this.cmb_subcate.value, "중분류를 선택해주세요."))return;
 	if(emptyCheck(this.edt_name.value,"상품명을 입력하세요."))return;
 	if(emptyCheck(this.edt_code.value,"상품 코드를 입력하세요."))return;
@@ -465,51 +458,53 @@ this.btn_save_onclick = function(obj,e)
 	if(emptyCheck(this.edt_weight.value,"상품무게를 입력하세요."))return;
 	if((mode == "create") && emptyCheck(this.edt_stock.value,"수량을 입력하세요."))return;
 	
+
+    // CKEditor 본문 가져오기
+    
+
+    // ds_product 구성 (단일행)
+    this.ds_product.clearData();
+    var nRow = this.ds_product.addRow();
+	this.ds_product.setColumn(nRow, "PRODUCT_ID", productId);
+	this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
+	this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
+	this.ds_product.setColumn(nRow, "PRODUCT_CODE", this.edt_code.value);
+	this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", this.edt_content.value);
+	this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
+	this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
+	this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
+	this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
+	//this.ds_product.a(nRow, "INPUT_ID", "admin");
+	this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
+	var desc = this.getEditorContent();	
+	this.ds_product.addColumn("DETAIL_DESCRIPTION","string");
+	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
+    this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
+	this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
+
+	trace(this.ds_product.saveXML());
 	
-	this.fn_confirmCustom("상품을 등록하시겠습니까?",
-	
-		function(ok){
-			if(!ok) return;
-			
-			
-		// CKEditor 본문 가져오기
-		var desc = this.getEditorContent();
+    // 트랜잭션 호출
+	var strSvcId = "";
+	var strUrl = "";
+	var strIn = "";
+	if(mode == "create"){
+		strSvcId = "insertProductCreateByAdmin";
+		strUrl = "svc::insertProductCreateByAdmin.do?time=" + new Date().getTime()
+		strIn  = "ds_product=ds_product preview=preview";
+	} else {
+		strSvcId = "updateProductCreateByAdmin";
+		strUrl = "svc::updateProductCreateByAdmin.do?time=" + new Date().getTime();
+		strIn  = "ds_product=ds_product preview=preview ds_preview_origin=ds_preview_origin ds_delete_image=ds_delete_image";
+	}
+    // IN/OUT Dataset 매핑
+    var strOut = "createStatus=createStatus";
 
-		// ds_product 구성 (단일행)
-		this.ds_product.clearData();
-		var nRow = this.ds_product.addRow();
-		
-		this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
-		this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
-		this.ds_product.setColumn(nRow, "PRODUCT_CODE", this.edt_code.value);
-		this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", this.edt_content.value);
-		this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
-		this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
-		this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
-		this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
-		//this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
-		this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
-		this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
-		this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
-		this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
+    var strArg = "";
+    var callBack = "fn_callback";
+    var bAsync = true;
 
-
-		// 트랜잭션 호출
-		var strSvcId = "insertProductCreateByAdmin";
-		var strUrl = "svc::insertProductCreateByAdmin.do";
-
-		// IN/OUT Dataset 매핑
-		var strIn  = "ds_product=ds_product preview=preview";
-		var strOut = "createStatus=createStatus";
-
-		var strArg = "";
-		var callBack = "fn_callback";
-		var bAsync = true;
-
-		this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
-	
-		}.bind(this)
-	);
+    this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
 };
 
 // 취소 버튼
@@ -895,322 +890,6 @@ this.ds_product_cancolumnchange = function(obj:nexacro.NormalDataset,e:nexacro.D
 	
 };
 ]]></Script>
-    <Objects>
-      <!-- 표시 여부 -->
-      <Dataset id="ds_display">
-        <ColumnInfo>
-          <Column id="code" type="STRING"/>
-          <Column id="name" type="STRING"/>
-        </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="code">Y</Col>
-            <Col id="name">진열함</Col>
-          </Row>
-          <Row>
-            <Col id="code">N</Col>
-            <Col id="name">진열안함</Col>
-          </Row>
-        </Rows>
-      </Dataset>
-      <!-- 판매 여부 -->
-      <Dataset id="ds_sale">
-        <ColumnInfo>
-          <Column id="code" type="STRING"/>
-          <Column id="name" type="STRING"/>
-        </ColumnInfo>
-        <Rows>
-          <Row>
-            <Col id="code">nomal</Col>
-            <Col id="name">기본</Col>
-          </Row>
-          <Row>
-            <Col id="code">new</Col>
-            <Col id="name">신규</Col>
-          </Row>
-          <Row>
-            <Col id="code">hot</Col>
-            <Col id="name">인기</Col>
-          </Row>
-          <Row>
-            <Col id="code">recommend</Col>
-            <Col id="name">추천</Col>
-          </Row>
-        </Rows>
-      </Dataset>
-      <!-- 카테고리 -->
-      <Dataset id="ds_cate_main">
-        <ColumnInfo>
-          <Column id="mainCateId" type="STRING" size="256"/>
-          <Column id="mainCateNm" type="STRING" size="256"/>
-          <Column id="subCategories" type="STRING" size="512"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="ds_cate_sub">
-        <ColumnInfo>
-          <Column id="subCateId" type="STRING"/>
-          <Column id="subCateNm" type="STRING"/>
-        </ColumnInfo>
-      </Dataset>
-      <!-- 상품 기본 -->
-      <!-- 선택 옵션 Dataset -->
-      <!-- 상품 등록 결과 -->
-      <DataObject id="categories" url="http://localhost:8080/selectProductCategoryListByAdmin.do" onsuccess="categoriesJsonSuccess" onerror="categoriesJsonError" onload="categoriesJsonOnload">
-        <Contents><![CDATA[[
-	{
-		"sortNumber" : 0,
-		"mainCateNm" : "필기구",
-		"isActive" : "Y",
-		"mainCateId" : 3,
-		"subCategories" : [
-			{
-				"subCateId" : 7,
-				"subCateNm" : "볼펜88",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 17,
-				"subCateNm" : "몽땅연필",
-				"sortNumber" : 2,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 18,
-				"subCateNm" : "형광펜",
-				"sortNumber" : 3,
-				"isActive" : "Y"
-			}
-		]
-	},
-	{
-		"sortNumber" : 1,
-		"mainCateNm" : "문구류",
-		"isActive" : "Y",
-		"mainCateId" : 1,
-		"subCategories" : [
-			{
-				"subCateId" : 5,
-				"subCateNm" : "볼펜",
-				"sortNumber" : 0,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 1,
-				"subCateNm" : "필기류",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 2,
-				"subCateNm" : "노트류",
-				"sortNumber" : 2,
-				"isActive" : "Y"
-			}
-		]
-	},
-	{
-		"sortNumber" : 2,
-		"mainCateNm" : "사무용품",
-		"isActive" : "Y",
-		"mainCateId" : 2,
-		"subCategories" : [
-			{
-				"subCateId" : 3,
-				"subCateNm" : "파일/바인더",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 4,
-				"subCateNm" : "책상정리용품",
-				"sortNumber" : 2,
-				"isActive" : "Y"
-			}
-		]
-	},
-	{
-		"sortNumber" : 2,
-		"mainCateNm" : "기타",
-		"isActive" : "Y",
-		"mainCateId" : 5,
-		"subCategories" : [
-			{
-				"subCateId" : 9,
-				"subCateNm" : "기타하위분류",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			}
-		]
-	},
-	{
-		"sortNumber" : 3,
-		"mainCateNm" : "공책류",
-		"isActive" : "Y",
-		"mainCateId" : 4,
-		"subCategories" : [
-			{
-				"subCateId" : 6,
-				"subCateNm" : "연습장",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 8,
-				"subCateNm" : "연습장2",
-				"sortNumber" : 2,
-				"isActive" : "Y"
-			}
-		]
-	},
-	{
-		"sortNumber" : 4,
-		"mainCateNm" : "사무기기",
-		"isActive" : "Y",
-		"mainCateId" : 6,
-		"subCategories" : [
-			{
-				"subCateId" : 10,
-				"subCateNm" : "노트북",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 11,
-				"subCateNm" : "마우스",
-				"sortNumber" : 2,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 12,
-				"subCateNm" : "빔프로젝터",
-				"sortNumber" : 3,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 13,
-				"subCateNm" : "키보드",
-				"sortNumber" : 4,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 14,
-				"subCateNm" : "노트북충전기",
-				"sortNumber" : 5,
-				"isActive" : "Y"
-			}
-		]
-	},
-	{
-		"sortNumber" : 5,
-		"mainCateNm" : "잡기류",
-		"isActive" : "Y",
-		"mainCateId" : 7,
-		"subCategories" : [
-			{
-				"subCateId" : 15,
-				"subCateNm" : "텀블러",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 19,
-				"subCateNm" : "포스트잇",
-				"sortNumber" : 2,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 21,
-				"subCateNm" : "화분",
-				"sortNumber" : 3,
-				"isActive" : "Y"
-			}
-		]
-	},
-	{
-		"sortNumber" : 6,
-		"mainCateNm" : "사무악세사리",
-		"isActive" : "Y",
-		"mainCateId" : 8,
-		"subCategories" : [
-			{
-				"subCateId" : 20,
-				"subCateNm" : "부품1",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 22,
-				"subCateNm" : "악세1",
-				"sortNumber" : 2,
-				"isActive" : "Y"
-			}
-		]
-	},
-	{
-		"sortNumber" : 8,
-		"mainCateNm" : "대분류추가야2ㅇ",
-		"isActive" : "Y",
-		"mainCateId" : 14,
-		"subCategories" : [
-			{
-				"subCateId" : 24,
-				"subCateNm" : "하위2",
-				"sortNumber" : 1,
-				"isActive" : "Y"
-			},
-			{
-				"subCateId" : 25,
-				"subCateNm" : "추가테스트",
-				"sortNumber" : 2,
-				"isActive" : "Y"
-			}
-		]
-	}
-]]]></Contents>
-      </DataObject>
-      <Dataset id="ds_product">
-        <ColumnInfo>
-          <Column id="SUB_CATE_ID" type="STRING" size="256"/>
-          <Column id="PRODUCT_NAME" type="STRING" size="256"/>
-          <Column id="PRODUCT_CODE" type="STRING" size="256"/>
-          <Column id="PRODUCT_CONTENT" type="STRING" size="256"/>
-          <Column id="PRODUCT_PRICE" type="STRING" size="256"/>
-          <Column id="COST_PRICE" type="STRING" size="256"/>
-          <Column id="PRODUCT_WEIGHT" type="STRING" size="256"/>
-          <Column id="IS_VISIBLE" type="STRING" size="256"/>
-          <Column id="INPUT_ID" type="STRING" size="256"/>
-          <Column id="SORT_NUMBER" type="STRING" size="256"/>
-          <Column id="DETAIL_DESCRIPTION" type="STRING" size="256"/>
-          <Column id="PRODUCT_TYPE" type="STRING" size="256"/>
-          <Column id="PRODUCT_ID" type="STRING" size="256"/>
-          <Column id="STOCK" type="STRING" size="256"/>
-        </ColumnInfo>
-        <Rows>
-          <Row/>
-        </Rows>
-      </Dataset>
-      <Dataset id="createStatus"/>
-      <FileDialog id="productImage" onclose="FileDialog00_onclose"/>
-      <Dataset id="ds_image">
-        <ColumnInfo>
-          <Column id="FILE_NAME" type="STRING" size="256"/>
-          <Column id="FILE_URL" type="STRING" size="256"/>
-          <Column id="FILE_ID" type="STRING" size="256"/>
-          <Column id="FiLE_SIZE" type="STRING" size="256"/>
-          <Column id="FILE_PATH" type="STRING" size="256"/>
-          <Column id="FILE_TYPE" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
-      <FileUpTransfer id="productImageTransfer" onerror="FileUpTransfer00_onerror" onprogress="FileUpTransfer00_onprogress" onsuccess="FileUpTransfer00_onsuccess"/>
-      <Dataset id="preview">
-        <ColumnInfo>
-          <Column id="fileName" type="STRING" size="256"/>
-          <Column id="fileUrl" type="STRING" size="256"/>
-        </ColumnInfo>
-      </Dataset>
-      <Dataset id="Dataset00"/>
-    </Objects>
     <Bind>
       <BindItem id="item0" compid="cmb_maincate" propid="value" datasetid="ds_cate_main" columnid="mainCateId"/>
       <BindItem id="item1" compid="cmb_subcate" propid="value" datasetid="ds_cate_sub" columnid="subCateId"/>
