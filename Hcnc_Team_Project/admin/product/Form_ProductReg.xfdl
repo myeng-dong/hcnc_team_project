@@ -603,15 +603,13 @@ this.subCateSolt = function(index,subId){
 }
 
 this.selectProductByAdmin = function(productId){
-	var strSvcId = "selectTargetProductByAdmin";
-	var strUrl = "selectTargetProductByAdmin.do?time=" + new Date().getTime();
-	var strIn = "";
-	var strOut ="ds_product=ds_product ds_preview_origin=ds_preview_origin";
-	var strArg = "productId="+productId;
-	var callBack = "fn_callback";
-	var bAsync = true;
-	this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
-	
+	this.gfn_transction(
+    "selectTargetProductByAdmin",
+    "selectTargetProductByAdmin.do", // 캐시 방지용 파라미터 추가
+    "",
+    "ds_product=ds_product ds_preview_origin=ds_preview_origin",
+    "productId="+productId
+	);
 }
 
 ////////// CK EDITOR ///////////
