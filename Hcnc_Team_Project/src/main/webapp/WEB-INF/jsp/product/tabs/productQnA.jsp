@@ -451,7 +451,7 @@
 	    <h3><i class="bi bi-chat-dots"></i>상품 Q&A</h3>
 	    <p> 상품에 대한 궁금한 점을 문의해 주세요. 빠른 시간 내에 답변드리겠습니다.</p>
 	</div>
-	<div class="review-btn-area" style="display: flex; justify-content: right;">
+	<div class="review-btn-area" id="qnaButtonArea" style="display: flex; justify-content: right;">
 		<button type="button" onclick="QnaTab.formModalShow()">상품 문의하기</button>
 	</div>
 	<table class="qnaTable">
@@ -527,6 +527,12 @@
     </div>
   </div>
 </div>
+
+<c:if test="${empty userInfo}">
+    <script>
+        $("#qnaButtonArea").hide();
+    </script>
+</c:if>
 
 <script>
 	var currentQnaId = null;
