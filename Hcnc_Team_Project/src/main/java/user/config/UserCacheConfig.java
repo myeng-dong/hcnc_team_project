@@ -16,9 +16,9 @@ public class UserCacheConfig {
     public CacheManager cacheManager() {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         cacheManager.setCaches(Arrays.asList(
-            new ConcurrentMapCache("categories"),//카테고리 서브카테고리
-            new ConcurrentMapCache("subCategories"),
-            new ConcurrentMapCache("banners"),//메인도
+            //new ConcurrentMapCache("categories"),//카테고리 서브카테고리 // > 시연시 적용형태가 보여야하므로 주석
+            //new ConcurrentMapCache("subCategories"), // > 시연시 적용형태가 보여야하므로 주석
+            //new ConcurrentMapCache("banners"),//메인도 > 시연시 적용형태가 보여야하므로 주석
             new ConcurrentMapCache("mainNewProducts"),//메인 신상품
             new ConcurrentMapCache("mainRecommendProducts"),//메인 추천상품
             new ConcurrentMapCache("mainHotProducts")//메인 인기상품

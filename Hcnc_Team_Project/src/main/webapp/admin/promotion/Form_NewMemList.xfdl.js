@@ -38,7 +38,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Div("search_area","40","30","1000","190",null,null,null,null,null,null,this);
+            obj = new Div("search_area","40","30",null,"190","40",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("#ffffff");
             obj.set_borderRadius("10px");
