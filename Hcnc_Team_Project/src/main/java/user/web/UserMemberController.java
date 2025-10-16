@@ -134,6 +134,7 @@ public class UserMemberController {
 		String subject = "DOO.D 이메일 인증번호";
 		String text = "DOO.D 이메일 인증번호: ";
 		int code = RandomCode();
+		System.out.println(code);
 		saveAuthCode(to, code);
 		mailService.sendMail(to, subject, text + code); 
 		mv.addObject("status", 200);
