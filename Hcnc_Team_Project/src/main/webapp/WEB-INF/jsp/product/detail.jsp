@@ -26,6 +26,14 @@
 	<script type="text/javascript" src="<c:url value='/js/productKEY/productInfo.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/js/productKEY/productPageLoad.js'/>"></script>
 	
+<%-- 	<c:if test="${userInfo != null}">
+		<script>
+			$(document).ready(function(){
+				$("#add-to-wish").show();
+			});
+		</script>
+	</c:if> --%>
+	
 	<!-- 상품 옵션 처리 스크립트 -->
 	<c:if test="${not empty productDetail || not empty optionInfo}">
 		<script>	
@@ -113,6 +121,7 @@
 				element.setAttribute('data-price', newPrice);
 				element.innerText = newPrice.toLocaleString() + "원";
 			}
+			
 		</script>
 	</c:if>
 </head>
@@ -177,7 +186,8 @@
                 </table>
               </div>
               <div class="product-actions">
-                <div class="button-container">
+                <div class="button-container" id="product-btn-area">
+                	<button id="add-to-wish" onclick="pushWish()" style="display:none;">위시리스트 담기</button>
                   <button id="add-to-cart" onclick="pushCart()">장바구니 담기</button>
                   <button id="buy-now" onclick="buyNow()">바로구매</button>
                 </div>
