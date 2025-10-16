@@ -462,7 +462,6 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             <li>
               <a href="/mypage/home.do">마이페이지</a>
             </li>
-            <li><a style="margin: 0">|</a></li>
             <li>
               <a href="/logoutByUser.do" onclick="return confirmLogout()"
                 >로그아웃</a
@@ -470,7 +469,6 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
             </li>
 
             <c:if test="${userInfo['MEMBER_TYPE'] == 'admin'}">
-              <li><a style="margin: 0">|</a></li>
               <li><a href="/admin">관리자페이지 바로가기</a></li>
             </c:if>
           </c:if>

@@ -11,6 +11,7 @@
 		FROM   MEMBERS
 		WHERE  MEMBER_ID = #{id}
 		  AND  PASSWORD = #{password}
+		  AND  STATUS = 'Y'
 	</select>
 	<select id="selectIdCheckByUser" resultType="int">
 		SELECT COUNT(MEMBER_ID) AS COUNT
