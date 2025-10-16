@@ -612,6 +612,8 @@
 		loadReviewList(1, byReview, byInputDT);
 	}
 	
+	
+	var isPageJustLoaded = true;
 	function loadReviewList(page, byReview, byInputDT){
 		var pageSize = 10;
 		
@@ -644,7 +646,9 @@
 				}
 				
 				// 페이지 변경 시 탭 네비게이션으로 스크롤
-				scrollToTabNavigation();
+				if (!isPageJustLoaded) {
+                	scrollToTabNavigation();
+            	}
 			},
 			error: function(xhr, status, error) {
 				console.log('리뷰 리스트 로드 실패:', error);
@@ -828,6 +832,10 @@
 		updateStarDisplay(0);
 		$("#avg-point-text").text('0.0점');
 		$("#total-reviews-text").text('리뷰를 불러오는 중...');
+		
+		setTimeout(function() {
+	        isPageJustLoaded = false;
+	    }, 500);
 	});
 	
 </script>

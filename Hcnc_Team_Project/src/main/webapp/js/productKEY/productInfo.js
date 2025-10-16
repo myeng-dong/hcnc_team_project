@@ -2,7 +2,6 @@ var urlParams = new URLSearchParams(window.location.search);
 	
 var productId = urlParams.get('productId');
 
-
 // 수량 버튼 (새로운 옵션 시스템과 통합)
 function countDown() {
   var quantity = parseInt($('#quantity').val()) || 1;
