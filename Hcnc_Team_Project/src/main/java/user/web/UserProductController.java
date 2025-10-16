@@ -163,6 +163,13 @@ public class UserProductController {
 		
 		String productId = (String) param.get("productId");
 		
+		@SuppressWarnings("unchecked")
+		Map<String, Object> userInfo = (Map<String, Object>) session.getAttribute("userInfo");
+		if(userInfo != null) {
+			String memberId = (String) userInfo.get("MEMBER_ID");
+			param.put("memberId", memberId);
+		}
+		
 		int insertQnA = userProductService.insertQnAByUser(param);
 		
 		redirectAttributes.addFlashAttribute("message", "등록이 완료되었습니다.");
