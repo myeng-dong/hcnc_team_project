@@ -77,83 +77,63 @@ public class MemberController {
 	// 로그인
 	@RequestMapping(value = "/adminLoginByAdmin.do")
 	public NexacroResult adminLogin(@ParamDataSet(name = "ds_admin") Map<String, Object> param,
-			@ParamVariable(name = "SAVE_ID") String saveId, HttpServletRequest request, HttpServletResponse response) {
+	        @ParamVariable(name = "SAVE_ID") String saveId, HttpServletRequest request, HttpServletResponse response) {
 
-		NexacroResult result = new NexacroResult();
+	    NexacroResult result = new NexacroResult();
 
-		try {
-			String memberId = String.valueOf(param.get("MEMBER_ID"));
+	    try {
+	        String memberId = String.valueOf(param.get("MEMBER_ID"));
 
-			// 먼저 만료 체크
-			if (tempPasswordCache.containsKey(memberId)) {
-				long expireTime = tempPasswordCache.get(memberId);
-				long currentTime = System.currentTimeMillis();
+	        // 먼저 만료 체크
+	        if (tempPasswordCache.containsKey(memberId)) {
+	            long expireTime = tempPasswordCache.get(memberId);
+	            long currentTime = System.currentTimeMillis();
 
-				if (currentTime > expireTime) {
-					// 만료됨 - 캐시에서 제거
-					tempPasswordCache.remove(memberId);
+	            if (currentTime > expireTime) {
+	                // 만료됨 - 캐시에서 제거
+	                tempPasswordCache.remove(memberId);
+	                result.setErrorCode(-1);
+	                result.setErrorMsg("임시 비밀번호가 만료되었습니다.\n비밀번호 찾기를 다시 진행해주세요.");
+	                return result;
+	            }
+	        }
 
-					// DB에서도 비밀번호 무효화
-					try {
-						// EMAIL 먼저 조회
-						Map<String, Object> memberDetail = memberService.selectMemberDetail(memberId);
+	        // 비밀번호 암호화
+	        String password = String.valueOf(param.get("PASSWORD"));
+	        String crypto = PasswordUtil.encryptSHA256(password);
+	        param.put("PASSWORD", crypto);
 
-						if (memberDetail != null) {
-							Map<String, Object> invalidateParam = new HashMap<>();
-							invalidateParam.put("MEMBER_ID", memberId);
-							invalidateParam.put("EMAIL", memberDetail.get("EMAIL_ADDR")); // ⭐ EMAIL 추가
-							invalidateParam.put("NEW_PASSWORD",
-									PasswordUtil.encryptSHA256(java.util.UUID.randomUUID().toString()));
+	        Map<String, Object> adminInfo = memberService.adminLogin(param);
 
-							int updated = memberService.updatePasswordByAdmin(invalidateParam);
+	        if (adminInfo != null && "O".equals(adminInfo.get("PASSWORD").toString())) {
 
-							if (updated > 0) {
-								System.out.println("=============================================");
-								System.out.println("[임시 비밀번호 만료 처리]");
-								System.out.println("회원 아이디: " + memberId);
-								System.out.println("DB 비밀번호 무효화 완료");
-								System.out.println("=============================================");
-							}
-						}
-					} catch (Exception e) {
-						System.err.println("임시 비밀번호 무효화 실패: " + e.getMessage());
-						e.printStackTrace();
-					}
-					result.setErrorCode(-1);
-					result.setErrorMsg("임시 비밀번호가 만료되었습니다.\n비밀번호 찾기를 다시 진행해주세요.");
-					return result;
-				}
-			}
+	            // ⭐ 로그인 성공 시 임시 비밀번호 캐시는 유지 (제거하지 않음)
+	            if (tempPasswordCache.containsKey(memberId)) {
+	                System.out.println("=============================================");
+	                System.out.println("[임시 비밀번호로 로그인]");
+	                System.out.println("회원 아이디: " + memberId);
+	                System.out.println("캐시 유지 - 비밀번호 변경 시 제거됨");
+	                System.out.println("=============================================");
+	                
+	                // 임시 비밀번호로 로그인했다는 알림
+	                adminInfo.put("TEMP_PW_ALERT", "Y");
+	            }
 
-			// 비밀번호 암호화
-			String password = String.valueOf(param.get("PASSWORD"));
-			String crypto = PasswordUtil.encryptSHA256(password);
-			param.put("PASSWORD", crypto);
+	            // 세션 생성
+	            HttpSession session = request.getSession();
+	            session.setAttribute("adminInfo", adminInfo);
 
-			Map<String, Object> adminInfo = memberService.adminLogin(param);
+	            handleRememberMeCookie(response, saveId, memberId);
 
-			if (adminInfo != null && "O".equals(adminInfo.get("PASSWORD").toString())) {
-
-				// 로그인 성공 후 임시 비밀번호인지 확인
-				if (tempPasswordCache.containsKey(memberId)) {
-					adminInfo.put("TEMP_PW_ALERT", "Y");
-				}
-
-				// 세션 생성
-				HttpSession session = request.getSession();
-				session.setAttribute("adminInfo", adminInfo);
-
-				handleRememberMeCookie(response, saveId, memberId);
-
-				result.addDataSet("ds_loginChk", adminInfo);
-			}
-		} catch (Exception e) {
-			result.setErrorCode(-1);
-			result.setErrorMsg("로그인 실패");
-		}
-		return result;
+	            result.addDataSet("ds_loginChk", adminInfo);
+	        }
+	    } catch (Exception e) {
+	        result.setErrorCode(-1);
+	        result.setErrorMsg("로그인 실패");
+	    }
+	    return result;
 	}
-
+	
 	// 로그아웃
 	@RequestMapping(value = "/adminLogoutByAdmin.do")
 	public NexacroResult adminLogout(HttpServletRequest request, HttpServletResponse response) {
@@ -304,46 +284,63 @@ public class MemberController {
 	@RequestMapping(value = "/memberUpdateByAdmin.do")
 	public NexacroResult memberUpdate(@ParamDataSet(name = "ds_memberDt", required = false) Map<String, Object> param) {
 
-		NexacroResult result = new NexacroResult();
+	    NexacroResult result = new NexacroResult();
 
-		try {
+	    try {
+	        // 날짜 파라미터 변환
+	        param.put("FIRST_LOGIN_DT", normalizeDateString(param.get("FIRST_LOGIN_DT")));
+	        param.put("LAST_LOGIN_DT", normalizeDateString(param.get("LAST_LOGIN_DT")));
+	        param.put("BIRTH", normalizeDateString(param.get("BIRTH")));
 
-			// 날짜 파라미터 변환
-			param.put("FIRST_LOGIN_DT", normalizeDateString(param.get("FIRST_LOGIN_DT")));
-			param.put("LAST_LOGIN_DT", normalizeDateString(param.get("LAST_LOGIN_DT")));
-			param.put("BIRTH", normalizeDateString(param.get("BIRTH")));
+	        // ⭐ 비밀번호 변경 여부 체크
+	        boolean passwordChanged = false;
+	        
+	        // 비밀번호 암호화 및 이미 암호화 되있다면 패스
+	        if (param.get("PASSWORD") != null && !"".equals(param.get("PASSWORD").toString())) {
+	            String password = String.valueOf(param.get("PASSWORD"));
 
-			// 비밀번호 암호화 및 이미 암호화 되있다면 패스(비밀번호 변경하지 않았을시 암호화한걸 또 암호화 하는 거 방지)
-			if (param.get("PASSWORD") != null && !"".equals(param.get("PASSWORD").toString())) {
-				String password = String.valueOf(param.get("PASSWORD"));
+	            // 이미 해시된 64자리 hex 문자열이면 암호화 스킵
+	            if (!password.matches("^[0-9a-f]{64}$")) {
+	                String crypto = PasswordUtil.encryptSHA256(password);
+	                param.put("PASSWORD", crypto);
+	                passwordChanged = true; // ⭐ 비밀번호가 실제로 변경됨
+	            }
+	        }
 
-				// 이미 해시된 64자리 hex 문자열이면 암호화 스킵
-				if (!password.matches("^[0-9a-f]{64}$")) {
-					String crypto = PasswordUtil.encryptSHA256(password);
-					param.put("PASSWORD", crypto);
-				}
-			}
+	        // 중복체크
+	        int duplicated = memberService.updateDuplicated(param);
+	        if (duplicated > 0) {
+	            result.setErrorCode(-1);
+	            result.setErrorMsg("중복된 이메일 또는 전화번호가 있습니다");
+	            return result;
+	        }
 
-			// 중복체크
-			int duplicated = memberService.updateDuplicated(param);
-			if (duplicated > 0) {
-				result.setErrorCode(-1);
-				result.setErrorMsg("중복된 이메일 또는 전화번호가 있습니다");
-				return result;
-			}
+	        // UPDATE 실행
+	        int updated = memberService.memberUpdate(param);
+	        
+	        // ⭐ 비밀번호가 변경되었다면 임시 비밀번호 캐시에서 제거
+	        if (updated > 0 && passwordChanged) {
+	            String memberId = String.valueOf(param.get("MEMBER_ID"));
+	            if (tempPasswordCache.containsKey(memberId)) {
+	                tempPasswordCache.remove(memberId);
+	                System.out.println("=============================================");
+	                System.out.println("[임시 비밀번호 캐시 제거]");
+	                System.out.println("회원 아이디: " + memberId);
+	                System.out.println("비밀번호 변경으로 캐시에서 제거됨");
+	                System.out.println("=============================================");
+	            }
+	        }
+	        
+	        Map<String, Object> dsUpCnt = new HashMap<>();
+	        dsUpCnt.put("UPDATED", updated);
+	        result.addDataSet("ds_upCnt", dsUpCnt);
 
-			// UPDATE 실행
-			int updated = memberService.memberUpdate(param);
-			Map<String, Object> dsUpCnt = new HashMap<>();
-			dsUpCnt.put("UPDATED", updated);
-			result.addDataSet("ds_upCnt", dsUpCnt);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.setErrorCode(-1);
-			result.setErrorMsg("회원 수정 중 오류 발생");
-		}
-		return result;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.setErrorCode(-1);
+	        result.setErrorMsg("회원 수정 중 오류 발생");
+	    }
+	    return result;
 	}
 
 	// 회원 등급 관리 리스트 조회

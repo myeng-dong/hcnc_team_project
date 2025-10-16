@@ -45,7 +45,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("coupon","40","180","1200",null,null,"60",null,null,null,null,this);
+            obj = new Grid("coupon","40","180","1200",null,null,"20",null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_background("#FFFFFF");
             obj.set_border("0px none");
@@ -82,7 +82,7 @@
             obj.set_borderRadius("8px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("back_btn","556","670","104","34",null,null,null,null,null,null,this);
+            obj = new Button("back_btn","1002","126","104","34",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_text("뒤로가기");
             obj.set_background("#667eea");
@@ -115,7 +115,7 @@
             obj.set_cursor("pointer");
             this.addChild(obj.name, obj);
 
-            obj = new Button("Button02","670","670","98","34",null,null,null,null,null,null,this);
+            obj = new Button("Button02","1121","126","98","34",null,null,null,null,null,null,this);
             obj.set_taborder("9");
             obj.set_text("쿠폰 지급");
             obj.set_borderRadius("8px");

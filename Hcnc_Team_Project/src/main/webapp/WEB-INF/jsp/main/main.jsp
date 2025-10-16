@@ -265,6 +265,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                         >
                           <%@ include
                           file="/WEB-INF/jsp/component/productItem.jsp" %>
+                          <%@ include
+                          file="/WEB-INF/jsp/component/productItem.jsp" %>
                         </c:forEach>
                       </c:when>
                       <c:otherwise>

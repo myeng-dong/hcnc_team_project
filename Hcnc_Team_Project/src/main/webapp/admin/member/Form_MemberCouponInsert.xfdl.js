@@ -127,6 +127,7 @@
             obj.set_border("2px solid #e0e0e0");
             obj.set_borderRadius("10px");
             obj.set_background("#fafafa");
+            obj.set_color("#333333");
             this.addChild(obj.name, obj);
 
             obj = new Edit("Edit03","203","369","260","40",null,null,null,null,null,null,this);
