@@ -28,7 +28,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("black_search_box","40","17",null,"113","40",null,null,null,null,null,this);
+            obj = new Static("black_search_box","40","17","1200","113",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_background("white");
             obj.set_text("");
@@ -42,7 +42,7 @@
             obj.set_textAlign("center");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00","35","35","32","27",null,null,null,null,null,null,this);
+            obj = new Static("Static00_00_00","55","35","32","27",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("이름");
             obj.set_font("14px/normal \"Noto Sans KR Black\"");

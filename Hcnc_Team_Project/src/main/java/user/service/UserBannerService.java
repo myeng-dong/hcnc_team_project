@@ -15,7 +15,7 @@ public class UserBannerService {
 	@Autowired
 	private UserBannerMapper userBannerMapper;
 	
-	@Cacheable("banners")
+	//@Cacheable("banners")
 	public List<Map<String, Object>> selectBannerListByUser() {
 		return userBannerMapper.selectBannerListByUser();
 	}
