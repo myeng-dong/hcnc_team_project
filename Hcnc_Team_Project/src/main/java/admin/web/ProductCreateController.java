@@ -45,7 +45,7 @@ public class ProductCreateController {
         return ResponseEntity.ok(jsonString);
     }
 	
-	@RequestMapping(value="/selectTargetProductByAdmin.do")
+	@RequestMapping(value="/admin/product//selectTargetProductByAdmin.do")
 	public NexacroResult selectTargetProductByAdmin(
 			@ParamVariable(name="productId") String productId
 			){

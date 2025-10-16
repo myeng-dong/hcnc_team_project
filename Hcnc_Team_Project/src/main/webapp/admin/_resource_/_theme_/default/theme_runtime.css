@@ -1,4 +1,4 @@
-
+﻿
         
 .nexainput.nexaleftalign
 {
@@ -249,11 +249,6 @@
 .GridCellControl .celltreeitem .treeitemtext
 {
 	font : normal 10pt/normal "Noto Sans KR Medium";
-	color : #666666;
-}
-.GridCellControl .celltreeitem .treeitemtext
-{
-	font : 12px "Gulim";
 	color : #666666;
 }
 .GridCellControl .celltreeline
@@ -668,7 +663,6 @@
 {
 	font : 12px "Gulim";
 }
-
 .ListBoxControl.popupListViewCellControlcellcombocombolist.dummy.dummy
 {
 	font : 12px "Gulim";
@@ -701,7 +695,6 @@
 	background : linear-gradient(to top,#eaeaea,#ffffff);
 	border : 1px solid #c2c2c2;
 }
-
 .Button[status=mouseover]
 {
 	background : linear-gradient(to top,#e7e7e7,#fefefe);

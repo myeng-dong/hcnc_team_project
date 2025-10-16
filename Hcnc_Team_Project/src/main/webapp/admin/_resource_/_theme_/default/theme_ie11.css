@@ -1,4 +1,4 @@
-
+﻿
 @media screen and (min-width:0\0) and (-ms-high-contrast: active) 
 { 
 .nexacontentsbox {-ms-high-contrast-adjust:none; } 
@@ -472,11 +472,6 @@ input::-ms-clear,input::-ms-reveal
 	font : normal 10pt/normal "Noto Sans KR Medium";
 	color : #666666;
 }
-.GridCellControl .celltreeitem .treeitemtext
-{
-	font : 12px "Gulim";
-	color : #666666;
-}
 .GridCellControl .celltreeline
 {
 	border : 1px dotted #909090;
@@ -940,7 +935,6 @@ input::-ms-clear,input::-ms-reveal
 {
 	font : 12px "Gulim";
 }
-
 .ListBoxControl.popupListViewCellControlcellcombocombolist.dummy.dummy
 {
 	font : 12px "Gulim";
@@ -980,7 +974,6 @@ input::-ms-clear,input::-ms-reveal
 	background : linear-gradient(to top,#eaeaea,#ffffff);
 	border : 1px solid #c2c2c2;
 }
-
 #nexacontainer .Button[status=mouseover]
 {
 	background : #e7e7e7;
