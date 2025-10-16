@@ -300,7 +300,7 @@
             
             // UI Components Initialize
             obj = new Static("sta_title","20","10","220","40",null,null,null,null,null,null,this);
-            obj.set_text("상품 등록");
+            obj.set_text("상품관리 || 상품등록");
             obj.set_font("bold 16pt \'Gulim\'");
             obj.set_color("#111111");
             this.addChild(obj.name, obj);
@@ -752,7 +752,6 @@
         // 저장 버튼 클릭
         this.btn_save_onclick = function(obj,e)
         {
-
         	function emptyCheck(value,errorMsg) {
         		if(value == null || value == ""){
         			this.alert(errorMsg);
@@ -760,8 +759,6 @@
         		}
         		return false;
         	}
-
-
         	if(emptyCheck(this.cmb_subcate.value, "중분류를 선택해주세요."))return;
         	if(emptyCheck(this.edt_name.value,"상품명을 입력하세요."))return;
         	if(emptyCheck(this.edt_code.value,"상품 코드를 입력하세요."))return;
@@ -772,50 +769,52 @@
         	if((mode == "create") && emptyCheck(this.edt_stock.value,"수량을 입력하세요."))return;
 
 
-        	this.fn_confirmCustom("상품을 등록하시겠습니까?",
-
-        		function(ok){
-        			if(!ok) return;
+            // CKEditor 본문 가져오기
 
 
-        		// CKEditor 본문 가져오기
-        		var desc = this.getEditorContent();
+            // ds_product 구성 (단일행)
+            this.ds_product.clearData();
+            var nRow = this.ds_product.addRow();
+        	this.ds_product.setColumn(nRow, "PRODUCT_ID", productId);
+        	this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_CODE", this.edt_code.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", this.edt_content.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
+        	this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
+        	this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
+        	this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
+        	//this.ds_product.a(nRow, "INPUT_ID", "admin");
+        	this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
+        	var desc = this.getEditorContent();
+        	this.ds_product.addColumn("DETAIL_DESCRIPTION","string");
+        	this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
+            this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
+        	this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
 
-        		// ds_product 구성 (단일행)
-        		this.ds_product.clearData();
-        		var nRow = this.ds_product.addRow();
+        	trace(this.ds_product.saveXML());
 
-        		this.ds_product.setColumn(nRow, "SUB_CATE_ID", this.cmb_subcate.value);
-        		this.ds_product.setColumn(nRow, "PRODUCT_NAME", this.edt_name.value);
-        		this.ds_product.setColumn(nRow, "PRODUCT_CODE", this.edt_code.value);
-        		this.ds_product.setColumn(nRow, "PRODUCT_CONTENT", this.edt_content.value);
-        		this.ds_product.setColumn(nRow, "PRODUCT_PRICE", this.edt_price.value);
-        		this.ds_product.setColumn(nRow, "COST_PRICE", this.edt_costprice.value);
-        		this.ds_product.setColumn(nRow, "PRODUCT_WEIGHT", this.edt_weight.value);
-        		this.ds_product.setColumn(nRow, "IS_VISIBLE", this.rdo_display.value);
-        		//this.ds_product.setColumn(nRow, "INPUT_ID", "admin");
-        		this.ds_product.setColumn(nRow, "SORT_NUMBER", 0);
-        		this.ds_product.setColumn(nRow, "DETAIL_DESCRIPTION", desc);
-        		this.ds_product.setColumn(nRow, "PRODUCT_TYPE", this.rdo_sale.value);
-        		this.ds_product.setColumn(nRow, "STOCK", this.edt_stock.value);
+            // 트랜잭션 호출
+        	var strSvcId = "";
+        	var strUrl = "";
+        	var strIn = "";
+        	if(mode == "create"){
+        		strSvcId = "insertProductCreateByAdmin";
+        		strUrl = "svc::insertProductCreateByAdmin.do?time=" + new Date().getTime()
+        		strIn  = "ds_product=ds_product preview=preview";
+        	} else {
+        		strSvcId = "updateProductCreateByAdmin";
+        		strUrl = "svc::updateProductCreateByAdmin.do?time=" + new Date().getTime();
+        		strIn  = "ds_product=ds_product preview=preview ds_preview_origin=ds_preview_origin ds_delete_image=ds_delete_image";
+        	}
+            // IN/OUT Dataset 매핑
+            var strOut = "createStatus=createStatus";
 
+            var strArg = "";
+            var callBack = "fn_callback";
+            var bAsync = true;
 
-        		// 트랜잭션 호출
-        		var strSvcId = "insertProductCreateByAdmin";
-        		var strUrl = "svc::insertProductCreateByAdmin.do";
-
-        		// IN/OUT Dataset 매핑
-        		var strIn  = "ds_product=ds_product preview=preview";
-        		var strOut = "createStatus=createStatus";
-
-        		var strArg = "";
-        		var callBack = "fn_callback";
-        		var bAsync = true;
-
-        		this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
-
-        		}.bind(this)
-        	);
+            this.transaction(strSvcId, strUrl, strIn, strOut, strArg, callBack, bAsync);
         };
 
         // 취소 버튼
@@ -1208,7 +1207,6 @@
         {
             this.addEventHandler("onload",this.Form_ProductReg_onload,this);
             this.addEventHandler("ontimer",this.ProductReg_ontimer,this);
-            this.sta_title.addEventHandler("onclick",this.sta_title_onclick,this);
             this.rdo_display.addEventHandler("onitemchanged",this.rdo_display_onitemchanged,this);
             this.rdo_sale.addEventHandler("onitemchanged",this.rdo_sale_onitemchanged,this);
             this.cmb_maincate.addEventHandler("onitemchanged",this.cmb_maincate_onitemchanged,this);
@@ -1216,7 +1214,6 @@
             this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);
             this.btn_cancel.addEventHandler("onclick",this.btn_cancel_onclick,this);
             this.web_postContent.addEventHandler("onloadcompleted",this.web_postContent_onloadcompleted,this);
-            this.web_postContent.addEventHandler("onusernotify",this.web_postContent_onusernotify,this);
             this.btn_selectFile.addEventHandler("onclick",this.btn_selectFile_onclick,this);
             this.categories.addEventHandler("onsuccess",this.categoriesJsonSuccess,this);
             this.categories.addEventHandler("onerror",this.categoriesJsonError,this);

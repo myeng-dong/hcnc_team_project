@@ -148,6 +148,11 @@ public class UserOrderService {
 			System.out.println("inventories 테이블 데이터 저장실패");
 		}
 		
+		// 회원 누적 금액 합산
+		if(order.get("memberId") != null) {
+			userOrderMapper.updateMemberPriceAmount(order);
+		}
+		
 		// 7. 회원 카트ID의 체크된 항목 삭제 처리
 		boolean cartItemDelete = true;
 		for(int i = 0; i < items.size(); i++) {

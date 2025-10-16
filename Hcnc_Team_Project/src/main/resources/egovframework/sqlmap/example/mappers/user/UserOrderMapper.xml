@@ -138,6 +138,13 @@
 				</if>
 	</update>
 	
+	<update id="updateMemberPriceAmount" parameterType="java.util.Map">
+		UPDATE MEMBERS
+			SET PRICE_AMOUNT = PRICE_AMOUNT + #{finalAmount}
+			WHERE 1=1
+				AND MEMBER_ID = #{memberId}
+	</update>
+	
 	<delete id="deleteCartItemByUser" parameterType="java.util.Map">
 		DELETE FROM CART_ITEMS
 			WHERE 1=1
