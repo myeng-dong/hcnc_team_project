@@ -641,6 +641,7 @@
 
         	if(errorCode == -1){
         		this.alert(errorMSG)
+        		return;
         	}
 
         	switch(svcID){
@@ -660,7 +661,7 @@
         			this.alert("수정완료")
         			this.getOwnerFrame().set_formurl("member::Form_MemberList.xfdl");
         		}else{
-        			this.alert("등록실패")
+        			this.alert("수정실패")
         		}
         		break;
 
