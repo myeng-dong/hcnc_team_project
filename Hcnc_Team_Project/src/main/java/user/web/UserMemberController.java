@@ -412,6 +412,7 @@ public class UserMemberController {
 				String id = (String) userInfo.get("MEMBER_ID");
 				int count = userMemberService.updateWithDrawByUser(id);
 				if(count == 1) {
+					session.invalidate();
 					mv.addObject("status",200);
 				} else {
 					mv.addObject("status",400);	
