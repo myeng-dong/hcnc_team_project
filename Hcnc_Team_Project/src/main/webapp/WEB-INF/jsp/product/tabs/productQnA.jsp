@@ -241,7 +241,7 @@
         .qna-modal-content h2 {
             color: #DC0630;
 		    margin: 0;
-		    padding: 30px 40px 40px 40px;
+		    padding: 10px;
 		    font-size: 25px;
 		    font-weight: 600;
 		    text-align: center;

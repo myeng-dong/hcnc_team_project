@@ -644,7 +644,7 @@
 				}
 				
 				// 페이지 변경 시 탭 네비게이션으로 스크롤
-				scrollToTabNavigation();
+				/* scrollToTabNavigation(); */
 			},
 			error: function(xhr, status, error) {
 				console.log('리뷰 리스트 로드 실패:', error);
